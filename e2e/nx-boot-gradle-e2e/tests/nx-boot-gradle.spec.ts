@@ -6,6 +6,21 @@ import {
   uniq,
 } from '@nrwl/nx-plugin/testing';
 describe('nx-boot-gradle e2e', () => {
+  describe('init e2e', () => {
+    it('should init', async () => {
+      const appName = uniq('boot-gradle-app-');
+      ensureNxProject(
+        '@jnxplus/nx-boot-gradle',
+        'dist/packages/nx-boot-gradle'
+      );
+      await runNxCommandAsync(
+        `generate @jnxplus/nx-boot-gradle:init ${appName}`
+      );
+
+      expect(() => checkFilesExist('settings.gradle')).not.toThrow();
+    }, 120000);
+  });
+
   describe('application e2e', () => {
     it('should create an application', async () => {
       const appName = uniq('boot-gradle-app-');
@@ -32,7 +47,7 @@ describe('nx-boot-gradle e2e', () => {
           `generate @jnxplus/nx-boot-gradle:application ${appName} --directory subdir`
         );
         expect(() =>
-          checkFilesExist(`apps/subdir/${appName}/src/index.ts`)
+          checkFilesExist(`apps/subdir/${appName}/src/build.gradle`)
         ).not.toThrow();
       }, 120000);
     });

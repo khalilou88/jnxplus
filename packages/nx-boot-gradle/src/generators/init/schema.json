@@ -1,0 +1,9 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "NxBootGradleInit",
+  "title": "Init",
+  "type": "object",
+  "properties": {},
+  "required": []
+}

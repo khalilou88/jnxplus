@@ -6,7 +6,14 @@ import { NxBootGradleGeneratorSchema } from './schema';
 
 describe('application generator', () => {
   let appTree: Tree;
-  const options: NxBootGradleGeneratorSchema = { name: 'test' };
+  const options: NxBootGradleGeneratorSchema = {
+    name: 'test',
+    groupId: 'com.example',
+    projectVersion: '0.0.1-SNAPSHOT',
+    packageName: 'com.example.demo',
+    applicationClassName: 'DemoApplication',
+    applicationClassDirectory: 'com/example/demo',
+  };
 
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace();
