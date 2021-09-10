@@ -4,7 +4,7 @@ import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 import generator from './generator';
 import { NxBootGradleGeneratorSchema } from './schema';
 
-describe('nx-boot-gradle generator', () => {
+describe('application generator', () => {
   let appTree: Tree;
   const options: NxBootGradleGeneratorSchema = { name: 'test' };
 
