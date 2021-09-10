@@ -1,0 +1,77 @@
+{
+  "version": 2,
+  "projects": {
+    "nx-boot-gradle": {
+      "root": "packages/nx-boot-gradle",
+      "sourceRoot": "packages/nx-boot-gradle/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["packages/nx-boot-gradle/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/packages/nx-boot-gradle"],
+          "options": {
+            "jestConfig": "packages/nx-boot-gradle/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/packages/nx-boot-gradle",
+            "tsConfig": "packages/nx-boot-gradle/tsconfig.lib.json",
+            "packageJson": "packages/nx-boot-gradle/package.json",
+            "main": "packages/nx-boot-gradle/src/index.ts",
+            "assets": [
+              "packages/nx-boot-gradle/*.md",
+              {
+                "input": "./packages/nx-boot-gradle/src",
+                "glob": "**/!(*.ts)",
+                "output": "./src"
+              },
+              {
+                "input": "./packages/nx-boot-gradle/src",
+                "glob": "**/*.d.ts",
+                "output": "./src"
+              },
+              {
+                "input": "./packages/nx-boot-gradle",
+                "glob": "generators.json",
+                "output": "."
+              },
+              {
+                "input": "./packages/nx-boot-gradle",
+                "glob": "executors.json",
+                "output": "."
+              }
+            ]
+          }
+        }
+      }
+    },
+    "nx-boot-gradle-e2e": {
+      "root": "e2e\\nx-boot-gradle-e2e",
+      "projectType": "application",
+      "sourceRoot": "e2e\\nx-boot-gradle-e2e/src",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/nx-plugin:e2e",
+          "options": {
+            "target": "nx-boot-gradle:build",
+            "jestConfig": "e2e/nx-boot-gradle-e2e/jest.config.js"
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/workspace"
+  }
+}
