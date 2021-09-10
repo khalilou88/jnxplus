@@ -66,7 +66,7 @@ export default async function (
     sourceRoot: `${normalizedOptions.projectRoot}/src`,
     targets: {
       build: {
-        executor: '@jnx/nx-boot-gradle:build',
+        executor: '@jnxplus/nx-boot-gradle:build',
       },
     },
     tags: normalizedOptions.parsedTags,

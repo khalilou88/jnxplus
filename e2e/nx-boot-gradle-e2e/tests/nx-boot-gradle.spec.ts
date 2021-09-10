@@ -8,9 +8,9 @@ import {
 describe('nx-boot-gradle e2e', () => {
   it('should create nx-boot-gradle', async () => {
     const plugin = uniq('nx-boot-gradle');
-    ensureNxProject('@jnx/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
+    ensureNxProject('@jnxplus/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
     await runNxCommandAsync(
-      `generate @jnx/nx-boot-gradle:nx-boot-gradle ${plugin}`
+      `generate @jnxplus/nx-boot-gradle:nx-boot-gradle ${plugin}`
     );
 
     const result = await runNxCommandAsync(`build ${plugin}`);
@@ -20,9 +20,12 @@ describe('nx-boot-gradle e2e', () => {
   describe('--directory', () => {
     it('should create src in the specified directory', async () => {
       const plugin = uniq('nx-boot-gradle');
-      ensureNxProject('@jnx/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
+      ensureNxProject(
+        '@jnxplus/nx-boot-gradle',
+        'dist/packages/nx-boot-gradle'
+      );
       await runNxCommandAsync(
-        `generate @jnx/nx-boot-gradle:nx-boot-gradle ${plugin} --directory subdir`
+        `generate @jnxplus/nx-boot-gradle:nx-boot-gradle ${plugin} --directory subdir`
       );
       expect(() =>
         checkFilesExist(`libs/subdir/${plugin}/src/index.ts`)
@@ -33,9 +36,12 @@ describe('nx-boot-gradle e2e', () => {
   describe('--tags', () => {
     it('should add tags to nx.json', async () => {
       const plugin = uniq('nx-boot-gradle');
-      ensureNxProject('@jnx/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
+      ensureNxProject(
+        '@jnxplus/nx-boot-gradle',
+        'dist/packages/nx-boot-gradle'
+      );
       await runNxCommandAsync(
-        `generate @jnx/nx-boot-gradle:nx-boot-gradle ${plugin} --tags e2etag,e2ePackage`
+        `generate @jnxplus/nx-boot-gradle:nx-boot-gradle ${plugin} --tags e2etag,e2ePackage`
       );
       const nxJson = readJson('nx.json');
       expect(nxJson.projects[plugin].tags).toEqual(['e2etag', 'e2ePackage']);

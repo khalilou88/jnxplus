@@ -1,7 +1,7 @@
 {
-  "npmScope": "jnx",
+  "npmScope": "jnxplus",
   "affected": {
-    "defaultBase": "master"
+    "defaultBase": "main"
   },
   "implicitDependencies": {
     "package.json": {
