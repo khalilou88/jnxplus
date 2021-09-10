@@ -1,14 +1,14 @@
 import { BuildExecutorSchema } from './schema';
 import executor from './executor';
-import { mockExecutorContext } from '../../utils/mocks';
 import { ExecutorContext } from '@nrwl/devkit';
+import { mockExecutorContext } from '../../utils/mocks';
 
 const options: BuildExecutorSchema = {};
-const context: ExecutorContext = mockExecutorContext('test');
+const context: ExecutorContext = mockExecutorContext('serve');
 
-describe('Build Executor', () => {
+describe('Serve Executor', () => {
   xit('can run', async () => {
     const output = await executor(options, context);
-    expect(output.success).toBe(true);
+    expect(output).toBeTruthy;
   });
 });

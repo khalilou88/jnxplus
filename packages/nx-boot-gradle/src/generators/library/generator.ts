@@ -15,6 +15,12 @@ interface NormalizedSchema extends NxBootGradleGeneratorSchema {
   projectRoot: string;
   projectDirectory: string;
   parsedTags: string[];
+
+  groupId: string;
+  projectVersion: string;
+  packageName: string;
+  applicationClassName: string;
+  applicationClassDirectory: string;
 }
 
 function normalizeOptions(
@@ -31,12 +37,19 @@ function normalizeOptions(
     ? options.tags.split(',').map((s) => s.trim())
     : [];
 
+  const packageName = 'com.example.demo';
+  const applicationClassName = 'DemoApplication';
+  const applicationClassDirectory = 'com/example/demo';
+
   return {
     ...options,
     projectName,
     projectRoot,
     projectDirectory,
     parsedTags,
+    packageName,
+    applicationClassName,
+    applicationClassDirectory,
   };
 }
 

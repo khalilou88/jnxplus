@@ -8,14 +8,11 @@ import {
 describe('nx-boot-gradle e2e', () => {
   describe('init e2e', () => {
     it('should init', async () => {
-      const appName = uniq('boot-gradle-app-');
       ensureNxProject(
         '@jnxplus/nx-boot-gradle',
         'dist/packages/nx-boot-gradle'
       );
-      await runNxCommandAsync(
-        `generate @jnxplus/nx-boot-gradle:init ${appName}`
-      );
+      await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
 
       expect(() => checkFilesExist('settings.gradle')).not.toThrow();
     }, 120000);
@@ -28,6 +25,9 @@ describe('nx-boot-gradle e2e', () => {
         '@jnxplus/nx-boot-gradle',
         'dist/packages/nx-boot-gradle'
       );
+
+      await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+
       await runNxCommandAsync(
         `generate @jnxplus/nx-boot-gradle:application ${appName}`
       );
@@ -75,6 +75,9 @@ describe('nx-boot-gradle e2e', () => {
         '@jnxplus/nx-boot-gradle',
         'dist/packages/nx-boot-gradle'
       );
+
+      await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+
       await runNxCommandAsync(
         `generate @jnxplus/nx-boot-gradle:library ${libName}`
       );
@@ -94,7 +97,7 @@ describe('nx-boot-gradle e2e', () => {
           `generate @jnxplus/nx-boot-gradle:library ${libName} --directory subdir`
         );
         expect(() =>
-          checkFilesExist(`libs/subdir/${libName}/src/index.ts`)
+          checkFilesExist(`libs/subdir/${libName}/src/build.gradle`)
         ).not.toThrow();
       }, 120000);
     });
