@@ -85,5 +85,16 @@ export default async function (
     tags: normalizedOptions.parsedTags,
   });
   addFiles(tree, normalizedOptions);
+  addLibToGradleSetting(tree, normalizedOptions);
   await formatFiles(tree);
+}
+
+function addLibToGradleSetting(tree: Tree, options: NormalizedSchema) {
+  const filePath = `settings.gradle`;
+  const contents = tree.read(filePath, 'utf-8');
+  const newContents = contents.concat(
+    '\n',
+    `include('libs:${options.projectName}')`
+  );
+  tree.write(filePath, newContents);
 }

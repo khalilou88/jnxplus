@@ -43,6 +43,7 @@ describe('nx-boot-gradle e2e', () => {
           '@jnxplus/nx-boot-gradle',
           'dist/packages/nx-boot-gradle'
         );
+        await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
         await runNxCommandAsync(
           `generate @jnxplus/nx-boot-gradle:application ${appName} --directory subdir`
         );
@@ -59,6 +60,7 @@ describe('nx-boot-gradle e2e', () => {
           '@jnxplus/nx-boot-gradle',
           'dist/packages/nx-boot-gradle'
         );
+        await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
         await runNxCommandAsync(
           `generate @jnxplus/nx-boot-gradle:application ${appName} --tags e2etag,e2ePackage`
         );
@@ -93,6 +95,7 @@ describe('nx-boot-gradle e2e', () => {
           '@jnxplus/nx-boot-gradle',
           'dist/packages/nx-boot-gradle'
         );
+        await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
         await runNxCommandAsync(
           `generate @jnxplus/nx-boot-gradle:library ${libName} --directory subdir`
         );
@@ -109,6 +112,7 @@ describe('nx-boot-gradle e2e', () => {
           '@jnxplus/nx-boot-gradle',
           'dist/packages/nx-boot-gradle'
         );
+        await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
         await runNxCommandAsync(
           `generate @jnxplus/nx-boot-gradle:library ${libName} --tags e2etag,e2ePackage`
         );
