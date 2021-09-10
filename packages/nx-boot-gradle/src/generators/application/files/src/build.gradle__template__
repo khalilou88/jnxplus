@@ -4,17 +4,20 @@ plugins {
 	id 'java'
 }
 
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+group = '<%= groupId %>'
+version = '<%= projectVersion %>'
+sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  implementation 'org.springframework.boot:spring-boot-starter'
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+  useJUnitPlatform()
 }
 
