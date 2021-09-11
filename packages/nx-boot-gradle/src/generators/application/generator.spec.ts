@@ -16,6 +16,7 @@ describe('application generator', () => {
 
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace();
+    appTree.write('./settings.gradle', "rootProject.name = 'rootProjectName'");
   });
 
   it('should run successfully', async () => {
