@@ -1,6 +1,6 @@
 # @jnxplus/nx-boot-gradle
 
-This plugin add Spring Boot and Gradle multi-project builds capabilities to NX workspace.
+This plugin add Spring Boot and Gradle multi-project builds capabilities to Nx workspace.
 
 ## Getting Started
 
