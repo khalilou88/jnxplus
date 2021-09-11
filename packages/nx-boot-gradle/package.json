@@ -1,7 +1,26 @@
 {
   "name": "@jnxplus/nx-boot-gradle",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "src/index.js",
   "generators": "./generators.json",
-  "executors": "./executors.json"
+  "executors": "./executors.json",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "author": "Khalil",
+  "homepage": "https://github.com/khalilou88/jnxplus/blob/main/packages/nx-boot-gradle/README.md",
+  "bugs": {
+    "url": "https://github.com/khalilou88/jnxplus/issues"
+  },
+  "keywords": [
+    "nx-plugin",
+    "spring-boot",
+    "nx-workspace",
+    "spring",
+    "nx",
+    "java",
+    "gradle"
+  ]
 }
