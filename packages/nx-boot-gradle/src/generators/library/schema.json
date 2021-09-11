@@ -23,6 +23,17 @@
       "type": "string",
       "description": "A directory where the project is placed",
       "alias": "d"
+    },
+    "groupId": {
+      "type": "string",
+      "default": "com.example",
+      "x-prompt": "What groupId would you like to use?"
+    },
+    "projectVersion": {
+      "type": "string",
+      "default": "0.0.1-SNAPSHOT",
+      "description": "Version of the project to generate",
+      "alias": "v"
     }
   },
   "required": ["name"]

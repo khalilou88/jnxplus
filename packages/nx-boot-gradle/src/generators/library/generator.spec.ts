@@ -11,8 +11,7 @@ describe('library generator', () => {
     groupId: 'com.example',
     projectVersion: '0.0.1-SNAPSHOT',
     packageName: 'com.example.demo',
-    applicationClassName: 'DemoApplication',
-    applicationClassDirectory: 'com/example/demo',
+    packageDirectory: 'com/example/demo',
   };
 
   beforeEach(() => {
