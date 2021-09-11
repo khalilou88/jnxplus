@@ -121,4 +121,24 @@ describe('nx-boot-gradle e2e', () => {
       }, 120000);
     });
   });
+
+  describe('App & lib e2e', () => {
+    it('should create app and lib and add lib to app deps', async () => {
+      const appName = uniq('boot-gradle-app-');
+      const libName = uniq('boot-gradle-lib-');
+      ensureNxProject(
+        '@jnxplus/nx-boot-gradle',
+        'dist/packages/nx-boot-gradle'
+      );
+      await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+
+      await runNxCommandAsync(
+        `generate @jnxplus/nx-boot-gradle:application ${appName}`
+      );
+
+      await runNxCommandAsync(
+        `generate @jnxplus/nx-boot-gradle:library ${libName}`
+      );
+    }, 120000);
+  });
 });
