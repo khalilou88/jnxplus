@@ -41,7 +41,7 @@ function normalizeOptions(
     options.name
   ).className.toLocaleLowerCase()}`;
   const packageDirectory = `${options.groupId.replace(
-    new RegExp('.', 'g'),
+    new RegExp(/\./, 'g'),
     '/'
   )}/${names(options.name).className.toLocaleLowerCase()}`;
 
