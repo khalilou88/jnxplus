@@ -3,7 +3,6 @@ import {
   formatFiles,
   generateFiles,
   getWorkspaceLayout,
-  logger,
   names,
   offsetFromRoot,
   Tree,
@@ -98,9 +97,12 @@ export default async function (
 
 function addProjectToGradleSetting(tree: Tree, options: NormalizedSchema) {
   const filePath = `settings.gradle`;
-  const contents = tree.read(filePath, 'utf-8');
-  const newContents = contents
-    ? contents.concat('\n', `include('apps:${options.projectName}')`)
-    : '';
-  tree.write(filePath, newContents);
+  const settingsContent = tree.read(filePath, 'utf-8');
+
+  const regex = /.*rootProject\.name.*/;
+  const newSettingsContent = settingsContent.replace(
+    regex,
+    `$&\ninclude('apps:${options.projectName}')`
+  );
+  tree.write(filePath, newSettingsContent);
 }
