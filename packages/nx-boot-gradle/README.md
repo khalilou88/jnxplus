@@ -1,18 +1,14 @@
 # nx-boot-gradle
 
-This library was generated with [Nx](https://nx.dev).
+This plugin was generated with [Nx](https://nx.dev).
 
-## Running unit tests
-
-Run `nx test nx-boot-gradle` to execute the unit tests via [Jest](https://jestjs.io).
-
-## install the plugin
+## Add Spring boot and Gradle capabilities to your workspace
 
 ```bash
-npm i @jnxplus/nx-boot-gradle
+npm install --save-dev @jnxplus/nx-boot-gradle
 ```
 
-## 1. Add Spring boot and gradle support to the workspace
+## Add Spring boot and Gradle support to the workspace
 
 The following command adds Spring boot and Gradle support to the workspace. This only needs to be performed once per workspace. You can skip this step if Spring boot and Gradle are already added to the workspace.
 
@@ -20,10 +16,22 @@ The following command adds Spring boot and Gradle support to the workspace. This
 nx generate @jnxplus/nx-boot-gradle:init
 ```
 
+## Generate an application
+
+Run this command to generate an application :
+
 ```bash
 nx generate @jnxplus/nx-boot-gradle:application my-app
 ```
 
+## Generate a library
+
+Run this command to generate a library :
+
 ```bash
 nx generate @jnxplus/nx-boot-gradle:library my-lib
 ```
+
+## Running unit tests
+
+Run `nx test nx-boot-gradle` to execute the unit tests via [Jest](https://jestjs.io).
