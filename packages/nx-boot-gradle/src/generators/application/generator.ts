@@ -45,10 +45,6 @@ function normalizeOptions(
     '/'
   )}/${names(options.name).className.toLocaleLowerCase()}`;
 
-  console.log('options.groupId');
-  console.log(packageDirectory);
-  console.log(packageDirectory);
-
   return {
     ...options,
     projectName,
