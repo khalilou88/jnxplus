@@ -1,37 +1,37 @@
-# nx-boot-gradle
+# @jnxplus/nx-boot-gradle
 
-This plugin was generated with [Nx](https://nx.dev).
+This plugin add Spring Boot and Gradle multi-project builds capabilities to NX workspace.
 
-## Add Spring boot and Gradle capabilities to your workspace
+## Getting Started
+
+### 1. Install the plugin
+
+In the workspace root run this command to install the plugin :
 
 ```bash
 npm install --save-dev @jnxplus/nx-boot-gradle
 ```
 
-## Add Spring boot and Gradle support to the workspace
+### 2. Add Spring boot and Gradle wrapper support
 
-The following command adds Spring boot and Gradle support to the workspace. This only needs to be performed once per workspace. You can skip this step if Spring boot and Gradle are already added to the workspace.
+The following command adds Spring boot and Gradle support (Gradle wrapper and config files) to the workspace. This only needs to be performed once per workspace.
 
 ```bash
 nx generate @jnxplus/nx-boot-gradle:init
 ```
 
-## Generate an application
+### 3. Usage
 
-Run this command to generate an application :
+| Action                  | Command                                                  |
+| ----------------------- | -------------------------------------------------------- |
+| Generate an application | `nx generate @jnxplus/nx-boot-gradle:application my-app` |
+| Build an application    | `nx build my-app`                                        |
+| Test an application     | `nx test my-app`                                         |
+| Serve an application    | `nx serve my-app`                                        |
+| Generate a library      | `nx generate @jnxplus/nx-boot-gradle:library my-lib`     |
+| Build a library         | `nx build my-lib`                                        |
+| Test a library          | `nx test my-lib`                                         |
 
-```bash
-nx generate @jnxplus/nx-boot-gradle:application my-app
-```
+## License
 
-## Generate a library
-
-Run this command to generate a library :
-
-```bash
-nx generate @jnxplus/nx-boot-gradle:library my-lib
-```
-
-## Running unit tests
-
-Run `nx test nx-boot-gradle` to execute the unit tests via [Jest](https://jestjs.io).
+MIT © 2021 Khalil
