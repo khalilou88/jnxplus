@@ -7,6 +7,7 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   console.log('Executor ran for Build', options);
+  console.log(context);
   const command = `${getProjectPath(context)}:${context.targetName}`;
   return runCommand(command);
 }

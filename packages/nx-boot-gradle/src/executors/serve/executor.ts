@@ -1,9 +1,9 @@
 import { ExecutorContext } from '@nrwl/devkit';
 import { getProjectPath, runCommand, waitForever } from '../../utils/command';
-import { BuildExecutorSchema } from './schema';
+import { ServeExecutorSchema } from './schema';
 
 export default async function runExecutor(
-  options: BuildExecutorSchema,
+  options: ServeExecutorSchema,
   context: ExecutorContext
 ) {
   console.log('Executor ran for serve', options);

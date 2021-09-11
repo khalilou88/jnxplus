@@ -1,14 +1,34 @@
-import { BuildExecutorSchema } from './schema';
-import executor from './executor';
 import { ExecutorContext } from '@nrwl/devkit';
-import { mockExecutorContext } from '../../utils/mocks';
+import { runCommand } from '../../utils/command';
+import executor from './executor';
+import { ServeExecutorSchema } from './schema';
+jest.mock('../../utils/command');
 
-const options: BuildExecutorSchema = {};
-const context: ExecutorContext = mockExecutorContext('serve');
+const options: ServeExecutorSchema = {};
+const context: ExecutorContext = {
+  root: '/root',
+  cwd: '/root',
+  projectName: 'my-app',
+  targetName: 'serve',
+  workspace: {
+    version: 2,
+    projects: {
+      'my-app': <any>{
+        root: 'apps/wibble',
+        sourceRoot: 'apps/wibble',
+      },
+    },
+  },
+  isVerbose: false,
+};
 
 describe('Serve Executor', () => {
-  xit('can run', async () => {
+  beforeEach(async () => {
+    (runCommand as jest.Mock).mockReturnValue({ success: true });
+  });
+
+  it('can run', async () => {
     const output = await executor(options, context);
-    expect(output).toBeTruthy;
+    expect(output.success).toBe(true);
   });
 });

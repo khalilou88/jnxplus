@@ -98,9 +98,8 @@ export default async function (
 function addLibToGradleSetting(tree: Tree, options: NormalizedSchema) {
   const filePath = `settings.gradle`;
   const contents = tree.read(filePath, 'utf-8');
-  const newContents = contents.concat(
-    '\n',
-    `include('libs:${options.projectName}')`
-  );
+  const newContents = contents
+    ? contents.concat('\n', `include('libs:${options.projectName}')`)
+    : '';
   tree.write(filePath, newContents);
 }
