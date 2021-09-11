@@ -1,9 +1,9 @@
 import { ExecutorContext, logger } from '@nrwl/devkit';
 import { execSync } from 'child_process';
 
-export async function wait() {
-  return new Promise((resolve) => {
-    setTimeout(resolve, 1000);
+export async function waitForever() {
+  return new Promise(() => {
+    // wait forever
   });
 }
 

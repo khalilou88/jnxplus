@@ -1,8 +1,8 @@
 import { ExecutorContext } from '@nrwl/devkit';
-import { getProjectPath, runCommand, wait } from '../../utils/command';
+import { getProjectPath, runCommand, waitForever } from '../../utils/command';
 import { BuildExecutorSchema } from './schema';
 
-export default async function* runExecutor(
+export default async function runExecutor(
   options: BuildExecutorSchema,
   context: ExecutorContext
 ) {
@@ -14,7 +14,6 @@ export default async function* runExecutor(
     return { success: false };
   }
 
-  yield { success: true };
-  await wait();
+  await waitForever();
   return { success: true };
 }
