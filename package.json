@@ -13,7 +13,7 @@
     "*.ts": "eslint --cache --fix",
     "*.{ts,html,css,scss,json,md}": "prettier --write"
   },
-  "private": true,
+  "private": false,
   "devDependencies": {
     "@nrwl/cli": "12.9.0",
     "@nrwl/devkit": "12.9.0",
