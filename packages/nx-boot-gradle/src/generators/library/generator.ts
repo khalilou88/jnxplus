@@ -81,9 +81,6 @@ export default async function (
       build: {
         executor: '@jnxplus/nx-boot-gradle:build',
       },
-      serve: {
-        executor: '@jnxplus/nx-boot-gradle:serve',
-      },
       test: {
         executor: '@jnxplus/nx-boot-gradle:test',
       },
