@@ -4,9 +4,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.Test;
 
 @SpringBootTest
-public class MyService {
+public class MyServiceTest {
   @Test
-  public void contextLoads() {
+  public void someTests() {
 
   }
 

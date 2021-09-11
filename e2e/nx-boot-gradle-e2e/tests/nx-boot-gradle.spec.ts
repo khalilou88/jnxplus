@@ -37,7 +37,7 @@ describe('nx-boot-gradle e2e', () => {
     }, 120000);
 
     describe('--directory', () => {
-      it('should create src in the specified directory', async () => {
+      it('should create build.gradle in the specified directory', async () => {
         const appName = uniq('boot-gradle-app-');
         ensureNxProject(
           '@jnxplus/nx-boot-gradle',
@@ -48,7 +48,7 @@ describe('nx-boot-gradle e2e', () => {
           `generate @jnxplus/nx-boot-gradle:application ${appName} --directory subdir`
         );
         expect(() =>
-          checkFilesExist(`apps/subdir/${appName}/src/build.gradle`)
+          checkFilesExist(`apps/subdir/${appName}/build.gradle`)
         ).not.toThrow();
       }, 120000);
     });
@@ -89,7 +89,7 @@ describe('nx-boot-gradle e2e', () => {
     }, 120000);
 
     describe('--directory', () => {
-      it('should create src in the specified directory', async () => {
+      it('should create build.gradle in the specified directory', async () => {
         const libName = uniq('boot-gradle-lib-');
         ensureNxProject(
           '@jnxplus/nx-boot-gradle',
@@ -100,7 +100,7 @@ describe('nx-boot-gradle e2e', () => {
           `generate @jnxplus/nx-boot-gradle:library ${libName} --directory subdir`
         );
         expect(() =>
-          checkFilesExist(`libs/subdir/${libName}/src/build.gradle`)
+          checkFilesExist(`libs/subdir/${libName}/build.gradle`)
         ).not.toThrow();
       }, 120000);
     });
