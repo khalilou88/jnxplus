@@ -4,7 +4,7 @@ export interface NxBootGradleGeneratorSchema {
   directory?: string;
   groupId: string;
   projectVersion: string;
-  appClassName: string;
-  packageName: string;
-  packageDirectory: string;
+  appClassName?: string;
+  packageName?: string;
+  packageDirectory?: string;
 }

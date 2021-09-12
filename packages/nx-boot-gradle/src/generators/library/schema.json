@@ -33,8 +33,9 @@
       "type": "string",
       "default": "0.0.1-SNAPSHOT",
       "description": "Version of the project to generate",
-      "alias": "v"
+      "alias": "v",
+      "x-prompt": "What version would you like to use?"
     }
   },
-  "required": ["name"]
+  "required": ["name", "groupId", "projectVersion"]
 }
