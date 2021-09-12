@@ -28,5 +28,16 @@ export default async function (
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);
+  updateGitIgnoreFile(tree);
   await formatFiles(tree);
+}
+
+function updateGitIgnoreFile(tree: Tree) {
+  const filePath = `.gitignore`;
+  const contents = tree.read(filePath, 'utf-8');
+
+  const gradleIgnore = '\n# Gradle\n.gradle\nbuild';
+
+  const newContents = contents.concat(gradleIgnore);
+  tree.write(filePath, newContents);
 }

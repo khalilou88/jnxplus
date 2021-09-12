@@ -11,6 +11,7 @@ describe('init generator', () => {
 
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace();
+    appTree.write('./.gitignore', '');
   });
 
   it('should run successfully', async () => {
