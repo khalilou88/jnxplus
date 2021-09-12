@@ -16,7 +16,10 @@ describe('application generator', () => {
 
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace();
-    appTree.write('./settings.gradle', "rootProject.name = 'rootProjectName'");
+    appTree.write(
+      './settings.gradle',
+      "rootProject.name = 'boot-multiproject'"
+    );
   });
 
   it('should run successfully', async () => {

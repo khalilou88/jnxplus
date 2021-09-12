@@ -10,11 +10,7 @@ function normalizeOptions(
   tree: Tree,
   options: NxBootGradleGeneratorSchema
 ): NormalizedSchema {
-  const rootProjectName = 'rootProjectName';
-  return {
-    ...options,
-    rootProjectName,
-  };
+  return options;
 }
 
 function addFiles(tree: Tree, options: NormalizedSchema) {

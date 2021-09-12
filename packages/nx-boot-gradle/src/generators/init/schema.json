@@ -4,6 +4,12 @@
   "$id": "NxBootGradleInit",
   "title": "Init",
   "type": "object",
-  "properties": {},
-  "required": []
+  "properties": {
+    "rootProjectName": {
+      "type": "string",
+      "default": "boot-multiproject",
+      "x-prompt": "What rootProjectName would you like to use?"
+    }
+  },
+  "required": ["rootProjectName"]
 }

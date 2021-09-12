@@ -5,7 +5,9 @@ import { NxBootGradleGeneratorSchema } from './schema';
 
 describe('init generator', () => {
   let appTree: Tree;
-  const options: NxBootGradleGeneratorSchema = { rootProjectName: 'test' };
+  const options: NxBootGradleGeneratorSchema = {
+    rootProjectName: 'test-boot-multiproject',
+  };
 
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace();
