@@ -25,11 +25,10 @@ function normalizeOptions(
   tree: Tree,
   options: NxBootGradleGeneratorSchema
 ): NormalizedSchema {
-  const name = names(options.name).fileName;
+  const projectName = names(options.name).fileName;
   const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${name}`
-    : name;
-  const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
+    ? `${names(options.directory).fileName}/${projectName}`
+    : projectName;
   const projectRoot = `${getWorkspaceLayout(tree).libsDir}/${projectDirectory}`;
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
@@ -100,7 +99,7 @@ function addLibToGradleSetting(tree: Tree, options: NormalizedSchema) {
   const regex = /.*rootProject\.name.*/;
   const newSettingsContent = settingsContent.replace(
     regex,
-    `$&\ninclude('libs:${options.projectName}')`
+    `$&\ninclude('${options.projectRoot.replace(new RegExp('/', 'g'), ':')}')`
   );
   tree.write(filePath, newSettingsContent);
 }

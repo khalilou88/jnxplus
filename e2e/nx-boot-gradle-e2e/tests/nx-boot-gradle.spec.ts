@@ -50,6 +50,9 @@ describe('nx-boot-gradle e2e', () => {
         expect(() =>
           checkFilesExist(`apps/subdir/${appName}/build.gradle`)
         ).not.toThrow();
+
+        const result = await runNxCommandAsync(`build ${appName}`);
+        expect(result.stdout).toContain('Executor ran');
       }, 120000);
     });
 
@@ -102,6 +105,9 @@ describe('nx-boot-gradle e2e', () => {
         expect(() =>
           checkFilesExist(`libs/subdir/${libName}/build.gradle`)
         ).not.toThrow();
+
+        const result = await runNxCommandAsync(`build ${libName}`);
+        expect(result.stdout).toContain('Executor ran');
       }, 120000);
     });
 
