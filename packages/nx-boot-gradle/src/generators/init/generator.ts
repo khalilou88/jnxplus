@@ -1,4 +1,10 @@
-import { formatFiles, generateFiles, offsetFromRoot, Tree } from '@nrwl/devkit';
+import {
+  formatFiles,
+  generateFiles,
+  offsetFromRoot,
+  Tree,
+  updateJson,
+} from '@nrwl/devkit';
 import * as path from 'path';
 import { NxBootGradleGeneratorSchema } from './schema';
 
@@ -28,6 +34,7 @@ export default async function (
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);
+  updateNxJson(tree);
   updateGitIgnoreFile(tree);
   await formatFiles(tree);
 }
@@ -40,4 +47,15 @@ function updateGitIgnoreFile(tree: Tree) {
 
   const newContents = contents.concat(gradleIgnore);
   tree.write(filePath, newContents);
+}
+
+function updateNxJson(tree: Tree) {
+  updateJson(tree, 'nx.json', (pkgJson) => {
+    // if scripts is undefined, set it to an empty array
+    pkgJson.plugins = pkgJson.plugins ?? [];
+    // add @jnxplus/nx-boot-gradle plugin
+    pkgJson.plugins.push('@jnxplus/nx-boot-gradle');
+    // return modified JSON object
+    return pkgJson;
+  });
 }
