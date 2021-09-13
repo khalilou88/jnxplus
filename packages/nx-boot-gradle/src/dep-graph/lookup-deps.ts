@@ -6,7 +6,6 @@ import {
 import { appRootPath } from '@nrwl/workspace/src/utils/app-root';
 import { fileExists } from '@nrwl/workspace/src/utils/fileutils';
 import * as fs from 'fs';
-import * as path from 'path';
 import { join } from 'path';
 
 export function processProjectGraph(
@@ -17,20 +16,13 @@ export function processProjectGraph(
 
   for (const [projectName, node] of Object.entries(builder.graph.nodes)) {
     if (node.type === 'app' || node.type === 'lib') {
-      const buildGradleFile = path.join(
-        appRootPath,
-        node.data.root,
-        'build.gradle'
-      );
+      const buildGradleFile = join(appRootPath, node.data.root, 'build.gradle');
 
       if (fileExists(buildGradleFile)) {
         const contents = fs.readFileSync(buildGradleFile, 'utf-8');
-        const regexp = /project\((.*)\)/g;
-        const matches = (contents.match(regexp) || []).map((e) =>
-          e.replace(regexp, '$1')
-        );
-        for (const match of matches) {
-          const dependecyProjectName = getDependecyProjectName(match);
+        const deps = getDependecies(contents);
+        for (const dep of deps) {
+          const dependecyProjectName = getDependecyProjectName(dep);
           builder.addExplicitDependency(
             projectName,
             join(node.data.root, 'build.gradle').replace(/\\/g, '/'),
@@ -42,6 +34,13 @@ export function processProjectGraph(
   }
 
   return builder.getUpdatedProjectGraph();
+}
+
+function getDependecies(buildGradleContents: string) {
+  const regexp = /project\((.*)\)/g;
+  return (buildGradleContents.match(regexp) || []).map((e) =>
+    e.replace(regexp, '$1')
+  );
 }
 
 function getDependecyProjectName(match: string) {
