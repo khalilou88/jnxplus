@@ -12,6 +12,7 @@ describe('application generator', () => {
     appClassName: 'DemoApplication',
     packageName: 'com.example.demo',
     packageDirectory: 'com/example/demo',
+    packaging: 'jar',
   };
 
   beforeEach(() => {

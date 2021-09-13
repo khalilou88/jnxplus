@@ -1,1 +1,5 @@
-export interface BuildExecutorSchema {} // eslint-disable-line
+import { PackagingType } from '../../utils/types';
+
+export interface BuildExecutorSchema {
+  packaging: PackagingType;
+}

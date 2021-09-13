@@ -2,6 +2,9 @@ plugins {
 	id 'org.springframework.boot'
 	id 'io.spring.dependency-management'
 	id 'java'
+	<% if(packaging === 'war') { %>
+	id 'war'
+    <% } %>
 }
 
 group = '<%= groupId %>'
@@ -13,8 +16,11 @@ repositories {
 }
 
 dependencies {
-  implementation 'org.springframework.boot:spring-boot-starter-web'
-  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  	implementation 'org.springframework.boot:spring-boot-starter-web'
+	<% if(packaging === 'war') { %>
+ 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	<% } %>
+  	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {

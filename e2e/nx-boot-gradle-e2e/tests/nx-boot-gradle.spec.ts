@@ -36,6 +36,23 @@ describe('nx-boot-gradle e2e', () => {
       expect(result.stdout).toContain('Executor ran');
     }, 120000);
 
+    it('should create an application with war packaging', async () => {
+      const appName = uniq('boot-gradle-app-');
+      ensureNxProject(
+        '@jnxplus/nx-boot-gradle',
+        'dist/packages/nx-boot-gradle'
+      );
+
+      await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+
+      await runNxCommandAsync(
+        `generate @jnxplus/nx-boot-gradle:application ${appName} --packaging war`
+      );
+
+      const result = await runNxCommandAsync(`build ${appName}`);
+      expect(result.stdout).toContain('Executor ran');
+    }, 120000);
+
     describe('--directory', () => {
       it('should create build.gradle in the specified directory', async () => {
         const appName = uniq('boot-gradle-app-');

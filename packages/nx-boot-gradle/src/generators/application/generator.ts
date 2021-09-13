@@ -8,6 +8,7 @@ import {
   Tree,
 } from '@nrwl/devkit';
 import * as path from 'path';
+import { PackagingType } from '../../utils/types';
 import { NxBootGradleGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootGradleGeneratorSchema {
@@ -20,6 +21,7 @@ interface NormalizedSchema extends NxBootGradleGeneratorSchema {
   appClassName: string;
   packageName: string;
   packageDirectory: string;
+  packaging: PackagingType;
 }
 
 function normalizeOptions(
@@ -83,6 +85,9 @@ export default async function (
     targets: {
       build: {
         executor: '@jnxplus/nx-boot-gradle:build',
+        options: {
+          packaging: `${normalizedOptions.packaging}`,
+        },
       },
       serve: {
         executor: '@jnxplus/nx-boot-gradle:serve',
