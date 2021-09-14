@@ -1,0 +1,20 @@
+name: nx-boot-gradle CI
+on: [push]
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Unit tests 
+        run: npm run nx test nx-boot-gradle --skip-nx-cache 
+
+      - name: Build 
+        run: npm run nx build nx-boot-gradle --skip-nx-cache 
+
+      - name: E2E tests
+        run: npm run nx e2e nx-boot-gradle-e2e --skip-nx-cache 
