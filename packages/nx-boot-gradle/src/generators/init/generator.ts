@@ -36,7 +36,7 @@ export default async function (
   addFiles(tree, normalizedOptions);
   updateNxJson(tree);
   updateGitIgnoreFile(tree);
-  tree.changePermissions('gradlew', 755);
+  tree.changePermissions('gradlew', '755');
   await formatFiles(tree);
 }
 
