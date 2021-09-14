@@ -1,0 +1,19 @@
+name: npm publish
+on: [workflow_dispatch]
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build 
+        run: npm run build nx-boot-gradle 
+
+      - name: publish 
+        run: npm publish dist/packages/nx-boot-gradle
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
