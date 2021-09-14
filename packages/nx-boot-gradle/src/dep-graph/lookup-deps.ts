@@ -1,6 +1,7 @@
 import {
   ProjectGraph,
   ProjectGraphBuilder,
+  ProjectGraphNode,
   ProjectGraphProcessorContext,
 } from '@nrwl/devkit';
 import { appRootPath } from '@nrwl/workspace/src/utils/app-root';
@@ -14,26 +15,43 @@ export function processProjectGraph(
 ): ProjectGraph {
   const builder = new ProjectGraphBuilder(graph);
 
-  for (const [projectName, node] of Object.entries(builder.graph.nodes)) {
-    if (node.type === 'app' || node.type === 'lib') {
-      const buildGradleFile = join(appRootPath, node.data.root, 'build.gradle');
+  for (const project of getManagedProjects(builder.graph.nodes)) {
+    const buildGradleFile = join(
+      appRootPath,
+      project.data.root,
+      'build.gradle'
+    );
 
-      if (fileExists(buildGradleFile)) {
-        const contents = fs.readFileSync(buildGradleFile, 'utf-8');
-        const deps = getDependecies(contents);
-        for (const dep of deps) {
-          const dependecyProjectName = getDependecyProjectName(dep);
-          builder.addExplicitDependency(
-            projectName,
-            join(node.data.root, 'build.gradle').replace(/\\/g, '/'),
-            dependecyProjectName
-          );
-        }
+    if (fileExists(buildGradleFile)) {
+      const contents = fs.readFileSync(buildGradleFile, 'utf-8');
+      const deps = getDependecies(contents);
+      for (const dep of deps) {
+        const dependecyProjectName = getDependecyProjectName(dep);
+        builder.addExplicitDependency(
+          project.name,
+          join(project.data.root, 'build.gradle').replace(/\\/g, '/'),
+          dependecyProjectName
+        );
       }
     }
   }
 
   return builder.getUpdatedProjectGraph();
+}
+
+function getManagedProjects(nodes: Record<string, ProjectGraphNode<any>>) {
+  return Object.entries(nodes)
+    .filter((node) => isManagedProject(node[1]))
+    .map((node) => node[1]);
+}
+
+function isManagedProject(projectGraphNode: ProjectGraphNode<any>): boolean {
+  return (
+    (projectGraphNode.type === 'app' || projectGraphNode.type === 'lib') &&
+    projectGraphNode.data.targets.build.executor.includes(
+      '@jnxplus/nx-boot-gradle'
+    )
+  );
 }
 
 function getDependecies(buildGradleContents: string) {
