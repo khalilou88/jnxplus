@@ -1,0 +1,20 @@
+name: nx-boot-gradle windows CI
+on: [push]
+jobs:
+  build-and-test-on-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Unit tests 
+        run: npm run test nx-boot-gradle 
+
+      - name: Build 
+        run: npm run build nx-boot-gradle 
+
+      - name: E2E tests
+        run: npm run e2e nx-boot-gradle-e2e 
