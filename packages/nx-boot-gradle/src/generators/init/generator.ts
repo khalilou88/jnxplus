@@ -37,6 +37,7 @@ export default async function (
   updateNxJson(tree);
   updateGitIgnoreFile(tree);
   tree.changePermissions('gradlew', '755');
+  tree.changePermissions('gradlew.bat', '755');
   await formatFiles(tree);
 }
 
