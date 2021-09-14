@@ -48,9 +48,12 @@ function getManagedProjects(nodes: Record<string, ProjectGraphNode<any>>) {
 function isManagedProject(projectGraphNode: ProjectGraphNode<any>): boolean {
   return (
     (projectGraphNode.type === 'app' || projectGraphNode.type === 'lib') &&
-    projectGraphNode.data.targets.build.executor.includes(
+    (projectGraphNode.data?.targets?.build?.executor?.includes(
       '@jnxplus/nx-boot-gradle'
-    )
+    ) ||
+      projectGraphNode.data?.architect?.build?.builder?.includes(
+        '@jnxplus/nx-boot-gradle'
+      ))
   );
 }
 
