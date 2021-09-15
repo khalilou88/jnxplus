@@ -1,5 +1,5 @@
 import { ExecutorContext, logger } from '@nrwl/devkit';
-import { getProjectPath, runCommand } from '../../utils/command';
+import { getExecutable, getProjectPath, runCommand } from '../../utils/command';
 import { TestExecutorSchema } from './schema';
 
 export default async function runExecutor(
@@ -7,6 +7,5 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   logger.info(`Executor ran for Test: ${JSON.stringify(options)}`);
-  const command = `${getProjectPath(context)}:test`;
-  return runCommand(command);
+  return runCommand(`${getExecutable()} ${getProjectPath(context)}:test`);
 }

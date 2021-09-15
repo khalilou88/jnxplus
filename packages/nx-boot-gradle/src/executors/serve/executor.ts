@@ -1,5 +1,10 @@
 import { ExecutorContext, logger } from '@nrwl/devkit';
-import { getProjectPath, runCommand, waitForever } from '../../utils/command';
+import {
+  getExecutable,
+  getProjectPath,
+  runCommand,
+  waitForever,
+} from '../../utils/command';
 import { ServeExecutorSchema } from './schema';
 
 export default async function runExecutor(
@@ -7,8 +12,9 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   logger.info(`Executor ran for serve: ${JSON.stringify(options)}`);
-  const command = `${getProjectPath(context)}:bootRun`;
-  const result = runCommand(command);
+  const result = runCommand(
+    `${getExecutable()} ${getProjectPath(context)}:bootRun`
+  );
 
   if (!result.success) {
     return { success: false };

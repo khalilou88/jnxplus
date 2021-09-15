@@ -1,5 +1,5 @@
 import { ExecutorContext, logger } from '@nrwl/devkit';
-import { getProjectPath, runCommand } from '../../utils/command';
+import { getExecutable, getProjectPath, runCommand } from '../../utils/command';
 import { BuildExecutorSchema } from './schema';
 
 export default async function runExecutor(
@@ -19,8 +19,7 @@ export default async function runExecutor(
     }
   }
 
-  const command = `${getProjectPath(context)}:${target}`;
-  return runCommand(command);
+  return runCommand(`${getExecutable()} ${getProjectPath(context)}:${target}`);
 }
 
 function getProjectType(context: ExecutorContext) {

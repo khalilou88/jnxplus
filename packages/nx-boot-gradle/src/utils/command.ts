@@ -12,24 +12,23 @@ export function getProjectPath(context: ExecutorContext) {
   return `:${projectFolder.split('/').join(':')}`;
 }
 
-function getExecutable() {
+export function getExecutable() {
   const isWin = process.platform === 'win32';
   return isWin ? 'gradlew.bat' : './gradlew';
 }
 
 export function runCommand(command: string): { success: boolean } {
-  const executable = getExecutable();
-
-  // Create the command to execute
-  const execute = `${executable} ${command}`;
-
   try {
-    logger.info(`Executing command: ${execute}`);
-    execSync(execute, { cwd: process.cwd(), stdio: [0, 1, 2] });
+    if (process.env.VERBOSE_OUTPUT) {
+      logger.debug(`Executing command: ${command}`);
+    }
+    execSync(command, { cwd: process.cwd(), stdio: [0, 1, 2] });
     return { success: true };
   } catch (e) {
-    logger.error(`Failed to execute command: ${execute}`);
-    logger.error(e);
+    if (process.env.VERBOSE_OUTPUT) {
+      logger.error(`Failed to execute command: ${command}`);
+      logger.error(e);
+    }
     return { success: false };
   }
 }
