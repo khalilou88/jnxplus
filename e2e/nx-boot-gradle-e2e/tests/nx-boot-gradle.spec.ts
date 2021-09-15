@@ -73,10 +73,50 @@ describe('nx-boot-gradle e2e', () => {
       ).not.toThrow();
 
       const buildResult = await runNxCommandAsync(`build ${appName}`);
-      expect(buildResult.stdout).toContain('Running target "build" succeeded');
+      expect(buildResult.stdout).toContain('Executor ran for Build');
 
       const testResult = await runNxCommandAsync(`test ${appName}`);
-      expect(testResult.stdout).toContain('Running target "test" succeeded');
+      expect(testResult.stdout).toContain('Executor ran for Test');
+    }, 120000);
+
+    it('should create an application with the specified properties', async () => {
+      const appName = uniq('boot-gradle-app-');
+      ensureNxProject(
+        '@jnxplus/nx-boot-gradle',
+        'dist/packages/nx-boot-gradle'
+      );
+
+      await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+
+      await runNxCommandAsync(
+        `generate @jnxplus/nx-boot-gradle:application ${appName} --configFormat .yml`
+      );
+
+      expect(() =>
+        checkFilesExist(
+          `apps/${appName}/build.gradle`,
+          `apps/${appName}/src/main/resources/application.yml`,
+          `apps/${appName}/src/main/java/com/example/${names(
+            appName
+          ).className.toLocaleLowerCase()}/${
+            names(appName).className
+          }Application.java`,
+          `apps/${appName}/src/main/java/com/example/${names(
+            appName
+          ).className.toLocaleLowerCase()}/HelloController.java`,
+
+          `apps/${appName}/src/test/resources/application.yml`,
+          `apps/${appName}/src/test/java/com/example/${names(
+            appName
+          ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+        )
+      ).not.toThrow();
+
+      const buildResult = await runNxCommandAsync(`build ${appName}`);
+      expect(buildResult.stdout).toContain('Executor ran for Build');
+
+      const testResult = await runNxCommandAsync(`test ${appName}`);
+      expect(testResult.stdout).toContain('Executor ran for Test');
     }, 120000);
 
     it('should create an application with war packaging', async () => {

@@ -6,7 +6,7 @@ export default async function runExecutor(
   options: ServeExecutorSchema,
   context: ExecutorContext
 ) {
-  logger.info(`Executor ran for serve: ${options}`);
+  logger.info(`Executor ran for serve: ${JSON.stringify(options)}`);
   const command = `${getProjectPath(context)}:bootRun`;
   const result = runCommand(command);
 

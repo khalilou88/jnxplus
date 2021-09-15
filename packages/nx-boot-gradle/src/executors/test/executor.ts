@@ -6,7 +6,7 @@ export default async function runExecutor(
   options: TestExecutorSchema,
   context: ExecutorContext
 ) {
-  logger.info(`Executor ran for Test: ${options}`);
+  logger.info(`Executor ran for Test: ${JSON.stringify(options)}`);
   const command = `${getProjectPath(context)}:test`;
   return runCommand(command);
 }
