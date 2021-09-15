@@ -34,7 +34,7 @@
       "default": "0.0.1-SNAPSHOT",
       "description": "Version of the project to generate",
       "alias": "v",
-      "x-prompt": "What version would you like to use?"
+      "x-prompt": "What project version would you like to use?"
     },
     "packaging": {
       "description": "Packaging of the project",
