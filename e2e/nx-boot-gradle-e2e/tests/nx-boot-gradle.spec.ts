@@ -74,7 +74,7 @@ describe('nx-boot-gradle e2e', () => {
         )
       ).not.toThrow();
 
-      // Making sure the build.gradle file contains the groupId
+      // Making sure the build.gradle file contains the good informations
       const buildGradle = readFile(`apps/${appName}/build.gradle`);
       expect(buildGradle.includes('com.example')).toBeTruthy();
       expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
@@ -209,8 +209,31 @@ describe('nx-boot-gradle e2e', () => {
         `generate @jnxplus/nx-boot-gradle:library ${libName}`
       );
 
-      const result = await runNxCommandAsync(`build ${libName}`);
-      expect(result.stdout).toContain('Executor ran');
+      expect(() =>
+        checkFilesExist(
+          `libs/${libName}/build.gradle`,
+          `libs/${libName}/src/main/java/com/example/${names(
+            libName
+          ).className.toLocaleLowerCase()}/HelloService.java`,
+          `libs/${libName}/src/test/java/com/example/${names(
+            libName
+          ).className.toLocaleLowerCase()}/TestConfiguration.java`,
+          `libs/${libName}/src/test/java/com/example/${names(
+            libName
+          ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+        )
+      ).not.toThrow();
+
+      // Making sure the build.gradle file contains the good informations
+      const buildGradle = readFile(`libs/${libName}/build.gradle`);
+      expect(buildGradle.includes('com.example')).toBeTruthy();
+      expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
+
+      const buildResult = await runNxCommandAsync(`build ${libName}`);
+      expect(buildResult.stdout).toContain('Executor ran for Build');
+
+      const testResult = await runNxCommandAsync(`test ${libName}`);
+      expect(testResult.stdout).toContain('Executor ran for Test');
     }, 120000);
 
     describe('--directory', () => {
