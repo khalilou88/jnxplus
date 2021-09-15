@@ -54,7 +54,26 @@
           }
         ]
       }
+    },
+    "configFormat": {
+      "description": "Configuration format of the project",
+      "type": "string",
+      "default": ".properties",
+      "x-prompt": {
+        "message": "Which configuration format would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": ".properties",
+            "label": "Properties "
+          },
+          {
+            "value": ".yml",
+            "label": "Yaml"
+          }
+        ]
+      }
     }
   },
-  "required": ["name", "groupId", "projectVersion"]
+  "required": ["name", "groupId", "projectVersion", "packaging", "configFormat"]
 }

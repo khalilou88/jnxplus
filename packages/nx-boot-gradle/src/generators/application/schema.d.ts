@@ -10,4 +10,5 @@ export interface NxBootGradleGeneratorSchema {
   packageName: string;
   packageDirectory: string;
   packaging: PackagingType;
+  configFormat: '.properties' | '.yml';
 }

@@ -13,6 +13,7 @@ describe('application generator', () => {
     packageName: 'com.example.demo',
     packageDirectory: 'com/example/demo',
     packaging: 'jar',
+    configFormat: '.yml',
   };
 
   beforeEach(() => {
