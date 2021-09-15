@@ -111,7 +111,7 @@ function addLibToGradleSetting(tree: Tree, options: NormalizedSchema) {
 }
 
 function addLibToProjects(tree: Tree, options: NormalizedSchema) {
-  for (const projectName in options.parsedProjects) {
+  for (const projectName of options.parsedProjects) {
     const projectRoot = readProjectConfiguration(tree, projectName).root;
     const filePath = join(projectRoot, `build.gradle`);
 
