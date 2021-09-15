@@ -1,6 +1,6 @@
 {
   "name": "@jnxplus/nx-boot-gradle",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "main": "src/index.js",
   "generators": "./generators.json",
   "executors": "./executors.json",
@@ -22,5 +22,9 @@
     "nx",
     "java",
     "gradle"
-  ]
+  ],
+  "dependencies": {
+    "@nrwl/devkit": "12.9.0",
+    "prettier-plugin-java": "^1.4.0"
+  }
 }
