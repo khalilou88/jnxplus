@@ -72,8 +72,11 @@ describe('nx-boot-gradle e2e', () => {
         )
       ).not.toThrow();
 
-      const result = await runNxCommandAsync(`build ${appName}`);
-      expect(result.stdout).toContain('Executor ran');
+      const buildResult = await runNxCommandAsync(`build ${appName}`);
+      expect(buildResult.stdout).toContain('Running target "build" succeeded');
+
+      const testResult = await runNxCommandAsync(`test ${appName}`);
+      expect(testResult.stdout).toContain('Running target "test" succeeded');
     }, 120000);
 
     it('should create an application with war packaging', async () => {
