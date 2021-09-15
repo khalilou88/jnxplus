@@ -8,7 +8,7 @@ import {
 import * as path from 'path';
 import { NxBootGradleGeneratorSchema } from './schema';
 
-type NormalizedSchema = NxBootGradleGeneratorSchema
+interface NormalizedSchema extends NxBootGradleGeneratorSchema {} // eslint-disable-line
 
 function normalizeOptions(
   tree: Tree,
