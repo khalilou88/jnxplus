@@ -6,6 +6,7 @@ import {
   readFile,
   runNxCommandAsync,
   uniq,
+  updateFile,
 } from '@nrwl/nx-plugin/testing';
 
 describe('nx-boot-gradle e2e', () => {
@@ -218,5 +219,38 @@ describe('nx-boot-gradle e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:library ${libName} --projects ${appName}`
     );
+
+    // Making sure the app build.gradle file contains the lib
+    const buildGradle = readFile(`apps/${appName}/build.gradle`);
+    expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
+
+    const helloControllerPath = `apps/${appName}/src/main/java/com/example/${names(
+      appName
+    ).className.toLocaleLowerCase()}/HelloController.java`;
+    const helloControllerContent = readFile(helloControllerPath);
+
+    const regex1 = /package\s*com\.example\..*\s*;/;
+
+    const regex2 = /public\s*class\s*HelloController\s*{/;
+
+    const regex3 = /"Hello World!"/;
+
+    const newHelloControllerContent = helloControllerContent
+      .replace(
+        regex1,
+        `$&\nimport org.springframework.beans.factory.annotation.Autowired;\nimport com.example.${names(
+          libName
+        ).className.toLocaleLowerCase()}.HelloService;`
+      )
+      .replace(regex2, '$&\n@Autowired\nprivate HelloService helloService;')
+      .replace(regex3, 'this.helloService.message()');
+
+    updateFile(helloControllerPath, newHelloControllerContent);
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
   }, 120000);
 });
