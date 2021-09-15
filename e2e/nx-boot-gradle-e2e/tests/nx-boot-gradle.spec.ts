@@ -205,7 +205,7 @@ describe('nx-boot-gradle e2e', () => {
     expect(testResult.stdout).toContain('Executor ran for Test');
   }, 120000);
 
-  it('should create an app and a lib and add the lib to the app deps', async () => {
+  it('should add a lib to an app dependencies', async () => {
     const appName = uniq('boot-gradle-app-');
     const libName = uniq('boot-gradle-lib-');
     ensureNxProject('@jnxplus/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
@@ -216,7 +216,7 @@ describe('nx-boot-gradle e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:library ${libName}`
+      `generate @jnxplus/nx-boot-gradle:library ${libName} --projects ${appName}`
     );
   }, 120000);
 });

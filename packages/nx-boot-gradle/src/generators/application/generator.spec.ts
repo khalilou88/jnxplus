@@ -9,9 +9,6 @@ describe('application generator', () => {
     name: 'test',
     groupId: 'com.example',
     projectVersion: '0.0.1-SNAPSHOT',
-    appClassName: 'DemoApplication',
-    packageName: 'com.example.demo',
-    packageDirectory: 'com/example/demo',
     packaging: 'jar',
     configFormat: '.yml',
   };

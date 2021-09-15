@@ -8,9 +8,7 @@ import {
 import * as path from 'path';
 import { NxBootGradleGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends NxBootGradleGeneratorSchema {
-  rootProjectName: string;
-}
+type NormalizedSchema = NxBootGradleGeneratorSchema
 
 function normalizeOptions(
   tree: Tree,

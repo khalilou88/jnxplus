@@ -8,7 +8,6 @@ import {
   Tree,
 } from '@nrwl/devkit';
 import * as path from 'path';
-import { PackagingType } from '../../utils/types';
 import { NxBootGradleGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootGradleGeneratorSchema {
@@ -16,12 +15,9 @@ interface NormalizedSchema extends NxBootGradleGeneratorSchema {
   projectRoot: string;
   projectDirectory: string;
   parsedTags: string[];
-  groupId: string;
-  projectVersion: string;
   appClassName: string;
   packageName: string;
   packageDirectory: string;
-  packaging: PackagingType;
 }
 
 function normalizeOptions(

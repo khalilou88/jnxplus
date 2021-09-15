@@ -35,6 +35,10 @@
       "description": "Version of the project to generate",
       "alias": "v",
       "x-prompt": "What project version would you like to use?"
+    },
+    "projects": {
+      "type": "string",
+      "description": "The projects (apps and libs) to add the lib to (use a comma between options)"
     }
   },
   "required": ["name", "groupId", "projectVersion"]

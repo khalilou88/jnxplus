@@ -10,8 +10,6 @@ describe('library generator', () => {
     name: 'test',
     groupId: 'com.example',
     projectVersion: '0.0.1-SNAPSHOT',
-    packageName: 'com.example.demo',
-    packageDirectory: 'com/example/demo',
   };
 
   beforeEach(() => {

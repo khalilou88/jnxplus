@@ -5,9 +5,10 @@ import {
   getWorkspaceLayout,
   names,
   offsetFromRoot,
+  readProjectConfiguration,
   Tree,
 } from '@nrwl/devkit';
-import * as path from 'path';
+import { join } from 'path';
 import { NxBootGradleGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootGradleGeneratorSchema {
@@ -15,10 +16,9 @@ interface NormalizedSchema extends NxBootGradleGeneratorSchema {
   projectRoot: string;
   projectDirectory: string;
   parsedTags: string[];
-  groupId: string;
-  projectVersion: string;
   packageName: string;
   packageDirectory: string;
+  parsedProjects: string[];
 }
 
 function normalizeOptions(
@@ -42,6 +42,10 @@ function normalizeOptions(
     '/'
   )}/${names(options.name).className.toLocaleLowerCase()}`;
 
+  const parsedProjects = options.projects
+    ? options.projects.split(',').map((s) => s.trim())
+    : [];
+
   return {
     ...options,
     projectName,
@@ -50,6 +54,7 @@ function normalizeOptions(
     parsedTags,
     packageName,
     packageDirectory,
+    parsedProjects,
   };
 }
 
@@ -62,7 +67,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(__dirname, 'files'),
+    join(__dirname, 'files'),
     options.projectRoot,
     templateOptions
   );
@@ -89,6 +94,7 @@ export default async function (
   });
   addFiles(tree, normalizedOptions);
   addLibToGradleSetting(tree, normalizedOptions);
+  addLibToProjects(tree, normalizedOptions);
   await formatFiles(tree);
 }
 
@@ -102,4 +108,23 @@ function addLibToGradleSetting(tree: Tree, options: NormalizedSchema) {
     `$&\ninclude('${options.projectRoot.replace(new RegExp('/', 'g'), ':')}')`
   );
   tree.write(filePath, newSettingsContent);
+}
+
+function addLibToProjects(tree: Tree, options: NormalizedSchema) {
+  for (const projectName in options.parsedProjects) {
+    const projectRoot = readProjectConfiguration(tree, projectName).root;
+    const filePath = join(projectRoot, `build.gradle`);
+
+    const buildGradleContent = tree.read(filePath, 'utf-8');
+
+    const regex = /dependencies\s*{/;
+    const newBuildGradleContent = buildGradleContent.replace(
+      regex,
+      `$&\nimplementation project(':${options.projectRoot.replace(
+        new RegExp('/', 'g'),
+        ':'
+      )}')`
+    );
+    tree.write(filePath, newBuildGradleContent);
+  }
 }
