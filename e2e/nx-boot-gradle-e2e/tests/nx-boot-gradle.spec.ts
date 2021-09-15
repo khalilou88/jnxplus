@@ -1,3 +1,4 @@
+import { names } from '@nrwl/devkit';
 import {
   checkFilesExist,
   ensureNxProject,
@@ -14,7 +15,26 @@ describe('nx-boot-gradle e2e', () => {
       );
       await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
 
-      expect(() => checkFilesExist('settings.gradle')).not.toThrow();
+      // Making sure the package.json file contains the @jnxplus/nx-boot-gradle dependency
+      const packageJson = readJson('package.json');
+      expect(
+        packageJson.devDependencies['@jnxplus/nx-boot-gradle']
+      ).toBeTruthy();
+
+      // Making sure the nx.json file contains the @jnxplus/nx-boot-gradle inside the plugins section
+      const nxJson = readJson('nx.json');
+      expect(nxJson.plugins.includes('@jnxplus/nx-boot-gradle')).toBeTruthy();
+
+      expect(() =>
+        checkFilesExist(
+          'gradle/wrapper/gradle-wrapper.jar',
+          'gradle/wrapper/gradle-wrapper.properties',
+          'gradlew',
+          'gradlew.bat',
+          'gradle.properties',
+          'settings.gradle'
+        )
+      ).not.toThrow();
     }, 120000);
   });
 
@@ -31,6 +51,26 @@ describe('nx-boot-gradle e2e', () => {
       await runNxCommandAsync(
         `generate @jnxplus/nx-boot-gradle:application ${appName}`
       );
+
+      expect(() =>
+        checkFilesExist(
+          `apps/${appName}/build.gradle`,
+          `apps/${appName}/src/main/resources/application.properties`,
+          `apps/${appName}/src/main/java/com/example/${names(
+            appName
+          ).className.toLocaleLowerCase()}/${
+            names(appName).className
+          }Application.java`,
+          `apps/${appName}/src/main/java/com/example/${names(
+            appName
+          ).className.toLocaleLowerCase()}/HelloController.java`,
+
+          `apps/${appName}/src/test/resources/application.properties`,
+          `apps/${appName}/src/test/java/com/example/${names(
+            appName
+          ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+        )
+      ).not.toThrow();
 
       const result = await runNxCommandAsync(`build ${appName}`);
       expect(result.stdout).toContain('Executor ran');
