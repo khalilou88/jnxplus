@@ -236,45 +236,89 @@ describe('nx-boot-gradle e2e', () => {
       expect(testResult.stdout).toContain('Executor ran for Test');
     }, 120000);
 
-    describe('--directory', () => {
-      it('should create build.gradle in the specified directory', async () => {
-        const libName = uniq('boot-gradle-lib-');
-        ensureNxProject(
-          '@jnxplus/nx-boot-gradle',
-          'dist/packages/nx-boot-gradle'
-        );
-        await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
-        await runNxCommandAsync(
-          `generate @jnxplus/nx-boot-gradle:library ${libName} --directory subdir`
-        );
-        expect(() =>
-          checkFilesExist(`libs/subdir/${libName}/build.gradle`)
-        ).not.toThrow();
+    it('should create a library with the specified properties', async () => {
+      const libName = uniq('boot-gradle-lib-');
+      ensureNxProject(
+        '@jnxplus/nx-boot-gradle',
+        'dist/packages/nx-boot-gradle'
+      );
 
-        const result = await runNxCommandAsync(`build ${libName}`);
-        expect(result.stdout).toContain('Executor ran');
-      }, 120000);
-    });
+      await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
 
-    describe('--tags', () => {
-      it('should add tags to nx.json', async () => {
-        const libName = uniq('boot-gradle-lib-');
-        ensureNxProject(
-          '@jnxplus/nx-boot-gradle',
-          'dist/packages/nx-boot-gradle'
-        );
-        await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
-        await runNxCommandAsync(
-          `generate @jnxplus/nx-boot-gradle:library ${libName} --tags e2etag,e2ePackage`
-        );
-        const nxJson = readJson('nx.json');
-        expect(nxJson.projects[libName].tags).toEqual(['e2etag', 'e2ePackage']);
-      }, 120000);
-    });
+      await runNxCommandAsync(
+        `generate @jnxplus/nx-boot-gradle:library ${libName} --directory subdir --tags e2etag,e2ePackage  --groupId com.jnxplus --projectVersion 1.2.3`
+      );
+
+      expect(() =>
+        checkFilesExist(
+          `libs/subdir/${libName}/build.gradle`,
+          `libs/subdir/${libName}/src/main/java/com/jnxplus/${names(
+            libName
+          ).className.toLocaleLowerCase()}/HelloService.java`,
+          `libs/subdir/${libName}/src/test/java/com/jnxplus/${names(
+            libName
+          ).className.toLocaleLowerCase()}/TestConfiguration.java`,
+          `libs/subdir/${libName}/src/test/java/com/jnxplus/${names(
+            libName
+          ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+        )
+      ).not.toThrow();
+
+      // Making sure the build.gradle file contains the good informations
+      const buildGradle = readFile(`libs/subdir/${libName}/build.gradle`);
+      expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
+      expect(buildGradle.includes('1.2.3')).toBeTruthy();
+
+      //should add tags to nx.json
+      const nxJson = readJson('nx.json');
+      expect(nxJson.projects[libName].tags).toEqual(['e2etag', 'e2ePackage']);
+
+      const buildResult = await runNxCommandAsync(`build ${libName}`);
+      expect(buildResult.stdout).toContain('Executor ran for Build');
+
+      const testResult = await runNxCommandAsync(`test ${libName}`);
+      expect(testResult.stdout).toContain('Executor ran for Test');
+    }, 120000);
+
+    // describe('--directory', () => {
+    //   it('should create build.gradle in the specified directory', async () => {
+    //     const libName = uniq('boot-gradle-lib-');
+    //     ensureNxProject(
+    //       '@jnxplus/nx-boot-gradle',
+    //       'dist/packages/nx-boot-gradle'
+    //     );
+    //     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+    //     await runNxCommandAsync(
+    //       `generate @jnxplus/nx-boot-gradle:library ${libName} --directory subdir`
+    //     );
+    //     expect(() =>
+    //       checkFilesExist(`libs/subdir/${libName}/build.gradle`)
+    //     ).not.toThrow();
+
+    //     const result = await runNxCommandAsync(`build ${libName}`);
+    //     expect(result.stdout).toContain('Executor ran');
+    //   }, 120000);
+    // });
+
+    // describe('--tags', () => {
+    //   it('should add tags to nx.json', async () => {
+    //     const libName = uniq('boot-gradle-lib-');
+    //     ensureNxProject(
+    //       '@jnxplus/nx-boot-gradle',
+    //       'dist/packages/nx-boot-gradle'
+    //     );
+    //     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+    //     await runNxCommandAsync(
+    //       `generate @jnxplus/nx-boot-gradle:library ${libName} --tags e2etag,e2ePackage`
+    //     );
+    //     const nxJson = readJson('nx.json');
+    //     expect(nxJson.projects[libName].tags).toEqual(['e2etag', 'e2ePackage']);
+    //   }, 120000);
+    // });
   });
 
   describe('App & lib e2e', () => {
-    it('should create app and lib and add lib to app deps', async () => {
+    it('should create app and lib and add lib to the app deps', async () => {
       const appName = uniq('boot-gradle-app-');
       const libName = uniq('boot-gradle-lib-');
       ensureNxProject(
