@@ -1,0 +1,13 @@
+{
+  "name": "@jnxplus/checkstyle",
+  "version": "0.0.1",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "author": "Khalil",
+  "keywords": [
+    "checkstyle"
+  ]
+}
