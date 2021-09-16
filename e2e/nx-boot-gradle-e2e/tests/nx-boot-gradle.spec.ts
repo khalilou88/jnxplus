@@ -85,6 +85,13 @@ describe('nx-boot-gradle e2e', () => {
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    const formatResult = await runNxCommandAsync(
+      `format:check --projects ${appName}`
+    );
+    expect(formatResult.stdout).toContain(
+      'Affected criteria defaulted to --base=master --head=HEAD'
+    );
   }, 120000);
 
   it('should create an application with the specified properties', async () => {
@@ -146,6 +153,13 @@ describe('nx-boot-gradle e2e', () => {
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    const formatResult = await runNxCommandAsync(
+      `format:check --projects ${appName}`
+    );
+    expect(formatResult.stdout).toContain(
+      'Affected criteria defaulted to --base=master --head=HEAD'
+    );
   }, 120000);
 
   it('should create a library', async () => {
@@ -192,6 +206,13 @@ describe('nx-boot-gradle e2e', () => {
 
     const lintResult = await runNxCommandAsync(`lint ${libName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    const formatResult = await runNxCommandAsync(
+      `format:check --projects ${libName}`
+    );
+    expect(formatResult.stdout).toContain(
+      'Affected criteria defaulted to --base=master --head=HEAD'
+    );
   }, 120000);
 
   it('should create a library with the specified properties', async () => {
@@ -242,6 +263,13 @@ describe('nx-boot-gradle e2e', () => {
 
     const lintResult = await runNxCommandAsync(`lint ${libName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    const formatResult = await runNxCommandAsync(
+      `format:check --projects ${libName}`
+    );
+    expect(formatResult.stdout).toContain(
+      'Affected criteria defaulted to --base=master --head=HEAD'
+    );
   }, 120000);
 
   it('should add a lib to an app dependencies', async () => {
