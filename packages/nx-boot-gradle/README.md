@@ -4,6 +4,10 @@ This plugin add Spring Boot and Gradle multi-project builds capabilities to Nx w
 
 ## Getting Started
 
+### 0. Prerequisites
+
+`@jnxplus/nx-boot-gradle` requires a Java 8 or higher Runtime Environment and the current Long Term Support (LTS) version of node.js.
+
 ### 1. Install the plugin
 
 In the workspace root run this command to install the plugin :
