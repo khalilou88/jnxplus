@@ -7,6 +7,8 @@ import {
   runNxCommandAsync,
   uniq,
   updateFile,
+  patchPackageJsonForPlugin,
+  runPackageManagerInstall,
 } from '@nrwl/nx-plugin/testing';
 
 describe('nx-boot-gradle e2e', () => {
@@ -36,7 +38,13 @@ describe('nx-boot-gradle e2e', () => {
 
   it('should create an application', async () => {
     const appName = uniq('boot-gradle-app-');
+
     ensureNxProject('@jnxplus/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
+    patchPackageJsonForPlugin(
+      '@jnxplus/checkstyle',
+      'node_modules/@jnxplus/checkstyle'
+    );
+    runPackageManagerInstall();
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
 
@@ -74,11 +82,20 @@ describe('nx-boot-gradle e2e', () => {
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
   }, 120000);
 
   it('should create an application with the specified properties', async () => {
     const appName = uniq('boot-gradle-app-');
+
     ensureNxProject('@jnxplus/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
+    patchPackageJsonForPlugin(
+      '@jnxplus/checkstyle',
+      'node_modules/@jnxplus/checkstyle'
+    );
+    runPackageManagerInstall();
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
 
@@ -126,11 +143,20 @@ describe('nx-boot-gradle e2e', () => {
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
   }, 120000);
 
   it('should create a library', async () => {
     const libName = uniq('boot-gradle-lib-');
+
     ensureNxProject('@jnxplus/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
+    patchPackageJsonForPlugin(
+      '@jnxplus/checkstyle',
+      'node_modules/@jnxplus/checkstyle'
+    );
+    runPackageManagerInstall();
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
 
@@ -163,11 +189,20 @@ describe('nx-boot-gradle e2e', () => {
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
   }, 120000);
 
   it('should create a library with the specified properties', async () => {
     const libName = uniq('boot-gradle-lib-');
+
     ensureNxProject('@jnxplus/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
+    patchPackageJsonForPlugin(
+      '@jnxplus/checkstyle',
+      'node_modules/@jnxplus/checkstyle'
+    );
+    runPackageManagerInstall();
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
 
@@ -204,6 +239,9 @@ describe('nx-boot-gradle e2e', () => {
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
   }, 120000);
 
   it('should add a lib to an app dependencies', async () => {
