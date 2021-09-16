@@ -13,6 +13,7 @@ describe('init generator', () => {
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace();
     appTree.write('./.gitignore', '');
+    appTree.write('./.prettierignore', '');
   });
 
   it('should run successfully', async () => {

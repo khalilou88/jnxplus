@@ -33,13 +33,14 @@ export default async function (
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);
   updateNxJson(tree);
-  updateGitIgnoreFile(tree);
+  updateGitIgnore(tree);
+  updatePrettierIgnore(tree);
   tree.changePermissions('gradlew', '755');
   tree.changePermissions('gradlew.bat', '755');
   await formatFiles(tree);
 }
 
-function updateGitIgnoreFile(tree: Tree) {
+function updateGitIgnore(tree: Tree) {
   const filePath = `.gitignore`;
   const contents = tree.read(filePath, 'utf-8');
 
@@ -58,4 +59,14 @@ function updateNxJson(tree: Tree) {
     // return modified JSON object
     return pkgJson;
   });
+}
+
+function updatePrettierIgnore(tree: Tree) {
+  const filePath = `.prettierignore`;
+  const contents = tree.read(filePath, 'utf-8');
+
+  const prettierIgnore = '\n# Gradle build\nbuild';
+
+  const newContents = contents.concat(prettierIgnore);
+  tree.write(filePath, newContents);
 }
