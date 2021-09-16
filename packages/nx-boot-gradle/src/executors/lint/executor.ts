@@ -7,7 +7,7 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   logger.info(`Executor ran for Lint: ${JSON.stringify(options)}`);
-  const command = `java -jar ./node_modules/@jnxplus/nx-boot-gradle/src/java-linter/checkstyle-9.0-all.jar -c checkstyle.xml ${
+  const command = `java -jar ./node_modules/@jnxplus/checkstyle/checkstyle.jar -c checkstyle.xml ${
     context.workspace.projects[context.projectName].sourceRoot
   }`;
   return runCommand(command);

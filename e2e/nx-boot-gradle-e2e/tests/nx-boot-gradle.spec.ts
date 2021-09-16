@@ -209,7 +209,9 @@ describe('nx-boot-gradle e2e', () => {
   it('should add a lib to an app dependencies', async () => {
     const appName = uniq('boot-gradle-app-');
     const libName = uniq('boot-gradle-lib-');
+
     ensureNxProject('@jnxplus/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
+
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
 
     await runNxCommandAsync(
