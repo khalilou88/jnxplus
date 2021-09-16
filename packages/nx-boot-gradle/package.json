@@ -15,13 +15,14 @@
     "url": "https://github.com/khalilou88/jnxplus/issues"
   },
   "keywords": [
-    "nx-plugin",
-    "spring-boot",
-    "nx-workspace",
-    "spring",
     "nx",
+    "nx-workspace",
+    "nx-plugin",
     "java",
-    "gradle"
+    "spring",
+    "spring-boot",
+    "gradle",
+    "gradle multi-project build"
   ],
   "dependencies": {
     "@nrwl/devkit": "12.9.0",
