@@ -22,15 +22,16 @@ nx generate @jnxplus/nx-boot-gradle:init
 
 ### 3. Usage
 
-| Action                  | Command                                                  |
-| ----------------------- | -------------------------------------------------------- |
-| Generate an application | `nx generate @jnxplus/nx-boot-gradle:application my-app` |
-| Build an application    | `nx build my-app`                                        |
-| Test an application     | `nx test my-app`                                         |
-| Serve an application    | `nx serve my-app`                                        |
-| Generate a library      | `nx generate @jnxplus/nx-boot-gradle:library my-lib`     |
-| Build a library         | `nx build my-lib`                                        |
-| Test a library          | `nx test my-lib`                                         |
+| Action                               | Command                                                       |
+| ------------------------------------ | ------------------------------------------------------------- |
+| Generate an application              | `nx generate @jnxplus/nx-boot-gradle:application my-app-name` |
+| Generate a library                   | `nx generate @jnxplus/nx-boot-gradle:library my-lib-name`     |
+| Build a project                      | `nx build my-project-name`                                    |
+| Serve an application                 | `nx serve my-app-name`                                        |
+| Test a project                       | `nx test my-project-name`                                     |
+| Lint a project                       | `nx lint my-project-name`                                     |
+| Format a project                     | `nx format --projects my-project-name`                        |
+| Visualize project's dependency graph | `nx dep-graph`                                                |
 
 ## License
 
