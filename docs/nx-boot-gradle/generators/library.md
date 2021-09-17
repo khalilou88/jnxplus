@@ -68,6 +68,8 @@ Type: `string`
 
 Projects that needs to access this library (comma delimited). This add the library to their dependencies.
 
+## Not implemented yet Options
+
 The following options are not implemented yet :
 
 ### linter
