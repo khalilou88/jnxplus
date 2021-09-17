@@ -4,6 +4,11 @@
     - [Introduction](nx-boot-gradle/getting-started/intro)
     - [Installation](nx-boot-gradle/getting-started/setup)
     - [Init workspace](nx-boot-gradle/getting-started/init)
+  - Generators
+    - [Init workspace](nx-boot-gradle/generators/init)
+    - [Generate an application](nx-boot-gradle/generators/application)
+    - [Generate a library](nx-boot-gradle/generators/library)
+    - [Roadmap](nx-boot-gradle/generators/roadmap)
   - Executors
     - [Build](nx-boot-gradle/executors/build)
     - [Serve](nx-boot-gradle/executors/serve)
@@ -11,9 +16,5 @@
     - [Lint](nx-boot-gradle/executors/lint)
     - [Format](nx-boot-gradle/executors/format)
     - [Roadmap](nx-boot-gradle/executors/roadmap)
-  - Generators
-    - [Application](nx-boot-gradle/generators/application)
-    - [Library](nx-boot-gradle/generators/library)
-    - [Roadmap](nx-boot-gradle/generators/roadmap)
   - Dependecies graph
     - [Dep-graph](nx-boot-gradle/dep-graph/dep-graph)

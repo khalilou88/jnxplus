@@ -1,37 +1,23 @@
-# @nrwl/nest:library
+# @jnxplus/nx-boot-gradle:application
 
-Create a new NestJS library.
+Create a Spring Boot application.
 
 ## Usage
 
 ```bash
-nx generate library ...
+nx generate @jnxplus/nx-boot-gradle:application my-app-name
 ```
 
-```bash
-nx g lib ... # same
-```
-
-By default, Nx will search for `library` in the default collection provisioned in `workspace.json`.
-
-You can specify the collection explicitly as follows:
+Or
 
 ```bash
-nx g @nrwl/nest:library ...
+nx g @jnxplus/nx-boot-gradle:app my-app-name
 ```
 
 Show what will be generated without writing to disk:
 
 ```bash
-nx g library ... --dry-run
-```
-
-### Examples
-
-Generate libs/myapp/mylib:
-
-```bash
-nx g lib mylib --directory=myapp
+nx g ... --dry-run
 ```
 
 ## Options
@@ -40,69 +26,69 @@ nx g lib mylib --directory=myapp
 
 Type: `string`
 
-Library name.
+The name of the application.
 
-### buildable
+### groupId (_**required**_)
 
-Default: `false`
+Type: `string`
 
-Type: `boolean`
+The groupId of the application.
 
-Generate a buildable library.
+### projectVersion (_**required**_)
 
-### controller
+Type: `string`
 
-Default: `false`
+The version of the application.
 
-Type: `boolean`
+### packaging (_**required**_)
 
-Include a controller with the library.
+Default: `jar`
+
+Type: `string`
+
+Possible values: `jar`, `war`
+
+The application packaging.
+
+### configFormat (_**required**_)
+
+Default: `.properties`
+
+Type: `string`
+
+Possible values: `.properties`, `.yml`
+
+The configuration format used in the application.
 
 ### directory
 
-Alias(es): dir
+Type: `string`
+
+The directory of the new application.
+
+### tags
 
 Type: `string`
 
-A directory where the library is placed.
+Add tags to the application (used for linting).
 
-### global
+The following options are not implemented yet :
 
-Default: `false`
-
-Type: `boolean`
-
-Add the Global decorator to the generated module.
-
-### importPath
+### frontendProject
 
 Type: `string`
 
-The library name used to import it, like @myorg/my-awesome-lib. Must be a valid npm name.
+Frontend project that needs to access this application. This sets up proxy configuration.
 
 ### linter
 
-Default: `eslint`
+Default: `chechstyle`
 
 Type: `string`
 
-Possible values: `eslint`, `none`
+Possible values: `chechstyle`, `pmd`, `none`
 
 The tool to use for running lint checks.
-
-### publishable
-
-Type: `boolean`
-
-Create a publishable library.
-
-### service
-
-Default: `false`
-
-Type: `boolean`
-
-Include a service with the library.
 
 ### skipFormat
 
@@ -112,56 +98,20 @@ Type: `boolean`
 
 Skip formatting files.
 
-### skipTsConfig
+### skipGradleBuild
 
 Default: `false`
 
 Type: `boolean`
 
-Do not update tsconfig.base.json for development experience.
-
-### strict
-
-Default: `false`
-
-Type: `boolean`
-
-Whether to enable tsconfig strict mode or not.
-
-### tags
-
-Alias(es): t
-
-Type: `string`
-
-Add tags to the library (used for linting).
-
-### target
-
-Default: `es6`
-
-Type: `string`
-
-Possible values: `es5`, `es6`, `esnext`, `es2015`, `es2016`, `es2017`, `es2018`, `es2019`, `es2020`
-
-The ES target, Nest suggest using es6 or higher.
-
-### testEnvironment
-
-Default: `node`
-
-Type: `string`
-
-Possible values: `jsdom`, `node`
-
-The test environment for jest, for node applications this should stay as node unless doing DOM testing.
+Do not add dependencies to gradle.build.
 
 ### unitTestRunner
 
-Default: `jest`
+Default: `junit`
 
 Type: `string`
 
-Possible values: `jest`, `none`
+Possible values: `junit`, `none`
 
 Test runner to use for unit tests.

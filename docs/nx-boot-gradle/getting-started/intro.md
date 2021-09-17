@@ -13,7 +13,7 @@ Like Nx, @jnxplus/nx-boot-gradle works especially for monorepos.
 - Task executors like Smart rebuilds of affected projects
 - Code generators
 - Code sharing
-- [Workspace visualizations](../dep-graph/dep-graph)
+- Workspace visualizations
 
 ## Learn @jnxplus/nx-boot-gradle Fundamentals
 
