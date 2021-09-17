@@ -1,6 +1,6 @@
 # @jnxplus/nx-boot-gradle:init
 
-Add Spring Boot and Gradle support. This only needs to be performed once per workspace..
+Add Spring Boot and Gradle support. This only needs to be performed once per workspace.
 
 ## Usage
 
