@@ -6,7 +6,7 @@
 
 Like Nx, `@jnxplus/nx-boot-gradle` works especially for monorepos.
 
-@jnxplus/nx-boot-gradle uses Grdale multi-projects build that maintains modular units of code and understands the dependency graph between them.
+@jnxplus/nx-boot-gradle uses Grdale multi-projects build to maintains modular units of code.
 
 ## Features
 
