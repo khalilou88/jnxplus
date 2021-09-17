@@ -25,6 +25,48 @@
       "description": "A directory where the project is placed",
       "alias": "dir"
     },
+    "language": {
+      "description": "Language of the project",
+      "type": "string",
+      "default": "java",
+      "x-prompt": {
+        "message": "Which language would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "java",
+            "label": "Java"
+          },
+          {
+            "value": "kotlin",
+            "label": "Kotlin"
+          },
+          {
+            "value": "groovy",
+            "label": "Groovy"
+          }
+        ]
+      }
+    },
+    "dsl": {
+      "description": "DSL",
+      "type": "string",
+      "default": "groovy",
+      "x-prompt": {
+        "message": "Which dsl would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "groovy",
+            "label": "Groovy"
+          },
+          {
+            "value": "kotlin",
+            "label": "Kotlin"
+          }
+        ]
+      }
+    },
     "groupId": {
       "type": "string",
       "default": "com.example",
@@ -76,5 +118,13 @@
       }
     }
   },
-  "required": ["name", "groupId", "projectVersion", "packaging", "configFormat"]
+  "required": [
+    "name",
+    "language",
+    "dsl",
+    "groupId",
+    "projectVersion",
+    "packaging",
+    "configFormat"
+  ]
 }

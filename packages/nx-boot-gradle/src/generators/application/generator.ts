@@ -18,6 +18,7 @@ interface NormalizedSchema extends NxBootGradleGeneratorSchema {
   appClassName: string;
   packageName: string;
   packageDirectory: string;
+  kotlinExtension: string;
 }
 
 function normalizeOptions(
@@ -42,6 +43,8 @@ function normalizeOptions(
     '/'
   )}/${names(options.name).className.toLocaleLowerCase()}`;
 
+  const kotlinExtension = options.dsl === 'kotlin' ? '.kts' : '';
+
   return {
     ...options,
     projectName,
@@ -51,6 +54,7 @@ function normalizeOptions(
     appClassName,
     packageName,
     packageDirectory,
+    kotlinExtension,
   };
 }
 
@@ -63,7 +67,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(__dirname, 'files'),
+    path.join(__dirname, 'files', options.language),
     options.projectRoot,
     templateOptions
   );
