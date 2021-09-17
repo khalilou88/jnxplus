@@ -36,6 +36,8 @@ The groupId of the application.
 
 ### projectVersion (_**required**_)
 
+Alias(es): v
+
 Type: `string`
 
 The version of the application.
@@ -69,6 +71,8 @@ Type: `string`
 The directory of the new application.
 
 ### tags
+
+Alias(es): t
 
 Type: `string`
 

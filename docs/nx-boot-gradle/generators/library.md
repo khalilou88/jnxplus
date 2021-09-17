@@ -44,6 +44,8 @@ The groupId of the library.
 
 ### projectVersion (_**required**_)
 
+Alias(es): v
+
 Type: `string`
 
 The version of the library.
@@ -57,6 +59,8 @@ Type: `string`
 A directory where the library is placed.
 
 ### tags
+
+Alias(es): t
 
 Type: `string`
 

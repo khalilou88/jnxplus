@@ -22,7 +22,7 @@
     "directory": {
       "type": "string",
       "description": "A directory where the project is placed",
-      "alias": "d"
+      "alias": "dir"
     },
     "groupId": {
       "type": "string",

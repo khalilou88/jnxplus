@@ -11,11 +11,15 @@
     "application": {
       "factory": "./src/generators/application/generator",
       "schema": "./src/generators/application/schema.json",
+      "aliases": ["app"],
+      "x-type": "application",
       "description": "application generator"
     },
     "library": {
       "factory": "./src/generators/library/generator",
       "schema": "./src/generators/library/schema.json",
+      "aliases": ["lib"],
+      "x-type": "library",
       "description": "library generator"
     }
   }
