@@ -13,5 +13,5 @@
     - [Test](nx-boot-gradle/executors/test)
     - [Lint](nx-boot-gradle/executors/lint)
     - [Format](nx-boot-gradle/executors/format)
-  - Dependecies graph
-    - [Project Graph](nx-boot-gradle/dep-graph/dep-graph)
+  - [Project graph](nx-boot-gradle/dep-graph/dep-graph)
+  - [Upgrading](nx-boot-gradle/upgrading/upgrading)

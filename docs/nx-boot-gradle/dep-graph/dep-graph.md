@@ -1,4 +1,4 @@
-# Project Graph
+# Project graph
 
 Nx allows [extending the project graph](https://nx.dev/latest/angular/structure/project-graph-plugins#extending-the-project-graph-of-nx).
 `@jnxplus/nx-boot-gradle` is able to construct project dependencies automatically by analyzing Spring Boot projects source code and add them to the Nx project graph.
