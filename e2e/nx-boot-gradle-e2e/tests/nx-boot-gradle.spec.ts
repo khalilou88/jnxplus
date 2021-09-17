@@ -277,6 +277,15 @@ describe('nx-boot-gradle e2e', () => {
     const libName = uniq('boot-gradle-lib-');
 
     ensureNxProject('@jnxplus/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
+    patchPackageJsonForPlugin(
+      'prettier-plugin-java',
+      'node_modules/prettier-plugin-java'
+    );
+    patchPackageJsonForPlugin(
+      '@jnxplus/checkstyle',
+      'node_modules/@jnxplus/checkstyle'
+    );
+    runPackageManagerInstall();
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
 
@@ -320,5 +329,15 @@ describe('nx-boot-gradle e2e', () => {
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const formatResult = await runNxCommandAsync(
+      `format:write --projects ${appName}`
+    );
+    expect(formatResult.stdout).toContain(
+      'Affected criteria defaulted to --base=master --head=HEAD'
+    );
+
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
   }, 120000);
 });
