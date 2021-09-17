@@ -12,7 +12,7 @@ This is a quick overview of the plugin, to know more, please viste [the document
 
 ### 1. Install the plugin
 
-In the workspace root run this command to install the plugin :
+In the Nx workspace root folder, run this command to install the plugin :
 
 ```bash
 npm install --save-dev @jnxplus/nx-boot-gradle
