@@ -14,4 +14,4 @@
     - [Lint](nx-boot-gradle/executors/lint)
     - [Format](nx-boot-gradle/executors/format)
   - Dependecies graph
-    - [Dep-graph](nx-boot-gradle/dep-graph/dep-graph)
+    - [Project Graph](nx-boot-gradle/dep-graph/dep-graph)
