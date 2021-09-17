@@ -74,7 +74,7 @@ Type: `string`
 
 Add tags to the application (used for linting).
 
-## Not implemented yet Options
+## Not implemented yet
 
 The following options are not implemented yet :
 
