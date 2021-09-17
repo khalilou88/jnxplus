@@ -1,1 +1,27 @@
-#Test
+## Table of Contents
+
+- nx-boot-gradle
+
+  - Getting started
+
+    - [Introduction](nx-boot-gradle/getting-started/intro)
+    - [Installation](nx-boot-gradle/getting-started/setup)
+    - [Init workspace](nx-boot-gradle/getting-started/init)
+
+  - Executors
+
+    - [Build](nx-boot-gradle/executors/build)
+    - [Serve](nx-boot-gradle/executors/serve)
+    - [Test](nx-boot-gradle/executors/test)
+    - [Lint](nx-boot-gradle/executors/lint)
+    - [Format](nx-boot-gradle/executors/format)
+    - [Roadmap](nx-boot-gradle/executors/roadmap)
+
+  - Generators
+
+    - [Application](nx-boot-gradle/generators/application)
+    - [Library](nx-boot-gradle/generators/library)
+    - [Roadmap](nx-boot-gradle/generators/roadmap)
+
+  - Dependecies graph
+    - [Dep-graph](nx-boot-gradle/dep-graph/dep-graph)
