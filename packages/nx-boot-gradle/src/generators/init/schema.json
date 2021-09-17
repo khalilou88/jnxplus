@@ -31,7 +31,8 @@
     "rootProjectName": {
       "type": "string",
       "default": "boot-multiproject",
-      "x-prompt": "What rootProjectName would you like to use?"
+      "x-prompt": "What rootProjectName would you like to use?",
+      "pattern": "^[a-zA-Z].*$"
     }
   },
   "required": ["javaVersion", "rootProjectName"]
