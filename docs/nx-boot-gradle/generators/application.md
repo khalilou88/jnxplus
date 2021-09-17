@@ -62,6 +62,8 @@ The configuration format used in the application.
 
 ### directory
 
+Alias(es): dir
+
 Type: `string`
 
 The directory of the new application.

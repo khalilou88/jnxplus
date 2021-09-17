@@ -1,4 +1,4 @@
-# @nrwl/nest:init
+# @jnxplus/nx-boot-gradle:init
 
 Create a new NestJS library.
 

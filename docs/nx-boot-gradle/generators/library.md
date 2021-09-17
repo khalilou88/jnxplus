@@ -1,17 +1,17 @@
-# @jnxplus/nx-boot-gradle:application
+# @jnxplus/nx-boot-gradle:library
 
-Create a Spring Boot application.
+Create a Spring Boot library.
 
 ## Usage
 
 ```bash
-nx generate @jnxplus/nx-boot-gradle:application my-app-name
+nx generate @jnxplus/nx-boot-gradle:library my-lib-name
 ```
 
 Or
 
 ```bash
-nx g @jnxplus/nx-boot-gradle:app my-app-name
+nx g @jnxplus/nx-boot-gradle:lib my-lib-name
 ```
 
 Show what will be generated without writing to disk:
@@ -20,65 +20,55 @@ Show what will be generated without writing to disk:
 nx g ... --dry-run
 ```
 
+### Examples
+
+Generate libs/myapp/mylib:
+
+```bash
+nx g @jnxplus/nx-boot-gradle:lib mylib --directory=myapp
+```
+
 ## Options
 
 ### name (_**required**_)
 
 Type: `string`
 
-The name of the application.
+The name of the library.
 
 ### groupId (_**required**_)
 
 Type: `string`
 
-The groupId of the application.
+The groupId of the library.
 
 ### projectVersion (_**required**_)
 
 Type: `string`
 
-The version of the application.
-
-### packaging (_**required**_)
-
-Default: `jar`
-
-Type: `string`
-
-Possible values: `jar`, `war`
-
-The application packaging.
-
-### configFormat (_**required**_)
-
-Default: `.properties`
-
-Type: `string`
-
-Possible values: `.properties`, `.yml`
-
-The configuration format used in the application.
+The version of the library.
 
 ### directory
 
+Alias(es): dir
+
 Type: `string`
 
-The directory of the new application.
+A directory where the library is placed.
 
 ### tags
 
 Type: `string`
 
-Add tags to the application (used for linting).
+Add tags to the library (used for linting).
 
-The following options are not implemented yet :
-
-### frontendProject
+### projects
 
 Type: `string`
 
-Frontend project that needs to access this application. This sets up proxy configuration.
+Projects that needs to access this library (comma delimited). This add the library to their dependencies.
+
+The following options are not implemented yet :
 
 ### linter
 
@@ -115,3 +105,19 @@ Type: `string`
 Possible values: `junit`, `none`
 
 Test runner to use for unit tests.
+
+### controller
+
+Default: `false`
+
+Type: `boolean`
+
+Include a controller with the library.
+
+### service
+
+Default: `false`
+
+Type: `boolean`
+
+Include a service with the library.
