@@ -1,44 +1,20 @@
 # Format
 
-Starts server for app
+`@jnxplus/nx-boot-gradle` support out of the box `format` command to check for or overwrite un-formatted files.
+Under the hood we use [prettier-plugin-java](https://www.npmjs.com/package/prettier-plugin-java)
 
-Options can be configured in `workspace.json` when defining the executor, or when invoking it.
-Read more about how to use executors and the CLI here: https://nx.dev/getting-started/nx-cli#common-commands.
+## Usage
 
-## Options
+- Check for un-formatted files:
 
-### buildTarget
+```bash
+nx format:check
+```
 
-Type: `string`
+- Overwrite un-formatted files:
 
-Target which builds the application
+```bash
+nx format:write
+```
 
-### host
-
-Default: `localhost`
-
-Type: `string`
-
-Host to listen on.
-
-### https
-
-Default: `false`
-
-Type: `boolean`
-
-Serve using HTTPS.
-
-### open
-
-Type: `boolean`
-
-Open the site in your (default) browser for you.
-
-### port
-
-Default: `4200`
-
-Type: `number`
-
-Port to listen on.
+For more information, please check the Nx documentation.
