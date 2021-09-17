@@ -12,10 +12,22 @@ import {
 } from '@nrwl/nx-plugin/testing';
 
 describe('nx-boot-gradle e2e', () => {
-  it('should init the workspace with @jnxplus/nx-boot-gradle capabilities', async () => {
+  beforeAll(async () => {
     ensureNxProject('@jnxplus/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+    patchPackageJsonForPlugin(
+      'prettier-plugin-java',
+      'node_modules/prettier-plugin-java'
+    );
+    patchPackageJsonForPlugin(
+      '@jnxplus/checkstyle',
+      'node_modules/@jnxplus/checkstyle'
+    );
+    runPackageManagerInstall();
 
+    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+  }, 120000);
+
+  it('should init the workspace with @jnxplus/nx-boot-gradle capabilities', async () => {
     // Making sure the package.json file contains the @jnxplus/nx-boot-gradle dependency
     const packageJson = readJson('package.json');
     expect(packageJson.devDependencies['@jnxplus/nx-boot-gradle']).toBeTruthy();
@@ -38,15 +50,6 @@ describe('nx-boot-gradle e2e', () => {
 
   it('should create an application', async () => {
     const appName = uniq('boot-gradle-app-');
-
-    ensureNxProject('@jnxplus/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
-    patchPackageJsonForPlugin(
-      '@jnxplus/checkstyle',
-      'node_modules/@jnxplus/checkstyle'
-    );
-    runPackageManagerInstall();
-
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName}`
@@ -96,15 +99,6 @@ describe('nx-boot-gradle e2e', () => {
 
   it('should create an application with the specified properties', async () => {
     const appName = uniq('boot-gradle-app-');
-
-    ensureNxProject('@jnxplus/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
-    patchPackageJsonForPlugin(
-      '@jnxplus/checkstyle',
-      'node_modules/@jnxplus/checkstyle'
-    );
-    runPackageManagerInstall();
-
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName}  --tags e2etag,e2ePackage --directory subdir --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml`
@@ -165,15 +159,6 @@ describe('nx-boot-gradle e2e', () => {
   it('--an app with aliases', async () => {
     const appName = uniq('boot-gradle-app-');
 
-    ensureNxProject('@jnxplus/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
-    patchPackageJsonForPlugin(
-      '@jnxplus/checkstyle',
-      'node_modules/@jnxplus/checkstyle'
-    );
-    runPackageManagerInstall();
-
-    await runNxCommandAsync(`g @jnxplus/nx-boot-gradle:init`);
-
     await runNxCommandAsync(
       `g @jnxplus/nx-boot-gradle:app ${appName}  --t e2etag,e2ePackage --dir subdir --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml`
     );
@@ -233,15 +218,6 @@ describe('nx-boot-gradle e2e', () => {
   it('should create a library', async () => {
     const libName = uniq('boot-gradle-lib-');
 
-    ensureNxProject('@jnxplus/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
-    patchPackageJsonForPlugin(
-      '@jnxplus/checkstyle',
-      'node_modules/@jnxplus/checkstyle'
-    );
-    runPackageManagerInstall();
-
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
-
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:library ${libName}`
     );
@@ -285,15 +261,6 @@ describe('nx-boot-gradle e2e', () => {
 
   it('should create a library with the specified properties', async () => {
     const libName = uniq('boot-gradle-lib-');
-
-    ensureNxProject('@jnxplus/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
-    patchPackageJsonForPlugin(
-      '@jnxplus/checkstyle',
-      'node_modules/@jnxplus/checkstyle'
-    );
-    runPackageManagerInstall();
-
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:library ${libName} --directory subdir --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
@@ -342,13 +309,6 @@ describe('nx-boot-gradle e2e', () => {
 
   it('--a lib with aliases', async () => {
     const libName = uniq('boot-gradle-lib-');
-
-    ensureNxProject('@jnxplus/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
-    patchPackageJsonForPlugin(
-      '@jnxplus/checkstyle',
-      'node_modules/@jnxplus/checkstyle'
-    );
-    runPackageManagerInstall();
 
     await runNxCommandAsync(`g @jnxplus/nx-boot-gradle:init`);
 
@@ -400,19 +360,6 @@ describe('nx-boot-gradle e2e', () => {
   it('should add a lib to an app dependencies', async () => {
     const appName = uniq('boot-gradle-app-');
     const libName = uniq('boot-gradle-lib-');
-
-    ensureNxProject('@jnxplus/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
-    patchPackageJsonForPlugin(
-      'prettier-plugin-java',
-      'node_modules/prettier-plugin-java'
-    );
-    patchPackageJsonForPlugin(
-      '@jnxplus/checkstyle',
-      'node_modules/@jnxplus/checkstyle'
-    );
-    runPackageManagerInstall();
-
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName}`
