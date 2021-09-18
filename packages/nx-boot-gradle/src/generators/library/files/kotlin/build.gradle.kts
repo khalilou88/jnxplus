@@ -1,10 +1,10 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	id("org.springframework.boot") version "2.5.4" apply false
-	id("io.spring.dependency-management") version "1.0.11.RELEASE"
-  kotlin("jvm") version "1.5.21"
-  kotlin("plugin.spring") version "1.5.21"
+	id("org.springframework.boot") apply false
+	id("io.spring.dependency-management") 
+  id("org.jetbrains.kotlin.jvm")
+  id("org.jetbrains.kotlin.plugin.spring")
 }
 
 group = "<%= groupId %>"
