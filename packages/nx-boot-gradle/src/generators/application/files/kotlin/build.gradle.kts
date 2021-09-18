@@ -1,4 +1,10 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.io.FileInputStream
+import java.util.*
+
+val properties = Properties()
+properties.load(FileInputStream("gradle.properties"))
+val javaVersion = properties.getProperty("javaVersion")
 
 plugins {
   id("org.springframework.boot")
@@ -12,7 +18,7 @@ plugins {
 
 group = "<%= groupId %>"
 version = "<%= projectVersion %>"
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.toVersion("${javaVersion}")
 
 repositories {
   mavenCentral()
@@ -32,7 +38,7 @@ dependencies {
 tasks.withType<KotlinCompile> {
   kotlinOptions {
     freeCompilerArgs = listOf("-Xjsr305=strict")
-    jvmTarget = "11"
+    jvmTarget = "${javaVersion}"
   }
 }
 
