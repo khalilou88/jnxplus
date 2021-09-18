@@ -12,7 +12,7 @@ import {
 } from '@nrwl/nx-plugin/testing';
 
 describe('nx-boot-gradle e2e', () => {
-  beforeAll(async () => {
+  beforeEach(async () => {
     ensureNxProject('@jnxplus/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
     patchPackageJsonForPlugin(
       'prettier-plugin-java',
@@ -23,11 +23,11 @@ describe('nx-boot-gradle e2e', () => {
       'node_modules/@jnxplus/checkstyle'
     );
     runPackageManagerInstall();
-
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
   }, 120000);
 
   it('should init the workspace with @jnxplus/nx-boot-gradle capabilities', async () => {
+    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+
     // Making sure the package.json file contains the @jnxplus/nx-boot-gradle dependency
     const packageJson = readJson('package.json');
     expect(packageJson.devDependencies['@jnxplus/nx-boot-gradle']).toBeTruthy();
@@ -43,7 +43,34 @@ describe('nx-boot-gradle e2e', () => {
         'gradlew',
         'gradlew.bat',
         'gradle.properties',
-        'settings.gradle'
+        'settings.gradle',
+        'checkstyle.xml'
+      )
+    ).not.toThrow();
+  }, 120000);
+
+  it('should use dsl option when initing the workspace', async () => {
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
+    );
+
+    // Making sure the package.json file contains the @jnxplus/nx-boot-gradle dependency
+    const packageJson = readJson('package.json');
+    expect(packageJson.devDependencies['@jnxplus/nx-boot-gradle']).toBeTruthy();
+
+    // Making sure the nx.json file contains the @jnxplus/nx-boot-gradle inside the plugins section
+    const nxJson = readJson('nx.json');
+    expect(nxJson.plugins.includes('@jnxplus/nx-boot-gradle')).toBeTruthy();
+
+    expect(() =>
+      checkFilesExist(
+        'gradle/wrapper/gradle-wrapper.jar',
+        'gradle/wrapper/gradle-wrapper.properties',
+        'gradlew',
+        'gradlew.bat',
+        'gradle.properties',
+        'settings.gradle.kts',
+        'checkstyle.xml'
       )
     ).not.toThrow();
   }, 120000);
@@ -51,6 +78,7 @@ describe('nx-boot-gradle e2e', () => {
   it('should create an application', async () => {
     const appName = uniq('boot-gradle-app-');
 
+    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName}`
     );
@@ -97,8 +125,12 @@ describe('nx-boot-gradle e2e', () => {
     );
   }, 120000);
 
-  it('should create an application with the specified properties', async () => {
+  it('should use specified options to create an application', async () => {
     const appName = uniq('boot-gradle-app-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
+    );
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName}  --tags e2etag,e2ePackage --directory subdir --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml`
@@ -160,6 +192,10 @@ describe('nx-boot-gradle e2e', () => {
     const appName = uniq('boot-gradle-app-');
 
     await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
+    );
+
+    await runNxCommandAsync(
       `g @jnxplus/nx-boot-gradle:app ${appName}  --t e2etag,e2ePackage --dir subdir --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml`
     );
 
@@ -218,6 +254,8 @@ describe('nx-boot-gradle e2e', () => {
   it('should create a library', async () => {
     const libName = uniq('boot-gradle-lib-');
 
+    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:library ${libName}`
     );
@@ -261,6 +299,10 @@ describe('nx-boot-gradle e2e', () => {
 
   it('should create a library with the specified properties', async () => {
     const libName = uniq('boot-gradle-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
+    );
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:library ${libName} --directory subdir --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
@@ -360,6 +402,8 @@ describe('nx-boot-gradle e2e', () => {
   it('should add a lib to an app dependencies', async () => {
     const appName = uniq('boot-gradle-app-');
     const libName = uniq('boot-gradle-lib-');
+
+    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName}`

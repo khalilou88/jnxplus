@@ -8,9 +8,9 @@ import {
   Tree,
 } from '@nrwl/devkit';
 import * as path from 'path';
-import { NxBootGradleGeneratorSchema } from './schema';
+import { NxBootGradleAppGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends NxBootGradleGeneratorSchema {
+interface NormalizedSchema extends NxBootGradleAppGeneratorSchema {
   projectName: string;
   projectRoot: string;
   projectDirectory: string;
@@ -22,7 +22,7 @@ interface NormalizedSchema extends NxBootGradleGeneratorSchema {
 
 function normalizeOptions(
   tree: Tree,
-  options: NxBootGradleGeneratorSchema
+  options: NxBootGradleAppGeneratorSchema
 ): NormalizedSchema {
   const projectName = names(options.name).fileName;
   const projectDirectory = options.directory
@@ -71,7 +71,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
 
 export default async function (
   tree: Tree,
-  options: NxBootGradleGeneratorSchema
+  options: NxBootGradleAppGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
   addProjectConfiguration(tree, normalizedOptions.projectName, {

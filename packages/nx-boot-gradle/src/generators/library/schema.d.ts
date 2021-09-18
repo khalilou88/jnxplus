@@ -1,6 +1,6 @@
 import { LanguageType } from '../../utils/types';
 
-export interface NxBootGradleGeneratorSchema {
+export interface NxBootGradleLibGeneratorSchema {
   name: string;
   tags?: string;
   directory?: string;
