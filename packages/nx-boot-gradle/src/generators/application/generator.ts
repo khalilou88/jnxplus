@@ -104,12 +104,30 @@ export default async function (
 
 function addProjectToGradleSetting(tree: Tree, options: NormalizedSchema) {
   const filePath = `settings.gradle`;
-  const settingsContent = tree.read(filePath, 'utf-8');
-
+  const ktsFilePath = `settings.gradle.kts`;
   const regex = /.*rootProject\.name.*/;
-  const newSettingsContent = settingsContent.replace(
-    regex,
-    `$&\ninclude('${options.projectRoot.replace(new RegExp('/', 'g'), ':')}')`
+  const gradleProjectPath = options.projectRoot.replace(
+    new RegExp('/', 'g'),
+    ':'
   );
-  tree.write(filePath, newSettingsContent);
+
+  if (tree.exists(filePath)) {
+    const settingsContent = tree.read(filePath, 'utf-8');
+
+    const newSettingsContent = settingsContent.replace(
+      regex,
+      `$&\ninclude('${gradleProjectPath}')`
+    );
+    tree.write(filePath, newSettingsContent);
+  }
+
+  if (tree.exists(ktsFilePath)) {
+    const settingsContent = tree.read(ktsFilePath, 'utf-8');
+
+    const newSettingsContent = settingsContent.replace(
+      regex,
+      `$&\ninclude("${gradleProjectPath}")`
+    );
+    tree.write(ktsFilePath, newSettingsContent);
+  }
 }
