@@ -40,29 +40,6 @@
           {
             "value": "kotlin",
             "label": "Kotlin"
-          },
-          {
-            "value": "groovy",
-            "label": "Groovy"
-          }
-        ]
-      }
-    },
-    "dsl": {
-      "description": "DSL",
-      "type": "string",
-      "default": "groovy",
-      "x-prompt": {
-        "message": "Which dsl would you like to use?",
-        "type": "list",
-        "items": [
-          {
-            "value": "groovy",
-            "label": "Groovy"
-          },
-          {
-            "value": "kotlin",
-            "label": "Kotlin"
           }
         ]
       }
@@ -84,5 +61,5 @@
       "description": "Projects where the library should be added (comma delimited)"
     }
   },
-  "required": ["name", "language", "dsl", "groupId", "projectVersion"]
+  "required": ["name", "language", "groupId", "projectVersion"]
 }

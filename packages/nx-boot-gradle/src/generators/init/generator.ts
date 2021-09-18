@@ -8,13 +8,20 @@ import {
 import * as path from 'path';
 import { NxBootGradleGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends NxBootGradleGeneratorSchema {} // eslint-disable-line
+interface NormalizedSchema extends NxBootGradleGeneratorSchema {
+  kotlinExtension: string;
+}
 
 function normalizeOptions(
   tree: Tree,
   options: NxBootGradleGeneratorSchema
 ): NormalizedSchema {
-  return options;
+  const kotlinExtension = options.dsl === 'kotlin' ? '.kts' : '';
+
+  return {
+    ...options,
+    kotlinExtension,
+  };
 }
 
 function addFiles(tree: Tree, options: NormalizedSchema) {

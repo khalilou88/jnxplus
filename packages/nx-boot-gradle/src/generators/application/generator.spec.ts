@@ -8,7 +8,6 @@ describe('application generator', () => {
   const options: NxBootGradleGeneratorSchema = {
     name: 'test',
     language: 'java',
-    dsl: 'groovy',
     groupId: 'com.example',
     projectVersion: '0.0.1-SNAPSHOT',
     packaging: 'jar',

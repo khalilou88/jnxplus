@@ -5,7 +5,6 @@ export interface NxBootGradleGeneratorSchema {
   tags?: string;
   directory?: string;
   language: LanguageType;
-  dsl: DSLType;
   groupId: string;
   projectVersion: string;
   projects?: string;

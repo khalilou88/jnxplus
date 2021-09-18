@@ -1,11 +1,10 @@
-import { PackagingType } from '../../utils/types';
+import { LanguageType, PackagingType } from '../../utils/types';
 
 export interface NxBootGradleGeneratorSchema {
   name: string;
   tags?: string;
   directory?: string;
   language: LanguageType;
-  dsl: DSLType;
   groupId: string;
   projectVersion: string;
   packaging: PackagingType;

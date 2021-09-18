@@ -18,7 +18,6 @@ interface NormalizedSchema extends NxBootGradleGeneratorSchema {
   appClassName: string;
   packageName: string;
   packageDirectory: string;
-  kotlinExtension: string;
 }
 
 function normalizeOptions(
@@ -43,8 +42,6 @@ function normalizeOptions(
     '/'
   )}/${names(options.name).className.toLocaleLowerCase()}`;
 
-  const kotlinExtension = options.dsl === 'kotlin' ? '.kts' : '';
-
   return {
     ...options,
     projectName,
@@ -54,7 +51,6 @@ function normalizeOptions(
     appClassName,
     packageName,
     packageDirectory,
-    kotlinExtension,
   };
 }
 
