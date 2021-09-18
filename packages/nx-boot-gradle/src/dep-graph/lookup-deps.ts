@@ -31,20 +31,28 @@ export function processProjectGraph(
 
     if (fileExists(buildGradleFile)) {
       buildGradleContents = fs.readFileSync(buildGradleFile, 'utf-8');
+      const deps = getDependecies(buildGradleContents);
+      for (const dep of deps) {
+        const dependecyProjectName = getDependecyProjectName(dep);
+        builder.addExplicitDependency(
+          project.name,
+          join(project.data.root, 'build.gradle').replace(/\\/g, '/'),
+          dependecyProjectName
+        );
+      }
     }
 
     if (fileExists(buildGradleKtsFile)) {
       buildGradleContents = fs.readFileSync(buildGradleKtsFile, 'utf-8');
-    }
-
-    const deps = getDependecies(buildGradleContents);
-    for (const dep of deps) {
-      const dependecyProjectName = getDependecyProjectName(dep);
-      builder.addExplicitDependency(
-        project.name,
-        join(project.data.root, 'build.gradle').replace(/\\/g, '/'),
-        dependecyProjectName
-      );
+      const deps = getDependecies(buildGradleContents);
+      for (const dep of deps) {
+        const dependecyProjectName = getDependecyProjectName(dep);
+        builder.addExplicitDependency(
+          project.name,
+          join(project.data.root, 'build.gradle.kts').replace(/\\/g, '/'),
+          dependecyProjectName
+        );
+      }
     }
   }
 
