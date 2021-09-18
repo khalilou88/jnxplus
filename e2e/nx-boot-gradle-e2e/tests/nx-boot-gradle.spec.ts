@@ -351,6 +351,52 @@ describe('nx-boot-gradle e2e', () => {
     );
   }, 120000);
 
+  it('should create a kotlin library', async () => {
+    const libName = uniq('boot-gradle-lib-');
+
+    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:library ${libName} --language kotlin`
+    );
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/build.gradle.kts`,
+        `libs/${libName}/src/main/kotlin/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/HelloService.kt`,
+        `libs/${libName}/src/test/kotlin/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/TestConfiguration.kt`,
+        `libs/${libName}/src/test/kotlin/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/HelloServiceTests.kt`
+      )
+    ).not.toThrow();
+
+    // Making sure the build.gradle file contains the good informations
+    const buildGradle = readFile(`libs/${libName}/build.gradle.kts`);
+    expect(buildGradle.includes('com.example')).toBeTruthy();
+    expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    // const formatResult = await runNxCommandAsync(
+    //   `format:check --projects ${libName}`
+    // );
+    // expect(formatResult.stdout).toContain(
+    //   'Affected criteria defaulted to --base=master --head=HEAD'
+    // );
+  }, 120000);
+
   it('should create a library with the specified properties', async () => {
     const libName = uniq('boot-gradle-lib-');
 
