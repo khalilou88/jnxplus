@@ -19,6 +19,10 @@ describe('nx-boot-gradle e2e', () => {
       'node_modules/prettier-plugin-java'
     );
     patchPackageJsonForPlugin(
+      'prettier-plugin-kotlin',
+      'node_modules/prettier-plugin-kotlin'
+    );
+    patchPackageJsonForPlugin(
       '@jnxplus/checkstyle',
       'node_modules/@jnxplus/checkstyle'
     );
@@ -75,7 +79,7 @@ describe('nx-boot-gradle e2e', () => {
     ).not.toThrow();
   }, 120000);
 
-  it('should create an application', async () => {
+  it('should create an java application', async () => {
     const appName = uniq('boot-gradle-app-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
@@ -186,6 +190,56 @@ describe('nx-boot-gradle e2e', () => {
     expect(formatResult.stdout).toContain(
       'Affected criteria defaulted to --base=master --head=HEAD'
     );
+  }, 120000);
+
+  it('should create an kotlin application', async () => {
+    const appName = uniq('boot-gradle-app-');
+
+    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:application ${appName} --language kotlin`
+    );
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/build.gradle.kts`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/${
+          names(appName).className
+        }Application.kt`,
+        `apps/${appName}/src/main/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/HelloController.kt`,
+
+        `apps/${appName}/src/test/resources/application.properties`,
+        `apps/${appName}/src/test/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/HelloControllerTests.kt`
+      )
+    ).not.toThrow();
+
+    // Making sure the build.gradle file contains the good informations
+    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
+    expect(buildGradle.includes('com.example')).toBeTruthy();
+    expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    // const formatResult = await runNxCommandAsync(
+    //   `format:check --projects ${appName}`
+    // );
+    // expect(formatResult.stdout).toContain(
+    //   'Affected criteria defaulted to --base=master --head=HEAD'
+    // );
   }, 120000);
 
   it('--an app with aliases', async () => {
