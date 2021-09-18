@@ -555,5 +555,7 @@ describe('nx-boot-gradle e2e', () => {
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    await runNxCommandAsync(`dep-graph --file=output.json`);
   }, 120000);
 });

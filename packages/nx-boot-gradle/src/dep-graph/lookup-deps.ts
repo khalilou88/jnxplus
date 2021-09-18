@@ -4,8 +4,7 @@ import {
   ProjectGraphNode,
   ProjectGraphProcessorContext,
 } from '@nrwl/devkit';
-import { appRootPath } from '@nrwl/workspace/src/utils/app-root';
-import { fileExists } from '@nrwl/workspace/src/utils/fileutils';
+import { appRootPath, fileExists } from '@nrwl/tao/src/utils/app-root';
 import * as fs from 'fs';
 import { join } from 'path';
 
