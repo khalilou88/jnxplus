@@ -1,4 +1,4 @@
-# @jnxplus/nx-boot-gradle Setup
+# Setup @jnxplus/nx-boot-gradle
 
 ### 0. Prerequisites
 

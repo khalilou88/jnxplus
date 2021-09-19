@@ -1,4 +1,4 @@
-# Intro to @jnxplus/nx-boot-gradle
+# Introduction to @jnxplus/nx-boot-gradle
 
 `@jnxplus/nx-boot-gradle` help you architect, test, and build Spring boot projects inside a Nx workspace.
 

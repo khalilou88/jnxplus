@@ -2,7 +2,7 @@
 - @jnxplus/nx-boot-gradle
   - Getting started
     - [Introduction](nx-boot-gradle/getting-started/intro)
-    - [Installation](nx-boot-gradle/getting-started/setup)
+    - [Setup](nx-boot-gradle/getting-started/setup)
   - Generators
     - [Init workspace](nx-boot-gradle/generators/init)
     - [Generate an application](nx-boot-gradle/generators/application)
