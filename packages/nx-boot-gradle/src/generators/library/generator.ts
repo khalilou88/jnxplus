@@ -156,7 +156,7 @@ function addLibraryToProjects(tree: Tree, options: NormalizedSchema) {
 
       const newBuildGradleContent = buildGradleContent.replace(
         regex,
-        `$&\nimplementation project(":${gradleProjectPath}")`
+        `$&\nimplementation(project(":${gradleProjectPath}"))`
       );
       tree.write(ktsPath, newBuildGradleContent);
     }

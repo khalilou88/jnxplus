@@ -28,7 +28,8 @@
   },
   "projects": {
     "nx-boot-gradle": {
-      "tags": []
+      "tags": [],
+      "implicitDependencies": ["checkstyle", "pmd"]
     },
     "nx-boot-gradle-e2e": {
       "tags": [],
