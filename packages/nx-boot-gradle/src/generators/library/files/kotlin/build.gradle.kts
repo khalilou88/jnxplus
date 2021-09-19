@@ -1,10 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.io.FileInputStream
-import java.util.*
 
-val properties = Properties()
-properties.load(FileInputStream("gradle.properties"))
-val javaVersion: String = properties.getProperty("javaVersion")
+val javaVersion: String by project
 
 plugins {
 	id("org.springframework.boot") apply false
