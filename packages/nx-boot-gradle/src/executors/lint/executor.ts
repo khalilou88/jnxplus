@@ -15,6 +15,12 @@ export default async function runExecutor(
     )}`;
   }
 
+  if (options.linter === 'pmd') {
+    command = `java -cp ./node_modules/@jnxplus/pmd/lib/*${getClassPathDelimiter()}. net.sourceforge.pmd.PMD -R ./tools/linters/pmd.xml -d ${getProjectSourceRoot(
+      context
+    )}`;
+  }
+
   if (options.linter === 'ktlint') {
     command = `java -jar ./node_modules/@jnxplus/ktlint/ktlint ${getProjectSourceRoot(
       context
@@ -26,4 +32,9 @@ export default async function runExecutor(
 
 function getProjectSourceRoot(context: ExecutorContext) {
   return context.workspace.projects[context.projectName].sourceRoot;
+}
+
+function getClassPathDelimiter() {
+  const isWin = process.platform === 'win32';
+  return isWin ? ';' : ':';
 }

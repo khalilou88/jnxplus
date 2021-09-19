@@ -26,6 +26,7 @@ describe('nx-boot-gradle e2e', () => {
       '@jnxplus/checkstyle',
       'node_modules/@jnxplus/checkstyle'
     );
+    patchPackageJsonForPlugin('@jnxplus/pmd', 'node_modules/@jnxplus/pmd');
     patchPackageJsonForPlugin(
       '@jnxplus/ktlint',
       'node_modules/@jnxplus/ktlint'
