@@ -15,3 +15,6 @@ At the moment we provide three libraries :
 
 - `@jnxplus/pmd`
   a npm wrapper for pmd.
+
+- `@jnxplus/ktlint`
+  a npm wrapper for ktlint.
