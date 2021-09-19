@@ -29,20 +29,20 @@
       }
     },
     "dsl": {
-      "description": "DSL",
+      "description": "Build DSL",
       "type": "string",
       "default": "groovy",
       "x-prompt": {
-        "message": "Which dsl would you like to use?",
+        "message": "Which build DSL would you like to use?",
         "type": "list",
         "items": [
           {
             "value": "groovy",
-            "label": "Groovy"
+            "label": "Groovy build DSL"
           },
           {
             "value": "kotlin",
-            "label": "Kotlin"
+            "label": "Kotlin build DSL"
           }
         ]
       }
