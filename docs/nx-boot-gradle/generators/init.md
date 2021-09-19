@@ -44,6 +44,8 @@ The Build DSL.
 
 ### rootProjectName (_**required**_)
 
+Default: `boot-multi-project`
+
 Type: `string`
 
 The root project name.
