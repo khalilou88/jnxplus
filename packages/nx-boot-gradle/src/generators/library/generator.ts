@@ -97,7 +97,7 @@ export default async function (
   });
   addFiles(tree, normalizedOptions);
   addProjectToGradleSetting(tree, normalizedOptions);
-  addLibToProjects(tree, normalizedOptions);
+  addLibraryToProjects(tree, normalizedOptions);
   await formatFiles(tree);
 }
 
@@ -131,21 +131,34 @@ function addProjectToGradleSetting(tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addLibToProjects(tree: Tree, options: NormalizedSchema) {
+function addLibraryToProjects(tree: Tree, options: NormalizedSchema) {
+  const regex = /dependencies\s*{/;
+  const gradleProjectPath = options.projectRoot.replace(
+    new RegExp('/', 'g'),
+    ':'
+  );
   for (const projectName of options.parsedProjects) {
     const projectRoot = readProjectConfiguration(tree, projectName).root;
     const filePath = join(projectRoot, `build.gradle`);
+    const ktsPath = join(projectRoot, `build.gradle.kts`);
 
-    const buildGradleContent = tree.read(filePath, 'utf-8');
+    if (tree.exists(filePath)) {
+      const buildGradleContent = tree.read(filePath, 'utf-8');
+      const newBuildGradleContent = buildGradleContent.replace(
+        regex,
+        `$&\nimplementation project(':${gradleProjectPath}')`
+      );
+      tree.write(filePath, newBuildGradleContent);
+    }
 
-    const regex = /dependencies\s*{/;
-    const newBuildGradleContent = buildGradleContent.replace(
-      regex,
-      `$&\nimplementation project(':${options.projectRoot.replace(
-        new RegExp('/', 'g'),
-        ':'
-      )}')`
-    );
-    tree.write(filePath, newBuildGradleContent);
+    if (tree.exists(ktsPath)) {
+      const buildGradleContent = tree.read(ktsPath, 'utf-8');
+
+      const newBuildGradleContent = buildGradleContent.replace(
+        regex,
+        `$&\nimplementation project(":${gradleProjectPath}")`
+      );
+      tree.write(ktsPath, newBuildGradleContent);
+    }
   }
 }
