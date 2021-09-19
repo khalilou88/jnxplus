@@ -4,7 +4,7 @@ import java.util.*
 
 val properties = Properties()
 properties.load(FileInputStream("gradle.properties"))
-val javaVersion = properties.getProperty("javaVersion")
+val javaVersion: String = properties.getProperty("javaVersion")
 
 plugins {
   id("org.springframework.boot")
@@ -18,7 +18,7 @@ plugins {
 
 group = "<%= groupId %>"
 version = "<%= projectVersion %>"
-java.sourceCompatibility = JavaVersion.toVersion("${javaVersion}")
+java.sourceCompatibility = JavaVersion.toVersion(javaVersion)
 
 repositories {
   mavenCentral()
@@ -38,7 +38,7 @@ dependencies {
 tasks.withType<KotlinCompile> {
   kotlinOptions {
     freeCompilerArgs = listOf("-Xjsr305=strict")
-    jvmTarget = "${javaVersion}"
+    jvmTarget = javaVersion
   }
 }
 

@@ -558,4 +558,66 @@ describe('nx-boot-gradle e2e', () => {
 
     await runNxCommandAsync(`dep-graph --file=output.json`);
   }, 120000);
+
+  it('should add a kotlin lib to a kotlin app dependencies', async () => {
+    const appName = uniq('boot-gradle-app-');
+    const libName = uniq('boot-gradle-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:application ${appName} --language kotlin`
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:library ${libName}  --language kotlin --projects ${appName}`
+    );
+
+    // Making sure the app build.gradle file contains the lib
+    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
+    expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
+
+    // const helloControllerPath = `apps/${appName}/src/main/java/com/example/${names(
+    //   appName
+    // ).className.toLocaleLowerCase()}/HelloController.java`;
+    // const helloControllerContent = readFile(helloControllerPath);
+
+    // const regex1 = /package\s*com\.example\..*\s*;/;
+
+    // const regex2 = /public\s*class\s*HelloController\s*{/;
+
+    // const regex3 = /"Hello World!"/;
+
+    // const newHelloControllerContent = helloControllerContent
+    //   .replace(
+    //     regex1,
+    //     `$&\nimport org.springframework.beans.factory.annotation.Autowired;\nimport com.example.${names(
+    //       libName
+    //     ).className.toLocaleLowerCase()}.HelloService;`
+    //   )
+    //   .replace(regex2, '$&\n@Autowired\nprivate HelloService helloService;')
+    //   .replace(regex3, 'this.helloService.message()');
+
+    // updateFile(helloControllerPath, newHelloControllerContent);
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    // const formatResult = await runNxCommandAsync(
+    //   `format:write --projects ${appName}`
+    // );
+    // expect(formatResult.stdout).toContain(
+    //   'Affected criteria defaulted to --base=master --head=HEAD'
+    // );
+
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    await runNxCommandAsync(`dep-graph --file=output.json`);
+  }, 120000);
 });
