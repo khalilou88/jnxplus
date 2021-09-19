@@ -30,7 +30,18 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     offsetFromRoot: offsetFromRoot(tree.root),
     template: '',
   };
-  generateFiles(tree, path.join(__dirname, 'files'), '', templateOptions);
+  generateFiles(
+    tree,
+    path.join(__dirname, 'files', 'gradle'),
+    '',
+    templateOptions
+  );
+  generateFiles(
+    tree,
+    path.join(__dirname, 'files', 'linters'),
+    'tools/linters',
+    templateOptions
+  );
 }
 
 export default async function (

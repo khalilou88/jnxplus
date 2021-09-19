@@ -9,6 +9,7 @@ import {
   Tree,
 } from '@nrwl/devkit';
 import { join } from 'path';
+import { LinterType } from '../../utils/types';
 import { NxBootGradleLibGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootGradleLibGeneratorSchema {
@@ -19,6 +20,7 @@ interface NormalizedSchema extends NxBootGradleLibGeneratorSchema {
   packageName: string;
   packageDirectory: string;
   parsedProjects: string[];
+  linter?: LinterType;
 }
 
 function normalizeOptions(
@@ -46,6 +48,8 @@ function normalizeOptions(
     ? options.projects.split(',').map((s) => s.trim())
     : [];
 
+  const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
+
   return {
     ...options,
     projectName,
@@ -55,6 +59,7 @@ function normalizeOptions(
     packageName,
     packageDirectory,
     parsedProjects,
+    linter,
   };
 }
 
@@ -88,6 +93,9 @@ export default async function (
       },
       lint: {
         executor: '@jnxplus/nx-boot-gradle:lint',
+        options: {
+          linter: `${normalizedOptions.linter}`,
+        },
       },
       test: {
         executor: '@jnxplus/nx-boot-gradle:test',

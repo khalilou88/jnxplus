@@ -7,8 +7,23 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   logger.info(`Executor ran for Lint: ${JSON.stringify(options)}`);
-  const command = `java -jar ./node_modules/@jnxplus/checkstyle/checkstyle.jar -c checkstyle.xml ${
-    context.workspace.projects[context.projectName].sourceRoot
-  }`;
+  let command: string;
+
+  if (options.linter === 'checkstyle') {
+    command = `java -jar ./node_modules/@jnxplus/checkstyle/checkstyle.jar -c ./tools/linters/checkstyle.xml ${getProjectSourceRoot(
+      context
+    )}`;
+  }
+
+  if (options.linter === 'ktlint') {
+    command = `./node_modules/@jnxplus/ktlint/ktlint ${getProjectSourceRoot(
+      context
+    )}`;
+  }
+
   return runCommand(command);
+}
+
+function getProjectSourceRoot(context: ExecutorContext) {
+  return context.workspace.projects[context.projectName].sourceRoot;
 }

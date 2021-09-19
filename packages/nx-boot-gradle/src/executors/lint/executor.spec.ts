@@ -4,7 +4,9 @@ import executor from './executor';
 import { LintExecutorSchema } from './schema';
 jest.mock('../../utils/command');
 
-const options: LintExecutorSchema = {};
+const options: LintExecutorSchema = {
+  linter: 'checkstyle',
+};
 const context: ExecutorContext = {
   root: '/root',
   cwd: '/root',

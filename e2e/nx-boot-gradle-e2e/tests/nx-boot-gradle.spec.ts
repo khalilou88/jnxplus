@@ -48,7 +48,7 @@ describe('nx-boot-gradle e2e', () => {
         'gradlew.bat',
         'gradle.properties',
         'settings.gradle',
-        'checkstyle.xml'
+        'tools/linters/checkstyle.xml'
       )
     ).not.toThrow();
   }, 120000);
@@ -74,7 +74,7 @@ describe('nx-boot-gradle e2e', () => {
         'gradlew.bat',
         'gradle.properties',
         'settings.gradle.kts',
-        'checkstyle.xml'
+        'tools/linters/checkstyle.xml'
       )
     ).not.toThrow();
   }, 120000);
