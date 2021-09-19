@@ -29,7 +29,7 @@
   "projects": {
     "nx-boot-gradle": {
       "tags": [],
-      "implicitDependencies": ["checkstyle", "pmd"]
+      "implicitDependencies": ["checkstyle", "pmd", "ktlint"]
     },
     "nx-boot-gradle-e2e": {
       "tags": [],

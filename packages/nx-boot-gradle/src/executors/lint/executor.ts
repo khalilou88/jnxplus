@@ -16,7 +16,7 @@ export default async function runExecutor(
   }
 
   if (options.linter === 'ktlint') {
-    command = `./node_modules/@jnxplus/ktlint/ktlint ${getProjectSourceRoot(
+    command = `java -jar ./node_modules/@jnxplus/ktlint/ktlint ${getProjectSourceRoot(
       context
     )}`;
   }

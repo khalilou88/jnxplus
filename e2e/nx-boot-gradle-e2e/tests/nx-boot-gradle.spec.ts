@@ -26,6 +26,10 @@ describe('nx-boot-gradle e2e', () => {
       '@jnxplus/checkstyle',
       'node_modules/@jnxplus/checkstyle'
     );
+    patchPackageJsonForPlugin(
+      '@jnxplus/ktlint',
+      'node_modules/@jnxplus/ktlint'
+    );
     runPackageManagerInstall();
   }, 120000);
 

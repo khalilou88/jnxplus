@@ -17,6 +17,7 @@
   "private": false,
   "devDependencies": {
     "@jnxplus/checkstyle": "0.0.1",
+    "@jnxplus/ktlint": "0.0.1",
     "@jnxplus/pmd": "0.0.1",
     "@jscutlery/semver": "^2.8.0",
     "@nrwl/cli": "12.9.0",
