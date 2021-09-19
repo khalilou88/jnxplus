@@ -1,5 +1,8 @@
 name: CI
-on: [push]
+on:
+  push:
+    paths-ignore:
+      - '**.md'
 jobs:
   linux:
     runs-on: ubuntu-latest
@@ -10,14 +13,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Unit tests 
-        run: npm run test nx-boot-gradle 
+      - name: Unit tests
+        run: npm run test nx-boot-gradle
 
-      - name: Build 
-        run: npm run build nx-boot-gradle 
+      - name: Build
+        run: npm run build nx-boot-gradle
 
       - name: E2E tests
-        run: npm run e2e nx-boot-gradle-e2e 
+        run: npm run e2e nx-boot-gradle-e2e
 
   windows:
     runs-on: windows-latest
@@ -35,11 +38,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Unit tests 
-        run: npm run test nx-boot-gradle 
+      - name: Unit tests
+        run: npm run test nx-boot-gradle
 
-      - name: Build 
-        run: npm run build nx-boot-gradle 
+      - name: Build
+        run: npm run build nx-boot-gradle
 
       - name: E2E tests
-        run: npm run e2e nx-boot-gradle-e2e 
+        run: npm run e2e nx-boot-gradle-e2e
