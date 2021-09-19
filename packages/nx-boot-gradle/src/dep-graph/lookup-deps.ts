@@ -77,13 +77,12 @@ function isManagedProject(projectGraphNode: ProjectGraphNode<any>): boolean {
 }
 
 function getDependecies(buildGradleContents: string) {
-  const regexp = /project\((.*)\)/g;
+  const regexp = /project\s*\(['"](.*)['"]\)/g;
   return (buildGradleContents.match(regexp) || []).map((e) =>
     e.replace(regexp, '$1')
   );
 }
 
-function getDependecyProjectName(match: string) {
-  const str = match.split(':').pop();
-  return str.substring(0, str.length - 1);
+function getDependecyProjectName(gradleProjectPath: string) {
+  return gradleProjectPath.split(':').pop();
 }
