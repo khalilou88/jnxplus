@@ -4,8 +4,7 @@ import {
   ProjectGraphNode,
   ProjectGraphProcessorContext,
 } from '@nrwl/devkit';
-import { appRootPath } from '@nrwl/workspace/src/utils/app-root';
-import { fileExists } from '@nrwl/workspace/src/utils/fileutils';
+import { appRootPath, fileExists } from '@nrwl/tao/src/utils/app-root';
 import * as fs from 'fs';
 import { join } from 'path';
 
@@ -16,20 +15,40 @@ export function processProjectGraph(
   const builder = new ProjectGraphBuilder(graph);
 
   for (const project of getManagedProjects(builder.graph.nodes)) {
+    let buildGradleContents = '';
     const buildGradleFile = join(
       appRootPath,
       project.data.root,
       'build.gradle'
     );
 
+    const buildGradleKtsFile = join(
+      appRootPath,
+      project.data.root,
+      'build.gradle.kts'
+    );
+
     if (fileExists(buildGradleFile)) {
-      const contents = fs.readFileSync(buildGradleFile, 'utf-8');
-      const deps = getDependecies(contents);
+      buildGradleContents = fs.readFileSync(buildGradleFile, 'utf-8');
+      const deps = getDependecies(buildGradleContents);
       for (const dep of deps) {
         const dependecyProjectName = getDependecyProjectName(dep);
         builder.addExplicitDependency(
           project.name,
           join(project.data.root, 'build.gradle').replace(/\\/g, '/'),
+          dependecyProjectName
+        );
+      }
+    }
+
+    if (fileExists(buildGradleKtsFile)) {
+      buildGradleContents = fs.readFileSync(buildGradleKtsFile, 'utf-8');
+      const deps = getDependecies(buildGradleContents);
+      for (const dep of deps) {
+        const dependecyProjectName = getDependecyProjectName(dep);
+        builder.addExplicitDependency(
+          project.name,
+          join(project.data.root, 'build.gradle.kts').replace(/\\/g, '/'),
           dependecyProjectName
         );
       }

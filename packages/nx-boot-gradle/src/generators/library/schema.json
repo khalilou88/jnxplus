@@ -25,6 +25,25 @@
       "description": "A directory where the project is placed",
       "alias": "dir"
     },
+    "language": {
+      "description": "Language of the project",
+      "type": "string",
+      "default": "java",
+      "x-prompt": {
+        "message": "Which language would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "java",
+            "label": "Java"
+          },
+          {
+            "value": "kotlin",
+            "label": "Kotlin"
+          }
+        ]
+      }
+    },
     "groupId": {
       "type": "string",
       "default": "com.example",
@@ -42,5 +61,5 @@
       "description": "Projects where the library should be added (comma delimited)"
     }
   },
-  "required": ["name", "groupId", "projectVersion"]
+  "required": ["name", "language", "groupId", "projectVersion"]
 }

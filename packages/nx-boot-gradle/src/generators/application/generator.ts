@@ -8,9 +8,9 @@ import {
   Tree,
 } from '@nrwl/devkit';
 import * as path from 'path';
-import { NxBootGradleGeneratorSchema } from './schema';
+import { NxBootGradleAppGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends NxBootGradleGeneratorSchema {
+interface NormalizedSchema extends NxBootGradleAppGeneratorSchema {
   projectName: string;
   projectRoot: string;
   projectDirectory: string;
@@ -22,7 +22,7 @@ interface NormalizedSchema extends NxBootGradleGeneratorSchema {
 
 function normalizeOptions(
   tree: Tree,
-  options: NxBootGradleGeneratorSchema
+  options: NxBootGradleAppGeneratorSchema
 ): NormalizedSchema {
   const projectName = names(options.name).fileName;
   const projectDirectory = options.directory
@@ -63,7 +63,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(__dirname, 'files'),
+    path.join(__dirname, 'files', options.language),
     options.projectRoot,
     templateOptions
   );
@@ -71,7 +71,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
 
 export default async function (
   tree: Tree,
-  options: NxBootGradleGeneratorSchema
+  options: NxBootGradleAppGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
   addProjectConfiguration(tree, normalizedOptions.projectName, {
@@ -104,12 +104,30 @@ export default async function (
 
 function addProjectToGradleSetting(tree: Tree, options: NormalizedSchema) {
   const filePath = `settings.gradle`;
-  const settingsContent = tree.read(filePath, 'utf-8');
-
+  const ktsFilePath = `settings.gradle.kts`;
   const regex = /.*rootProject\.name.*/;
-  const newSettingsContent = settingsContent.replace(
-    regex,
-    `$&\ninclude('${options.projectRoot.replace(new RegExp('/', 'g'), ':')}')`
+  const gradleProjectPath = options.projectRoot.replace(
+    new RegExp('/', 'g'),
+    ':'
   );
-  tree.write(filePath, newSettingsContent);
+
+  if (tree.exists(filePath)) {
+    const settingsContent = tree.read(filePath, 'utf-8');
+
+    const newSettingsContent = settingsContent.replace(
+      regex,
+      `$&\ninclude('${gradleProjectPath}')`
+    );
+    tree.write(filePath, newSettingsContent);
+  }
+
+  if (tree.exists(ktsFilePath)) {
+    const settingsContent = tree.read(ktsFilePath, 'utf-8');
+
+    const newSettingsContent = settingsContent.replace(
+      regex,
+      `$&\ninclude("${gradleProjectPath}")`
+    );
+    tree.write(ktsFilePath, newSettingsContent);
+  }
 }

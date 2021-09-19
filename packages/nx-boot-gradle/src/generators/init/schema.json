@@ -28,6 +28,25 @@
         ]
       }
     },
+    "dsl": {
+      "description": "DSL",
+      "type": "string",
+      "default": "groovy",
+      "x-prompt": {
+        "message": "Which dsl would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "groovy",
+            "label": "Groovy"
+          },
+          {
+            "value": "kotlin",
+            "label": "Kotlin"
+          }
+        ]
+      }
+    },
     "rootProjectName": {
       "type": "string",
       "default": "boot-multiproject",
@@ -35,5 +54,5 @@
       "pattern": "^[a-zA-Z].*$"
     }
   },
-  "required": ["javaVersion", "rootProjectName"]
+  "required": ["javaVersion", "dsl", "rootProjectName"]
 }
