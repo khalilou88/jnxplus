@@ -27,7 +27,7 @@ I choose the version of Java supported by my operating system and the default va
 ```bash
 my-org> nx generate @jnxplus/nx-boot-gradle:init
 √ Which version of Java would you like to use? · 11
-√ What rootProjectName would you like to use? · boot-multiproject
+√ What rootProjectName would you like to use? · boot-multi-project
 CREATE checkstyle.xml
 CREATE gradle/wrapper/gradle-wrapper.jar
 CREATE gradle/wrapper/gradle-wrapper.properties

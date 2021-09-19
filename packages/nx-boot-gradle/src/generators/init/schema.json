@@ -49,7 +49,7 @@
     },
     "rootProjectName": {
       "type": "string",
-      "default": "boot-multiproject",
+      "default": "boot-multi-project",
       "x-prompt": "What rootProjectName would you like to use?",
       "pattern": "^[a-zA-Z].*$"
     }

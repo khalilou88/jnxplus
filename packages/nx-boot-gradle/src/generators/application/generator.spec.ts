@@ -18,7 +18,7 @@ describe('application generator', () => {
     appTree = createTreeWithEmptyWorkspace();
     appTree.write(
       './settings.gradle',
-      "rootProject.name = 'boot-multiproject'"
+      "rootProject.name = 'boot-multi-project'"
     );
   });
 

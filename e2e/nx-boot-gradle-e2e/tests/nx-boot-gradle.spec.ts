@@ -568,7 +568,7 @@ describe('nx-boot-gradle e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:application ${appName} --language kotlin`
+      `generate @jnxplus/nx-boot-gradle:application ${appName} --language kotlin --packaging war`
     );
 
     await runNxCommandAsync(
