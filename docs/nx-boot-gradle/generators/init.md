@@ -22,12 +22,6 @@ nx g @jnxplus/nx-boot-gradle:init --dry-run
 
 ## Options
 
-### rootProjectName (_**required**_)
-
-Type: `string`
-
-The root project name.
-
 ### javaVersion (_**required**_)
 
 Default: `11`
@@ -37,3 +31,19 @@ Type: `string`
 Possible values: `16`, `11`, `1.8`
 
 The java version for Spring Boot apps and libs. The same java version is used inside the Nx worspace.
+
+### dsl (_**required**_)
+
+Default: `groovy`
+
+Type: `string`
+
+Possible values: `groovy`, `kotlin`
+
+The Build DSL.
+
+### rootProjectName (_**required**_)
+
+Type: `string`
+
+The root project name.

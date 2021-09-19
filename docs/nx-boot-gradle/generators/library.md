@@ -36,6 +36,16 @@ Type: `string`
 
 The name of the library.
 
+### Language (_**required**_)
+
+Default: `java`
+
+Type: `string`
+
+Possible values: `java`, `kotlin`
+
+The language used for the project.
+
 ### groupId (_**required**_)
 
 Type: `string`
