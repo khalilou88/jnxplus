@@ -13,14 +13,17 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install Nx
+        run: npm install -g nx
+
       - name: Unit tests
-        run: npm run test nx-boot-gradle
+        run: npm run nx affected:test 
 
       - name: Build
-        run: npm run build nx-boot-gradle
+        run: npm run nx affected:build
 
       - name: E2E tests
-        run: npm run e2e nx-boot-gradle-e2e
+        run: npm run nx affected:e2e
 
   windows:
     runs-on: windows-latest
@@ -38,11 +41,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install Nx
+        run: npm install -g nx
+
       - name: Unit tests
-        run: npm run test nx-boot-gradle
+        run: npm run nx affected:test 
 
       - name: Build
-        run: npm run build nx-boot-gradle
+        run: npm run nx affected:build
 
       - name: E2E tests
-        run: npm run e2e nx-boot-gradle-e2e
+        run: npm run nx affected:e2e
