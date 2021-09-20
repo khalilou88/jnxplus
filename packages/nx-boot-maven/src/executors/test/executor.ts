@@ -1,0 +1,11 @@
+import { ExecutorContext, logger } from '@nrwl/devkit';
+import { getExecutable, getProjectRoot, runCommand } from '../../utils/command';
+import { TestExecutorSchema } from './schema';
+
+export default async function runExecutor(
+  options: TestExecutorSchema,
+  context: ExecutorContext
+) {
+  logger.info(`Executor ran for Test: ${JSON.stringify(options)}`);
+  return runCommand(`${getExecutable()} test -pl ${getProjectRoot(context)}`);
+}

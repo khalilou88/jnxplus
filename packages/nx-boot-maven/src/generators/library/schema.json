@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "NxBootGradleLib",
+  "title": "Create a library",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use?",
+      "pattern": "^[a-zA-Z].*$"
+    },
+    "tags": {
+      "type": "string",
+      "description": "Add tags to the project (used for linting)",
+      "alias": "t"
+    },
+    "directory": {
+      "type": "string",
+      "description": "A directory where the project is placed",
+      "alias": "dir"
+    },
+    "language": {
+      "description": "Language of the project",
+      "type": "string",
+      "default": "java",
+      "x-prompt": {
+        "message": "Which language would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "java",
+            "label": "Java"
+          },
+          {
+            "value": "kotlin",
+            "label": "Kotlin"
+          }
+        ]
+      }
+    },
+    "groupId": {
+      "type": "string",
+      "default": "com.example",
+      "x-prompt": "What groupId would you like to use?"
+    },
+    "projectVersion": {
+      "type": "string",
+      "default": "0.0.1-SNAPSHOT",
+      "description": "Version of the project to generate",
+      "alias": "v",
+      "x-prompt": "What project version would you like to use?"
+    },
+    "projects": {
+      "type": "string",
+      "description": "Projects where the library should be added (comma delimited)"
+    }
+  },
+  "required": ["name", "language", "groupId", "projectVersion"]
+}

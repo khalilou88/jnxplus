@@ -31,6 +31,7 @@
     "@nrwl/workspace": "12.9.0",
     "@types/jest": "26.0.24",
     "@types/node": "14.14.33",
+    "@types/xmldoc": "^1.1.6",
     "@typescript-eslint/eslint-plugin": "~4.28.3",
     "@typescript-eslint/parser": "~4.28.3",
     "eslint": "7.22.0",
@@ -46,6 +47,7 @@
     "typescript": "~4.3.5"
   },
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "xmldoc": "^1.1.2"
   }
 }
