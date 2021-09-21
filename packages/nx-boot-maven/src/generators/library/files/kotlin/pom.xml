@@ -13,10 +13,7 @@
 	<version><%= projectVersion %></version>
 	<name><%= projectName %></name>
 	<description>This project was generated with nx-boot-maven</description>
-  <properties>
-    <java.version>11</java.version>
-    <kotlin.version>1.5.21</kotlin.version>
-  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>

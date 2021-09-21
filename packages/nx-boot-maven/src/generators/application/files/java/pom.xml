@@ -14,10 +14,6 @@
 	<% if(packaging === 'war') { %><packaging>war</packaging><% } %>
 	<name><%= projectName %></name>
 	<description>This project was generated with nx-boot-maven</description>
-
-	<properties>
-    <java.version>11</java.version>
-  </properties>
   
   <dependencies>
     <dependency>
