@@ -6,11 +6,10 @@ import { NxBootMavenGeneratorSchema } from './schema';
 describe('init generator', () => {
   let appTree: Tree;
   const options: NxBootMavenGeneratorSchema = {
-    groupId: '',
-    projectVersion: '',
     javaVersion: '11',
-    dsl: 'groovy',
-    rootProjectName: 'test-boot-multiproject',
+    groupId: 'com.example',
+    parentProjectName: 'test-boot-multiproject',
+    parentProjectVersion: '1.0.0',
   };
 
   beforeEach(() => {

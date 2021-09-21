@@ -1,6 +1,6 @@
 name: CI Maven
 on:
-  push:
+  workflow_dispatch:
     paths-ignore:
       - '**.md'
 jobs:

@@ -11,6 +11,7 @@ import {
 import { join } from 'path';
 import { XmlDocument } from 'xmldoc';
 import { LinterType } from '../../utils/types';
+import { springBootStarterParentVersion } from '../../utils/versions';
 import { NxBootGradleLibGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootGradleLibGeneratorSchema {
@@ -22,6 +23,7 @@ interface NormalizedSchema extends NxBootGradleLibGeneratorSchema {
   packageDirectory: string;
   parsedProjects: string[];
   linter?: LinterType;
+  springBootStarterParentVersion: string;
 }
 
 function normalizeOptions(
@@ -61,6 +63,7 @@ function normalizeOptions(
     packageDirectory,
     parsedProjects,
     linter,
+    springBootStarterParentVersion,
   };
 }
 

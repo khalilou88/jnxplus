@@ -28,37 +28,18 @@
         ]
       }
     },
-    "dsl": {
-      "description": "Build DSL",
-      "type": "string",
-      "default": "groovy",
-      "x-prompt": {
-        "message": "Which build DSL would you like to use?",
-        "type": "list",
-        "items": [
-          {
-            "value": "groovy",
-            "label": "Groovy build DSL"
-          },
-          {
-            "value": "kotlin",
-            "label": "Kotlin build DSL"
-          }
-        ]
-      }
-    },
     "groupId": {
       "type": "string",
       "default": "com.example",
       "x-prompt": "What groupId would you like to use?"
     },
-    "rootProjectName": {
+    "parentProjectName": {
       "type": "string",
-      "default": "boot-multi-project",
-      "x-prompt": "What rootProjectName would you like to use?",
+      "default": "boot-multi-module",
+      "x-prompt": "What parentProjectName would you like to use?",
       "pattern": "^[a-zA-Z].*$"
     },
-    "projectVersion": {
+    "parentProjectVersion": {
       "type": "string",
       "default": "0.0.1-SNAPSHOT",
       "description": "Version of the project to generate",
@@ -66,5 +47,10 @@
       "x-prompt": "What project version would you like to use?"
     }
   },
-  "required": ["javaVersion", "dsl", "rootProjectName"]
+  "required": [
+    "javaVersion",
+    "groupId",
+    "parentProjectName",
+    "parentProjectVersion"
+  ]
 }

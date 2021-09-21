@@ -4,9 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId><%= groupId %></groupId>
-    <artifactId><%= rootProjectName %></artifactId>
-    <version><%= projectVersion %></version>
+    <artifactId><%= parentProjectName %></artifactId>
+    <version><%= parentProjectVersion %></version>
     <packaging>pom</packaging>
+
+    <properties>
+        <java.version><%= javaVersion %></java.version>
+        <kotlin.version><%= kotlinVersion %></kotlin.version>
+    </properties>
 
     <modules>
     </modules>

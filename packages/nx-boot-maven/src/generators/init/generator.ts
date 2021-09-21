@@ -6,10 +6,12 @@ import {
   updateJson,
 } from '@nrwl/devkit';
 import * as path from 'path';
+import { kotlinVersion } from '../../utils/versions';
 import { NxBootMavenGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootMavenGeneratorSchema {
   dot: string;
+  kotlinVersion: string;
 }
 
 function normalizeOptions(
@@ -21,6 +23,7 @@ function normalizeOptions(
   return {
     ...options,
     dot,
+    kotlinVersion,
   };
 }
 
@@ -62,7 +65,8 @@ function updateGitIgnore(tree: Tree) {
   const filePath = `.gitignore`;
   const contents = tree.read(filePath, 'utf-8');
 
-  const gradleIgnore = '\n# Gradle\n.gradle\nbuild';
+  const gradleIgnore =
+    '\n# Maven\ntarget/\n!.mvn/wrapper/maven-wrapper.jar\n!**/src/main/**/target/\n!**/src/test/**/target/';
 
   const newContents = contents.concat(gradleIgnore);
   tree.write(filePath, newContents);
@@ -83,7 +87,7 @@ function updatePrettierIgnore(tree: Tree) {
   const filePath = `.prettierignore`;
   const contents = tree.read(filePath, 'utf-8');
 
-  const prettierIgnore = '\n# Gradle build\nbuild';
+  const prettierIgnore = '\n# Maven target\ntarget/';
 
   const newContents = contents.concat(prettierIgnore);
   tree.write(filePath, newContents);
