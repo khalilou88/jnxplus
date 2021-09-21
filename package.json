@@ -32,6 +32,7 @@
     "@nrwl/nx-plugin": "^12.9.0",
     "@nrwl/tao": "12.9.0",
     "@nrwl/workspace": "12.9.0",
+    "@prettier/plugin-xml": "^1.0.2",
     "@types/jest": "26.0.24",
     "@types/node": "14.14.33",
     "@types/xmldoc": "^1.1.6",
