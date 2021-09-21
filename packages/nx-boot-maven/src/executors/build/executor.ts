@@ -17,9 +17,7 @@ export default async function runExecutor(
   }
 
   return runCommand(
-    `${getExecutable()} ${target} -DskipTests=true -pl ${getProjectRoot(
-      context
-    )}`
+    `${getExecutable()} ${target} -DskipTests=true -pl :${context.projectName}`
   );
 }
 

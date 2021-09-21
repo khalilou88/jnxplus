@@ -50,10 +50,10 @@ jobs:
         run: npm install
 
       - name: Unit tests
-        run: npm run affected:test -- --base=$BEFORE_SHA 
+        run: npm run affected:test --base=$BEFORE_SHA 
 
       - name: Build
-        run: npm run affected:build -- --base=$BEFORE_SHA
+        run: npm run affected:build --base=$BEFORE_SHA
 
       - name: E2E tests
-        run: npm run affected:e2e -- --base=$BEFORE_SHA
+        run: npm run affected:e2e --base=$BEFORE_SHA

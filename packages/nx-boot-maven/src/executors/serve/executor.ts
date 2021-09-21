@@ -13,7 +13,7 @@ export default async function runExecutor(
 ) {
   logger.info(`Executor ran for serve: ${JSON.stringify(options)}`);
   const result = runCommand(
-    `${getExecutable()} spring-boot:run -pl ${getProjectRoot(context)}`
+    `${getExecutable()} spring-boot:run -pl :${context.projectName}`
   );
 
   if (!result.success) {
