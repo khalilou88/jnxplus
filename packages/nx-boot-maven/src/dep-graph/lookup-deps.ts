@@ -5,8 +5,9 @@ import {
   ProjectGraphProcessorContext,
 } from '@nrwl/devkit';
 import { appRootPath, fileExists } from '@nrwl/tao/src/utils/app-root';
+import * as fs from 'fs';
 import { join } from 'path';
-import { XmlDocument, XmlElement } from 'xmldoc';
+import { XmlDocument } from 'xmldoc';
 
 export function processProjectGraph(
   graph: ProjectGraph,
@@ -57,13 +58,14 @@ function isManagedProject(projectGraphNode: ProjectGraphNode<any>): boolean {
 function getDependecies(pomXml: XmlDocument, projectNames: string[]) {
   const allDependecies = pomXml
     .childNamed('dependencies')
-    .children.map(
-      (xmlNode) => (xmlNode as XmlElement).childNamed('artifactId').val
-    );
-
+    .childrenNamed('dependency')
+    .map((dependencyXmlElement) => {
+      return dependencyXmlElement.childNamed('artifactId').val;
+    });
   return allDependecies.filter((dependecy) => projectNames.includes(dependecy));
 }
 
 function readXml(filePath: string): XmlDocument {
-  return new XmlDocument(filePath);
+  const fileText = fs.readFileSync(filePath, 'utf-8');
+  return new XmlDocument(fileText);
 }
