@@ -1,4 +1,4 @@
-name: npm publish
+name: npm publish nx boot maven
 on: [workflow_dispatch]
 jobs:
   build-and-publish:
