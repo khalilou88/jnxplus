@@ -7,5 +7,28 @@
   "private": false,
   "publishConfig": {
     "access": "public"
+  },
+  "license": "MIT",
+  "author": "Khalil LAGRIDA",
+  "homepage": "https://github.com/khalilou88/jnxplus/blob/main/packages/nx-boot-maven/README.md",
+  "bugs": {
+    "url": "https://github.com/khalilou88/jnxplus/issues"
+  },
+  "keywords": [
+    "nx",
+    "nx-workspace",
+    "nx-plugin",
+    "java",
+    "spring",
+    "spring-boot",
+    "maven",
+    "maven multi-module project"
+  ],
+  "dependencies": {
+    "@nrwl/devkit": "12.9.0",
+    "prettier-plugin-java": "^1.4.0",
+    "@jnxplus/checkstyle": "0.0.1",
+    "@jnxplus/pmd": "0.0.1",
+    "@jnxplus/ktlint": "0.0.1"
   }
 }

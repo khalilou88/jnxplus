@@ -1,12 +1,12 @@
 # Introduction to @jnxplus/nx-boot-gradle
 
-`@jnxplus/nx-boot-gradle` help you architect, test, and build Spring boot projects inside a Nx workspace.
+`@jnxplus/nx-boot-gradle` help you architect, test, and build Spring boot projects inside a Nx workspace using Grdale multi-project builds.
 
 ## Philosophy
 
 Like Nx, `@jnxplus/nx-boot-gradle` works especially for monorepos.
 
-@jnxplus/nx-boot-gradle uses Grdale multi-projects build to maintains modular units of code.
+`@jnxplus/nx-boot-gradle` uses Grdale multi-project builds to maintains modular units of code.
 
 ## Features
 

@@ -98,7 +98,6 @@
   "required": [
     "name",
     "language",
-
     "groupId",
     "projectVersion",
     "packaging",

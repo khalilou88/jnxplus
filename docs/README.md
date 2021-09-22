@@ -8,7 +8,7 @@ At the moment we provide three libraries :
   to add Spring Boot and Gradle multi-project builds capabilities to a Nx workspace.
 
 - `@jnxplus/nx-boot-maven`
-  work in progress.
+  to add Spring Boot and Maven multi-module capabilities to a Nx workspace.
 
 - `@jnxplus/chechstyle`
   a npm wrapper for chechstyle.

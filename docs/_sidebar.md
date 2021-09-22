@@ -1,5 +1,6 @@
-- [Home](/)
+- [JNxPlus](/)
 - @jnxplus/nx-boot-gradle
+
   - Getting started
     - [Introduction](nx-boot-gradle/getting-started/intro)
     - [Setup](nx-boot-gradle/getting-started/setup)
@@ -15,3 +16,20 @@
     - [Format](nx-boot-gradle/executors/format)
   - [Project graph](nx-boot-gradle/dep-graph/dep-graph)
   - [Upgrading](nx-boot-gradle/upgrading/upgrading)
+
+- @jnxplus/nx-boot-maven
+  - Getting started
+    - [Introduction](nx-boot-maven/getting-started/intro)
+    - [Setup](nx-boot-maven/getting-started/setup)
+  - Generators
+    - [Init workspace](nx-boot-maven/generators/init)
+    - [Generate an application](nx-boot-maven/generators/application)
+    - [Generate a library](nx-boot-maven/generators/library)
+  - Executors
+    - [Build](nx-boot-maven/executors/build)
+    - [Serve](nx-boot-maven/executors/serve)
+    - [Test](nx-boot-maven/executors/test)
+    - [Lint](nx-boot-maven/executors/lint)
+    - [Format](nx-boot-maven/executors/format)
+  - [Project graph](nx-boot-maven/dep-graph/dep-graph)
+  - [Upgrading](nx-boot-maven/upgrading/upgrading)
