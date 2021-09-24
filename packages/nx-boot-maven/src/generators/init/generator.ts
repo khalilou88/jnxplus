@@ -65,10 +65,10 @@ function updateGitIgnore(tree: Tree) {
   const filePath = `.gitignore`;
   const contents = tree.read(filePath, 'utf-8');
 
-  const gradleIgnore =
+  const mavenIgnore =
     '\n# Maven\ntarget/\n!.mvn/wrapper/maven-wrapper.jar\n!**/src/main/**/target/\n!**/src/test/**/target/';
 
-  const newContents = contents.concat(gradleIgnore);
+  const newContents = contents.concat(mavenIgnore);
   tree.write(filePath, newContents);
 }
 

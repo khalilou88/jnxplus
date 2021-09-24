@@ -25,7 +25,7 @@ nx g ... --dry-run
 Generate libs/myapp/mylib:
 
 ```bash
-nx g @jnxplus/nx-boot-gradle:lib mylib --directory=myapp
+nx g @jnxplus/nx-boot-maven:lib mylib --directory=myapp
 ```
 
 ## Options

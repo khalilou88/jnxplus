@@ -20,7 +20,7 @@ describe('init generator', () => {
 
   it('should run successfully', async () => {
     await generator(appTree, options);
-    const settingsGradleExists = appTree.exists('pom.xml');
-    expect(settingsGradleExists).toBeTruthy();
+    const pomXmlExists = appTree.exists('pom.xml');
+    expect(pomXmlExists).toBeTruthy();
   });
 });

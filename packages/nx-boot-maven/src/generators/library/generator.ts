@@ -12,9 +12,9 @@ import { join } from 'path';
 import { XmlDocument } from 'xmldoc';
 import { LinterType } from '../../utils/types';
 import { springBootStarterParentVersion } from '../../utils/versions';
-import { NxBootGradleLibGeneratorSchema } from './schema';
+import { NxBootMavenLibGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends NxBootGradleLibGeneratorSchema {
+interface NormalizedSchema extends NxBootMavenLibGeneratorSchema {
   projectName: string;
   projectRoot: string;
   projectDirectory: string;
@@ -28,7 +28,7 @@ interface NormalizedSchema extends NxBootGradleLibGeneratorSchema {
 
 function normalizeOptions(
   tree: Tree,
-  options: NxBootGradleLibGeneratorSchema
+  options: NxBootMavenLibGeneratorSchema
 ): NormalizedSchema {
   const projectName = names(options.name).fileName;
   const projectDirectory = options.directory
@@ -84,7 +84,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
 
 export default async function (
   tree: Tree,
-  options: NxBootGradleLibGeneratorSchema
+  options: NxBootMavenLibGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
   addProjectConfiguration(tree, normalizedOptions.projectName, {

@@ -2,11 +2,11 @@ import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 
 import generator from './generator';
-import { NxBootGradleLibGeneratorSchema } from './schema';
+import { NxBootMavenLibGeneratorSchema } from './schema';
 
 describe('library generator', () => {
   let appTree: Tree;
-  const options: NxBootGradleLibGeneratorSchema = {
+  const options: NxBootMavenLibGeneratorSchema = {
     name: 'test',
     language: 'java',
     groupId: 'com.example',

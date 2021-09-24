@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "$id": "NxBootGradleLib",
+  "$id": "NxBootMavenLib",
   "title": "Create a library",
   "type": "object",
   "properties": {
