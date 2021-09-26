@@ -14,3 +14,7 @@ Like Nx, `@jnxplus/nx-boot-maven` works especially for monorepos.
 - Code generators
 - Code sharing
 - Workspace visualizations
+
+## Learn @jnxplus/nx-boot-maven Fundamentals
+
+- [Post Walkthrough on dev.to](https://dev.to/gridou/announcing-jnxplus-nx-boot-maven-4g28)

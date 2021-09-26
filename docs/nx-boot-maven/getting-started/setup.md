@@ -1,6 +1,6 @@
 # Setup @jnxplus/nx-boot-maven
 
-### 0. Prerequisites
+## 0. Prerequisites
 
 `@jnxplus/nx-boot-maven` requires a Java 8 or higher Runtime Environment and the current Long Term Support (LTS) version of node.js.
 
