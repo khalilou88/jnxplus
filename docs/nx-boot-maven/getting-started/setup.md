@@ -14,7 +14,7 @@ This is an exampel with npm:
 npm install --save-dev @jnxplus/nx-boot-maven
 ```
 
-### 2. Init worspace with Add Spring boot and Maven support
+### 2. Init workspace with Spring boot and Maven support
 
 The following command adds Spring boot and Maven support (Maven wrapper and config files) to the workspace. This only needs to be performed once per workspace.
 
