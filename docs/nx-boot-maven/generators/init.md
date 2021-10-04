@@ -28,7 +28,7 @@ Default: `11`
 
 Type: `string`
 
-Possible values: `16`, `11`, `1.8`
+Possible values: `17`, `11`, `1.8`
 
 The java version for Spring Boot apps and libs. The same java version is used inside the Nx worspace.
 

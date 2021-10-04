@@ -6,10 +6,22 @@ import {
   updateJson,
 } from '@nrwl/devkit';
 import * as path from 'path';
+import {
+  dependencyManagementVersion,
+  kotlinJvmVersion,
+  kotlinSpringVersion,
+  kotlinVersion,
+  springBootVersion,
+} from '../../utils/versions';
 import { NxBootGradleGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootGradleGeneratorSchema {
   kotlinExtension: string;
+  springBootVersion: string;
+  dependencyManagementVersion: string;
+  kotlinVersion: string;
+  kotlinJvmVersion: string;
+  kotlinSpringVersion: string;
 }
 
 function normalizeOptions(
@@ -21,6 +33,11 @@ function normalizeOptions(
   return {
     ...options,
     kotlinExtension,
+    springBootVersion,
+    dependencyManagementVersion,
+    kotlinVersion,
+    kotlinJvmVersion,
+    kotlinSpringVersion,
   };
 }
 
