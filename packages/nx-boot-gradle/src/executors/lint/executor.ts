@@ -8,23 +8,18 @@ export default async function runExecutor(
 ) {
   logger.info(`Executor ran for Lint: ${JSON.stringify(options)}`);
   let command: string;
+  const projectSourceRoot = getProjectSourceRoot(context);
 
   if (options.linter === 'checkstyle') {
-    command = `java -jar ./node_modules/@jnxplus/checkstyle/checkstyle.jar -c ./tools/linters/checkstyle.xml ${getProjectSourceRoot(
-      context
-    )}`;
+    command = `java -jar ./node_modules/@jnxplus/checkstyle/checkstyle.jar -c ./tools/linters/checkstyle.xml ${projectSourceRoot}`;
   }
 
   if (options.linter === 'pmd') {
-    command = `java -cp ./node_modules/@jnxplus/pmd/lib/*${getClassPathDelimiter()}. net.sourceforge.pmd.PMD -R ./tools/linters/pmd.xml -d ${getProjectSourceRoot(
-      context
-    )}`;
+    command = `java -cp ./node_modules/@jnxplus/pmd/lib/*${getClassPathDelimiter()}. net.sourceforge.pmd.PMD -R ./tools/linters/pmd.xml -d ${projectSourceRoot}`;
   }
 
   if (options.linter === 'ktlint') {
-    command = `java -jar ./node_modules/@jnxplus/ktlint/ktlint ${getProjectSourceRoot(
-      context
-    )}`;
+    command = `java -jar ./node_modules/@jnxplus/ktlint/ktlint "${projectSourceRoot}/**/*.kt"`;
   }
 
   return runCommand(command);
