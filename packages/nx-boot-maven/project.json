@@ -1,0 +1,63 @@
+{
+  "root": "packages/nx-boot-maven",
+  "sourceRoot": "packages/nx-boot-maven/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/nx-boot-maven/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/nx-boot-maven"],
+      "options": {
+        "jestConfig": "packages/nx-boot-maven/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "build": {
+      "executor": "@nrwl/node:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/nx-boot-maven",
+        "tsConfig": "packages/nx-boot-maven/tsconfig.lib.json",
+        "packageJson": "packages/nx-boot-maven/package.json",
+        "main": "packages/nx-boot-maven/src/index.ts",
+        "assets": [
+          "packages/nx-boot-maven/*.md",
+          {
+            "input": "./packages/nx-boot-maven/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-boot-maven/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-boot-maven",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./packages/nx-boot-maven",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "syncVersions": false
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["checkstyle", "pmd", "ktlint"]
+}

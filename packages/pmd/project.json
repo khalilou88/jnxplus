@@ -1,0 +1,41 @@
+{
+  "root": "packages/pmd",
+  "sourceRoot": "packages/pmd/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/pmd",
+        "tsConfig": "packages/pmd/tsconfig.lib.json",
+        "packageJson": "packages/pmd/package.json",
+        "main": "packages/pmd/src/index.ts",
+        "assets": [
+          "packages/pmd/*.md",
+          {
+            "input": "./packages/pmd/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/pmd/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/pmd/pmd-bin-6.38.0",
+            "glob": "**",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "syncVersions": false
+      }
+    }
+  }
+}

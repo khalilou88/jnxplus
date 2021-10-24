@@ -26,26 +26,11 @@
       }
     ]
   },
-  "projects": {
-    "nx-boot-gradle": {
-      "tags": [],
-      "implicitDependencies": ["checkstyle", "pmd", "ktlint"]
-    },
-    "nx-boot-gradle-e2e": {
-      "tags": [],
-      "implicitDependencies": ["nx-boot-gradle"]
-    },
-    "nx-boot-maven": {
-      "tags": [],
-      "implicitDependencies": ["checkstyle", "pmd", "ktlint"]
-    },
-    "nx-boot-maven-e2e": {
-      "tags": [],
-      "implicitDependencies": ["nx-boot-maven"]
-    }
-  },
   "workspaceLayout": {
     "appsDir": "e2e",
     "libsDir": "packages"
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/workspace"
   }
 }
