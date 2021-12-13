@@ -1,0 +1,41 @@
+{
+  "root": "packages/checkstyle",
+  "sourceRoot": "packages/checkstyle/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/checkstyle",
+        "tsConfig": "packages/checkstyle/tsconfig.lib.json",
+        "packageJson": "packages/checkstyle/package.json",
+        "main": "packages/checkstyle/src/index.ts",
+        "assets": [
+          "packages/checkstyle/*.md",
+          {
+            "input": "./packages/checkstyle/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/checkstyle/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/checkstyle",
+            "glob": "checkstyle.jar",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "syncVersions": false
+      }
+    }
+  }
+}

@@ -20,6 +20,7 @@ const context: ExecutorContext = {
         sourceRoot: 'apps/wibble',
       },
     },
+    npmScope: 'test',
   },
   isVerbose: false,
 };

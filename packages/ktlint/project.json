@@ -1,0 +1,41 @@
+{
+  "root": "packages/ktlint",
+  "sourceRoot": "packages/ktlint/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/ktlint",
+        "tsConfig": "packages/ktlint/tsconfig.lib.json",
+        "packageJson": "packages/ktlint/package.json",
+        "main": "packages/ktlint/src/index.ts",
+        "assets": [
+          "packages/ktlint/*.md",
+          {
+            "input": "./packages/ktlint/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/ktlint/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/ktlint",
+            "glob": "ktlint",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "syncVersions": false
+      }
+    }
+  }
+}

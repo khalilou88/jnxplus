@@ -14,7 +14,8 @@
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "parallel": 1
       }
     }
   },
@@ -26,26 +27,11 @@
       }
     ]
   },
-  "projects": {
-    "nx-boot-gradle": {
-      "tags": [],
-      "implicitDependencies": ["checkstyle", "pmd", "ktlint"]
-    },
-    "nx-boot-gradle-e2e": {
-      "tags": [],
-      "implicitDependencies": ["nx-boot-gradle"]
-    },
-    "nx-boot-maven": {
-      "tags": [],
-      "implicitDependencies": ["checkstyle", "pmd", "ktlint"]
-    },
-    "nx-boot-maven-e2e": {
-      "tags": [],
-      "implicitDependencies": ["nx-boot-maven"]
-    }
-  },
   "workspaceLayout": {
     "appsDir": "e2e",
     "libsDir": "packages"
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/workspace"
   }
 }
