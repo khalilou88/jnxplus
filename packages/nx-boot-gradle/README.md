@@ -4,6 +4,15 @@ This plugin add Spring Boot and Gradle multi-project builds capabilities to Nx w
 
 This is a quick overview of the plugin, to know more, please viste [the documentation](https://khalilou88.github.io/jnxplus/).
 
+## Nx supported versions
+
+The supported versions are:
+
+| @jnxplus/nx-boot-gradle | Nx     |
+| ----------------------- | ------ |
+| 1.x.x                   | 13.x.x |
+| 0.x.x                   | 12.x.x |
+
 ## Getting Started
 
 ### 0. Prerequisites
