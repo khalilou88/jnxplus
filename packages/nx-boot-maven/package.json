@@ -25,7 +25,7 @@
     "maven multi-module project"
   ],
   "dependencies": {
-    "@nrwl/devkit": "12.9.0",
+    "@nrwl/devkit": "13.4.1",
     "prettier-plugin-java": "^1.4.0",
     "@prettier/plugin-xml": "^1.0.2",
     "@jnxplus/checkstyle": "0.0.1",
