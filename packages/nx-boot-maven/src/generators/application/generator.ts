@@ -10,7 +10,7 @@ import {
 import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
 import { LinterType } from '../../utils/types';
-import { springBootStarterParentVersion } from '../../utils/versions';
+import { springBootStarterParentVersion } from '@jnxplus/common/utils';
 import { NxBootMavenAppGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootMavenAppGeneratorSchema {

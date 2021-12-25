@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "checkstyle": "packages/checkstyle",
+    "common-utils": "packages/common/utils",
     "ktlint": "packages/ktlint",
     "nx-boot-gradle": "packages/nx-boot-gradle",
     "nx-boot-gradle-e2e": "e2e/nx-boot-gradle-e2e",
