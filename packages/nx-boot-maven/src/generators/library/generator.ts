@@ -11,7 +11,7 @@ import {
 import { join } from 'path';
 import { XmlDocument } from 'xmldoc';
 import { LinterType } from '../../utils/types';
-import { springBootStarterParentVersion } from '@jnxplus/common/utils';
+import { springBootStarterParentVersion } from '../../utils/versions';
 import { NxBootMavenLibGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootMavenLibGeneratorSchema {

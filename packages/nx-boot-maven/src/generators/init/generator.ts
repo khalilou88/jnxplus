@@ -6,7 +6,7 @@ import {
   updateJson,
 } from '@nrwl/devkit';
 import * as path from 'path';
-import { kotlinVersion } from '@jnxplus/common/utils';
+import { kotlinVersion } from '../../utils/versions';
 import { NxBootMavenGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootMavenGeneratorSchema {

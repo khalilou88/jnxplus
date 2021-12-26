@@ -15,7 +15,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@jnxplus/common/utils": ["packages/common/utils/src/index.ts"],
       "@jnxplus/nx-boot-gradle": ["packages/nx-boot-gradle/src/index.ts"],
       "@jnxplus/nx-boot-maven": ["packages/nx-boot-maven/src/index.ts"]
     }
