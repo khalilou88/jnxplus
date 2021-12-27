@@ -1,10 +1,5 @@
 import { ExecutorContext, logger } from '@nrwl/devkit';
-import {
-  getExecutable,
-  getProjectRoot,
-  runCommand,
-  waitForever,
-} from '../../utils/command';
+import { getExecutable, runCommand, waitForever } from '../../utils/command';
 import { ServeExecutorSchema } from './schema';
 
 export default async function runExecutor(
