@@ -23,7 +23,7 @@ export function processProjectGraph(
 
     if (fileExists(pomXmlPath)) {
       const pomXmlContent = readXml(pomXmlPath);
-      const dependecies = getDependecies(pomXmlContent, projectNames);
+      const dependecies = getDependencies(pomXmlContent, projectNames);
       for (const dependecy of dependecies) {
         builder.addExplicitDependency(
           project.name,
@@ -55,7 +55,7 @@ function isManagedProject(projectGraphNode: ProjectGraphNode<any>): boolean {
   );
 }
 
-function getDependecies(pomXml: XmlDocument, projectNames: string[]) {
+function getDependencies(pomXml: XmlDocument, projectNames: string[]) {
   const allDependecies = pomXml
     .childNamed('dependencies')
     .childrenNamed('dependency')

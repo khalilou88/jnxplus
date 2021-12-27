@@ -30,7 +30,7 @@ export function processProjectGraph(
 
     if (fileExists(buildGradleFile)) {
       buildGradleContents = fs.readFileSync(buildGradleFile, 'utf-8');
-      const deps = getDependecies(buildGradleContents);
+      const deps = getDependencies(buildGradleContents);
       for (const dep of deps) {
         const dependecyProjectName = getDependecyProjectName(dep);
         builder.addExplicitDependency(
@@ -43,7 +43,7 @@ export function processProjectGraph(
 
     if (fileExists(buildGradleKtsFile)) {
       buildGradleContents = fs.readFileSync(buildGradleKtsFile, 'utf-8');
-      const deps = getDependecies(buildGradleContents);
+      const deps = getDependencies(buildGradleContents);
       for (const dep of deps) {
         const dependecyProjectName = getDependecyProjectName(dep);
         builder.addExplicitDependency(
@@ -76,7 +76,7 @@ function isManagedProject(projectGraphNode: ProjectGraphNode<any>): boolean {
   );
 }
 
-function getDependecies(buildGradleContents: string) {
+function getDependencies(buildGradleContents: string) {
   const regexp = /project\s*\(['"](.*)['"]\)/g;
   return (buildGradleContents.match(regexp) || []).map((e) =>
     e.replace(regexp, '$1')

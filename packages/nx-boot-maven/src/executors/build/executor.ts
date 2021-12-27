@@ -1,5 +1,5 @@
 import { ExecutorContext, logger } from '@nrwl/devkit';
-import { getExecutable, getProjectRoot, runCommand } from '../../utils/command';
+import { getExecutable, runCommand } from '../../utils/command';
 import { BuildExecutorSchema } from './schema';
 
 export default async function runExecutor(
