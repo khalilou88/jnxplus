@@ -137,7 +137,7 @@ describe('nx-boot-gradle e2e', () => {
       `format:check --projects ${appName}`
     );
     expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base=main --head=HEAD'
+      'Affected criteria defaulted to --base='
     );
   }, 120000);
 
@@ -200,7 +200,7 @@ describe('nx-boot-gradle e2e', () => {
       `format:check --projects ${appName}`
     );
     expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base=main --head=HEAD'
+      'Affected criteria defaulted to --base='
     );
   }, 120000);
 
@@ -251,7 +251,7 @@ describe('nx-boot-gradle e2e', () => {
     //   `format:check --projects ${appName}`
     // );
     // expect(formatResult.stdout).toContain(
-    //   'Affected criteria defaulted to --base=main --head=HEAD'
+    //   'Affected criteria defaulted to --base='
     // );
   }, 120000);
 
@@ -314,7 +314,7 @@ describe('nx-boot-gradle e2e', () => {
       `format:check --projects ${appName}`
     );
     expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base=main --head=HEAD'
+      'Affected criteria defaulted to --base='
     );
   }, 120000);
 
@@ -360,7 +360,7 @@ describe('nx-boot-gradle e2e', () => {
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base=main --head=HEAD'
+      'Affected criteria defaulted to --base='
     );
   }, 120000);
 
@@ -406,7 +406,7 @@ describe('nx-boot-gradle e2e', () => {
     //   `format:check --projects ${libName}`
     // );
     // expect(formatResult.stdout).toContain(
-    //   'Affected criteria defaulted to --base=main --head=HEAD'
+    //   'Affected criteria defaulted to --base='
     // );
   }, 120000);
 
@@ -458,7 +458,7 @@ describe('nx-boot-gradle e2e', () => {
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base=main --head=HEAD'
+      'Affected criteria defaulted to --base='
     );
   }, 120000);
 
@@ -508,7 +508,7 @@ describe('nx-boot-gradle e2e', () => {
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base=main --head=HEAD'
+      'Affected criteria defaulted to --base='
     );
   }, 120000);
 
@@ -563,7 +563,7 @@ describe('nx-boot-gradle e2e', () => {
       `format:write --projects ${appName}`
     );
     expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base=main --head=HEAD'
+      'Affected criteria defaulted to --base='
     );
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
@@ -625,7 +625,7 @@ describe('nx-boot-gradle e2e', () => {
     //   `format:write --projects ${appName}`
     // );
     // expect(formatResult.stdout).toContain(
-    //   'Affected criteria defaulted to --base=main --head=HEAD'
+    //   'Affected criteria defaulted to --base='
     // );
 
     // const lintResult = await runNxCommandAsync(`lint ${appName}`);
