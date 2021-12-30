@@ -32,11 +32,11 @@ export function processProjectGraph(
       buildGradleContents = fs.readFileSync(buildGradleFile, 'utf-8');
       const deps = getDependencies(buildGradleContents);
       for (const dep of deps) {
-        const dependecyProjectName = getDependecyProjectName(dep);
+        const dependencyProjectName = getDependencyProjectName(dep);
         builder.addExplicitDependency(
           project.name,
           join(project.data.root, 'build.gradle').replace(/\\/g, '/'),
-          dependecyProjectName
+          dependencyProjectName
         );
       }
     }
@@ -45,11 +45,11 @@ export function processProjectGraph(
       buildGradleContents = fs.readFileSync(buildGradleKtsFile, 'utf-8');
       const deps = getDependencies(buildGradleContents);
       for (const dep of deps) {
-        const dependecyProjectName = getDependecyProjectName(dep);
+        const dependencyProjectName = getDependencyProjectName(dep);
         builder.addExplicitDependency(
           project.name,
           join(project.data.root, 'build.gradle.kts').replace(/\\/g, '/'),
-          dependecyProjectName
+          dependencyProjectName
         );
       }
     }
@@ -83,6 +83,6 @@ function getDependencies(buildGradleContents: string) {
   );
 }
 
-function getDependecyProjectName(gradleProjectPath: string) {
+function getDependencyProjectName(gradleProjectPath: string) {
   return gradleProjectPath.split(':').pop();
 }

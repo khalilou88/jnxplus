@@ -23,12 +23,12 @@ export function processProjectGraph(
 
     if (fileExists(pomXmlPath)) {
       const pomXmlContent = readXml(pomXmlPath);
-      const dependecies = getDependencies(pomXmlContent, projectNames);
-      for (const dependecy of dependecies) {
+      const dependencies = getDependencies(pomXmlContent, projectNames);
+      for (const dependency of dependencies) {
         builder.addExplicitDependency(
           project.name,
           join(project.data.root, 'pom.xml').replace(/\\/g, '/'),
-          dependecy
+          dependency
         );
       }
     }
@@ -56,13 +56,15 @@ function isManagedProject(projectGraphNode: ProjectGraphNode<any>): boolean {
 }
 
 function getDependencies(pomXml: XmlDocument, projectNames: string[]) {
-  const allDependecies = pomXml
+  const allDependencies = pomXml
     .childNamed('dependencies')
     .childrenNamed('dependency')
     .map((dependencyXmlElement) => {
       return dependencyXmlElement.childNamed('artifactId').val;
     });
-  return allDependecies.filter((dependecy) => projectNames.includes(dependecy));
+  return allDependencies.filter((dependency) =>
+    projectNames.includes(dependency)
+  );
 }
 
 function readXml(filePath: string): XmlDocument {
