@@ -1,7 +1,7 @@
 name: CI
 on:
-  push:
-    # branches: [main]
+  workflow_dispatch:
+    branches: [main]
     paths-ignore:
       - '**.md'
 env:
