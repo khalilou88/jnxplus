@@ -26,8 +26,8 @@
   ],
   "dependencies": {
     "@nrwl/devkit": "13.4.1",
-    "prettier-plugin-java": "^1.4.0",
-    "@prettier/plugin-xml": "^1.0.2",
+    "prettier-plugin-java": "^1.6.0",
+    "@prettier/plugin-xml": "^1.2.0",
     "@jnxplus/checkstyle": "0.0.1",
     "@jnxplus/pmd": "0.0.1",
     "@jnxplus/ktlint": "0.0.1"

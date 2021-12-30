@@ -83,13 +83,13 @@ function updateGitIgnore(tree: Tree) {
 }
 
 function updateNxJson(tree: Tree) {
-  updateJson(tree, 'nx.json', (pkgJson) => {
+  updateJson(tree, 'nx.json', (nxJson) => {
     // if scripts is undefined, set it to an empty array
-    pkgJson.plugins = pkgJson.plugins ?? [];
+    nxJson.plugins = nxJson.plugins ?? [];
     // add @jnxplus/nx-boot-gradle plugin
-    pkgJson.plugins.push('@jnxplus/nx-boot-gradle');
+    nxJson.plugins.push('@jnxplus/nx-boot-gradle');
     // return modified JSON object
-    return pkgJson;
+    return nxJson;
   });
 }
 
