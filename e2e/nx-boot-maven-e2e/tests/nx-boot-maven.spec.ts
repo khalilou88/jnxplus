@@ -11,6 +11,12 @@ import {
   runPackageManagerInstall,
 } from '@nrwl/nx-plugin/testing';
 
+function workaroundFixE2eTests() {
+  let nxJson = readJson('nx.json');
+  nxJson.plugins = [];
+  updateFile('nx.json', JSON.stringify(nxJson));
+}
+
 describe('nx-boot-maven e2e', () => {
   beforeEach(async () => {
     ensureNxProject('@jnxplus/nx-boot-maven', 'dist/packages/nx-boot-maven');
@@ -64,6 +70,8 @@ describe('nx-boot-maven e2e', () => {
   }, 120000);
 
   it('should create an java application', async () => {
+    workaroundFixE2eTests();
+
     const appName = uniq('boot-maven-app-');
 
     await runNxCommandAsync(
@@ -108,11 +116,13 @@ describe('nx-boot-maven e2e', () => {
       `format:check --projects ${appName}`
     );
     expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base=main --head=HEAD'
+      'Affected criteria defaulted to --base='
     );
   }, 120000);
 
   it('should use specified options to create an application', async () => {
+    workaroundFixE2eTests();
+
     const appName = uniq('boot-maven-app-');
 
     await runNxCommandAsync(
@@ -163,11 +173,13 @@ describe('nx-boot-maven e2e', () => {
       `format:check --projects ${appName}`
     );
     expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base=main --head=HEAD'
+      'Affected criteria defaulted to --base='
     );
   }, 120000);
 
   it('should create an kotlin application', async () => {
+    workaroundFixE2eTests();
+
     const appName = uniq('boot-maven-app-');
 
     await runNxCommandAsync(
@@ -216,11 +228,13 @@ describe('nx-boot-maven e2e', () => {
     //   `format:check --projects ${appName}`
     // );
     // expect(formatResult.stdout).toContain(
-    //   'Affected criteria defaulted to --base=main --head=HEAD'
+    //   'Affected criteria defaulted to --base='
     // );
   }, 120000);
 
   it('--an app with aliases', async () => {
+    workaroundFixE2eTests();
+
     const appName = uniq('boot-maven-app-');
 
     await runNxCommandAsync(
@@ -271,11 +285,13 @@ describe('nx-boot-maven e2e', () => {
       `format:check --projects ${appName}`
     );
     expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base=main --head=HEAD'
+      'Affected criteria defaulted to --base='
     );
   }, 120000);
 
   it('should create a library', async () => {
+    workaroundFixE2eTests();
+
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
@@ -315,11 +331,13 @@ describe('nx-boot-maven e2e', () => {
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base=main --head=HEAD'
+      'Affected criteria defaulted to --base='
     );
   }, 120000);
 
   it('should create a kotlin library', async () => {
+    workaroundFixE2eTests();
+
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
@@ -359,11 +377,13 @@ describe('nx-boot-maven e2e', () => {
     //   `format:check --projects ${libName}`
     // );
     // expect(formatResult.stdout).toContain(
-    //   'Affected criteria defaulted to --base=main --head=HEAD'
+    //   'Affected criteria defaulted to --base='
     // );
   }, 120000);
 
   it('should use the the specified properties to create a library', async () => {
+    workaroundFixE2eTests();
+
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
@@ -407,11 +427,13 @@ describe('nx-boot-maven e2e', () => {
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base=main --head=HEAD'
+      'Affected criteria defaulted to --base='
     );
   }, 120000);
 
   it('--a lib with aliases', async () => {
+    workaroundFixE2eTests();
+
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
@@ -455,11 +477,13 @@ describe('nx-boot-maven e2e', () => {
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base=main --head=HEAD'
+      'Affected criteria defaulted to --base='
     );
   }, 120000);
 
   it('should add a lib to an app dependencies', async () => {
+    workaroundFixE2eTests();
+
     const appName = uniq('boot-maven-app-');
     const libName = uniq('boot-maven-lib-');
 
@@ -510,7 +534,7 @@ describe('nx-boot-maven e2e', () => {
       `format:write --projects ${appName}`
     );
     expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base=main --head=HEAD'
+      'Affected criteria defaulted to --base='
     );
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
@@ -520,6 +544,8 @@ describe('nx-boot-maven e2e', () => {
   }, 120000);
 
   it('should add a kotlin lib to a kotlin app dependencies', async () => {
+    workaroundFixE2eTests();
+
     const appName = uniq('boot-maven-app-');
     const libName = uniq('boot-maven-lib-');
 
@@ -570,7 +596,7 @@ describe('nx-boot-maven e2e', () => {
     //   `format:write --projects ${appName}`
     // );
     // expect(formatResult.stdout).toContain(
-    //   'Affected criteria defaulted to --base=main --head=HEAD'
+    //   'Affected criteria defaulted to --base='
     // );
 
     // const lintResult = await runNxCommandAsync(`lint ${appName}`);

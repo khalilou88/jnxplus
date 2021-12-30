@@ -11,6 +11,12 @@ import {
   runPackageManagerInstall,
 } from '@nrwl/nx-plugin/testing';
 
+function workaroundFixE2eTests() {
+  let nxJson = readJson('nx.json');
+  nxJson.plugins = [];
+  updateFile('nx.json', JSON.stringify(nxJson));
+}
+
 describe('nx-boot-gradle e2e', () => {
   beforeEach(async () => {
     ensureNxProject('@jnxplus/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
@@ -88,6 +94,7 @@ describe('nx-boot-gradle e2e', () => {
     const appName = uniq('boot-gradle-app-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+    workaroundFixE2eTests();
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName}`
     );
@@ -130,7 +137,7 @@ describe('nx-boot-gradle e2e', () => {
       `format:check --projects ${appName}`
     );
     expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base=main --head=HEAD'
+      'Affected criteria defaulted to --base='
     );
   }, 120000);
 
@@ -140,7 +147,7 @@ describe('nx-boot-gradle e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
     );
-
+    workaroundFixE2eTests();
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName}  --tags e2etag,e2ePackage --directory subdir --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml`
     );
@@ -193,7 +200,7 @@ describe('nx-boot-gradle e2e', () => {
       `format:check --projects ${appName}`
     );
     expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base=main --head=HEAD'
+      'Affected criteria defaulted to --base='
     );
   }, 120000);
 
@@ -201,6 +208,7 @@ describe('nx-boot-gradle e2e', () => {
     const appName = uniq('boot-gradle-app-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+    workaroundFixE2eTests();
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName} --language kotlin`
     );
@@ -243,7 +251,7 @@ describe('nx-boot-gradle e2e', () => {
     //   `format:check --projects ${appName}`
     // );
     // expect(formatResult.stdout).toContain(
-    //   'Affected criteria defaulted to --base=main --head=HEAD'
+    //   'Affected criteria defaulted to --base='
     // );
   }, 120000);
 
@@ -253,7 +261,7 @@ describe('nx-boot-gradle e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
     );
-
+    workaroundFixE2eTests();
     await runNxCommandAsync(
       `g @jnxplus/nx-boot-gradle:app ${appName}  --t e2etag,e2ePackage --dir subdir --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml`
     );
@@ -306,7 +314,7 @@ describe('nx-boot-gradle e2e', () => {
       `format:check --projects ${appName}`
     );
     expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base=main --head=HEAD'
+      'Affected criteria defaulted to --base='
     );
   }, 120000);
 
@@ -314,7 +322,7 @@ describe('nx-boot-gradle e2e', () => {
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
-
+    workaroundFixE2eTests();
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:library ${libName}`
     );
@@ -352,7 +360,7 @@ describe('nx-boot-gradle e2e', () => {
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base=main --head=HEAD'
+      'Affected criteria defaulted to --base='
     );
   }, 120000);
 
@@ -360,7 +368,7 @@ describe('nx-boot-gradle e2e', () => {
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
-
+    workaroundFixE2eTests();
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:library ${libName} --language kotlin`
     );
@@ -398,7 +406,7 @@ describe('nx-boot-gradle e2e', () => {
     //   `format:check --projects ${libName}`
     // );
     // expect(formatResult.stdout).toContain(
-    //   'Affected criteria defaulted to --base=main --head=HEAD'
+    //   'Affected criteria defaulted to --base='
     // );
   }, 120000);
 
@@ -408,7 +416,7 @@ describe('nx-boot-gradle e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
     );
-
+    workaroundFixE2eTests();
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:library ${libName} --directory subdir --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
     );
@@ -450,7 +458,7 @@ describe('nx-boot-gradle e2e', () => {
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base=main --head=HEAD'
+      'Affected criteria defaulted to --base='
     );
   }, 120000);
 
@@ -458,7 +466,7 @@ describe('nx-boot-gradle e2e', () => {
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(`g @jnxplus/nx-boot-gradle:init`);
-
+    workaroundFixE2eTests();
     await runNxCommandAsync(
       `g @jnxplus/nx-boot-gradle:lib ${libName} --dir subdir --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`
     );
@@ -500,7 +508,7 @@ describe('nx-boot-gradle e2e', () => {
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base=main --head=HEAD'
+      'Affected criteria defaulted to --base='
     );
   }, 120000);
 
@@ -509,7 +517,7 @@ describe('nx-boot-gradle e2e', () => {
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
-
+    workaroundFixE2eTests();
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName}`
     );
@@ -555,7 +563,7 @@ describe('nx-boot-gradle e2e', () => {
       `format:write --projects ${appName}`
     );
     expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base=main --head=HEAD'
+      'Affected criteria defaulted to --base='
     );
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
@@ -571,7 +579,7 @@ describe('nx-boot-gradle e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
     );
-
+    workaroundFixE2eTests();
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName} --language kotlin --packaging war`
     );
@@ -617,7 +625,7 @@ describe('nx-boot-gradle e2e', () => {
     //   `format:write --projects ${appName}`
     // );
     // expect(formatResult.stdout).toContain(
-    //   'Affected criteria defaulted to --base=main --head=HEAD'
+    //   'Affected criteria defaulted to --base='
     // );
 
     // const lintResult = await runNxCommandAsync(`lint ${appName}`);
