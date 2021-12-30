@@ -91,11 +91,10 @@ describe('nx-boot-gradle e2e', () => {
   }, 120000);
 
   it('should create an java application', async () => {
-    workaroundFixE2eTests();
-
     const appName = uniq('boot-gradle-app-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+    workaroundFixE2eTests();
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName}`
     );
@@ -143,14 +142,12 @@ describe('nx-boot-gradle e2e', () => {
   }, 120000);
 
   it('should use specified options to create an application', async () => {
-    workaroundFixE2eTests();
-
     const appName = uniq('boot-gradle-app-');
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
     );
-
+    workaroundFixE2eTests();
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName}  --tags e2etag,e2ePackage --directory subdir --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml`
     );
@@ -208,11 +205,10 @@ describe('nx-boot-gradle e2e', () => {
   }, 120000);
 
   it('should create an kotlin application', async () => {
-    workaroundFixE2eTests();
-
     const appName = uniq('boot-gradle-app-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+    workaroundFixE2eTests();
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName} --language kotlin`
     );
@@ -260,14 +256,12 @@ describe('nx-boot-gradle e2e', () => {
   }, 120000);
 
   it('--an app with aliases', async () => {
-    workaroundFixE2eTests();
-
     const appName = uniq('boot-gradle-app-');
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
     );
-
+    workaroundFixE2eTests();
     await runNxCommandAsync(
       `g @jnxplus/nx-boot-gradle:app ${appName}  --t e2etag,e2ePackage --dir subdir --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml`
     );
@@ -325,12 +319,10 @@ describe('nx-boot-gradle e2e', () => {
   }, 120000);
 
   it('should create a library', async () => {
-    workaroundFixE2eTests();
-
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
-
+    workaroundFixE2eTests();
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:library ${libName}`
     );
@@ -373,12 +365,10 @@ describe('nx-boot-gradle e2e', () => {
   }, 120000);
 
   it('should create a kotlin library', async () => {
-    workaroundFixE2eTests();
-
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
-
+    workaroundFixE2eTests();
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:library ${libName} --language kotlin`
     );
@@ -421,14 +411,12 @@ describe('nx-boot-gradle e2e', () => {
   }, 120000);
 
   it('should create a library with the specified properties', async () => {
-    workaroundFixE2eTests();
-
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
     );
-
+    workaroundFixE2eTests();
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:library ${libName} --directory subdir --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
     );
@@ -475,12 +463,10 @@ describe('nx-boot-gradle e2e', () => {
   }, 120000);
 
   it('--a lib with aliases', async () => {
-    workaroundFixE2eTests();
-
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(`g @jnxplus/nx-boot-gradle:init`);
-
+    workaroundFixE2eTests();
     await runNxCommandAsync(
       `g @jnxplus/nx-boot-gradle:lib ${libName} --dir subdir --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`
     );
@@ -527,13 +513,11 @@ describe('nx-boot-gradle e2e', () => {
   }, 120000);
 
   it('should add a lib to an app dependencies', async () => {
-    workaroundFixE2eTests();
-
     const appName = uniq('boot-gradle-app-');
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
-
+    workaroundFixE2eTests();
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName}`
     );
@@ -589,15 +573,13 @@ describe('nx-boot-gradle e2e', () => {
   }, 120000);
 
   it('should add a kotlin lib to a kotlin app dependencies', async () => {
-    workaroundFixE2eTests();
-
     const appName = uniq('boot-gradle-app-');
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
     );
-
+    workaroundFixE2eTests();
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName} --language kotlin --packaging war`
     );
