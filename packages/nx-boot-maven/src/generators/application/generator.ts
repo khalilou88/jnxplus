@@ -54,7 +54,7 @@ function normalizeOptions(
   const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
 
   let workspacePath = '';
-  if (process.env.NODE_ENV === 'e2e') {
+  if (process.env.NODE_ENV === 'test') {
     workspacePath = path.join(appRootPath, 'tmp', 'nx-e2e', 'proj');
   } else {
     workspacePath = appRootPath;
