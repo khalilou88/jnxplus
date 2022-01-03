@@ -8,12 +8,11 @@ import {
   readProjectConfiguration,
   Tree,
 } from '@nrwl/devkit';
+import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
 import { LinterType } from '../../utils/types';
+import { readXml } from '../../utils/xml';
 import { NxBootMavenLibGeneratorSchema } from './schema';
-import { appRootPath } from '@nrwl/tao/src/utils/app-root';
-import * as path from 'path';
-import { readXml, readXml2 } from '../../utils/xml';
 
 interface NormalizedSchema extends NxBootMavenLibGeneratorSchema {
   projectName: string;

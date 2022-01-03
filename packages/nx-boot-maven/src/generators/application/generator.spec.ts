@@ -16,7 +16,10 @@ describe('application generator', () => {
 
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace();
-    appTree.write('./pom.xml', '<project><modules></modules></project>');
+    appTree.write(
+      './pom.xml',
+      '<project><groupId>com.example</groupId><artifactId>boot-multi-module</artifactId><version>0.0.1-SNAPSHOT</version><modules></modules></project>'
+    );
   });
 
   it('should run successfully', async () => {

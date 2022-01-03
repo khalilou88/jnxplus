@@ -7,11 +7,10 @@ import {
   offsetFromRoot,
   Tree,
 } from '@nrwl/devkit';
-import { appRootPath } from '@nrwl/tao/src/utils/app-root';
 import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
 import { LinterType } from '../../utils/types';
-import { readXml, readXml2 } from '../../utils/xml';
+import { readXml } from '../../utils/xml';
 import { NxBootMavenAppGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootMavenAppGeneratorSchema {
