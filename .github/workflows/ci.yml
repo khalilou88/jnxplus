@@ -63,7 +63,7 @@ jobs:
         run: npm run build nx-boot-maven
 
       - name: E2E tests
-        run: NODE_ENV=e2e npm run e2e nx-boot-maven-e2e
+        run: npm run e2e nx-boot-maven-e2e
 
   maven_windows:
     runs-on: windows-latest
@@ -88,4 +88,4 @@ jobs:
         run: npm run build nx-boot-maven
 
       - name: E2E tests
-        run: set "NODE_ENV=e2e" && npm run e2e nx-boot-maven-e2e
+        run: npm run e2e nx-boot-maven-e2e
