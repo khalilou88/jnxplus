@@ -64,8 +64,6 @@ jobs:
 
       - name: E2E tests
         run: npm run e2e nx-boot-maven-e2e
-        env:
-          NODE_ENV: test
 
   maven_windows:
     runs-on: windows-latest
@@ -91,5 +89,3 @@ jobs:
 
       - name: E2E tests
         run: npm run e2e nx-boot-maven-e2e
-        env:
-          NODE_ENV: test

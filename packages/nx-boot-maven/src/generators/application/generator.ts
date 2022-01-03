@@ -53,19 +53,11 @@ function normalizeOptions(
 
   const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
 
-  let workspacePath = '';
-  if (process.env.NODE_ENV === 'test') {
-    workspacePath = path.join(appRootPath, 'tmp', 'nx-e2e', 'proj');
-  } else {
-    workspacePath = appRootPath;
-  }
-
   const relativePath = path
-    .relative(projectDirectory, workspacePath)
+    .relative(projectRoot, tree.root)
     .replace(new RegExp(/\\/, 'g'), '/');
 
-  const pomXmlPath = path.join(workspacePath, 'pom.xml');
-  const pomXmlContent = readXml2(pomXmlPath);
+  const pomXmlContent = readXml(tree, 'pom.xml');
   const parentGroupId = pomXmlContent.childNamed('groupId').val;
   const parentProjectName = pomXmlContent.childNamed('artifactId').val;
   const parentProjectVersion = pomXmlContent.childNamed('version').val;
