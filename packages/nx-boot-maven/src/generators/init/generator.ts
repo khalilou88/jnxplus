@@ -8,10 +8,12 @@ import {
 import * as path from 'path';
 import { kotlinVersion } from '../../utils/versions';
 import { NxBootMavenGeneratorSchema } from './schema';
+import { springBootStarterParentVersion } from '../../utils/versions';
 
 interface NormalizedSchema extends NxBootMavenGeneratorSchema {
   dot: string;
   kotlinVersion: string;
+  springBootStarterParentVersion: string;
 }
 
 function normalizeOptions(
@@ -24,6 +26,7 @@ function normalizeOptions(
     ...options,
     dot,
     kotlinVersion,
+    springBootStarterParentVersion,
   };
 }
 

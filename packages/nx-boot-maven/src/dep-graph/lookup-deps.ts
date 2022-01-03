@@ -5,9 +5,9 @@ import {
   ProjectGraphProcessorContext,
 } from '@nrwl/devkit';
 import { appRootPath, fileExists } from '@nrwl/tao/src/utils/app-root';
-import * as fs from 'fs';
 import { join } from 'path';
 import { XmlDocument } from 'xmldoc';
+import { readXml2 } from '../utils/xml';
 
 export function processProjectGraph(
   graph: ProjectGraph,
@@ -22,7 +22,7 @@ export function processProjectGraph(
     const pomXmlPath = join(appRootPath, project.data.root, 'pom.xml');
 
     if (fileExists(pomXmlPath)) {
-      const pomXmlContent = readXml(pomXmlPath);
+      const pomXmlContent = readXml2(pomXmlPath);
       const dependencies = getDependencies(pomXmlContent, projectNames);
       for (const dependency of dependencies) {
         builder.addExplicitDependency(
@@ -65,9 +65,4 @@ function getDependencies(pomXml: XmlDocument, projectNames: string[]) {
   return allDependencies.filter((dependency) =>
     projectNames.includes(dependency)
   );
-}
-
-function readXml(filePath: string): XmlDocument {
-  const fileText = fs.readFileSync(filePath, 'utf-8');
-  return new XmlDocument(fileText);
 }

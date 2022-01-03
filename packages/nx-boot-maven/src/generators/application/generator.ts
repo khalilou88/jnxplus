@@ -7,10 +7,11 @@ import {
   offsetFromRoot,
   Tree,
 } from '@nrwl/devkit';
+import { appRootPath } from '@nrwl/tao/src/utils/app-root';
 import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
 import { LinterType } from '../../utils/types';
-import { springBootStarterParentVersion } from '../../utils/versions';
+import { readXml, readXml2 } from '../../utils/xml';
 import { NxBootMavenAppGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootMavenAppGeneratorSchema {
@@ -22,7 +23,10 @@ interface NormalizedSchema extends NxBootMavenAppGeneratorSchema {
   packageName: string;
   packageDirectory: string;
   linter: LinterType;
-  springBootStarterParentVersion: string;
+  parentGroupId: string;
+  parentProjectName: string;
+  parentProjectVersion: string;
+  relativePath: string;
 }
 
 function normalizeOptions(
@@ -49,6 +53,23 @@ function normalizeOptions(
 
   const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
 
+  let workspacePath = '';
+  if (process.env.NODE_ENV === 'test') {
+    workspacePath = path.join(appRootPath, 'tmp', 'nx-e2e', 'proj');
+  } else {
+    workspacePath = appRootPath;
+  }
+
+  const relativePath = path
+    .relative(projectDirectory, workspacePath)
+    .replace(new RegExp(/\\/, 'g'), '/');
+
+  const pomXmlPath = path.join(workspacePath, 'pom.xml');
+  const pomXmlContent = readXml2(pomXmlPath);
+  const parentGroupId = pomXmlContent.childNamed('groupId').val;
+  const parentProjectName = pomXmlContent.childNamed('artifactId').val;
+  const parentProjectVersion = pomXmlContent.childNamed('version').val;
+
   return {
     ...options,
     projectName,
@@ -59,7 +80,10 @@ function normalizeOptions(
     packageName,
     packageDirectory,
     linter,
-    springBootStarterParentVersion,
+    parentGroupId,
+    parentProjectName,
+    parentProjectVersion,
+    relativePath,
   };
 }
 
@@ -109,14 +133,6 @@ export default async function (
   addFiles(tree, normalizedOptions);
   addProjectToParentPomXml(tree, normalizedOptions);
   await formatFiles(tree);
-}
-
-export function readXml(tree: Tree, path: string): XmlDocument {
-  const fileText = tree.read(path)?.toString();
-  if (!fileText) {
-    throw new Error(`Unable to read ${path}`);
-  }
-  return new XmlDocument(fileText);
 }
 
 function addProjectToParentPomXml(tree: Tree, options: NormalizedSchema) {
