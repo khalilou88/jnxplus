@@ -554,7 +554,7 @@ describe('nx-boot-maven e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:library ${libName}  --language kotlin --projects ${appName}`
+      `generate @jnxplus/nx-boot-maven:library ${libName} --language kotlin --projects ${appName}`
     );
 
     // Making sure the app pom.xml file contains the lib
