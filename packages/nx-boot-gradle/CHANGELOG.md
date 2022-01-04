@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.1.0 (2022-01-04)
+
+This release contains some deps update.
+
 # 1.0.2 (2021-12-24)
 
 This release adds Nx 13 support.
