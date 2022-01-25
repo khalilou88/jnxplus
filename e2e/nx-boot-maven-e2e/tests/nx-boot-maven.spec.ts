@@ -511,8 +511,8 @@ describe('nx-boot-maven e2e', () => {
     // const buildResult = await runNxCommandAsync(`build ${appName}`);
     // expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const testResult = await runNxCommandAsync(`test ${appName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
+    // const testResult = await runNxCommandAsync(`test ${appName}`);
+    // expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`
@@ -573,8 +573,8 @@ describe('nx-boot-maven e2e', () => {
     // const buildResult = await runNxCommandAsync(`build ${appName}`);
     // expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const testResult = await runNxCommandAsync(`test ${appName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
+    // const testResult = await runNxCommandAsync(`test ${appName}`);
+    // expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(`kformat ${appName}`);
     expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
