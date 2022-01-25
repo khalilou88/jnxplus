@@ -102,26 +102,54 @@ export default async function (
   options: NxBootMavenLibGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
-  addProjectConfiguration(tree, normalizedOptions.projectName, {
-    root: normalizedOptions.projectRoot,
-    projectType: 'library',
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
-    targets: {
-      build: {
-        executor: '@jnxplus/nx-boot-maven:build',
-      },
-      lint: {
-        executor: '@jnxplus/nx-boot-maven:lint',
-        options: {
-          linter: `${normalizedOptions.linter}`,
+
+  if (options.language === 'java') {
+    addProjectConfiguration(tree, normalizedOptions.projectName, {
+      root: normalizedOptions.projectRoot,
+      projectType: 'library',
+      sourceRoot: `${normalizedOptions.projectRoot}/src`,
+      targets: {
+        build: {
+          executor: '@jnxplus/nx-boot-maven:build',
+        },
+        lint: {
+          executor: '@jnxplus/nx-boot-maven:lint',
+          options: {
+            linter: `${normalizedOptions.linter}`,
+          },
+        },
+        test: {
+          executor: '@jnxplus/nx-boot-maven:test',
         },
       },
-      test: {
-        executor: '@jnxplus/nx-boot-maven:test',
+      tags: normalizedOptions.parsedTags,
+    });
+  } else {
+    addProjectConfiguration(tree, normalizedOptions.projectName, {
+      root: normalizedOptions.projectRoot,
+      projectType: 'library',
+      sourceRoot: `${normalizedOptions.projectRoot}/src`,
+      targets: {
+        build: {
+          executor: '@jnxplus/nx-boot-maven:build',
+        },
+        lint: {
+          executor: '@jnxplus/nx-boot-maven:lint',
+          options: {
+            linter: `${normalizedOptions.linter}`,
+          },
+        },
+        test: {
+          executor: '@jnxplus/nx-boot-maven:test',
+        },
+        kformat: {
+          executor: '@jnxplus/nx-boot-maven:kformat',
+        },
       },
-    },
-    tags: normalizedOptions.parsedTags,
-  });
+      tags: normalizedOptions.parsedTags,
+    });
+  }
+
   addFiles(tree, normalizedOptions);
   addProjectToParentPomXml(tree, normalizedOptions);
   addLibraryToProjects(tree, normalizedOptions);

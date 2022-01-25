@@ -1,5 +1,5 @@
 import { ExecutorContext, logger } from '@nrwl/devkit';
-import { runCommand } from '../../utils/command';
+import { getProjectSourceRoot, runCommand } from '../../utils/command';
 import { LintExecutorSchema } from './schema';
 
 export default async function runExecutor(
@@ -19,14 +19,10 @@ export default async function runExecutor(
   }
 
   if (options.linter === 'ktlint') {
-    command = `java -jar ./node_modules/@jnxplus/ktlint/ktlint "${projectSourceRoot}/**/*.kt"`;
+    command = `java --add-opens java.base/java.lang=ALL-UNNAMED -jar ./node_modules/@jnxplus/ktlint/ktlint "${projectSourceRoot}/**/*.kt"`;
   }
 
   return runCommand(command);
-}
-
-function getProjectSourceRoot(context: ExecutorContext) {
-  return context.workspace.projects[context.projectName].sourceRoot;
 }
 
 function getClassPathDelimiter() {

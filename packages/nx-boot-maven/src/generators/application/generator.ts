@@ -98,29 +98,60 @@ export default async function (
   options: NxBootMavenAppGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
-  addProjectConfiguration(tree, normalizedOptions.projectName, {
-    root: normalizedOptions.projectRoot,
-    projectType: 'application',
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
-    targets: {
-      build: {
-        executor: '@jnxplus/nx-boot-maven:build',
-      },
-      serve: {
-        executor: '@jnxplus/nx-boot-maven:serve',
-      },
-      lint: {
-        executor: '@jnxplus/nx-boot-maven:lint',
-        options: {
-          linter: `${normalizedOptions.linter}`,
+
+  if (options.language === 'java') {
+    addProjectConfiguration(tree, normalizedOptions.projectName, {
+      root: normalizedOptions.projectRoot,
+      projectType: 'application',
+      sourceRoot: `${normalizedOptions.projectRoot}/src`,
+      targets: {
+        build: {
+          executor: '@jnxplus/nx-boot-maven:build',
+        },
+        serve: {
+          executor: '@jnxplus/nx-boot-maven:serve',
+        },
+        lint: {
+          executor: '@jnxplus/nx-boot-maven:lint',
+          options: {
+            linter: `${normalizedOptions.linter}`,
+          },
+        },
+        test: {
+          executor: '@jnxplus/nx-boot-maven:test',
         },
       },
-      test: {
-        executor: '@jnxplus/nx-boot-maven:test',
+      tags: normalizedOptions.parsedTags,
+    });
+  } else {
+    addProjectConfiguration(tree, normalizedOptions.projectName, {
+      root: normalizedOptions.projectRoot,
+      projectType: 'application',
+      sourceRoot: `${normalizedOptions.projectRoot}/src`,
+      targets: {
+        build: {
+          executor: '@jnxplus/nx-boot-maven:build',
+        },
+        serve: {
+          executor: '@jnxplus/nx-boot-maven:serve',
+        },
+        lint: {
+          executor: '@jnxplus/nx-boot-maven:lint',
+          options: {
+            linter: `${normalizedOptions.linter}`,
+          },
+        },
+        test: {
+          executor: '@jnxplus/nx-boot-maven:test',
+        },
+        kformat: {
+          executor: '@jnxplus/nx-boot-maven:kformat',
+        },
       },
-    },
-    tags: normalizedOptions.parsedTags,
-  });
+      tags: normalizedOptions.parsedTags,
+    });
+  }
+
   addFiles(tree, normalizedOptions);
   addProjectToParentPomXml(tree, normalizedOptions);
   await formatFiles(tree);
