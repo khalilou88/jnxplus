@@ -83,26 +83,54 @@ export default async function (
   options: NxBootGradleLibGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
-  addProjectConfiguration(tree, normalizedOptions.projectName, {
-    root: normalizedOptions.projectRoot,
-    projectType: 'library',
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
-    targets: {
-      build: {
-        executor: '@jnxplus/nx-boot-gradle:build',
-      },
-      lint: {
-        executor: '@jnxplus/nx-boot-gradle:lint',
-        options: {
-          linter: `${normalizedOptions.linter}`,
+
+  if (options.language === 'java') {
+    addProjectConfiguration(tree, normalizedOptions.projectName, {
+      root: normalizedOptions.projectRoot,
+      projectType: 'library',
+      sourceRoot: `${normalizedOptions.projectRoot}/src`,
+      targets: {
+        build: {
+          executor: '@jnxplus/nx-boot-gradle:build',
+        },
+        lint: {
+          executor: '@jnxplus/nx-boot-gradle:lint',
+          options: {
+            linter: `${normalizedOptions.linter}`,
+          },
+        },
+        test: {
+          executor: '@jnxplus/nx-boot-gradle:test',
         },
       },
-      test: {
-        executor: '@jnxplus/nx-boot-gradle:test',
+      tags: normalizedOptions.parsedTags,
+    });
+  } else {
+    addProjectConfiguration(tree, normalizedOptions.projectName, {
+      root: normalizedOptions.projectRoot,
+      projectType: 'library',
+      sourceRoot: `${normalizedOptions.projectRoot}/src`,
+      targets: {
+        build: {
+          executor: '@jnxplus/nx-boot-gradle:build',
+        },
+        lint: {
+          executor: '@jnxplus/nx-boot-gradle:lint',
+          options: {
+            linter: `${normalizedOptions.linter}`,
+          },
+        },
+        test: {
+          executor: '@jnxplus/nx-boot-gradle:test',
+        },
+        kformat: {
+          executor: '@jnxplus/nx-boot-gradle:kformat',
+        },
       },
-    },
-    tags: normalizedOptions.parsedTags,
-  });
+      tags: normalizedOptions.parsedTags,
+    });
+  }
+
   addFiles(tree, normalizedOptions);
   addProjectToGradleSetting(tree, normalizedOptions);
   addLibraryToProjects(tree, normalizedOptions);

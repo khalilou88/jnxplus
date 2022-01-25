@@ -25,10 +25,6 @@ describe('nx-boot-gradle e2e', () => {
       'node_modules/prettier-plugin-java'
     );
     patchPackageJsonForPlugin(
-      'prettier-plugin-kotlin',
-      'node_modules/prettier-plugin-kotlin'
-    );
-    patchPackageJsonForPlugin(
       '@jnxplus/checkstyle',
       'node_modules/@jnxplus/checkstyle'
     );
@@ -244,15 +240,11 @@ describe('nx-boot-gradle e2e', () => {
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
-    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    // expect(lintResult.stdout).toContain('Executor ran for Lint');
+    const formatResult = await runNxCommandAsync(`kformat ${appName}`);
+    expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
 
-    // const formatResult = await runNxCommandAsync(
-    //   `format:check --projects ${appName}`
-    // );
-    // expect(formatResult.stdout).toContain(
-    //   'Affected criteria defaulted to --base='
-    // );
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
   }, 120000);
 
   it('--an app with aliases', async () => {
@@ -399,15 +391,11 @@ describe('nx-boot-gradle e2e', () => {
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
-    // const lintResult = await runNxCommandAsync(`lint ${libName}`);
-    // expect(lintResult.stdout).toContain('Executor ran for Lint');
+    const formatResult = await runNxCommandAsync(`kformat ${libName}`);
+    expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
 
-    // const formatResult = await runNxCommandAsync(
-    //   `format:check --projects ${libName}`
-    // );
-    // expect(formatResult.stdout).toContain(
-    //   'Affected criteria defaulted to --base='
-    // );
+    const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
   }, 120000);
 
   it('should create a library with the specified properties', async () => {
@@ -621,15 +609,11 @@ describe('nx-boot-gradle e2e', () => {
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
-    // const formatResult = await runNxCommandAsync(
-    //   `format:write --projects ${appName}`
-    // );
-    // expect(formatResult.stdout).toContain(
-    //   'Affected criteria defaulted to --base='
-    // );
+    const formatResult = await runNxCommandAsync(`kformat ${appName}`);
+    expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
 
-    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    // expect(lintResult.stdout).toContain('Executor ran for Lint');
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     await runNxCommandAsync(`dep-graph --file=output.json`);
   }, 120000);

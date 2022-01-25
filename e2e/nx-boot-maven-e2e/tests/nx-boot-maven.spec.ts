@@ -25,10 +25,6 @@ describe('nx-boot-maven e2e', () => {
       'node_modules/prettier-plugin-java'
     );
     patchPackageJsonForPlugin(
-      'prettier-plugin-kotlin',
-      'node_modules/prettier-plugin-kotlin'
-    );
-    patchPackageJsonForPlugin(
       '@jnxplus/checkstyle',
       'node_modules/@jnxplus/checkstyle'
     );

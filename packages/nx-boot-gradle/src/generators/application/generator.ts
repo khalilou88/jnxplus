@@ -79,32 +79,66 @@ export default async function (
   options: NxBootGradleAppGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
-  addProjectConfiguration(tree, normalizedOptions.projectName, {
-    root: normalizedOptions.projectRoot,
-    projectType: 'application',
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
-    targets: {
-      build: {
-        executor: '@jnxplus/nx-boot-gradle:build',
-        options: {
-          packaging: `${normalizedOptions.packaging}`,
+
+  if (options.language === 'java') {
+    addProjectConfiguration(tree, normalizedOptions.projectName, {
+      root: normalizedOptions.projectRoot,
+      projectType: 'application',
+      sourceRoot: `${normalizedOptions.projectRoot}/src`,
+      targets: {
+        build: {
+          executor: '@jnxplus/nx-boot-gradle:build',
+          options: {
+            packaging: `${normalizedOptions.packaging}`,
+          },
+        },
+        serve: {
+          executor: '@jnxplus/nx-boot-gradle:serve',
+        },
+        lint: {
+          executor: '@jnxplus/nx-boot-gradle:lint',
+          options: {
+            linter: `${normalizedOptions.linter}`,
+          },
+        },
+        test: {
+          executor: '@jnxplus/nx-boot-gradle:test',
         },
       },
-      serve: {
-        executor: '@jnxplus/nx-boot-gradle:serve',
-      },
-      lint: {
-        executor: '@jnxplus/nx-boot-gradle:lint',
-        options: {
-          linter: `${normalizedOptions.linter}`,
+      tags: normalizedOptions.parsedTags,
+    });
+  } else {
+    addProjectConfiguration(tree, normalizedOptions.projectName, {
+      root: normalizedOptions.projectRoot,
+      projectType: 'application',
+      sourceRoot: `${normalizedOptions.projectRoot}/src`,
+      targets: {
+        build: {
+          executor: '@jnxplus/nx-boot-gradle:build',
+          options: {
+            packaging: `${normalizedOptions.packaging}`,
+          },
+        },
+        serve: {
+          executor: '@jnxplus/nx-boot-gradle:serve',
+        },
+        lint: {
+          executor: '@jnxplus/nx-boot-gradle:lint',
+          options: {
+            linter: `${normalizedOptions.linter}`,
+          },
+        },
+        test: {
+          executor: '@jnxplus/nx-boot-gradle:test',
+        },
+        kformat: {
+          executor: '@jnxplus/nx-boot-gradle:kformat',
         },
       },
-      test: {
-        executor: '@jnxplus/nx-boot-gradle:test',
-      },
-    },
-    tags: normalizedOptions.parsedTags,
-  });
+      tags: normalizedOptions.parsedTags,
+    });
+  }
+
   addFiles(tree, normalizedOptions);
   addProjectToGradleSetting(tree, normalizedOptions);
   await formatFiles(tree);

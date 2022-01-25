@@ -20,6 +20,11 @@
       "implementation": "./src/executors/test/executor",
       "schema": "./src/executors/test/schema.json",
       "description": "test executor"
+    },
+    "kformat": {
+      "implementation": "./src/executors/kformat/executor",
+      "schema": "./src/executors/kformat/schema.json",
+      "description": "kotlin format executor"
     }
   }
 }

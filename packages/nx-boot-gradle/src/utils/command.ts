@@ -32,3 +32,7 @@ export function runCommand(command: string): { success: boolean } {
     return { success: false };
   }
 }
+
+export function getProjectSourceRoot(context: ExecutorContext) {
+  return context.workspace.projects[context.projectName].sourceRoot;
+}
