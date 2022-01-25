@@ -1,5 +1,10 @@
 # Changelog
 
+# 1.2.0 (2022-01-25)
+
+- Fix lint kotlin projects
+- Add kformat to format kotlin projects
+
 # 1.1.0 (2022-01-04)
 
 - This release contains some deps update.
