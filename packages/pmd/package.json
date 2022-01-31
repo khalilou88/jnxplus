@@ -1,6 +1,6 @@
 {
   "name": "@jnxplus/pmd",
-  "version": "0.0.1",
+  "version": "6.42.0",
   "private": false,
   "publishConfig": {
     "access": "public"

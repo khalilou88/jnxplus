@@ -1,0 +1,25 @@
+name: npm publish pmd
+on: [workflow_dispatch]
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build 
+        run: npm run build pmd 
+
+      - name: Setup .npmrc file to publish to npm
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Publish 
+        run: npm publish dist/packages/pmd
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 

@@ -24,7 +24,7 @@
             "output": "./src"
           },
           {
-            "input": "./packages/pmd/pmd-bin-6.38.0",
+            "input": "./packages/pmd/pmd-bin-6.42.0",
             "glob": "**",
             "output": "."
           }
