@@ -28,8 +28,8 @@
     "@nrwl/devkit": "^13.7.1",
     "prettier-plugin-java": "^1.6.1",
     "@prettier/plugin-xml": "^1.2.0",
-    "@jnxplus/checkstyle": "^0.0.1",
-    "@jnxplus/pmd": "^0.0.1",
-    "@jnxplus/ktlint": "^0.0.1"
+    "@jnxplus/checkstyle": "^9.3.0",
+    "@jnxplus/pmd": "^6.42.0",
+    "@jnxplus/ktlint": "^0.43.2"
   }
 }
