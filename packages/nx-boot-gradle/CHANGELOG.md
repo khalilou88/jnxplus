@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.2.1 (2022-01-31)
+
+- Update lint deps
+
 # 1.2.0 (2022-01-25)
 
 - Fix lint kotlin projects
