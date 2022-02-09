@@ -45,7 +45,8 @@ nx generate @jnxplus/nx-boot-maven:init
 | Serve an application                 | `nx serve my-app-name`                                       |
 | Test a project                       | `nx test my-project-name`                                    |
 | Lint a project                       | `nx lint my-project-name`                                    |
-| Format a project                     | `nx format --projects my-project-name`                       |
+| Format a java project                | `nx format --projects my-project-name`                       |
+| Format a kotlin project              | `nx kformat my-project-name`                                 |
 | Visualize project's dependency graph | `nx dep-graph`                                               |
 
 ## License
