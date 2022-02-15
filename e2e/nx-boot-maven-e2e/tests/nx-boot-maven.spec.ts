@@ -55,7 +55,6 @@ describe('nx-boot-maven e2e', () => {
       checkFilesExist(
         '.mvn/wrapper/maven-wrapper.jar',
         '.mvn/wrapper/maven-wrapper.properties',
-        '.mvn/wrapper/MavenWrapperDownloader.java',
         'mvnw',
         'mvnw.cmd',
         'pom.xml',
