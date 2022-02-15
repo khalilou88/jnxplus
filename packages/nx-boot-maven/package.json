@@ -1,6 +1,6 @@
 {
   "name": "@jnxplus/nx-boot-maven",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "main": "src/index.js",
   "generators": "./generators.json",
   "executors": "./executors.json",
@@ -25,7 +25,7 @@
     "maven multi-module project"
   ],
   "dependencies": {
-    "@nrwl/devkit": "^13.7.1",
+    "@nrwl/devkit": "^13.8.1",
     "prettier-plugin-java": "^1.6.1",
     "@prettier/plugin-xml": "^1.2.0",
     "@jnxplus/checkstyle": "^9.3.0",
