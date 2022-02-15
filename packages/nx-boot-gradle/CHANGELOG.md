@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.3.0 (2022-02-15)
+
+- Update Gradle wrapper and spring boot versions
+
 # 1.2.1 (2022-01-31)
 
 - Update lint deps
