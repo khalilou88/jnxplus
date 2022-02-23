@@ -13,6 +13,6 @@ The supported versions are:
 
 Use https://start.spring.io/ to update Gradle wrapper.
 
-## Update Spring boot
+## Update Java and Spring boot versions
 
-Update Spring boot in the setting.gradle file located at the root folder.
+Update Java and Spring boot versions in the `gradle.properties` file located at the root folder.
