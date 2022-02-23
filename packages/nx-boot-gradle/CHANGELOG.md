@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.3.1 (2022-02-23)
+
+- Fix dep graph for libs inside folders
+
 # 1.3.0 (2022-02-15)
 
 - Update Gradle wrapper and spring boot versions
