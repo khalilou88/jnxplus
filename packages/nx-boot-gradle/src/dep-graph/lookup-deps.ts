@@ -13,8 +13,9 @@ export function processProjectGraph(
   context: ProjectGraphProcessorContext
 ): ProjectGraph {
   const builder = new ProjectGraphBuilder(graph);
+  const managedProjects = getManagedProjects(builder.graph.nodes);
 
-  for (const project of getManagedProjects(builder.graph.nodes)) {
+  for (const project of managedProjects) {
     let buildGradleContents = '';
     const buildGradleFile = join(
       appRootPath,
@@ -32,7 +33,10 @@ export function processProjectGraph(
       buildGradleContents = fs.readFileSync(buildGradleFile, 'utf-8');
       const deps = getDependencies(buildGradleContents);
       for (const dep of deps) {
-        const dependencyProjectName = getDependencyProjectName(dep);
+        const dependencyProjectName = getDependencyProjectName(
+          dep,
+          managedProjects
+        );
         builder.addExplicitDependency(
           project.name,
           join(project.data.root, 'build.gradle').replace(/\\/g, '/'),
@@ -45,7 +49,10 @@ export function processProjectGraph(
       buildGradleContents = fs.readFileSync(buildGradleKtsFile, 'utf-8');
       const deps = getDependencies(buildGradleContents);
       for (const dep of deps) {
-        const dependencyProjectName = getDependencyProjectName(dep);
+        const dependencyProjectName = getDependencyProjectName(
+          dep,
+          managedProjects
+        );
         builder.addExplicitDependency(
           project.name,
           join(project.data.root, 'build.gradle.kts').replace(/\\/g, '/'),
@@ -58,7 +65,9 @@ export function processProjectGraph(
   return builder.getUpdatedProjectGraph();
 }
 
-function getManagedProjects(nodes: Record<string, ProjectGraphNode<any>>) {
+function getManagedProjects(
+  nodes: Record<string, ProjectGraphNode<any>>
+): ProjectGraphNode<any>[] {
   return Object.entries(nodes)
     .filter((node) => isManagedProject(node[1]))
     .map((node) => node[1]);
@@ -83,6 +92,13 @@ function getDependencies(buildGradleContents: string) {
   );
 }
 
-function getDependencyProjectName(gradleProjectPath: string) {
-  return gradleProjectPath.split(':').pop();
+function getDependencyProjectName(
+  gradleProjectPath: string,
+  managedProjects: ProjectGraphNode<any>[]
+) {
+  const [, ...folders] = gradleProjectPath.split(':');
+  const root = folders.join('/');
+  const node = managedProjects.find((project) => project.data.root === root);
+
+  return node?.name || folders.pop();
 }
