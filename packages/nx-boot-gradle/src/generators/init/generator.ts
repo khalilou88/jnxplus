@@ -46,7 +46,13 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(__dirname, 'files', 'gradle'),
+    path.join(__dirname, 'files', 'gradle', 'wrapper'),
+    '',
+    templateOptions
+  );
+  generateFiles(
+    tree,
+    path.join(__dirname, 'files', 'gradle', 'config'),
     '',
     templateOptions
   );

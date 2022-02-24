@@ -86,6 +86,11 @@ describe('nx-boot-gradle e2e', () => {
     ).not.toThrow();
   }, 120000);
 
+  it('should migrate', async () => {
+    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:migrate`);
+  }, 120000);
+
   it('should create an java application', async () => {
     const appName = uniq('boot-gradle-app-');
 
