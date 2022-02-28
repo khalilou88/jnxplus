@@ -38,7 +38,13 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(__dirname, 'files', 'maven'),
+    path.join(__dirname, 'files', 'maven', 'wrapper'),
+    '',
+    templateOptions
+  );
+  generateFiles(
+    tree,
+    path.join(__dirname, 'files', 'maven', 'config'),
     '',
     templateOptions
   );
