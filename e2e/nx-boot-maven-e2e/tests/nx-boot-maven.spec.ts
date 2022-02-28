@@ -37,7 +37,7 @@ function runNxNewCommand(args?: string, silent?: boolean) {
 }
 
 describe('nx-boot-maven e2e', () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     ensureDirSync(tmpProjPath());
     cleanup();
     runNxNewCommand('', true);
