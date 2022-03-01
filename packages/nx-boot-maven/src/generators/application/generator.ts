@@ -108,6 +108,9 @@ export default async function (
         build: {
           executor: '@jnxplus/nx-boot-maven:build',
         },
+        'build-image': {
+          executor: '@jnxplus/nx-boot-maven:build-image',
+        },
         serve: {
           executor: '@jnxplus/nx-boot-maven:serve',
         },
@@ -131,6 +134,9 @@ export default async function (
       targets: {
         build: {
           executor: '@jnxplus/nx-boot-maven:build',
+        },
+        'build-image': {
+          executor: '@jnxplus/nx-boot-maven:build-image',
         },
         serve: {
           executor: '@jnxplus/nx-boot-maven:serve',
