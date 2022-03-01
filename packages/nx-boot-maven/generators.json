@@ -8,6 +8,11 @@
       "schema": "./src/generators/init/schema.json",
       "description": "init generator"
     },
+    "migrate": {
+      "factory": "./src/generators/migrate/generator",
+      "schema": "./src/generators/migrate/schema.json",
+      "description": "migrate generator"
+    },
     "application": {
       "factory": "./src/generators/application/generator",
       "schema": "./src/generators/application/schema.json",

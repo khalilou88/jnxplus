@@ -1,15 +1,19 @@
 import { names } from '@nrwl/devkit';
 import {
   checkFilesExist,
-  ensureNxProject,
-  readJson,
+  cleanup,
+  patchPackageJsonForPlugin,
   readFile,
+  readJson,
   runNxCommandAsync,
+  runPackageManagerInstall,
+  tmpProjPath,
   uniq,
   updateFile,
-  patchPackageJsonForPlugin,
-  runPackageManagerInstall,
 } from '@nrwl/nx-plugin/testing';
+import { execSync } from 'child_process';
+import { ensureDirSync } from 'fs-extra';
+import { dirname } from 'path';
 
 function workaroundFixE2eTests() {
   let nxJson = readJson('nx.json');
@@ -17,9 +21,31 @@ function workaroundFixE2eTests() {
   updateFile('nx.json', JSON.stringify(nxJson));
 }
 
+function runNxNewCommand(args?: string, silent?: boolean) {
+  const localTmpDir = dirname(tmpProjPath());
+  return execSync(
+    `node ${require.resolve(
+      '@nrwl/tao'
+    )} new proj --nx-workspace-root=${localTmpDir} --no-interactive --skip-install --collection=@nrwl/workspace --npmScope=proj --preset=empty ${
+      args || ''
+    }`,
+    {
+      cwd: localTmpDir,
+      ...(silent && false ? { stdio: ['ignore', 'ignore', 'ignore'] } : {}),
+    }
+  );
+}
+
 describe('nx-boot-gradle e2e', () => {
   beforeEach(async () => {
-    ensureNxProject('@jnxplus/nx-boot-gradle', 'dist/packages/nx-boot-gradle');
+    ensureDirSync(tmpProjPath());
+    cleanup();
+    runNxNewCommand('', true);
+
+    patchPackageJsonForPlugin(
+      '@jnxplus/nx-boot-gradle',
+      'dist/packages/nx-boot-gradle'
+    );
     patchPackageJsonForPlugin(
       'prettier-plugin-java',
       'node_modules/prettier-plugin-java'
@@ -84,6 +110,11 @@ describe('nx-boot-gradle e2e', () => {
         'tools/linters/checkstyle.xml'
       )
     ).not.toThrow();
+  }, 120000);
+
+  it('should migrate', async () => {
+    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:migrate`);
   }, 120000);
 
   it('should create an java application', async () => {
