@@ -132,6 +132,9 @@ describe('nx-boot-maven e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
+    // const buildImageResult = await runNxCommandAsync(`build-image ${appName}`);
+    // expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
+
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 

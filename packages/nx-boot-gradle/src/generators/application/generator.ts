@@ -92,6 +92,9 @@ export default async function (
             packaging: `${normalizedOptions.packaging}`,
           },
         },
+        'build-image': {
+          executor: '@jnxplus/nx-boot-gradle:build-image',
+        },
         serve: {
           executor: '@jnxplus/nx-boot-gradle:serve',
         },
@@ -118,6 +121,9 @@ export default async function (
           options: {
             packaging: `${normalizedOptions.packaging}`,
           },
+        },
+        'build-image': {
+          executor: '@jnxplus/nx-boot-gradle:build-image',
         },
         serve: {
           executor: '@jnxplus/nx-boot-gradle:serve',
