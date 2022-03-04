@@ -120,7 +120,9 @@ describe('nx-boot-gradle e2e', () => {
   it('should create an java application', async () => {
     const appName = uniq('boot-gradle-app-');
 
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:init --javaVersion 17`
+    );
     workaroundFixE2eTests();
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName}`
@@ -175,7 +177,7 @@ describe('nx-boot-gradle e2e', () => {
     const appName = uniq('boot-gradle-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
+      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin --javaVersion 1.8`
     );
     workaroundFixE2eTests();
     await runNxCommandAsync(
@@ -347,7 +349,9 @@ describe('nx-boot-gradle e2e', () => {
   it('should create a library', async () => {
     const libName = uniq('boot-gradle-lib-');
 
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:init --javaVersion 1.8`
+    );
     workaroundFixE2eTests();
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:library ${libName}`
