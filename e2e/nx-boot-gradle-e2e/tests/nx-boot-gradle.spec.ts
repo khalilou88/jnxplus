@@ -121,7 +121,7 @@ describe('nx-boot-gradle e2e', () => {
     const appName = uniq('boot-gradle-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:init --javaVersion 17`
+      `generate @jnxplus/nx-boot-gradle:init --javaVersion 1.8`
     );
     workaroundFixE2eTests();
     await runNxCommandAsync(
