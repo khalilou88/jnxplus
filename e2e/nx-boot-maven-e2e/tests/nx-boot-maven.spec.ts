@@ -65,9 +65,7 @@ describe('nx-boot-maven e2e', () => {
     );
     runPackageManagerInstall();
 
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:init --javaVersion=1.8`
-    );
+    await runNxCommandAsync(`generate @jnxplus/nx-boot-maven:init`);
   }, 120000);
 
   it('should init the workspace with @jnxplus/nx-boot-maven capabilities', async () => {

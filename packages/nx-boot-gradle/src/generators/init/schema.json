@@ -7,14 +7,14 @@
   "properties": {
     "javaVersion": {
       "description": "Java version",
-      "type": "number",
-      "default": 11,
+      "type": "string",
+      "default": "11",
       "x-prompt": {
         "message": "Which version of Java would you like to use?",
         "type": "list",
         "items": [
           {
-            "value": 17,
+            "value": "17",
             "label": "17"
           },
           {
@@ -22,7 +22,7 @@
             "label": "11"
           },
           {
-            "value": 1.8,
+            "value": "1.8",
             "label": "8"
           }
         ]
