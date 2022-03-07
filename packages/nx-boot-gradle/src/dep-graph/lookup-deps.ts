@@ -84,5 +84,5 @@ function getDependencies(buildGradleContents: string) {
 }
 
 function getDependencyProjectName(gradleProjectPath: string) {
-  return gradleProjectPath.split(':libs:').pop().replace(/:/g, '/');
+  return gradleProjectPath.split(':').pop();
 }
