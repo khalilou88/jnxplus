@@ -9,6 +9,7 @@ import {
 } from '@nrwl/devkit';
 import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
+import { normalizeName } from '../../utils/command';
 import { LinterType } from '../../utils/types';
 import { readXml } from '../../utils/xml';
 import { NxBootMavenAppGeneratorSchema } from './schema';
@@ -32,7 +33,7 @@ function normalizeOptions(
   tree: Tree,
   options: NxBootMavenAppGeneratorSchema
 ): NormalizedSchema {
-  const projectName = names(options.name).fileName;
+  const projectName = names(normalizeName(options.name)).fileName;
   const projectDirectory = options.directory
     ? `${names(options.directory).fileName}/${projectName}`
     : projectName;

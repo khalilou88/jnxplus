@@ -9,6 +9,7 @@ import {
   Tree,
 } from '@nrwl/devkit';
 import { join } from 'path';
+import { normalizeName } from '../../utils/command';
 import { LinterType } from '../../utils/types';
 import { NxBootGradleLibGeneratorSchema } from './schema';
 
@@ -27,7 +28,7 @@ function normalizeOptions(
   tree: Tree,
   options: NxBootGradleLibGeneratorSchema
 ): NormalizedSchema {
-  const projectName = names(options.name).fileName;
+  const projectName = names(normalizeName(options.name)).fileName;
   const projectDirectory = options.directory
     ? `${names(options.directory).fileName}/${projectName}`
     : projectName;
