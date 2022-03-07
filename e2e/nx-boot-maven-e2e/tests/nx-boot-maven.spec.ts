@@ -258,10 +258,12 @@ describe('nx-boot-maven e2e', () => {
   it('--an app with aliases', async () => {
     workaroundFixE2eTests();
 
-    const appName = uniq('boot-maven-app-');
+    const randomName = uniq('boot-gradle-app-');
+    const subdir = 'subdir';
+    const appName = `${subdir}-${randomName}`;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-boot-maven:app ${appName}  --t e2etag,e2ePackage --dir subdir --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml`
+      `g @jnxplus/nx-boot-maven:app ${randomName} --t e2etag,e2ePackage --dir ${subdir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml`
     );
 
     expect(() =>
@@ -455,10 +457,12 @@ describe('nx-boot-maven e2e', () => {
   it('--a lib with aliases', async () => {
     workaroundFixE2eTests();
 
-    const libName = uniq('boot-maven-lib-');
+    const randomName = uniq('boot-gradle-lib-');
+    const subdir = 'subdir';
+    const libName = `${subdir}-${randomName}`;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-boot-maven:lib ${libName} --dir subdir --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`
+      `g @jnxplus/nx-boot-maven:lib ${randomName} --dir ${subdir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`
     );
 
     expect(() =>
