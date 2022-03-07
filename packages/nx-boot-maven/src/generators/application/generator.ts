@@ -33,10 +33,13 @@ function normalizeOptions(
   tree: Tree,
   options: NxBootMavenAppGeneratorSchema
 ): NormalizedSchema {
-  const projectName = names(normalizeName(options.name)).fileName;
+  const simpleProjectName = names(normalizeName(options.name)).fileName;
   const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${projectName}`
-    : projectName;
+    ? `${names(options.directory).fileName}/${simpleProjectName}`
+    : simpleProjectName;
+  const projectName = options.directory
+    ? `${projectDirectory}-${simpleProjectName}`
+    : simpleProjectName;
   const projectRoot = `${getWorkspaceLayout(tree).appsDir}/${projectDirectory}`;
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
