@@ -284,14 +284,16 @@ describe('nx-boot-gradle e2e', () => {
   }, 120000);
 
   it('--an app with aliases', async () => {
-    const appName = uniq('boot-gradle-app-');
+    const randomName = uniq('boot-gradle-app-');
+    const subdir = 'subdir';
+    const appName = `${subdir}-${randomName}`;
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
     );
     workaroundFixE2eTests();
     await runNxCommandAsync(
-      `g @jnxplus/nx-boot-gradle:app ${appName}  --t e2etag,e2ePackage --dir subdir --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml`
+      `g @jnxplus/nx-boot-gradle:app ${randomName} --t e2etag,e2ePackage --dir ${subdir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml`
     );
 
     expect(() =>
@@ -489,12 +491,14 @@ describe('nx-boot-gradle e2e', () => {
   }, 120000);
 
   it('--a lib with aliases', async () => {
-    const libName = uniq('boot-gradle-lib-');
+    const randomName = uniq('boot-gradle-lib-');
+    const subdir = 'subdir';
+    const libName = `${subdir}-${randomName}`;
 
     await runNxCommandAsync(`g @jnxplus/nx-boot-gradle:init`);
     workaroundFixE2eTests();
     await runNxCommandAsync(
-      `g @jnxplus/nx-boot-gradle:lib ${libName} --dir subdir --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`
+      `g @jnxplus/nx-boot-gradle:lib ${randomName} --dir ${subdir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`
     );
 
     expect(() =>
