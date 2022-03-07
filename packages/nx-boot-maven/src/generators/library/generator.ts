@@ -35,24 +35,24 @@ function normalizeOptions(
   options: NxBootMavenLibGeneratorSchema
 ): NormalizedSchema {
   const simpleProjectName = names(normalizeName(options.name)).fileName;
-  const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${simpleProjectName}`
-    : simpleProjectName;
   const projectName = options.directory
-    ? `${projectDirectory}-${simpleProjectName}`
+    ? `${normalizeName(names(options.directory).fileName)}-${simpleProjectName}`
     : simpleProjectName;
+  const projectDirectory = options.directory
+    ? `${names(options.directory).fileName}/${projectName}`
+    : projectName;
   const projectRoot = `${getWorkspaceLayout(tree).libsDir}/${projectDirectory}`;
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
 
   const packageName = `${options.groupId}.${names(
-    options.name
+    projectName
   ).className.toLocaleLowerCase()}`;
   const packageDirectory = `${options.groupId.replace(
     new RegExp(/\./, 'g'),
     '/'
-  )}/${names(options.name).className.toLocaleLowerCase()}`;
+  )}/${names(projectName).className.toLocaleLowerCase()}`;
 
   const parsedProjects = options.projects
     ? options.projects.split(',').map((s) => s.trim())

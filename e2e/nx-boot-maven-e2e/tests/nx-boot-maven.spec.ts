@@ -152,10 +152,12 @@ describe('nx-boot-maven e2e', () => {
   it('should use specified options to create an application', async () => {
     workaroundFixE2eTests();
 
-    const appName = uniq('boot-maven-app-');
+    const randomName = uniq('boot-gradle-app-');
+    const subdir = 'subdir';
+    const appName = `${subdir}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:application ${appName}  --tags e2etag,e2ePackage --directory subdir --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml`
+      `generate @jnxplus/nx-boot-maven:application ${randomName} --tags e2etag,e2ePackage --directory ${subdir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml`
     );
 
     expect(() =>
@@ -401,10 +403,12 @@ describe('nx-boot-maven e2e', () => {
   it('should use the the specified properties to create a library', async () => {
     workaroundFixE2eTests();
 
-    const libName = uniq('boot-maven-lib-');
+    const randomName = uniq('boot-gradle-lib-');
+    const subdir = 'subdir';
+    const libName = `${subdir}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:library ${libName} --directory subdir --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
+      `generate @jnxplus/nx-boot-maven:library ${randomName} --directory ${subdir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
     );
 
     expect(() =>

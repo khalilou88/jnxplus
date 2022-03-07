@@ -28,25 +28,25 @@ function normalizeOptions(
   options: NxBootGradleAppGeneratorSchema
 ): NormalizedSchema {
   const simpleProjectName = names(normalizeName(options.name)).fileName;
-  const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${simpleProjectName}`
-    : simpleProjectName;
   const projectName = options.directory
-    ? `${projectDirectory}-${simpleProjectName}`
+    ? `${normalizeName(names(options.directory).fileName)}-${simpleProjectName}`
     : simpleProjectName;
+  const projectDirectory = options.directory
+    ? `${names(options.directory).fileName}/${projectName}`
+    : projectName;
   const projectRoot = `${getWorkspaceLayout(tree).appsDir}/${projectDirectory}`;
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
 
-  const appClassName = `${names(options.name).className}Application`;
+  const appClassName = `${names(projectName).className}Application`;
   const packageName = `${options.groupId}.${names(
-    options.name
+    projectName
   ).className.toLocaleLowerCase()}`;
   const packageDirectory = `${options.groupId.replace(
     new RegExp(/\./, 'g'),
     '/'
-  )}/${names(options.name).className.toLocaleLowerCase()}`;
+  )}/${names(projectName).className.toLocaleLowerCase()}`;
 
   const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
 
