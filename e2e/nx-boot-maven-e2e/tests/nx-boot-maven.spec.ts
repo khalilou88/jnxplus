@@ -13,7 +13,7 @@ import {
 } from '@nrwl/nx-plugin/testing';
 import { execSync } from 'child_process';
 import { ensureDirSync } from 'fs-extra';
-import { dirname } from 'path';
+import { dirname, join } from 'path';
 
 function workaroundFixE2eTests() {
   let nxJson = readJson('nx.json');
@@ -38,6 +38,11 @@ function runNxNewCommand(args?: string, silent?: boolean) {
 
 export function normalizeName(name: string) {
   return name.replace(/[^0-9a-zA-Z]/g, '-');
+}
+
+export function getExecutable() {
+  const isWin = process.platform === 'win32';
+  return isWin ? 'mvnw.cmd' : './mvnw';
 }
 
 describe('nx-boot-maven e2e', () => {
@@ -69,7 +74,10 @@ describe('nx-boot-maven e2e', () => {
     );
     runPackageManagerInstall();
 
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-maven:init`);
+    const parentProjectName = uniq('parent-project-name-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:init --parentProjectName ${parentProjectName}`
+    );
   }, 1200000);
 
   it('should init the workspace with @jnxplus/nx-boot-maven capabilities', async () => {
@@ -551,13 +559,20 @@ describe('nx-boot-maven e2e', () => {
 
     updateFile(helloControllerPath, newHelloControllerContent);
 
+    const localTmpDir = dirname(tmpProjPath());
+    execSync(`${getExecutable()} clean install -N`, {
+      cwd: join(localTmpDir, 'proj'),
+      stdio: [0, 1, 2],
+    });
+
+    //TODO check why we need to build the lib
     await runNxCommandAsync(`build ${libName}`);
 
-    // const buildResult = await runNxCommandAsync(`build ${appName}`);
-    // expect(buildResult.stdout).toContain('Executor ran for Build');
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    // const testResult = await runNxCommandAsync(`test ${appName}`);
-    // expect(testResult.stdout).toContain('Executor ran for Test');
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`
@@ -613,13 +628,20 @@ describe('nx-boot-maven e2e', () => {
 
     updateFile(helloControllerPath, newHelloControllerContent);
 
+    const localTmpDir = dirname(tmpProjPath());
+    execSync(`${getExecutable()} clean install -N`, {
+      cwd: join(localTmpDir, 'proj'),
+      stdio: [0, 1, 2],
+    });
+
+    //TODO check why we need to build the lib
     await runNxCommandAsync(`build ${libName}`);
 
-    // const buildResult = await runNxCommandAsync(`build ${appName}`);
-    // expect(buildResult.stdout).toContain('Executor ran for Build');
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    // const testResult = await runNxCommandAsync(`test ${appName}`);
-    // expect(testResult.stdout).toContain('Executor ran for Test');
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(`kformat ${appName}`);
     expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
