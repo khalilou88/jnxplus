@@ -1,5 +1,6 @@
 import { ExecutorContext, logger } from '@nrwl/devkit';
 import { execSync } from 'child_process';
+import { resolve } from 'path';
 
 export async function waitForever() {
   return new Promise(() => {
@@ -38,4 +39,12 @@ export function getProjectSourceRoot(context: ExecutorContext) {
 
 export function normalizeName(name: string) {
   return name.replace(/[^0-9a-zA-Z]/g, '-');
+}
+
+export function getDependencyRoot(dependency, defaultPath) {
+  try {
+    return resolve(require.resolve(dependency), '../..');
+  } catch (error) {
+    return defaultPath;
+  }
 }
