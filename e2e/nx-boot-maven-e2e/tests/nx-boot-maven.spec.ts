@@ -275,17 +275,17 @@ describe('nx-boot-maven e2e', () => {
         `apps/${appDir}/${randomName}/pom.xml`,
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          appName
+          randomName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          appName
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
+          randomName
         ).className.toLocaleLowerCase()}/HelloController.java`,
 
         `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
-          appName
+        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
+          randomName
         ).className.toLocaleLowerCase()}/HelloControllerTests.java`
       )
     ).not.toThrow();
