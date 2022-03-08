@@ -1,5 +1,11 @@
 # Changelog
 
+# 1.5.0 (2022-03-08)
+
+- new build-image executor
+- new migrate generator
+- Refactor directory option
+
 # 1.3.1 (2022-02-23)
 
 - Fix dep graph for libs inside folders
