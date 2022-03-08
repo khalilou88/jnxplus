@@ -40,6 +40,11 @@ export function normalizeName(name: string) {
   return name.replace(/[^0-9a-zA-Z]/g, '-');
 }
 
+export function getExecutable() {
+  const isWin = process.platform === 'win32';
+  return isWin ? 'mvnw.cmd' : './mvnw';
+}
+
 describe('nx-boot-maven e2e', () => {
   beforeAll(async () => {
     ensureDirSync(tmpProjPath());
@@ -551,7 +556,10 @@ describe('nx-boot-maven e2e', () => {
 
     updateFile(helloControllerPath, newHelloControllerContent);
 
-    await runNxCommandAsync(`build ${libName}`);
+    execSync(`${getExecutable()} clean install -N`, {
+      cwd: process.cwd(),
+      stdio: [0, 1, 2],
+    });
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
