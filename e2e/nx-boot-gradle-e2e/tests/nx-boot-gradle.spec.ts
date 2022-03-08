@@ -550,7 +550,10 @@ describe('nx-boot-gradle e2e', () => {
     const appName = uniq('boot-gradle-app-');
     const libName = uniq('boot-gradle-lib-');
 
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+    const parentProjectName = uniq('parent-project-name-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:init --parentProjectName ${parentProjectName}`
+    );
     workaroundFixE2eTests();
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName}`
@@ -610,8 +613,9 @@ describe('nx-boot-gradle e2e', () => {
     const appName = uniq('boot-gradle-app-');
     const libName = uniq('boot-gradle-lib-');
 
+    const parentProjectName = uniq('parent-project-name-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
+      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin --parentProjectName ${parentProjectName}`
     );
     workaroundFixE2eTests();
     await runNxCommandAsync(
