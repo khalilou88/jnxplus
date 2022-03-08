@@ -70,7 +70,7 @@ describe('nx-boot-maven e2e', () => {
     runPackageManagerInstall();
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-maven:init`);
-  }, 120000);
+  }, 1200000);
 
   it('should init the workspace with @jnxplus/nx-boot-maven capabilities', async () => {
     // Making sure the package.json file contains the @jnxplus/nx-boot-maven dependency
@@ -92,12 +92,12 @@ describe('nx-boot-maven e2e', () => {
         'tools/linters/pmd.xml'
       )
     ).not.toThrow();
-  }, 120000);
+  }, 1200000);
 
   it('should migrate', async () => {
     await runNxCommandAsync(`generate @jnxplus/nx-boot-maven:init`);
     await runNxCommandAsync(`generate @jnxplus/nx-boot-maven:migrate`);
-  }, 120000);
+  }, 1200000);
 
   it('should create an java application', async () => {
     workaroundFixE2eTests();
@@ -151,7 +151,7 @@ describe('nx-boot-maven e2e', () => {
     expect(formatResult.stdout).toContain(
       'Affected criteria defaulted to --base='
     );
-  }, 120000);
+  }, 1200000);
 
   it('should use specified options to create an application', async () => {
     workaroundFixE2eTests();
@@ -210,7 +210,7 @@ describe('nx-boot-maven e2e', () => {
     expect(formatResult.stdout).toContain(
       'Affected criteria defaulted to --base='
     );
-  }, 120000);
+  }, 1200000);
 
   it('should create an kotlin application', async () => {
     workaroundFixE2eTests();
@@ -257,7 +257,7 @@ describe('nx-boot-maven e2e', () => {
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
-  }, 120000);
+  }, 1200000);
 
   it('--an app with aliases', async () => {
     workaroundFixE2eTests();
@@ -316,7 +316,7 @@ describe('nx-boot-maven e2e', () => {
     expect(formatResult.stdout).toContain(
       'Affected criteria defaulted to --base='
     );
-  }, 120000);
+  }, 1200000);
 
   it('should create a library', async () => {
     workaroundFixE2eTests();
@@ -362,7 +362,7 @@ describe('nx-boot-maven e2e', () => {
     expect(formatResult.stdout).toContain(
       'Affected criteria defaulted to --base='
     );
-  }, 120000);
+  }, 1200000);
 
   it('should create a kotlin library', async () => {
     workaroundFixE2eTests();
@@ -404,7 +404,7 @@ describe('nx-boot-maven e2e', () => {
 
     const lintResult = await runNxCommandAsync(`lint ${libName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
-  }, 120000);
+  }, 1200000);
 
   it('should use the the specified properties to create a library', async () => {
     workaroundFixE2eTests();
@@ -456,7 +456,7 @@ describe('nx-boot-maven e2e', () => {
     expect(formatResult.stdout).toContain(
       'Affected criteria defaulted to --base='
     );
-  }, 120000);
+  }, 1200000);
 
   it('--a lib with aliases', async () => {
     workaroundFixE2eTests();
@@ -508,7 +508,7 @@ describe('nx-boot-maven e2e', () => {
     expect(formatResult.stdout).toContain(
       'Affected criteria defaulted to --base='
     );
-  }, 120000);
+  }, 1200000);
 
   it('should add a lib to an app dependencies', async () => {
     workaroundFixE2eTests();
@@ -570,7 +570,7 @@ describe('nx-boot-maven e2e', () => {
     expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     await runNxCommandAsync(`dep-graph --file=output.json`);
-  }, 120000);
+  }, 1200000);
 
   it('should add a kotlin lib to a kotlin app dependencies', async () => {
     workaroundFixE2eTests();
@@ -628,5 +628,5 @@ describe('nx-boot-maven e2e', () => {
     expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     await runNxCommandAsync(`dep-graph --file=output.json`);
-  }, 120000);
+  }, 1200000);
 });

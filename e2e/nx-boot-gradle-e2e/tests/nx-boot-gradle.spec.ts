@@ -64,7 +64,7 @@ describe('nx-boot-gradle e2e', () => {
       'node_modules/@jnxplus/ktlint'
     );
     runPackageManagerInstall();
-  }, 120000);
+  }, 1200000);
 
   it('should init the workspace with @jnxplus/nx-boot-gradle capabilities', async () => {
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
@@ -88,7 +88,7 @@ describe('nx-boot-gradle e2e', () => {
         'tools/linters/checkstyle.xml'
       )
     ).not.toThrow();
-  }, 120000);
+  }, 1200000);
 
   it('should use dsl option when initing the workspace', async () => {
     await runNxCommandAsync(
@@ -114,12 +114,12 @@ describe('nx-boot-gradle e2e', () => {
         'tools/linters/checkstyle.xml'
       )
     ).not.toThrow();
-  }, 120000);
+  }, 1200000);
 
   it('should migrate', async () => {
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:migrate`);
-  }, 120000);
+  }, 1200000);
 
   it('should create an java application', async () => {
     const appName = uniq('boot-gradle-app-');
@@ -173,7 +173,7 @@ describe('nx-boot-gradle e2e', () => {
     expect(formatResult.stdout).toContain(
       'Affected criteria defaulted to --base='
     );
-  }, 120000);
+  }, 1200000);
 
   it('should use specified options to create an application', async () => {
     const randomName = uniq('boot-gradle-app-');
@@ -238,7 +238,7 @@ describe('nx-boot-gradle e2e', () => {
     expect(formatResult.stdout).toContain(
       'Affected criteria defaulted to --base='
     );
-  }, 120000);
+  }, 1200000);
 
   it('should create an kotlin application', async () => {
     const appName = uniq('boot-gradle-app-');
@@ -285,7 +285,7 @@ describe('nx-boot-gradle e2e', () => {
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
-  }, 120000);
+  }, 1200000);
 
   it('--an app with aliases', async () => {
     const randomName = uniq('boot-gradle-app-');
@@ -350,7 +350,7 @@ describe('nx-boot-gradle e2e', () => {
     expect(formatResult.stdout).toContain(
       'Affected criteria defaulted to --base='
     );
-  }, 120000);
+  }, 1200000);
 
   it('should create a library', async () => {
     const libName = uniq('boot-gradle-lib-');
@@ -396,7 +396,7 @@ describe('nx-boot-gradle e2e', () => {
     expect(formatResult.stdout).toContain(
       'Affected criteria defaulted to --base='
     );
-  }, 120000);
+  }, 1200000);
 
   it('should create a kotlin library', async () => {
     const libName = uniq('boot-gradle-lib-');
@@ -438,7 +438,7 @@ describe('nx-boot-gradle e2e', () => {
 
     const lintResult = await runNxCommandAsync(`lint ${libName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
-  }, 120000);
+  }, 1200000);
 
   it('should create a library with the specified properties', async () => {
     const randomName = uniq('boot-gradle-lib-');
@@ -492,7 +492,7 @@ describe('nx-boot-gradle e2e', () => {
     expect(formatResult.stdout).toContain(
       'Affected criteria defaulted to --base='
     );
-  }, 120000);
+  }, 1200000);
 
   it('--a lib with aliases', async () => {
     const randomName = uniq('boot-gradle-lib-');
@@ -544,7 +544,7 @@ describe('nx-boot-gradle e2e', () => {
     expect(formatResult.stdout).toContain(
       'Affected criteria defaulted to --base='
     );
-  }, 120000);
+  }, 1200000);
 
   it('should add a lib to an app dependencies', async () => {
     const appName = uniq('boot-gradle-app-');
@@ -604,7 +604,7 @@ describe('nx-boot-gradle e2e', () => {
     expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     await runNxCommandAsync(`dep-graph --file=output.json`);
-  }, 120000);
+  }, 1200000);
 
   it('should add a kotlin lib to a kotlin app dependencies', async () => {
     const appName = uniq('boot-gradle-app-');
@@ -662,5 +662,5 @@ describe('nx-boot-gradle e2e', () => {
     expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     await runNxCommandAsync(`dep-graph --file=output.json`);
-  }, 120000);
+  }, 1200000);
 });
