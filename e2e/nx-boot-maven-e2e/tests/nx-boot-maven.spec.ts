@@ -36,6 +36,10 @@ function runNxNewCommand(args?: string, silent?: boolean) {
   );
 }
 
+export function normalizeName(name: string) {
+  return name.replace(/[^0-9a-zA-Z]/g, '-');
+}
+
 describe('nx-boot-maven e2e', () => {
   beforeAll(async () => {
     ensureDirSync(tmpProjPath());
@@ -153,42 +157,42 @@ describe('nx-boot-maven e2e', () => {
     workaroundFixE2eTests();
 
     const randomName = uniq('boot-gradle-app-');
-    const subdir = 'subdir';
-    const appName = `${subdir}-${randomName}`;
+    const appDir = 'deep/subdir';
+    const appName = `${normalizeName(appDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:application ${randomName} --tags e2etag,e2ePackage --directory ${subdir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml`
+      `generate @jnxplus/nx-boot-maven:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml`
     );
 
     expect(() =>
       checkFilesExist(
-        `apps/subdir/${appName}/pom.xml`,
-        `apps/subdir/${appName}/src/main/resources/application.yml`,
-        `apps/subdir/${appName}/src/main/java/com/jnxplus/${names(
+        `apps/${appDir}/${appName}/pom.xml`,
+        `apps/${appDir}/${appName}/src/main/resources/application.yml`,
+        `apps/${appDir}/${appName}/src/main/java/com/jnxplus/${names(
           appName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
-        `apps/subdir/${appName}/src/main/java/com/jnxplus/${names(
+        `apps/${appDir}/${appName}/src/main/java/com/jnxplus/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.java`,
 
-        `apps/subdir/${appName}/src/test/resources/application.yml`,
-        `apps/subdir/${appName}/src/test/java/com/jnxplus/${names(
+        `apps/${appDir}/${appName}/src/test/resources/application.yml`,
+        `apps/${appDir}/${appName}/src/test/java/com/jnxplus/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTests.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good informations
-    const pomXml = readFile(`apps/subdir/${appName}/pom.xml`);
+    const pomXml = readFile(`apps/${appDir}/${appName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
     expect(pomXml.includes('war')).toBeTruthy();
     expect(pomXml.includes('spring-boot-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`apps/subdir/${appName}/project.json`);
+    const projectJson = readJson(`apps/${appDir}/${appName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
@@ -406,35 +410,35 @@ describe('nx-boot-maven e2e', () => {
     workaroundFixE2eTests();
 
     const randomName = uniq('boot-gradle-lib-');
-    const subdir = 'subdir';
-    const libName = `${subdir}-${randomName}`;
+    const libDir = 'deep/subdir';
+    const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:library ${randomName} --directory ${subdir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
+      `generate @jnxplus/nx-boot-maven:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
     );
 
     expect(() =>
       checkFilesExist(
-        `libs/subdir/${libName}/pom.xml`,
-        `libs/subdir/${libName}/src/main/java/com/jnxplus/${names(
+        `libs/${libDir}/${libName}/pom.xml`,
+        `libs/${libDir}/${libName}/src/main/java/com/jnxplus/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/subdir/${libName}/src/test/java/com/jnxplus/${names(
+        `libs/${libDir}/${libName}/src/test/java/com/jnxplus/${names(
           libName
         ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/subdir/${libName}/src/test/java/com/jnxplus/${names(
+        `libs/${libDir}/${libName}/src/test/java/com/jnxplus/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good informations
-    const pomXml = readFile(`libs/subdir/${libName}/pom.xml`);
+    const pomXml = readFile(`libs/${libDir}/${libName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`libs/subdir/${libName}/project.json`);
+    const projectJson = readJson(`libs/${libDir}/${libName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);

@@ -36,6 +36,10 @@ function runNxNewCommand(args?: string, silent?: boolean) {
   );
 }
 
+export function normalizeName(name: string) {
+  return name.replace(/[^0-9a-zA-Z]/g, '-');
+}
+
 describe('nx-boot-gradle e2e', () => {
   beforeEach(async () => {
     ensureDirSync(tmpProjPath());
@@ -173,39 +177,39 @@ describe('nx-boot-gradle e2e', () => {
 
   it('should use specified options to create an application', async () => {
     const randomName = uniq('boot-gradle-app-');
-    const subdir = 'subdir';
-    const appName = `${subdir}-${randomName}`;
+    const appDir = 'deep/subdir';
+    const appName = `${normalizeName(appDir)}-${randomName}`;
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
     );
     workaroundFixE2eTests();
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${subdir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml`
+      `generate @jnxplus/nx-boot-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml`
     );
 
     expect(() =>
       checkFilesExist(
-        `apps/subdir/${appName}/build.gradle`,
-        `apps/subdir/${appName}/src/main/resources/application.yml`,
-        `apps/subdir/${appName}/src/main/java/com/jnxplus/${names(
+        `apps/${appDir}/${appName}/build.gradle`,
+        `apps/${appDir}/${appName}/src/main/resources/application.yml`,
+        `apps/${appDir}/${appName}/src/main/java/com/jnxplus/${names(
           appName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
-        `apps/subdir/${appName}/src/main/java/com/jnxplus/${names(
+        `apps/${appDir}/${appName}/src/main/java/com/jnxplus/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.java`,
 
-        `apps/subdir/${appName}/src/test/resources/application.yml`,
-        `apps/subdir/${appName}/src/test/java/com/jnxplus/${names(
+        `apps/${appDir}/${appName}/src/test/resources/application.yml`,
+        `apps/${appDir}/${appName}/src/test/java/com/jnxplus/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTests.java`
       )
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good informations
-    const buildGradle = readFile(`apps/subdir/${appName}/build.gradle`);
+    const buildGradle = readFile(`apps/${appDir}/${appName}/build.gradle`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
     expect(buildGradle.includes('war')).toBeTruthy();
@@ -216,7 +220,7 @@ describe('nx-boot-gradle e2e', () => {
     ).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`apps/subdir/${appName}/project.json`);
+    const projectJson = readJson(`apps/${appDir}/${appName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
@@ -438,39 +442,39 @@ describe('nx-boot-gradle e2e', () => {
 
   it('should create a library with the specified properties', async () => {
     const randomName = uniq('boot-gradle-lib-');
-    const subdir = 'subdir';
-    const libName = `${subdir}-${randomName}`;
+    const libDir = 'deep/subdir';
+    const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
     );
     workaroundFixE2eTests();
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:library ${randomName} --directory ${subdir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
+      `generate @jnxplus/nx-boot-gradle:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
     );
 
     expect(() =>
       checkFilesExist(
-        `libs/subdir/${libName}/build.gradle`,
-        `libs/subdir/${libName}/src/main/java/com/jnxplus/${names(
+        `libs/${libDir}/${libName}/build.gradle`,
+        `libs/${libDir}/${libName}/src/main/java/com/jnxplus/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/subdir/${libName}/src/test/java/com/jnxplus/${names(
+        `libs/${libDir}/${libName}/src/test/java/com/jnxplus/${names(
           libName
         ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/subdir/${libName}/src/test/java/com/jnxplus/${names(
+        `libs/${libDir}/${libName}/src/test/java/com/jnxplus/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good informations
-    const buildGradle = readFile(`libs/subdir/${libName}/build.gradle`);
+    const buildGradle = readFile(`libs/${libDir}/${libName}/build.gradle`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`libs/subdir/${libName}/project.json`);
+    const projectJson = readJson(`libs/${libDir}/${libName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
