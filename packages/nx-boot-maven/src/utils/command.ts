@@ -35,3 +35,7 @@ export function runCommand(command: string): { success: boolean } {
 export function getProjectSourceRoot(context: ExecutorContext) {
   return context.workspace.projects[context.projectName].sourceRoot;
 }
+
+export function normalizeName(name: string) {
+  return name.replace(/[^0-9a-zA-Z]/g, '-');
+}

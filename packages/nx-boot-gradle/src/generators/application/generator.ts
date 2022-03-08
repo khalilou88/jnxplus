@@ -8,6 +8,7 @@ import {
   Tree,
 } from '@nrwl/devkit';
 import * as path from 'path';
+import { normalizeName } from '../../utils/command';
 import { LinterType } from '../../utils/types';
 import { NxBootGradleAppGeneratorSchema } from './schema';
 
@@ -26,23 +27,28 @@ function normalizeOptions(
   tree: Tree,
   options: NxBootGradleAppGeneratorSchema
 ): NormalizedSchema {
-  const projectName = names(options.name).fileName;
+  const simpleProjectName = names(normalizeName(options.name)).fileName;
+  const projectName = options.directory
+    ? `${normalizeName(names(options.directory).fileName)}-${simpleProjectName}`
+    : simpleProjectName;
   const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${projectName}`
-    : projectName;
+    ? `${names(options.directory).fileName}/${simpleProjectName}`
+    : simpleProjectName;
   const projectRoot = `${getWorkspaceLayout(tree).appsDir}/${projectDirectory}`;
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
 
-  const appClassName = `${names(options.name).className}Application`;
-  const packageName = `${options.groupId}.${names(
-    options.name
-  ).className.toLocaleLowerCase()}`;
-  const packageDirectory = `${options.groupId.replace(
-    new RegExp(/\./, 'g'),
-    '/'
-  )}/${names(options.name).className.toLocaleLowerCase()}`;
+  const appClassName = `${names(projectName).className}Application`;
+  const packageName = `${options.groupId}.${
+    options.directory
+      ? `${names(options.directory).fileName.replace(
+          new RegExp(/\//, 'g'),
+          '.'
+        )}.${names(simpleProjectName).className.toLocaleLowerCase()}`
+      : names(simpleProjectName).className.toLocaleLowerCase()
+  }`;
+  const packageDirectory = packageName.replace(new RegExp(/\./, 'g'), '/');
 
   const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
 
