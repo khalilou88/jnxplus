@@ -14,18 +14,9 @@ export default async function runExecutor(
   logger.info(`Executor ran for Lint: ${JSON.stringify(options)}`);
   let command: string;
   const projectSourceRoot = getProjectSourceRoot(context);
-  const checkstyleRoot = getDependencyRoot(
-    '@jnxplus/checkstyle',
-    `./node_modules/@jnxplus/checkstyle`
-  );
-  const pmdRoot = getDependencyRoot(
-    '@jnxplus/pmd',
-    `./node_modules/@jnxplus/pmd`
-  );
-  const ktlintRoot = getDependencyRoot(
-    '@jnxplus/ktlint',
-    `./node_modules/@jnxplus/ktlint`
-  );
+  const checkstyleRoot = getDependencyRoot('@jnxplus/checkstyle');
+  const pmdRoot = getDependencyRoot('@jnxplus/pmd');
+  const ktlintRoot = getDependencyRoot('@jnxplus/ktlint');
 
   if (options.linter === 'checkstyle') {
     command = `java -jar ${checkstyleRoot}/checkstyle.jar -c ./tools/linters/checkstyle.xml ${projectSourceRoot}`;

@@ -12,10 +12,7 @@ export default async function runExecutor(
 ) {
   logger.info(`Executor ran for Kotlin Format: ${JSON.stringify(options)}`);
   const projectSourceRoot = getProjectSourceRoot(context);
-  const ktlintRoot = getDependencyRoot(
-    '@jnxplus/ktlint',
-    `./node_modules/@jnxplus/ktlint`
-  );
+  const ktlintRoot = getDependencyRoot('@jnxplus/ktlint');
 
   const command = `java --add-opens java.base/java.lang=ALL-UNNAMED -jar ${ktlintRoot}/ktlint -F "${projectSourceRoot}/**/*.kt"`;
 
