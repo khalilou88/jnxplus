@@ -166,33 +166,33 @@ describe('nx-boot-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appDir}/${appName}/pom.xml`,
-        `apps/${appDir}/${appName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${appName}/src/main/java/com/jnxplus/${names(
+        `apps/${appDir}/${randomName}/pom.xml`,
+        `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
           appName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
-        `apps/${appDir}/${appName}/src/main/java/com/jnxplus/${names(
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.java`,
 
-        `apps/${appDir}/${appName}/src/test/resources/application.yml`,
-        `apps/${appDir}/${appName}/src/test/java/com/jnxplus/${names(
+        `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
+        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTests.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good informations
-    const pomXml = readFile(`apps/${appDir}/${appName}/pom.xml`);
+    const pomXml = readFile(`apps/${appDir}/${randomName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
     expect(pomXml.includes('war')).toBeTruthy();
     expect(pomXml.includes('spring-boot-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`apps/${appDir}/${appName}/project.json`);
+    const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
@@ -419,26 +419,26 @@ describe('nx-boot-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libDir}/${libName}/pom.xml`,
-        `libs/${libDir}/${libName}/src/main/java/com/jnxplus/${names(
+        `libs/${libDir}/${randomName}/pom.xml`,
+        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/${libDir}/${libName}/src/test/java/com/jnxplus/${names(
+        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
           libName
         ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${libName}/src/test/java/com/jnxplus/${names(
+        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good informations
-    const pomXml = readFile(`libs/${libDir}/${libName}/pom.xml`);
+    const pomXml = readFile(`libs/${libDir}/${randomName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`libs/${libDir}/${libName}/project.json`);
+    const projectJson = readJson(`libs/${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
