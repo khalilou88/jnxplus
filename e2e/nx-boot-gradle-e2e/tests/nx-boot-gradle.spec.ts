@@ -192,18 +192,18 @@ describe('nx-boot-gradle e2e', () => {
       checkFilesExist(
         `apps/${appDir}/${randomName}/build.gradle`,
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          appName
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
+          randomName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          appName
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
+          randomName
         ).className.toLocaleLowerCase()}/HelloController.java`,
 
         `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
-          appName
+        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
+          randomName
         ).className.toLocaleLowerCase()}/HelloControllerTests.java`
       )
     ).not.toThrow();
@@ -304,18 +304,18 @@ describe('nx-boot-gradle e2e', () => {
       checkFilesExist(
         `apps/${appDir}/${randomName}/build.gradle`,
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          appName
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
+          randomName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          appName
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
+          randomName
         ).className.toLocaleLowerCase()}/HelloController.java`,
 
         `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
-          appName
+        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
+          randomName
         ).className.toLocaleLowerCase()}/HelloControllerTests.java`
       )
     ).not.toThrow();
@@ -456,14 +456,14 @@ describe('nx-boot-gradle e2e', () => {
     expect(() =>
       checkFilesExist(
         `libs/${libDir}/${randomName}/build.gradle`,
-        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          libName
+        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
+          randomName
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
-          libName
+        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
+          randomName
         ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
-          libName
+        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
+          randomName
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
     ).not.toThrow();
@@ -508,14 +508,14 @@ describe('nx-boot-gradle e2e', () => {
     expect(() =>
       checkFilesExist(
         `libs/${libDir}/${randomName}/build.gradle`,
-        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          libName
+        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
+          randomName
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
-          libName
+        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
+          randomName
         ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
-          libName
+        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
+          randomName
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
     ).not.toThrow();
