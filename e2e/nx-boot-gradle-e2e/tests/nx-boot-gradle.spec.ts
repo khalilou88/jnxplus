@@ -507,26 +507,26 @@ describe('nx-boot-gradle e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libDir}/${libName}/build.gradle`,
-        `libs/${libDir}/${libName}/src/main/java/com/jnxplus/${names(
+        `libs/${libDir}/${randomName}/build.gradle`,
+        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/${libDir}/${libName}/src/test/java/com/jnxplus/${names(
+        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
           libName
         ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${libName}/src/test/java/com/jnxplus/${names(
+        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good informations
-    const buildGradle = readFile(`libs/${libDir}/${libName}/build.gradle`);
+    const buildGradle = readFile(`libs/${libDir}/${randomName}/build.gradle`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`libs/${libDir}/${libName}/project.json`);
+    const projectJson = readJson(`libs/${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);

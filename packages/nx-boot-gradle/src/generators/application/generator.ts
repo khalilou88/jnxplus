@@ -41,12 +41,9 @@ function normalizeOptions(
 
   const appClassName = `${names(projectName).className}Application`;
   const packageName = `${options.groupId}.${names(
-    projectName
+    simpleProjectName
   ).className.toLocaleLowerCase()}`;
-  const packageDirectory = `${options.groupId.replace(
-    new RegExp(/\./, 'g'),
-    '/'
-  )}/${names(projectName).className.toLocaleLowerCase()}`;
+  const packageDirectory = packageName.replace(new RegExp(/\./, 'g'), '/');
 
   const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
 
