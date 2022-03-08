@@ -41,10 +41,10 @@ export function normalizeName(name: string) {
   return name.replace(/[^0-9a-zA-Z]/g, '-');
 }
 
-export function getDependencyRoot(dependency, defaultPath) {
+export function getDependencyRoot(dependency) {
   try {
     return resolve(require.resolve(dependency), '../..');
   } catch (error) {
-    return defaultPath;
+    return `./node_modules/${dependency}`;
   }
 }
