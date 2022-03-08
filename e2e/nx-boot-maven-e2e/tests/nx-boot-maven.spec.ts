@@ -556,8 +556,9 @@ describe('nx-boot-maven e2e', () => {
 
     updateFile(helloControllerPath, newHelloControllerContent);
 
+    const localTmpDir = dirname(tmpProjPath());
     execSync(`${getExecutable()} clean install -N`, {
-      cwd: process.cwd(),
+      cwd: localTmpDir,
       stdio: [0, 1, 2],
     });
 
