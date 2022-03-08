@@ -274,7 +274,7 @@ describe('nx-boot-maven e2e', () => {
       checkFilesExist(
         `apps/${appDir}/${randomName}/pom.xml`,
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
