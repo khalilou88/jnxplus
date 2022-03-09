@@ -100,5 +100,7 @@ function getDependencyProjectName(
   const root = folders.join('/');
   const node = managedProjects.find((project) => project.data.root === root);
 
-  return node?.name || folders.pop();
+  return (
+    node?.name || gradleProjectPath.split(':libs:').pop().replace(/:/g, '-')
+  );
 }
