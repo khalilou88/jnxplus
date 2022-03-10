@@ -17,10 +17,16 @@ export function getExecutable() {
   return isWin ? 'mvnw.cmd' : './mvnw';
 }
 
-export function runCommand(command: string): { success: boolean } {
+export function runCommand(
+  command: string,
+  preCommand?: string
+): { success: boolean } {
   try {
     if (process.env.VERBOSE_OUTPUT) {
       logger.debug(`Executing command: ${command}`);
+    }
+    if (preCommand) {
+      execSync(preCommand, { cwd: process.cwd(), stdio: [0, 1, 2] });
     }
     execSync(command, { cwd: process.cwd(), stdio: [0, 1, 2] });
     return { success: true };
