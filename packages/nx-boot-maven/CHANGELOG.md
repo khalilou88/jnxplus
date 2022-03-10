@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.5.2 (2022-03-11)
+
+- App Generator : Make serve and test executors depends on build executor
+
 # 1.5.1 (2022-03-10)
 
 - Fix build executor
