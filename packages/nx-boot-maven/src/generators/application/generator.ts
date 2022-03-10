@@ -119,6 +119,12 @@ export default async function (
         },
         serve: {
           executor: '@jnxplus/nx-boot-maven:serve',
+          dependsOn: [
+            {
+              target: 'build',
+              projects: 'self',
+            },
+          ],
         },
         lint: {
           executor: '@jnxplus/nx-boot-maven:lint',
@@ -146,6 +152,12 @@ export default async function (
         },
         serve: {
           executor: '@jnxplus/nx-boot-maven:serve',
+          dependsOn: [
+            {
+              target: 'build',
+              projects: 'self',
+            },
+          ],
         },
         lint: {
           executor: '@jnxplus/nx-boot-maven:lint',
