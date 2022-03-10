@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.5.1 (2022-03-09)
+
+- Make graph backward compatible
+
 # 1.5.0 (2022-03-08)
 
 - new build-image executor
