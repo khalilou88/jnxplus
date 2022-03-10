@@ -559,13 +559,7 @@ describe('nx-boot-maven e2e', () => {
 
     updateFile(helloControllerPath, newHelloControllerContent);
 
-    const localTmpDir = dirname(tmpProjPath());
-    execSync(`${getExecutable()} clean install -N`, {
-      cwd: join(localTmpDir, 'proj'),
-      stdio: [0, 1, 2],
-    });
-
-    //TODO check why we need to build the lib
+    //TODO this because graph don't work well
     await runNxCommandAsync(`build ${libName}`);
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
@@ -628,13 +622,7 @@ describe('nx-boot-maven e2e', () => {
 
     updateFile(helloControllerPath, newHelloControllerContent);
 
-    const localTmpDir = dirname(tmpProjPath());
-    execSync(`${getExecutable()} clean install -N`, {
-      cwd: join(localTmpDir, 'proj'),
-      stdio: [0, 1, 2],
-    });
-
-    //TODO check why we need to build the lib
+    //TODO this because graph don't work well
     await runNxCommandAsync(`build ${libName}`);
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
