@@ -12,8 +12,8 @@ import {
   updateFile,
 } from '@nrwl/nx-plugin/testing';
 import { execSync } from 'child_process';
-import { ensureDirSync } from 'fs-extra';
-import { dirname } from 'path';
+import * as path from 'path';
+import * as fse from 'fs-extra';
 
 function workaroundFixE2eTests() {
   let nxJson = readJson('nx.json');
@@ -22,7 +22,7 @@ function workaroundFixE2eTests() {
 }
 
 function runNxNewCommand(args?: string, silent?: boolean) {
-  const localTmpDir = dirname(tmpProjPath());
+  const localTmpDir = path.dirname(tmpProjPath());
   return execSync(
     `node ${require.resolve(
       '@nrwl/tao'
@@ -42,7 +42,7 @@ export function normalizeName(name: string) {
 
 describe('nx-boot-gradle e2e', () => {
   beforeEach(async () => {
-    ensureDirSync(tmpProjPath());
+    fse.ensureDirSync(tmpProjPath());
     cleanup();
     runNxNewCommand('', true);
 
@@ -157,6 +157,14 @@ describe('nx-boot-gradle e2e', () => {
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    //should recreate build folder
+    const localTmpDir = path.dirname(tmpProjPath());
+    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'build');
+    fse.removeSync(targetDir);
+    expect(() => checkFilesExist(`apps/${appName}/build`)).toThrow();
+    await runNxCommandAsync(`build ${appName}`);
+    expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
 
     // const buildImageResult = await runNxCommandAsync(`build-image ${appName}`);
     // expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
@@ -277,6 +285,14 @@ describe('nx-boot-gradle e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
+    //should recreate build folder
+    const localTmpDir = path.dirname(tmpProjPath());
+    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'build');
+    fse.removeSync(targetDir);
+    expect(() => checkFilesExist(`apps/${appName}/build`)).toThrow();
+    await runNxCommandAsync(`build ${appName}`);
+    expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
+
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
@@ -384,6 +400,14 @@ describe('nx-boot-gradle e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
+    //should recreate build folder
+    const localTmpDir = path.dirname(tmpProjPath());
+    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'build');
+    fse.removeSync(targetDir);
+    expect(() => checkFilesExist(`libs/${libName}/build`)).toThrow();
+    await runNxCommandAsync(`build ${libName}`);
+    expect(() => checkFilesExist(`libs/${libName}/build`)).not.toThrow();
+
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
@@ -429,6 +453,14 @@ describe('nx-boot-gradle e2e', () => {
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    //should recreate build folder
+    const localTmpDir = path.dirname(tmpProjPath());
+    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'build');
+    fse.removeSync(targetDir);
+    expect(() => checkFilesExist(`libs/${libName}/build`)).toThrow();
+    await runNxCommandAsync(`build ${libName}`);
+    expect(() => checkFilesExist(`libs/${libName}/build`)).not.toThrow();
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
