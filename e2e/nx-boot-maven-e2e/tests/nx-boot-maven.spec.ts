@@ -12,8 +12,10 @@ import {
   updateFile,
 } from '@nrwl/nx-plugin/testing';
 import { execSync } from 'child_process';
+import * as fse from 'fs-extra';
 import { ensureDirSync } from 'fs-extra';
-import { dirname, join } from 'path';
+import { dirname } from 'path';
+import path = require('path');
 
 function workaroundFixE2eTests() {
   let nxJson = readJson('nx.json');
@@ -143,6 +145,15 @@ describe('nx-boot-maven e2e', () => {
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
+    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
+
+    //should recreate target folder
+    const localTmpDir = dirname(tmpProjPath());
+    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'target');
+    fse.removeSync(targetDir);
+    expect(() => checkFilesExist(`apps/${appName}/target`)).toThrow();
+    await runNxCommandAsync(`build ${appName}`);
+    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
     // const buildImageResult = await runNxCommandAsync(`build-image ${appName}`);
     // expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
@@ -257,6 +268,14 @@ describe('nx-boot-maven e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
+    //should recreate target folder
+    const localTmpDir = dirname(tmpProjPath());
+    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'target');
+    fse.removeSync(targetDir);
+    expect(() => checkFilesExist(`apps/${appName}/target`)).toThrow();
+    await runNxCommandAsync(`build ${appName}`);
+    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
+
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
@@ -358,6 +377,14 @@ describe('nx-boot-maven e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
+    //should recreate target folder
+    const localTmpDir = dirname(tmpProjPath());
+    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'target');
+    fse.removeSync(targetDir);
+    expect(() => checkFilesExist(`libs/${libName}/target`)).toThrow();
+    await runNxCommandAsync(`build ${libName}`);
+    expect(() => checkFilesExist(`libs/${libName}/target`)).not.toThrow();
+
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
@@ -403,6 +430,14 @@ describe('nx-boot-maven e2e', () => {
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    //should recreate target folder
+    const localTmpDir = dirname(tmpProjPath());
+    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'target');
+    fse.removeSync(targetDir);
+    expect(() => checkFilesExist(`libs/${libName}/target`)).toThrow();
+    await runNxCommandAsync(`build ${libName}`);
+    expect(() => checkFilesExist(`libs/${libName}/target`)).not.toThrow();
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
