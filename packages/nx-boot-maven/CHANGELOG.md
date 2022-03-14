@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.6.0 (2022-03-14)
+
+- App and lib Generators : Add outputs option to build executor
+
 # 1.5.2 (2022-03-11)
 
 - App Generator : Make serve and test executors depends on build executor
