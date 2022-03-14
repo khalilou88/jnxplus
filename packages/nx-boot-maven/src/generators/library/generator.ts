@@ -117,6 +117,7 @@ export default async function (
       targets: {
         build: {
           executor: '@jnxplus/nx-boot-maven:build',
+          outputs: [`${normalizedOptions.projectRoot}/target`],
         },
         lint: {
           executor: '@jnxplus/nx-boot-maven:lint',
@@ -138,6 +139,7 @@ export default async function (
       targets: {
         build: {
           executor: '@jnxplus/nx-boot-maven:build',
+          outputs: [`${normalizedOptions.projectRoot}/target`],
         },
         lint: {
           executor: '@jnxplus/nx-boot-maven:lint',
