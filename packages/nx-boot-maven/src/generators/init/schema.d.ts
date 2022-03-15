@@ -1,5 +1,5 @@
 export interface NxBootMavenGeneratorSchema {
-  javaVersion: string;
+  javaVersion: number;
   groupId: string;
   parentProjectName: string;
   parentProjectVersion: string;

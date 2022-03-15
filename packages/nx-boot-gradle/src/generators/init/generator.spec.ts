@@ -6,7 +6,7 @@ import { NxBootGradleGeneratorSchema } from './schema';
 describe('init generator', () => {
   let appTree: Tree;
   const options: NxBootGradleGeneratorSchema = {
-    javaVersion: '11',
+    javaVersion: 11,
     dsl: 'groovy',
     rootProjectName: 'test-boot-multiproject',
   };

@@ -1,7 +1,7 @@
 import { DSLType } from '../../utils/types';
 
 export interface NxBootGradleGeneratorSchema {
-  javaVersion: string;
+  javaVersion: number;
   dsl: DSLType;
   rootProjectName: string;
 }
