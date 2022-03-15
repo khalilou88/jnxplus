@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.5.2 (2022-03-16)
+
+- Init Generator : fix javaVersion type to match string and number
+
 # 1.5.1 (2022-03-09)
 
 - Make graph backward compatible

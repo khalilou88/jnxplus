@@ -1,5 +1,9 @@
 # Changelog
 
+# 1.6.1 (2022-03-16)
+
+- Init Generator : fix javaVersion type to match string and number
+
 # 1.6.0 (2022-03-14)
 
 - App and lib Generators : Add outputs option to build executor
