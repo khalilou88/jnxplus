@@ -16,9 +16,9 @@ import * as path from 'path';
 import * as fse from 'fs-extra';
 
 function workaroundFixE2eTests() {
-  let nxJson = readJson('nx.json');
-  nxJson.plugins = [];
-  updateFile('nx.json', JSON.stringify(nxJson));
+  // let nxJson = readJson('nx.json');
+  // nxJson.plugins = [];
+  // updateFile('nx.json', JSON.stringify(nxJson));
 }
 
 function runNxNewCommand(args?: string, silent?: boolean) {
