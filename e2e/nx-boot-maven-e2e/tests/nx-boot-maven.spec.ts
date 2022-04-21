@@ -15,12 +15,6 @@ import { execSync } from 'child_process';
 import * as path from 'path';
 import * as fse from 'fs-extra';
 
-function workaroundFixE2eTests() {
-  let nxJson = readJson('nx.json');
-  nxJson.plugins = [];
-  updateFile('nx.json', JSON.stringify(nxJson));
-}
-
 function runNxNewCommand(args?: string, silent?: boolean) {
   const localTmpDir = path.dirname(tmpProjPath());
   return execSync(
@@ -109,8 +103,6 @@ describe('nx-boot-maven e2e', () => {
   }, 1200000);
 
   it('should create an java application', async () => {
-    workaroundFixE2eTests();
-
     const appName = uniq('boot-maven-app-');
 
     await runNxCommandAsync(
@@ -176,8 +168,6 @@ describe('nx-boot-maven e2e', () => {
   }, 1200000);
 
   it('should use specified options to create an application', async () => {
-    workaroundFixE2eTests();
-
     const randomName = uniq('boot-gradle-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
@@ -235,8 +225,6 @@ describe('nx-boot-maven e2e', () => {
   }, 1200000);
 
   it('should create an kotlin application', async () => {
-    workaroundFixE2eTests();
-
     const appName = uniq('boot-maven-app-');
 
     await runNxCommandAsync(
@@ -290,8 +278,6 @@ describe('nx-boot-maven e2e', () => {
   }, 1200000);
 
   it('--an app with aliases', async () => {
-    workaroundFixE2eTests();
-
     const randomName = uniq('boot-gradle-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
@@ -349,8 +335,6 @@ describe('nx-boot-maven e2e', () => {
   }, 1200000);
 
   it('should create a library', async () => {
-    workaroundFixE2eTests();
-
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
@@ -403,8 +387,6 @@ describe('nx-boot-maven e2e', () => {
   }, 1200000);
 
   it('should create a kotlin library', async () => {
-    workaroundFixE2eTests();
-
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
@@ -453,8 +435,6 @@ describe('nx-boot-maven e2e', () => {
   }, 1200000);
 
   it('should use the the specified properties to create a library', async () => {
-    workaroundFixE2eTests();
-
     const randomName = uniq('boot-gradle-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
@@ -505,8 +485,6 @@ describe('nx-boot-maven e2e', () => {
   }, 1200000);
 
   it('--a lib with aliases', async () => {
-    workaroundFixE2eTests();
-
     const randomName = uniq('boot-gradle-lib-');
     const libDir = 'subdir';
     const libName = `${libDir}-${randomName}`;
@@ -557,8 +535,6 @@ describe('nx-boot-maven e2e', () => {
   }, 1200000);
 
   it('should add a lib to an app dependencies', async () => {
-    workaroundFixE2eTests();
-
     const appName = uniq('boot-maven-app-');
     const libName = uniq('boot-maven-lib-');
 
@@ -620,8 +596,6 @@ describe('nx-boot-maven e2e', () => {
   }, 1200000);
 
   it('should add a kotlin lib to a kotlin app dependencies', async () => {
-    workaroundFixE2eTests();
-
     const appName = uniq('boot-maven-app-');
     const libName = uniq('boot-maven-lib-');
 
