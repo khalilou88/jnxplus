@@ -1,5 +1,9 @@
 # Changelog
 
+# 2.0.0 (2022-04-22)
+
+- upgrade to Nx 14
+
 # 1.5.2 (2022-03-16)
 
 - Init Generator : fix javaVersion type to match string and number

@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'nx-boot-maven',
-  preset: '../../jest.preset.js',
+  displayName: 'nx-boot-gradle',
+
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
@@ -11,5 +11,6 @@ module.exports = {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/packages/nx-boot-maven',
+  coverageDirectory: '../../coverage/packages/nx-boot-gradle',
+  preset: '../../jest.preset.ts',
 };

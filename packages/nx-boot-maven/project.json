@@ -14,7 +14,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/packages/nx-boot-maven"],
       "options": {
-        "jestConfig": "packages/nx-boot-maven/jest.config.js",
+        "jestConfig": "packages/nx-boot-maven/jest.config.ts",
         "passWithNoTests": true
       }
     },
