@@ -12,5 +12,5 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../coverage/packages/nx-boot-gradle',
-  preset: '..\\..\\jest.preset.ts',
+  preset: '../../jest.preset.ts',
 };
