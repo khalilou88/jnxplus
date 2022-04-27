@@ -1,8 +1,12 @@
 # Changelog
 
+# 2.0.1 (2022-04-27)
+
+- Update Nx
+
 # 2.0.0 (2022-04-22)
 
-- upgrade to Nx 14
+- Upgrade to Nx 14
 
 # 1.5.2 (2022-03-16)
 
