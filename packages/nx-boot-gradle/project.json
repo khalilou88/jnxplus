@@ -1,5 +1,4 @@
 {
-  "root": "packages/nx-boot-gradle",
   "sourceRoot": "packages/nx-boot-gradle/src",
   "projectType": "library",
   "targets": {
@@ -49,12 +48,6 @@
       "options": {
         "jestConfig": "packages/nx-boot-gradle/jest.config.ts",
         "passWithNoTests": true
-      }
-    },
-    "version": {
-      "executor": "@jscutlery/semver:version",
-      "options": {
-        "syncVersions": false
       }
     }
   },

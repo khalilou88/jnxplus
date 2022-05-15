@@ -1,5 +1,4 @@
 {
-  "root": "packages/pmd",
   "sourceRoot": "packages/pmd/src",
   "projectType": "library",
   "targets": {
@@ -29,12 +28,6 @@
             "output": "."
           }
         ]
-      }
-    },
-    "version": {
-      "executor": "@jscutlery/semver:version",
-      "options": {
-        "syncVersions": false
       }
     }
   }

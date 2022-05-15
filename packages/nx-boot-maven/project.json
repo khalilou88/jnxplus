@@ -1,5 +1,4 @@
 {
-  "root": "packages/nx-boot-maven",
   "sourceRoot": "packages/nx-boot-maven/src",
   "projectType": "library",
   "targets": {
@@ -49,12 +48,6 @@
             "output": "."
           }
         ]
-      }
-    },
-    "version": {
-      "executor": "@jscutlery/semver:version",
-      "options": {
-        "syncVersions": false
       }
     }
   },

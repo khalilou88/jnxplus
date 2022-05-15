@@ -1,5 +1,4 @@
 {
-  "root": "e2e\\nx-boot-maven-e2e",
   "projectType": "application",
   "sourceRoot": "e2e\\nx-boot-maven-e2e/src",
   "targets": {
