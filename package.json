@@ -30,7 +30,7 @@
     "@nrwl/node": "14.1.5",
     "@nrwl/nx-plugin": "14.1.5",
     "@nrwl/workspace": "14.1.5",
-    "@prettier/plugin-xml": "^2.1.0",
+    "@prettier/plugin-xml": "^2.2.0",
     "@types/jest": "27.4.1",
     "@types/node": "14.14.33",
     "@types/xmldoc": "^1.1.6",
