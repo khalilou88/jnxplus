@@ -1,5 +1,4 @@
 {
-  "root": "packages/nx-boot-maven",
   "sourceRoot": "packages/nx-boot-maven/src",
   "projectType": "library",
   "targets": {

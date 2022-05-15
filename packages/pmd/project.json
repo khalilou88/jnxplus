@@ -1,5 +1,4 @@
 {
-  "root": "packages/pmd",
   "sourceRoot": "packages/pmd/src",
   "projectType": "library",
   "targets": {

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   displayName: 'nx-boot-gradle',
 
   globals: {
@@ -12,5 +12,5 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../coverage/packages/nx-boot-gradle',
-  preset: '../../jest.preset.ts',
+  preset: '../../jest.preset.js',
 };

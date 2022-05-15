@@ -1,5 +1,4 @@
 {
-  "root": "packages/nx-boot-gradle",
   "sourceRoot": "packages/nx-boot-gradle/src",
   "projectType": "library",
   "targets": {

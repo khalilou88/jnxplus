@@ -1,5 +1,4 @@
 {
-  "root": "packages/ktlint",
   "sourceRoot": "packages/ktlint/src",
   "projectType": "library",
   "targets": {

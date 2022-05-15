@@ -1,5 +1,4 @@
 {
-  "root": "packages/checkstyle",
   "sourceRoot": "packages/checkstyle/src",
   "projectType": "library",
   "targets": {
