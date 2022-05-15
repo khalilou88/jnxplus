@@ -22,7 +22,6 @@
     "@jnxplus/checkstyle": "^9.3.0",
     "@jnxplus/ktlint": "^0.43.2",
     "@jnxplus/pmd": "^6.42.0",
-    "@jscutlery/semver": "^2.21.3",
     "@nrwl/devkit": "14.1.5",
     "@nrwl/eslint-plugin-nx": "14.1.5",
     "@nrwl/jest": "14.1.5",

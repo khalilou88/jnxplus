@@ -49,12 +49,6 @@
         "jestConfig": "packages/nx-boot-gradle/jest.config.ts",
         "passWithNoTests": true
       }
-    },
-    "version": {
-      "executor": "@jscutlery/semver:version",
-      "options": {
-        "syncVersions": false
-      }
     }
   },
   "tags": [],
