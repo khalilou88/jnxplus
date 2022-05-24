@@ -6,12 +6,13 @@ The supported versions are:
 
 | @jnxplus/nx-boot-maven | Nx     |
 | ---------------------- | ------ |
+| 2.x.x                  | 14.x.x |
 | 1.x.x                  | 13.x.x |
 | 0.x.x                  | 12.x.x |
 
 ## Update Maven wrapper
 
-Use https://start.spring.io/ to update Maven wrapper.
+Use Migrate generator to update Maven wrapper.
 
 ## Update Spring boot
 

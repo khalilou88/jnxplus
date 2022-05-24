@@ -8,8 +8,10 @@
     - [Init workspace](nx-boot-gradle/generators/init)
     - [Generate an application](nx-boot-gradle/generators/application)
     - [Generate a library](nx-boot-gradle/generators/library)
+    - [Migrate](nx-boot-gradle/generators/migrate)
   - Executors
     - [Build](nx-boot-gradle/executors/build)
+    - [Build image](nx-boot-gradle/executors/build-image)
     - [Serve](nx-boot-gradle/executors/serve)
     - [Test](nx-boot-gradle/executors/test)
     - [Lint](nx-boot-gradle/executors/lint)
@@ -25,8 +27,10 @@
     - [Init workspace](nx-boot-maven/generators/init)
     - [Generate an application](nx-boot-maven/generators/application)
     - [Generate a library](nx-boot-maven/generators/library)
+    - [Migrate](nx-boot-maven/generators/migrate)
   - Executors
     - [Build](nx-boot-maven/executors/build)
+    - [Build image](nx-boot-maven/executors/build-image)
     - [Serve](nx-boot-maven/executors/serve)
     - [Test](nx-boot-maven/executors/test)
     - [Lint](nx-boot-maven/executors/lint)
