@@ -1,5 +1,10 @@
 # Changelog
 
+# 2.1.0 (2022-06-08)
+
+- Add args to serve executor
+- Update Nx
+
 # 2.0.1 (2022-04-27)
 
 - Update Nx
