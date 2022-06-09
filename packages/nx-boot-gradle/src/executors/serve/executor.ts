@@ -13,7 +13,9 @@ export default async function runExecutor(
 ) {
   logger.info(`Executor ran for serve: ${JSON.stringify(options)}`);
   const result = runCommand(
-    `${getExecutable()} ${getProjectPath(context)}:bootRun`
+    `${getExecutable()} ${getProjectPath(context)}:bootRun --args='${
+      options.args
+    }'`
   );
 
   if (!result.success) {

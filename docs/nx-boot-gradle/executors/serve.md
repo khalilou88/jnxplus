@@ -8,3 +8,15 @@ Under the hood, we use the Spring Boot `bootRun` task to run the application.
 ```bash
 nx serve my-app-name
 ```
+
+## Options
+
+### args
+
+Type: `string`
+
+Add more arguments when serving an app.
+
+```bash
+nx serve my-app-name --args='--spring.profiles.active=dev'
+```

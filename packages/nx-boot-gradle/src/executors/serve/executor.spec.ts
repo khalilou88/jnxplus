@@ -4,7 +4,9 @@ import executor from './executor';
 import { ServeExecutorSchema } from './schema';
 jest.mock('../../utils/command');
 
-const options: ServeExecutorSchema = {};
+const options: ServeExecutorSchema = {
+  args: 'args',
+};
 const context: ExecutorContext = {
   root: '/root',
   cwd: '/root',
