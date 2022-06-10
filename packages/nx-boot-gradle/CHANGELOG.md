@@ -1,5 +1,9 @@
 # Changelog
 
+# 2.1.1 (2022-06-10)
+
+- Use patch release for deps
+
 # 2.1.0 (2022-06-09)
 
 - Add args to serve executor

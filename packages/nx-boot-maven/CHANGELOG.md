@@ -1,5 +1,10 @@
 # Changelog
 
+# 2.1.1 (2022-06-10)
+
+- Fix dep-graph for nx > 14.2.x
+- Use patch release for deps
+
 # 2.1.0 (2022-06-08)
 
 - Add args to serve executor
