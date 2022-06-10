@@ -5,9 +5,9 @@ import {
   ProjectGraphProcessorContext,
   workspaceRoot,
 } from '@nrwl/devkit';
+import { fileExists } from 'nx/src/utils/fileutils';
 import { join } from 'path';
 import { XmlDocument } from 'xmldoc';
-import { fileExists } from '../utils/fileutils';
 import { readXml2 } from '../utils/xml';
 
 export function processProjectGraph(
