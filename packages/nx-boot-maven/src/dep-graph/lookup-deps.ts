@@ -3,10 +3,11 @@ import {
   ProjectGraphBuilder,
   ProjectGraphNode,
   ProjectGraphProcessorContext,
+  workspaceRoot,
 } from '@nrwl/devkit';
-import { appRootPath, fileExists } from '@nrwl/tao/src/utils/app-root';
 import { join } from 'path';
 import { XmlDocument } from 'xmldoc';
+import { fileExists } from '../utils/fileutils';
 import { readXml2 } from '../utils/xml';
 
 export function processProjectGraph(
@@ -19,7 +20,7 @@ export function processProjectGraph(
   const projectNames = projects.map((project) => project.name);
 
   for (const project of projects) {
-    const pomXmlPath = join(appRootPath, project.data.root, 'pom.xml');
+    const pomXmlPath = join(workspaceRoot, project.data.root, 'pom.xml');
 
     if (fileExists(pomXmlPath)) {
       const pomXmlContent = readXml2(pomXmlPath);
