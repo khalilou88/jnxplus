@@ -5,8 +5,8 @@ import {
   ProjectGraphProcessorContext,
   workspaceRoot,
 } from '@nrwl/devkit';
-import { fileExists } from '@nrwl/tao/src/utils/app-root';
 import * as fs from 'fs';
+import { fileExists } from 'nx/src/utils/fileutils';
 import { join } from 'path';
 
 export function processProjectGraph(

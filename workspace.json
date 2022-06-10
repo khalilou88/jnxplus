@@ -8,5 +8,6 @@
     "nx-boot-maven": "packages/nx-boot-maven",
     "nx-boot-maven-e2e": "e2e/nx-boot-maven-e2e",
     "pmd": "packages/pmd"
-  }
+  },
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }
