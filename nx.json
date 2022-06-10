@@ -31,7 +31,5 @@
     "appsDir": "e2e",
     "libsDir": "packages"
   },
-  "cli": {
-    "defaultCollection": "@nrwl/workspace"
-  }
+  "$schema": "./node_modules/nx/schemas/nx-schema.json"
 }
