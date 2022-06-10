@@ -3,8 +3,9 @@ import {
   ProjectGraphBuilder,
   ProjectGraphNode,
   ProjectGraphProcessorContext,
+  workspaceRoot,
 } from '@nrwl/devkit';
-import { appRootPath, fileExists } from '@nrwl/tao/src/utils/app-root';
+import { fileExists } from '@nrwl/tao/src/utils/app-root';
 import * as fs from 'fs';
 import { join } from 'path';
 
@@ -18,13 +19,13 @@ export function processProjectGraph(
   for (const project of managedProjects) {
     let buildGradleContents = '';
     const buildGradleFile = join(
-      appRootPath,
+      workspaceRoot,
       project.data.root,
       'build.gradle'
     );
 
     const buildGradleKtsFile = join(
-      appRootPath,
+      workspaceRoot,
       project.data.root,
       'build.gradle.kts'
     );
