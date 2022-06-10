@@ -25,10 +25,10 @@
     "gradle multi-project build"
   ],
   "dependencies": {
-    "@nrwl/devkit": "^14.1.9",
-    "prettier-plugin-java": "^1.6.1",
-    "@jnxplus/checkstyle": "^9.3.0",
-    "@jnxplus/pmd": "^6.42.0",
-    "@jnxplus/ktlint": "^0.43.2"
+    "@nrwl/devkit": "~14.1.9",
+    "prettier-plugin-java": "~1.6.1",
+    "@jnxplus/checkstyle": "~9.3.0",
+    "@jnxplus/pmd": "~6.42.0",
+    "@jnxplus/ktlint": "~0.43.2"
   }
 }
