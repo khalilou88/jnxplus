@@ -32,6 +32,17 @@ describe('Serve Executor', () => {
 
   it('can run', async () => {
     const output = await executor(options, context);
+
     expect(output.success).toBe(true);
+    expect(runCommand).toHaveBeenCalledWith(expect.stringMatching(/spring-boot:run -pl :my-app args$/));
+  });
+
+  describe('when args option is undefined', () => {
+    it('run without extra args', async () => {
+      const output = await executor({} as ServeExecutorSchema, context);
+
+      expect(output.success).toBe(true);
+      expect(runCommand).toHaveBeenCalledWith(expect.stringMatching(/spring-boot:run -pl :my-app$/));
+    });
   });
 });
