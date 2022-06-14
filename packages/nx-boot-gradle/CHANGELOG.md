@@ -1,5 +1,10 @@
 # Changelog
 
+# 2.2.1 (2022-06-14)
+
+- Fix serve app with no args
+- Update Nx
+
 # 2.2.0 (2022-06-10)
 
 - Update Nx to version 14.2.4

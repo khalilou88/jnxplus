@@ -7,11 +7,16 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   logger.info(`Executor ran for serve: ${JSON.stringify(options)}`);
-  const result = runCommand(
-    `${getExecutable()} spring-boot:run -pl :${context.projectName}${
-      options.args ? ' ' + options.args : ''
-    }`
-  );
+
+  let command = `${getExecutable()} spring-boot:run -pl :${
+    context.projectName
+  }`;
+
+  if (options.args) {
+    command += ` ${options.args}`;
+  }
+
+  const result = runCommand(command);
 
   if (!result.success) {
     return { success: false };

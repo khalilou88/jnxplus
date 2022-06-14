@@ -12,11 +12,14 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   logger.info(`Executor ran for serve: ${JSON.stringify(options)}`);
-  const result = runCommand(
-    `${getExecutable()} ${getProjectPath(context)}:bootRun --args='${
-      options.args
-    }'`
-  );
+
+  let command = `${getExecutable()} ${getProjectPath(context)}:bootRun`;
+
+  if (options.args) {
+    command += ` --args='${options.args}'`;
+  }
+
+  const result = runCommand(command);
 
   if (!result.success) {
     return { success: false };

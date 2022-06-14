@@ -4,7 +4,6 @@
 
 - Fix serve app with no args
 - Update Nx
--
 
 # 2.2.0 (2022-06-10)
 
