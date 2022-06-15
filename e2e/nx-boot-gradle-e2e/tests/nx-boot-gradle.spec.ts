@@ -259,6 +259,19 @@ describe('nx-boot-gradle e2e', () => {
     expect(formatResult.stdout).toContain(
       'Affected criteria defaulted to --base='
     );
+
+    const process = await runNxCommandUntil(
+      `serve ${appName} --args="--spring.profiles.active=test"`,
+      (output) => output.includes(`Tomcat started on port(s): 8080`)
+    );
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(8080);
+    } catch (err) {
+      expect(err).toBeFalsy();
+    }
   }, 1200000);
 
   it('should create an kotlin application', async () => {
@@ -314,6 +327,18 @@ describe('nx-boot-gradle e2e', () => {
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Tomcat started on port(s): 8080`)
+    );
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(8080);
+    } catch (err) {
+      expect(err).toBeFalsy();
+    }
   }, 1200000);
 
   it('--an app with aliases', async () => {
@@ -379,6 +404,19 @@ describe('nx-boot-gradle e2e', () => {
     expect(formatResult.stdout).toContain(
       'Affected criteria defaulted to --base='
     );
+
+    const process = await runNxCommandUntil(
+      `serve ${appName} --args="--spring.profiles.active=test"`,
+      (output) => output.includes(`Tomcat started on port(s): 8080`)
+    );
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(8080);
+    } catch (err) {
+      expect(err).toBeFalsy();
+    }
   }, 1200000);
 
   it('should create a library', async () => {
