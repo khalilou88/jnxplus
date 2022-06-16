@@ -643,7 +643,20 @@ describe('nx-boot-maven e2e', () => {
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
 
-    await runNxCommandAsync(`dep-graph --file=output.json`);
+    await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.nodes[appName]).toBeDefined();
+    expect(depGraphJson.graph.nodes[libName]).toBeDefined();
+
+    //This should break when the dep-graph will work properly in e2e tests
+    expect(depGraphJson.graph.dependencies[appName]).toEqual([]);
+
+    //TODO: not working yet
+    // expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+    //   type: 'static',
+    //   source: appName,
+    //   target: libName,
+    // });
   }, 1200000);
 
   it('should add a kotlin lib to a kotlin app dependencies', async () => {
@@ -700,6 +713,19 @@ describe('nx-boot-maven e2e', () => {
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
 
-    await runNxCommandAsync(`dep-graph --file=output.json`);
+    await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.nodes[appName]).toBeDefined();
+    expect(depGraphJson.graph.nodes[libName]).toBeDefined();
+
+    //This should break when the dep-graph will work properly in e2e tests
+    expect(depGraphJson.graph.dependencies[appName]).toEqual([]);
+
+    //TODO: not working yet
+    // expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+    //   type: 'static',
+    //   source: appName,
+    //   target: libName,
+    // });
   }, 1200000);
 });
