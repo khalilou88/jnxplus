@@ -11,34 +11,15 @@ import {
   uniq,
   updateFile,
 } from '@nrwl/nx-plugin/testing';
-import { execSync } from 'child_process';
-import * as path from 'path';
 import * as fse from 'fs-extra';
-import { killPorts, promisifiedTreeKill, runNxCommandUntil } from './e2e-utils';
-
-function runNxNewCommand(args?: string, silent?: boolean) {
-  const localTmpDir = path.dirname(tmpProjPath());
-  return execSync(
-    `node ${require.resolve(
-      'nx'
-    )} new proj --nx-workspace-root=${localTmpDir} --no-interactive --skip-install --collection=@nrwl/workspace --npmScope=proj --preset=empty ${
-      args || ''
-    }`,
-    {
-      cwd: localTmpDir,
-      ...(silent && false ? { stdio: ['ignore', 'ignore', 'ignore'] } : {}),
-    }
-  );
-}
-
-export function normalizeName(name: string) {
-  return name.replace(/[^0-9a-zA-Z]/g, '-');
-}
-
-export function getExecutable() {
-  const isWin = process.platform === 'win32';
-  return isWin ? 'mvnw.cmd' : './mvnw';
-}
+import * as path from 'path';
+import {
+  killPorts,
+  normalizeName,
+  promisifiedTreeKill,
+  runNxCommandUntil,
+  runNxNewCommand,
+} from './e2e-utils';
 
 describe('nx-boot-maven e2e', () => {
   const isWin = process.platform === 'win32';

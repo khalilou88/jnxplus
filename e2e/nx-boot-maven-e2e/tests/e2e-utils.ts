@@ -5,6 +5,27 @@ import { check as portCheck } from 'tcp-port-used';
 import chalk = require('chalk');
 import { promisify } from 'util';
 import treeKill = require('tree-kill');
+import { execSync } from 'child_process';
+import * as path from 'path';
+
+export function runNxNewCommand(args?: string, silent?: boolean) {
+  const localTmpDir = path.dirname(tmpProjPath());
+  return execSync(
+    `node ${require.resolve(
+      'nx'
+    )} new proj --nx-workspace-root=${localTmpDir} --no-interactive --skip-install --collection=@nrwl/workspace --npmScope=proj --preset=empty ${
+      args || ''
+    }`,
+    {
+      cwd: localTmpDir,
+      ...(silent && false ? { stdio: ['ignore', 'ignore', 'ignore'] } : {}),
+    }
+  );
+}
+
+export function normalizeName(name: string) {
+  return name.replace(/[^0-9a-zA-Z]/g, '-');
+}
 
 /**
  * Remove log colors for fail proof string search
