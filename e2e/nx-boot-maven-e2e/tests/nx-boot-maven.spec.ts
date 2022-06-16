@@ -624,9 +624,6 @@ describe('nx-boot-maven e2e', () => {
 
     updateFile(helloControllerPath, newHelloControllerContent);
 
-    //TODO this because graph don't work well
-    await runNxCommandAsync(`build ${libName}`);
-
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
@@ -643,7 +640,16 @@ describe('nx-boot-maven e2e', () => {
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
 
-    await runNxCommandAsync(`dep-graph --file=output.json`);
+    await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.nodes[`${appName}`]).toBeTruthy();
+    expect(depGraphJson.graph.nodes[`${libName}`]).toBeTruthy();
+
+    expect(depGraphJson.graph.dependencies[`${appName}`]).toContainEqual({
+      type: 'static',
+      source: `${appName}`,
+      target: `${libName}`,
+    });
   }, 1200000);
 
   it('should add a kotlin lib to a kotlin app dependencies', async () => {
@@ -685,9 +691,6 @@ describe('nx-boot-maven e2e', () => {
 
     updateFile(helloControllerPath, newHelloControllerContent);
 
-    //TODO this because graph don't work well
-    await runNxCommandAsync(`build ${libName}`);
-
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
@@ -700,6 +703,15 @@ describe('nx-boot-maven e2e', () => {
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
 
-    await runNxCommandAsync(`dep-graph --file=output.json`);
+    await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.nodes[`${appName}`]).toBeTruthy();
+    expect(depGraphJson.graph.nodes[`${libName}`]).toBeTruthy();
+
+    expect(depGraphJson.graph.dependencies[`${appName}`]).toContainEqual({
+      type: 'static',
+      source: `${appName}`,
+      target: `${libName}`,
+    });
   }, 1200000);
 });
