@@ -691,13 +691,13 @@ describe('nx-boot-gradle e2e', () => {
 
     await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
     const depGraphJson = readJson('dep-graph.json');
-    expect(depGraphJson.graph.nodes[`${appName}`]).toBeDefined();
-    expect(depGraphJson.graph.nodes[`${libName}`]).toBeDefined();
+    expect(depGraphJson.graph.nodes[appName]).toBeDefined();
+    expect(depGraphJson.graph.nodes[libName]).toBeDefined();
 
-    expect(depGraphJson.graph.dependencies[`${appName}`]).toContainEqual({
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
-      source: `${appName}`,
-      target: `${libName}`,
+      source: appName,
+      target: libName,
     });
   }, 1200000);
 
@@ -759,13 +759,13 @@ describe('nx-boot-gradle e2e', () => {
 
     await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
     const depGraphJson = readJson('dep-graph.json');
-    expect(depGraphJson.graph.nodes[`${appName}`]).toBeDefined();
-    expect(depGraphJson.graph.nodes[`${libName}`]).toBeDefined();
+    expect(depGraphJson.graph.nodes[appName]).toBeDefined();
+    expect(depGraphJson.graph.nodes[libName]).toBeDefined();
 
-    expect(depGraphJson.graph.dependencies[`${appName}`]).toContainEqual({
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
-      source: `${appName}`,
-      target: `${libName}`,
+      source: appName,
+      target: libName,
     });
   }, 1200000);
 });
