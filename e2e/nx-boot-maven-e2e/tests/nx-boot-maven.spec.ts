@@ -57,6 +57,12 @@ describe('nx-boot-maven e2e', () => {
     );
   }, 1200000);
 
+  afterAll(() => {
+    // `nx reset` kills the daemon, and performs
+    // some work which can help clean up e2e leftovers
+    runNxCommandAsync('reset');
+  });
+
   it('should init the workspace with @jnxplus/nx-boot-maven capabilities', async () => {
     // Making sure the package.json file contains the @jnxplus/nx-boot-maven dependency
     const packageJson = readJson('package.json');

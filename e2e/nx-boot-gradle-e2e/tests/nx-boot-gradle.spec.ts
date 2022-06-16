@@ -49,6 +49,12 @@ describe('nx-boot-gradle e2e', () => {
     runPackageManagerInstall();
   }, 1200000);
 
+  afterAll(() => {
+    // `nx reset` kills the daemon, and performs
+    // some work which can help clean up e2e leftovers
+    runNxCommandAsync('reset');
+  });
+
   it('should init the workspace with @jnxplus/nx-boot-gradle capabilities', async () => {
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
 
