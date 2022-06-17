@@ -11,7 +11,7 @@ on:
     paths-ignore:
       - '**.md'
 jobs:
-  run_checks:
+  Run_checks:
     strategy:
       matrix:
         node_version: [ '14', '16' ]
@@ -31,7 +31,7 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
 
-      - name: use cache
+      - name: Use cache
         uses: actions/cache@v2
         with:
           path: |
@@ -46,7 +46,7 @@ jobs:
           java-version: '11'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Unit tests
         run: npm run nx affected -- --target=test
