@@ -24,6 +24,7 @@ import {
 
 describe('nx-boot-gradle e2e', () => {
   const isWin = process.platform === 'win32';
+  const isMacOs = process.platform === 'darwin';
   beforeEach(async () => {
     fse.ensureDirSync(tmpProjPath());
     cleanup();
@@ -155,7 +156,7 @@ describe('nx-boot-gradle e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
 
-    if (!isWin) {
+    if (!isWin && !isMacOs) {
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
       );
@@ -310,6 +311,13 @@ describe('nx-boot-gradle e2e', () => {
     expect(() => checkFilesExist(`apps/${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
+
+    if (!isWin && !isMacOs) {
+      const buildImageResult = await runNxCommandAsync(
+        `build-image ${appName}`
+      );
+      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
+    }
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');

@@ -14,11 +14,12 @@ jobs:
   Run_checks:
     strategy:
       matrix:
-#        os: [ubuntu-latest, windows-latest, macOS-latest]
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
         node_version: ['14', '16']
         java: ['11', '17']
     runs-on: ${{ matrix.os }}
+    env:
+      NX_VERBOSE_LOGGING: 'true'
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
