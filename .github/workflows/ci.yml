@@ -14,10 +14,10 @@ jobs:
   Run_checks:
     strategy:
       matrix:
-        node_version: [ '14', '16' ]
-        java: [ '11', '17']
 #        os: [ubuntu-latest, windows-latest, macOS-latest]
         os: [ubuntu-latest, windows-latest]
+        node_version: ['14', '16']
+        java: ['11', '17']
     runs-on: ${{ matrix.os }}
     steps:
       - name: Check out repository code
