@@ -20,13 +20,13 @@ export function getExecutable() {
 
 export function runCommand(command: string): { success: boolean } {
   try {
-    if (process.env.VERBOSE_OUTPUT) {
+    if (process.env.NX_VERBOSE_LOGGING === 'true') {
       logger.debug(`Executing command: ${command}`);
     }
     execSync(command, { cwd: process.cwd(), stdio: [0, 1, 2] });
     return { success: true };
   } catch (e) {
-    if (process.env.VERBOSE_OUTPUT) {
+    if (process.env.NX_VERBOSE_LOGGING === 'true') {
       logger.error(`Failed to execute command: ${command}`);
       logger.error(e);
     }
