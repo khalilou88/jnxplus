@@ -24,6 +24,8 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: nrwl/nx-set-shas@v2
+
       - name: Set up node
         uses: actions/setup-node@v1
         with:
