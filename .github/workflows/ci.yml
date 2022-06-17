@@ -1,94 +1,58 @@
 name: CI
 on:
   push:
+    branches:
+      - main
     paths-ignore:
       - '**.md'
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - '**.md'
 jobs:
-  gradle_linux:
-    runs-on: ubuntu-latest
+  Run_checks:
+    strategy:
+      matrix:
+        node_version: [ '14', '16' ]
+#        os: [ubuntu-latest, windows-latest, macOS-latest]
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
-      - name: Install dependencies
-        run: npm install
+      - uses: nrwl/nx-set-shas@v2
 
-      - name: Unit tests
-        run: npm run test nx-boot-gradle
+      - name: Set up node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node_version }}
 
-      - name: Build
-        run: npm run build nx-boot-gradle
-
-      - name: E2E tests
-        run: npm run e2e nx-boot-gradle-e2e
-
-  gradle_windows:
-    runs-on: windows-latest
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v2
+      - name: Use cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ matrix.node_version }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Setup Java
         uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
           java-version: '11'
-          cache: 'gradle'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Unit tests
-        run: npm run test nx-boot-gradle
+        run: npm run nx affected -- --target=test
 
       - name: Build
-        run: npm run build nx-boot-gradle
+        run: npm run nx affected -- --target=build
 
       - name: E2E tests
-        run: npm run e2e nx-boot-gradle-e2e
-
-  maven_linux:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v2
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Unit tests
-        run: npm run test nx-boot-maven
-
-      - name: Build
-        run: npm run build nx-boot-maven
-
-      - name: E2E tests
-        run: npm run e2e nx-boot-maven-e2e
-
-  maven_windows:
-    runs-on: windows-latest
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v2
-
-      - name: Setup Java
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'temurin'
-          java-version: '11'
-          cache: 'maven'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Unit tests
-        run: npm run test nx-boot-maven
-
-      - name: Build
-        run: npm run build nx-boot-maven
-
-      - name: E2E tests
-        run: npm run e2e nx-boot-maven-e2e
+        run: npm run nx affected -- --target=e2e
