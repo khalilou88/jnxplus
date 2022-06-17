@@ -7,29 +7,28 @@ on:
     branches:
       - main
 jobs:
-  gradle_linux:
-    runs-on: ubuntu-latest
+  gradle_plugin_tests:
+    strategy:
+      matrix:
+        node_version: [ '14', '16' ]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: npm install
+      - name: Set up node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node_version }}
 
-      - name: Unit tests
-        run: npm run test nx-boot-gradle
-
-      - name: Build
-        run: npm run build nx-boot-gradle
-
-      - name: E2E tests
-        run: npm run e2e nx-boot-gradle-e2e
-
-  gradle_windows:
-    runs-on: windows-latest
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v2
+      - name: use cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ matrix.node_version }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Setup Java
         uses: actions/setup-java@v2
@@ -50,36 +49,35 @@ jobs:
       - name: E2E tests
         run: npm run e2e nx-boot-gradle-e2e
 
-  maven_linux:
-    runs-on: ubuntu-latest
+  maven_plugin_tests:
+    strategy:
+      matrix:
+        node_version: [ '14', '16' ]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: npm install
+      - name: Set up node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node_version }}
 
-      - name: Unit tests
-        run: npm run test nx-boot-maven
-
-      - name: Build
-        run: npm run build nx-boot-maven
-
-      - name: E2E tests
-        run: npm run e2e nx-boot-maven-e2e
-
-  maven_windows:
-    runs-on: windows-latest
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v2
+      - name: use cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ matrix.node_version }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Setup Java
         uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
           java-version: '11'
-          cache: 'maven'
+          cache: 'gradle'
 
       - name: Install dependencies
         run: npm install
