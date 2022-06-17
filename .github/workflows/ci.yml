@@ -46,8 +46,7 @@ jobs:
           java-version: ${{ matrix.java }}
 
       - name: Install dependencies
-        # run: npm ci
-        run: npm i
+        run: npm ci
 
       - name: Unit tests
         run: npm run nx affected -- --target=test --parallel=3 --ci --code-coverage
