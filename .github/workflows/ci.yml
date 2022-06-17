@@ -51,10 +51,11 @@ jobs:
         run: npm ci
 
       - name: Unit tests
-        run: npm run nx affected -- --target=test
+        run: npm run nx affected -- --target=test --parallel=3 --ci --code-coverage
 
       - name: Build
-        run: npm run nx affected -- --target=build
+#        run: npm run nx affected -- --target=build --parallel=3
+        run: npm run nx run-many -- --target=build --all --parallel=3
 
       - name: E2E tests
-        run: npm run nx affected -- --target=e2e
+        run: npm run nx affected -- --target=e2e --parallel=3
