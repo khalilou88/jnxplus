@@ -12,7 +12,7 @@ import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
 import { normalizeName } from '../../utils/command';
 import { LinterType } from '../../utils/types';
-import { readXml } from '../../utils/xml';
+import { readXmlTree } from '../../utils/xml';
 import { NxBootMavenLibGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootMavenLibGeneratorSchema {
@@ -66,7 +66,7 @@ function normalizeOptions(
     .relative(projectRoot, tree.root)
     .replace(new RegExp(/\\/, 'g'), '/');
 
-  const pomXmlContent = readXml(tree, 'pom.xml');
+  const pomXmlContent = readXmlTree(tree, 'pom.xml');
   const parentGroupId = pomXmlContent.childNamed('groupId').val;
   const parentProjectName = pomXmlContent.childNamed('artifactId').val;
   const parentProjectVersion = pomXmlContent.childNamed('version').val;
@@ -166,7 +166,7 @@ export default async function (
 
 function addProjectToParentPomXml(tree: Tree, options: NormalizedSchema) {
   const filePath = `pom.xml`;
-  const xmldoc = readXml(tree, filePath);
+  const xmldoc = readXmlTree(tree, filePath);
   const fragment = new XmlDocument(`
   <module>${options.projectRoot}</module>
 `);
@@ -178,7 +178,7 @@ function addLibraryToProjects(tree: Tree, options: NormalizedSchema) {
   for (const projectName of options.parsedProjects) {
     const projectRoot = readProjectConfiguration(tree, projectName).root;
     const filePath = path.join(projectRoot, `pom.xml`);
-    const xmldoc = readXml(tree, filePath);
+    const xmldoc = readXmlTree(tree, filePath);
     const dependency = new XmlDocument(`
 		<dependency>
 			<groupId>${options.groupId}</groupId>
