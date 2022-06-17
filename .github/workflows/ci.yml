@@ -14,8 +14,7 @@ jobs:
   Run_checks:
     strategy:
       matrix:
-#        os: [ubuntu-latest, windows-latest, macOS-latest]
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
         node_version: ['14', '16']
         java: ['11', '17']
     runs-on: ${{ matrix.os }}
