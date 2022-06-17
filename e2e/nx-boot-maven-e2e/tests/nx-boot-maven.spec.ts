@@ -23,6 +23,7 @@ import {
 
 describe('nx-boot-maven e2e', () => {
   const isWin = process.platform === 'win32';
+  const isMacOs = process.platform === 'darwin';
   beforeAll(async () => {
     fse.ensureDirSync(tmpProjPath());
     cleanup();
@@ -134,7 +135,7 @@ describe('nx-boot-maven e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
-    if (!isWin) {
+    if (!isWin && !isMacOs) {
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
       );
@@ -279,6 +280,13 @@ describe('nx-boot-maven e2e', () => {
     expect(() => checkFilesExist(`apps/${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
+
+    if (!isWin && !isMacOs) {
+      const buildImageResult = await runNxCommandAsync(
+        `build-image ${appName}`
+      );
+      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
+    }
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
