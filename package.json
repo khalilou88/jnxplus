@@ -3,13 +3,11 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "nx": "nx",
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
     "e2e": "nx e2e",
-    "affected:build": "nx affected:build",
-    "affected:test": "nx affected:test",
-    "affected:e2e": "nx affected:e2e",
     "prepare": "husky install",
     "pre-commit": "lint-staged"
   },

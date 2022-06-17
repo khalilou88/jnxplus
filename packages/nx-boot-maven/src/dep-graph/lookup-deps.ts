@@ -8,7 +8,7 @@ import {
 import { fileExists } from 'nx/src/utils/fileutils';
 import { join } from 'path';
 import { XmlDocument } from 'xmldoc';
-import { readXml2 } from '../utils/xml';
+import { readXml } from '../utils/xml';
 
 export function processProjectGraph(
   graph: ProjectGraph,
@@ -23,7 +23,7 @@ export function processProjectGraph(
     const pomXmlPath = join(workspaceRoot, project.data.root, 'pom.xml');
 
     if (fileExists(pomXmlPath)) {
-      const pomXmlContent = readXml2(pomXmlPath);
+      const pomXmlContent = readXml(pomXmlPath);
       const dependencies = getDependencies(pomXmlContent, projectNames);
       for (const dependency of dependencies) {
         builder.addExplicitDependency(
