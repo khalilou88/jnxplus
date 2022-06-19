@@ -16,6 +16,7 @@ export function processProjectGraph(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   context: ProjectGraphProcessorContext
 ): ProjectGraph {
+  logger.info(`workspaceRoot: ${workspaceRoot}`);
   logger.info(
     `processProjectGraph ran for nx-boot-maven with context: ${JSON.stringify(
       context
