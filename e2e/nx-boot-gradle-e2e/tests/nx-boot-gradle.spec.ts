@@ -678,9 +678,10 @@ describe('nx-boot-gradle e2e', () => {
     const depGraphResult = await runNxCommandAsync(
       `dep-graph --file=dep-graph.json`
     );
-    expect(depGraphResult).toContain(
+    expect(depGraphResult.stdout).toContain(
       'processProjectGraph ran for nx-boot-gradle with context:'
     );
+    expect(depGraphResult.stderr).toBeFalsy();
 
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.nodes[appName]).toBeDefined();
