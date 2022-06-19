@@ -1,4 +1,5 @@
 import {
+  logger,
   ProjectGraph,
   ProjectGraphBuilder,
   ProjectGraphNode,
@@ -15,6 +16,12 @@ export function processProjectGraph(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   context: ProjectGraphProcessorContext
 ): ProjectGraph {
+  logger.info(
+    `processProjectGraph ran for nx-boot-maven with context: ${JSON.stringify(
+      context
+    )}`
+  );
+
   const builder = new ProjectGraphBuilder(graph);
 
   const projects = getManagedProjects(builder.graph.nodes);

@@ -624,7 +624,13 @@ describe('nx-boot-maven e2e', () => {
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
 
-    await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult).toContain(
+      'processProjectGraph ran for nx-boot-maven with context:'
+    );
+
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.nodes[appName]).toBeDefined();
     expect(depGraphJson.graph.nodes[libName]).toBeDefined();
