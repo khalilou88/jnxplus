@@ -54,4 +54,4 @@ nx generate @jnxplus/nx-boot-gradle:init
 
 ## License
 
-MIT © 2021 Khalil LAGRIDA
+MIT © 2021-2022 Khalil LAGRIDA

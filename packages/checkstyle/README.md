@@ -16,4 +16,4 @@ npm install --save-dev @jnxplus/checkstyle
 
 ## License
 
-MIT © 2021 Khalil
+MIT © 2021-2022 Khalil
