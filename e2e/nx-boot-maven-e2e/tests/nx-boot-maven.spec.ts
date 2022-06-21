@@ -151,9 +151,7 @@ describe('nx-boot-maven e2e', () => {
     const formatResult = await runNxCommandAsync(
       `format:check --projects ${appName}`
     );
-    expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base='
-    );
+    expect(formatResult.stdout).toContain('');
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
       output.includes(`Tomcat started on port(s): 8080`)
@@ -220,9 +218,7 @@ describe('nx-boot-maven e2e', () => {
     const formatResult = await runNxCommandAsync(
       `format:check --projects ${appName}`
     );
-    expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base='
-    );
+    expect(formatResult.stdout).toContain('');
 
     const process = await runNxCommandUntil(
       `serve ${appName} --args="-Dspring-boot.run.profiles=test"`,
@@ -362,9 +358,7 @@ describe('nx-boot-maven e2e', () => {
     const formatResult = await runNxCommandAsync(
       `format:check --projects ${appName}`
     );
-    expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base='
-    );
+    expect(formatResult.stdout).toContain('');
 
     const process = await runNxCommandUntil(
       `serve ${appName} --args="-Dspring-boot.run.profiles=test"`,
@@ -427,9 +421,7 @@ describe('nx-boot-maven e2e', () => {
     const formatResult = await runNxCommandAsync(
       `format:check --projects ${libName}`
     );
-    expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base='
-    );
+    expect(formatResult.stdout).toContain('');
   }, 1200000);
 
   it('should create a kotlin library', async () => {
@@ -525,9 +517,7 @@ describe('nx-boot-maven e2e', () => {
     const formatResult = await runNxCommandAsync(
       `format:check --projects ${libName}`
     );
-    expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base='
-    );
+    expect(formatResult.stdout).toContain('');
   }, 1200000);
 
   it('--a lib with aliases', async () => {
@@ -575,9 +565,7 @@ describe('nx-boot-maven e2e', () => {
     const formatResult = await runNxCommandAsync(
       `format:check --projects ${libName}`
     );
-    expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base='
-    );
+    expect(formatResult.stdout).toContain('');
   }, 1200000);
 
   it('should add a lib to an app dependencies', async () => {
@@ -631,9 +619,7 @@ describe('nx-boot-maven e2e', () => {
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`
     );
-    expect(formatResult.stdout).toContain(
-      'Affected criteria defaulted to --base='
-    );
+    expect(formatResult.stdout).toContain('HelloController.java');
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
