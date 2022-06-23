@@ -12,6 +12,7 @@ import { readXml } from '../utils/xml';
 
 export function processProjectGraph(
   graph: ProjectGraph,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   context: ProjectGraphProcessorContext
 ): ProjectGraph {
   const builder = new ProjectGraphBuilder(graph);
@@ -38,12 +39,14 @@ export function processProjectGraph(
   return builder.getUpdatedProjectGraph();
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getManagedProjects(nodes: Record<string, ProjectGraphNode<any>>) {
   return Object.entries(nodes)
     .filter((node) => isManagedProject(node[1]))
     .map((node) => node[1]);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isManagedProject(projectGraphNode: ProjectGraphNode<any>): boolean {
   return (
     (projectGraphNode.type === 'app' || projectGraphNode.type === 'lib') &&
