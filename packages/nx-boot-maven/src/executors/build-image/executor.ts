@@ -8,7 +8,7 @@ export default async function runExecutor(
 ) {
   logger.info(`Executor ran for Build Image: ${JSON.stringify(options)}`);
   return runCommand(
-    `${getExecutable()} spring-boot:build-image -DskipTests=true -pl :${
+    `${getExecutable()} spring-boot:build-image -DskipTests=true -am -pl :${
       context.projectName
     }`
   );

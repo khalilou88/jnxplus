@@ -8,7 +8,7 @@ export default async function runExecutor(
 ) {
   logger.info(`Executor ran for serve: ${JSON.stringify(options)}`);
 
-  let command = `${getExecutable()} spring-boot:run -pl :${
+  let command = `${getExecutable()} spring-boot:run -am -pl :${
     context.projectName
   }`;
 

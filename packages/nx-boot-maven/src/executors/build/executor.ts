@@ -17,7 +17,7 @@ export default async function runExecutor(
   }
 
   return runCommand(
-    `${getExecutable()} ${target} -DskipTests=true -pl :${context.projectName}`,
+    `${getExecutable()} ${target} -DskipTests=true -am -pl :${context.projectName}`,
     `${getExecutable()} clean install -N`
   );
 }
