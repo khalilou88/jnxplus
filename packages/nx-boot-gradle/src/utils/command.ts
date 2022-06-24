@@ -1,4 +1,4 @@
-import { ExecutorContext, logger } from '@nrwl/devkit';
+import { ExecutorContext, logger, workspaceRoot } from '@nrwl/devkit';
 import { execSync } from 'child_process';
 import { resolve } from 'path';
 
@@ -23,7 +23,7 @@ export function runCommand(command: string): { success: boolean } {
     if (process.env.NX_VERBOSE_LOGGING === 'true') {
       logger.debug(`Executing command: ${command}`);
     }
-    execSync(command, { cwd: process.cwd(), stdio: [0, 1, 2] });
+    execSync(command, { cwd: workspaceRoot, stdio: [0, 1, 2] });
     return { success: true };
   } catch (e) {
     if (process.env.NX_VERBOSE_LOGGING === 'true') {
