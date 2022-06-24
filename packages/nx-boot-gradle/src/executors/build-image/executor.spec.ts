@@ -15,6 +15,7 @@ const context: ExecutorContext = {
   workspace: {
     version: 2,
     projects: {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       'my-app': <any>{
         root: 'apps/wibble',
         sourceRoot: 'apps/wibble',

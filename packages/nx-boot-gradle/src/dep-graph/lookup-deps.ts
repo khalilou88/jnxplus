@@ -11,6 +11,7 @@ import { join } from 'path';
 
 export function processProjectGraph(
   graph: ProjectGraph,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   context: ProjectGraphProcessorContext
 ): ProjectGraph {
   const builder = new ProjectGraphBuilder(graph);
@@ -67,13 +68,16 @@ export function processProjectGraph(
 }
 
 function getManagedProjects(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   nodes: Record<string, ProjectGraphNode<any>>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): ProjectGraphNode<any>[] {
   return Object.entries(nodes)
     .filter((node) => isManagedProject(node[1]))
     .map((node) => node[1]);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isManagedProject(projectGraphNode: ProjectGraphNode<any>): boolean {
   return (
     (projectGraphNode.type === 'app' || projectGraphNode.type === 'lib') &&
@@ -95,6 +99,7 @@ function getDependencies(buildGradleContents: string) {
 
 function getDependencyProjectName(
   gradleProjectPath: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   managedProjects: ProjectGraphNode<any>[]
 ) {
   const [, ...folders] = gradleProjectPath.split(':');

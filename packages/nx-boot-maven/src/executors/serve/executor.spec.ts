@@ -15,6 +15,7 @@ const context: ExecutorContext = {
   workspace: {
     version: 2,
     projects: {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       'my-app': <any>{
         root: 'apps/wibble',
         sourceRoot: 'apps/wibble',
@@ -34,7 +35,9 @@ describe('Serve Executor', () => {
     const output = await executor(options, context);
 
     expect(output.success).toBe(true);
-    expect(runCommand).toHaveBeenCalledWith(expect.stringMatching(/spring-boot:run -pl :my-app args$/));
+    expect(runCommand).toHaveBeenCalledWith(
+      expect.stringMatching(/spring-boot:run -pl :my-app args$/)
+    );
   });
 
   describe('when args option is undefined', () => {
@@ -42,7 +45,9 @@ describe('Serve Executor', () => {
       const output = await executor({} as ServeExecutorSchema, context);
 
       expect(output.success).toBe(true);
-      expect(runCommand).toHaveBeenCalledWith(expect.stringMatching(/spring-boot:run -pl :my-app$/));
+      expect(runCommand).toHaveBeenCalledWith(
+        expect.stringMatching(/spring-boot:run -pl :my-app$/)
+      );
     });
   });
 });
