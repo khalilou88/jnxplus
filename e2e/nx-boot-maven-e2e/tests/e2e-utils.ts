@@ -1,12 +1,12 @@
 import { getPackageManagerCommand } from '@nrwl/devkit';
 import { tmpProjPath } from '@nrwl/nx-plugin/testing';
-import { ChildProcess, exec } from 'child_process';
-import { check as portCheck } from 'tcp-port-used';
-import chalk = require('chalk');
-import { promisify } from 'util';
-import treeKill = require('tree-kill');
-import { execSync } from 'child_process';
+import { ChildProcess, exec, execSync } from 'child_process';
 import * as path from 'path';
+import { check as portCheck } from 'tcp-port-used';
+import { promisify } from 'util';
+import chalk = require('chalk');
+import treeKill = require('tree-kill');
+const kill = require('kill-port');
 
 export function runNxNewCommand(args?: string, silent?: boolean) {
   const localTmpDir = path.dirname(tmpProjPath());
@@ -79,7 +79,6 @@ export function runNxCommandUntil(
 }
 
 const KILL_PORT_DELAY = 5000;
-const kill = require('kill-port');
 
 export async function killPort(port: number): Promise<boolean> {
   if (await portCheck(port)) {
