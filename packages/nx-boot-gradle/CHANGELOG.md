@@ -1,5 +1,10 @@
 # Changelog
 
+# 2.3.0 (2022-06-24)
+
+- Run commands from workspace root
+- Update Nx
+
 # 2.2.1 (2022-06-14)
 
 - Fix serve app with no args
