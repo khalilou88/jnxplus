@@ -24,8 +24,11 @@
     "maven",
     "maven multi-module project"
   ],
-  "dependencies": {
+  "dependencies": {},
+  "peerDependencies": {
     "@nrwl/devkit": "~14.3.6",
+    "@nrwl/workspace": "~14.3.6",
+    "@nrwl/tao": "~14.3.6",
     "prettier-plugin-java": "~1.6.2",
     "@prettier/plugin-xml": "~2.2.0",
     "@jnxplus/checkstyle": "~9.3.0",
