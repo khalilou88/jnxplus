@@ -119,9 +119,9 @@ describe('nx-boot-maven e2e', () => {
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good informations
-    const buildmaven = readFile(`apps/${appName}/pom.xml`);
-    expect(buildmaven.includes('com.example')).toBeTruthy();
-    expect(buildmaven.includes('0.0.1-SNAPSHOT')).toBeTruthy();
+    const pomXml = readFile(`apps/${appName}/pom.xml`);
+    expect(pomXml.includes('com.example')).toBeTruthy();
+    expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
@@ -335,12 +335,12 @@ describe('nx-boot-maven e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the pom.xml file contains the good informations
-    const buildmaven = readFile(`apps/${appDir}/${randomName}/pom.xml`);
-    expect(buildmaven.includes('com.jnxplus')).toBeTruthy();
-    expect(buildmaven.includes('1.2.3')).toBeTruthy();
-    expect(buildmaven.includes('war')).toBeTruthy();
-    expect(buildmaven.includes('spring-boot-starter-tomcat')).toBeTruthy();
+    // Making sure the pom.xml file contains the good information
+    const pomXml = readFile(`apps/${appDir}/${randomName}/pom.xml`);
+    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('1.2.3')).toBeTruthy();
+    expect(pomXml.includes('war')).toBeTruthy();
+    expect(pomXml.includes('spring-boot-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
@@ -496,7 +496,7 @@ describe('nx-boot-maven e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the pom.xml file contains the good informations
+    // Making sure the pom.xml file contains the good information
     const pomXml = readFile(`libs/${libDir}/${randomName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
@@ -544,7 +544,7 @@ describe('nx-boot-maven e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the pom.xml file contains the good informations
+    // Making sure the pom.xml file contains the good information
     const pomXml = readFile(`libs/${libDir}/${randomName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
