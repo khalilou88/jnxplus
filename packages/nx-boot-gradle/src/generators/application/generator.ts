@@ -40,14 +40,9 @@ function normalizeOptions(
     : [];
 
   const appClassName = `${names(projectName).className}Application`;
-  const packageName = `${options.groupId}.${
-    options.directory
-      ? `${names(options.directory).fileName.replace(
-          new RegExp(/\//, 'g'),
-          '.'
-        )}.${names(simpleProjectName).className.toLocaleLowerCase()}`
-      : names(simpleProjectName).className.toLocaleLowerCase()
-  }`;
+  const packageName = `${options.groupId}.${names(
+    simpleProjectName
+  ).className.toLocaleLowerCase()}`;
   const packageDirectory = packageName.replace(new RegExp(/\./, 'g'), '/');
 
   const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
