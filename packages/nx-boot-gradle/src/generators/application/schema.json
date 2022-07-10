@@ -49,6 +49,25 @@
       "default": "com.example",
       "x-prompt": "What groupId would you like to use?"
     },
+    "packageNameType": {
+      "description": "Package name type",
+      "type": "string",
+      "default": "long",
+      "x-prompt": {
+        "message": "How do you like to construct the PackageName?",
+        "type": "list",
+        "items": [
+          {
+            "value": "short",
+            "label": "Short: groupId + projectName"
+          },
+          {
+            "value": "long",
+            "label": "Long: groupId + projectDirectory + projectName"
+          }
+        ]
+      }
+    },
     "projectVersion": {
       "type": "string",
       "default": "0.0.1-SNAPSHOT",

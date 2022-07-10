@@ -6,6 +6,7 @@ export interface NxBootMavenLibGeneratorSchema {
   directory?: string;
   language: LanguageType;
   groupId: string;
+  packageNameType: PackageNameType;
   projectVersion: string;
   projects?: string;
 }

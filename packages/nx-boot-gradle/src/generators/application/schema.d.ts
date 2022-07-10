@@ -6,6 +6,7 @@ export interface NxBootGradleAppGeneratorSchema {
   directory?: string;
   language: LanguageType;
   groupId: string;
+  packageNameType: PackageNameType;
   projectVersion: string;
   packaging: PackagingType;
   configFormat: '.properties' | '.yml';
