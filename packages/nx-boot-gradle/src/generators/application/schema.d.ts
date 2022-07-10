@@ -1,4 +1,8 @@
-import { LanguageType, PackagingType } from '../../utils/types';
+import {
+  LanguageType,
+  PackageNameType,
+  PackagingType,
+} from '../../utils/types';
 
 export interface NxBootGradleAppGeneratorSchema {
   name: string;
