@@ -47,7 +47,7 @@ function normalizeOptions(
     : [];
 
   const packageName = `${options.groupId}.${
-    options.directory
+    options.packageNameType === 'long' && options.directory
       ? `${names(options.directory).fileName.replace(
           new RegExp(/\//, 'g'),
           '.'

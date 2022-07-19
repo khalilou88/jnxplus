@@ -263,6 +263,82 @@ describe('nx-boot-gradle e2e', () => {
     }
   }, 1200000);
 
+  it('should generate an app with a simple package name', async () => {
+    const randomName = uniq('boot-gradle-app-');
+    const appDir = 'deep/subdir';
+    const appName = `${normalizeName(appDir)}-${randomName}`;
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --packageNameType short --projectVersion 1.2.3 --packaging war --configFormat .yml`
+    );
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appDir}/${randomName}/build.gradle`,
+        `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/${
+          names(appName).className
+        }Application.java`,
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/HelloController.java`,
+
+        `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
+        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+      )
+    ).not.toThrow();
+
+    // Making sure the build.gradle file contains the good informations
+    const buildGradle = readFile(`apps/${appDir}/${randomName}/build.gradle`);
+    expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
+    expect(buildGradle.includes('1.2.3')).toBeTruthy();
+    expect(buildGradle.includes('war')).toBeTruthy();
+    expect(
+      buildGradle.includes(
+        'org.springframework.boot:spring-boot-starter-tomcat'
+      )
+    ).toBeTruthy();
+
+    //should add tags to project.json
+    const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
+    expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    const formatResult = await runNxCommandAsync(
+      `format:check --projects ${appName}`
+    );
+    expect(formatResult.stdout).toContain('');
+
+    const process = await runNxCommandUntil(
+      `serve ${appName} --args="--spring.profiles.active=test"`,
+      (output) => output.includes(`Tomcat started on port(s): 8080`)
+    );
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(8080);
+    } catch (err) {
+      expect(err).toBeFalsy();
+    }
+  }, 1200000);
+
   it('should create an kotlin application', async () => {
     const appName = uniq('boot-gradle-app-');
 
@@ -544,6 +620,58 @@ describe('nx-boot-gradle e2e', () => {
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
+    const buildGradle = readFile(`libs/${libDir}/${randomName}/build.gradle`);
+    expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
+    expect(buildGradle.includes('1.2.3')).toBeTruthy();
+
+    //should add tags to project.json
+    const projectJson = readJson(`libs/${libDir}/${randomName}/project.json`);
+    expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    const formatResult = await runNxCommandAsync(
+      `format:check --projects ${libName}`
+    );
+    expect(formatResult.stdout).toContain('');
+  }, 1200000);
+
+  it('should generare a lib with a simple package name', async () => {
+    const randomName = uniq('boot-gradle-lib-');
+    const libDir = 'deep/subdir';
+    const libName = `${normalizeName(libDir)}-${randomName}`;
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --packageNameType short --projectVersion 1.2.3`
+    );
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libDir}/${randomName}/build.gradle`,
+        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/HelloService.java`,
+        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
+        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+      )
+    ).not.toThrow();
+
+    // Making sure the build.gradle file contains the good informations
     const buildGradle = readFile(`libs/${libDir}/${randomName}/build.gradle`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();

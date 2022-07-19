@@ -374,6 +374,74 @@ describe('nx-boot-maven e2e', () => {
     }
   }, 1200000);
 
+  it('should generate an app with a simple package name', async () => {
+    const randomName = uniq('boot-gradle-app-');
+    const appDir = 'subdir';
+    const appName = `${appDir}-${randomName}`;
+
+    await runNxCommandAsync(
+      `g @jnxplus/nx-boot-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --packageNameType short --v 1.2.3 --packaging war --configFormat .yml`
+    );
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appDir}/${randomName}/pom.xml`,
+        `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/${
+          names(appName).className
+        }Application.java`,
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/HelloController.java`,
+
+        `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
+        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+      )
+    ).not.toThrow();
+
+    // Making sure the pom.xml file contains the good informations
+    const buildmaven = readFile(`apps/${appDir}/${randomName}/pom.xml`);
+    expect(buildmaven.includes('com.jnxplus')).toBeTruthy();
+    expect(buildmaven.includes('1.2.3')).toBeTruthy();
+    expect(buildmaven.includes('war')).toBeTruthy();
+    expect(buildmaven.includes('spring-boot-starter-tomcat')).toBeTruthy();
+
+    //should add tags to project.json
+    const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
+    expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    const formatResult = await runNxCommandAsync(
+      `format:check --projects ${appName}`
+    );
+    expect(formatResult.stdout).toContain('');
+
+    const process = await runNxCommandUntil(
+      `serve ${appName} --args="-Dspring-boot.run.profiles=test"`,
+      (output) => output.includes(`Tomcat started on port(s): 8080`)
+    );
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(8080);
+    } catch (err) {
+      expect(err).toBeFalsy();
+    }
+  }, 1200000);
+
   it('should create a library', async () => {
     const libName = uniq('boot-maven-lib-');
 
@@ -497,6 +565,54 @@ describe('nx-boot-maven e2e', () => {
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good information
+    const pomXml = readFile(`libs/${libDir}/${randomName}/pom.xml`);
+    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('1.2.3')).toBeTruthy();
+
+    //should add tags to project.json
+    const projectJson = readJson(`libs/${libDir}/${randomName}/project.json`);
+    expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    const formatResult = await runNxCommandAsync(
+      `format:check --projects ${libName}`
+    );
+    expect(formatResult.stdout).toContain('');
+  }, 1200000);
+
+  it('should generare a lib with a simple package name', async () => {
+    const randomName = uniq('boot-gradle-lib-');
+    const libDir = 'deep/subdir';
+    const libName = `${normalizeName(libDir)}-${randomName}`;
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --packageNameType short --projectVersion 1.2.3`
+    );
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libDir}/${randomName}/pom.xml`,
+        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/HelloService.java`,
+        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
+        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+      )
+    ).not.toThrow();
+
+    // Making sure the pom.xml file contains the good informations
     const pomXml = readFile(`libs/${libDir}/${randomName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();

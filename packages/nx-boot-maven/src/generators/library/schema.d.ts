@@ -1,4 +1,4 @@
-import { LanguageType } from '../../utils/types';
+import { LanguageType, PackageNameType } from '../../utils/types';
 
 export interface NxBootMavenLibGeneratorSchema {
   name: string;
@@ -6,6 +6,7 @@ export interface NxBootMavenLibGeneratorSchema {
   directory?: string;
   language: LanguageType;
   groupId: string;
+  packageNameType: PackageNameType;
   projectVersion: string;
   projects?: string;
 }

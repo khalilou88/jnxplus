@@ -10,6 +10,7 @@ describe('library generator', () => {
     name: 'test',
     language: 'java',
     groupId: 'com.example',
+    packageNameType: 'long',
     projectVersion: '0.0.1-SNAPSHOT',
   };
 
