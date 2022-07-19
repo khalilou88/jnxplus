@@ -24,8 +24,11 @@
     "gradle",
     "gradle multi-project build"
   ],
-  "dependencies": {
+  "dependencies": {},
+  "peerDependencies": {
     "@nrwl/devkit": "~14.3.6",
+    "@nrwl/workspace": "~14.3.6",
+    "@nrwl/tao": "~14.3.6",
     "prettier-plugin-java": "~1.6.2",
     "@jnxplus/checkstyle": "~9.3.0",
     "@jnxplus/pmd": "~6.42.0",
