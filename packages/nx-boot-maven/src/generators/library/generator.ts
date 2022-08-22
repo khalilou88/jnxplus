@@ -12,7 +12,7 @@ import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
 import { normalizeName } from '../../utils/command';
 import { LinterType } from '../../utils/types';
-import { readXmlTree } from '../../utils/xml';
+import { readXmlTree, xmlToString } from '../../utils/xml';
 import { NxBootMavenLibGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootMavenLibGeneratorSchema {
@@ -171,7 +171,7 @@ function addProjectToParentPomXml(tree: Tree, options: NormalizedSchema) {
   <module>${options.projectRoot}</module>
 `);
   xmldoc.childNamed('modules').children.push(fragment);
-  tree.write(filePath, xmldoc.toString());
+  tree.write(filePath, xmlToString(xmldoc));
 }
 
 function addLibraryToProjects(tree: Tree, options: NormalizedSchema) {
@@ -187,6 +187,6 @@ function addLibraryToProjects(tree: Tree, options: NormalizedSchema) {
 		</dependency>
   `);
     xmldoc.childNamed('dependencies').children.push(dependency);
-    tree.write(filePath, xmldoc.toString());
+    tree.write(filePath, xmlToString(xmldoc));
   }
 }

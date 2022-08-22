@@ -11,7 +11,7 @@ import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
 import { normalizeName } from '../../utils/command';
 import { LinterType } from '../../utils/types';
-import { readXmlTree } from '../../utils/xml';
+import { readXmlTree, xmlToString } from '../../utils/xml';
 import { NxBootMavenAppGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootMavenAppGeneratorSchema {
@@ -198,9 +198,7 @@ export default async function (
 function addProjectToParentPomXml(tree: Tree, options: NormalizedSchema) {
   const filePath = `pom.xml`;
   const xmldoc = readXmlTree(tree, filePath);
-  const fragment = new XmlDocument(`
-  <module>${options.projectRoot}</module>
-`);
+  const fragment = new XmlDocument(`<module>${options.projectRoot}</module>`);
   xmldoc.childNamed('modules').children.push(fragment);
-  tree.write(filePath, xmldoc.toString());
+  tree.write(filePath, xmlToString(xmldoc));
 }

@@ -14,3 +14,10 @@ export function readXml(filePath: string): XmlDocument {
   const fileText = fs.readFileSync(filePath, 'utf-8');
   return new XmlDocument(fileText);
 }
+
+export function xmlToString(xmldoc: XmlDocument) {
+  return (
+    `<?xml version="1.0" encoding="UTF-8"?>` +
+    xmldoc.toString({ compressed: true, preserveWhitespace: true })
+  );
+}
