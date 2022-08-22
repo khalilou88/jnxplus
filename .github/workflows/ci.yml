@@ -59,6 +59,6 @@ jobs:
         run: npm run nx affected -- --target=build --parallel=3
 
       - name: E2E tests
-        run: npm run nx affected -- --target=e2e 
+        run: npm run nx run-many -- --target=e2e 
         env:
           NX_VERBOSE_LOGGING: 'true'
