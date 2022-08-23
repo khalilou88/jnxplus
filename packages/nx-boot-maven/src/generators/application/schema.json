@@ -104,7 +104,7 @@
         "items": [
           {
             "value": ".properties",
-            "label": "Properties "
+            "label": "Properties"
           },
           {
             "value": ".yml",
