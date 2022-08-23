@@ -33,6 +33,7 @@
     "@prettier/plugin-xml": "~2.2.0",
     "@jnxplus/checkstyle": "~9.3.0",
     "@jnxplus/pmd": "~6.42.0",
-    "@jnxplus/ktlint": "~0.43.2"
+    "@jnxplus/ktlint": "~0.43.2",
+    "xmldoc": "~1.2.0"
   }
 }
