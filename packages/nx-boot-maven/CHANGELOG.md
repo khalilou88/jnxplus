@@ -1,5 +1,9 @@
 # Changelog
 
+# 2.4.1 (2022-08-23)
+
+- Add xmldoc to the plugin deps
+
 # 2.4.0 (2022-08-23)
 
 - Use peerDependencies
