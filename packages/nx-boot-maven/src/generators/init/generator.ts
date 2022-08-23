@@ -64,6 +64,7 @@ export default async function (
   addFiles(tree, normalizedOptions);
   updateNxJson(tree);
   updateGitIgnore(tree);
+  updatePrettierRc(tree);
   updatePrettierIgnore(tree);
   tree.changePermissions('mvnw', '755');
   tree.changePermissions('mvnw.cmd', '755');
@@ -89,6 +90,14 @@ function updateNxJson(tree: Tree) {
     nxJson.plugins.push('@jnxplus/nx-boot-maven');
     // return modified JSON object
     return nxJson;
+  });
+}
+
+function updatePrettierRc(tree: Tree) {
+  updateJson(tree, '.prettierrc', (prettierRcJson) => {
+    prettierRcJson.xmlWhitespaceSensitivity = 'ignore';
+    // return modified JSON object
+    return prettierRcJson;
   });
 }
 
