@@ -64,5 +64,5 @@ jobs:
           NX_VERBOSE_LOGGING: 'true'
           NX_E2E_SKIP_BUILD_CLEANUP: 'true'
           NX_CACHE_DIRECTORY: ${{ matrix.os-cache-dir }}
-          NX_CACHE_PROJECT_GRAPH: 'false'
+          NX_CACHE_PROJECT_GRAPH: 'true'
           NX_DAEMON: 'false'
