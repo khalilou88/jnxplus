@@ -723,9 +723,6 @@ describe('nx-boot-maven e2e', () => {
 
     updateFile(helloControllerPath, newHelloControllerContent);
 
-    //TODO this because graph don't work well
-    await runNxCommandAsync(`build ${libName}`);
-
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
