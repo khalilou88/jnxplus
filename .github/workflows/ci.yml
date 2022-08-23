@@ -63,5 +63,4 @@ jobs:
         env:
           NX_VERBOSE_LOGGING: 'true'
           NX_E2E_SKIP_BUILD_CLEANUP: 'true'
-          NX_CACHE_DIRECTORY: 'tmp'
-          NX_E2E_CI_CACHE_KEY: ${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.java }}
+          NX_CACHE_DIRECTORY: ${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.java }}
