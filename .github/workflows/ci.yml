@@ -64,3 +64,5 @@ jobs:
           NX_VERBOSE_LOGGING: 'true'
           NX_E2E_SKIP_BUILD_CLEANUP: 'true'
           NX_CACHE_DIRECTORY: ${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.java }}
+          NX_CACHE_PROJECT_GRAPH: 'false'
+          NX_DAEMON: 'false'
