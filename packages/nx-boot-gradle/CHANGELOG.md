@@ -1,5 +1,11 @@
 # Changelog
 
+# 2.4.0 (2022-08-26)
+
+- Use peerDependencies
+- Add packageNameType option to choose between short and long packageName
+- Update Nx to latest version (14.5.10)
+
 # 2.3.0 (2022-06-24)
 
 - Run commands from workspace root
