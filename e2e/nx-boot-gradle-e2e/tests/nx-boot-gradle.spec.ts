@@ -808,9 +808,6 @@ describe('nx-boot-gradle e2e', () => {
     expect(depGraphJson.graph.nodes[appName]).toBeDefined();
     expect(depGraphJson.graph.nodes[libName]).toBeDefined();
 
-    //This should break when the dep-graph will work properly in e2e tests
-    expect(depGraphJson.graph.dependencies[appName]).toEqual([]);
-
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
@@ -879,14 +876,10 @@ describe('nx-boot-gradle e2e', () => {
     expect(depGraphJson.graph.nodes[appName]).toBeDefined();
     expect(depGraphJson.graph.nodes[libName]).toBeDefined();
 
-    //This should break when the dep-graph will work properly in e2e tests
-    expect(depGraphJson.graph.dependencies[appName]).toEqual([]);
-
-    //TODO: not working yet
-    // expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
-    //   type: 'static',
-    //   source: appName,
-    //   target: libName,
-    // });
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: libName,
+    });
   }, 1200000);
 });
