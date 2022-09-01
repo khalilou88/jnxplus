@@ -811,12 +811,11 @@ describe('nx-boot-gradle e2e', () => {
     //This should break when the dep-graph will work properly in e2e tests
     expect(depGraphJson.graph.dependencies[appName]).toEqual([]);
 
-    //TODO: not working yet
-    // expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
-    //   type: 'static',
-    //   source: appName,
-    //   target: libName,
-    // });
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: libName,
+    });
   }, 1200000);
 
   it('should add a kotlin lib to a kotlin app dependencies', async () => {
