@@ -20,8 +20,11 @@ import {
   runNxCommandUntil,
   runNxNewCommand,
 } from './e2e-utils';
+import * as fs from 'fs';
 
 describe('nx-boot-maven e2e', () => {
+  const isCI =
+    process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
   beforeAll(async () => {
@@ -56,6 +59,13 @@ describe('nx-boot-maven e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-maven:init --parentProjectName ${parentProjectName}`
     );
+
+    if (isCI) {
+      const filePath = `${process.cwd()}/.gitignore`;
+      const fileContent = fs.readFileSync(filePath, 'utf-8');
+      const updatedFileContent = fileContent.replace('/tmp', '');
+      fs.writeFileSync(filePath, updatedFileContent);
+    }
   }, 1200000);
 
   afterAll(() => {
