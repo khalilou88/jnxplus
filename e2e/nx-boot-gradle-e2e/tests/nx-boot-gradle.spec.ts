@@ -13,6 +13,7 @@ import {
 } from '@nrwl/nx-plugin/testing';
 import * as fse from 'fs-extra';
 import * as path from 'path';
+import * as fs from 'fs';
 
 import {
   killPorts,
@@ -23,6 +24,8 @@ import {
 } from './e2e-utils';
 
 describe('nx-boot-gradle e2e', () => {
+  const isCI =
+    process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
   beforeEach(async () => {
@@ -48,6 +51,13 @@ describe('nx-boot-gradle e2e', () => {
       'node_modules/@jnxplus/ktlint'
     );
     runPackageManagerInstall();
+
+    if (isCI) {
+      const filePath = `${process.cwd()}/.gitignore`;
+      const fileContent = fs.readFileSync(filePath, 'utf-8');
+      const updatedFileContent = fileContent.replace('/tmp', '');
+      fs.writeFileSync(filePath, updatedFileContent);
+    }
   }, 1200000);
 
   afterAll(() => {
@@ -808,15 +818,11 @@ describe('nx-boot-gradle e2e', () => {
     expect(depGraphJson.graph.nodes[appName]).toBeDefined();
     expect(depGraphJson.graph.nodes[libName]).toBeDefined();
 
-    //This should break when the dep-graph will work properly in e2e tests
-    expect(depGraphJson.graph.dependencies[appName]).toEqual([]);
-
-    //TODO: not working yet
-    // expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
-    //   type: 'static',
-    //   source: appName,
-    //   target: libName,
-    // });
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: libName,
+    });
   }, 1200000);
 
   it('should add a kotlin lib to a kotlin app dependencies', async () => {
@@ -880,14 +886,10 @@ describe('nx-boot-gradle e2e', () => {
     expect(depGraphJson.graph.nodes[appName]).toBeDefined();
     expect(depGraphJson.graph.nodes[libName]).toBeDefined();
 
-    //This should break when the dep-graph will work properly in e2e tests
-    expect(depGraphJson.graph.dependencies[appName]).toEqual([]);
-
-    //TODO: not working yet
-    // expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
-    //   type: 'static',
-    //   source: appName,
-    //   target: libName,
-    // });
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: libName,
+    });
   }, 1200000);
 });
