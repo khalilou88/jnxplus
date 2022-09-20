@@ -32,4 +32,4 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
 
-      - run: npm run nx run-many --all --target=smoke
+      - run: npm run nx run-many --all -- --target=smoke
