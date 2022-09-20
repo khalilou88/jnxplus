@@ -1,5 +1,9 @@
 # Changelog
 
+# 2.5.1 (2022-09-20)
+
+- Fix plugin install with better use of peerDependencies and dependencies
+
 # 2.4.0 (2022-08-26)
 
 - Use peerDependencies
