@@ -23,7 +23,7 @@ const execSyncOptions: () => ExecSyncOptions = () => ({
 const testApp = uniq('test-app');
 const testLib = uniq('test-lib');
 
-describe('nx-dotnet smoke', () => {
+describe('@jnxplus/nx-boot-maven smoke', () => {
   beforeEach(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
       unsafeCleanup: true,
