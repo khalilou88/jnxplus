@@ -90,7 +90,7 @@ function updateGitIgnore(tree: Tree) {
 
 function updateNxJson(tree: Tree) {
   updateJson(tree, 'nx.json', (nxJson) => {
-    // if scripts is undefined, set it to an empty array
+    // if plugins is undefined, set it to an empty array
     nxJson.plugins = nxJson.plugins ?? [];
     // add @jnxplus/nx-boot-gradle plugin
     nxJson.plugins.push('@jnxplus/nx-boot-gradle');
