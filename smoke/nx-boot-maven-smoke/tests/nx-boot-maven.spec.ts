@@ -1,4 +1,4 @@
-import { uniq } from '@nrwl/nx-plugin/testing';
+import { readJson, uniq } from '@nrwl/nx-plugin/testing';
 
 import { execSync, ExecSyncOptions } from 'child_process';
 import { join } from 'path';
@@ -59,6 +59,17 @@ describe('@jnxplus/nx-boot-maven smoke', () => {
       `npx nx g @jnxplus/nx-boot-maven:lib ${testLib} --projects ${testApp}`,
       execSyncOptions()
     );
+
+    execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
+    expect(depGraphJson.graph.nodes[testLib]).toBeDefined();
+
+    expect(depGraphJson.graph.dependencies[testApp]).toContainEqual({
+      type: 'static',
+      source: testApp,
+      target: testLib,
+    });
 
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
   }, 1500000);
