@@ -1,4 +1,5 @@
-import { readJson, uniq } from '@nrwl/nx-plugin/testing';
+import { uniq } from '@nrwl/nx-plugin/testing';
+import { readJson } from 'fs-extra';
 
 import { execSync, ExecSyncOptions } from 'child_process';
 import { join } from 'path';
@@ -61,7 +62,9 @@ describe('@jnxplus/nx-boot-gradle smoke', () => {
     );
 
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
-    const depGraphJson = readJson('dep-graph.json');
+    const depGraphJson = readJson(
+      join(smokeDirectory, 'test', 'dep-graph.json')
+    );
     expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
     expect(depGraphJson.graph.nodes[testLib]).toBeDefined();
 
