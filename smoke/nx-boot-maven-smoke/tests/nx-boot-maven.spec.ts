@@ -5,6 +5,7 @@ import { execSync, ExecSyncOptions } from 'child_process';
 import { join } from 'path';
 
 import { dirSync } from 'tmp';
+import { readFileSync, writeFileSync } from 'fs';
 
 let smokeDirectory: string;
 let cleanup: () => void;
@@ -60,6 +61,11 @@ describe('@jnxplus/nx-boot-maven smoke', () => {
       `npx nx g @jnxplus/nx-boot-maven:lib ${testLib} --projects ${testApp}`,
       execSyncOptions()
     );
+
+    const filePath = join(smokeDirectory, 'test', '.gitignore');
+    const fileContent = readFileSync(filePath, 'utf-8');
+    const updatedFileContent = fileContent.replace('/tmp', '');
+    writeFileSync(filePath, updatedFileContent);
 
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
     const depGraphJson = readJson(
