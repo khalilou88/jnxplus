@@ -5,7 +5,6 @@ import { execSync, ExecSyncOptions } from 'child_process';
 import { join } from 'path';
 
 import { dirSync } from 'tmp';
-import { readFileSync, writeFileSync } from 'fs';
 
 let smokeDirectory: string;
 let cleanup: () => void;
@@ -64,16 +63,16 @@ describe('@jnxplus/nx-boot-maven smoke', () => {
 
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
     const depGraphJson = await readJson(
-       join(smokeDirectory, 'test', 'dep-graph.json')
-     );
+      join(smokeDirectory, 'test', 'dep-graph.json')
+    );
     expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
     expect(depGraphJson.graph.nodes[testLib]).toBeDefined();
 
     expect(depGraphJson.graph.dependencies[testApp]).toContainEqual({
-       type: 'static',
-       source: testApp,
-       target: testLib,
-     });
+      type: 'static',
+      source: testApp,
+      target: testLib,
+    });
 
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
   }, 1500000);
