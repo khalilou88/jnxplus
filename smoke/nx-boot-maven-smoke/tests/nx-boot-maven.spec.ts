@@ -24,6 +24,11 @@ const execSyncOptions: () => ExecSyncOptions = () => ({
 const testApp = uniq('test-app');
 const testLib = uniq('test-lib');
 
+const testApp2 = uniq('test-app2');
+const testLib2 = uniq('test-lib2');
+const testApp3 = uniq('test-app3');
+const testApp4 = uniq('test-app4');
+
 describe('@jnxplus/nx-boot-maven smoke', () => {
   beforeEach(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
@@ -61,7 +66,33 @@ describe('@jnxplus/nx-boot-maven smoke', () => {
       execSyncOptions()
     );
 
+    execSync(
+      `npx nx g @jnxplus/nx-boot-maven:application ${testApp2}`,
+      execSyncOptions()
+    );
+
+    execSync(
+      `npx nx g @jnxplus/nx-boot-maven:application ${testApp3}`,
+      execSyncOptions()
+    );
+
+    execSync(
+      `npx nx g @jnxplus/nx-boot-maven:application ${testApp4}`,
+      execSyncOptions()
+    );
+
+    execSync(
+      `npx nx g @jnxplus/nx-boot-maven:lib ${testLib2} --projects ${testApp2},${testApp3},${testApp4}`,
+      execSyncOptions()
+    );
+
+    execSync(
+      `npx nx run-many -- --target=build --all --parallel`,
+      execSyncOptions()
+    );
+
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
+
     const depGraphJson = await readJson(
       join(smokeDirectory, 'test', 'dep-graph.json')
     );
