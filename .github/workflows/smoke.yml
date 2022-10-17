@@ -20,7 +20,7 @@ jobs:
       NX_RUN_GROUP: ${{ github.run_id }}-v${{matrix.java}}
     steps:
       - uses: actions/checkout@v1
-      
+
       - name: Setup Java
         uses: actions/setup-java@v2
         with:
@@ -28,7 +28,7 @@ jobs:
           java-version: ${{ matrix.java }}
 
       - name: Set up node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node_version }}
 
