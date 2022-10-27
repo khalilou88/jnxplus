@@ -1,14 +1,14 @@
 {
   "version": 2,
   "projects": {
+    "checkstyle": "packages/checkstyle",
+    "ktlint": "packages/ktlint",
     "nx-boot-gradle": "packages/nx-boot-gradle",
     "nx-boot-gradle-e2e": "e2e/nx-boot-gradle-e2e",
     "nx-boot-gradle-smoke": "smoke/nx-boot-gradle-smoke",
     "nx-boot-maven": "packages/nx-boot-maven",
     "nx-boot-maven-e2e": "e2e/nx-boot-maven-e2e",
     "nx-boot-maven-smoke": "smoke/nx-boot-maven-smoke",
-    "checkstyle": "packages/checkstyle",
-    "ktlint": "packages/ktlint",
     "pmd": "packages/pmd"
   },
   "$schema": "./node_modules/nx/schemas/workspace-schema.json"

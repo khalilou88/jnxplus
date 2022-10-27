@@ -45,7 +45,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/nx-boot-gradle"],
+      "outputs": ["{workspaceRoot}/coverage/packages/nx-boot-gradle"],
       "options": {
         "jestConfig": "packages/nx-boot-gradle/jest.config.ts",
         "passWithNoTests": true
