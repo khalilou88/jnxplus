@@ -10,6 +10,9 @@
     "packaging": {
       "type": "string",
       "default": "jar"
+    },
+    "args": {
+      "type": "string"
     }
   },
   "required": ["packaging"]
