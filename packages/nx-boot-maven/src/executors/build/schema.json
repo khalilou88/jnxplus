@@ -6,6 +6,11 @@
   "title": "Build executor",
   "description": "",
   "type": "object",
-  "properties": {},
+  "properties": {
+    "args": {
+      "type": "string",
+      "description": "Arguments to pass to the maven cli"
+    }
+  },
   "required": []
 }
