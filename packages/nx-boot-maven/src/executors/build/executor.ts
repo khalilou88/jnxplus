@@ -8,7 +8,7 @@ export default async function runExecutor(
 ) {
   logger.info(`Executor ran for Build: ${JSON.stringify(options)}`);
   let target: string;
-  let args: string = '';
+  let args = '';
   if (getProjectType(context) === 'application') {
     target = 'package spring-boot:repackage';
   }
@@ -17,13 +17,14 @@ export default async function runExecutor(
     target = 'install';
   }
 
-
   if (options.args) {
     args = ` ${options.args}`;
   }
 
   return runCommand(
-    `${getExecutable()} ${target} ${args} -DskipTests=true -pl :${context.projectName}`,
+    `${getExecutable()} ${target} ${args} -DskipTests=true -pl :${
+      context.projectName
+    }`,
     `${getExecutable()} clean install -N`
   );
 }
