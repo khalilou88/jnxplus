@@ -6,7 +6,6 @@ jest.mock('../../utils/command');
 
 const options: BuildExecutorSchema = {
   packaging: 'jar',
-  args: 'args',
 };
 const context: ExecutorContext = {
   root: '/root',

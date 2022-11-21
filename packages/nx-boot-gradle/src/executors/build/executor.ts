@@ -8,7 +8,6 @@ export default async function runExecutor(
 ) {
   logger.info(`Executor ran for Build: ${JSON.stringify(options)}`);
   let target: string;
-  let args = '';
   if (getProjectType(context) === 'library') {
     target = 'jar';
   } else {
@@ -19,11 +18,8 @@ export default async function runExecutor(
       target = 'bootWar';
     }
   }
-  if (options.args) {
-    args = `--args='${options.args}'`;
-  }
 
-  return runCommand(`${getExecutable()} ${getProjectPath(context)}:${target} ${args}`);
+  return runCommand(`${getExecutable()} ${getProjectPath(context)}:${target}`);
 }
 
 function getProjectType(context: ExecutorContext) {
