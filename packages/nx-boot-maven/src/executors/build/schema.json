@@ -7,7 +7,7 @@
   "description": "",
   "type": "object",
   "properties": {
-    "args": {
+    "mvnArgs": {
       "type": "string",
       "description": "Arguments to pass to the maven cli"
     }
