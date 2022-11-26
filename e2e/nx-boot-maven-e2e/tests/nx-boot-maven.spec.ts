@@ -216,7 +216,9 @@ describe('nx-boot-maven e2e', () => {
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    const buildResult = await runNxCommandAsync(
+      `build ${appName} --mvnArgs='--no-transfer-progress'`
+    );
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -276,7 +278,9 @@ describe('nx-boot-maven e2e', () => {
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    const buildResult = await runNxCommandAsync(
+      `build ${appName} --mvnArgs="--no-transfer-progress"`
+    );
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     //should recreate target folder
