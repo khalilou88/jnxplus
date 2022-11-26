@@ -12,5 +12,6 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["nx-boot-maven"]
+  "implicitDependencies": ["nx-boot-maven"],
+  "name": "nx-boot-maven-e2e"
 }

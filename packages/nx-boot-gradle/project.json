@@ -53,5 +53,6 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["checkstyle", "pmd", "ktlint"]
+  "implicitDependencies": ["checkstyle", "pmd", "ktlint"],
+  "name": "nx-boot-gradle"
 }

@@ -11,5 +11,6 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["nx-boot-gradle"]
+  "implicitDependencies": ["nx-boot-gradle"],
+  "name": "smoke-nx-boot-gradle-smoke"
 }

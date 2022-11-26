@@ -11,5 +11,6 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["nx-boot-maven"]
+  "implicitDependencies": ["nx-boot-maven"],
+  "name": "smoke-nx-boot-maven-smoke"
 }
