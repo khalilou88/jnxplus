@@ -1,5 +1,10 @@
 # Changelog
 
+# 3.0.0 (2022-11-26)
+
+- Update Nx to version 15
+- Add mvnArgs option to pass arguments to the maven cli for build executor
+
 # 2.5.1 (2022-09-20)
 
 - Fix plugin install with better use of peerDependencies and dependencies
