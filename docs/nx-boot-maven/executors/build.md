@@ -15,3 +15,15 @@ In both cases, the build command will not execute tests and you need to run the 
 ```bash
 nx build my-project-name
 ```
+
+## Options
+
+### mvnArgs
+
+Type: `string`
+
+Arguments to pass to the maven cli.
+
+```bash
+nx build my-app-name --mvnArgs="--no-transfer-progress"
+```
