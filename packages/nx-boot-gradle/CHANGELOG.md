@@ -1,5 +1,9 @@
 # Changelog
 
+# 3.0.0 (2022-11-28)
+
+- Update Nx to version 15
+
 # 2.5.1 (2022-09-20)
 
 - Fix plugin install with better use of peerDependencies and dependencies
