@@ -40,7 +40,8 @@ function normalizeOptions(
     : [];
 
   const appClassName = `${names(projectName).className}Application`;
-  const packageName = `${options.groupId}.${
+
+  const packageName2 = `${options.groupId}.${
     options.packageNameType === 'long' && options.directory
       ? `${names(options.directory).fileName.replace(
           new RegExp(/\//, 'g'),
@@ -48,6 +49,10 @@ function normalizeOptions(
         )}.${names(simpleProjectName).className.toLocaleLowerCase()}`
       : names(simpleProjectName).className.toLocaleLowerCase()
   }`;
+
+  //remove dash from packageName
+  const packageName = packageName2.replace(new RegExp(/-/, 'g'), '');
+
   const packageDirectory = packageName.replace(new RegExp(/\./, 'g'), '/');
 
   const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';

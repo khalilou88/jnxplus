@@ -499,6 +499,29 @@ describe('nx-boot-gradle e2e', () => {
     }
   }, 1200000);
 
+  it('directory with dash', async () => {
+    const appName = uniq('boot-gradle-app-');
+
+    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:application ${appName} --directory deep/sub-dir`
+    );
+
+    const process = await runNxCommandUntil(
+      `serve deep-sub-dir-${appName}`,
+      (output) => output.includes(`Tomcat started on port(s): 8080`)
+    );
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(8080);
+    } catch (err) {
+      expect(err).toBeFalsy();
+    }
+  }, 1200000);
+
   it('should create a library', async () => {
     const libName = uniq('boot-gradle-lib-');
 
