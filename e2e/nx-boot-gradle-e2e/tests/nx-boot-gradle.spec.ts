@@ -506,8 +506,9 @@ describe('nx-boot-gradle e2e', () => {
       `generate @jnxplus/nx-boot-gradle:application ${appName} --directory deep/sub-dir`
     );
 
-    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`)
+    const process = await runNxCommandUntil(
+      `serve deep-sub-dir-${appName}`,
+      (output) => output.includes(`Tomcat started on port(s): 8080`)
     );
 
     // port and process cleanup

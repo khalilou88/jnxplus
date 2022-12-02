@@ -177,7 +177,7 @@ describe('nx-boot-maven e2e', () => {
   }, 1200000);
 
   it('should use specified options to create an application', async () => {
-    const randomName = uniq('boot-gradle-app-');
+    const randomName = uniq('boot-maven-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
 
@@ -321,7 +321,7 @@ describe('nx-boot-maven e2e', () => {
   }, 1200000);
 
   it('--an app with aliases', async () => {
-    const randomName = uniq('boot-gradle-app-');
+    const randomName = uniq('boot-maven-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
 
@@ -389,7 +389,7 @@ describe('nx-boot-maven e2e', () => {
   }, 1200000);
 
   it('should generate an app with a simple package name', async () => {
-    const randomName = uniq('boot-gradle-app-');
+    const randomName = uniq('boot-maven-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
 
@@ -463,8 +463,9 @@ describe('nx-boot-maven e2e', () => {
       `generate @jnxplus/nx-boot-maven:application ${appName} --directory deep/sub-dir`
     );
 
-    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`)
+    const process = await runNxCommandUntil(
+      `serve deep-sub-dir-${appName}`,
+      (output) => output.includes(`Tomcat started on port(s): 8080`)
     );
 
     // port and process cleanup
@@ -575,7 +576,7 @@ describe('nx-boot-maven e2e', () => {
   }, 1200000);
 
   it('should use the the specified properties to create a library', async () => {
-    const randomName = uniq('boot-gradle-lib-');
+    const randomName = uniq('boot-maven-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
@@ -623,7 +624,7 @@ describe('nx-boot-maven e2e', () => {
   }, 1200000);
 
   it('should generare a lib with a simple package name', async () => {
-    const randomName = uniq('boot-gradle-lib-');
+    const randomName = uniq('boot-maven-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
@@ -671,7 +672,7 @@ describe('nx-boot-maven e2e', () => {
   }, 1200000);
 
   it('--a lib with aliases', async () => {
-    const randomName = uniq('boot-gradle-lib-');
+    const randomName = uniq('boot-maven-lib-');
     const libDir = 'subdir';
     const libName = `${libDir}-${randomName}`;
 
