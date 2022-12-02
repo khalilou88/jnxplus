@@ -502,6 +502,8 @@ describe('nx-boot-gradle e2e', () => {
   it('directory with dash', async () => {
     const appName = uniq('boot-gradle-app-');
 
+    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName} --directory deep/sub-dir`
     );
