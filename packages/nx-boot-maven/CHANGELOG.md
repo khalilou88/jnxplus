@@ -1,5 +1,10 @@
 # Changelog
 
+# 3.1.0 (2022-12-03)
+
+- Remove dash from packageName when generating apps and libs
+- Update Nx to version 15.2.4
+
 # 3.0.0 (2022-11-26)
 
 - Update Nx to version 15
