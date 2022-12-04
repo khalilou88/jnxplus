@@ -2,6 +2,7 @@
 
 # 3.1.0 (2022-12-03)
 
+- Update Maven to 3.8.6 version
 - Remove dash from packageName when generating apps and libs
 - Update Nx to version 15.2.4
 
