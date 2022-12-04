@@ -87,7 +87,7 @@ describe('@jnxplus/nx-boot-maven smoke', () => {
     );
 
     execSync(
-      `npx nx run-many --target=build --all --parallel=1`,
+      `npx nx run-many --target=build --all --parallel`,
       execSyncOptions()
     );
 
