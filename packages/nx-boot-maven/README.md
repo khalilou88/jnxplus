@@ -12,7 +12,7 @@ The supported versions are:
 
 | @jnxplus/nx-boot-maven    | Nx       | Spring Boot |
 | ------------------------- | -------- | ----------- |
-| 5.x.x (not yet published) | 15.x.x   | 3.x.x       |
+| 5.x.x                     | 15.x.x   | 3.x.x       |
 | 4.x.x (not yet published) | >=16.x.x | 2.x.x       |
 | 3.x.x                     | 15.x.x   | 2.x.x       |
 | 2.x.x                     | 14.x.x   | 2.x.x       |

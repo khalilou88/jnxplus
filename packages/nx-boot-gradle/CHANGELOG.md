@@ -1,5 +1,9 @@
 # Changelog
 
+# 5.0.0 (2022-12-25)
+
+- Add Spring Boot 3 support
+
 # 3.1.0 (2022-12-03)
 
 - Remove dash from packageName when generating apps and libs
