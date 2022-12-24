@@ -24,11 +24,11 @@ nx g @jnxplus/nx-boot-maven:init --dry-run
 
 ### javaVersion (_**required**_)
 
-Default: `11`
+Default: `17`
 
 Type: `string`
 
-Possible values: `17`, `11`, `1.8`
+Possible values: `17`, `19`
 
 The java version for Spring Boot apps and libs. The same java version is used inside the Nx worspace.
 

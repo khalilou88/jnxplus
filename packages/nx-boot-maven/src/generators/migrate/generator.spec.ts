@@ -6,7 +6,7 @@ import { NxBootMavenGeneratorSchema } from './schema';
 describe('migrate generator', () => {
   let appTree: Tree;
   const options: NxBootMavenGeneratorSchema = {
-    javaVersion: '11',
+    javaVersion: '17',
     groupId: 'com.example',
     parentProjectName: 'test-boot-multiproject',
     parentProjectVersion: '1.0.0',
