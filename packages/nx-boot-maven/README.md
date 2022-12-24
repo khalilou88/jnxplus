@@ -23,7 +23,7 @@ The supported versions are:
 
 ### 0. Prerequisites
 
-`@jnxplus/nx-boot-maven` requires a Java 8 or higher Runtime Environment and the current Long Term Support (LTS) version of node.js.
+`@jnxplus/nx-boot-maven` requires a Java 17 or higher Runtime Environment and the current Long Term Support (LTS) version of node.js.
 
 ### 1. Install the plugin
 
