@@ -1,10 +1,10 @@
 import { ExecutorContext } from '@nrwl/devkit';
 import { runCommand } from '../../utils/command';
 import executor from './executor';
-import { BuildExecutorSchema } from './schema';
+import { BuildImageExecutorSchema } from './schema';
 jest.mock('../../utils/command');
 
-const options: BuildExecutorSchema = {
+const options: BuildImageExecutorSchema = {
   packaging: 'jar',
 };
 const context: ExecutorContext = {
