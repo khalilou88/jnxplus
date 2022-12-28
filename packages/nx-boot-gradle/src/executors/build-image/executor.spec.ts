@@ -4,9 +4,7 @@ import executor from './executor';
 import { BuildImageExecutorSchema } from './schema';
 jest.mock('../../utils/command');
 
-const options: BuildImageExecutorSchema = {
-  packaging: 'jar',
-};
+const options: BuildImageExecutorSchema = {};
 const context: ExecutorContext = {
   root: '/root',
   cwd: '/root',
