@@ -30,6 +30,11 @@
       "implementation": "./src/executors/kformat/executor",
       "schema": "./src/executors/kformat/schema.json",
       "description": "kotlin format executor"
+    },
+    "run-task": {
+      "implementation": "./src/executors/run-task/executor",
+      "schema": "./src/executors/run-task/schema.json",
+      "description": "run-task executor"
     }
   }
 }
