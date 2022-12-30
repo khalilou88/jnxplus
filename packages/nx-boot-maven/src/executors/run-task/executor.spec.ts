@@ -5,7 +5,8 @@ import { RunTaskExecutorSchema } from './schema';
 jest.mock('../../utils/command');
 
 const options: RunTaskExecutorSchema = {
-  task: 'test',
+  task: 'build',
+  args: '-DskipTests=true',
 };
 const context: ExecutorContext = {
   root: '/root',
