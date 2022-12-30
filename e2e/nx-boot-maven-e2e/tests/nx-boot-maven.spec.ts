@@ -173,7 +173,7 @@ describe('nx-boot-maven e2e', () => {
     };
     updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
     const runTaskResult = await runNxCommandAsync(
-      `run-task --task='build' --args='-DskipTests=true' ${appName}`
+      `run-task ${appName} --task='build' --args='-DskipTests=true'`
     );
     expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
     //end test run-task
