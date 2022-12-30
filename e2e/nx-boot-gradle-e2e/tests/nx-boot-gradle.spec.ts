@@ -195,6 +195,21 @@ describe('nx-boot-gradle e2e', () => {
     } catch (err) {
       expect(err).toBeFalsy();
     }
+
+    //test run-rask
+    const projectJson = readJson(`apps/${appName}/project.json`);
+    projectJson.targets = {
+      ...projectJson.targets,
+      'run-task': {
+        executor: '@jnxplus/nx-boot-gradle:run-task',
+      },
+    };
+    updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
+    const runTaskResult = await runNxCommandAsync(
+      `run-task ${appName} --task="test"`
+    );
+    expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
+    //end test run-task
   }, 1200000);
 
   it('should use specified options to create an application', async () => {
