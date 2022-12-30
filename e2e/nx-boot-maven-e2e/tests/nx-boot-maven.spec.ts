@@ -163,21 +163,6 @@ describe('nx-boot-maven e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    //test run-rask
-    const projectJson = readJson(`apps/${appName}/project.json`);
-    projectJson.targets = {
-      ...projectJson.targets,
-      'run-task': {
-        executor: '@jnxplus/nx-boot-maven:run-task',
-      },
-    };
-    updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
-    const runTaskResult = await runNxCommandAsync(
-      `run-task ${appName} --task='build' --args='-DskipTests=true'`
-    );
-    expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
-    //end test run-task
-
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
       output.includes(`Tomcat started on port(s): 8080`)
     );
@@ -189,6 +174,21 @@ describe('nx-boot-maven e2e', () => {
     } catch (err) {
       expect(err).toBeFalsy();
     }
+
+    //test run-rask
+    const projectJson = readJson(`apps/${appName}/project.json`);
+    projectJson.targets = {
+      ...projectJson.targets,
+      'run-task': {
+        executor: '@jnxplus/nx-boot-maven:run-task',
+      },
+    };
+    updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
+    const runTaskResult = await runNxCommandAsync(
+      `run-task ${appName} --task='clean install -DskipTests=true'`
+    );
+    expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
+    //end test run-task
   }, 1200000);
 
   it('should use specified options to create an application', async () => {

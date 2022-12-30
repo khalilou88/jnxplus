@@ -8,8 +8,6 @@ export default async function runExecutor(
 ) {
   logger.info(`Executor ran for Run Task: ${JSON.stringify(options)}`);
   return runCommand(
-    `${getExecutable()} ${options.task} ${options.args} -pl :${
-      context.projectName
-    }`
+    `${getExecutable()} ${options.task} -pl :${context.projectName}`
   );
 }

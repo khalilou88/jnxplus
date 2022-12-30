@@ -9,9 +9,6 @@
   "properties": {
     "task": {
       "type": "string"
-    },
-    "args": {
-      "type": "string"
     }
   },
   "required": ["task"]
