@@ -57,4 +57,4 @@ nx generate @jnxplus/nx-boot-maven:init
 
 ## License
 
-MIT © 2021-2022 Khalil LAGRIDA
+MIT © 2021-2023 Khalil LAGRIDA
