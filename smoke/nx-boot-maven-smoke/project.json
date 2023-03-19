@@ -1,4 +1,5 @@
 {
+  "name": "nx-boot-maven-smoke",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "smoke/nx-boot-maven-smoke/src",
@@ -11,6 +12,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["nx-boot-maven"],
-  "name": "smoke-nx-boot-maven-smoke"
+  "implicitDependencies": ["nx-boot-maven"]
 }
