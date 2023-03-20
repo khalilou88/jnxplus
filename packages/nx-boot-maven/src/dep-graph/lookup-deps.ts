@@ -29,8 +29,8 @@ export function processProjectGraph(
       for (const dependency of dependencies) {
         builder.addStaticDependency(
           project.name,
-          join(project.data.root, 'pom.xml').replace(/\\/g, '/'),
-          dependency
+          dependency,
+          join(project.data.root, 'pom.xml').replace(/\\/g, '/')
         );
       }
     }

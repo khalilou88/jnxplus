@@ -41,8 +41,8 @@ export function processProjectGraph(
         );
         builder.addStaticDependency(
           project.name,
-          join(project.data.root, 'build.gradle').replace(/\\/g, '/'),
-          dependencyProjectName
+          dependencyProjectName,
+          join(project.data.root, 'build.gradle').replace(/\\/g, '/')
         );
       }
     }
@@ -57,8 +57,8 @@ export function processProjectGraph(
         );
         builder.addStaticDependency(
           project.name,
-          join(project.data.root, 'build.gradle.kts').replace(/\\/g, '/'),
-          dependencyProjectName
+          dependencyProjectName,
+          join(project.data.root, 'build.gradle.kts').replace(/\\/g, '/')
         );
       }
     }
