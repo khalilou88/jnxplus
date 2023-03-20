@@ -1,8 +1,8 @@
 import {
   ProjectGraph,
   ProjectGraphBuilder,
-  ProjectGraphNode,
   ProjectGraphProcessorContext,
+  ProjectGraphProjectNode,
   workspaceRoot,
 } from '@nrwl/devkit';
 import { fileExists } from 'nx/src/utils/fileutils';
@@ -27,7 +27,7 @@ export function processProjectGraph(
       const pomXmlContent = readXml(pomXmlPath);
       const dependencies = getDependencies(pomXmlContent, projectNames);
       for (const dependency of dependencies) {
-        builder.addExplicitDependency(
+        builder.addStaticDependency(
           project.name,
           join(project.data.root, 'pom.xml').replace(/\\/g, '/'),
           dependency
@@ -40,22 +40,19 @@ export function processProjectGraph(
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function getManagedProjects(nodes: Record<string, ProjectGraphNode<any>>) {
+function getManagedProjects(nodes: Record<string, ProjectGraphProjectNode>) {
   return Object.entries(nodes)
     .filter((node) => isManagedProject(node[1]))
     .map((node) => node[1]);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function isManagedProject(projectGraphNode: ProjectGraphNode<any>): boolean {
+function isManagedProject(projectGraphNode: ProjectGraphProjectNode): boolean {
   return (
     (projectGraphNode.type === 'app' || projectGraphNode.type === 'lib') &&
-    (projectGraphNode.data?.targets?.build?.executor?.includes(
+    projectGraphNode.data?.targets?.build?.executor?.includes(
       '@jnxplus/nx-boot-maven'
-    ) ||
-      projectGraphNode.data?.architect?.build?.builder?.includes(
-        '@jnxplus/nx-boot-maven'
-      ))
+    )
   );
 }
 
