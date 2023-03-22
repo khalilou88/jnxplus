@@ -1,8 +1,8 @@
 import {
   ProjectGraph,
   ProjectGraphBuilder,
-  ProjectGraphNode,
   ProjectGraphProcessorContext,
+  ProjectGraphProjectNode,
   workspaceRoot,
 } from '@nrwl/devkit';
 import * as fs from 'fs';
@@ -39,10 +39,10 @@ export function processProjectGraph(
           dep,
           managedProjects
         );
-        builder.addExplicitDependency(
+        builder.addStaticDependency(
           project.name,
-          join(project.data.root, 'build.gradle').replace(/\\/g, '/'),
-          dependencyProjectName
+          dependencyProjectName,
+          join(project.data.root, 'build.gradle').replace(/\\/g, '/')
         );
       }
     }
@@ -55,10 +55,10 @@ export function processProjectGraph(
           dep,
           managedProjects
         );
-        builder.addExplicitDependency(
+        builder.addStaticDependency(
           project.name,
-          join(project.data.root, 'build.gradle.kts').replace(/\\/g, '/'),
-          dependencyProjectName
+          dependencyProjectName,
+          join(project.data.root, 'build.gradle.kts').replace(/\\/g, '/')
         );
       }
     }
@@ -69,24 +69,21 @@ export function processProjectGraph(
 
 function getManagedProjects(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  nodes: Record<string, ProjectGraphNode<any>>
+  nodes: Record<string, ProjectGraphProjectNode>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): ProjectGraphNode<any>[] {
+): ProjectGraphProjectNode[] {
   return Object.entries(nodes)
     .filter((node) => isManagedProject(node[1]))
     .map((node) => node[1]);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function isManagedProject(projectGraphNode: ProjectGraphNode<any>): boolean {
+function isManagedProject(projectGraphNode: ProjectGraphProjectNode): boolean {
   return (
     (projectGraphNode.type === 'app' || projectGraphNode.type === 'lib') &&
-    (projectGraphNode.data?.targets?.build?.executor?.includes(
+    projectGraphNode.data?.targets?.build?.executor?.includes(
       '@jnxplus/nx-boot-gradle'
-    ) ||
-      projectGraphNode.data?.architect?.build?.builder?.includes(
-        '@jnxplus/nx-boot-gradle'
-      ))
+    )
   );
 }
 
@@ -100,7 +97,7 @@ function getDependencies(buildGradleContents: string) {
 function getDependencyProjectName(
   gradleProjectPath: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  managedProjects: ProjectGraphNode<any>[]
+  managedProjects: ProjectGraphProjectNode[]
 ) {
   const [, ...folders] = gradleProjectPath.split(':');
   const root = folders.join('/');
