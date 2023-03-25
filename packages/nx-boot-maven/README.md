@@ -2,9 +2,9 @@
 
 [![npm version](https://badge.fury.io/js/@jnxplus%2Fnx-boot-maven.svg)](https://badge.fury.io/js/@jnxplus%2Fnx-boot-maven)
 
-This plugin add Spring Boot and Maven multi-module capabilities to Nx workspace.
+This plugin adds Spring Boot and Maven multi-module capabilities to Nx workspace.
 
-This is a quick overview of the plugin, to know more, please viste [the documentation](https://khalilou88.github.io/jnxplus/).
+Here is a quick overview of the plugin, to know more, please visit [the documentation](https://khalilou88.github.io/jnxplus/).
 
 ## Nx supported versions
 
