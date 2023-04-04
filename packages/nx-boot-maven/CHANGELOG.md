@@ -1,5 +1,11 @@
 # Changelog
 
+# 5.1.0 (2023-04-05)
+
+- Add run-task executor
+- Add exports of all generators to be able to import and extend them
+- Update Nx to version 15.8.7
+
 # 5.0.0 (2022-12-25)
 
 - Add Spring Boot 3 support

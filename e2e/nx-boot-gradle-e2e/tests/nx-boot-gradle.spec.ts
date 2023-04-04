@@ -196,7 +196,7 @@ describe('nx-boot-gradle e2e', () => {
       expect(err).toBeFalsy();
     }
 
-    //test run-rask
+    //test run-task
     const projectJson = readJson(`apps/${appName}/project.json`);
     projectJson.targets = {
       ...projectJson.targets,
