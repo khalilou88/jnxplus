@@ -25,7 +25,9 @@
     "maven multi-module project"
   ],
   "exports": {
-    "./generators": "./generators.js"
+    ".": "./src/index.js",
+    "./generators": "./generators.js",
+    "./package.json": "./package.json"
   },
   "dependencies": {
     "prettier-plugin-java": "^1.6.2",
