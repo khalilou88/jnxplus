@@ -1,5 +1,9 @@
 # Changelog
 
+# 5.1.1 (2023-04-05)
+
+- Name the exported generators to be able to import them individually
+
 # 5.1.0 (2023-04-05)
 
 - Add run-task executor
