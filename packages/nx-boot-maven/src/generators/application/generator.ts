@@ -104,7 +104,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   );
 }
 
-export default async function (
+ async function applicationGenerator (
   tree: Tree,
   options: NxBootMavenAppGeneratorSchema
 ) {
@@ -207,3 +207,6 @@ function addProjectToParentPomXml(tree: Tree, options: NormalizedSchema) {
   xmldoc.childNamed('modules').children.push(fragment);
   tree.write(filePath, xmlToString(xmldoc));
 }
+
+export default applicationGenerator;
+

@@ -107,7 +107,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   );
 }
 
-export default async function (
+async function libraryGenerator(
   tree: Tree,
   options: NxBootMavenLibGeneratorSchema
 ) {
@@ -194,3 +194,6 @@ function addLibraryToProjects(tree: Tree, options: NormalizedSchema) {
     tree.write(filePath, xmlToString(xmldoc));
   }
 }
+
+export default libraryGenerator;
+

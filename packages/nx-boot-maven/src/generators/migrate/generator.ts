@@ -40,7 +40,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   );
 }
 
-export default async function (
+async function migrateGenerator(
   tree: Tree,
   options: NxBootMavenGeneratorSchema
 ) {
@@ -50,3 +50,6 @@ export default async function (
   tree.changePermissions('mvnw.cmd', '755');
   await formatFiles(tree);
 }
+
+export default migrateGenerator;
+

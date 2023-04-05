@@ -56,7 +56,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   );
 }
 
-export default async function (
+async function initGenerator(
   tree: Tree,
   options: NxBootMavenGeneratorSchema
 ) {
@@ -110,3 +110,6 @@ function updatePrettierIgnore(tree: Tree) {
   const newContents = contents.concat(prettierIgnore);
   tree.write(filePath, newContents);
 }
+
+export default initGenerator;
+
