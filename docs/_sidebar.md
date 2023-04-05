@@ -16,6 +16,7 @@
     - [Test](nx-boot-gradle/executors/test)
     - [Lint](nx-boot-gradle/executors/lint)
     - [Format](nx-boot-gradle/executors/format)
+    - [Run a custom task](nx-boot-gradle/executors/run-task)
   - [Project graph](nx-boot-gradle/dep-graph/dep-graph)
   - [Upgrading](nx-boot-gradle/upgrading/upgrading)
 
@@ -35,5 +36,6 @@
     - [Test](nx-boot-maven/executors/test)
     - [Lint](nx-boot-maven/executors/lint)
     - [Format](nx-boot-maven/executors/format)
+    - [Run a custom task](nx-boot-maven/executors/run-task)
   - [Project graph](nx-boot-maven/dep-graph/dep-graph)
   - [Upgrading](nx-boot-maven/upgrading/upgrading)
