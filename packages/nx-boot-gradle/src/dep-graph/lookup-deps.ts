@@ -68,22 +68,29 @@ export function processProjectGraph(
 }
 
 function getManagedProjects(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   nodes: Record<string, ProjectGraphProjectNode>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): ProjectGraphProjectNode[] {
   return Object.entries(nodes)
     .filter((node) => isManagedProject(node[1]))
     .map((node) => node[1]);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isManagedProject(projectGraphNode: ProjectGraphProjectNode): boolean {
+  const buildGradleFile = join(
+    workspaceRoot,
+    projectGraphNode.data.root,
+    'build.gradle'
+  );
+
+  const buildGradleKtsFile = join(
+    workspaceRoot,
+    projectGraphNode.data.root,
+    'build.gradle.kts'
+  );
+
   return (
     (projectGraphNode.type === 'app' || projectGraphNode.type === 'lib') &&
-    projectGraphNode.data?.targets?.build?.executor?.includes(
-      '@jnxplus/nx-boot-gradle'
-    )
+    (fileExists(buildGradleFile) || fileExists(buildGradleKtsFile))
   );
 }
 
