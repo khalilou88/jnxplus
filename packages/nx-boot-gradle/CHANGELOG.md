@@ -1,5 +1,9 @@
 # Changelog
 
+# 5.2.0 (2023-04-06)
+
+- Calculate dep graph for all gradle projects
+
 # 5.1.0 (2023-04-05)
 
 - Add run-task executor
