@@ -1,5 +1,9 @@
 # Changelog
 
+# 5.2.0 (2023-04-06)
+
+- Calculate dep graph for all maven projects
+
 # 5.1.1 (2023-04-05)
 
 - Name the exported generators to be able to import them individually
