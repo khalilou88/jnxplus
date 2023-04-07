@@ -878,7 +878,7 @@ describe('nx-boot-maven e2e', () => {
     const depGraphResult = await runNxCommandAsync(
       `dep-graph --file=dep-graph.json`
     );
-    expect(depGraphResult.stdout).toContain(
+    expect(depGraphResult.stderr).not.toContain(
       'Failed to process the project graph'
     );
   }, 1200000);
