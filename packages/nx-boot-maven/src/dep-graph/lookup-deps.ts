@@ -52,8 +52,12 @@ function isManagedProject(projectGraphNode: ProjectGraphProjectNode): boolean {
 }
 
 function getDependencies(pomXml: XmlDocument, projectNames: string[]) {
-  const allDependencies = pomXml
-    .childNamed('dependencies')
+  const dependenciesXml = pomXml.childNamed('dependencies');
+  if (dependenciesXml === undefined) {
+    return [];
+  }
+
+  const allDependencies = dependenciesXml
     .childrenNamed('dependency')
     .map((dependencyXmlElement) => {
       return dependencyXmlElement.childNamed('artifactId').val;
