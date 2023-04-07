@@ -1,5 +1,9 @@
 # Changelog
 
+# 5.2.1 (2023-04-07)
+
+- Fix dep graph when dependencies tag is undefined
+
 # 5.2.0 (2023-04-06)
 
 - Calculate dep graph for all maven projects
