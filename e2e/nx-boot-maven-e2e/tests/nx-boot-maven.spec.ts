@@ -861,4 +861,25 @@ describe('nx-boot-maven e2e', () => {
       target: libName,
     });
   }, 1200000);
+
+  it("should dep-graph don't crash when pom.xml don't contains dependencies tag", async () => {
+    const libName = uniq('boot-maven-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:library ${libName}`
+    );
+
+    const regex = /<dependencies>[\s\S]*?<\/dependencies>/;
+    const pomXml = `libs/${libName}/pom.xml`;
+    const pomXmlContent = readFile(pomXml);
+    const updatedPomXmlContent = pomXmlContent.replace(regex, '');
+    updateFile(pomXml, updatedPomXmlContent);
+
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stdout).toContain(
+      'Failed to process the project graph'
+    );
+  }, 1200000);
 });
