@@ -42,7 +42,7 @@ describe('@jnxplus/nx-boot-maven smoke', () => {
 
   it('should work', async () => {
     execSync(
-      'npx create-nx-workspace@latest test --preset ts --nxCloud false',
+      'npx create-nx-workspace@latest test --preset empty --nxCloud false',
       {
         cwd: smokeDirectory,
         env: process.env,
