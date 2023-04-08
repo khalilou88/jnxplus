@@ -3,6 +3,7 @@ import {
   generateFiles,
   offsetFromRoot,
   Tree,
+  writeJson,
   updateJson,
 } from '@nrwl/devkit';
 import * as path from 'path';
@@ -94,19 +95,31 @@ function updateNxJson(tree: Tree) {
 }
 
 function updatePrettierRc(tree: Tree) {
-  updateJson(tree, '.prettierrc', (prettierRcJson) => {
-    prettierRcJson.xmlWhitespaceSensitivity = 'ignore';
-    // return modified JSON object
-    return prettierRcJson;
-  });
+  const prettierRcPath = `.prettierrc`;
+  if (tree.exists(prettierRcPath)) {
+    updateJson(tree, prettierRcPath, (prettierRcJson) => {
+      prettierRcJson.xmlWhitespaceSensitivity = 'ignore';
+      // return modified JSON object
+      return prettierRcJson;
+    });
+  } else {
+    writeJson(tree, prettierRcPath, {
+      xmlWhitespaceSensitivity: 'ignore',
+    });
+  }
 }
 
 function updatePrettierIgnore(tree: Tree) {
-  const filePath = `.prettierignore`;
-  const contents = tree.read(filePath, 'utf-8');
-
-  const prettierIgnore = '\n# Maven target\ntarget/';
-
-  const newContents = contents.concat(prettierIgnore);
-  tree.write(filePath, newContents);
+  const prettierIgnorePath = `.prettierignore`;
+  const mavenPrettierIgnore = '# Maven target\ntarget/';
+  if (tree.exists(prettierIgnorePath)) {
+    const prettierIgnoreOldContent = tree.read(prettierIgnorePath, 'utf-8');
+    const prettierIgnoreContent = prettierIgnoreOldContent.concat(
+      '\n',
+      mavenPrettierIgnore
+    );
+    tree.write(prettierIgnorePath, prettierIgnoreContent);
+  } else {
+    tree.write(prettierIgnorePath, mavenPrettierIgnore);
+  }
 }
