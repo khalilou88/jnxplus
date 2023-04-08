@@ -39,18 +39,24 @@ export function processProjectGraph(
     },
   });
 
+  parentPomXmlContent
+    .childNamed('modules')
+    .childrenNamed('module')
+    .map((moduleXmlElement) => {
+      return moduleXmlElement.val;
+    })
+    .forEach((projectRoot) => {
+      builder.addStaticDependency(
+        projectRoot.split('/').pop(),
+        parentProjectName,
+        join(projectRoot, 'pom.xml').replace(/\\/g, '/')
+      );
+    });
+
   const projects = getManagedProjects(builder.graph.nodes);
   const projectNames = projects.map((project) => project.name);
 
   for (const project of projects) {
-    //1
-    builder.addStaticDependency(
-      project.name,
-      parentProjectName,
-      join(project.data.root, 'pom.xml').replace(/\\/g, '/')
-    );
-
-    //2
     const pomXmlPath = join(workspaceRoot, project.data.root, 'pom.xml');
     const pomXmlContent = readXml(pomXmlPath);
     const dependencies = getDependencies(pomXmlContent, projectNames);
