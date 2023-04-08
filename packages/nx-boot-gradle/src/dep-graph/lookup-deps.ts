@@ -103,7 +103,6 @@ function getDependencies(buildGradleContents: string) {
 
 function getDependencyProjectName(
   gradleProjectPath: string,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   managedProjects: ProjectGraphProjectNode[]
 ) {
   const [, ...folders] = gradleProjectPath.split(':');
