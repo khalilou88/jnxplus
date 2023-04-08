@@ -1,5 +1,9 @@
 # Changelog
 
+# 5.2.2 (2023-04-08)
+
+- Init Generator : Fix when prettierrc and prettierignore don't exist
+
 # 5.2.1 (2023-04-07)
 
 - Fix dep graph when dependencies tag is undefined
