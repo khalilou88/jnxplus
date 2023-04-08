@@ -62,7 +62,7 @@ jobs:
         run: npm run nx affected -- --target=e2e --parallel=1
         env:
           NX_VERBOSE_LOGGING: 'true'
-          NX_E2E_SKIP_BUILD_CLEANUP: 'true'
+          NX_E2E_SKIP_BUILD_CLEANUP: 'false'
           NX_CACHE_DIRECTORY: ${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.java }}
           NX_PROJECT_GRAPH_CACHE_DIRECTORY: ${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.java }}
           GITHUB_ACTIONS: 'true'
