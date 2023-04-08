@@ -100,11 +100,16 @@ function updateNxJson(tree: Tree) {
 }
 
 function updatePrettierIgnore(tree: Tree) {
-  const filePath = `.prettierignore`;
-  const contents = tree.read(filePath, 'utf-8');
-
-  const prettierIgnore = '\n# Gradle build\nbuild';
-
-  const newContents = contents.concat(prettierIgnore);
-  tree.write(filePath, newContents);
+  const prettierIgnorePath = `.prettierignore`;
+  const gradlePrettierIgnore = '# Gradle build\nbuild';
+  if (tree.exists(prettierIgnorePath)) {
+    const prettierIgnoreOldContent = tree.read(prettierIgnorePath, 'utf-8');
+    const prettierIgnoreContent = prettierIgnoreOldContent.concat(
+      '\n',
+      gradlePrettierIgnore
+    );
+    tree.write(prettierIgnorePath, prettierIgnoreContent);
+  } else {
+    tree.write(prettierIgnorePath, gradlePrettierIgnore);
+  }
 }
