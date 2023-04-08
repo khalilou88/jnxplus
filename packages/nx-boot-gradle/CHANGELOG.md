@@ -1,5 +1,9 @@
 # Changelog
 
+# 5.2.1 (2023-04-08)
+
+- Init Generator : Fix when prettierignore don't exist
+
 # 5.2.0 (2023-04-06)
 
 - Calculate dep graph for all gradle projects
