@@ -17,12 +17,41 @@ export function processProjectGraph(
 ): ProjectGraph {
   const builder = new ProjectGraphBuilder(graph);
 
+  const parentPomXmlPath = join(workspaceRoot, 'pom.xml');
+  const parentPomXmlContent = readXml(parentPomXmlPath);
+
+  const parentProjectName = parentPomXmlContent.childNamed('artifactId').val;
+
+  builder.addNode({
+    name: parentProjectName,
+    type: 'app',
+    data: {
+      root: '',
+      targets: {
+        build: {
+          executor: '@jnxplus/nx-boot-maven:run-task',
+          options: {
+            task: '-no-transfer-progress clean install -N',
+          },
+        },
+      },
+      files: [],
+    },
+  });
+
   const projects = getManagedProjects(builder.graph.nodes);
   const projectNames = projects.map((project) => project.name);
 
   for (const project of projects) {
-    const pomXmlPath = join(workspaceRoot, project.data.root, 'pom.xml');
+    //1
+    builder.addStaticDependency(
+      project.name,
+      parentProjectName,
+      join(project.data.root, 'pom.xml').replace(/\\/g, '/')
+    );
 
+    //2
+    const pomXmlPath = join(workspaceRoot, project.data.root, 'pom.xml');
     const pomXmlContent = readXml(pomXmlPath);
     const dependencies = getDependencies(pomXmlContent, projectNames);
     for (const dependency of dependencies) {
