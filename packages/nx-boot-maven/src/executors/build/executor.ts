@@ -24,8 +24,7 @@ export default async function runExecutor(
   return runCommand(
     `${getExecutable()} ${mvnArgs} ${target} -DskipTests=true -pl :${
       context.projectName
-    }`,
-    `${getExecutable()} -no-transfer-progress clean install -N`
+    }`
   );
 }
 
