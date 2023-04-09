@@ -18,29 +18,61 @@ export function processProjectGraph(
   const hasher = new Hasher(graph, context.nxJsonConfiguration, {});
 
   const settingsGradlePath = join(workspaceRoot, 'settings.gradle');
-  const settingsGradle = fs.readFileSync(settingsGradlePath, 'utf-8');
-  const parentProjectName = getParentProjectName(settingsGradle);
-  builder.addNode({
-    name: parentProjectName,
-    type: 'app',
-    data: {
-      root: '',
-      files: [
-        {
-          file: 'build.gradle',
-          hash: hasher.hashFile('build.gradle'),
-        },
-        {
-          file: 'settings.gradle',
-          hash: hasher.hashFile('settings.gradle'),
-        },
-        {
-          file: 'gradle.properties',
-          hash: hasher.hashFile('gradle.properties'),
-        },
-      ],
-    },
-  });
+  const settingsGradleKtsPath = join(workspaceRoot, 'settings.gradle.kts');
+
+  let parentProjectName: string;
+  let settingsGradle: string;
+  if (fileExists(settingsGradlePath)) {
+    settingsGradle = fs.readFileSync(settingsGradlePath, 'utf-8');
+    parentProjectName = getParentProjectName(settingsGradle);
+    builder.addNode({
+      name: parentProjectName,
+      type: 'app',
+      data: {
+        root: '',
+        files: [
+          {
+            file: 'build.gradle',
+            hash: hasher.hashFile('build.gradle'),
+          },
+          {
+            file: 'settings.gradle',
+            hash: hasher.hashFile('settings.gradle'),
+          },
+          {
+            file: 'gradle.properties',
+            hash: hasher.hashFile('gradle.properties'),
+          },
+        ],
+      },
+    });
+  }
+
+  if (fileExists(settingsGradleKtsPath)) {
+    settingsGradle = fs.readFileSync(settingsGradleKtsPath, 'utf-8');
+    parentProjectName = getParentProjectName(settingsGradle);
+    builder.addNode({
+      name: parentProjectName,
+      type: 'app',
+      data: {
+        root: '',
+        files: [
+          {
+            file: 'build.gradle.kts',
+            hash: hasher.hashFile('build.gradle.kts'),
+          },
+          {
+            file: 'settings.gradle.kts',
+            hash: hasher.hashFile('settings.gradle.kts'),
+          },
+          {
+            file: 'gradle.properties',
+            hash: hasher.hashFile('gradle.properties'),
+          },
+        ],
+      },
+    });
+  }
 
   const managedProjects = getManagedProjects(builder.graph.nodes);
   const settingsGradleProjects = getProjects(settingsGradle);
