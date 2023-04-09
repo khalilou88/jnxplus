@@ -1,5 +1,9 @@
 # Changelog
 
+# 5.3.0 (2023-04-09)
+
+- Add parent project to the dep graph
+
 # 5.2.2 (2023-04-08)
 
 - Init Generator : Fix when prettierrc and prettierignore don't exist
