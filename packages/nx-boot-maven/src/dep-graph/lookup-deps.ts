@@ -1,4 +1,5 @@
 import {
+  Hasher,
   ProjectGraph,
   ProjectGraphBuilder,
   ProjectGraphProcessorContext,
@@ -16,6 +17,8 @@ export function processProjectGraph(
   context: ProjectGraphProcessorContext
 ): ProjectGraph {
   const builder = new ProjectGraphBuilder(graph);
+
+  const hasher = new Hasher(graph, context.nxJsonConfiguration, {});
 
   const parentPomXmlPath = join(workspaceRoot, 'pom.xml');
   const parentPomXmlContent = readXml(parentPomXmlPath);
@@ -35,7 +38,12 @@ export function processProjectGraph(
           },
         },
       },
-      files: [],
+      files: [
+        {
+          file: 'pom.xml',
+          hash: hasher.hashFile('pom.xml'),
+        },
+      ],
     },
   });
 
