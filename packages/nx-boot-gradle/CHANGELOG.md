@@ -1,5 +1,9 @@
 # Changelog
 
+# 5.3.0 (2023-04-10)
+
+- Add root project to the dep graph
+
 # 5.2.1 (2023-04-08)
 
 - Init Generator : Fix when prettierignore don't exist
