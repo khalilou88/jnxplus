@@ -46,6 +46,12 @@ export function processProjectGraph(
       return moduleXmlElement.val;
     })
     .forEach((projectRoot) => {
+      console.log(parentProjectName);
+      console.log(projectRoot);
+      console.log(projectRoot.split('/').pop());
+      console.log(join(projectRoot, 'pom.xml').replace(/\\/g, '/'));
+      console.log('end');
+
       builder.addStaticDependency(
         projectRoot.split('/').pop(),
         parentProjectName,
