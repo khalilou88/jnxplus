@@ -39,6 +39,8 @@ export function processProjectGraph(
     },
   });
 
+  const projects = getManagedProjects(builder.graph.nodes);
+
   parentPomXmlContent
     .childNamed('modules')
     .childrenNamed('module')
@@ -46,20 +48,17 @@ export function processProjectGraph(
       return moduleXmlElement.val;
     })
     .forEach((projectRoot) => {
-      console.log(parentProjectName);
-      console.log(projectRoot);
-      console.log(projectRoot.split('/').pop());
-      console.log(join(projectRoot, 'pom.xml').replace(/\\/g, '/'));
-      console.log('end');
+      const node = projects.find(
+        (project) => project.data.root === projectRoot
+      );
 
       builder.addStaticDependency(
-        projectRoot.split('/').pop(),
+        node.name,
         parentProjectName,
         join(projectRoot, 'pom.xml').replace(/\\/g, '/')
       );
     });
 
-  const projects = getManagedProjects(builder.graph.nodes);
   const projectNames = projects.map((project) => project.name);
 
   for (const project of projects) {
