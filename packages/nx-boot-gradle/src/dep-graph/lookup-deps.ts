@@ -209,10 +209,10 @@ function isAppOrLibProject(
 
 function getParentProjectName(settingsGradle: string) {
   const regexp = /rootProject.name\s*=\s*['"](.*)['"]/g;
-  const maches = (settingsGradle.match(regexp) || []).map((e) =>
+  const matches = (settingsGradle.match(regexp) || []).map((e) =>
     e.replace(regexp, '$1')
   );
-  return maches[0];
+  return matches[0];
 }
 
 function getProjects(settingsGradle: string) {
