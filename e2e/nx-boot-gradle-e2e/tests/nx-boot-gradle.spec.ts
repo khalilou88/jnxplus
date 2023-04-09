@@ -797,7 +797,7 @@ describe('nx-boot-gradle e2e', () => {
     const appName = uniq('boot-gradle-app-');
     const libName = uniq('boot-gradle-lib-');
 
-    const rootProjectName = uniq('parent-project-name-');
+    const rootProjectName = uniq('root-project-name-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:init --rootProjectName ${rootProjectName}`
     );
@@ -853,7 +853,7 @@ describe('nx-boot-gradle e2e', () => {
 
     await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
     const depGraphJson = readJson('dep-graph.json');
-    expect(depGraphJson.graph.nodes[rootProjectName]).not.toBeDefined();
+    expect(depGraphJson.graph.nodes[rootProjectName]).toBeDefined();
     expect(depGraphJson.graph.nodes[appName]).toBeDefined();
     expect(depGraphJson.graph.nodes[libName]).toBeDefined();
 
@@ -868,7 +868,7 @@ describe('nx-boot-gradle e2e', () => {
     const appName = uniq('boot-gradle-app-');
     const libName = uniq('boot-gradle-lib-');
 
-    const rootProjectName = uniq('parent-project-name-');
+    const rootProjectName = uniq('root-project-name-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
     );
@@ -922,7 +922,7 @@ describe('nx-boot-gradle e2e', () => {
 
     await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
     const depGraphJson = readJson('dep-graph.json');
-    expect(depGraphJson.graph.nodes[rootProjectName]).not.toBeDefined();
+    expect(depGraphJson.graph.nodes[rootProjectName]).toBeDefined();
     expect(depGraphJson.graph.nodes[appName]).toBeDefined();
     expect(depGraphJson.graph.nodes[libName]).toBeDefined();
 
