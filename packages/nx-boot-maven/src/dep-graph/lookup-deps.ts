@@ -1,4 +1,5 @@
 import {
+  Hasher,
   ProjectGraph,
   ProjectGraphBuilder,
   ProjectGraphProcessorContext,
@@ -17,12 +18,59 @@ export function processProjectGraph(
 ): ProjectGraph {
   const builder = new ProjectGraphBuilder(graph);
 
+  const hasher = new Hasher(graph, context.nxJsonConfiguration, {});
+
+  const parentPomXmlPath = join(workspaceRoot, 'pom.xml');
+  const parentPomXmlContent = readXml(parentPomXmlPath);
+
+  const parentProjectName = parentPomXmlContent.childNamed('artifactId').val;
+
+  builder.addNode({
+    name: parentProjectName,
+    type: 'app',
+    data: {
+      root: '',
+      targets: {
+        build: {
+          executor: '@jnxplus/nx-boot-maven:run-task',
+          options: {
+            task: '-no-transfer-progress clean install -N',
+          },
+        },
+      },
+      files: [
+        {
+          file: 'pom.xml',
+          hash: hasher.hashFile('pom.xml'),
+        },
+      ],
+    },
+  });
+
   const projects = getManagedProjects(builder.graph.nodes);
+
+  parentPomXmlContent
+    .childNamed('modules')
+    .childrenNamed('module')
+    .map((moduleXmlElement) => {
+      return moduleXmlElement.val;
+    })
+    .forEach((projectRoot) => {
+      const node = projects.find(
+        (project) => project.data.root === projectRoot
+      );
+
+      builder.addStaticDependency(
+        node.name,
+        parentProjectName,
+        join(projectRoot, 'pom.xml').replace(/\\/g, '/')
+      );
+    });
+
   const projectNames = projects.map((project) => project.name);
 
   for (const project of projects) {
     const pomXmlPath = join(workspaceRoot, project.data.root, 'pom.xml');
-
     const pomXmlContent = readXml(pomXmlPath);
     const dependencies = getDependencies(pomXmlContent, projectNames);
     for (const dependency of dependencies) {
