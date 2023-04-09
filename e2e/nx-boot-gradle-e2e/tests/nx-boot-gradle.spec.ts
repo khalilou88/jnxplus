@@ -853,6 +853,7 @@ describe('nx-boot-gradle e2e', () => {
 
     await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
     const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.nodes[parentProjectName]).toBeDefined();
     expect(depGraphJson.graph.nodes[appName]).toBeDefined();
     expect(depGraphJson.graph.nodes[libName]).toBeDefined();
 
@@ -921,6 +922,7 @@ describe('nx-boot-gradle e2e', () => {
 
     await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
     const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.nodes[parentProjectName]).toBeDefined();
     expect(depGraphJson.graph.nodes[appName]).toBeDefined();
     expect(depGraphJson.graph.nodes[libName]).toBeDefined();
 
