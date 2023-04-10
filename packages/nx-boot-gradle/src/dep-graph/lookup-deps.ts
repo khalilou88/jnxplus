@@ -96,7 +96,7 @@ export function processProjectGraph(
   for (const project of managedProjects) {
     let buildGradleContents = '';
 
-    if (project.buildFile == 'groovy') {
+    if (project.buildFile === 'groovy') {
       const buildGradleFile = join(
         workspaceRoot,
         project.data.root,
@@ -118,7 +118,7 @@ export function processProjectGraph(
       }
     }
 
-    if (project.buildFile == 'kotlin') {
+    if (project.buildFile === 'kotlin') {
       const buildGradleKtsFile = join(
         workspaceRoot,
         project.data.root,
