@@ -7,15 +7,15 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   logger.info(`Executor ran for Build: ${JSON.stringify(options)}`);
-  let target: string;
+  // let target: string;
   let mvnArgs = '';
-  if (getProjectType(context) === 'application') {
-    target = 'package spring-boot:repackage';
-  }
+  // if (getProjectType(context) === 'application') {
+  //   target = 'package spring-boot:repackage';
+  // }
 
-  if (getProjectType(context) === 'library') {
-    target = 'install';
-  }
+  // if (getProjectType(context) === 'library') {
+  const target = 'install';
+  // }
 
   if (options.mvnArgs) {
     mvnArgs = `${options.mvnArgs}`;
