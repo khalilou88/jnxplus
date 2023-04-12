@@ -227,7 +227,7 @@ describe('nx-quarkus-maven e2e', () => {
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
     expect(pomXml.includes('war')).toBeTruthy();
-    expect(pomXml.includes('spring-quarkus-starter-tomcat')).toBeTruthy();
+    expect(pomXml.includes('spring-boot-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
@@ -371,7 +371,7 @@ describe('nx-quarkus-maven e2e', () => {
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
     expect(pomXml.includes('war')).toBeTruthy();
-    expect(pomXml.includes('spring-quarkus-starter-tomcat')).toBeTruthy();
+    expect(pomXml.includes('spring-boot-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
@@ -439,7 +439,7 @@ describe('nx-quarkus-maven e2e', () => {
     expect(buildmaven.includes('com.jnxplus')).toBeTruthy();
     expect(buildmaven.includes('1.2.3')).toBeTruthy();
     expect(buildmaven.includes('war')).toBeTruthy();
-    expect(buildmaven.includes('spring-quarkus-starter-tomcat')).toBeTruthy();
+    expect(buildmaven.includes('spring-boot-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
