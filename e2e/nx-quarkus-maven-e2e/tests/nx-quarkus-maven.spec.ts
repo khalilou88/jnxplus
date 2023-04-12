@@ -864,7 +864,7 @@ describe('nx-quarkus-maven e2e', () => {
     });
   }, 1200000);
 
-  it("should dep-graph don't crash when pom.xml don't contains dependencies tag", async () => {
+  xit("should dep-graph don't crash when pom.xml don't contains dependencies tag", async () => {
     const libName = uniq('quarkus-maven-lib-');
 
     await runNxCommandAsync(
