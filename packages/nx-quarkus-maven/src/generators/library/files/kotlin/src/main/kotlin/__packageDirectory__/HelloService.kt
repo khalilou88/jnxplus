@@ -1,11 +1,11 @@
 package <%= packageName %>
 
-import org.springframework.stereotype.Service
+import javax.enterprise.context.ApplicationScoped
 
-@Service
-class HelloService {
+@ApplicationScoped
+class GreetingService  {
 
-    fun message():String {
+    fun greeting():String {
         return "Hello World!"
     }
 }
