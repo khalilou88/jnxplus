@@ -31,7 +31,7 @@ export function processProjectGraph(
       root: '',
       targets: {
         build: {
-          executor: '@jnxplus/nx-boot-maven:run-task',
+          executor: '@jnxplus/nx-quarkus-maven:run-task',
           options: {
             task: '-no-transfer-progress clean install -N',
           },

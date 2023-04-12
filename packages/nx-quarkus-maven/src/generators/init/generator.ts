@@ -87,8 +87,8 @@ function updateNxJson(tree: Tree) {
   updateJson(tree, 'nx.json', (nxJson) => {
     // if plugins is undefined, set it to an empty array
     nxJson.plugins = nxJson.plugins ?? [];
-    // add @jnxplus/nx-boot-maven plugin
-    nxJson.plugins.push('@jnxplus/nx-boot-maven');
+    // add @jnxplus/nx-quarkus-maven plugin
+    nxJson.plugins.push('@jnxplus/nx-quarkus-maven');
     // return modified JSON object
     return nxJson;
   });

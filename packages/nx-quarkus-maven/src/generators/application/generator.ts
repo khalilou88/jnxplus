@@ -117,14 +117,14 @@ export default async function (
       sourceRoot: `${normalizedOptions.projectRoot}/src`,
       targets: {
         build: {
-          executor: '@jnxplus/nx-boot-maven:build',
+          executor: '@jnxplus/nx-quarkus-maven:build',
           outputs: [`${normalizedOptions.projectRoot}/target`],
         },
         'build-image': {
-          executor: '@jnxplus/nx-boot-maven:build-image',
+          executor: '@jnxplus/nx-quarkus-maven:build-image',
         },
         serve: {
-          executor: '@jnxplus/nx-boot-maven:serve',
+          executor: '@jnxplus/nx-quarkus-maven:serve',
           dependsOn: [
             {
               target: 'build',
@@ -133,13 +133,13 @@ export default async function (
           ],
         },
         lint: {
-          executor: '@jnxplus/nx-boot-maven:lint',
+          executor: '@jnxplus/nx-quarkus-maven:lint',
           options: {
             linter: `${normalizedOptions.linter}`,
           },
         },
         test: {
-          executor: '@jnxplus/nx-boot-maven:test',
+          executor: '@jnxplus/nx-quarkus-maven:test',
           dependsOn: [
             {
               target: 'build',
@@ -157,14 +157,14 @@ export default async function (
       sourceRoot: `${normalizedOptions.projectRoot}/src`,
       targets: {
         build: {
-          executor: '@jnxplus/nx-boot-maven:build',
+          executor: '@jnxplus/nx-quarkus-maven:build',
           outputs: [`${normalizedOptions.projectRoot}/target`],
         },
         'build-image': {
-          executor: '@jnxplus/nx-boot-maven:build-image',
+          executor: '@jnxplus/nx-quarkus-maven:build-image',
         },
         serve: {
-          executor: '@jnxplus/nx-boot-maven:serve',
+          executor: '@jnxplus/nx-quarkus-maven:serve',
           dependsOn: [
             {
               target: 'build',
@@ -173,13 +173,13 @@ export default async function (
           ],
         },
         lint: {
-          executor: '@jnxplus/nx-boot-maven:lint',
+          executor: '@jnxplus/nx-quarkus-maven:lint',
           options: {
             linter: `${normalizedOptions.linter}`,
           },
         },
         test: {
-          executor: '@jnxplus/nx-boot-maven:test',
+          executor: '@jnxplus/nx-quarkus-maven:test',
           dependsOn: [
             {
               target: 'build',
@@ -188,7 +188,7 @@ export default async function (
           ],
         },
         kformat: {
-          executor: '@jnxplus/nx-boot-maven:kformat',
+          executor: '@jnxplus/nx-quarkus-maven:kformat',
         },
       },
       tags: normalizedOptions.parsedTags,
