@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/@jnxplus%2Fnx-quarkus-maven.svg)](https://badge.fury.io/js/@jnxplus%2Fnx-quarkus-maven)
 
-This plugin adds Spring Boot and Maven multi-module capabilities to Nx workspace.
+This plugin adds Quarkus and Maven multi-module capabilities to Nx workspace.
 
 Here is a quick overview of the plugin, to know more, please visit [the documentation](https://khalilou88.github.io/jnxplus/).
 
@@ -10,14 +10,9 @@ Here is a quick overview of the plugin, to know more, please visit [the document
 
 The supported versions are:
 
-| @jnxplus/nx-quarkus-maven | Nx       | Spring Boot |
-| ------------------------- | -------- | ----------- |
-| 5.x.x                     | 15.x.x   | 3.x.x       |
-| 4.x.x (not yet published) | >=16.x.x | 2.x.x       |
-| 3.x.x                     | 15.x.x   | 2.x.x       |
-| 2.x.x                     | 14.x.x   | 2.x.x       |
-| 1.x.x                     | 13.x.x   | 2.x.x       |
-| 0.x.x                     | 12.x.x   | 2.x.x       |
+| @jnxplus/nx-quarkus-maven | Nx     | Quarkus |
+| ------------------------- | ------ | ------- |
+| 0.x.x                     | 15.x.x | 2.x.x   |
 
 ## Getting Started
 
