@@ -445,7 +445,7 @@ describe('nx-quarkus-maven e2e', () => {
     }
   }, 1200000);
 
-  xit('should create a library', async () => {
+  it('should create a library', async () => {
     const libName = uniq('quarkus-maven-lib-');
 
     await runNxCommandAsync(
@@ -457,13 +457,10 @@ describe('nx-quarkus-maven e2e', () => {
         `libs/${libName}/pom.xml`,
         `libs/${libName}/src/main/java/com/example/${names(
           libName
-        ).className.toLocaleLowerCase()}/HelloService.java`,
+        ).className.toLocaleLowerCase()}/GreetingService.java`,
         `libs/${libName}/src/test/java/com/example/${names(
           libName
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libName}/src/test/java/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
       )
     ).not.toThrow();
 
@@ -495,7 +492,7 @@ describe('nx-quarkus-maven e2e', () => {
     expect(formatResult.stdout).toContain('');
   }, 1200000);
 
-  xit('should create a kotlin library', async () => {
+  it('should create a kotlin library', async () => {
     const libName = uniq('quarkus-maven-lib-');
 
     await runNxCommandAsync(
@@ -507,13 +504,10 @@ describe('nx-quarkus-maven e2e', () => {
         `libs/${libName}/pom.xml`,
         `libs/${libName}/src/main/kotlin/com/example/${names(
           libName
-        ).className.toLocaleLowerCase()}/HelloService.kt`,
+        ).className.toLocaleLowerCase()}/GreetingService.kt`,
         `libs/${libName}/src/test/kotlin/com/example/${names(
           libName
-        ).className.toLocaleLowerCase()}/TestConfiguration.kt`,
-        `libs/${libName}/src/test/kotlin/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.kt`
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`
       )
     ).not.toThrow();
 
@@ -543,7 +537,7 @@ describe('nx-quarkus-maven e2e', () => {
     expect(lintResult.stdout).toContain('Executor ran for Lint');
   }, 1200000);
 
-  xit('should use the the specified properties to create a library', async () => {
+  it('should use the the specified properties to create a library', async () => {
     const randomName = uniq('quarkus-maven-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
@@ -557,13 +551,10 @@ describe('nx-quarkus-maven e2e', () => {
         `libs/${libDir}/${randomName}/pom.xml`,
         `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/HelloService.java`,
+        ).className.toLocaleLowerCase()}/GreetingService.java`,
         `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
       )
     ).not.toThrow();
 
