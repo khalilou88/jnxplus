@@ -98,7 +98,7 @@ describe('nx-quarkus-maven e2e', () => {
     ).not.toThrow();
   }, 1200000);
 
-  xit('should migrate', async () => {
+  it('should migrate', async () => {
     await runNxCommandAsync(`generate @jnxplus/nx-quarkus-maven:init`);
     await runNxCommandAsync(`generate @jnxplus/nx-quarkus-maven:migrate`);
   }, 1200000);
@@ -806,7 +806,7 @@ describe('nx-quarkus-maven e2e', () => {
     });
   }, 1200000);
 
-  xit("should dep-graph don't crash when pom.xml don't contains dependencies tag", async () => {
+  it("should dep-graph don't crash when pom.xml don't contains dependencies tag", async () => {
     const libName = uniq('quarkus-maven-lib-');
 
     await runNxCommandAsync(
