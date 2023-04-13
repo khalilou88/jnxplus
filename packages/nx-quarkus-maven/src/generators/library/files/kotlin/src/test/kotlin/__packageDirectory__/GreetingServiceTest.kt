@@ -1,26 +1,25 @@
 package <%= packageName %>
 
-import org.assertj.core.api.Assertions.assertThat
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test
 import io.quarkus.test.junit.QuarkusTest
 import javax.inject.Inject
 
 
-@SpringBootTest
+@QuarkusTest
 class GreetingServiceTest {
 
 
-@Inject
-greetingService: GreetingService
+  @Inject
+  lateinit var greetingService: GreetingService
 
 
   @Test
   fun `Should return Hello World`() {
     println(">> Should return Hello World")
-    assertThat(greetingService.greeting()).contains("Hello World")
+    Assertions.assertTrue(greetingService.greeting().contains("Hello World"));
   }
 
 
-
-
 }
+
