@@ -55,7 +55,7 @@ describe('nx-quarkus-maven e2e', () => {
     );
     runPackageManagerInstall();
 
-    const parentProjectName = uniq('parent-project-name-');
+    const parentProjectName = uniq('parent-project-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:init --parentProjectName ${parentProjectName}`
     );
@@ -110,87 +110,73 @@ describe('nx-quarkus-maven e2e', () => {
       `generate @jnxplus/nx-quarkus-maven:application ${appName}`
     );
 
-    // expect(() =>
-    //   checkFilesExist(
-    //     `apps/${appName}/pom.xml`,
-    //     `apps/${appName}/src/main/resources/application.properties`,
-    //     `apps/${appName}/src/main/java/com/example/${names(
-    //       appName
-    //     ).className.toLocaleLowerCase()}/${
-    //       names(appName).className
-    //     }Application.java`,
-    //     `apps/${appName}/src/main/java/com/example/${names(
-    //       appName
-    //     ).className.toLocaleLowerCase()}/HelloController.java`,
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/pom.xml`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/java/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResource.java`,
+        `apps/${appName}/src/test/java/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
+      )
+    ).not.toThrow();
 
-    //     `apps/${appName}/src/test/resources/application.properties`,
-    //     `apps/${appName}/src/test/java/com/example/${names(
-    //       appName
-    //     ).className.toLocaleLowerCase()}/HelloControllerTests.java`
-    //   )
-    // ).not.toThrow();
+    // Making sure the pom.xml file contains the good informations
+    const pomXml = readFile(`apps/${appName}/pom.xml`);
+    expect(pomXml.includes('com.example')).toBeTruthy();
+    expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
-    // // Making sure the pom.xml file contains the good informations
-    // const pomXml = readFile(`apps/${appName}/pom.xml`);
-    // expect(pomXml.includes('com.example')).toBeTruthy();
-    // expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
-    // const buildResult = await runNxCommandAsync(`build ${appName}`);
-    // expect(buildResult.stdout).toContain('Executor ran for Build');
-    // expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
+    //should recreate target folder
+    const localTmpDir = path.dirname(tmpProjPath());
+    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'target');
+    fse.removeSync(targetDir);
+    expect(() => checkFilesExist(`apps/${appName}/target`)).toThrow();
+    await runNxCommandAsync(`build ${appName}`);
+    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
-    // //should recreate target folder
-    // const localTmpDir = path.dirname(tmpProjPath());
-    // const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'target');
-    // fse.removeSync(targetDir);
-    // expect(() => checkFilesExist(`apps/${appName}/target`)).toThrow();
-    // await runNxCommandAsync(`build ${appName}`);
-    // expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
 
-    // if (!isWin && !isMacOs) {
-    //   const buildImageResult = await runNxCommandAsync(
-    //     `build-image ${appName}`
-    //   );
-    //   expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
-    // }
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
 
-    // const testResult = await runNxCommandAsync(`test ${appName}`);
-    // expect(testResult.stdout).toContain('Executor ran for Test');
+    const formatResult = await runNxCommandAsync(
+      `format:check --projects ${appName}`
+    );
+    expect(formatResult.stdout).toContain('');
 
-    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    // expect(lintResult.stdout).toContain('Executor ran for Lint');
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Listening on: http://localhost:8080`)
+    );
 
-    // const formatResult = await runNxCommandAsync(
-    //   `format:check --projects ${appName}`
-    // );
-    // expect(formatResult.stdout).toContain('');
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(8080);
+    } catch (err) {
+      expect(err).toBeFalsy();
+    }
 
-    // const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-    //   output.includes(`Tomcat started on port(s): 8080`)
-    // );
-
-    // // port and process cleanup
-    // try {
-    //   await promisifiedTreeKill(process.pid, 'SIGKILL');
-    //   await killPorts(8080);
-    // } catch (err) {
-    //   expect(err).toBeFalsy();
-    // }
-
-    // //test run-task
-    // const projectJson = readJson(`apps/${appName}/project.json`);
-    // projectJson.targets = {
-    //   ...projectJson.targets,
-    //   'run-task': {
-    //     executor: '@jnxplus/nx-quarkus-maven:run-task',
-    //   },
-    // };
-    // updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
-    // const runTaskResult = await runNxCommandAsync(
-    //   `run-task ${appName} --task="clean install -DskipTests=true"`
-    // );
-    // expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
-    // //end test run-task
+    //test run-task
+    const projectJson = readJson(`apps/${appName}/project.json`);
+    projectJson.targets = {
+      ...projectJson.targets,
+      'run-task': {
+        executor: '@jnxplus/nx-quarkus-maven:run-task',
+      },
+    };
+    updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
+    const runTaskResult = await runNxCommandAsync(
+      `run-task ${appName} --task="clean install -DskipTests=true"`
+    );
+    expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
+    //end test run-task
   }, 1200000);
 
   xit('should use specified options to create an application', async () => {
