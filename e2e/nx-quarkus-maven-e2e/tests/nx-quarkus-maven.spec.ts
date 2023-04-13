@@ -179,11 +179,12 @@ describe('nx-quarkus-maven e2e', () => {
     //end test run-task
   }, 1200000);
 
-  xit('should use specified options to create an application', async () => {
+  it('should use specified options to create an application', async () => {
     const randomName = uniq('quarkus-maven-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
 
+    //TODO remove war option
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml`
     );
@@ -194,17 +195,12 @@ describe('nx-quarkus-maven e2e', () => {
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloController.java`,
+        ).className.toLocaleLowerCase()}/GreetingResource.java`,
 
         `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
       )
     ).not.toThrow();
 
@@ -212,8 +208,6 @@ describe('nx-quarkus-maven e2e', () => {
     const pomXml = readFile(`apps/${appDir}/${randomName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
-    expect(pomXml.includes('war')).toBeTruthy();
-    expect(pomXml.includes('spring-boot-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
@@ -235,9 +229,10 @@ describe('nx-quarkus-maven e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
+    //TODO add args
     const process = await runNxCommandUntil(
-      `serve ${appName} --args="-Dspring-quarkus.run.profiles=test"`,
-      (output) => output.includes(`Tomcat started on port(s): 8080`)
+      `serve ${appName} --args=""`,
+      (output) => output.includes(`Listening on: http://localhost:8080`)
     );
 
     // port and process cleanup
