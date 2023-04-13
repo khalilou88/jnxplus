@@ -5,9 +5,9 @@ import { BuildExecutorSchema } from './schema';
 jest.mock('../../utils/command');
 
 const options: BuildExecutorSchema = {
-  buildMode: 'compile',
-  packaging: 'jar',
   mvnArgs: '--no-transfer-progress',
+  mvnBuildCommand: 'compile',
+  mvnBuildArgs: '-Dquarkus.package.type=uber-jar',
 };
 
 const context: ExecutorContext = {

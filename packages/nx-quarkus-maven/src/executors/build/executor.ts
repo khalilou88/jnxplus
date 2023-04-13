@@ -7,22 +7,32 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   logger.info(`Executor ran for Build: ${JSON.stringify(options)}`);
-  let target: string;
   let mvnArgs = '';
-  if (getProjectType(context) === 'application') {
-    target = 'package';
-  }
-
-  if (getProjectType(context) === 'library') {
-    target = 'install';
-  }
+  let mvnBuildCommand: string;
+  let mvnBuildArgs = '';
 
   if (options.mvnArgs) {
     mvnArgs = `${options.mvnArgs}`;
   }
 
+  if (options.mvnBuildCommand) {
+    mvnBuildCommand = `${options.mvnBuildCommand}`;
+  } else {
+    if (getProjectType(context) === 'application') {
+      mvnBuildCommand = 'compile';
+    }
+
+    if (getProjectType(context) === 'library') {
+      mvnBuildCommand = 'install';
+    }
+  }
+
+  if (options.mvnBuildArgs) {
+    mvnBuildArgs = `${options.mvnBuildArgs}`;
+  }
+
   return runCommand(
-    `${getExecutable()} ${mvnArgs} ${target} -DskipTests=true -pl :${
+    `${getExecutable()} ${mvnArgs} ${mvnBuildCommand} ${mvnBuildArgs} -DskipTests=true -pl :${
       context.projectName
     }`
   );
