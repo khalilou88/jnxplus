@@ -582,7 +582,7 @@ describe('nx-quarkus-maven e2e', () => {
     expect(formatResult.stdout).toContain('');
   }, 1200000);
 
-  xit('should generare a lib with a simple package name', async () => {
+  it('should generare a lib with a simple package name', async () => {
     const randomName = uniq('quarkus-maven-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
@@ -596,13 +596,10 @@ describe('nx-quarkus-maven e2e', () => {
         `libs/${libDir}/${randomName}/pom.xml`,
         `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName
-        ).className.toLocaleLowerCase()}/HelloService.java`,
+        ).className.toLocaleLowerCase()}/GreetingService.java`,
         `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
           randomName
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
       )
     ).not.toThrow();
 
@@ -694,10 +691,10 @@ describe('nx-quarkus-maven e2e', () => {
     const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes(`${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `apps/${appName}/src/main/java/com/example/${names(
+    const greetingResourcePath = `apps/${appName}/src/main/java/com/example/${names(
       appName
     ).className.toLocaleLowerCase()}/GreetingResource.java`;
-    const helloControllerContent = readFile(helloControllerPath);
+    const greetingResourceContent = readFile(greetingResourcePath);
 
     const regex1 = /package\s*com\.example\..*\s*;/;
 
@@ -705,7 +702,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     const regex3 = /"Hello World!"/;
 
-    const newHelloControllerContent = helloControllerContent
+    const newGreetingResourceContent = greetingResourceContent
       .replace(
         regex1,
         `$&\nimport javax.inject.Inject;\nimport com.example.${names(
@@ -715,32 +712,32 @@ describe('nx-quarkus-maven e2e', () => {
       .replace(regex2, '$&\n@Inject\nGreetingService service;')
       .replace(regex3, 'service.greeting()');
 
-    updateFile(helloControllerPath, newHelloControllerContent);
+    updateFile(greetingResourcePath, newGreetingResourceContent);
 
-    // const buildResult = await runNxCommandAsync(`build ${appName}`);
-    // expect(buildResult.stdout).toContain('Executor ran for Build');
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    // const testResult = await runNxCommandAsync(`test ${appName}`);
-    // expect(testResult.stdout).toContain('Executor ran for Test');
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
 
-    // const formatResult = await runNxCommandAsync(
-    //   `format:write --projects ${appName}`
-    // );
-    // expect(formatResult.stdout).toContain('HelloController.java');
+    const formatResult = await runNxCommandAsync(
+      `format:write --projects ${appName}`
+    );
+    expect(formatResult.stdout).toContain('GreetingService.java');
 
-    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    // expect(lintResult.stdout).toContain('Executor ran for Lint');
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
 
-    // await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
-    // const depGraphJson = readJson('dep-graph.json');
-    // expect(depGraphJson.graph.nodes[appName]).toBeDefined();
-    // expect(depGraphJson.graph.nodes[libName]).toBeDefined();
+    await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.nodes[appName]).toBeDefined();
+    expect(depGraphJson.graph.nodes[libName]).toBeDefined();
 
-    // expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
-    //   type: 'static',
-    //   source: appName,
-    //   target: libName,
-    // });
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: libName,
+    });
   }, 1200000);
 
   xit('should add a kotlin lib to a kotlin app dependencies', async () => {
