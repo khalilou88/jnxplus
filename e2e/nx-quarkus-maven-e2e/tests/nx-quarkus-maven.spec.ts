@@ -760,21 +760,18 @@ describe('nx-quarkus-maven e2e', () => {
 
     const regex1 = /package\s*com\.example\..*/;
 
-    const regex2 = /class\s*GreetingResource\s*{/;
+    const regex2 = /class\s*GreetingResource/;
 
     const regex3 = /"Hello World!"/;
 
     const newGreetingResourceContent = greetingResourceContent
       .replace(
         regex1,
-        `$&\njavax.inject.Inject\nimport com.example.${names(
+        `$&\nimport com.example.${names(
           libName
         ).className.toLocaleLowerCase()}.GreetingService`
       )
-      .replace(
-        regex2,
-        '$&\n@Inject\nlateinit var greetingService: GreetingService'
-      )
+      .replace(regex2, '$&(private val greetingService: GreetingService)')
       .replace(regex3, 'greetingService.greeting()');
 
     updateFile(greetingResourcePath, newGreetingResourceContent);
