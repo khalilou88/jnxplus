@@ -242,7 +242,7 @@ describe('nx-quarkus-maven e2e', () => {
     }
   }, 1200000);
 
-  xit('should create an kotlin application', async () => {
+  it('should create an kotlin application', async () => {
     const appName = uniq('quarkus-maven-app-');
 
     await runNxCommandAsync(
@@ -255,17 +255,10 @@ describe('nx-quarkus-maven e2e', () => {
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.kt`,
-        `apps/${appName}/src/main/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/HelloController.kt`,
-
-        `apps/${appName}/src/test/resources/application.properties`,
+        ).className.toLocaleLowerCase()}/GreetingResource.kt`,
         `apps/${appName}/src/test/kotlin/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.kt`
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`
       )
     ).not.toThrow();
 
@@ -287,13 +280,6 @@ describe('nx-quarkus-maven e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
-    if (!isWin && !isMacOs) {
-      const buildImageResult = await runNxCommandAsync(
-        `build-image ${appName}`
-      );
-      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
-    }
-
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
@@ -304,7 +290,7 @@ describe('nx-quarkus-maven e2e', () => {
     expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`)
+      output.includes(`Listening on: http://localhost:8080`)
     );
 
     // port and process cleanup
