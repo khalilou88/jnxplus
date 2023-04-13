@@ -424,7 +424,7 @@ describe('nx-quarkus-maven e2e', () => {
     }
   }, 1200000);
 
-  xit('directory with dash', async () => {
+  it('directory with dash', async () => {
     const appName = uniq('quarkus-maven-app-');
 
     await runNxCommandAsync(
@@ -433,7 +433,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     const process = await runNxCommandUntil(
       `serve deep-sub-dir-${appName}`,
-      (output) => output.includes(`Tomcat started on port(s): 8080`)
+      (output) => output.includes(`Listening on: http://localhost:8080`)
     );
 
     // port and process cleanup
