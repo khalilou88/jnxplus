@@ -36,7 +36,7 @@ describe('Serve Executor', () => {
 
     expect(output.success).toBe(true);
     expect(runCommand).toHaveBeenCalledWith(
-      expect.stringMatching(/spring-boot:run -pl :my-app args$/)
+      expect.stringMatching(/quarkus:dev -pl :my-app args$/)
     );
   });
 
@@ -46,7 +46,7 @@ describe('Serve Executor', () => {
 
       expect(output.success).toBe(true);
       expect(runCommand).toHaveBeenCalledWith(
-        expect.stringMatching(/spring-boot:run -pl :my-app$/)
+        expect.stringMatching(/quarkus:dev -pl :my-app$/)
       );
     });
   });
