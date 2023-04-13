@@ -627,7 +627,7 @@ describe('nx-quarkus-maven e2e', () => {
     expect(formatResult.stdout).toContain('');
   }, 1200000);
 
-  xit('--a lib with aliases', async () => {
+  it('--a lib with aliases', async () => {
     const randomName = uniq('quarkus-maven-lib-');
     const libDir = 'subdir';
     const libName = `${libDir}-${randomName}`;
@@ -641,13 +641,10 @@ describe('nx-quarkus-maven e2e', () => {
         `libs/${libDir}/${randomName}/pom.xml`,
         `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/HelloService.java`,
+        ).className.toLocaleLowerCase()}/GreetingService.java`,
         `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
       )
     ).not.toThrow();
 
@@ -740,7 +737,7 @@ describe('nx-quarkus-maven e2e', () => {
     });
   }, 1200000);
 
-  xit('should add a kotlin lib to a kotlin app dependencies', async () => {
+  it('should add a kotlin lib to a kotlin app dependencies', async () => {
     const appName = uniq('quarkus-maven-app-');
     const libName = uniq('quarkus-maven-lib-');
 
@@ -756,28 +753,31 @@ describe('nx-quarkus-maven e2e', () => {
     const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes(`${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `apps/${appName}/src/main/kotlin/com/example/${names(
+    const greetingResourcePath = `apps/${appName}/src/main/kotlin/com/example/${names(
       appName
-    ).className.toLocaleLowerCase()}/HelloController.kt`;
-    const helloControllerContent = readFile(helloControllerPath);
+    ).className.toLocaleLowerCase()}/GreetingResource.kt`;
+    const greetingResourceContent = readFile(greetingResourcePath);
 
     const regex1 = /package\s*com\.example\..*/;
 
-    const regex2 = /class\s*HelloController/;
+    const regex2 = /class\s*GreetingResource\s*{/;
 
     const regex3 = /"Hello World!"/;
 
-    const newHelloControllerContent = helloControllerContent
+    const newGreetingResourceContent = greetingResourceContent
       .replace(
         regex1,
-        `$&\nimport org.springframework.beans.factory.annotation.Autowired\nimport com.example.${names(
+        `$&\njavax.inject.Inject\nimport com.example.${names(
           libName
-        ).className.toLocaleLowerCase()}.HelloService`
+        ).className.toLocaleLowerCase()}.GreetingService`
       )
-      .replace(regex2, '$&(@Autowired val helloService: HelloService)')
-      .replace(regex3, 'helloService.message()');
+      .replace(
+        regex2,
+        '$&\n@Inject\nlateinit var greetingService: GreetingService'
+      )
+      .replace(regex3, 'greetingService.greeting()');
 
-    updateFile(helloControllerPath, newHelloControllerContent);
+    updateFile(greetingResourcePath, newGreetingResourceContent);
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');

@@ -190,7 +190,20 @@ function addLibraryToProjects(tree: Tree, options: NormalizedSchema) {
 			<version>${options.projectVersion}</version>
 		</dependency>
   `);
-    xmldoc.childNamed('dependencies').children.push(dependency);
+    let dependencies = xmldoc.childNamed('dependencies');
+
+    if (dependencies === undefined) {
+      xmldoc.children.push(
+        new XmlDocument(`
+      <dependencies>
+      </dependencies>
+    `)
+      );
+      dependencies = xmldoc.childNamed('dependencies');
+    }
+
+    dependencies.children.push(dependency);
+
     tree.write(filePath, xmlToString(xmldoc));
   }
 }

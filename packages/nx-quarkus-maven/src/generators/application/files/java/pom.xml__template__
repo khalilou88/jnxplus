@@ -14,10 +14,5 @@
 	<name><%= projectName %></name>
 	<description>This project was generated with nx-quarkus-maven</description>
   
-  <dependencies>
-
-  </dependencies>
-
-
 
 </project>
