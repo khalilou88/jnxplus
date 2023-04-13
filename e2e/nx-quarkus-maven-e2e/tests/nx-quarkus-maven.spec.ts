@@ -196,8 +196,6 @@ describe('nx-quarkus-maven e2e', () => {
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
-
-        `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
