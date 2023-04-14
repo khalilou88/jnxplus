@@ -10,9 +10,9 @@ Here is a quick overview of the plugin, to know more, please visit [the document
 
 The supported versions are:
 
-| @jnxplus/nx-quarkus-maven | Nx     | Quarkus |
-| ------------------------- | ------ | ------- |
-| 0.x.x                     | 15.x.x | 2.x.x   |
+| @jnxplus/nx-quarkus-maven | Nx     | Quarkus      |
+| ------------------------- | ------ | ------------ |
+| 0.x.x                     | 15.x.x | 2.16.6.Final |
 
 ## Getting Started
 
