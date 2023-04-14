@@ -33,12 +33,12 @@
     },
     "groupId": {
       "type": "string",
-      "default": "com.example",
+      "default": "org.acme",
       "x-prompt": "What groupId would you like to use?"
     },
     "parentProjectName": {
       "type": "string",
-      "default": "boot-multi-module",
+      "default": "quarkus-parent-project",
       "x-prompt": "What parentProjectName would you like to use?",
       "pattern": "^[a-zA-Z].*$"
     },

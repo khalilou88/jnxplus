@@ -114,10 +114,10 @@ describe('nx-quarkus-maven e2e', () => {
       checkFilesExist(
         `apps/${appName}/pom.xml`,
         `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/java/com/example/${names(
+        `apps/${appName}/src/main/java/org/acme/${names(
           appName
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `apps/${appName}/src/test/java/com/example/${names(
+        `apps/${appName}/src/test/java/org/acme/${names(
           appName
         ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
       )
@@ -125,7 +125,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     // Making sure the pom.xml file contains the good informations
     const pomXml = readFile(`apps/${appName}/pom.xml`);
-    expect(pomXml.includes('com.example')).toBeTruthy();
+    expect(pomXml.includes('org.acme')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
@@ -186,17 +186,17 @@ describe('nx-quarkus-maven e2e', () => {
 
     //TODO remove war option
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --configFormat .yml`
+      `generate @jnxplus/nx-quarkus-maven:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId org.jnxplus --projectVersion 1.2.3 --configFormat .yml`
     );
 
     expect(() =>
       checkFilesExist(
         `apps/${appDir}/${randomName}/pom.xml`,
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
+        `apps/${appDir}/${randomName}/src/main/java/org/jnxplus/deep/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
+        `apps/${appDir}/${randomName}/src/test/java/org/jnxplus/deep/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
       )
@@ -204,7 +204,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     // Making sure the pom.xml file contains the good informations
     const pomXml = readFile(`apps/${appDir}/${randomName}/pom.xml`);
-    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('org.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
@@ -253,10 +253,10 @@ describe('nx-quarkus-maven e2e', () => {
       checkFilesExist(
         `apps/${appName}/pom.xml`,
         `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/kotlin/com/example/${names(
+        `apps/${appName}/src/main/kotlin/org/acme/${names(
           appName
         ).className.toLocaleLowerCase()}/GreetingResource.kt`,
-        `apps/${appName}/src/test/kotlin/com/example/${names(
+        `apps/${appName}/src/test/kotlin/org/acme/${names(
           appName
         ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`
       )
@@ -264,7 +264,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     // Making sure the pom.xml file contains the good informations
     const pomXml = readFile(`apps/${appName}/pom.xml`);
-    expect(pomXml.includes('com.example')).toBeTruthy();
+    expect(pomXml.includes('org.acme')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(
@@ -309,17 +309,17 @@ describe('nx-quarkus-maven e2e', () => {
 
     //TODO remove war
     await runNxCommandAsync(
-      `g @jnxplus/nx-quarkus-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --configFormat .yml`
+      `g @jnxplus/nx-quarkus-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId org.jnxplus --v 1.2.3 --configFormat .yml`
     );
 
     expect(() =>
       checkFilesExist(
         `apps/${appDir}/${randomName}/pom.xml`,
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
+        `apps/${appDir}/${randomName}/src/main/java/org/jnxplus/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
+        `apps/${appDir}/${randomName}/src/test/java/org/jnxplus/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
       )
@@ -327,7 +327,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     // Making sure the pom.xml file contains the good information
     const pomXml = readFile(`apps/${appDir}/${randomName}/pom.xml`);
-    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('org.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
@@ -370,17 +370,17 @@ describe('nx-quarkus-maven e2e', () => {
 
     //TODO remove war
     await runNxCommandAsync(
-      `g @jnxplus/nx-quarkus-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --packageNameType short --v 1.2.3 --configFormat .yml`
+      `g @jnxplus/nx-quarkus-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId org.jnxplus --packageNameType short --v 1.2.3 --configFormat .yml`
     );
 
     expect(() =>
       checkFilesExist(
         `apps/${appDir}/${randomName}/pom.xml`,
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
+        `apps/${appDir}/${randomName}/src/main/java/org/jnxplus/${names(
           randomName
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
+        `apps/${appDir}/${randomName}/src/test/java/org/jnxplus/${names(
           randomName
         ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
       )
@@ -388,7 +388,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     // Making sure the pom.xml file contains the good informations
     const buildmaven = readFile(`apps/${appDir}/${randomName}/pom.xml`);
-    expect(buildmaven.includes('com.jnxplus')).toBeTruthy();
+    expect(buildmaven.includes('org.jnxplus')).toBeTruthy();
     expect(buildmaven.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
@@ -455,10 +455,10 @@ describe('nx-quarkus-maven e2e', () => {
     expect(() =>
       checkFilesExist(
         `libs/${libName}/pom.xml`,
-        `libs/${libName}/src/main/java/com/example/${names(
+        `libs/${libName}/src/main/java/org/acme/${names(
           libName
         ).className.toLocaleLowerCase()}/GreetingService.java`,
-        `libs/${libName}/src/test/java/com/example/${names(
+        `libs/${libName}/src/test/java/org/acme/${names(
           libName
         ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
       )
@@ -466,7 +466,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     // Making sure the pom.xml file contains the good informations
     const pomXml = readFile(`libs/${libName}/pom.xml`);
-    expect(pomXml.includes('com.example')).toBeTruthy();
+    expect(pomXml.includes('org.acme')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
@@ -502,10 +502,10 @@ describe('nx-quarkus-maven e2e', () => {
     expect(() =>
       checkFilesExist(
         `libs/${libName}/pom.xml`,
-        `libs/${libName}/src/main/kotlin/com/example/${names(
+        `libs/${libName}/src/main/kotlin/org/acme/${names(
           libName
         ).className.toLocaleLowerCase()}/GreetingService.kt`,
-        `libs/${libName}/src/test/kotlin/com/example/${names(
+        `libs/${libName}/src/test/kotlin/org/acme/${names(
           libName
         ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`
       )
@@ -513,7 +513,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     // Making sure the pom.xml file contains the good informations
     const pomXml = readFile(`libs/${libName}/pom.xml`);
-    expect(pomXml.includes('com.example')).toBeTruthy();
+    expect(pomXml.includes('org.acme')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
@@ -543,16 +543,16 @@ describe('nx-quarkus-maven e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
+      `generate @jnxplus/nx-quarkus-maven:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId org.jnxplus --projectVersion 1.2.3`
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libDir}/${randomName}/pom.xml`,
-        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
+        `libs/${libDir}/${randomName}/src/main/java/org/jnxplus/deep/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/GreetingService.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
+        `libs/${libDir}/${randomName}/src/test/java/org/jnxplus/deep/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
       )
@@ -560,7 +560,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     // Making sure the pom.xml file contains the good information
     const pomXml = readFile(`libs/${libDir}/${randomName}/pom.xml`);
-    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('org.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
@@ -588,16 +588,16 @@ describe('nx-quarkus-maven e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --packageNameType short --projectVersion 1.2.3`
+      `generate @jnxplus/nx-quarkus-maven:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId org.jnxplus --packageNameType short --projectVersion 1.2.3`
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libDir}/${randomName}/pom.xml`,
-        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/${names(
+        `libs/${libDir}/${randomName}/src/main/java/org/jnxplus/${names(
           randomName
         ).className.toLocaleLowerCase()}/GreetingService.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
+        `libs/${libDir}/${randomName}/src/test/java/org/jnxplus/${names(
           randomName
         ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
       )
@@ -605,7 +605,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     // Making sure the pom.xml file contains the good informations
     const pomXml = readFile(`libs/${libDir}/${randomName}/pom.xml`);
-    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('org.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
@@ -633,16 +633,16 @@ describe('nx-quarkus-maven e2e', () => {
     const libName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-quarkus-maven:lib ${randomName} --dir ${libDir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`
+      `g @jnxplus/nx-quarkus-maven:lib ${randomName} --dir ${libDir} --t e2etag,e2ePackage --groupId org.jnxplus --v 1.2.3`
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libDir}/${randomName}/pom.xml`,
-        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
+        `libs/${libDir}/${randomName}/src/main/java/org/jnxplus/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/GreetingService.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
+        `libs/${libDir}/${randomName}/src/test/java/org/jnxplus/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
       )
@@ -650,7 +650,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     // Making sure the pom.xml file contains the good information
     const pomXml = readFile(`libs/${libDir}/${randomName}/pom.xml`);
-    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('org.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
@@ -688,12 +688,12 @@ describe('nx-quarkus-maven e2e', () => {
     const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes(`${libName}`)).toBeTruthy();
 
-    const greetingResourcePath = `apps/${appName}/src/main/java/com/example/${names(
+    const greetingResourcePath = `apps/${appName}/src/main/java/org/acme/${names(
       appName
     ).className.toLocaleLowerCase()}/GreetingResource.java`;
     const greetingResourceContent = readFile(greetingResourcePath);
 
-    const regex1 = /package\s*com\.example\..*\s*;/;
+    const regex1 = /package\s*org\.acme\..*\s*;/;
 
     const regex2 = /public\s*class\s*GreetingResource\s*{/;
 
@@ -702,7 +702,7 @@ describe('nx-quarkus-maven e2e', () => {
     const newGreetingResourceContent = greetingResourceContent
       .replace(
         regex1,
-        `$&\nimport javax.inject.Inject;\nimport com.example.${names(
+        `$&\nimport javax.inject.Inject;\nimport org.acme.${names(
           libName
         ).className.toLocaleLowerCase()}.GreetingService;`
       )
@@ -753,12 +753,12 @@ describe('nx-quarkus-maven e2e', () => {
     const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes(`${libName}`)).toBeTruthy();
 
-    const greetingResourcePath = `apps/${appName}/src/main/kotlin/com/example/${names(
+    const greetingResourcePath = `apps/${appName}/src/main/kotlin/org/acme/${names(
       appName
     ).className.toLocaleLowerCase()}/GreetingResource.kt`;
     const greetingResourceContent = readFile(greetingResourcePath);
 
-    const regex1 = /package\s*com\.example\..*/;
+    const regex1 = /package\s*org\.acme\..*/;
 
     const regex2 = /class\s*GreetingResource/;
 
@@ -767,7 +767,7 @@ describe('nx-quarkus-maven e2e', () => {
     const newGreetingResourceContent = greetingResourceContent
       .replace(
         regex1,
-        `$&\nimport com.example.${names(
+        `$&\nimport org.acme.${names(
           libName
         ).className.toLocaleLowerCase()}.GreetingService`
       )
