@@ -18,7 +18,16 @@ describe('application generator', () => {
     appTree = createTreeWithEmptyWorkspace();
     appTree.write(
       './pom.xml',
-      '<project><groupId>com.example</groupId><artifactId>boot-multi-module</artifactId><version>0.0.1-SNAPSHOT</version><modules></modules></project>'
+      `<project>
+        <groupId>com.example</groupId>
+        <artifactId>boot-multi-module</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <properties>
+          <kotlin.version>1.7.22</kotlin.version>
+          <quarkus.platform.version>2.16.6.Final</quarkus.platform.version>
+        </properties>
+        <modules></modules>
+      </project>`
     );
   });
 
