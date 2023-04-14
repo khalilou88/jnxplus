@@ -95,12 +95,5 @@
       }
     }
   },
-  "required": [
-    "name",
-    "language",
-    "groupId",
-    "projectVersion",
-    "packaging",
-    "configFormat"
-  ]
+  "required": ["name", "language", "groupId", "projectVersion", "configFormat"]
 }

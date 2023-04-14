@@ -186,7 +186,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     //TODO remove war option
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml`
+      `generate @jnxplus/nx-quarkus-maven:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --configFormat .yml`
     );
 
     expect(() =>
@@ -309,7 +309,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     //TODO remove war
     await runNxCommandAsync(
-      `g @jnxplus/nx-quarkus-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml`
+      `g @jnxplus/nx-quarkus-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --configFormat .yml`
     );
 
     expect(() =>
@@ -370,7 +370,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     //TODO remove war
     await runNxCommandAsync(
-      `g @jnxplus/nx-quarkus-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --packageNameType short --v 1.2.3 --packaging war --configFormat .yml`
+      `g @jnxplus/nx-quarkus-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --packageNameType short --v 1.2.3 --configFormat .yml`
     );
 
     expect(() =>
@@ -742,7 +742,7 @@ describe('nx-quarkus-maven e2e', () => {
     const libName = uniq('quarkus-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${appName} --language kotlin --packaging war`
+      `generate @jnxplus/nx-quarkus-maven:application ${appName} --language kotlin`
     );
 
     await runNxCommandAsync(
