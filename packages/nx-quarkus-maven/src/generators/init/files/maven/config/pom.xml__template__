@@ -18,13 +18,12 @@
     <quarkus.platform.version>2.16.6.Final</quarkus.platform.version>
     <skipITs>true</skipITs>
     <surefire-plugin.version>3.0.0-M7</surefire-plugin.version>
+    <jandex.plugin.version>3.0.5</jandex.plugin.version>
   </properties>
 
-    <modules>
-    </modules>
+  <modules>
+  </modules>
 
-
-  
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -74,7 +73,6 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
 
   <build>
     <sourceDirectory>src/main/kotlin</sourceDirectory>
@@ -171,8 +169,22 @@
           </pluginOptions>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>io.smallrye</groupId>
+        <artifactId>jandex-maven-plugin</artifactId>
+        <version>${jandex.plugin.version}</version>
+        <executions>
+          <execution>
+            <id>make-index</id>
+            <goals>
+              <goal>jandex</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
+
   <profiles>
     <profile>
       <id>native</id>
