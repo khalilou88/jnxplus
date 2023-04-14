@@ -1,6 +1,6 @@
 import { LanguageType, PackageNameType } from '../../utils/types';
 
-export interface NxBootMavenLibGeneratorSchema {
+export interface NxQuarkusMavenLibGeneratorSchema {
   name: string;
   tags?: string;
   directory?: string;

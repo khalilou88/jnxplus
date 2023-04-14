@@ -1,7 +1,7 @@
-import { mvnBuildCommandType } from '../../utils/types';
+import { MvnBuildCommandType } from '../../utils/types';
 
 export interface BuildExecutorSchema {
   mvnArgs: string;
-  mvnBuildCommand: mvnBuildCommandType;
+  mvnBuildCommand: MvnBuildCommandType;
   mvnBuildArgs: string;
 }

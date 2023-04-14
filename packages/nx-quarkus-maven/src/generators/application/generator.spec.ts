@@ -1,11 +1,11 @@
 import { readProjectConfiguration, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import generator from './generator';
-import { NxBootMavenAppGeneratorSchema } from './schema';
+import { NxQuarkusMavenAppGeneratorSchema } from './schema';
 
 describe('application generator', () => {
   let appTree: Tree;
-  const options: NxBootMavenAppGeneratorSchema = {
+  const options: NxQuarkusMavenAppGeneratorSchema = {
     name: 'test',
     language: 'java',
     groupId: 'com.example',

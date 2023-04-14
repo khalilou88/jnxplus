@@ -1,4 +1,4 @@
-export interface NxBootMavenGeneratorSchema {
+export interface NxQuarkusMavenGeneratorSchema {
   javaVersion: string | number;
   groupId: string;
   parentProjectName: string;

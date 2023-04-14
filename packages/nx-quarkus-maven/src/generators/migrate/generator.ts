@@ -1,20 +1,17 @@
 import { formatFiles, generateFiles, offsetFromRoot, Tree } from '@nrwl/devkit';
 import * as path from 'path';
-import {
-  kotlinVersion,
-  springBootStarterParentVersion,
-} from '../../utils/versions';
-import { NxBootMavenGeneratorSchema } from './schema';
+import { kotlinVersion, quarkusVersion } from '../../utils/versions';
+import { NxQuarkusMavenGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends NxBootMavenGeneratorSchema {
+interface NormalizedSchema extends NxQuarkusMavenGeneratorSchema {
   dot: string;
   kotlinVersion: string;
-  springBootStarterParentVersion: string;
+  quarkusVersion: string;
 }
 
 function normalizeOptions(
   tree: Tree,
-  options: NxBootMavenGeneratorSchema
+  options: NxQuarkusMavenGeneratorSchema
 ): NormalizedSchema {
   const dot = '.';
 
@@ -22,7 +19,7 @@ function normalizeOptions(
     ...options,
     dot,
     kotlinVersion,
-    springBootStarterParentVersion,
+    quarkusVersion,
   };
 }
 
@@ -42,7 +39,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
 
 export default async function (
   tree: Tree,
-  options: NxBootMavenGeneratorSchema
+  options: NxQuarkusMavenGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);
