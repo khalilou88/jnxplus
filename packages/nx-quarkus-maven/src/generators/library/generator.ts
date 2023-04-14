@@ -154,8 +154,8 @@ export default async function (
         test: {
           executor: '@jnxplus/nx-quarkus-maven:test',
         },
-        kformat: {
-          executor: '@jnxplus/nx-quarkus-maven:kformat',
+        ktformat: {
+          executor: '@jnxplus/nx-quarkus-maven:ktformat',
         },
       },
       tags: normalizedOptions.parsedTags,
