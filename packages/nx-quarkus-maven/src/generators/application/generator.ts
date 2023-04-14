@@ -27,6 +27,7 @@ interface NormalizedSchema extends NxQuarkusMavenAppGeneratorSchema {
   parentProjectName: string;
   parentProjectVersion: string;
   relativePath: string;
+  quarkusVersion: string;
 }
 
 function normalizeOptions(
@@ -72,6 +73,10 @@ function normalizeOptions(
   const parentProjectName = pomXmlContent.childNamed('artifactId').val;
   const parentProjectVersion = pomXmlContent.childNamed('version').val;
 
+  const quarkusVersion = pomXmlContent
+    .childNamed('properties')
+    .childNamed('quarkus.platform.version').val;
+
   return {
     ...options,
     projectName,
@@ -86,6 +91,7 @@ function normalizeOptions(
     parentProjectName,
     parentProjectVersion,
     relativePath,
+    quarkusVersion,
   };
 }
 
