@@ -3,15 +3,15 @@
 #
 # Before building the container image run:
 #
-# ./mvnw package -Pnative
+# nx build <%= projectName %> --mvnBuildCommand="package" --mvnBuildArgs="-Pnative"
 #
 # Then, build the image with:
 #
-# docker build -f src/main/docker/Dockerfile.native -t quarkus/rest-kotlin-quickstart .
+# nx build-image <%= projectName %> --dockerfile="native"
 #
 # Then run the container using:
 #
-# docker run -i --rm -p 8080:8080 quarkus/rest-kotlin-quickstart
+# docker run -i --rm -p 8080:8080 quarkus/<%= projectName %>
 #
 ###
 FROM registry.access.redhat.com/ubi8/ubi-minimal:8.6

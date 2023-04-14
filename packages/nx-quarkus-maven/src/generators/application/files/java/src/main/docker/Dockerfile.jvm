@@ -3,22 +3,22 @@
 #
 # Before building the container image run:
 #
-# ./mvnw package
+# nx build <%= projectName %> --mvnBuildCommand="package"
 #
 # Then, build the image with:
 #
-# docker build -f src/main/docker/Dockerfile.jvm -t quarkus/rest-kotlin-quickstart-jvm .
+# nx build-image <%= projectName %> --dockerfile="jvm"
 #
 # Then run the container using:
 #
-# docker run -i --rm -p 8080:8080 quarkus/rest-kotlin-quickstart-jvm
+# docker run -i --rm -p 8080:8080 quarkus/<%= projectName %>-jvm
 #
 # If you want to include the debug port into your docker image
 # you will have to expose the debug port (default 5005) like this :  EXPOSE 8080 5005
 #
 # Then run the container using :
 #
-# docker run -i --rm -p 8080:8080 quarkus/rest-kotlin-quickstart-jvm
+# docker run -i --rm -p 8080:8080 quarkus/<%= projectName %>-jvm
 #
 # This image uses the `run-java.sh` script to run the application.
 # This scripts computes the command line to execute your Java application, and

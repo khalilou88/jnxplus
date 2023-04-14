@@ -6,15 +6,15 @@
 #
 # Before building the container image run:
 #
-# ./mvnw package -Pnative
+# nx build <%= projectName %> --mvnBuildCommand="package" --mvnBuildArgs="-Pnative"
 #
 # Then, build the image with:
 #
-# docker build -f src/main/docker/Dockerfile.native-micro -t quarkus/rest-kotlin-quickstart .
+# nx build-image <%= projectName %> --dockerfile="native-micro"
 #
 # Then run the container using:
 #
-# docker run -i --rm -p 8080:8080 quarkus/rest-kotlin-quickstart
+# docker run -i --rm -p 8080:8080 quarkus/<%= projectName %>
 #
 ###
 FROM quay.io/quarkus/quarkus-micro-image:2.0
