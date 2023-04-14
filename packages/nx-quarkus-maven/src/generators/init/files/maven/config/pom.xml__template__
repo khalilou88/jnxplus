@@ -9,16 +9,12 @@
 
   <properties>
     <compiler-plugin.version>3.10.1</compiler-plugin.version>
-
-   <!--kotlin-->
-   <kotlin.version>1.7.22</kotlin.version>
-   <!--end kotlin-->
-
-    <maven.compiler.release><%= javaVersion %></maven.compiler.release>
+    <kotlin.version>1.7.22</kotlin.version>
+    <maven.compiler.release>17</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
-    <quarkus.platform.group-id>com.redhat.quarkus.platform</quarkus.platform.group-id>
+    <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
     <quarkus.platform.version>2.16.6.Final</quarkus.platform.version>
     <skipITs>true</skipITs>
     <surefire-plugin.version>3.0.0-M7</surefire-plugin.version>
@@ -28,6 +24,7 @@
     </modules>
 
 
+  
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -41,8 +38,6 @@
   </dependencyManagement>
 
   <dependencies>
-
-   <!--kotlin-->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-kotlin</artifactId>
@@ -51,11 +46,6 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
     </dependency>
-   <!--end kotlin-->
-
-
-
-
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-arc</artifactId>
@@ -74,8 +64,6 @@
       <artifactId>rest-assured</artifactId>
       <scope>test</scope>
     </dependency>
-
-   <!--kotlin-->
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib-jdk8</artifactId>
@@ -85,23 +73,12 @@
       <artifactId>kotlin-extensions</artifactId>
       <scope>test</scope>
     </dependency>
-       <!--end kotlin-->
-
   </dependencies>
 
 
-
-
-
-
   <build>
-
-   <!--kotlin-->
     <sourceDirectory>src/main/kotlin</sourceDirectory>
     <testSourceDirectory>src/test/kotlin</testSourceDirectory>
-    <!--end kotlin-->
-
-
     <plugins>
       <plugin>
         <groupId>${quarkus.platform.group-id}</groupId>
@@ -156,24 +133,6 @@
           </execution>
         </executions>
       </plugin>
-
-      <plugin>
-        <groupId>io.smallrye</groupId>
-        <artifactId>jandex-maven-plugin</artifactId>
-        <version>3.0.5</version>
-        <executions>
-          <execution>
-            <id>make-index</id>
-            <goals>
-              <goal>jandex</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-
-
-   <!--kotlin-->
       <plugin>
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-maven-plugin</artifactId>
@@ -212,18 +171,8 @@
           </pluginOptions>
         </configuration>
       </plugin>
-    <!--end kotlin-->
-
-
-
-
-
-
     </plugins>
   </build>
-
-
-  
   <profiles>
     <profile>
       <id>native</id>
@@ -238,6 +187,4 @@
       </properties>
     </profile>
   </profiles>
-
-
 </project>
