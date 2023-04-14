@@ -8,7 +8,7 @@ describe('init generator', () => {
   const options: NxQuarkusMavenGeneratorSchema = {
     javaVersion: 17,
     groupId: 'com.example',
-    parentProjectName: 'test-boot-multiproject',
+    parentProjectName: 'test-quarkus-multiproject',
     parentProjectVersion: '1.0.0',
   };
 

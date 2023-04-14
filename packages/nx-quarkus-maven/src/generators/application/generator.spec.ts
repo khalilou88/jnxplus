@@ -20,7 +20,7 @@ describe('application generator', () => {
       './pom.xml',
       `<project>
         <groupId>com.example</groupId>
-        <artifactId>boot-multi-module</artifactId>
+        <artifactId>quarkus-multi-module</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <properties>
           <kotlin.version>1.7.22</kotlin.version>

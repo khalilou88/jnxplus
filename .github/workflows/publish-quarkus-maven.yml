@@ -1,4 +1,4 @@
-name: npm publish nx-boot-maven
+name: npm publish nx-quarkus-maven
 on: [workflow_dispatch]
 jobs:
   build-and-publish:

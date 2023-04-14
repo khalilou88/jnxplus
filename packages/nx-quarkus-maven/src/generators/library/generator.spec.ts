@@ -18,7 +18,7 @@ describe('library generator', () => {
     appTree = createTreeWithEmptyWorkspace();
     appTree.write(
       './pom.xml',
-      '<project><groupId>com.example</groupId><artifactId>boot-multi-module</artifactId><version>0.0.1-SNAPSHOT</version><modules></modules></project>'
+      '<project><groupId>com.example</groupId><artifactId>quarkus-multi-module</artifactId><version>0.0.1-SNAPSHOT</version><modules></modules></project>'
     );
   });
 

@@ -28,9 +28,9 @@ In the Nx workspace root folder, run this command to install the plugin :
 npm install --save-dev @jnxplus/nx-quarkus-maven
 ```
 
-### 2. Add Spring boot and Maven wrapper support
+### 2. Add Quarkus and Maven wrapper support
 
-The following command adds Spring boot and Maven support (Maven wrapper and config files) to the workspace. This only needs to be performed once per workspace.
+The following command adds Quarkus and Maven support (Maven wrapper and config files) to the workspace. This only needs to be performed once per workspace.
 
 ```bash
 nx generate @jnxplus/nx-quarkus-maven:init
