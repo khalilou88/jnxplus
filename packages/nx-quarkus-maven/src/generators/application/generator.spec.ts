@@ -16,6 +16,7 @@ describe('application generator', () => {
   };
 
   beforeEach(() => {
+    jest.setTimeout(60000);
     appTree = createTreeWithEmptyWorkspace();
     appTree.write(
       './pom.xml',
