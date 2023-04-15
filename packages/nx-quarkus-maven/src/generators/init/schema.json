@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "NxQuarkusMavenInit",
+  "title": "Init",
+  "type": "object",
+  "properties": {
+    "javaVersion": {
+      "description": "Java version",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "default": "17",
+      "x-prompt": {
+        "message": "Which version of Java would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "19",
+            "label": "19"
+          },
+          {
+            "value": "17",
+            "label": "17"
+          }
+        ]
+      }
+    },
+    "groupId": {
+      "type": "string",
+      "default": "org.acme",
+      "x-prompt": "What groupId would you like to use?"
+    },
+    "parentProjectName": {
+      "type": "string",
+      "default": "quarkus-parent-project",
+      "x-prompt": "What parentProjectName would you like to use?",
+      "pattern": "^[a-zA-Z].*$"
+    },
+    "parentProjectVersion": {
+      "type": "string",
+      "default": "0.0.1-SNAPSHOT",
+      "description": "Version of the project to generate",
+      "alias": "v",
+      "x-prompt": "What project version would you like to use?"
+    }
+  },
+  "required": [
+    "javaVersion",
+    "groupId",
+    "parentProjectName",
+    "parentProjectVersion"
+  ]
+}

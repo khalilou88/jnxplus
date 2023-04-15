@@ -1,0 +1,58 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/nx-quarkus-maven/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/nx-quarkus-maven/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/packages/nx-quarkus-maven"],
+      "options": {
+        "jestConfig": "packages/nx-quarkus-maven/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/nx-quarkus-maven",
+        "tsConfig": "packages/nx-quarkus-maven/tsconfig.lib.json",
+        "packageJson": "packages/nx-quarkus-maven/package.json",
+        "main": "packages/nx-quarkus-maven/src/index.ts",
+        "assets": [
+          "packages/nx-quarkus-maven/*.md",
+          {
+            "input": "./packages/nx-quarkus-maven/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-quarkus-maven/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-quarkus-maven",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./packages/nx-quarkus-maven",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["checkstyle", "pmd", "ktlint"],
+  "name": "nx-quarkus-maven"
+}

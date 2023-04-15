@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "outputCapture": "direct-nodejs",
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "Build Image executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "dockerfile": {
+      "type": "string",
+      "description": "Dockerfile to use",
+      "default": "native"
+    },
+    "imageNamePrefix": {
+      "type": "string",
+      "description": "Image Name Prefix",
+      "default": "quarkus"
+    },
+    "imageNameSuffix": {
+      "type": "string",
+      "description": "Image Name Suffix"
+    }
+  },
+  "required": []
+}

@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "outputCapture": "direct-nodejs",
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "Build executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "mvnArgs": {
+      "type": "string",
+      "description": "Arguments to pass to the maven cli"
+    },
+    "mvnBuildCommand": {
+      "type": "string",
+      "description": "Maven build command to use : compile, package or install"
+    },
+    "mvnBuildArgs": {
+      "type": "string",
+      "description": "Arguments to pass to the maven build command"
+    }
+  },
+  "required": []
+}

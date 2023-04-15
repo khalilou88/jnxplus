@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@jnxplus/nx-boot-gradle": ["packages/nx-boot-gradle/src/index.ts"],
-      "@jnxplus/nx-boot-maven": ["packages/nx-boot-maven/src/index.ts"]
+      "@jnxplus/nx-boot-maven": ["packages/nx-boot-maven/src/index.ts"],
+      "@jnxplus/nx-quarkus-maven": ["packages/nx-quarkus-maven/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

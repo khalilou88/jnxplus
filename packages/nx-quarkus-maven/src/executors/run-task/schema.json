@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "outputCapture": "direct-nodejs",
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "Run Task executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "task": {
+      "type": "string"
+    }
+  },
+  "required": ["task"]
+}
