@@ -1,5 +1,9 @@
 # Changelog
 
+# 5.3.1 (2023-04-15)
+
+- Add 'run-task' executor to the parent project
+
 # 5.3.0 (2023-04-10)
 
 - Add root project to the dep graph
