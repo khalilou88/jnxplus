@@ -15,19 +15,19 @@
 	<description>This project was generated with nx-quarkus-maven</description>
 
 	<dependencies>
-	    <dependency>
+	  <dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-kotlin</artifactId>
+		</dependency>
+	  <dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-resteasy-reactive</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-resteasy-reactive-jackson</artifactId>
 		</dependency>
-	    <dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-resteasy-reactive</artifactId>
-		</dependency>
-	    <dependency>
+	  <dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>rest-assured</artifactId>
 			<scope>test</scope>
