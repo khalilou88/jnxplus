@@ -6,13 +6,23 @@
 		<groupId><%= parentGroupId %></groupId>
 		<artifactId><%= parentProjectName %></artifactId>
 		<version><%= parentProjectVersion %></version>
-        <relativePath><%= relativePath %></relativePath> 
+    <relativePath><%= relativePath %></relativePath>
 	</parent>
 	<groupId><%= groupId %></groupId>
 	<artifactId><%= projectName %></artifactId>
 	<version><%= projectVersion %></version>
 	<name><%= projectName %></name>
 	<description>This project was generated with nx-quarkus-maven</description>
-  
 
+  	<dependencies>
+      <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-resteasy-reactive</artifactId>
+    	</dependency>
+	    <dependency>
+			  <groupId>io.rest-assured</groupId>
+			  <artifactId>rest-assured</artifactId>
+			  <scope>test</scope>
+		  </dependency>
+	  </dependencies>
 </project>
