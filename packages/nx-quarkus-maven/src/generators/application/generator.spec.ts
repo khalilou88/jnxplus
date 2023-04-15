@@ -1,7 +1,8 @@
 import { readProjectConfiguration, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import generator from './generator';
 import { NxQuarkusMavenAppGeneratorSchema } from './schema';
+import generator from './generator';
+jest.useFakeTimers();
 
 describe('application generator', () => {
   let appTree: Tree;
