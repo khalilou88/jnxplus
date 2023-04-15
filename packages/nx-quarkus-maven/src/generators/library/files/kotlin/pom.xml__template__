@@ -17,6 +17,10 @@
 	<dependencies>
 	    <dependency>
 			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-arc</artifactId>
+		</dependency>
+	    <dependency>
+			<groupId>io.quarkus</groupId>
 			<artifactId>quarkus-kotlin</artifactId>
 		</dependency>
 		<dependency>
