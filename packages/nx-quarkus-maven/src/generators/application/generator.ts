@@ -153,6 +153,15 @@ export default async function (
             },
           ],
         },
+        'integration-test': {
+          executor: '@jnxplus/nx-quarkus-maven:integration-test',
+          dependsOn: [
+            {
+              target: 'build',
+              projects: 'self',
+            },
+          ],
+        },
       },
       tags: normalizedOptions.parsedTags,
     });
@@ -186,6 +195,15 @@ export default async function (
         },
         test: {
           executor: '@jnxplus/nx-quarkus-maven:test',
+          dependsOn: [
+            {
+              target: 'build',
+              projects: 'self',
+            },
+          ],
+        },
+        'integration-test': {
+          executor: '@jnxplus/nx-quarkus-maven:integration-test',
           dependsOn: [
             {
               target: 'build',
