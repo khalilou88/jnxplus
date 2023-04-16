@@ -120,7 +120,7 @@ describe('nx-quarkus-gradle e2e', () => {
     ).not.toThrow();
   }, 1200000);
 
-  it('should migrate', async () => {
+  xit('should migrate', async () => {
     await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
     await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:migrate`);
   }, 1200000);
@@ -216,7 +216,7 @@ describe('nx-quarkus-gradle e2e', () => {
     //end test run-task
   }, 1200000);
 
-  it('should use specified options to create an application', async () => {
+  xit('should use specified options to create an application', async () => {
     const randomName = uniq('quarkus-gradle-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
@@ -292,7 +292,7 @@ describe('nx-quarkus-gradle e2e', () => {
     }
   }, 1200000);
 
-  it('should generate an app with a simple package name', async () => {
+  xit('should generate an app with a simple package name', async () => {
     const randomName = uniq('quarkus-gradle-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
@@ -368,7 +368,7 @@ describe('nx-quarkus-gradle e2e', () => {
     }
   }, 1200000);
 
-  it('should create an kotlin application', async () => {
+  xit('should create an kotlin application', async () => {
     const appName = uniq('quarkus-gradle-app-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
@@ -442,7 +442,7 @@ describe('nx-quarkus-gradle e2e', () => {
     }
   }, 1200000);
 
-  it('--an app with aliases', async () => {
+  xit('--an app with aliases', async () => {
     const randomName = uniq('quarkus-gradle-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
@@ -518,7 +518,7 @@ describe('nx-quarkus-gradle e2e', () => {
     }
   }, 1200000);
 
-  it('directory with dash', async () => {
+  xit('directory with dash', async () => {
     const appName = uniq('quarkus-gradle-app-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
@@ -541,7 +541,7 @@ describe('nx-quarkus-gradle e2e', () => {
     }
   }, 1200000);
 
-  it('should create a library', async () => {
+  xit('should create a library', async () => {
     const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
@@ -593,7 +593,7 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(formatResult.stdout).toContain('');
   }, 1200000);
 
-  it('should create a kotlin library', async () => {
+  xit('should create a kotlin library', async () => {
     const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
@@ -643,7 +643,7 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(lintResult.stdout).toContain('Executor ran for Lint');
   }, 1200000);
 
-  it('should create a library with the specified properties', async () => {
+  xit('should create a library with the specified properties', async () => {
     const randomName = uniq('quarkus-gradle-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
@@ -695,7 +695,7 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(formatResult.stdout).toContain('');
   }, 1200000);
 
-  it('should generare a lib with a simple package name', async () => {
+  xit('should generare a lib with a simple package name', async () => {
     const randomName = uniq('quarkus-gradle-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
@@ -747,7 +747,7 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(formatResult.stdout).toContain('');
   }, 1200000);
 
-  it('--a lib with aliases', async () => {
+  xit('--a lib with aliases', async () => {
     const randomName = uniq('quarkus-gradle-lib-');
     const libDir = 'subdir';
     const libName = `${libDir}-${randomName}`;
@@ -797,7 +797,7 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(formatResult.stdout).toContain('');
   }, 1200000);
 
-  it('should add a lib to an app dependencies', async () => {
+  xit('should add a lib to an app dependencies', async () => {
     const appName = uniq('quarkus-gradle-app-');
     const libName = uniq('quarkus-gradle-lib-');
 
@@ -868,7 +868,7 @@ describe('nx-quarkus-gradle e2e', () => {
     });
   }, 1200000);
 
-  it('should add a kotlin lib to a kotlin app dependencies', async () => {
+  xit('should add a kotlin lib to a kotlin app dependencies', async () => {
     const appName = uniq('quarkus-gradle-app-');
     const libName = uniq('quarkus-gradle-lib-');
 

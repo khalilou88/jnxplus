@@ -118,6 +118,9 @@ export default async function (
         test: {
           executor: '@jnxplus/nx-quarkus-gradle:test',
         },
+        'integration-test': {
+          executor: '@jnxplus/nx-quarkus-gradle:integration-test',
+        },
       },
       tags: normalizedOptions.parsedTags,
     });
@@ -147,6 +150,9 @@ export default async function (
         },
         test: {
           executor: '@jnxplus/nx-quarkus-gradle:test',
+        },
+        'integration-test': {
+          executor: '@jnxplus/nx-quarkus-gradle:integration-test',
         },
         ktformat: {
           executor: '@jnxplus/nx-quarkus-gradle:ktformat',
