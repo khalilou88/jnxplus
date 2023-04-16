@@ -13,11 +13,11 @@ export default async function runExecutor(
   if (options.imageNameSuffix) {
     imageNameSuffix = `-${options.imageNameSuffix}`;
   } else {
-    if (options.dockerfile === 'jvm') {
+    if (options.imageType === 'jvm') {
       imageNameSuffix = `-jvm`;
     }
 
-    if (options.dockerfile === 'legacy-jar') {
+    if (options.imageType === 'legacy-jar') {
       imageNameSuffix = `-legacy-jar`;
     }
   }
@@ -25,6 +25,6 @@ export default async function runExecutor(
   const projectSourceRoot = getProjectSourceRoot(context);
 
   return runCommand(
-    `docker build -f ${projectSourceRoot}/main/docker/Dockerfile.${options.dockerfile} -t ${options.imageNamePrefix}/${context.projectName}${imageNameSuffix}`
+    `docker build -f ${projectSourceRoot}/main/docker/Dockerfile.${options.imageType} -t ${options.imageNamePrefix}/${context.projectName}${imageNameSuffix}`
   );
 }

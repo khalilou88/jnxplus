@@ -10,7 +10,7 @@
 #
 # Then, build the image with:
 #
-# nx build-image <%= projectName %> --dockerfile="native-micro"
+# nx build-image <%= projectName %> --imageType="native-micro"
 #
 # Then run the container using:
 #

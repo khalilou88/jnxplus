@@ -5,7 +5,7 @@ import { BuildImageExecutorSchema } from './schema';
 jest.mock('../../utils/command');
 
 const options: BuildImageExecutorSchema = {
-  dockerfile: 'jvm',
+  imageType: 'jvm',
   imageNamePrefix: '',
   imageNameSuffix: '',
 };

@@ -1,7 +1,7 @@
-export type DockerfileType = 'jvm' | 'legacy-jar' | 'native' | 'native-micro';
+export type ImageType = 'jvm' | 'legacy-jar' | 'native' | 'native-micro';
 
 export interface BuildImageExecutorSchema {
-  dockerfile: DockerfileType;
+  imageType: ImageType;
   imageNamePrefix: string;
   imageNameSuffix: string;
 }
