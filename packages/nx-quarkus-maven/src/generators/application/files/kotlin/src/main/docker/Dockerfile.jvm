@@ -7,7 +7,7 @@
 #
 # Then, build the image with:
 #
-# nx build-image <%= projectName %> --dockerfile="jvm"
+# nx build-image <%= projectName %> --imageType="jvm"
 #
 # Then run the container using:
 #

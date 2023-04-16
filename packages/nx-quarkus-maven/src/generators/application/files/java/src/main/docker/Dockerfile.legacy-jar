@@ -7,7 +7,7 @@
 #
 # Then, build the image with:
 #
-# nx build-image <%= projectName %> --dockerfile="legacy-jar"
+# nx build-image <%= projectName %> --imageType="legacy-jar"
 #
 # Then run the container using:
 #

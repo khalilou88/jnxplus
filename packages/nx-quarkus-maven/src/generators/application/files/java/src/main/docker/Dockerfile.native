@@ -7,7 +7,7 @@
 #
 # Then, build the image with:
 #
-# nx build-image <%= projectName %> --dockerfile="native"
+# nx build-image <%= projectName %> --imageType="native"
 #
 # Then run the container using:
 #

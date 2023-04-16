@@ -7,19 +7,19 @@
   "description": "",
   "type": "object",
   "properties": {
-    "dockerfile": {
+    "imageType": {
       "type": "string",
-      "description": "Dockerfile to use",
+      "description": "Image type to build",
       "default": "native"
     },
     "imageNamePrefix": {
       "type": "string",
-      "description": "Image Name Prefix",
+      "description": "Image name prefix",
       "default": "quarkus"
     },
     "imageNameSuffix": {
       "type": "string",
-      "description": "Image Name Suffix"
+      "description": "Image name suffix"
     }
   },
   "required": []
