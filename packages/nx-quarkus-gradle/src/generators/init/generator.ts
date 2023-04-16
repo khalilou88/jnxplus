@@ -10,13 +10,14 @@ import {
   dependencyManagementVersion,
   kotlinJvmVersion,
   kotlinSpringVersion,
-  springBootVersion,
+  quarkusPlatformVersion,
 } from '../../utils/versions';
 import { NxQuarkusGradleGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxQuarkusGradleGeneratorSchema {
+  quarkusPlatformVersion: string;
+
   kotlinExtension: string;
-  springBootVersion: string;
   dependencyManagementVersion: string;
   kotlinJvmVersion: string;
   kotlinSpringVersion: string;
@@ -31,7 +32,7 @@ function normalizeOptions(
   return {
     ...options,
     kotlinExtension,
-    springBootVersion,
+    quarkusPlatformVersion,
     dependencyManagementVersion,
     kotlinJvmVersion,
     kotlinSpringVersion,

@@ -3,8 +3,13 @@ import { runCommand } from '../../utils/command';
 import executor from './executor';
 import { BuildImageExecutorSchema } from './schema';
 jest.mock('../../utils/command');
+jest.mock('path');
 
-const options: BuildImageExecutorSchema = {};
+const options: BuildImageExecutorSchema = {
+  imageType: 'jvm',
+  imageNamePrefix: '',
+  imageNameSuffix: '',
+};
 const context: ExecutorContext = {
   root: '/root',
   cwd: '/root',

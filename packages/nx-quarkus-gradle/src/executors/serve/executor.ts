@@ -13,7 +13,7 @@ export default async function runExecutor(
 ) {
   logger.info(`Executor ran for serve: ${JSON.stringify(options)}`);
 
-  let command = `${getExecutable()} ${getProjectPath(context)}:bootRun`;
+  let command = `${getExecutable()} ${getProjectPath(context)}:quarkusDev`;
 
   if (options.args) {
     command += ` --args='${options.args}'`;

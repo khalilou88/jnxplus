@@ -46,7 +46,7 @@
     },
     "groupId": {
       "type": "string",
-      "default": "com.example",
+      "default": "org.acme",
       "x-prompt": "What groupId would you like to use?"
     },
     "packageNameType": {

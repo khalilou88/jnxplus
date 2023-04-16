@@ -11,6 +11,7 @@ import * as path from 'path';
 import { normalizeName } from '../../utils/command';
 import { LinterType } from '../../utils/types';
 import { NxQuarkusGradleAppGeneratorSchema } from './schema';
+import { quarkusPlatformVersion } from '../../utils/versions';
 
 interface NormalizedSchema extends NxQuarkusGradleAppGeneratorSchema {
   projectName: string;
@@ -21,6 +22,7 @@ interface NormalizedSchema extends NxQuarkusGradleAppGeneratorSchema {
   packageName: string;
   packageDirectory: string;
   linter?: LinterType;
+  quarkusPlatformVersion;
 }
 
 function normalizeOptions(
@@ -57,6 +59,9 @@ function normalizeOptions(
 
   const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
 
+  //TODO read from properties
+  // const quarkusPlatformVersion = quarkusPlatformVersion;
+
   return {
     ...options,
     projectName,
@@ -67,6 +72,7 @@ function normalizeOptions(
     packageName,
     packageDirectory,
     linter,
+    quarkusPlatformVersion,
   };
 }
 

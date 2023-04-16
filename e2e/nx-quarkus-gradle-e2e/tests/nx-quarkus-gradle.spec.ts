@@ -138,25 +138,19 @@ describe('nx-quarkus-gradle e2e', () => {
       checkFilesExist(
         `apps/${appName}/build.gradle`,
         `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/java/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
-        `apps/${appName}/src/main/java/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/HelloController.java`,
 
-        `apps/${appName}/src/test/resources/application.properties`,
-        `apps/${appName}/src/test/java/com/example/${names(
+        `apps/${appName}/src/main/java/org/acme/${names(
           appName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+        ).className.toLocaleLowerCase()}/GreetingResource.java`,
+        `apps/${appName}/src/test/java/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
       )
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
     const buildGradle = readFile(`apps/${appName}/build.gradle`);
-    expect(buildGradle.includes('com.example')).toBeTruthy();
+    expect(buildGradle.includes('org.acme')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
@@ -189,7 +183,7 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(formatResult.stdout).toContain('');
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`)
+      output.includes(`Listening on: http://localhost:8080`)
     );
 
     // port and process cleanup

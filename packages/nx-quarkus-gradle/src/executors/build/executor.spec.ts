@@ -5,7 +5,7 @@ import { BuildExecutorSchema } from './schema';
 jest.mock('../../utils/command');
 
 const options: BuildExecutorSchema = {
-  packaging: 'jar',
+  args: '-Dquarkus.package.type=uber-jar',
 };
 const context: ExecutorContext = {
   root: '/root',

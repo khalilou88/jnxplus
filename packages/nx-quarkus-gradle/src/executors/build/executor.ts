@@ -7,21 +7,13 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   logger.info(`Executor ran for Build: ${JSON.stringify(options)}`);
-  let target: string;
-  if (getProjectType(context) === 'library') {
-    target = 'jar';
-  } else {
-    if (options.packaging === 'jar') {
-      target = 'bootJar';
-    }
-    if (options.packaging === 'war') {
-      target = 'bootWar';
-    }
+  let args = '';
+
+  if (options.args) {
+    args = options.args;
   }
 
-  return runCommand(`${getExecutable()} ${getProjectPath(context)}:${target}`);
-}
-
-function getProjectType(context: ExecutorContext) {
-  return context.workspace.projects[context.projectName].projectType;
+  return runCommand(
+    `${getExecutable()} ${getProjectPath(context)}:build ${args}`
+  );
 }

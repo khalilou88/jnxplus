@@ -7,10 +7,9 @@
   "description": "",
   "type": "object",
   "properties": {
-    "packaging": {
-      "type": "string",
-      "default": "jar"
+    "args": {
+      "type": "string"
     }
   },
-  "required": ["packaging"]
+  "required": []
 }
