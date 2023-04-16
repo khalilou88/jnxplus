@@ -145,7 +145,7 @@
           </executions>
         </plugin>
       </plugins>
-    <pluginManagement>
+    </pluginManagement>
   </build>
 
 </project>
