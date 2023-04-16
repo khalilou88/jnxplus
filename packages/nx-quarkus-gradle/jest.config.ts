@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'nx-boot-gradle',
+  displayName: 'nx-quarkus-gradle',
 
   globals: {},
   testEnvironment: 'node',
@@ -13,6 +13,6 @@ export default {
     ],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/packages/nx-boot-gradle',
+  coverageDirectory: '../../coverage/packages/nx-quarkus-gradle',
   preset: '../../jest.preset.js',
 };

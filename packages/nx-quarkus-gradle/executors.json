@@ -26,9 +26,9 @@
       "schema": "./src/executors/test/schema.json",
       "description": "test executor"
     },
-    "kformat": {
-      "implementation": "./src/executors/kformat/executor",
-      "schema": "./src/executors/kformat/schema.json",
+    "ktformat": {
+      "implementation": "./src/executors/ktformat/executor",
+      "schema": "./src/executors/ktformat/schema.json",
       "description": "kotlin format executor"
     },
     "run-task": {

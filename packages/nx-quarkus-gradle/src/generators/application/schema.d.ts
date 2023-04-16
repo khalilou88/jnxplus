@@ -4,7 +4,7 @@ import {
   PackagingType,
 } from '../../utils/types';
 
-export interface NxBootGradleAppGeneratorSchema {
+export interface NxQuarkusGradleAppGeneratorSchema {
   name: string;
   tags?: string;
   directory?: string;

@@ -1,35 +1,35 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/nx-boot-gradle/src",
+  "sourceRoot": "packages/nx-quarkus-gradle/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nrwl/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/nx-boot-gradle",
-        "tsConfig": "packages/nx-boot-gradle/tsconfig.lib.json",
-        "packageJson": "packages/nx-boot-gradle/package.json",
-        "main": "packages/nx-boot-gradle/src/index.ts",
+        "outputPath": "dist/packages/nx-quarkus-gradle",
+        "tsConfig": "packages/nx-quarkus-gradle/tsconfig.lib.json",
+        "packageJson": "packages/nx-quarkus-gradle/package.json",
+        "main": "packages/nx-quarkus-gradle/src/index.ts",
         "assets": [
-          "packages/nx-boot-gradle/*.md",
+          "packages/nx-quarkus-gradle/*.md",
           {
-            "input": "./packages/nx-boot-gradle/src",
+            "input": "./packages/nx-quarkus-gradle/src",
             "glob": "**/!(*.ts)",
             "output": "./src"
           },
           {
-            "input": "./packages/nx-boot-gradle/src",
+            "input": "./packages/nx-quarkus-gradle/src",
             "glob": "**/*.d.ts",
             "output": "./src"
           },
           {
-            "input": "./packages/nx-boot-gradle",
+            "input": "./packages/nx-quarkus-gradle",
             "glob": "generators.json",
             "output": "."
           },
           {
-            "input": "./packages/nx-boot-gradle",
+            "input": "./packages/nx-quarkus-gradle",
             "glob": "executors.json",
             "output": "."
           }
@@ -40,19 +40,19 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/nx-boot-gradle/**/*.ts"]
+        "lintFilePatterns": ["packages/nx-quarkus-gradle/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/packages/nx-boot-gradle"],
+      "outputs": ["{workspaceRoot}/coverage/packages/nx-quarkus-gradle"],
       "options": {
-        "jestConfig": "packages/nx-boot-gradle/jest.config.ts",
+        "jestConfig": "packages/nx-quarkus-gradle/jest.config.ts",
         "passWithNoTests": true
       }
     }
   },
   "tags": [],
   "implicitDependencies": ["checkstyle", "pmd", "ktlint"],
-  "name": "nx-boot-gradle"
+  "name": "nx-quarkus-gradle"
 }

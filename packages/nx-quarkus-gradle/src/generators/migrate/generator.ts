@@ -6,9 +6,9 @@ import {
   kotlinSpringVersion,
   springBootVersion,
 } from '../../utils/versions';
-import { NxBootGradleGeneratorSchema } from './schema';
+import { NxQuarkusGradleGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends NxBootGradleGeneratorSchema {
+interface NormalizedSchema extends NxQuarkusGradleGeneratorSchema {
   kotlinExtension: string;
   springBootVersion: string;
   dependencyManagementVersion: string;
@@ -18,7 +18,7 @@ interface NormalizedSchema extends NxBootGradleGeneratorSchema {
 
 function normalizeOptions(
   tree: Tree,
-  options: NxBootGradleGeneratorSchema
+  options: NxQuarkusGradleGeneratorSchema
 ): NormalizedSchema {
   //TODO
   const kotlinExtension = '.kts';
@@ -49,7 +49,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
 
 export default async function (
   tree: Tree,
-  options: NxBootGradleGeneratorSchema
+  options: NxQuarkusGradleGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);

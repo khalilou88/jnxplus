@@ -1,6 +1,6 @@
 import { DSLType } from '../../utils/types';
 
-export interface NxBootGradleGeneratorSchema {
+export interface NxQuarkusGradleGeneratorSchema {
   javaVersion: string | number;
   dsl: DSLType;
   rootProjectName: string;

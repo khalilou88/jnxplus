@@ -10,9 +10,9 @@ import {
 import * as path from 'path';
 import { normalizeName } from '../../utils/command';
 import { LinterType } from '../../utils/types';
-import { NxBootGradleAppGeneratorSchema } from './schema';
+import { NxQuarkusGradleAppGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends NxBootGradleAppGeneratorSchema {
+interface NormalizedSchema extends NxQuarkusGradleAppGeneratorSchema {
   projectName: string;
   projectRoot: string;
   projectDirectory: string;
@@ -25,7 +25,7 @@ interface NormalizedSchema extends NxBootGradleAppGeneratorSchema {
 
 function normalizeOptions(
   tree: Tree,
-  options: NxBootGradleAppGeneratorSchema
+  options: NxQuarkusGradleAppGeneratorSchema
 ): NormalizedSchema {
   const simpleProjectName = names(normalizeName(options.name)).fileName;
   const projectName = options.directory
@@ -87,7 +87,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
 
 export default async function (
   tree: Tree,
-  options: NxBootGradleAppGeneratorSchema
+  options: NxQuarkusGradleAppGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
 

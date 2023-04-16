@@ -10,6 +10,9 @@
 - [`@jnxplus/nx-boot-maven`](packages/nx-boot-maven)
   to add Spring Boot and Maven multi-module capabilities to a Nx workspace.
 
+- [`@jnxplus/nx-quarkus-gradle`](packages/nx-quarkus-gradle)
+  to add Quarkus and Gradle multi-project builds capabilities to a Nx workspace.
+
 - [`@jnxplus/nx-quarkus-maven`](packages/nx-quarkus-maven)
   to add Quarkus and Maven multi-module capabilities to a Nx workspace.
 
@@ -19,6 +22,6 @@ This plugins wouldn't be possible without the great teams behind these projects:
 
 - [Nrwl](https://github.com/nrwl)
 - [Spring](https://github.com/spring-projects)
+- [Quarkus](https://github.com/quarkusio/quarkus)
 - [Gradle](https://github.com/gradle)
 - [Maven](https://github.com/apache/maven)
-- [Quarkus](https://github.com/quarkusio/quarkus)

@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "$id": "NxBootGradleMigrate",
+  "$id": "NxQuarkusGradleMigrate",
   "title": "Migrate",
   "type": "object",
   "properties": {},

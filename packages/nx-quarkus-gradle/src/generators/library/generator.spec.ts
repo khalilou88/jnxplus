@@ -2,11 +2,11 @@ import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 
 import generator from './generator';
-import { NxBootGradleLibGeneratorSchema } from './schema';
+import { NxQuarkusGradleLibGeneratorSchema } from './schema';
 
 describe('library generator', () => {
   let appTree: Tree;
-  const options: NxBootGradleLibGeneratorSchema = {
+  const options: NxQuarkusGradleLibGeneratorSchema = {
     name: 'test',
     language: 'java',
     groupId: 'com.example',
@@ -18,7 +18,7 @@ describe('library generator', () => {
     appTree = createTreeWithEmptyWorkspace();
     appTree.write(
       './settings.gradle',
-      "rootProject.name = 'boot-multi-project'"
+      "rootProject.name = 'quarkus-root-project'"
     );
   });
 

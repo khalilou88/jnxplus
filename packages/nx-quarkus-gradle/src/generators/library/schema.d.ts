@@ -1,6 +1,6 @@
 import { LanguageType, PackageNameType } from '../../utils/types';
 
-export interface NxBootGradleLibGeneratorSchema {
+export interface NxQuarkusGradleLibGeneratorSchema {
   name: string;
   tags?: string;
   directory?: string;

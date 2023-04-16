@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "name": "nx-boot-gradle",
+  "name": "nx-quarkus-gradle",
   "version": "0.0.1",
   "generators": {
     "init": {
