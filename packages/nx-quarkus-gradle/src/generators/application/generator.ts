@@ -105,9 +105,6 @@ export default async function (
       targets: {
         build: {
           executor: '@jnxplus/nx-quarkus-gradle:build',
-          options: {
-            packaging: `${normalizedOptions.packaging}`,
-          },
         },
         'build-image': {
           executor: '@jnxplus/nx-quarkus-gradle:build-image',
@@ -138,9 +135,6 @@ export default async function (
       targets: {
         build: {
           executor: '@jnxplus/nx-quarkus-gradle:build',
-          options: {
-            packaging: `${normalizedOptions.packaging}`,
-          },
         },
         'build-image': {
           executor: '@jnxplus/nx-quarkus-gradle:build-image',

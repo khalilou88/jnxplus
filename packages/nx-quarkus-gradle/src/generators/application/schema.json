@@ -75,25 +75,6 @@
       "alias": "v",
       "x-prompt": "What project version would you like to use?"
     },
-    "packaging": {
-      "description": "Packaging of the project",
-      "type": "string",
-      "default": "jar",
-      "x-prompt": {
-        "message": "Which packaging would you like to use?",
-        "type": "list",
-        "items": [
-          {
-            "value": "jar",
-            "label": "Jar"
-          },
-          {
-            "value": "war",
-            "label": "War"
-          }
-        ]
-      }
-    },
     "configFormat": {
       "description": "Configuration format of the project",
       "type": "string",
@@ -114,12 +95,5 @@
       }
     }
   },
-  "required": [
-    "name",
-    "language",
-    "groupId",
-    "projectVersion",
-    "packaging",
-    "configFormat"
-  ]
+  "required": ["name", "language", "groupId", "projectVersion", "configFormat"]
 }

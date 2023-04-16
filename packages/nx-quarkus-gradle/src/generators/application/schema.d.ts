@@ -1,8 +1,4 @@
-import {
-  LanguageType,
-  PackageNameType,
-  PackagingType,
-} from '../../utils/types';
+import { LanguageType, PackageNameType } from '../../utils/types';
 
 export interface NxQuarkusGradleAppGeneratorSchema {
   name: string;
@@ -12,6 +8,5 @@ export interface NxQuarkusGradleAppGeneratorSchema {
   groupId: string;
   packageNameType: PackageNameType;
   projectVersion: string;
-  packaging: PackagingType;
   configFormat: '.properties' | '.yml';
 }

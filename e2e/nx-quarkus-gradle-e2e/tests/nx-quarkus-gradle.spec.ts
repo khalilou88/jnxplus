@@ -210,7 +210,7 @@ describe('nx-quarkus-gradle e2e', () => {
     //end test run-task
   }, 1200000);
 
-  xit('should use specified options to create an application', async () => {
+  it('should use specified options to create an application', async () => {
     const randomName = uniq('quarkus-gradle-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
@@ -220,7 +220,7 @@ describe('nx-quarkus-gradle e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml`
+      `generate @jnxplus/nx-quarkus-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --configFormat .yml`
     );
 
     expect(() =>
@@ -229,17 +229,10 @@ describe('nx-quarkus-gradle e2e', () => {
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloController.java`,
-
-        `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
+        ).className.toLocaleLowerCase()}/GreetingResource.java`,
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
       )
     ).not.toThrow();
 
@@ -247,12 +240,6 @@ describe('nx-quarkus-gradle e2e', () => {
     const buildGradle = readFile(`apps/${appDir}/${randomName}/build.gradle`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
-    expect(buildGradle.includes('war')).toBeTruthy();
-    // expect(
-    //   buildGradle.includes(
-    //     'org.springframework.quarkus:spring-quarkus-starter-tomcat'
-    //   )
-    // ).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
@@ -273,8 +260,8 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(formatResult.stdout).toContain('');
 
     const process = await runNxCommandUntil(
-      `serve ${appName} --args="--spring.profiles.active=test"`,
-      (output) => output.includes(`Tomcat started on port(s): 8080`)
+      `serve ${appName} --args=""`,
+      (output) => output.includes(`Listening on: http://localhost:8080`)
     );
 
     // port and process cleanup
