@@ -45,113 +45,30 @@
 	</dependencies>
 
 
-	  <build>
+	<build>
     <sourceDirectory>src/main/kotlin</sourceDirectory>
     <testSourceDirectory>src/test/kotlin</testSourceDirectory>
     <plugins>
       <plugin>
         <groupId>${quarkus.platform.group-id}</groupId>
         <artifactId>quarkus-maven-plugin</artifactId>
-        <version>${quarkus.platform.version}</version>
-        <extensions>true</extensions>
-        <executions>
-          <execution>
-            <goals>
-              <goal>build</goal>
-              <goal>generate-code</goal>
-              <goal>generate-code-tests</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>${compiler-plugin.version}</version>
-        <configuration>
-          <compilerArgs>
-            <arg>-parameters</arg>
-          </compilerArgs>
-        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>${surefire-plugin.version}</version>
-        <configuration>
-          <systemPropertyVariables>
-            <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-            <maven.home>${maven.home}</maven.home>
-          </systemPropertyVariables>
-        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>${surefire-plugin.version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>integration-test</goal>
-              <goal>verify</goal>
-            </goals>
-            <configuration>
-              <systemPropertyVariables>
-                <native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
-                <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-                <maven.home>${maven.home}</maven.home>
-              </systemPropertyVariables>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-maven-plugin</artifactId>
-        <version>${kotlin.version}</version>
-        <executions>
-          <execution>
-            <id>compile</id>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>test-compile</id>
-            <goals>
-              <goal>test-compile</goal>
-            </goals>
-          </execution>
-        </executions>
-        <dependencies>
-          <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-maven-allopen</artifactId>
-            <version>${kotlin.version}</version>
-          </dependency>
-        </dependencies>
-        <configuration>
-          <javaParameters>true</javaParameters>
-          <jvmTarget><%= javaVersion %></jvmTarget>
-          <compilerPlugins>
-            <plugin>all-open</plugin>
-          </compilerPlugins>
-          <pluginOptions>
-            <option>all-open:annotation=javax.ws.rs.Path</option>
-            <option>all-open:annotation=javax.enterprise.context.ApplicationScoped</option>
-            <option>all-open:annotation=io.quarkus.test.junit.QuarkusTest</option>
-          </pluginOptions>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>io.smallrye</groupId>
         <artifactId>jandex-maven-plugin</artifactId>
-        <version>${jandex.plugin.version}</version>
-        <executions>
-          <execution>
-            <id>make-index</id>
-            <goals>
-              <goal>jandex</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
