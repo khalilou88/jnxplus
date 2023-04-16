@@ -98,25 +98,25 @@ export default async function (
       sourceRoot: `${normalizedOptions.projectRoot}/src`,
       targets: {
         build: {
-          executor: '@jnxplus/nx-boot-gradle:build',
+          executor: '@jnxplus/nx-quarkus-gradle:build',
           options: {
             packaging: `${normalizedOptions.packaging}`,
           },
         },
         'build-image': {
-          executor: '@jnxplus/nx-boot-gradle:build-image',
+          executor: '@jnxplus/nx-quarkus-gradle:build-image',
         },
         serve: {
-          executor: '@jnxplus/nx-boot-gradle:serve',
+          executor: '@jnxplus/nx-quarkus-gradle:serve',
         },
         lint: {
-          executor: '@jnxplus/nx-boot-gradle:lint',
+          executor: '@jnxplus/nx-quarkus-gradle:lint',
           options: {
             linter: `${normalizedOptions.linter}`,
           },
         },
         test: {
-          executor: '@jnxplus/nx-boot-gradle:test',
+          executor: '@jnxplus/nx-quarkus-gradle:test',
         },
       },
       tags: normalizedOptions.parsedTags,
@@ -128,28 +128,28 @@ export default async function (
       sourceRoot: `${normalizedOptions.projectRoot}/src`,
       targets: {
         build: {
-          executor: '@jnxplus/nx-boot-gradle:build',
+          executor: '@jnxplus/nx-quarkus-gradle:build',
           options: {
             packaging: `${normalizedOptions.packaging}`,
           },
         },
         'build-image': {
-          executor: '@jnxplus/nx-boot-gradle:build-image',
+          executor: '@jnxplus/nx-quarkus-gradle:build-image',
         },
         serve: {
-          executor: '@jnxplus/nx-boot-gradle:serve',
+          executor: '@jnxplus/nx-quarkus-gradle:serve',
         },
         lint: {
-          executor: '@jnxplus/nx-boot-gradle:lint',
+          executor: '@jnxplus/nx-quarkus-gradle:lint',
           options: {
             linter: `${normalizedOptions.linter}`,
           },
         },
         test: {
-          executor: '@jnxplus/nx-boot-gradle:test',
+          executor: '@jnxplus/nx-quarkus-gradle:test',
         },
-        kformat: {
-          executor: '@jnxplus/nx-boot-gradle:kformat',
+        ktformat: {
+          executor: '@jnxplus/nx-quarkus-gradle:ktformat',
         },
       },
       tags: normalizedOptions.parsedTags,
