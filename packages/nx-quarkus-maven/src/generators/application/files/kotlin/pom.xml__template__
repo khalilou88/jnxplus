@@ -50,12 +50,6 @@
         <artifactId>quarkus-maven-plugin</artifactId>
       </plugin>
       <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-      </plugin>
-      <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
       </plugin>
       <plugin>
