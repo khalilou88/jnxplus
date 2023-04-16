@@ -1,19 +1,12 @@
 import { formatFiles, generateFiles, offsetFromRoot, Tree } from '@nrwl/devkit';
 import * as path from 'path';
-import {
-  dependencyManagementVersion,
-  kotlinJvmVersion,
-  kotlinSpringVersion,
-  springBootVersion,
-} from '../../utils/versions';
+import { kotlinJvmVersion } from '../../utils/versions';
 import { NxQuarkusGradleGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxQuarkusGradleGeneratorSchema {
-  kotlinExtension: string;
-  springBootVersion: string;
-  dependencyManagementVersion: string;
+  //TODO remove this if not used
   kotlinJvmVersion: string;
-  kotlinSpringVersion: string;
+  kotlinExtension: string;
 }
 
 function normalizeOptions(
@@ -26,10 +19,7 @@ function normalizeOptions(
   return {
     ...options,
     kotlinExtension,
-    springBootVersion,
-    dependencyManagementVersion,
     kotlinJvmVersion,
-    kotlinSpringVersion,
   };
 }
 

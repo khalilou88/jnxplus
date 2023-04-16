@@ -349,7 +349,7 @@ describe('nx-quarkus-gradle e2e', () => {
     }
   }, 1200000);
 
-  xit('should create an kotlin application', async () => {
+  it('should create an kotlin application', async () => {
     const appName = uniq('quarkus-gradle-app-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
@@ -362,25 +362,18 @@ describe('nx-quarkus-gradle e2e', () => {
       checkFilesExist(
         `apps/${appName}/build.gradle.kts`,
         `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/kotlin/com/example/${names(
+        `apps/${appName}/src/main/kotlin/org/acme/${names(
           appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.kt`,
-        `apps/${appName}/src/main/kotlin/com/example/${names(
+        ).className.toLocaleLowerCase()}/GreetingResource.kt`,
+        `apps/${appName}/src/test/kotlin/org/acme/${names(
           appName
-        ).className.toLocaleLowerCase()}/HelloController.kt`,
-
-        `apps/${appName}/src/test/resources/application.properties`,
-        `apps/${appName}/src/test/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.kt`
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`
       )
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
     const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
-    expect(buildGradle.includes('com.example')).toBeTruthy();
+    expect(buildGradle.includes('org.acme')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
@@ -411,7 +404,7 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`)
+      output.includes(`Listening on: http://localhost:8080`)
     );
 
     // port and process cleanup

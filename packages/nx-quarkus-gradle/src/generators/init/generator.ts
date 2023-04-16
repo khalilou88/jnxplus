@@ -7,20 +7,17 @@ import {
 } from '@nrwl/devkit';
 import * as path from 'path';
 import {
-  dependencyManagementVersion,
-  kotlinJvmVersion,
-  kotlinSpringVersion,
   quarkusPlatformVersion,
+  kotlinJvmVersion,
+  kotlinPluginAllopenVersion,
 } from '../../utils/versions';
 import { NxQuarkusGradleGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxQuarkusGradleGeneratorSchema {
   quarkusPlatformVersion: string;
-
-  kotlinExtension: string;
-  dependencyManagementVersion: string;
   kotlinJvmVersion: string;
-  kotlinSpringVersion: string;
+  kotlinPluginAllopenVersion: string;
+  kotlinExtension: string;
 }
 
 function normalizeOptions(
@@ -33,9 +30,8 @@ function normalizeOptions(
     ...options,
     kotlinExtension,
     quarkusPlatformVersion,
-    dependencyManagementVersion,
     kotlinJvmVersion,
-    kotlinSpringVersion,
+    kotlinPluginAllopenVersion,
   };
 }
 

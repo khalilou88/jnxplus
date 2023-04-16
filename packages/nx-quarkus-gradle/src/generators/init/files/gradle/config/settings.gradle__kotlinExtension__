@@ -7,6 +7,8 @@ pluginManagement {
     }
     plugins {
         id "${quarkusPluginId}" version "${quarkusPluginVersion}"
+        kotlin "jvm" version "${kotlinJvmVersion}"
+        kotlin "plugin.allopen" version "${kotlinPluginAllopenVersion}"
     }
 }
 rootProject.name = '<%= rootProjectName %>'
@@ -16,6 +18,10 @@ rootProject.name = '<%= rootProjectName %>'
 pluginManagement {
     val quarkusPluginVersion: String by settings
     val quarkusPluginId: String by settings
+
+    val kotlinJvmVersion: String by settings
+    val kotlinPluginAllopenVersion: String by settings
+
     repositories {
         mavenCentral()
         gradlePluginPortal()
@@ -23,6 +29,8 @@ pluginManagement {
     }
     plugins {
         id(quarkusPluginId) version quarkusPluginVersion
+        kotlin("jvm") version kotlinJvmVersion
+        kotlin("plugin.allopen") version kotlinPluginAllopenVersion
     }
 }
 rootProject.name = "<%= rootProjectName %>"
