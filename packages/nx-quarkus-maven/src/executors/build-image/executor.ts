@@ -1,6 +1,7 @@
-import { ExecutorContext, logger } from '@nrwl/devkit';
-import { getProjectSourceRoot, runCommand } from '../../utils/command';
+import { ExecutorContext, logger, workspaceRoot } from '@nrwl/devkit';
+import { getProjectRoot, runCommand } from '../../utils/command';
 import { BuildImageExecutorSchema } from './schema';
+import { join } from 'path';
 
 export default async function runExecutor(
   options: BuildImageExecutorSchema,
@@ -22,9 +23,10 @@ export default async function runExecutor(
     }
   }
 
-  const projectSourceRoot = getProjectSourceRoot(context);
+  const workDir = join(workspaceRoot, getProjectRoot(context));
 
   return runCommand(
-    `docker build -f ${projectSourceRoot}/main/docker/Dockerfile.${options.imageType} -t ${options.imageNamePrefix}/${context.projectName}${imageNameSuffix}`
+    `docker build -f src/main/docker/Dockerfile.${options.imageType} -t ${options.imageNamePrefix}/${context.projectName}${imageNameSuffix} .`,
+    workDir
   );
 }
