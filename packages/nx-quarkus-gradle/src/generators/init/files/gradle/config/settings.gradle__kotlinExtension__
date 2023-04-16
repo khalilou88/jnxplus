@@ -7,8 +7,8 @@ pluginManagement {
     }
     plugins {
         id "${quarkusPluginId}" version "${quarkusPluginVersion}"
-        kotlin "jvm" version "${kotlinJvmVersion}"
-        kotlin "plugin.allopen" version "${kotlinPluginAllopenVersion}"
+        id "org.jetbrains.kotlin.jvm" version "${kotlinJvmVersion}"
+        id "org.jetbrains.kotlin.plugin.allopen" version "${kotlinPluginAllopenVersion}"
     }
 }
 rootProject.name = '<%= rootProjectName %>'
