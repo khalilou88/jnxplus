@@ -92,8 +92,8 @@ function updateNxJson(tree: Tree) {
   updateJson(tree, 'nx.json', (nxJson) => {
     // if plugins is undefined, set it to an empty array
     nxJson.plugins = nxJson.plugins ?? [];
-    // add @jnxplus/nx-boot-gradle plugin
-    nxJson.plugins.push('@jnxplus/nx-boot-gradle');
+    // add @jnxplus/nx-quarkus-gradle plugin
+    nxJson.plugins.push('@jnxplus/nx-quarkus-gradle');
     // return modified JSON object
     return nxJson;
   });
