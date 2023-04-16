@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "outputCapture": "direct-nodejs",
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "Build executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "packaging": {
+      "type": "string",
+      "default": "jar"
+    }
+  },
+  "required": ["packaging"]
+}
