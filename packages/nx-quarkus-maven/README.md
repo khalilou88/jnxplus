@@ -43,6 +43,7 @@ nx generate @jnxplus/nx-quarkus-maven:init
 | Generate an application              | `nx generate @jnxplus/nx-quarkus-maven:application my-app-name` |
 | Generate a library                   | `nx generate @jnxplus/nx-quarkus-maven:library my-lib-name`     |
 | Build a project                      | `nx build my-project-name`                                      |
+| Build an image                       | `nx build-image my-app-name`                                    |
 | Serve an application                 | `nx serve my-app-name`                                          |
 | Test a project                       | `nx test my-project-name`                                       |
 | Integration Test an application      | `nx integration-test my-app-name`                               |

@@ -10,7 +10,7 @@
     "imageType": {
       "type": "string",
       "description": "Image type to build",
-      "default": "native"
+      "default": "jvm"
     },
     "imageNamePrefix": {
       "type": "string",
