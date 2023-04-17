@@ -453,9 +453,10 @@ describe('nx-quarkus-gradle e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
+    //TODO --args is empty
     const process = await runNxCommandUntil(
-      `serve ${appName} --args="--spring.profiles.active=test"`,
-      (output) => output.includes(`Tomcat started on port(s): 8080`)
+      `serve ${appName} --args=""`,
+      (output) => output.includes(`Listening on: http://localhost:8080`)
     );
 
     // port and process cleanup
