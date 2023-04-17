@@ -18,7 +18,6 @@ rootProject.name = '<%= rootProjectName %>'
 pluginManagement {
     val quarkusPluginVersion: String by settings
     val quarkusPluginId: String by settings
-
     val kotlinJvmVersion: String by settings
     val kotlinPluginAllopenVersion: String by settings
 
