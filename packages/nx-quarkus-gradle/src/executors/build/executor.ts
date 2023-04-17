@@ -13,7 +13,8 @@ export default async function runExecutor(
     args = options.args;
   }
 
+  //use quarkusBuild (instead of build task) to not trigger test
   return runCommand(
-    `${getExecutable()} ${getProjectPath(context)}:build ${args}`
+    `${getExecutable()} ${getProjectPath(context)}:quarkusBuild ${args}`
   );
 }
