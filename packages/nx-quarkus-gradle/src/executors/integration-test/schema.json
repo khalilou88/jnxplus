@@ -6,6 +6,11 @@
   "title": "Integration Test executor",
   "description": "",
   "type": "object",
-  "properties": {},
+  "properties": {
+    "native": {
+      "type": "boolean",
+      "default": "false"
+    }
+  },
   "required": []
 }

@@ -7,7 +7,12 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   logger.info(`Executor ran for Integration-test: ${JSON.stringify(options)}`);
-  return runCommand(
-    `${getExecutable()} ${getProjectPath(context)}:quarkusIntTest`
-  );
+
+  let task = 'quarkusIntTest';
+
+  if (options.native) {
+    task = 'testNative';
+  }
+
+  return runCommand(`${getExecutable()} ${getProjectPath(context)}:${task}`);
 }

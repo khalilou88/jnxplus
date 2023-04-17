@@ -4,7 +4,9 @@ import executor from './executor';
 import { IntegrationTestExecutorSchema } from './schema';
 jest.mock('../../utils/command');
 
-const options: IntegrationTestExecutorSchema = {};
+const options: IntegrationTestExecutorSchema = {
+  native: false,
+};
 const context: ExecutorContext = {
   root: '/root',
   cwd: '/root',
