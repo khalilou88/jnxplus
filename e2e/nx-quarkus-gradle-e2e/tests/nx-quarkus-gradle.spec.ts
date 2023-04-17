@@ -515,7 +515,7 @@ describe('nx-quarkus-gradle e2e', () => {
     }
   }, 1200000);
 
-  xit('should create a library', async () => {
+  it('should create a library', async () => {
     const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
@@ -527,21 +527,18 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(() =>
       checkFilesExist(
         `libs/${libName}/build.gradle`,
-        `libs/${libName}/src/main/java/com/example/${names(
+        `libs/${libName}/src/main/java/org/acme/${names(
           libName
-        ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/${libName}/src/test/java/com/example/${names(
+        ).className.toLocaleLowerCase()}/GreetingService.java`,
+        `libs/${libName}/src/test/java/org/acme/${names(
           libName
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libName}/src/test/java/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
       )
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
     const buildGradle = readFile(`libs/${libName}/build.gradle`);
-    expect(buildGradle.includes('com.example')).toBeTruthy();
+    expect(buildGradle.includes('org.acme')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
@@ -567,7 +564,7 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(formatResult.stdout).toContain('');
   }, 1200000);
 
-  xit('should create a kotlin library', async () => {
+  it('should create a kotlin library', async () => {
     const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
@@ -579,21 +576,18 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(() =>
       checkFilesExist(
         `libs/${libName}/build.gradle.kts`,
-        `libs/${libName}/src/main/kotlin/com/example/${names(
+        `libs/${libName}/src/main/kotlin/org/acme/${names(
           libName
-        ).className.toLocaleLowerCase()}/HelloService.kt`,
-        `libs/${libName}/src/test/kotlin/com/example/${names(
+        ).className.toLocaleLowerCase()}/GreetingService.kt`,
+        `libs/${libName}/src/test/kotlin/org/acme/${names(
           libName
-        ).className.toLocaleLowerCase()}/TestConfiguration.kt`,
-        `libs/${libName}/src/test/kotlin/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.kt`
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`
       )
     ).not.toThrow();
 
-    // Making sure the build.gradle file contains the good information
+    // Making sure the build.gradle.kts file contains the good information
     const buildGradle = readFile(`libs/${libName}/build.gradle.kts`);
-    expect(buildGradle.includes('com.example')).toBeTruthy();
+    expect(buildGradle.includes('org.acme')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);

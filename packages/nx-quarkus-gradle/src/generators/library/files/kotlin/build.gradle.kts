@@ -1,42 +1,51 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 val javaVersion: String by project
 
+
 plugins {
-	id("org.springframework.boot") apply false
-	id("io.spring.dependency-management")
-  id("org.jetbrains.kotlin.jvm")
-  id("org.jetbrains.kotlin.plugin.spring")
+    kotlin("jvm")
+    kotlin("plugin.allopen") 
+    id("io.quarkus")
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+val quarkusPlatformGroupId: String by project
+val quarkusPlatformArtifactId: String by project
+val quarkusPlatformVersion: String by project
+
+dependencies {
+    implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
+    implementation("io.quarkus:quarkus-kotlin")
+    implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("io.quarkus:quarkus-arc")
+    implementation("io.quarkus:quarkus-resteasy-reactive")
+    testImplementation("io.quarkus:quarkus-junit5")
+    testImplementation("io.rest-assured:rest-assured")
 }
 
 group = "<%= groupId %>"
 version = "<%= projectVersion %>"
-java.sourceCompatibility = JavaVersion.toVersion(javaVersion)
 
-repositories {
-	mavenCentral()
-}
-
-dependencyManagement {
-  imports {
-    mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
-  }
-}
-
-dependencies {
-  implementation("org.springframework.boot:spring-boot-starter")
-  implementation("org.jetbrains.kotlin:kotlin-reflect")
-  implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-  testImplementation("org.springframework.boot:spring-boot-starter-test")
-}
-
-tasks.withType<KotlinCompile> {
-  kotlinOptions {
-    freeCompilerArgs = listOf("-Xjsr305=strict")
-    jvmTarget = javaVersion
-  }
+java {
+    sourceCompatibility = JavaVersion.toVersion(javaVersion)
+    targetCompatibility = JavaVersion.toVersion(javaVersion)
 }
 
 tasks.withType<Test> {
-  useJUnitPlatform()
+    systemProperty("java.util.logging.manager", "org.jboss.logmanager.LogManager")
 }
+allOpen {
+    annotation("javax.ws.rs.Path")
+    annotation("javax.enterprise.context.ApplicationScoped")
+    annotation("io.quarkus.test.junit.QuarkusTest")
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions.jvmTarget = javaVersion
+    kotlinOptions.javaParameters = true
+}
+
