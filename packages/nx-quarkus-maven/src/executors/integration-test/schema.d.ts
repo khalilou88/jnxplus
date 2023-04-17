@@ -1,1 +1,3 @@
-export interface IntegrationTestExecutorSchema {} // eslint-disable-line
+export interface IntegrationTestExecutorSchema {
+  args: string;
+}

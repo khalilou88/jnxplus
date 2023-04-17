@@ -6,6 +6,10 @@
   "title": "Integration Test executor",
   "description": "",
   "type": "object",
-  "properties": {},
+  "properties": {
+    "args": {
+      "type": "string"
+    }
+  },
   "required": []
 }

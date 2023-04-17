@@ -7,7 +7,13 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   logger.info(`Executor ran for Integration-test: ${JSON.stringify(options)}`);
+
+  let args = '';
+  if (options.args) {
+    args = options.args;
+  }
+
   return runCommand(
-    `${getExecutable()} integration-test -pl :${context.projectName}`
+    `${getExecutable()} integration-test ${args} -pl :${context.projectName}`
   );
 }
