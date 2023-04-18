@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "outputCapture": "direct-nodejs",
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "Kotlin Format executor",
+  "description": "",
+  "type": "object",
+  "properties": {},
+  "required": []
+}

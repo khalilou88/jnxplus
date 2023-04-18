@@ -1,0 +1,37 @@
+{
+  "name": "@jnxplus/nx-quarkus-gradle",
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "generators": "./generators.json",
+  "executors": "./executors.json",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "author": "Khalil LAGRIDA",
+  "homepage": "https://github.com/khalilou88/jnxplus/blob/main/packages/nx-quarkus-gradle/README.md",
+  "bugs": {
+    "url": "https://github.com/khalilou88/jnxplus/issues"
+  },
+  "keywords": [
+    "nx",
+    "nx-workspace",
+    "nx-plugin",
+    "java",
+    "quarkus",
+    "gradle",
+    "gradle multi-project build"
+  ],
+  "dependencies": {
+    "prettier-plugin-java": "^1.6.2",
+    "@jnxplus/checkstyle": "~9.3.0",
+    "@jnxplus/pmd": "~6.42.0",
+    "@jnxplus/ktlint": "~0.43.2"
+  },
+  "peerDependencies": {
+    "@nrwl/devkit": ">=14.0.0",
+    "@nrwl/workspace": ">=14.0.0",
+    "@nrwl/tao": ">=14.0.0"
+  }
+}

@@ -8,6 +8,7 @@ const options: BuildExecutorSchema = {
   mvnArgs: '--no-transfer-progress',
   mvnBuildCommand: 'compile',
   mvnBuildArgs: '-Dquarkus.package.type=uber-jar',
+  skipClean: true,
 };
 
 const context: ExecutorContext = {
