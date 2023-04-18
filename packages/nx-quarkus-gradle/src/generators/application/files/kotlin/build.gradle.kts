@@ -1,5 +1,7 @@
 val javaVersion: String by project
-
+val quarkusPlatformGroupId: String by project
+val quarkusPlatformArtifactId: String by project
+val quarkusPlatformVersion: String by project
 
 plugins {
     kotlin("jvm")
@@ -7,20 +9,9 @@ plugins {
     id("io.quarkus")
 }
 
-repositories {
-    mavenCentral()
-    mavenLocal()
-}
-
-val quarkusPlatformGroupId: String by project
-val quarkusPlatformArtifactId: String by project
-val quarkusPlatformVersion: String by project
-
 dependencies {
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
     implementation("io.quarkus:quarkus-kotlin")
-    implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.quarkus:quarkus-arc")
     implementation("io.quarkus:quarkus-resteasy-reactive")
     testImplementation("io.quarkus:quarkus-junit5")
@@ -38,6 +29,7 @@ java {
 tasks.withType<Test> {
     systemProperty("java.util.logging.manager", "org.jboss.logmanager.LogManager")
 }
+
 allOpen {
     annotation("javax.ws.rs.Path")
     annotation("javax.enterprise.context.ApplicationScoped")

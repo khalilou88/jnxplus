@@ -9,12 +9,6 @@ plugins {
     id("io.quarkus")
 }
 
-repositories {
-    mavenCentral()
-    mavenLocal()
-}
-
-
 dependencies {
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
     implementation("io.quarkus:quarkus-kotlin")
@@ -33,8 +27,8 @@ java {
 tasks.withType<Test> {
     systemProperty("java.util.logging.manager", "org.jboss.logmanager.LogManager")
 }
+
 allOpen {
-    annotation("javax.ws.rs.Path")
     annotation("javax.enterprise.context.ApplicationScoped")
     annotation("io.quarkus.test.junit.QuarkusTest")
 }

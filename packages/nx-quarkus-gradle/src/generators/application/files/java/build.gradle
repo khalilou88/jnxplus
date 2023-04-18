@@ -3,15 +3,9 @@ plugins {
     id 'io.quarkus'
 }
 
-repositories {
-    mavenCentral()
-    mavenLocal()
-}
-
 dependencies {
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-resteasy-reactive'
-    implementation 'io.quarkus:quarkus-resteasy-reactive-jackson'
     implementation 'io.quarkus:quarkus-arc'
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
@@ -28,6 +22,7 @@ java {
 test {
     systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
 }
+
 compileJava {
     options.encoding = 'UTF-8'
     options.compilerArgs << '-parameters'

@@ -1,0 +1,18 @@
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+<% if(dsl === 'groovy') { %>
+
+
+
+<% } %>
+
+<% if(dsl === 'kotlin') { %>
+
+
+
+
+<% } %>
