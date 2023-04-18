@@ -4,7 +4,10 @@ import executor from './executor';
 import { BuildExecutorSchema } from './schema';
 jest.mock('../../utils/command');
 
-const options: BuildExecutorSchema = { mvnArgs: '--no-transfer-progress' };
+const options: BuildExecutorSchema = {
+  mvnArgs: '--no-transfer-progress',
+  skipClean: true,
+};
 
 const context: ExecutorContext = {
   root: '/root',

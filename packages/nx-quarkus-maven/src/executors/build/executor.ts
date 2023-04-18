@@ -8,11 +8,16 @@ export default async function runExecutor(
 ) {
   logger.info(`Executor ran for Build: ${JSON.stringify(options)}`);
   let mvnArgs = '';
+  let mvnCleanCommand = '';
   let mvnBuildCommand: string;
   let mvnBuildArgs = '';
 
   if (options.mvnArgs) {
     mvnArgs = `${options.mvnArgs}`;
+  }
+
+  if (!options.skipClean) {
+    mvnCleanCommand = 'clean';
   }
 
   if (options.mvnBuildCommand) {
@@ -32,7 +37,7 @@ export default async function runExecutor(
   }
 
   return runCommand(
-    `${getExecutable()} ${mvnArgs} ${mvnBuildCommand} ${mvnBuildArgs} -DskipTests=true -pl :${
+    `${getExecutable()} ${mvnArgs} ${mvnCleanCommand} ${mvnBuildCommand} ${mvnBuildArgs} -DskipTests=true -pl :${
       context.projectName
     }`
   );

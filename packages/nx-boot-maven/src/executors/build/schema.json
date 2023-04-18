@@ -10,6 +10,10 @@
     "mvnArgs": {
       "type": "string",
       "description": "Arguments to pass to the maven cli"
+    },
+    "skipClean": {
+      "type": "boolean",
+      "default": "true"
     }
   },
   "required": []
