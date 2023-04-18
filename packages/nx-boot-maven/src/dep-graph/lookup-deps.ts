@@ -6,15 +6,16 @@ import {
   ProjectGraphProjectNode,
   workspaceRoot,
 } from '@nrwl/devkit';
-import { fileExists } from 'nx/src/utils/fileutils';
-import { join } from 'path';
-import { XmlDocument } from 'xmldoc';
-import { readXml } from '../utils/xml';
+import {fileExists} from 'nx/src/utils/fileutils';
+import {join} from 'path';
+import {XmlDocument} from 'xmldoc';
+import {readXml} from '../utils/xml';
 
 export function processProjectGraph(
   graph: ProjectGraph,
   context: ProjectGraphProcessorContext
 ): ProjectGraph {
+
   const builder = new ProjectGraphBuilder(graph);
 
   const hasher = new Hasher(graph, context.nxJsonConfiguration, {});
@@ -23,6 +24,7 @@ export function processProjectGraph(
   const parentPomXmlContent = readXml(parentPomXmlPath);
 
   const parentProjectName = parentPomXmlContent.childNamed('artifactId').val;
+
 
   builder.addNode({
     name: parentProjectName,
@@ -45,26 +47,10 @@ export function processProjectGraph(
       ],
     },
   });
-
   const projects = getManagedProjects(builder.graph.nodes);
 
-  parentPomXmlContent
-    .childNamed('modules')
-    .childrenNamed('module')
-    .map((moduleXmlElement) => {
-      return moduleXmlElement.val;
-    })
-    .forEach((projectRoot) => {
-      const node = projects.find(
-        (project) => project.data.root === projectRoot
-      );
+  graphDependencies( parentPomXmlContent,  projects, builder, parentProjectName, '' );
 
-      builder.addStaticDependency(
-        node.name,
-        parentProjectName,
-        join(projectRoot, 'pom.xml').replace(/\\/g, '/')
-      );
-    });
 
   const projectNames = projects.map((project) => project.name);
 
@@ -82,6 +68,38 @@ export function processProjectGraph(
   }
 
   return builder.getUpdatedProjectGraph();
+}
+
+function graphDependencies(parentPom: XmlDocument, projects: ProjectGraphProjectNode[], builder: ProjectGraphBuilder, parentProjectName: string, parentRoot: string) {
+    parentPom
+    .childNamed('modules')
+    .childrenNamed('module')
+    .map((moduleXmlElement) => {
+      return moduleXmlElement.val;
+    })
+    .forEach((projectRoot) => {
+
+      projectRoot = parentRoot.concat(projectRoot);
+
+      const node = projects.find(
+        (project) => project.data.root === projectRoot
+      );
+
+      builder.addStaticDependency(
+        node.name,
+        parentProjectName,
+        join(projectRoot, 'pom.xml').replace(/\\/g, '/')
+      );
+
+      //Find the pom xml and get its submodules
+      const currentPom = readXml(join(projectRoot, 'pom.xml'));
+      const currentName = currentPom.childNamed('artifactId').val;
+
+      if(currentPom.childNamed('modules') !== undefined) {
+        graphDependencies(currentPom, projects, builder, currentName, projectRoot.concat('/') );
+      }
+
+    });
 }
 
 function getManagedProjects(nodes: Record<string, ProjectGraphProjectNode>) {
