@@ -49,18 +49,11 @@ function normalizeOptions(
     ? options.tags.split(',').map((s) => s.trim())
     : [];
 
-  let parentProjectRoot;
-  let parentProjectPomPath;
-  if (options.parentProject) {
-    parentProjectRoot = readProjectConfiguration(
-      tree,
-      options.parentProject
-    ).root;
-    parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
-  } else {
-    parentProjectRoot = '';
-    parentProjectPomPath = 'pom.xml';
-  }
+  const parentProjectRoot = options.parentProject
+    ? readProjectConfiguration(tree, options.parentProject).root
+    : '';
+
+  const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
 
   const pomXmlContent = readXmlTree(tree, parentProjectPomPath);
   const relativePath = path
@@ -115,9 +108,6 @@ export default async function (
         options: {
           task: '-no-transfer-progress clean install -N',
         },
-      },
-      'run-task': {
-        executor: '@jnxplus/nx-boot-maven:run-task',
       },
     },
     tags: normalizedOptions.parsedTags,
