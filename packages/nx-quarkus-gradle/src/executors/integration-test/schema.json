@@ -9,7 +9,7 @@
   "properties": {
     "native": {
       "type": "boolean",
-      "default": "false"
+      "default": false
     }
   },
   "required": []

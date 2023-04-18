@@ -21,7 +21,7 @@
     },
     "skipClean": {
       "type": "boolean",
-      "default": "true"
+      "default": true
     }
   },
   "required": []
