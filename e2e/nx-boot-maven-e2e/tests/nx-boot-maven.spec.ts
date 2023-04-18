@@ -883,7 +883,7 @@ describe('nx-boot-maven e2e', () => {
     );
   }, 1200000);
 
-  it('should generate an apps parent project', async () => {
+  it('should generate java apps that use a parent project', async () => {
     const appsParentproject = uniq('apps-parent-project-');
 
     await runNxCommandAsync(
@@ -902,7 +902,7 @@ describe('nx-boot-maven e2e', () => {
     const secondParentproject = uniq('apps-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:parent-project ${secondParentproject} --parent-project ${appName}`
+      `generate @jnxplus/nx-boot-maven:parent-project ${secondParentproject} --parent-project ${appsParentproject}`
     );
 
     const secondAppName = uniq('boot-maven-app-');
@@ -915,7 +915,7 @@ describe('nx-boot-maven e2e', () => {
     expect(secondBuildResult.stdout).toContain('Executor ran for Build');
   }, 1200000);
 
-  it('should generate a libs parent project', async () => {
+  it('should generate java libs that use a parent project', async () => {
     const libsParentproject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
