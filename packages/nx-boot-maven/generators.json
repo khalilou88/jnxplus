@@ -26,6 +26,11 @@
       "aliases": ["lib"],
       "x-type": "library",
       "description": "library generator"
+    },
+    "parent-project": {
+      "factory": "./src/generators/parent-project/generator",
+      "schema": "./src/generators/parent-project/schema.json",
+      "description": "parent-project generator"
     }
   }
 }

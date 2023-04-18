@@ -12,6 +12,7 @@ describe('library generator', () => {
     groupId: 'com.example',
     packageNameType: 'long',
     projectVersion: '0.0.1-SNAPSHOT',
+    parentProject: '',
   };
 
   beforeEach(() => {

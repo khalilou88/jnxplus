@@ -1,18 +1,15 @@
 import { readProjectConfiguration, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import generator from './generator';
-import { NxBootMavenAppGeneratorSchema } from './schema';
+import { NxBootMavenParentProjectGeneratorSchema } from './schema';
 
-describe('application generator', () => {
+describe('parent project generator', () => {
   let appTree: Tree;
-  const options: NxBootMavenAppGeneratorSchema = {
+  const options: NxBootMavenParentProjectGeneratorSchema = {
     name: 'test',
-    language: 'java',
+    projectType: 'application',
     groupId: 'com.example',
-    packageNameType: 'long',
     projectVersion: '0.0.1-SNAPSHOT',
-    packaging: 'jar',
-    configFormat: '.yml',
     parentProject: '',
   };
 
