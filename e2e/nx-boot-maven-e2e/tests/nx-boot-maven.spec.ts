@@ -885,34 +885,90 @@ describe('nx-boot-maven e2e', () => {
 
   it('should generate java apps that use a parent project', async () => {
     const appsParentproject = uniq('apps-parent-project-');
-
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-maven:parent-project ${appsParentproject}`
     );
 
-    const appName = uniq('boot-maven-app-');
-
+    const randomName = uniq('boot-maven-app-');
+    const appDir = 'dir';
+    const appName = `${normalizeName(appDir)}-${randomName}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:application ${appName} --parent-project ${appsParentproject}`
+      `generate @jnxplus/nx-boot-maven:application ${randomName} --parent-project ${appsParentproject} --directory ${appDir}`
     );
-
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const secondParentproject = uniq('apps-parent-project-');
-
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-maven:parent-project ${secondParentproject} --parent-project ${appsParentproject}`
     );
 
     const secondAppName = uniq('boot-maven-app-');
-
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-maven:application ${secondAppName} --parent-project ${secondParentproject}`
     );
-
     const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
     expect(secondBuildResult.stdout).toContain('Executor ran for Build');
+
+    const randomParentproject = uniq('apps-parent-project-');
+    const parentProjectDir = 'deep/subdir';
+    const thirdProjectName = `${normalizeName(
+      parentProjectDir
+    )}-${randomParentproject}`;
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:parent-project ${randomParentproject} --parent-project ${secondParentproject}  --directory ${parentProjectDir}`
+    );
+
+    const thirdAppName = uniq('boot-maven-app-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:application ${thirdAppName} --parent-project ${thirdProjectName}`
+    );
+    const thirdBuildResult = await runNxCommandAsync(`build ${thirdAppName}`);
+    expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
+  }, 1200000);
+
+  it('should generate kotlin apps that use a parent project', async () => {
+    const appsParentproject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:parent-project ${appsParentproject}`
+    );
+
+    const randomName = uniq('boot-maven-app-');
+    const appDir = 'dir';
+    const appName = `${normalizeName(appDir)}-${randomName}`;
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:application ${randomName} --parent-project ${appsParentproject} --directory ${appDir} --language kotlin`
+    );
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const secondParentproject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:parent-project ${secondParentproject} --parent-project ${appsParentproject}`
+    );
+
+    const secondAppName = uniq('boot-maven-app-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:application ${secondAppName} --parent-project ${secondParentproject} --language kotlin`
+    );
+    const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
+    expect(secondBuildResult.stdout).toContain('Executor ran for Build');
+
+    const randomParentproject = uniq('apps-parent-project-');
+    const parentProjectDir = 'deep/subdir';
+    const thirdProjectName = `${normalizeName(
+      parentProjectDir
+    )}-${randomParentproject}`;
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:parent-project ${randomParentproject} --parent-project ${secondParentproject}  --directory ${parentProjectDir}`
+    );
+
+    const thirdAppName = uniq('boot-maven-app-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:application ${thirdAppName} --parent-project ${thirdProjectName} --language kotlin`
+    );
+    const thirdBuildResult = await runNxCommandAsync(`build ${thirdAppName}`);
+    expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
   }, 1200000);
 
   it('should generate java libs that use a parent project', async () => {
@@ -937,13 +993,81 @@ describe('nx-boot-maven e2e', () => {
       `generate @jnxplus/nx-boot-maven:parent-project ${secondParentproject} --projectType library  --parent-project ${libsParentproject}`
     );
 
-    const secondLibName = uniq('boot-maven-lib-');
+    const randomName = uniq('boot-maven-lib-');
+    const libDir = 'subdir';
+    const secondLibName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:library ${secondLibName} --parent-project ${secondParentproject}`
+      `generate @jnxplus/nx-boot-maven:library ${randomName} --parent-project ${secondParentproject} --dir ${libDir}`
     );
 
     const secondBuildResult = await runNxCommandAsync(`build ${secondLibName}`);
     expect(secondBuildResult.stdout).toContain('Executor ran for Build');
+
+    const randomParentproject = uniq('libs-parent-project-');
+    const parentProjectDir = 'deep/subdir';
+    const thirdProjectName = `${normalizeName(
+      parentProjectDir
+    )}-${randomParentproject}`;
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentproject}  --directory ${parentProjectDir}`
+    );
+
+    const thirdLibName = uniq('boot-maven-lib-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:library ${thirdLibName} --parent-project ${thirdProjectName}`
+    );
+    const thirdBuildResult = await runNxCommandAsync(`build ${thirdLibName}`);
+    expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
+  }, 1200000);
+
+  it('should generate kotlin libs that use a parent project', async () => {
+    const libsParentproject = uniq('libs-parent-project-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:parent-project ${libsParentproject} --projectType library`
+    );
+
+    const libName = uniq('boot-maven-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:library ${libName} --parent-project ${libsParentproject} --language kotlin`
+    );
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const secondParentproject = uniq('libs-parent-project-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:parent-project ${secondParentproject} --projectType library  --parent-project ${libsParentproject}`
+    );
+
+    const randomName = uniq('boot-maven-lib-');
+    const libDir = 'subdir';
+    const secondLibName = `${libDir}-${randomName}`;
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:library ${randomName} --parent-project ${secondParentproject} --dir ${libDir} --language kotlin`
+    );
+
+    const secondBuildResult = await runNxCommandAsync(`build ${secondLibName}`);
+    expect(secondBuildResult.stdout).toContain('Executor ran for Build');
+
+    const randomParentproject = uniq('libs-parent-project-');
+    const parentProjectDir = 'deep/subdir';
+    const thirdProjectName = `${normalizeName(
+      parentProjectDir
+    )}-${randomParentproject}`;
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentproject}  --directory ${parentProjectDir}`
+    );
+
+    const thirdLibName = uniq('boot-maven-lib-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:library ${thirdLibName} --parent-project ${thirdProjectName} --language kotlin`
+    );
+    const thirdBuildResult = await runNxCommandAsync(`build ${thirdLibName}`);
+    expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
   }, 1200000);
 });
