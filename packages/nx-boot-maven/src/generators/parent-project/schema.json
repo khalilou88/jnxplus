@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "$id": "NxBootMavenLib",
-  "title": "Create a library",
+  "$id": "NxBootMavenParentProject",
+  "title": "Create a parent project",
   "type": "object",
   "properties": {
     "name": {
@@ -25,21 +25,21 @@
       "description": "A directory where the project is placed",
       "alias": "dir"
     },
-    "language": {
-      "description": "Language of the project",
+    "projectType": {
+      "description": "Type of the parent project",
       "type": "string",
-      "default": "java",
+      "default": "application",
       "x-prompt": {
-        "message": "Which language would you like to use?",
+        "message": "Which projectType would you like to generate?",
         "type": "list",
         "items": [
           {
-            "value": "java",
-            "label": "Java"
+            "value": "application",
+            "label": "Application"
           },
           {
-            "value": "kotlin",
-            "label": "Kotlin"
+            "value": "library",
+            "label": "Library"
           }
         ]
       }
@@ -48,25 +48,6 @@
       "type": "string",
       "default": "com.example",
       "x-prompt": "What groupId would you like to use?"
-    },
-    "packageNameType": {
-      "description": "Package name type",
-      "type": "string",
-      "default": "long",
-      "x-prompt": {
-        "message": "How do you like to construct the PackageName?",
-        "type": "list",
-        "items": [
-          {
-            "value": "short",
-            "label": "Short: groupId + projectName"
-          },
-          {
-            "value": "long",
-            "label": "Long: groupId + projectDirectory + projectName"
-          }
-        ]
-      }
     },
     "projectVersion": {
       "type": "string",
@@ -78,11 +59,7 @@
     "parent-project": {
       "type": "string",
       "description": "Parent project artifactId"
-    },
-    "projects": {
-      "type": "string",
-      "description": "Projects where the library should be added (comma delimited)"
     }
   },
-  "required": ["name", "language", "groupId", "projectVersion"]
+  "required": ["name", "projectType", "groupId", "projectVersion"]
 }

@@ -8,5 +8,6 @@ export interface NxBootMavenLibGeneratorSchema {
   groupId: string;
   packageNameType: PackageNameType;
   projectVersion: string;
+  parentProject: string;
   projects?: string;
 }

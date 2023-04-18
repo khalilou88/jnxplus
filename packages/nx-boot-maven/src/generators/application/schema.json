@@ -112,6 +112,10 @@
           }
         ]
       }
+    },
+    "parent-project": {
+      "type": "string",
+      "description": "Parent project artifactId"
     }
   },
   "required": [

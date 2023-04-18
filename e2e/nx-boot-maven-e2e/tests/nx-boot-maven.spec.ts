@@ -55,7 +55,7 @@ describe('nx-boot-maven e2e', () => {
     );
     runPackageManagerInstall();
 
-    const parentProjectName = uniq('parent-project-name-');
+    const parentProjectName = uniq('parent-project-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-maven:init --parentProjectName ${parentProjectName}`
     );
@@ -881,5 +881,39 @@ describe('nx-boot-maven e2e', () => {
     expect(depGraphResult.stderr).not.toContain(
       'Failed to process the project graph'
     );
+  }, 1200000);
+
+  it('should generate an apps parent project', async () => {
+    const appsParentproject = uniq('apps-parent-project-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:parent-project ${appsParentproject}`
+    );
+
+    const appName = uniq('boot-maven-app-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:application ${appName} --parent-project ${appsParentproject}`
+    );
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+  }, 1200000);
+
+  it('should generate a libs parent project', async () => {
+    const libsParentproject = uniq('libs-parent-project-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:parent-project ${libsParentproject} --projectType library`
+    );
+
+    const libName = uniq('boot-maven-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:library ${libName} --parent-project ${libsParentproject}`
+    );
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
   }, 1200000);
 });
