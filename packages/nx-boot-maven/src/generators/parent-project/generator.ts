@@ -104,10 +104,7 @@ export default async function (
     projectType: normalizedOptions.projectType,
     targets: {
       build: {
-        executor: '@jnxplus/nx-boot-maven:run-task',
-        options: {
-          task: '-no-transfer-progress clean install -N',
-        },
+        executor: 'nx:noop',
       },
     },
     tags: normalizedOptions.parsedTags,
