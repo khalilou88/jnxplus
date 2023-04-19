@@ -7,7 +7,6 @@ import {
   workspaceRoot,
 } from '@nrwl/devkit';
 import { fileExists } from 'nx/src/utils/fileutils';
-import * as path from 'path';
 import { join } from 'path';
 import { XmlDocument } from 'xmldoc';
 import { readXml } from '../utils/xml';
@@ -135,7 +134,7 @@ function getModules(
   }
 
   const modules = modulesXml.childrenNamed('module').map((moduleXmlElement) => {
-    const moduleRoot = path.join(projectAbsolutePath, moduleXmlElement.val);
+    const moduleRoot = join(projectAbsolutePath, moduleXmlElement.val);
     const modulePomXmlPath = join(moduleRoot, 'pom.xml');
     const modulePomXmlContent = readXml(modulePomXmlPath);
     const moduleProjectName = modulePomXmlContent.childNamed('artifactId').val;
