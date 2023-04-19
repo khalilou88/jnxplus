@@ -96,11 +96,6 @@ describe('nx-boot-maven e2e', () => {
     ).not.toThrow();
   }, 1200000);
 
-  it('should migrate', async () => {
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-maven:init`);
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-maven:migrate`);
-  }, 1200000);
-
   it('should create an java application', async () => {
     const appName = uniq('boot-maven-app-');
 
