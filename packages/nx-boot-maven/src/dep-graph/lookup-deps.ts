@@ -7,6 +7,7 @@ import {
   workspaceRoot,
 } from '@nrwl/devkit';
 import { fileExists } from 'nx/src/utils/fileutils';
+import * as path from 'path';
 import { join } from 'path';
 import { XmlDocument } from 'xmldoc';
 import { readXml } from '../utils/xml';
@@ -51,35 +52,40 @@ export function processProjectGraph(
 
   const projects = getManagedProjects(builder.graph.nodes);
 
-  parentPomXmlContent
-    .childNamed('modules')
-    .childrenNamed('module')
-    .map((moduleXmlElement) => {
-      return moduleXmlElement.val;
-    })
-    .forEach((projectRoot) => {
-      const node = projects.find(
-        (project) => project.data.root === projectRoot
-      );
+  const parentPomModules = getModules(
+    workspaceRoot,
+    parentPomXmlContent,
+    projects
+  );
 
-      builder.addStaticDependency(
-        node.name,
-        parentProjectName,
-        join(projectRoot, 'pom.xml').replace(/\\/g, '/')
-      );
-    });
-
-  const projectNames = projects.map((project) => project.name);
+  for (const module of parentPomModules) {
+    builder.addStaticDependency(
+      module.name,
+      parentProjectName,
+      join(module.data.root, 'pom.xml').replace(/\\/g, '/')
+    );
+  }
 
   for (const project of projects) {
     const pomXmlPath = join(workspaceRoot, project.data.root, 'pom.xml');
     const pomXmlContent = readXml(pomXmlPath);
-    const dependencies = getDependencies(pomXmlContent, projectNames);
+    const dependencies = getDependencies(pomXmlContent, projects);
     for (const dependency of dependencies) {
       builder.addStaticDependency(
         project.name,
-        dependency,
+        dependency.name,
         join(project.data.root, 'pom.xml').replace(/\\/g, '/')
+      );
+    }
+
+    const projectAbsolutePath = join(workspaceRoot, project.data.root);
+    const modules = getModules(projectAbsolutePath, pomXmlContent, projects);
+
+    for (const module of modules) {
+      builder.addStaticDependency(
+        module.name,
+        project.name,
+        join(module.data.root, 'pom.xml').replace(/\\/g, '/')
       );
     }
   }
@@ -101,18 +107,41 @@ function isManagedProject(projectGraphNode: ProjectGraphProjectNode): boolean {
   );
 }
 
-function getDependencies(pomXml: XmlDocument, projectNames: string[]) {
+function getDependencies(
+  pomXml: XmlDocument,
+  projects: ProjectGraphProjectNode[]
+) {
   const dependenciesXml = pomXml.childNamed('dependencies');
   if (dependenciesXml === undefined) {
     return [];
   }
 
-  const allDependencies = dependenciesXml
+  const dependencies = dependenciesXml
     .childrenNamed('dependency')
     .map((dependencyXmlElement) => {
       return dependencyXmlElement.childNamed('artifactId').val;
     });
-  return allDependencies.filter((dependency) =>
-    projectNames.includes(dependency)
-  );
+
+  return projects.filter((project) => dependencies.includes(project.name));
+}
+
+function getModules(
+  projectAbsolutePath: string,
+  pomXml: XmlDocument,
+  projects: ProjectGraphProjectNode[]
+) {
+  const modulesXml = pomXml.childNamed('modules');
+  if (modulesXml === undefined) {
+    return [];
+  }
+
+  const modules = modulesXml.childrenNamed('module').map((moduleXmlElement) => {
+    const moduleRoot = path.join(projectAbsolutePath, moduleXmlElement.val);
+    const modulePomXmlPath = join(moduleRoot, 'pom.xml');
+    const modulePomXmlContent = readXml(modulePomXmlPath);
+    const moduleProjectName = modulePomXmlContent.childNamed('artifactId').val;
+    return moduleProjectName;
+  });
+
+  return projects.filter((project) => modules.includes(project.name));
 }
