@@ -106,7 +106,7 @@ export default async function (
       build: {
         executor: '@jnxplus/nx-boot-maven:run-task',
         options: {
-          task: '-no-transfer-progress clean install -N',
+          task: 'install',
         },
       },
     },
