@@ -47,6 +47,5 @@ jobs:
         run: npm run e2e nx-boot-maven-e2e
         env:
           NX_VERBOSE_LOGGING: 'true'
-          NX_E2E_SKIP_BUILD_CLEANUP: 'true'
           NX_CACHE_DIRECTORY: ${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.java }}
           GITHUB_ACTIONS: 'true'
