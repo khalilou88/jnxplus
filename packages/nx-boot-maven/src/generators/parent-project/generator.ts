@@ -104,7 +104,10 @@ export default async function (
     projectType: normalizedOptions.projectType,
     targets: {
       build: {
-        executor: 'nx:noop',
+        executor: '@jnxplus/nx-boot-maven:run-task',
+        options: {
+          task: 'install',
+        },
       },
     },
     tags: normalizedOptions.parsedTags,

@@ -17,6 +17,7 @@ export function processProjectGraph(
   context: ProjectGraphProcessorContext
 ): ProjectGraph {
   const builder = new ProjectGraphBuilder(graph);
+  const projects = getManagedProjects(builder.graph.nodes);
 
   const hasher = new Hasher(graph, context.nxJsonConfiguration, {});
 
@@ -34,7 +35,7 @@ export function processProjectGraph(
         build: {
           executor: '@jnxplus/nx-boot-maven:run-task',
           options: {
-            task: '-no-transfer-progress clean install -N',
+            task: 'install -N',
           },
         },
         'run-task': {
@@ -49,8 +50,6 @@ export function processProjectGraph(
       ],
     },
   });
-
-  const projects = getManagedProjects(builder.graph.nodes);
 
   const parentPomModules = getModules(
     workspaceRoot,
