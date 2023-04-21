@@ -259,6 +259,14 @@ describe('nx-quarkus-gradle e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+
     const process = await runNxCommandUntil(
       `serve ${appName} --args="-Dquarkus-profile=prod"`,
       (output) => output.includes(`Listening on: http://localhost:8080`)
