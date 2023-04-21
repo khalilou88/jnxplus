@@ -18,6 +18,8 @@
     <quarkus.platform.version><%= quarkusVersion %></quarkus.platform.version>
     <skipITs>true</skipITs>
     <surefire-plugin.version>3.0.0-M7</surefire-plugin.version>
+    <checkstyle.version><%= checkstyleVersion %></kotlin.checkstyle>
+    <ktlint.version><%= ktlintVersion %></ktlint.version>
   </properties>
 
   <modules>

@@ -7,7 +7,11 @@ import {
   updateJson,
 } from '@nrwl/devkit';
 import * as path from 'path';
-import { kotlinVersion } from '../../utils/versions';
+import {
+  kotlinVersion,
+  checkstyleVersion,
+  ktlintVersion,
+} from '../../utils/versions';
 import { NxQuarkusMavenGeneratorSchema } from './schema';
 import { quarkusVersion } from '../../utils/versions';
 
@@ -15,6 +19,8 @@ interface NormalizedSchema extends NxQuarkusMavenGeneratorSchema {
   dot: string;
   kotlinVersion: string;
   quarkusVersion: string;
+  checkstyleVersion: string;
+  ktlintVersion: string;
 }
 
 function normalizeOptions(
@@ -28,6 +34,8 @@ function normalizeOptions(
     dot,
     kotlinVersion,
     quarkusVersion,
+    checkstyleVersion,
+    ktlintVersion,
   };
 }
 
