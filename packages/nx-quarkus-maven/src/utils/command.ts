@@ -3,7 +3,6 @@ import axios from 'axios';
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
-import { resolve } from 'path';
 import * as stream from 'stream';
 import { promisify } from 'util';
 import { checkstyleVersion, ktlintVersion } from './versions';
@@ -50,14 +49,6 @@ export function getProjectSourceRoot(context: ExecutorContext) {
 
 export function normalizeName(name: string) {
   return name.replace(/[^0-9a-zA-Z]/g, '-');
-}
-
-export function getDependencyRoot(dependency) {
-  try {
-    return resolve(require.resolve(dependency), '../..');
-  } catch (error) {
-    return `./node_modules/${dependency}`;
-  }
 }
 
 const finished = promisify(stream.finished);
