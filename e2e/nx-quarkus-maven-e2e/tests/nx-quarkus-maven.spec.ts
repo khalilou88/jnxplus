@@ -118,9 +118,7 @@ describe('nx-quarkus-maven e2e', () => {
     expect(pomXml.includes('org.acme')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
-    const buildResult = await runNxCommandAsync(
-      `build ${appName} --mvnBuildCommand="package"`
-    );
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
     expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
@@ -132,6 +130,8 @@ describe('nx-quarkus-maven e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
+    //build-image preparation
+    await runNxCommandAsync(`build ${appName} --mvnBuildCommand="package"`);
     if (!isWin && !isMacOs) {
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
@@ -265,7 +265,7 @@ describe('nx-quarkus-maven e2e', () => {
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(
-      `build ${appName} --mvnArgs="--no-transfer-progress" --mvnBuildCommand="package"`
+      `build ${appName} --mvnArgs="--no-transfer-progress"`
     );
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
@@ -277,6 +277,8 @@ describe('nx-quarkus-maven e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
+    //build-image preparation
+    await runNxCommandAsync(`build ${appName} --mvnBuildCommand="package"`);
     if (!isWin && !isMacOs) {
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
