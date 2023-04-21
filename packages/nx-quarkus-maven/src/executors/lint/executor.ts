@@ -1,10 +1,14 @@
-import { ExecutorContext, logger } from '@nrwl/devkit';
+import { ExecutorContext, logger, workspaceRoot } from '@nrwl/devkit';
+import * as fs from 'fs';
+import * as path from 'path';
 import {
-  getDependencyRoot,
+  downloadFile,
   getProjectSourceRoot,
   runCommand,
 } from '../../utils/command';
 import { LintExecutorSchema } from './schema';
+
+import { checkstyleVersion, ktlintVersion } from '../../utils/versions';
 
 export default async function runExecutor(
   options: LintExecutorSchema,
@@ -13,26 +17,68 @@ export default async function runExecutor(
   logger.info(`Executor ran for Lint: ${JSON.stringify(options)}`);
   let command: string;
   const projectSourceRoot = getProjectSourceRoot(context);
-  const checkstyleRoot = getDependencyRoot('@jnxplus/checkstyle');
-  const pmdRoot = getDependencyRoot('@jnxplus/pmd');
-  const ktlintRoot = getDependencyRoot('@jnxplus/ktlint');
 
   if (options.linter === 'checkstyle') {
-    command = `java -jar ${checkstyleRoot}/checkstyle.jar -c ./tools/linters/checkstyle.xml ${projectSourceRoot}`;
+    //TODO get checkstyleVersion from root parent pom
+    const checkstyleJarName = `checkstyle-${checkstyleVersion}-all.jar`;
+    const downloadUrl = `https://github.com/checkstyle/checkstyle/releases/download/checkstyle-${checkstyleVersion}/${checkstyleJarName}`;
+
+    const outputDirectory = path.join(
+      workspaceRoot,
+      'node_modules',
+      '@jnxplus',
+      'tools',
+      'linters',
+      'checkstyle'
+    );
+
+    if (!fs.existsSync(outputDirectory)) {
+      fs.mkdirSync(outputDirectory, { recursive: true });
+    }
+
+    const checkstyleJarAbsolutePath = path.join(
+      outputDirectory,
+      checkstyleJarName
+    );
+
+    await downloadFile(downloadUrl, checkstyleJarAbsolutePath);
+
+    command = `java -jar ${checkstyleJarAbsolutePath} -c ./tools/linters/checkstyle.xml ${projectSourceRoot}`;
   }
 
   if (options.linter === 'pmd') {
-    command = `java -cp ${pmdRoot}/lib/*${getClassPathDelimiter()}. net.sourceforge.pmd.PMD -R ./tools/linters/pmd.xml -d ${projectSourceRoot}`;
+    command = `${getPmdExecutable()} check -f text -R ./tools/linters/pmd.xml -d ${projectSourceRoot}`;
   }
 
   if (options.linter === 'ktlint') {
-    command = `java --add-opens java.base/java.lang=ALL-UNNAMED -jar ${ktlintRoot}/ktlint "${projectSourceRoot}/**/*.kt"`;
+    //TODO get ktlint version from root parent pom
+
+    const url = `https://github.com/pinterest/ktlint/releases/download/${ktlintVersion}/ktlint`;
+
+    const outputDirectory = path.join(
+      workspaceRoot,
+      'node_modules',
+      '@jnxplus',
+      'tools',
+      'linters',
+      'ktlint'
+    );
+
+    if (!fs.existsSync(outputDirectory)) {
+      fs.mkdirSync(outputDirectory, { recursive: true });
+    }
+
+    const ktlintAbsolutePath = path.join(outputDirectory, 'ktlint');
+
+    await downloadFile(url, ktlintAbsolutePath);
+
+    command = `java --add-opens java.base/java.lang=ALL-UNNAMED -jar ${ktlintAbsolutePath} "${projectSourceRoot}/**/*.kt"`;
   }
 
   return runCommand(command);
 }
 
-function getClassPathDelimiter() {
+function getPmdExecutable() {
   const isWin = process.platform === 'win32';
-  return isWin ? ';' : ':';
+  return isWin ? 'pmd.bat' : 'pmd';
 }

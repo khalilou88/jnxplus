@@ -1,6 +1,10 @@
 import { ExecutorContext, logger, workspaceRoot } from '@nrwl/devkit';
+import axios from 'axios';
 import { execSync } from 'child_process';
+import * as fs from 'fs';
 import { resolve } from 'path';
+import * as stream from 'stream';
+import { promisify } from 'util';
 
 export async function waitForever() {
   return new Promise(() => {
@@ -51,4 +55,20 @@ export function getDependencyRoot(dependency) {
   } catch (error) {
     return `./node_modules/${dependency}`;
   }
+}
+
+const finished = promisify(stream.finished);
+export async function downloadFile(
+  fileUrl: string,
+  outputLocationPath: string
+): Promise<any> {
+  const writer = fs.createWriteStream(outputLocationPath);
+  return axios({
+    method: 'get',
+    url: fileUrl,
+    responseType: 'stream',
+  }).then((response) => {
+    response.data.pipe(writer);
+    return finished(writer); //this is a Promise
+  });
 }

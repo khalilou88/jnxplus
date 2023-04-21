@@ -99,7 +99,6 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('should migrate', async () => {
-    await runNxCommandAsync(`generate @jnxplus/nx-quarkus-maven:init`);
     await runNxCommandAsync(`generate @jnxplus/nx-quarkus-maven:migrate`);
   }, 1200000);
 
