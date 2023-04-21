@@ -41,17 +41,8 @@ describe('nx-quarkus-maven e2e', () => {
       'node_modules/prettier-plugin-java'
     );
     patchPackageJsonForPlugin(
-      '@jnxplus/checkstyle',
-      'node_modules/@jnxplus/checkstyle'
-    );
-    patchPackageJsonForPlugin(
       '@prettier/plugin-xml',
       'node_modules/@prettier/plugin-xml'
-    );
-    patchPackageJsonForPlugin('@jnxplus/pmd', 'node_modules/@jnxplus/pmd');
-    patchPackageJsonForPlugin(
-      '@jnxplus/ktlint',
-      'node_modules/@jnxplus/ktlint'
     );
     runPackageManagerInstall();
 
@@ -139,6 +130,13 @@ describe('nx-quarkus-maven e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
+    if (!isWin && !isMacOs) {
+      const buildImageResult = await runNxCommandAsync(
+        `build-image ${appName}`
+      );
+      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
+    }
+
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
@@ -183,7 +181,6 @@ describe('nx-quarkus-maven e2e', () => {
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
 
-    //TODO remove war option
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId org.jnxplus --projectVersion 1.2.3 --configFormat .yml`
     );
@@ -226,9 +223,8 @@ describe('nx-quarkus-maven e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    //TODO add args
     const process = await runNxCommandUntil(
-      `serve ${appName} --args=""`,
+      `serve ${appName} --args="-Dquarkus-profile=prod"`,
       (output) => output.includes(`Listening on: http://localhost:8080`)
     );
 
@@ -279,6 +275,13 @@ describe('nx-quarkus-maven e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
+    if (!isWin && !isMacOs) {
+      const buildImageResult = await runNxCommandAsync(
+        `build-image ${appName}`
+      );
+      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
+    }
+
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
@@ -306,7 +309,6 @@ describe('nx-quarkus-maven e2e', () => {
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
 
-    //TODO remove war
     await runNxCommandAsync(
       `g @jnxplus/nx-quarkus-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId org.jnxplus --v 1.2.3 --configFormat .yml`
     );
@@ -347,9 +349,8 @@ describe('nx-quarkus-maven e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    //TODO add args
     const process = await runNxCommandUntil(
-      `serve ${appName} --args=""`,
+      `serve ${appName} --args="-Dquarkus-profile=prod"`,
       (output) => output.includes(`Listening on: http://localhost:8080`)
     );
 
@@ -367,7 +368,6 @@ describe('nx-quarkus-maven e2e', () => {
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
 
-    //TODO remove war
     await runNxCommandAsync(
       `g @jnxplus/nx-quarkus-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId org.jnxplus --packageNameType short --v 1.2.3 --configFormat .yml`
     );
@@ -408,9 +408,8 @@ describe('nx-quarkus-maven e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    //TODO add args
     const process = await runNxCommandUntil(
-      `serve ${appName} --args=""`,
+      `serve ${appName} --args="-Dquarkus-profile=prod"`,
       (output) => output.includes(`Listening on: http://localhost:8080`)
     );
 
