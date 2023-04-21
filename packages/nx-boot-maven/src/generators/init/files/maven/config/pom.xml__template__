@@ -18,7 +18,7 @@
     <properties>
         <java.version><%= javaVersion %></java.version>
         <kotlin.version><%= kotlinVersion %></kotlin.version>
-        <checkstyle.version><%= checkstyleVersion %></kotlin.checkstyle>
+        <checkstyle.version><%= checkstyleVersion %></checkstyle.version>
         <ktlint.version><%= ktlintVersion %></ktlint.version>
     </properties>
 
