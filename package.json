@@ -17,9 +17,6 @@
   },
   "private": false,
   "devDependencies": {
-    "@jnxplus/checkstyle": "^9.3.0",
-    "@jnxplus/ktlint": "^0.43.2",
-    "@jnxplus/pmd": "^6.42.0",
     "@nrwl/devkit": "15.9.2",
     "@nrwl/eslint-plugin-nx": "15.9.2",
     "@nrwl/jest": "15.9.2",
