@@ -16,7 +16,7 @@ export default async function runExecutor(
   let command = `${getExecutable()} ${getProjectPath(context)}:quarkusDev`;
 
   if (options.args) {
-    command += ` --args='${options.args}'`;
+    command += ` ${options.args}`;
   }
 
   const result = runCommand(command);
