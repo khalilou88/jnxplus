@@ -10,6 +10,8 @@ import {
   quarkusPlatformVersion,
   kotlinJvmVersion,
   kotlinPluginAllopenVersion,
+  checkstyleVersion,
+  ktlintVersion,
 } from '../../utils/versions';
 import { NxQuarkusGradleGeneratorSchema } from './schema';
 
@@ -18,6 +20,8 @@ interface NormalizedSchema extends NxQuarkusGradleGeneratorSchema {
   kotlinJvmVersion: string;
   kotlinPluginAllopenVersion: string;
   kotlinExtension: string;
+  checkstyleVersion: string;
+  ktlintVersion: string;
 }
 
 function normalizeOptions(
@@ -32,6 +36,8 @@ function normalizeOptions(
     quarkusPlatformVersion,
     kotlinJvmVersion,
     kotlinPluginAllopenVersion,
+    checkstyleVersion,
+    ktlintVersion,
   };
 }
 

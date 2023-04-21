@@ -41,15 +41,6 @@ describe('nx-boot-gradle e2e', () => {
       'prettier-plugin-java',
       'node_modules/prettier-plugin-java'
     );
-    patchPackageJsonForPlugin(
-      '@jnxplus/checkstyle',
-      'node_modules/@jnxplus/checkstyle'
-    );
-    patchPackageJsonForPlugin('@jnxplus/pmd', 'node_modules/@jnxplus/pmd');
-    patchPackageJsonForPlugin(
-      '@jnxplus/ktlint',
-      'node_modules/@jnxplus/ktlint'
-    );
     runPackageManagerInstall();
 
     if (isCI) {
