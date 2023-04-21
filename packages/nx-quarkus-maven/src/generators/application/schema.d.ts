@@ -9,4 +9,5 @@ export interface NxQuarkusMavenAppGeneratorSchema {
   packageNameType: PackageNameType;
   projectVersion: string;
   configFormat: '.properties' | '.yml';
+  parentProject: string;
 }

@@ -5,6 +5,7 @@ import {
   getWorkspaceLayout,
   names,
   offsetFromRoot,
+  readProjectConfiguration,
   Tree,
 } from '@nrwl/devkit';
 import * as path from 'path';
@@ -28,6 +29,7 @@ interface NormalizedSchema extends NxQuarkusMavenAppGeneratorSchema {
   parentProjectVersion: string;
   relativePath: string;
   quarkusVersion: string;
+  parentProjectRoot: string;
 }
 
 function normalizeOptions(
@@ -64,11 +66,17 @@ function normalizeOptions(
 
   const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
 
+  const parentProjectRoot = options.parentProject
+    ? readProjectConfiguration(tree, options.parentProject).root
+    : '';
+
+  const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
+
+  const pomXmlContent = readXmlTree(tree, parentProjectPomPath);
   const relativePath = path
-    .relative(projectRoot, tree.root)
+    .relative(projectRoot, parentProjectRoot)
     .replace(new RegExp(/\\/, 'g'), '/');
 
-  const pomXmlContent = readXmlTree(tree, 'pom.xml');
   const parentGroupId = pomXmlContent.childNamed('groupId').val;
   const parentProjectName = pomXmlContent.childNamed('artifactId').val;
   const parentProjectVersion = pomXmlContent.childNamed('version').val;
@@ -92,6 +100,7 @@ function normalizeOptions(
     parentProjectVersion,
     relativePath,
     quarkusVersion,
+    parentProjectRoot,
   };
 }
 
@@ -225,9 +234,28 @@ export default async function (
 }
 
 function addProjectToParentPomXml(tree: Tree, options: NormalizedSchema) {
-  const filePath = `pom.xml`;
-  const xmldoc = readXmlTree(tree, filePath);
-  const fragment = new XmlDocument(`<module>${options.projectRoot}</module>`);
-  xmldoc.childNamed('modules').children.push(fragment);
-  tree.write(filePath, xmlToString(xmldoc));
+  const parentProjectPomPath = path.join(options.parentProjectRoot, 'pom.xml');
+  const xmldoc = readXmlTree(tree, parentProjectPomPath);
+
+  const relativePath = path
+    .relative(options.parentProjectRoot, options.projectRoot)
+    .replace(new RegExp(/\\/, 'g'), '/');
+
+  const fragment = new XmlDocument(`<module>${relativePath}</module>`);
+
+  let modules = xmldoc.childNamed('modules');
+
+  if (modules === undefined) {
+    xmldoc.children.push(
+      new XmlDocument(`
+    <modules>
+    </modules>
+  `)
+    );
+    modules = xmldoc.childNamed('modules');
+  }
+
+  modules.children.push(fragment);
+
+  tree.write(parentProjectPomPath, xmlToString(xmldoc));
 }

@@ -75,6 +75,11 @@
       "alias": "v",
       "x-prompt": "What project version would you like to use?"
     },
+    "parent-project": {
+      "type": "string",
+      "description": "Parent project artifactId",
+      "x-prompt": "ArtifactId of the parent project or leave it blank for the default one"
+    },
     "projects": {
       "type": "string",
       "description": "Projects where the library should be added (comma delimited)"
