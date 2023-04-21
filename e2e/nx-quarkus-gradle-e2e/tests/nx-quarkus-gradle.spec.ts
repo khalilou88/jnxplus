@@ -260,7 +260,7 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(formatResult.stdout).toContain('');
 
     const process = await runNxCommandUntil(
-      `serve ${appName} --args=""`,
+      `serve ${appName} --args="-Dquarkus-profile=prod"`,
       (output) => output.includes(`Listening on: http://localhost:8080`)
     );
 
@@ -322,9 +322,8 @@ describe('nx-quarkus-gradle e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    //TODO use of args
     const process = await runNxCommandUntil(
-      `serve ${appName} --args=""`,
+      `serve ${appName} --args="-Dquarkus-profile=prod"`,
       (output) => output.includes(`Listening on: http://localhost:8080`)
     );
 
@@ -453,9 +452,8 @@ describe('nx-quarkus-gradle e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    //TODO --args is empty
     const process = await runNxCommandUntil(
-      `serve ${appName} --args=""`,
+      `serve ${appName} --args="-Dquarkus-profile=prod"`,
       (output) => output.includes(`Listening on: http://localhost:8080`)
     );
 
