@@ -1,0 +1,52 @@
+name: Check nx-quarkus-maven
+on:
+  workflow_dispatch:
+jobs:
+  Run_checks:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node_version: ['18']
+        java: ['17']
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Set up node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node_version }}
+
+      - name: Use cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ matrix.node_version }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.java }}
+
+      - name: Install dependencies
+        run: npm ci
+
+
+      - name: Unit tests
+        run: npm run test nx-quarkus-maven
+
+      - name: Build
+        run: npm run build nx-quarkus-maven
+
+      - name: E2E tests
+        run: npm run e2e nx-quarkus-maven-e2e
+        env:
+          NX_VERBOSE_LOGGING: 'true'
+          NX_E2E_SKIP_BUILD_CLEANUP: 'true'
+          NX_CACHE_DIRECTORY: ${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.java }}
+          GITHUB_ACTIONS: 'true'
