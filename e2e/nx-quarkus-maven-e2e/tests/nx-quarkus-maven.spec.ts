@@ -824,23 +824,23 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('should generate java apps that use a parent project', async () => {
-    const appsParentproject = uniq('apps-parent-project-');
+    const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${appsParentproject}`
+      `generate @jnxplus/nx-quarkus-maven:parent-project ${appsParentProject}`
     );
 
     const randomName = uniq('boot-maven-app-');
     const appDir = 'dir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${randomName} --parent-project ${appsParentproject} --directory ${appDir}`
+      `generate @jnxplus/nx-quarkus-maven:application ${randomName} --parent-project ${appsParentProject} --directory ${appDir}`
     );
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const secondParentproject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentproject} --parent-project ${appsParentproject}`
+      `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentproject} --parent-project ${appsParentProject}`
     );
 
     const secondAppName = uniq('boot-maven-app-');
@@ -868,23 +868,23 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('should generate kotlin apps that use a parent project', async () => {
-    const appsParentproject = uniq('apps-parent-project-');
+    const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${appsParentproject}`
+      `generate @jnxplus/nx-quarkus-maven:parent-project ${appsParentProject}`
     );
 
     const randomName = uniq('boot-maven-app-');
     const appDir = 'dir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${randomName} --parent-project ${appsParentproject} --directory ${appDir} --language kotlin`
+      `generate @jnxplus/nx-quarkus-maven:application ${randomName} --parent-project ${appsParentProject} --directory ${appDir} --language kotlin`
     );
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const secondParentproject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentproject} --parent-project ${appsParentproject}`
+      `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentproject} --parent-project ${appsParentProject}`
     );
 
     const secondAppName = uniq('boot-maven-app-');
@@ -912,16 +912,16 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('should generate java libs that use a parent project', async () => {
-    const libsParentproject = uniq('libs-parent-project-');
+    const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${libsParentproject} --projectType library`
+      `generate @jnxplus/nx-quarkus-maven:parent-project ${libsParentProject} --projectType library`
     );
 
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${libName} --parent-project ${libsParentproject}`
+      `generate @jnxplus/nx-quarkus-maven:library ${libName} --parent-project ${libsParentProject}`
     );
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
@@ -930,7 +930,7 @@ describe('nx-quarkus-maven e2e', () => {
     const secondParentproject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentproject} --projectType library  --parent-project ${libsParentproject}`
+      `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentproject} --projectType library  --parent-project ${libsParentProject}`
     );
 
     const randomName = uniq('boot-maven-lib-');
@@ -962,16 +962,16 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('should generate kotlin libs that use a parent project', async () => {
-    const libsParentproject = uniq('libs-parent-project-');
+    const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${libsParentproject} --projectType library`
+      `generate @jnxplus/nx-quarkus-maven:parent-project ${libsParentProject} --projectType library`
     );
 
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${libName} --parent-project ${libsParentproject} --language kotlin`
+      `generate @jnxplus/nx-quarkus-maven:library ${libName} --parent-project ${libsParentProject} --language kotlin`
     );
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
@@ -980,7 +980,7 @@ describe('nx-quarkus-maven e2e', () => {
     const secondParentproject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentproject} --projectType library  --parent-project ${libsParentproject}`
+      `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentproject} --projectType library  --parent-project ${libsParentProject}`
     );
 
     const randomName = uniq('boot-maven-lib-');
