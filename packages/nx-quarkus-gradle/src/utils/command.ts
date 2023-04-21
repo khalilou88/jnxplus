@@ -1,6 +1,11 @@
 import { ExecutorContext, logger, workspaceRoot } from '@nrwl/devkit';
+import axios from 'axios';
 import { execSync } from 'child_process';
-import { resolve } from 'path';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as stream from 'stream';
+import { promisify } from 'util';
+import { checkstyleVersion, ktlintVersion } from './versions';
 
 export async function waitForever() {
   return new Promise(() => {
@@ -50,10 +55,107 @@ export function normalizeName(name: string) {
   return name.replace(/[^0-9a-zA-Z]/g, '-');
 }
 
-export function getDependencyRoot(dependency) {
-  try {
-    return resolve(require.resolve(dependency), '../..');
-  } catch (error) {
-    return `./node_modules/${dependency}`;
+const finished = promisify(stream.finished);
+export async function downloadFile(
+  fileUrl: string,
+  outputLocationPath: string
+): Promise<any> {
+  const writer = fs.createWriteStream(outputLocationPath);
+  return axios({
+    method: 'get',
+    url: fileUrl,
+    responseType: 'stream',
+  }).then((response) => {
+    response.data.pipe(writer);
+    return finished(writer); //this is a Promise
+  });
+}
+
+function getktlintVersion(gradlePropertiesContent: string) {
+  const regexp = /ktlintVersion=(.*)/g;
+  const matches = (gradlePropertiesContent.match(regexp) || []).map((e) =>
+    e.replace(regexp, '$1')
+  );
+  return matches[0];
+}
+
+export async function getKtlintAbsolutePath() {
+  const gradlePropertiesPath = path.join(workspaceRoot, 'gradle.properties');
+  const gradlePropertiesContent = fs.readFileSync(
+    gradlePropertiesPath,
+    'utf-8'
+  );
+  const versionFromFile = getktlintVersion(gradlePropertiesContent);
+
+  const version =
+    versionFromFile === undefined ? ktlintVersion : versionFromFile;
+
+  const downloadUrl = `https://github.com/pinterest/ktlint/releases/download/${version}/ktlint`;
+
+  const outputDirectory = path.join(
+    workspaceRoot,
+    'node_modules',
+    '@jnxplus',
+    'tools',
+    'linters',
+    'ktlint'
+  );
+
+  if (!fs.existsSync(outputDirectory)) {
+    fs.mkdirSync(outputDirectory, { recursive: true });
   }
+
+  const ktlintAbsolutePath = path.join(outputDirectory, 'ktlint');
+
+  await downloadFile(downloadUrl, ktlintAbsolutePath);
+  return ktlintAbsolutePath;
+}
+
+function getCheckstyleVersion(gradlePropertiesContent: string) {
+  const regexp = /checkstyleVersion=(.*)/g;
+  const matches = (gradlePropertiesContent.match(regexp) || []).map((e) =>
+    e.replace(regexp, '$1')
+  );
+  return matches[0];
+}
+
+export async function getCheckstyleJarAbsolutePath() {
+  const gradlePropertiesPath = path.join(workspaceRoot, 'gradle.properties');
+  const gradlePropertiesContent = fs.readFileSync(
+    gradlePropertiesPath,
+    'utf-8'
+  );
+  const versionFromFile = getCheckstyleVersion(gradlePropertiesContent);
+
+  const version =
+    versionFromFile === undefined ? checkstyleVersion : versionFromFile;
+
+  const checkstyleJarName = `checkstyle-${version}-all.jar`;
+  const downloadUrl = `https://github.com/checkstyle/checkstyle/releases/download/checkstyle-${version}/${checkstyleJarName}`;
+
+  const outputDirectory = path.join(
+    workspaceRoot,
+    'node_modules',
+    '@jnxplus',
+    'tools',
+    'linters',
+    'checkstyle'
+  );
+
+  if (!fs.existsSync(outputDirectory)) {
+    fs.mkdirSync(outputDirectory, { recursive: true });
+  }
+
+  const checkstyleJarAbsolutePath = path.join(
+    outputDirectory,
+    checkstyleJarName
+  );
+
+  await downloadFile(downloadUrl, checkstyleJarAbsolutePath);
+  return checkstyleJarAbsolutePath;
+}
+
+export function getPmdExecutable() {
+  const isWin = process.platform === 'win32';
+  return isWin ? 'pmd.bat' : 'pmd';
 }

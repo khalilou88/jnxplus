@@ -25,10 +25,7 @@
     "gradle multi-project build"
   ],
   "dependencies": {
-    "prettier-plugin-java": "^1.6.2",
-    "@jnxplus/checkstyle": "~9.3.0",
-    "@jnxplus/pmd": "~6.42.0",
-    "@jnxplus/ktlint": "~0.43.2"
+    "prettier-plugin-java": "^1.6.2"
   },
   "peerDependencies": {
     "@nrwl/devkit": ">=14.0.0",

@@ -53,6 +53,6 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["checkstyle", "pmd", "ktlint"],
+  "implicitDependencies": [],
   "name": "nx-quarkus-gradle"
 }
