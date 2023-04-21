@@ -6,12 +6,14 @@ import {
   names,
   offsetFromRoot,
   Tree,
+  workspaceRoot,
 } from '@nrwl/devkit';
 import * as path from 'path';
-import { normalizeName } from '../../utils/command';
+import { getQuarkusPlatformVersion, normalizeName } from '../../utils/command';
 import { LinterType } from '../../utils/types';
 import { NxQuarkusGradleAppGeneratorSchema } from './schema';
 import { quarkusPlatformVersion } from '../../utils/versions';
+import * as fs from 'fs';
 
 interface NormalizedSchema extends NxQuarkusGradleAppGeneratorSchema {
   projectName: string;
@@ -22,7 +24,7 @@ interface NormalizedSchema extends NxQuarkusGradleAppGeneratorSchema {
   packageName: string;
   packageDirectory: string;
   linter?: LinterType;
-  quarkusPlatformVersion;
+  quarkusVersion;
 }
 
 function normalizeOptions(
@@ -59,8 +61,15 @@ function normalizeOptions(
 
   const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
 
-  //TODO read from properties
-  // const quarkusPlatformVersion = quarkusPlatformVersion;
+  const gradlePropertiesPath = path.join(workspaceRoot, 'gradle.properties');
+  const gradlePropertiesContent = fs.readFileSync(
+    gradlePropertiesPath,
+    'utf-8'
+  );
+  let quarkusVersion = getQuarkusPlatformVersion(gradlePropertiesContent);
+  if (quarkusVersion === undefined) {
+    quarkusVersion = quarkusPlatformVersion;
+  }
 
   return {
     ...options,
@@ -72,7 +81,7 @@ function normalizeOptions(
     packageName,
     packageDirectory,
     linter,
-    quarkusPlatformVersion,
+    quarkusVersion,
   };
 }
 
