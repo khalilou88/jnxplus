@@ -13,7 +13,26 @@
     },
     "mvnBuildCommand": {
       "type": "string",
-      "description": "Maven build command to use : compile, package or install"
+      "description": "Maven build command to use : compile, package or install",
+      "default": "compile",
+      "x-prompt": {
+        "message": "Which maven build command would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "compile",
+            "label": "Compile"
+          },
+          {
+            "value": "package",
+            "label": "Package"
+          },
+          {
+            "value": "install",
+            "label": "Install"
+          }
+        ]
+      }
     },
     "mvnBuildArgs": {
       "type": "string",
