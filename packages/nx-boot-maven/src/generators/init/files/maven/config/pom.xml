@@ -18,6 +18,8 @@
     <properties>
         <java.version><%= javaVersion %></java.version>
         <kotlin.version><%= kotlinVersion %></kotlin.version>
+        <checkstyle.version><%= checkstyleVersion %></kotlin.checkstyle>
+        <ktlint.version><%= ktlintVersion %></ktlint.version>
     </properties>
 
     <modules>
