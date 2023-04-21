@@ -35,5 +35,3 @@ jobs:
       - uses: bahmutov/npm-install@v1.8.18
 
       - run: npm run nx run-many --all -- --target=smoke
-        env:
-          MAVEN_WRAPPER_NO_PROGRESS: 'true'

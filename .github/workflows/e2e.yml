@@ -1,21 +1,17 @@
-name: CI
+name: Nightly e2e Tests
+
 on:
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - '**.md'
-  pull_request:
-    branches:
-      - main
-    paths-ignore:
-      - '**.md'
+  # Trigger manually or on schedule
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
 jobs:
   Run_checks:
     strategy:
       matrix:
-        os: [ubuntu-latest]
-        node_version: ['18']
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        node_version: ['16', '18']
         java: ['17']
       fail-fast: false
     runs-on: ${{ matrix.os }}
