@@ -24,6 +24,7 @@ interface NormalizedSchema extends NxQuarkusMavenParentProjectGeneratorSchema {
   parentProjectVersion: string;
   relativePath: string;
   parentProjectRoot: string;
+  parentProjectRoot: string;
 }
 
 function normalizeOptions(
