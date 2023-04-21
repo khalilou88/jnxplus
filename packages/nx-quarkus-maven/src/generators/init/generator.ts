@@ -1,19 +1,19 @@
 import {
+  Tree,
   formatFiles,
   generateFiles,
   offsetFromRoot,
-  Tree,
-  writeJson,
   updateJson,
+  writeJson,
 } from '@nrwl/devkit';
 import * as path from 'path';
 import {
-  kotlinVersion,
   checkstyleVersion,
+  kotlinVersion,
   ktlintVersion,
+  quarkusVersion,
 } from '../../utils/versions';
 import { NxQuarkusMavenGeneratorSchema } from './schema';
-import { quarkusVersion } from '../../utils/versions';
 
 interface NormalizedSchema extends NxQuarkusMavenGeneratorSchema {
   dot: string;
