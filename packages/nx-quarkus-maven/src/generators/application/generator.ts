@@ -81,7 +81,8 @@ function normalizeOptions(
   const parentProjectName = pomXmlContent.childNamed('artifactId').val;
   const parentProjectVersion = pomXmlContent.childNamed('version').val;
 
-  const quarkusVersion = pomXmlContent
+  const rootPomXmlContent = readXmlTree(tree, 'pom.xml');
+  const quarkusVersion = rootPomXmlContent
     .childNamed('properties')
     .childNamed('quarkus.platform.version').val;
 
