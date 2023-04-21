@@ -71,14 +71,6 @@ export async function downloadFile(
   });
 }
 
-function getktlintVersion(gradlePropertiesContent: string) {
-  const regexp = /ktlintVersion=(.*)/g;
-  const matches = (gradlePropertiesContent.match(regexp) || []).map((e) =>
-    e.replace(regexp, '$1')
-  );
-  return matches[0];
-}
-
 export async function getKtlintAbsolutePath() {
   const gradlePropertiesPath = path.join(workspaceRoot, 'gradle.properties');
   const gradlePropertiesContent = fs.readFileSync(
@@ -111,8 +103,24 @@ export async function getKtlintAbsolutePath() {
   return ktlintAbsolutePath;
 }
 
+export function getQuarkusPlatformVersion(gradlePropertiesContent: string) {
+  const regexp = /quarkusPlatformVersion=(.*)/g;
+  const matches = (gradlePropertiesContent.match(regexp) || []).map((e) =>
+    e.replace(regexp, '$1')
+  );
+  return matches[0];
+}
+
 function getCheckstyleVersion(gradlePropertiesContent: string) {
   const regexp = /checkstyleVersion=(.*)/g;
+  const matches = (gradlePropertiesContent.match(regexp) || []).map((e) =>
+    e.replace(regexp, '$1')
+  );
+  return matches[0];
+}
+
+function getktlintVersion(gradlePropertiesContent: string) {
+  const regexp = /ktlintVersion=(.*)/g;
   const matches = (gradlePropertiesContent.match(regexp) || []).map((e) =>
     e.replace(regexp, '$1')
   );
