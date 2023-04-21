@@ -93,6 +93,11 @@
           }
         ]
       }
+    },
+    "parent-project": {
+      "type": "string",
+      "description": "Parent project artifactId",
+      "x-prompt": "ArtifactId of the parent project or leave it blank for the default one"
     }
   },
   "required": ["name", "language", "groupId", "projectVersion", "configFormat"]

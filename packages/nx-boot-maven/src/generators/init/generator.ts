@@ -1,20 +1,26 @@
 import {
+  Tree,
   formatFiles,
   generateFiles,
   offsetFromRoot,
-  Tree,
-  writeJson,
   updateJson,
+  writeJson,
 } from '@nrwl/devkit';
 import * as path from 'path';
-import { kotlinVersion } from '../../utils/versions';
+import {
+  checkstyleVersion,
+  kotlinVersion,
+  ktlintVersion,
+  springBootStarterParentVersion,
+} from '../../utils/versions';
 import { NxBootMavenGeneratorSchema } from './schema';
-import { springBootStarterParentVersion } from '../../utils/versions';
 
 interface NormalizedSchema extends NxBootMavenGeneratorSchema {
   dot: string;
   kotlinVersion: string;
   springBootStarterParentVersion: string;
+  checkstyleVersion: string;
+  ktlintVersion: string;
 }
 
 function normalizeOptions(
@@ -28,6 +34,8 @@ function normalizeOptions(
     dot,
     kotlinVersion,
     springBootStarterParentVersion,
+    checkstyleVersion,
+    ktlintVersion,
   };
 }
 

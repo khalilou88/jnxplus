@@ -1,16 +1,14 @@
+import { readProjectConfiguration, Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { Tree, readProjectConfiguration } from '@nrwl/devkit';
-
 import generator from './generator';
-import { NxQuarkusMavenLibGeneratorSchema } from './schema';
+import { NxQuarkusMavenParentProjectGeneratorSchema } from './schema';
 
-describe('library generator', () => {
+describe('parent project generator', () => {
   let appTree: Tree;
-  const options: NxQuarkusMavenLibGeneratorSchema = {
+  const options: NxQuarkusMavenParentProjectGeneratorSchema = {
     name: 'test',
-    language: 'java',
+    projectType: 'application',
     groupId: 'com.example',
-    packageNameType: 'long',
     projectVersion: '0.0.1-SNAPSHOT',
     parentProject: '',
   };
