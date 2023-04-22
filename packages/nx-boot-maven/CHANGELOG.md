@@ -1,5 +1,17 @@
 # Changelog
 
+# 6.0.0 (2023-05-xx) - not yet published
+
+- Update to NX 16
+- Add parent project generator to have multi pom projects inside the workspace
+- Add skipClean option to build executor
+- Rework lint and kformat executors to remove dependencies to checkstyle, ktlint and pmd projects
+- Bug Fixes
+
+## BREAKING CHANGES
+
+- Lint executor with PMD option : to use PMD, you need to install it on your machine. Please follow this link for the instruction : https://docs.pmd-code.org/latest/pmd_userdocs_installation.html#running-pmd-via-command-line
+
 # 5.3.1 (2023-04-15)
 
 - Add 'run-task' executor to the parent project
