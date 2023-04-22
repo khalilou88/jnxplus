@@ -1,4 +1,4 @@
-name: npm publish nx-boot-gradle
+name: Publish nx-boot-gradle
 on: [workflow_dispatch]
 jobs:
   build-and-publish:
