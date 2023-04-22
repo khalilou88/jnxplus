@@ -127,6 +127,21 @@ describe('nx-quarkus-gradle e2e', () => {
 
     expect(() =>
       checkFilesExist(
+        `apps/${appName}/src/main/java/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/.gitkeep`,
+        `apps/${appName}/src/test/java/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/.gitkeep`,
+
+        `apps/${appName}/src/native-test/java/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/.gitkeep`
+      )
+    ).toThrow();
+
+    expect(() =>
+      checkFilesExist(
         `apps/${appName}/build.gradle`,
         `apps/${appName}/src/main/resources/application.properties`,
 
@@ -392,6 +407,21 @@ describe('nx-quarkus-gradle e2e', () => {
       )
     ).not.toThrow();
 
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/src/main/kotlin/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/.gitkeep`,
+        `apps/${appName}/src/test/kotlin/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/.gitkeep`,
+
+        `apps/${appName}/src/native-test/kotlin/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/.gitkeep`
+      )
+    ).toThrow();
+
     // Making sure the build.gradle file contains the good information
     const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
     expect(buildGradle.includes('org.acme')).toBeTruthy();
@@ -590,6 +620,17 @@ describe('nx-quarkus-gradle e2e', () => {
       )
     ).not.toThrow();
 
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/src/main/java/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/.gitkeep`,
+        `libs/${libName}/src/test/java/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/.gitkeep`
+      )
+    ).toThrow();
+
     // Making sure the build.gradle file contains the good information
     const buildGradle = readFile(`libs/${libName}/build.gradle`);
     expect(buildGradle.includes('org.acme')).toBeTruthy();
@@ -655,6 +696,17 @@ describe('nx-quarkus-gradle e2e', () => {
         ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`
       )
     ).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/src/main/kotlin/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/.gitkeep`,
+        `libs/${libName}/src/test/kotlin/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/.gitkeep`
+      )
+    ).toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
     const buildGradle = readFile(`libs/${libName}/build.gradle.kts`);
