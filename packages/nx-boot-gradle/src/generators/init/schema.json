@@ -52,7 +52,7 @@
     },
     "rootProjectName": {
       "type": "string",
-      "default": "boot-multi-project",
+      "default": "spring-boot-root-project",
       "x-prompt": "What rootProjectName would you like to use?",
       "pattern": "^[a-zA-Z].*$"
     }
