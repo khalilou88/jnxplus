@@ -4,6 +4,7 @@
 
 - Update to NX 16
 - Add parent project generator to have multi pom projects inside the workspace
+- Add simple name option to app and lib generators
 - Add skipClean option to build executor
 - Rework lint and kformat executors to remove dependencies to checkstyle, ktlint and pmd projects
 - Bug Fixes

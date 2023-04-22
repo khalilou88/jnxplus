@@ -25,6 +25,11 @@
       "description": "A directory where the project is placed",
       "alias": "dir"
     },
+    "simpleName": {
+      "description": "Don't include the directory in the project name",
+      "type": "boolean",
+      "default": false
+    },
     "projectType": {
       "description": "Type of the parent project",
       "type": "string",

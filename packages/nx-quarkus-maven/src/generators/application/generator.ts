@@ -37,9 +37,18 @@ function normalizeOptions(
   options: NxQuarkusMavenAppGeneratorSchema
 ): NormalizedSchema {
   const simpleProjectName = names(normalizeName(options.name)).fileName;
-  const projectName = options.directory
-    ? `${normalizeName(names(options.directory).fileName)}-${simpleProjectName}`
-    : simpleProjectName;
+
+  let projectName: string;
+  if (options.simpleName) {
+    projectName = simpleProjectName;
+  } else {
+    projectName = options.directory
+      ? `${normalizeName(
+          names(options.directory).fileName
+        )}-${simpleProjectName}`
+      : simpleProjectName;
+  }
+
   const projectDirectory = options.directory
     ? `${names(options.directory).fileName}/${simpleProjectName}`
     : simpleProjectName;

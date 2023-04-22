@@ -1047,4 +1047,143 @@ describe('nx-quarkus-gradle e2e', () => {
       target: libName,
     });
   }, 1200000);
+
+  it('should create an application with simple name', async () => {
+    const appName = uniq('quarkus-gradle-app-');
+    const appDir = 'deep/subdir';
+
+    const rootProjectName = uniq('root-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-gradle:application ${appName} --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --configFormat .yml`
+    );
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appDir}/${appName}/build.gradle`,
+        `apps/${appDir}/${appName}/src/main/resources/application.yml`,
+        `apps/${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResource.java`,
+        `apps/${appDir}/${appName}/src/test/java/com/jnxplus/deep/subdir/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
+      )
+    ).not.toThrow();
+
+    // Making sure the build.gradle file contains the good information
+    const buildGradle = readFile(`apps/${appDir}/${appName}/build.gradle`);
+    expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
+    expect(buildGradle.includes('1.2.3')).toBeTruthy();
+
+    //should add tags to project.json
+    const projectJson = readJson(`apps/${appDir}/${appName}/project.json`);
+    expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    const formatResult = await runNxCommandAsync(
+      `format:check --projects ${appName}`
+    );
+    expect(formatResult.stdout).toContain('');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: rootProjectName,
+    });
+
+    const process = await runNxCommandUntil(
+      `serve ${appName} --args="-Dquarkus-profile=prod"`,
+      (output) => output.includes(`Listening on: http://localhost:8080`)
+    );
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(8080);
+    } catch (err) {
+      expect(err).toBeFalsy();
+    }
+  }, 1200000);
+
+  it('should create a library with simple name', async () => {
+    const libName = uniq('quarkus-gradle-lib-');
+    const libDir = 'deep/subdir';
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-gradle:init --dsl kotlin`
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-gradle:library ${libName} --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
+    );
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libDir}/${libName}/build.gradle`,
+        `libs/${libDir}/${libName}/src/main/java/com/jnxplus/deep/subdir/${names(
+          libName
+        ).className.toLocaleLowerCase()}/GreetingService.java`,
+        `libs/${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
+          libName
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
+      )
+    ).not.toThrow();
+
+    // Making sure the build.gradle file contains the good information
+    const buildGradle = readFile(`libs/${libDir}/${libName}/build.gradle`);
+    expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
+    expect(buildGradle.includes('1.2.3')).toBeTruthy();
+
+    //should add tags to project.json
+    const projectJson = readJson(`libs/${libDir}/${libName}/project.json`);
+    expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    const formatResult = await runNxCommandAsync(
+      `format:check --projects ${libName}`
+    );
+    expect(formatResult.stdout).toContain('');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: 'quarkus-root-project',
+    });
+  }, 1200000);
 });
