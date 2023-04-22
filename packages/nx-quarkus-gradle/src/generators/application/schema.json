@@ -84,6 +84,11 @@
           }
         ]
       }
+    },
+    "starterCode": {
+      "description": "Starter Code",
+      "type": "boolean",
+      "default": true
     }
   },
   "required": ["name", "language", "groupId", "projectVersion", "configFormat"]
