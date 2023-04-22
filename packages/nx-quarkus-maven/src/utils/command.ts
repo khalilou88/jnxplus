@@ -55,6 +55,7 @@ const finished = promisify(stream.finished);
 export async function downloadFile(
   fileUrl: string,
   outputLocationPath: string
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
 ): Promise<any> {
   const writer = fs.createWriteStream(outputLocationPath);
   return axios({
