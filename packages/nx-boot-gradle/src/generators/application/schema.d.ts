@@ -8,6 +8,7 @@ export interface NxBootGradleAppGeneratorSchema {
   name: string;
   tags?: string;
   directory?: string;
+  simpleName?: boolean;
   language: LanguageType;
   groupId: string;
   packageNameType: PackageNameType;
