@@ -104,10 +104,9 @@
         ]
       }
     },
-    "parent-project": {
+    "parentProject": {
       "type": "string",
-      "description": "Parent project artifactId",
-      "x-prompt": "ArtifactId of the parent project or leave it blank for the default one"
+      "description": "ArtifactId of the parent project or leave it blank for the root project"
     }
   },
   "required": [
