@@ -54,17 +54,21 @@ function normalizeOptions(
 
   const appClassName = `${names(projectName).className}Application`;
 
-  const packageName2 = `${options.groupId}.${
-    options.packageNameType === 'long' && options.directory
-      ? `${names(options.directory).fileName.replace(
-          new RegExp(/\//, 'g'),
-          '.'
-        )}.${names(simpleProjectName).className.toLocaleLowerCase()}`
-      : names(simpleProjectName).className.toLocaleLowerCase()
-  }`;
-
-  //remove dash from packageName
-  const packageName = packageName2.replace(new RegExp(/-/, 'g'), '');
+  let packageName: string;
+  if (options.simplePackageName) {
+    packageName = `${options.groupId}.${names(
+      simpleProjectName
+    ).className.toLocaleLowerCase()}`.replace(new RegExp(/-/, 'g'), '');
+  } else {
+    packageName = `${options.groupId}.${
+      options.directory
+        ? `${names(options.directory).fileName.replace(
+            new RegExp(/\//, 'g'),
+            '.'
+          )}.${names(simpleProjectName).className.toLocaleLowerCase()}`
+        : names(simpleProjectName).className.toLocaleLowerCase()
+    }`.replace(new RegExp(/-/, 'g'), '');
+  }
 
   const packageDirectory = packageName.replace(new RegExp(/\./, 'g'), '/');
 

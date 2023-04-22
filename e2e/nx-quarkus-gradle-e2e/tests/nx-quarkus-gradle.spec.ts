@@ -303,7 +303,7 @@ describe('nx-quarkus-gradle e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --packageNameType short --projectVersion 1.2.3 --configFormat .yml`
+      `generate @jnxplus/nx-quarkus-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3 --configFormat .yml`
     );
 
     expect(() =>
@@ -770,7 +770,7 @@ describe('nx-quarkus-gradle e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --packageNameType short --projectVersion 1.2.3`
+      `generate @jnxplus/nx-quarkus-gradle:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3`
     );
 
     expect(() =>

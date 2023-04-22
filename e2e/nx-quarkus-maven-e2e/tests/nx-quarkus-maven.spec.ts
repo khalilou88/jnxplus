@@ -429,7 +429,7 @@ describe('nx-quarkus-maven e2e', () => {
     const appName = `${appDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-quarkus-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId org.jnxplus --packageNameType short --v 1.2.3 --configFormat .yml`
+      `g @jnxplus/nx-quarkus-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId org.jnxplus --simplePackageName --v 1.2.3 --configFormat .yml`
     );
 
     expect(() =>
@@ -716,7 +716,7 @@ describe('nx-quarkus-maven e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId org.jnxplus --packageNameType short --projectVersion 1.2.3`
+      `generate @jnxplus/nx-quarkus-maven:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId org.jnxplus --simplePackageName --projectVersion 1.2.3`
     );
 
     expect(() =>

@@ -56,17 +56,21 @@ function normalizeOptions(
     ? options.tags.split(',').map((s) => s.trim())
     : [];
 
-  const packageName2 = `${options.groupId}.${
-    options.packageNameType === 'long' && options.directory
-      ? `${names(options.directory).fileName.replace(
-          new RegExp(/\//, 'g'),
-          '.'
-        )}.${names(simpleProjectName).className.toLocaleLowerCase()}`
-      : names(simpleProjectName).className.toLocaleLowerCase()
-  }`;
-
-  //remove dash from packageName
-  const packageName = packageName2.replace(new RegExp(/-/, 'g'), '');
+  let packageName: string;
+  if (options.simplePackageName) {
+    packageName = `${options.groupId}.${names(
+      simpleProjectName
+    ).className.toLocaleLowerCase()}`.replace(new RegExp(/-/, 'g'), '');
+  } else {
+    packageName = `${options.groupId}.${
+      options.directory
+        ? `${names(options.directory).fileName.replace(
+            new RegExp(/\//, 'g'),
+            '.'
+          )}.${names(simpleProjectName).className.toLocaleLowerCase()}`
+        : names(simpleProjectName).className.toLocaleLowerCase()
+    }`.replace(new RegExp(/-/, 'g'), '');
+  }
 
   const packageDirectory = packageName.replace(new RegExp(/\./, 'g'), '/');
 
@@ -217,6 +221,7 @@ function addLibraryToProjects(tree: Tree, options: NormalizedSchema) {
     const projectRoot = readProjectConfiguration(tree, projectName).root;
     const filePath = path.join(projectRoot, `pom.xml`);
     const xmldoc = readXmlTree(tree, filePath);
+
     const dependency = new XmlDocument(`
 		<dependency>
 			<groupId>${options.groupId}</groupId>
@@ -224,6 +229,7 @@ function addLibraryToProjects(tree: Tree, options: NormalizedSchema) {
 			<version>${options.projectVersion}</version>
 		</dependency>
   `);
+
     let dependencies = xmldoc.childNamed('dependencies');
 
     if (dependencies === undefined) {
