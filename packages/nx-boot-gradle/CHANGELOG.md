@@ -3,6 +3,7 @@
 # 6.0.0 (2023-05-xx) - not yet published
 
 - Update to NX 16
+- Add simple name option to app and lib generators
 - Rework lint and kformat executors to remove dependencies to checkstyle, ktlint and pmd projects
 - Bug Fixes
 
