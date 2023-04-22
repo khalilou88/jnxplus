@@ -206,8 +206,9 @@ describe('nx-quarkus-gradle e2e', () => {
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
 
+    const rootProjectName = uniq('root-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:init --dsl kotlin`
+      `generate @jnxplus/nx-quarkus-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
     );
 
     await runNxCommandAsync(
@@ -257,6 +258,12 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(depGraphResult.stderr).not.toContain(
       'Failed to process the project graph'
     );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: rootProjectName,
+    });
 
     const process = await runNxCommandUntil(
       `serve ${appName} --args="-Dquarkus-profile=prod"`,
@@ -407,8 +414,9 @@ describe('nx-quarkus-gradle e2e', () => {
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
 
+    const rootProjectName = uniq('root-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:init --dsl kotlin`
+      `generate @jnxplus/nx-quarkus-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
     );
 
     await runNxCommandAsync(
@@ -451,6 +459,20 @@ describe('nx-quarkus-gradle e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: rootProjectName,
+    });
+
     const process = await runNxCommandUntil(
       `serve ${appName} --args="-Dquarkus-profile=prod"`,
       (output) => output.includes(`Listening on: http://localhost:8080`)
@@ -491,7 +513,10 @@ describe('nx-quarkus-gradle e2e', () => {
   it('should create a library', async () => {
     const libName = uniq('quarkus-gradle-lib-');
 
-    await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
+    const rootProjectName = uniq('root-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-gradle:init --rootProjectName ${rootProjectName}`
+    );
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:library ${libName}`
@@ -535,12 +560,29 @@ describe('nx-quarkus-gradle e2e', () => {
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain('');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: rootProjectName,
+    });
   }, 1200000);
 
   it('should create a kotlin library', async () => {
     const libName = uniq('quarkus-gradle-lib-');
 
-    await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
+    const rootProjectName = uniq('root-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:init --rootProjectName ${rootProjectName}`
+    );
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:library ${libName} --language kotlin`
@@ -582,6 +624,20 @@ describe('nx-quarkus-gradle e2e', () => {
 
     const lintResult = await runNxCommandAsync(`lint ${libName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: rootProjectName,
+    });
   }, 1200000);
 
   it('should create a library with the specified properties', async () => {
@@ -631,6 +687,20 @@ describe('nx-quarkus-gradle e2e', () => {
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain('');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: 'quarkus-root-project',
+    });
   }, 1200000);
 
   it('should generare a lib with a simple package name', async () => {
@@ -638,8 +708,9 @@ describe('nx-quarkus-gradle e2e', () => {
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
+    const rootProjectName = uniq('root-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:init --dsl kotlin`
+      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
     );
 
     await runNxCommandAsync(
@@ -680,6 +751,20 @@ describe('nx-quarkus-gradle e2e', () => {
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain('');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: rootProjectName,
+    });
   }, 1200000);
 
   it('--a lib with aliases', async () => {
