@@ -112,7 +112,7 @@ describe('nx-boot-gradle e2e', () => {
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:migrate`);
   }, 1200000);
 
-  it('should create an java application', async () => {
+  it('should create a java application', async () => {
     const appName = uniq('boot-gradle-app-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
@@ -398,7 +398,7 @@ describe('nx-boot-gradle e2e', () => {
     }
   }, 1200000);
 
-  it('should create an kotlin application', async () => {
+  it('should create a kotlin application', async () => {
     const appName = uniq('boot-gradle-app-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
