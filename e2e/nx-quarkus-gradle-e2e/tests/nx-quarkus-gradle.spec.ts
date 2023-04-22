@@ -581,7 +581,7 @@ describe('nx-quarkus-gradle e2e', () => {
 
     const rootProjectName = uniq('root-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:init --rootProjectName ${rootProjectName}`
+      `generate @jnxplus/nx-quarkus-gradle:init --rootProjectName ${rootProjectName}`
     );
 
     await runNxCommandAsync(
@@ -710,7 +710,7 @@ describe('nx-quarkus-gradle e2e', () => {
 
     const rootProjectName = uniq('root-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
+      `generate @jnxplus/nx-quarkus-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
     );
 
     await runNxCommandAsync(
