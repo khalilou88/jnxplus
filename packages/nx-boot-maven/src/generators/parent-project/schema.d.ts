@@ -7,6 +7,6 @@ export interface NxBootMavenParentProjectGeneratorSchema {
   simpleName?: boolean;
   projectType: ProjectType;
   groupId: string;
-  projectVersion: string;
-  parentProject: string;
+  projectVersion?: string;
+  parentProject?: string;
 }

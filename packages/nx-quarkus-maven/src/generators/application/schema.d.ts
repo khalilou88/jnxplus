@@ -10,5 +10,5 @@ export interface NxQuarkusMavenAppGeneratorSchema {
   groupId: string;
   projectVersion: string;
   configFormat: '.properties' | '.yml';
-  parentProject: string;
+  parentProject?: string;
 }
