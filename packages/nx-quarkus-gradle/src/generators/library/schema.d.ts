@@ -10,4 +10,5 @@ export interface NxQuarkusGradleLibGeneratorSchema {
   groupId: string;
   projectVersion: string;
   projects?: string;
+  skipStarterCode?: boolean;
 }

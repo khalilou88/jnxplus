@@ -10,5 +10,5 @@ export interface NxQuarkusGradleAppGeneratorSchema {
   groupId: string;
   projectVersion: string;
   configFormat: '.properties' | '.yml';
-  starterCode?: boolean;
+  skipStarterCode?: boolean;
 }

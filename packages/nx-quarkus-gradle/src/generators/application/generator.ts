@@ -3,6 +3,7 @@ import {
   formatFiles,
   generateFiles,
   getWorkspaceLayout,
+  joinPathFragments,
   names,
   offsetFromRoot,
   Tree,
@@ -111,6 +112,57 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     options.projectRoot,
     templateOptions
   );
+
+  if (options.skipStarterCode) {
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/${options.packageDirectory}/GreetingResource.java`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/${options.packageDirectory}/GreetingResourceTest.java`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/native-test/${options.language}/${options.packageDirectory}/GreetingResourceIT.java`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/resources/META-INF/resources/index.html`
+      )
+    );
+  } else {
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/${options.packageDirectory}/.gitkeep`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/${options.packageDirectory}/.gitkeep`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/native-test/${options.language}/${options.packageDirectory}/.gitkeep`
+      )
+    );
+  }
 }
 
 export default async function (
