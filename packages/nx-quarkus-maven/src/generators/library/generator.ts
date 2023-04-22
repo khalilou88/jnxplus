@@ -221,6 +221,7 @@ function addLibraryToProjects(tree: Tree, options: NormalizedSchema) {
     const projectRoot = readProjectConfiguration(tree, projectName).root;
     const filePath = path.join(projectRoot, `pom.xml`);
     const xmldoc = readXmlTree(tree, filePath);
+
     const dependency = new XmlDocument(`
 		<dependency>
 			<groupId>${options.groupId}</groupId>
@@ -228,6 +229,7 @@ function addLibraryToProjects(tree: Tree, options: NormalizedSchema) {
 			<version>${options.projectVersion}</version>
 		</dependency>
   `);
+
     let dependencies = xmldoc.childNamed('dependencies');
 
     if (dependencies === undefined) {
