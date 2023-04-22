@@ -27,6 +27,7 @@ describe('nx-quarkus-maven e2e', () => {
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
+  const parentProjectName = uniq('parent-project-');
   beforeAll(async () => {
     fse.ensureDirSync(tmpProjPath());
     cleanup();
@@ -46,7 +47,6 @@ describe('nx-quarkus-maven e2e', () => {
     );
     runPackageManagerInstall();
 
-    const parentProjectName = uniq('parent-project-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:init --parentProjectName ${parentProjectName}`
     );
@@ -150,6 +150,20 @@ describe('nx-quarkus-maven e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: parentProjectName,
+    });
+
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
       output.includes(`Listening on: http://localhost:8080`)
     );
@@ -225,6 +239,20 @@ describe('nx-quarkus-maven e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: parentProjectName,
+    });
+
     const process = await runNxCommandUntil(
       `serve ${appName} --args="-Dquarkus-profile=prod"`,
       (output) => output.includes(`Listening on: http://localhost:8080`)
@@ -295,6 +323,20 @@ describe('nx-quarkus-maven e2e', () => {
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
 
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: parentProjectName,
+    });
+
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
       output.includes(`Listening on: http://localhost:8080`)
     );
@@ -352,6 +394,20 @@ describe('nx-quarkus-maven e2e', () => {
       `format:check --projects ${appName}`
     );
     expect(formatResult.stdout).toContain('');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: parentProjectName,
+    });
 
     const process = await runNxCommandUntil(
       `serve ${appName} --args="-Dquarkus-profile=prod"`,
@@ -412,6 +468,20 @@ describe('nx-quarkus-maven e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: parentProjectName,
+    });
+
     const process = await runNxCommandUntil(
       `serve ${appName} --args="-Dquarkus-profile=prod"`,
       (output) => output.includes(`Listening on: http://localhost:8080`)
@@ -432,6 +502,20 @@ describe('nx-quarkus-maven e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:application ${appName} --directory deep/sub-dir`
     );
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: parentProjectName,
+    });
 
     const process = await runNxCommandUntil(
       `serve deep-sub-dir-${appName}`,
@@ -492,6 +576,20 @@ describe('nx-quarkus-maven e2e', () => {
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain('');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: parentProjectName,
+    });
   }, 1200000);
 
   it('should create a kotlin library', async () => {
@@ -537,6 +635,20 @@ describe('nx-quarkus-maven e2e', () => {
 
     const lintResult = await runNxCommandAsync(`lint ${libName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: parentProjectName,
+    });
   }, 1200000);
 
   it('should use the the specified properties to create a library', async () => {
@@ -582,6 +694,20 @@ describe('nx-quarkus-maven e2e', () => {
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain('');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: parentProjectName,
+    });
   }, 1200000);
 
   it('should generare a lib with a simple package name', async () => {
@@ -627,6 +753,20 @@ describe('nx-quarkus-maven e2e', () => {
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain('');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: parentProjectName,
+    });
   }, 1200000);
 
   it('--a lib with aliases', async () => {
@@ -672,6 +812,20 @@ describe('nx-quarkus-maven e2e', () => {
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain('');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: parentProjectName,
+    });
   }, 1200000);
 
   it('should add a lib to an app dependencies', async () => {
@@ -731,6 +885,18 @@ describe('nx-quarkus-maven e2e', () => {
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.nodes[appName]).toBeDefined();
     expect(depGraphJson.graph.nodes[libName]).toBeDefined();
+
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: parentProjectName,
+    });
+
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: parentProjectName,
+    });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
@@ -798,6 +964,18 @@ describe('nx-quarkus-maven e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
+      target: parentProjectName,
+    });
+
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: parentProjectName,
+    });
+
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
       target: libName,
     });
   }, 1200000);
@@ -821,6 +999,13 @@ describe('nx-quarkus-maven e2e', () => {
     expect(depGraphResult.stderr).not.toContain(
       'Failed to process the project graph'
     );
+
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: parentProjectName,
+    });
   }, 1200000);
 
   it('should generate java apps that use a parent project', async () => {
@@ -838,33 +1023,79 @@ describe('nx-quarkus-maven e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const secondParentproject = uniq('apps-parent-project-');
+    const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentproject} --parent-project ${appsParentProject}`
+      `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject}`
     );
 
     const secondAppName = uniq('boot-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${secondAppName} --parent-project ${secondParentproject}`
+      `generate @jnxplus/nx-quarkus-maven:application ${secondAppName} --parent-project ${secondParentProject}`
     );
     const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
     expect(secondBuildResult.stdout).toContain('Executor ran for Build');
 
     const randomParentproject = uniq('apps-parent-project-');
     const parentProjectDir = 'deep/subdir';
-    const thirdProjectName = `${normalizeName(
+    const thirdParentProject = `${normalizeName(
       parentProjectDir
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${randomParentproject} --parent-project ${secondParentproject}  --directory ${parentProjectDir}`
+      `generate @jnxplus/nx-quarkus-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
     );
 
     const thirdAppName = uniq('boot-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${thirdAppName} --parent-project ${thirdProjectName}`
+      `generate @jnxplus/nx-quarkus-maven:application ${thirdAppName} --parent-project ${thirdParentProject}`
     );
     const thirdBuildResult = await runNxCommandAsync(`build ${thirdAppName}`);
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appsParentProject]).toContainEqual({
+      type: 'static',
+      source: appsParentProject,
+      target: parentProjectName,
+    });
+
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: appsParentProject,
+    });
+
+    expect(depGraphJson.graph.dependencies[secondParentProject]).toContainEqual(
+      {
+        type: 'static',
+        source: secondParentProject,
+        target: appsParentProject,
+      }
+    );
+
+    expect(depGraphJson.graph.dependencies[secondAppName]).toContainEqual({
+      type: 'static',
+      source: secondAppName,
+      target: secondParentProject,
+    });
+
+    expect(depGraphJson.graph.dependencies[thirdParentProject]).toContainEqual({
+      type: 'static',
+      source: thirdParentProject,
+      target: secondParentProject,
+    });
+
+    expect(depGraphJson.graph.dependencies[thirdAppName]).toContainEqual({
+      type: 'static',
+      source: thirdAppName,
+      target: thirdParentProject,
+    });
   }, 1200000);
 
   it('should generate kotlin apps that use a parent project', async () => {
@@ -882,33 +1113,79 @@ describe('nx-quarkus-maven e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const secondParentproject = uniq('apps-parent-project-');
+    const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentproject} --parent-project ${appsParentProject}`
+      `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject}`
     );
 
     const secondAppName = uniq('boot-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${secondAppName} --parent-project ${secondParentproject} --language kotlin`
+      `generate @jnxplus/nx-quarkus-maven:application ${secondAppName} --parent-project ${secondParentProject} --language kotlin`
     );
     const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
     expect(secondBuildResult.stdout).toContain('Executor ran for Build');
 
     const randomParentproject = uniq('apps-parent-project-');
     const parentProjectDir = 'deep/subdir';
-    const thirdProjectName = `${normalizeName(
+    const thirdParentProject = `${normalizeName(
       parentProjectDir
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${randomParentproject} --parent-project ${secondParentproject}  --directory ${parentProjectDir}`
+      `generate @jnxplus/nx-quarkus-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
     );
 
     const thirdAppName = uniq('boot-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${thirdAppName} --parent-project ${thirdProjectName} --language kotlin`
+      `generate @jnxplus/nx-quarkus-maven:application ${thirdAppName} --parent-project ${thirdParentProject} --language kotlin`
     );
     const thirdBuildResult = await runNxCommandAsync(`build ${thirdAppName}`);
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appsParentProject]).toContainEqual({
+      type: 'static',
+      source: appsParentProject,
+      target: parentProjectName,
+    });
+
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: appsParentProject,
+    });
+
+    expect(depGraphJson.graph.dependencies[secondParentProject]).toContainEqual(
+      {
+        type: 'static',
+        source: secondParentProject,
+        target: appsParentProject,
+      }
+    );
+
+    expect(depGraphJson.graph.dependencies[secondAppName]).toContainEqual({
+      type: 'static',
+      source: secondAppName,
+      target: secondParentProject,
+    });
+
+    expect(depGraphJson.graph.dependencies[thirdParentProject]).toContainEqual({
+      type: 'static',
+      source: thirdParentProject,
+      target: secondParentProject,
+    });
+
+    expect(depGraphJson.graph.dependencies[thirdAppName]).toContainEqual({
+      type: 'static',
+      source: thirdAppName,
+      target: thirdParentProject,
+    });
   }, 1200000);
 
   it('should generate java libs that use a parent project', async () => {
@@ -927,10 +1204,10 @@ describe('nx-quarkus-maven e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const secondParentproject = uniq('libs-parent-project-');
+    const secondParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentproject} --projectType library  --parent-project ${libsParentProject}`
+      `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject}`
     );
 
     const randomName = uniq('boot-maven-lib-');
@@ -938,7 +1215,7 @@ describe('nx-quarkus-maven e2e', () => {
     const secondLibName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${randomName} --parent-project ${secondParentproject} --dir ${libDir}`
+      `generate @jnxplus/nx-quarkus-maven:library ${randomName} --parent-project ${secondParentProject} --dir ${libDir}`
     );
 
     const secondBuildResult = await runNxCommandAsync(`build ${secondLibName}`);
@@ -946,19 +1223,65 @@ describe('nx-quarkus-maven e2e', () => {
 
     const randomParentproject = uniq('libs-parent-project-');
     const parentProjectDir = 'deep/subdir';
-    const thirdProjectName = `${normalizeName(
+    const thirdParentProject = `${normalizeName(
       parentProjectDir
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentproject}  --directory ${parentProjectDir}`
+      `generate @jnxplus/nx-quarkus-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
     );
 
     const thirdLibName = uniq('boot-maven-lib-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${thirdLibName} --parent-project ${thirdProjectName}`
+      `generate @jnxplus/nx-quarkus-maven:library ${thirdLibName} --parent-project ${thirdParentProject}`
     );
     const thirdBuildResult = await runNxCommandAsync(`build ${thirdLibName}`);
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[libsParentProject]).toContainEqual({
+      type: 'static',
+      source: libsParentProject,
+      target: parentProjectName,
+    });
+
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: libsParentProject,
+    });
+
+    expect(depGraphJson.graph.dependencies[secondParentProject]).toContainEqual(
+      {
+        type: 'static',
+        source: secondParentProject,
+        target: libsParentProject,
+      }
+    );
+
+    expect(depGraphJson.graph.dependencies[secondLibName]).toContainEqual({
+      type: 'static',
+      source: secondLibName,
+      target: secondParentProject,
+    });
+
+    expect(depGraphJson.graph.dependencies[thirdParentProject]).toContainEqual({
+      type: 'static',
+      source: thirdParentProject,
+      target: secondParentProject,
+    });
+
+    expect(depGraphJson.graph.dependencies[thirdLibName]).toContainEqual({
+      type: 'static',
+      source: thirdLibName,
+      target: thirdParentProject,
+    });
   }, 1200000);
 
   it('should generate kotlin libs that use a parent project', async () => {
@@ -977,10 +1300,10 @@ describe('nx-quarkus-maven e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const secondParentproject = uniq('libs-parent-project-');
+    const secondParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentproject} --projectType library  --parent-project ${libsParentProject}`
+      `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject}`
     );
 
     const randomName = uniq('boot-maven-lib-');
@@ -988,7 +1311,7 @@ describe('nx-quarkus-maven e2e', () => {
     const secondLibName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${randomName} --parent-project ${secondParentproject} --dir ${libDir} --language kotlin`
+      `generate @jnxplus/nx-quarkus-maven:library ${randomName} --parent-project ${secondParentProject} --dir ${libDir} --language kotlin`
     );
 
     const secondBuildResult = await runNxCommandAsync(`build ${secondLibName}`);
@@ -996,18 +1319,64 @@ describe('nx-quarkus-maven e2e', () => {
 
     const randomParentproject = uniq('libs-parent-project-');
     const parentProjectDir = 'deep/subdir';
-    const thirdProjectName = `${normalizeName(
+    const thirdParentProject = `${normalizeName(
       parentProjectDir
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentproject}  --directory ${parentProjectDir}`
+      `generate @jnxplus/nx-quarkus-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
     );
 
     const thirdLibName = uniq('boot-maven-lib-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${thirdLibName} --parent-project ${thirdProjectName} --language kotlin`
+      `generate @jnxplus/nx-quarkus-maven:library ${thirdLibName} --parent-project ${thirdParentProject} --language kotlin`
     );
     const thirdBuildResult = await runNxCommandAsync(`build ${thirdLibName}`);
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[libsParentProject]).toContainEqual({
+      type: 'static',
+      source: libsParentProject,
+      target: parentProjectName,
+    });
+
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: libsParentProject,
+    });
+
+    expect(depGraphJson.graph.dependencies[secondParentProject]).toContainEqual(
+      {
+        type: 'static',
+        source: secondParentProject,
+        target: libsParentProject,
+      }
+    );
+
+    expect(depGraphJson.graph.dependencies[secondLibName]).toContainEqual({
+      type: 'static',
+      source: secondLibName,
+      target: secondParentProject,
+    });
+
+    expect(depGraphJson.graph.dependencies[thirdParentProject]).toContainEqual({
+      type: 'static',
+      source: thirdParentProject,
+      target: secondParentProject,
+    });
+
+    expect(depGraphJson.graph.dependencies[thirdLibName]).toContainEqual({
+      type: 'static',
+      source: thirdLibName,
+      target: thirdParentProject,
+    });
   }, 1200000);
 });

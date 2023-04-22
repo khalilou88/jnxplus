@@ -1073,14 +1073,14 @@ describe('nx-boot-maven e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const secondParentproject = uniq('apps-parent-project-');
+    const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:parent-project ${secondParentproject} --parent-project ${appsParentProject}`
+      `generate @jnxplus/nx-boot-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject}`
     );
 
     const secondAppName = uniq('boot-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:application ${secondAppName} --parent-project ${secondParentproject}`
+      `generate @jnxplus/nx-boot-maven:application ${secondAppName} --parent-project ${secondParentProject}`
     );
     const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
     expect(secondBuildResult.stdout).toContain('Executor ran for Build');
@@ -1091,7 +1091,7 @@ describe('nx-boot-maven e2e', () => {
       parentProjectDir
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:parent-project ${randomParentproject} --parent-project ${secondParentproject}  --directory ${parentProjectDir}`
+      `generate @jnxplus/nx-boot-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
     );
 
     const thirdAppName = uniq('boot-maven-app-');
@@ -1121,10 +1121,10 @@ describe('nx-boot-maven e2e', () => {
       target: appsParentProject,
     });
 
-    expect(depGraphJson.graph.dependencies[secondParentproject]).toContainEqual(
+    expect(depGraphJson.graph.dependencies[secondParentProject]).toContainEqual(
       {
         type: 'static',
-        source: secondParentproject,
+        source: secondParentProject,
         target: appsParentProject,
       }
     );
@@ -1132,13 +1132,13 @@ describe('nx-boot-maven e2e', () => {
     expect(depGraphJson.graph.dependencies[secondAppName]).toContainEqual({
       type: 'static',
       source: secondAppName,
-      target: secondParentproject,
+      target: secondParentProject,
     });
 
     expect(depGraphJson.graph.dependencies[thirdParentProject]).toContainEqual({
       type: 'static',
       source: thirdParentProject,
-      target: secondParentproject,
+      target: secondParentProject,
     });
 
     expect(depGraphJson.graph.dependencies[thirdAppName]).toContainEqual({
@@ -1163,14 +1163,14 @@ describe('nx-boot-maven e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const secondParentproject = uniq('apps-parent-project-');
+    const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:parent-project ${secondParentproject} --parent-project ${appsParentProject}`
+      `generate @jnxplus/nx-boot-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject}`
     );
 
     const secondAppName = uniq('boot-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:application ${secondAppName} --parent-project ${secondParentproject} --language kotlin`
+      `generate @jnxplus/nx-boot-maven:application ${secondAppName} --parent-project ${secondParentProject} --language kotlin`
     );
     const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
     expect(secondBuildResult.stdout).toContain('Executor ran for Build');
@@ -1181,7 +1181,7 @@ describe('nx-boot-maven e2e', () => {
       parentProjectDir
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:parent-project ${randomParentproject} --parent-project ${secondParentproject}  --directory ${parentProjectDir}`
+      `generate @jnxplus/nx-boot-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
     );
 
     const thirdAppName = uniq('boot-maven-app-');
@@ -1211,10 +1211,10 @@ describe('nx-boot-maven e2e', () => {
       target: appsParentProject,
     });
 
-    expect(depGraphJson.graph.dependencies[secondParentproject]).toContainEqual(
+    expect(depGraphJson.graph.dependencies[secondParentProject]).toContainEqual(
       {
         type: 'static',
-        source: secondParentproject,
+        source: secondParentProject,
         target: appsParentProject,
       }
     );
@@ -1222,13 +1222,13 @@ describe('nx-boot-maven e2e', () => {
     expect(depGraphJson.graph.dependencies[secondAppName]).toContainEqual({
       type: 'static',
       source: secondAppName,
-      target: secondParentproject,
+      target: secondParentProject,
     });
 
     expect(depGraphJson.graph.dependencies[thirdParentProject]).toContainEqual({
       type: 'static',
       source: thirdParentProject,
-      target: secondParentproject,
+      target: secondParentProject,
     });
 
     expect(depGraphJson.graph.dependencies[thirdAppName]).toContainEqual({
@@ -1254,10 +1254,10 @@ describe('nx-boot-maven e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const secondParentproject = uniq('libs-parent-project-');
+    const secondParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:parent-project ${secondParentproject} --projectType library  --parent-project ${libsParentProject}`
+      `generate @jnxplus/nx-boot-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject}`
     );
 
     const randomName = uniq('boot-maven-lib-');
@@ -1265,7 +1265,7 @@ describe('nx-boot-maven e2e', () => {
     const secondLibName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:library ${randomName} --parent-project ${secondParentproject} --dir ${libDir}`
+      `generate @jnxplus/nx-boot-maven:library ${randomName} --parent-project ${secondParentProject} --dir ${libDir}`
     );
 
     const secondBuildResult = await runNxCommandAsync(`build ${secondLibName}`);
@@ -1277,7 +1277,7 @@ describe('nx-boot-maven e2e', () => {
       parentProjectDir
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentproject}  --directory ${parentProjectDir}`
+      `generate @jnxplus/nx-boot-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
     );
 
     const thirdLibName = uniq('boot-maven-lib-');
@@ -1307,10 +1307,10 @@ describe('nx-boot-maven e2e', () => {
       target: libsParentProject,
     });
 
-    expect(depGraphJson.graph.dependencies[secondParentproject]).toContainEqual(
+    expect(depGraphJson.graph.dependencies[secondParentProject]).toContainEqual(
       {
         type: 'static',
-        source: secondParentproject,
+        source: secondParentProject,
         target: libsParentProject,
       }
     );
@@ -1318,13 +1318,13 @@ describe('nx-boot-maven e2e', () => {
     expect(depGraphJson.graph.dependencies[secondLibName]).toContainEqual({
       type: 'static',
       source: secondLibName,
-      target: secondParentproject,
+      target: secondParentProject,
     });
 
     expect(depGraphJson.graph.dependencies[thirdParentProject]).toContainEqual({
       type: 'static',
       source: thirdParentProject,
-      target: secondParentproject,
+      target: secondParentProject,
     });
 
     expect(depGraphJson.graph.dependencies[thirdLibName]).toContainEqual({
@@ -1350,10 +1350,10 @@ describe('nx-boot-maven e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const secondParentproject = uniq('libs-parent-project-');
+    const secondParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:parent-project ${secondParentproject} --projectType library  --parent-project ${libsParentProject}`
+      `generate @jnxplus/nx-boot-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject}`
     );
 
     const randomName = uniq('boot-maven-lib-');
@@ -1361,7 +1361,7 @@ describe('nx-boot-maven e2e', () => {
     const secondLibName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:library ${randomName} --parent-project ${secondParentproject} --dir ${libDir} --language kotlin`
+      `generate @jnxplus/nx-boot-maven:library ${randomName} --parent-project ${secondParentProject} --dir ${libDir} --language kotlin`
     );
 
     const secondBuildResult = await runNxCommandAsync(`build ${secondLibName}`);
@@ -1373,7 +1373,7 @@ describe('nx-boot-maven e2e', () => {
       parentProjectDir
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentproject}  --directory ${parentProjectDir}`
+      `generate @jnxplus/nx-boot-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
     );
 
     const thirdLibName = uniq('boot-maven-lib-');
@@ -1403,10 +1403,10 @@ describe('nx-boot-maven e2e', () => {
       target: libsParentProject,
     });
 
-    expect(depGraphJson.graph.dependencies[secondParentproject]).toContainEqual(
+    expect(depGraphJson.graph.dependencies[secondParentProject]).toContainEqual(
       {
         type: 'static',
-        source: secondParentproject,
+        source: secondParentProject,
         target: libsParentProject,
       }
     );
@@ -1414,13 +1414,13 @@ describe('nx-boot-maven e2e', () => {
     expect(depGraphJson.graph.dependencies[secondLibName]).toContainEqual({
       type: 'static',
       source: secondLibName,
-      target: secondParentproject,
+      target: secondParentProject,
     });
 
     expect(depGraphJson.graph.dependencies[thirdParentProject]).toContainEqual({
       type: 'static',
       source: thirdParentProject,
-      target: secondParentproject,
+      target: secondParentProject,
     });
 
     expect(depGraphJson.graph.dependencies[thirdLibName]).toContainEqual({

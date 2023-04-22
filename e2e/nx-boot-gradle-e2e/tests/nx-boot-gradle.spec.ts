@@ -175,18 +175,6 @@ describe('nx-boot-gradle e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`)
-    );
-
-    // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
-    } catch (err) {
-      expect(err).toBeFalsy();
-    }
-
     //test run-task
     const projectJson = readJson(`apps/${appName}/project.json`);
     projectJson.targets = {
@@ -201,6 +189,32 @@ describe('nx-boot-gradle e2e', () => {
     );
     expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
     //end test run-task
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: 'spring-boot-root-project',
+    });
+
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Tomcat started on port(s): 8080`)
+    );
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(8080);
+    } catch (err) {
+      expect(err).toBeFalsy();
+    }
   }, 1200000);
 
   it('should use specified options to create an application', async () => {
@@ -356,6 +370,20 @@ describe('nx-boot-gradle e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: 'spring-boot-root-project',
+    });
+
     const process = await runNxCommandUntil(
       `serve ${appName} --args="--spring.profiles.active=test"`,
       (output) => output.includes(`Tomcat started on port(s): 8080`)
@@ -430,6 +458,20 @@ describe('nx-boot-gradle e2e', () => {
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: 'spring-boot-root-project',
+    });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
       output.includes(`Tomcat started on port(s): 8080`)
@@ -543,6 +585,20 @@ describe('nx-boot-gradle e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName} --directory deep/sub-dir`
     );
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: 'spring-boot-root-project',
+    });
 
     const process = await runNxCommandUntil(
       `serve deep-sub-dir-${appName}`,
@@ -875,6 +931,20 @@ describe('nx-boot-gradle e2e', () => {
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain('');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: 'spring-boot-root-project',
+    });
   }, 1200000);
 
   it('should add a lib to an app dependencies', async () => {
@@ -944,6 +1014,18 @@ describe('nx-boot-gradle e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
+      target: rootProjectName,
+    });
+
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: rootProjectName,
+    });
+
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
       target: libName,
     });
   }, 1200000);
@@ -1009,6 +1091,18 @@ describe('nx-boot-gradle e2e', () => {
     expect(depGraphJson.graph.nodes[rootProjectName]).toBeDefined();
     expect(depGraphJson.graph.nodes[appName]).toBeDefined();
     expect(depGraphJson.graph.nodes[libName]).toBeDefined();
+
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: rootProjectName,
+    });
+
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: rootProjectName,
+    });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
