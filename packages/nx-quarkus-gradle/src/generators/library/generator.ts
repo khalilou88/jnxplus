@@ -102,18 +102,17 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   );
 
   if (options.skipStarterCode) {
-    const fileExtension = options.language === 'java' ? 'java' : 'kt';
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/main/${options.language}/${options.packageDirectory}/GreetingService.${fileExtension}`
+        `/src/main/${options.language}/${options.packageDirectory}/GreetingService.java`
       )
     );
 
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/test/${options.language}/${options.packageDirectory}/GreetingServiceTest.${fileExtension}`
+        `/src/test/${options.language}/${options.packageDirectory}/GreetingServiceTest.java`
       )
     );
   } else {
