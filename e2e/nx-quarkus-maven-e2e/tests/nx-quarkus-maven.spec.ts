@@ -497,10 +497,11 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('directory with dash', async () => {
-    const appName = uniq('quarkus-maven-app-');
+    const randomName = uniq('boot-maven-app-');
+    const appName = `deep-sub-dir-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${appName} --directory deep/sub-dir`
+      `generate @jnxplus/nx-quarkus-maven:application ${randomName} --directory deep/sub-dir`
     );
 
     //graph
@@ -517,9 +518,8 @@ describe('nx-quarkus-maven e2e', () => {
       target: parentProjectName,
     });
 
-    const process = await runNxCommandUntil(
-      `serve deep-sub-dir-${appName}`,
-      (output) => output.includes(`Listening on: http://localhost:8080`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Listening on: http://localhost:8080`)
     );
 
     // port and process cleanup

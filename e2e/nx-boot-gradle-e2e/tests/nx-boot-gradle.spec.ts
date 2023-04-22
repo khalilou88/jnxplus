@@ -578,12 +578,13 @@ describe('nx-boot-gradle e2e', () => {
   }, 1200000);
 
   it('directory with dash', async () => {
-    const appName = uniq('boot-gradle-app-');
+    const randomName = uniq('boot-maven-app-');
+    const appName = `deep-sub-dir-${randomName}`;
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:application ${appName} --directory deep/sub-dir`
+      `generate @jnxplus/nx-boot-gradle:application ${randomName} --directory deep/sub-dir`
     );
 
     //graph
@@ -600,9 +601,8 @@ describe('nx-boot-gradle e2e', () => {
       target: 'spring-boot-root-project',
     });
 
-    const process = await runNxCommandUntil(
-      `serve deep-sub-dir-${appName}`,
-      (output) => output.includes(`Tomcat started on port(s): 8080`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Tomcat started on port(s): 8080`)
     );
 
     // port and process cleanup
