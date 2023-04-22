@@ -11,6 +11,7 @@
 
 ## BREAKING CHANGES
 
+- App and lib generators : Remove packageNameType option and add instead simplePackageName option
 - Lint executor with PMD option : to use PMD, you need to install it on your machine. Please follow this link for the instruction : https://docs.pmd-code.org/latest/pmd_userdocs_installation.html#running-pmd-via-command-line
 
 # 5.3.1 (2023-04-15)

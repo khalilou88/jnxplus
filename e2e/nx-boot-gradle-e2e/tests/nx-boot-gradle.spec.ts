@@ -318,7 +318,7 @@ describe('nx-boot-gradle e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --packageNameType short --projectVersion 1.2.3 --packaging war --configFormat .yml`
+      `generate @jnxplus/nx-boot-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3 --packaging war --configFormat .yml`
     );
 
     expect(() =>
@@ -827,7 +827,7 @@ describe('nx-boot-gradle e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --packageNameType short --projectVersion 1.2.3`
+      `generate @jnxplus/nx-boot-gradle:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3`
     );
 
     expect(() =>

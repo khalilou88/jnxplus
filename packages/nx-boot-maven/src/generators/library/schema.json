@@ -30,6 +30,11 @@
       "type": "boolean",
       "default": false
     },
+    "simplePackageName": {
+      "description": "Don't include the directory in the package name",
+      "type": "boolean",
+      "default": false
+    },
     "language": {
       "description": "Language of the project",
       "type": "string",
@@ -53,25 +58,6 @@
       "type": "string",
       "default": "com.example",
       "x-prompt": "What groupId would you like to use?"
-    },
-    "packageNameType": {
-      "description": "Package name type",
-      "type": "string",
-      "default": "long",
-      "x-prompt": {
-        "message": "How do you like to construct the PackageName?",
-        "type": "list",
-        "items": [
-          {
-            "value": "short",
-            "label": "Short: groupId + projectName"
-          },
-          {
-            "value": "long",
-            "label": "Long: groupId + projectDirectory + projectName"
-          }
-        ]
-      }
     },
     "projectVersion": {
       "type": "string",

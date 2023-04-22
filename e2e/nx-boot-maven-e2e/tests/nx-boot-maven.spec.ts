@@ -455,7 +455,7 @@ describe('nx-boot-maven e2e', () => {
     const appName = `${appDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-boot-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --packageNameType short --v 1.2.3 --packaging war --configFormat .yml`
+      `g @jnxplus/nx-boot-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --simplePackageName --v 1.2.3 --packaging war --configFormat .yml`
     );
 
     expect(() =>
@@ -760,7 +760,7 @@ describe('nx-boot-maven e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --packageNameType short --projectVersion 1.2.3`
+      `generate @jnxplus/nx-boot-maven:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3`
     );
 
     expect(() =>
