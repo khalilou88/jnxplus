@@ -1429,4 +1429,45 @@ describe('nx-boot-maven e2e', () => {
       target: thirdParentProject,
     });
   }, 1200000);
+
+  it('should generate java app inside a parent project', async () => {
+    const parentProject = uniq('parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:parent-project ${parentProject}`
+    );
+
+    const randomName = uniq('boot-maven-app-');
+    const appName = `${parentProject}-${randomName}`;
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:application ${randomName} --parent-project ${parentProject} --directory ${parentProject}`
+    );
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: parentProject,
+    });
+
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Tomcat started on port(s): 8080`)
+    );
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(8080);
+    } catch (err) {
+      expect(err).toBeFalsy();
+    }
+  }, 1200000);
 });
