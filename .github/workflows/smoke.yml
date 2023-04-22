@@ -19,7 +19,7 @@ jobs:
     env:
       NX_RUN_GROUP: ${{ github.run_id }}-v${{matrix.java}}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@3
 
       - name: Setup Java
         uses: actions/setup-java@v2
