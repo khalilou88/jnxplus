@@ -1,6 +1,6 @@
 {
   "name": "@jnxplus/nx-quarkus-gradle",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "src/index.js",
   "generators": "./generators.json",
   "executors": "./executors.json",
@@ -24,7 +24,7 @@
     "gradle multi-project build"
   ],
   "dependencies": {
-    "prettier-plugin-java": "^1.6.2"
+    "prettier-plugin-java": "^2.1.0"
   },
   "peerDependencies": {
     "@nrwl/devkit": ">=14.0.0",

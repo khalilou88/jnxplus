@@ -30,9 +30,9 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "prettier-plugin-java": "^1.6.2",
+    "prettier-plugin-java": "^2.1.0",
     "@prettier/plugin-xml": "^2.2.0",
-    "xmldoc": "~1.2.0"
+    "xmldoc": "~1.3.0"
   },
   "peerDependencies": {
     "@nrwl/devkit": ">=14.0.0",
