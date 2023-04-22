@@ -1278,6 +1278,81 @@ describe('nx-quarkus-gradle e2e', () => {
         ).className.toLocaleLowerCase()}/GreetingResourceIT.java`
       )
     ).toThrow();
+
+    // Making sure the build.gradle file contains the good information
+    const buildGradle = readFile(`apps/${appName}/build.gradle`);
+    expect(buildGradle.includes('org.acme')).toBeTruthy();
+    expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    //should recreate build folder
+    const localTmpDir = path.dirname(tmpProjPath());
+    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'build');
+    fse.removeSync(targetDir);
+    expect(() => checkFilesExist(`apps/${appName}/build`)).toThrow();
+    await runNxCommandAsync(`build ${appName}`);
+    expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
+
+    if (!isWin && !isMacOs) {
+      const buildImageResult = await runNxCommandAsync(
+        `build-image ${appName}`
+      );
+      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
+    }
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    const formatResult = await runNxCommandAsync(
+      `format:check --projects ${appName}`
+    );
+    expect(formatResult.stdout).toContain('');
+
+    //test run-task
+    const projectJson = readJson(`apps/${appName}/project.json`);
+    projectJson.targets = {
+      ...projectJson.targets,
+      'run-task': {
+        executor: '@jnxplus/nx-quarkus-gradle:run-task',
+      },
+    };
+    updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
+    const runTaskResult = await runNxCommandAsync(
+      `run-task ${appName} --task="test"`
+    );
+    expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
+    //end test run-task
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: 'quarkus-root-project',
+    });
+
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Listening on: http://localhost:8080`)
+    );
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(8080);
+    } catch (err) {
+      expect(err).toBeFalsy();
+    }
   }, 1200000);
 
   it('should skip starter code when generating a kotlin application with skipStarterCode option', async () => {
@@ -1292,17 +1367,7 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(() =>
       checkFilesExist(
         `apps/${appName}/build.gradle.kts`,
-        `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/kotlin/org/acme/${names(
-          appName
-        ).className.toLocaleLowerCase()}/.gitkeep`,
-        `apps/${appName}/src/test/kotlin/org/acme/${names(
-          appName
-        ).className.toLocaleLowerCase()}/.gitkeep`,
-
-        `apps/${appName}/src/native-test/kotlin/org/acme/${names(
-          appName
-        ).className.toLocaleLowerCase()}/.gitkeep`
+        `apps/${appName}/src/main/resources/application.properties`
       )
     ).not.toThrow();
 
@@ -1319,9 +1384,82 @@ describe('nx-quarkus-gradle e2e', () => {
         ).className.toLocaleLowerCase()}/GreetingResourceIT.kt`
       )
     ).toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/src/main/kotlin/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/.gitkeep`,
+        `apps/${appName}/src/test/kotlin/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/.gitkeep`,
+
+        `apps/${appName}/src/native-test/kotlin/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/.gitkeep`
+      )
+    ).not.toThrow();
+
+    // Making sure the build.gradle file contains the good information
+    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
+    expect(buildGradle.includes('org.acme')).toBeTruthy();
+    expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    //should recreate build folder
+    const localTmpDir = path.dirname(tmpProjPath());
+    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'build');
+    fse.removeSync(targetDir);
+    expect(() => checkFilesExist(`apps/${appName}/build`)).toThrow();
+    await runNxCommandAsync(`build ${appName}`);
+    expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
+
+    if (!isWin && !isMacOs) {
+      const buildImageResult = await runNxCommandAsync(
+        `build-image ${appName}`
+      );
+      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
+    }
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
+    expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
+
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: 'quarkus-root-project',
+    });
+
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Listening on: http://localhost:8080`)
+    );
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(8080);
+    } catch (err) {
+      expect(err).toBeFalsy();
+    }
   }, 1200000);
 
-  it('should skip starter code when generating a java library with skipStarterCode option', async () => {
+  it('should skip starter code when generating a library with skipStarterCode option', async () => {
     const libName = uniq('quarkus-gradle-lib-');
 
     const rootProjectName = uniq('root-project-');
@@ -1355,6 +1493,47 @@ describe('nx-quarkus-gradle e2e', () => {
         ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
       )
     ).toThrow();
+
+    // Making sure the build.gradle file contains the good information
+    const buildGradle = readFile(`libs/${libName}/build.gradle`);
+    expect(buildGradle.includes('org.acme')).toBeTruthy();
+    expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    //should recreate build folder
+    const localTmpDir = path.dirname(tmpProjPath());
+    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'build');
+    fse.removeSync(targetDir);
+    expect(() => checkFilesExist(`libs/${libName}/build`)).toThrow();
+    await runNxCommandAsync(`build ${libName}`);
+    expect(() => checkFilesExist(`libs/${libName}/build`)).not.toThrow();
+
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    const formatResult = await runNxCommandAsync(
+      `format:check --projects ${libName}`
+    );
+    expect(formatResult.stdout).toContain('');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: rootProjectName,
+    });
   }, 1200000);
 
   it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
@@ -1391,5 +1570,44 @@ describe('nx-quarkus-gradle e2e', () => {
         ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`
       )
     ).toThrow();
+
+    // Making sure the build.gradle.kts file contains the good information
+    const buildGradle = readFile(`libs/${libName}/build.gradle.kts`);
+    expect(buildGradle.includes('org.acme')).toBeTruthy();
+    expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    //should recreate build folder
+    const localTmpDir = path.dirname(tmpProjPath());
+    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'build');
+    fse.removeSync(targetDir);
+    expect(() => checkFilesExist(`libs/${libName}/build`)).toThrow();
+    await runNxCommandAsync(`build ${libName}`);
+    expect(() => checkFilesExist(`libs/${libName}/build`)).not.toThrow();
+
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
+    expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
+
+    const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: rootProjectName,
+    });
   }, 1200000);
 });
