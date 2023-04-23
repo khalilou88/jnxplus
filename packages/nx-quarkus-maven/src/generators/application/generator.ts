@@ -162,6 +162,20 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
         `/src/main/resources/META-INF/resources/index.html`
       )
     );
+  } else {
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/.gitkeep`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/.gitkeep`
+      )
+    );
   }
 }
 

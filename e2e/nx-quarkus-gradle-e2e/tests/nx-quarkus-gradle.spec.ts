@@ -21,6 +21,7 @@ import {
   runNxCommandUntil,
   runNxNewCommand,
   normalizeName,
+  checkFilesDoNotExist,
 } from './e2e-utils';
 
 describe('nx-quarkus-gradle e2e', () => {
@@ -126,12 +127,12 @@ describe('nx-quarkus-gradle e2e', () => {
     );
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `apps/${appName}/src/main/java/.gitkeep`,
         `apps/${appName}/src/test/java/.gitkeep`,
         `apps/${appName}/src/native-test/java/.gitkeep`
       )
-    ).toThrow();
+    ).not.toThrow();
 
     expect(() =>
       checkFilesExist(
@@ -401,12 +402,12 @@ describe('nx-quarkus-gradle e2e', () => {
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `apps/${appName}/src/main/kotlin/.gitkeep`,
         `apps/${appName}/src/test/kotlin/.gitkeep`,
         `apps/${appName}/src/native-test/kotlin/.gitkeep`
       )
-    ).toThrow();
+    ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
     const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
@@ -607,11 +608,11 @@ describe('nx-quarkus-gradle e2e', () => {
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `libs/${libName}/src/main/java/.gitkeep`,
         `libs/${libName}/src/test/java/.gitkeep`
       )
-    ).toThrow();
+    ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
     const buildGradle = readFile(`libs/${libName}/build.gradle`);
@@ -680,11 +681,11 @@ describe('nx-quarkus-gradle e2e', () => {
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `libs/${libName}/src/main/kotlin/.gitkeep`,
         `libs/${libName}/src/test/kotlin/.gitkeep`
       )
-    ).toThrow();
+    ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
     const buildGradle = readFile(`libs/${libName}/build.gradle.kts`);
@@ -1237,7 +1238,7 @@ describe('nx-quarkus-gradle e2e', () => {
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `apps/${appName}/src/main/java/org/acme/${names(
           appName
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
@@ -1248,7 +1249,7 @@ describe('nx-quarkus-gradle e2e', () => {
           appName
         ).className.toLocaleLowerCase()}/GreetingResourceIT.java`
       )
-    ).toThrow();
+    ).not.toThrow();
   }, 1200000);
 
   it('should skip starter code when generating a kotlin application with skipStarterCode option', async () => {
@@ -1271,7 +1272,7 @@ describe('nx-quarkus-gradle e2e', () => {
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `apps/${appName}/src/main/kotlin/org/acme/${names(
           appName
         ).className.toLocaleLowerCase()}/GreetingResource.kt`,
@@ -1282,7 +1283,7 @@ describe('nx-quarkus-gradle e2e', () => {
           appName
         ).className.toLocaleLowerCase()}/GreetingResourceIT.kt`
       )
-    ).toThrow();
+    ).not.toThrow();
   }, 1200000);
 
   it('should skip starter code when generating a java library with skipStarterCode option', async () => {
@@ -1306,7 +1307,7 @@ describe('nx-quarkus-gradle e2e', () => {
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `libs/${libName}/src/main/java/org/acme/${names(
           libName
         ).className.toLocaleLowerCase()}/GreetingService.java`,
@@ -1314,7 +1315,7 @@ describe('nx-quarkus-gradle e2e', () => {
           libName
         ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
       )
-    ).toThrow();
+    ).not.toThrow();
   }, 1200000);
 
   it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
@@ -1338,7 +1339,7 @@ describe('nx-quarkus-gradle e2e', () => {
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `libs/${libName}/src/main/kotlin/org/acme/${names(
           libName
         ).className.toLocaleLowerCase()}/GreetingService.kt`,
@@ -1346,6 +1347,6 @@ describe('nx-quarkus-gradle e2e', () => {
           libName
         ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`
       )
-    ).toThrow();
+    ).not.toThrow();
   }, 1200000);
 });

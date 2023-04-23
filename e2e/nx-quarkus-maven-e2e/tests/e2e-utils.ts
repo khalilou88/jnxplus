@@ -1,5 +1,5 @@
 import { getPackageManagerCommand } from '@nrwl/devkit';
-import { tmpProjPath } from '@nrwl/nx-plugin/testing';
+import { exists, tmpProjPath } from '@nrwl/nx-plugin/testing';
 import { ChildProcess, exec } from 'child_process';
 import { check as portCheck } from 'tcp-port-used';
 import chalk = require('chalk');
@@ -146,3 +146,12 @@ export const promisifiedTreeKill: (
   pid: number,
   signal: string
 ) => Promise<void> = promisify(treeKill);
+
+export function checkFilesDoNotExist(...expectedFiles: string[]) {
+  expectedFiles.forEach((f) => {
+    const ff = f.startsWith('/') ? f : tmpProjPath(f);
+    if (exists(ff)) {
+      throw new Error(`File '${ff}' should not exist`);
+    }
+  });
+}

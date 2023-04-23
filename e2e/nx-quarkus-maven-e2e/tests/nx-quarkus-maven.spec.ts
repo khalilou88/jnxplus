@@ -14,6 +14,7 @@ import {
 import * as fse from 'fs-extra';
 import * as path from 'path';
 import {
+  checkFilesDoNotExist,
   killPorts,
   normalizeName,
   promisifiedTreeKill,
@@ -1521,11 +1522,17 @@ describe('nx-quarkus-maven e2e', () => {
       `generate @jnxplus/nx-quarkus-maven:application ${appName} --skipStarterCode`
     );
 
-    expect(() => checkFilesExist(`apps/${appName}/pom.xml`)).not.toThrow();
-
     expect(() =>
       checkFilesExist(
+        `apps/${appName}/pom.xml`,
         `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/java/.gitkeep`,
+        `apps/${appName}/src/test/java/.gitkeep`
+      )
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesDoNotExist(
         `apps/${appName}/src/main/java/org/acme/${names(
           appName
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
@@ -1536,7 +1543,7 @@ describe('nx-quarkus-maven e2e', () => {
           appName
         ).className.toLocaleLowerCase()}/GreetingResourceIT.java`
       )
-    ).toThrow();
+    ).not.toThrow();
   }, 1200000);
 
   it('should skip starter code when generating a kotlin application with skipStarterCode option', async () => {
@@ -1548,11 +1555,17 @@ describe('nx-quarkus-maven e2e', () => {
       `generate @jnxplus/nx-quarkus-maven:application ${appName} --language kotlin --skipStarterCode`
     );
 
-    expect(() => checkFilesExist(`apps/${appName}/pom.xml`)).not.toThrow();
-
     expect(() =>
       checkFilesExist(
+        `apps/${appName}/pom.xml`,
         `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/kotlin/.gitkeep`,
+        `apps/${appName}/src/test/kotlin/.gitkeep`
+      )
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesDoNotExist(
         `apps/${appName}/src/main/kotlin/org/acme/${names(
           appName
         ).className.toLocaleLowerCase()}/GreetingResource.kt`,
@@ -1563,7 +1576,7 @@ describe('nx-quarkus-maven e2e', () => {
           appName
         ).className.toLocaleLowerCase()}/GreetingResourceIT.kt`
       )
-    ).toThrow();
+    ).not.toThrow();
   }, 1200000);
 
   it('should skip starter code when generating a java library with skipStarterCode option', async () => {
@@ -1578,10 +1591,16 @@ describe('nx-quarkus-maven e2e', () => {
       `generate @jnxplus/nx-quarkus-maven:library ${libName} --skipStarterCode`
     );
 
-    expect(() => checkFilesExist(`libs/${libName}/pom.xml`)).not.toThrow();
-
     expect(() =>
       checkFilesExist(
+        `libs/${libName}/pom.xml`,
+        `libs/${libName}/src/main/java/.gitkeep`,
+        `libs/${libName}/src/test/java/.gitkeep`
+      )
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesDoNotExist(
         `libs/${libName}/src/main/java/org/acme/${names(
           libName
         ).className.toLocaleLowerCase()}/GreetingService.java`,
@@ -1589,7 +1608,7 @@ describe('nx-quarkus-maven e2e', () => {
           libName
         ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
       )
-    ).toThrow();
+    ).not.toThrow();
   }, 1200000);
 
   it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
@@ -1604,10 +1623,16 @@ describe('nx-quarkus-maven e2e', () => {
       `generate @jnxplus/nx-quarkus-maven:library ${libName} --language kotlin --skipStarterCode`
     );
 
-    expect(() => checkFilesExist(`libs/${libName}/pom.xml`)).not.toThrow();
-
     expect(() =>
       checkFilesExist(
+        `libs/${libName}/pom.xml`,
+        `libs/${libName}/src/main/kotlin/.gitkeep`,
+        `libs/${libName}/src/test/kotlin/.gitkeep`
+      )
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesDoNotExist(
         `libs/${libName}/src/main/kotlin/org/acme/${names(
           libName
         ).className.toLocaleLowerCase()}/GreetingService.kt`,
@@ -1615,6 +1640,6 @@ describe('nx-quarkus-maven e2e', () => {
           libName
         ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`
       )
-    ).toThrow();
+    ).not.toThrow();
   }, 1200000);
 });
