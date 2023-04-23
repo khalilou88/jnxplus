@@ -143,6 +143,20 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
         `/src/test/${options.language}/${options.packageDirectory}/GreetingServiceTest.${fileExtension}`
       )
     );
+  } else {
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/.gitkeep`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/.gitkeep`
+      )
+    );
   }
 }
 
