@@ -109,41 +109,11 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     );
   }
 
-  if (options.skipStarterCode) {
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/main/${options.language}/${options.packageDirectory}/${options.appClassName}.${fileExtension}`
-      )
-    );
-
+  if (options.minimal) {
     tree.delete(
       joinPathFragments(
         options.projectRoot,
         `/src/main/${options.language}/${options.packageDirectory}/HelloController.${fileExtension}`
-      )
-    );
-
-    if (options.language === 'kotlin') {
-      tree.delete(
-        joinPathFragments(
-          options.projectRoot,
-          `/src/main/kotlin/${options.packageDirectory}/ServletInitializer.kt`
-        )
-      );
-
-      tree.delete(
-        joinPathFragments(
-          options.projectRoot,
-          `/src/test/kotlin/${options.packageDirectory}/${options.appClassName}Tests.kt`
-        )
-      );
-    }
-
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/main/resources/application${options.configFormat}`
       )
     );
 

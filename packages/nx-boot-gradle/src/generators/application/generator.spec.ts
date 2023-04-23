@@ -12,6 +12,7 @@ describe('application generator', () => {
     projectVersion: '0.0.1-SNAPSHOT',
     packaging: 'jar',
     configFormat: '.yml',
+    minimal: false,
   };
 
   beforeEach(() => {
