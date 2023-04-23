@@ -127,16 +127,9 @@ describe('nx-quarkus-gradle e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/src/main/java/org/acme/${names(
-          appName
-        ).className.toLocaleLowerCase()}/.gitkeep`,
-        `apps/${appName}/src/test/java/org/acme/${names(
-          appName
-        ).className.toLocaleLowerCase()}/.gitkeep`,
-
-        `apps/${appName}/src/native-test/java/org/acme/${names(
-          appName
-        ).className.toLocaleLowerCase()}/.gitkeep`
+        `apps/${appName}/src/main/java/.gitkeep`,
+        `apps/${appName}/src/test/java/.gitkeep`,
+        `apps/${appName}/src/native-test/java/.gitkeep`
       )
     ).toThrow();
 
@@ -409,16 +402,9 @@ describe('nx-quarkus-gradle e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/src/main/kotlin/org/acme/${names(
-          appName
-        ).className.toLocaleLowerCase()}/.gitkeep`,
-        `apps/${appName}/src/test/kotlin/org/acme/${names(
-          appName
-        ).className.toLocaleLowerCase()}/.gitkeep`,
-
-        `apps/${appName}/src/native-test/kotlin/org/acme/${names(
-          appName
-        ).className.toLocaleLowerCase()}/.gitkeep`
+        `apps/${appName}/src/main/kotlin/.gitkeep`,
+        `apps/${appName}/src/test/kotlin/.gitkeep`,
+        `apps/${appName}/src/native-test/kotlin/.gitkeep`
       )
     ).toThrow();
 
@@ -622,12 +608,8 @@ describe('nx-quarkus-gradle e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/src/main/java/org/acme/${names(
-          libName
-        ).className.toLocaleLowerCase()}/.gitkeep`,
-        `libs/${libName}/src/test/java/org/acme/${names(
-          libName
-        ).className.toLocaleLowerCase()}/.gitkeep`
+        `libs/${libName}/src/main/java/.gitkeep`,
+        `libs/${libName}/src/test/java/.gitkeep`
       )
     ).toThrow();
 
@@ -699,12 +681,8 @@ describe('nx-quarkus-gradle e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/src/main/kotlin/org/acme/${names(
-          libName
-        ).className.toLocaleLowerCase()}/.gitkeep`,
-        `libs/${libName}/src/test/kotlin/org/acme/${names(
-          libName
-        ).className.toLocaleLowerCase()}/.gitkeep`
+        `libs/${libName}/src/main/kotlin/.gitkeep`,
+        `libs/${libName}/src/test/kotlin/.gitkeep`
       )
     ).toThrow();
 
@@ -1252,16 +1230,9 @@ describe('nx-quarkus-gradle e2e', () => {
       checkFilesExist(
         `apps/${appName}/build.gradle`,
         `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/java/org/acme/${names(
-          appName
-        ).className.toLocaleLowerCase()}/.gitkeep`,
-        `apps/${appName}/src/test/java/org/acme/${names(
-          appName
-        ).className.toLocaleLowerCase()}/.gitkeep`,
-
-        `apps/${appName}/src/native-test/java/org/acme/${names(
-          appName
-        ).className.toLocaleLowerCase()}/.gitkeep`
+        `apps/${appName}/src/main/java/.gitkeep`,
+        `apps/${appName}/src/test/java/.gitkeep`,
+        `apps/${appName}/src/native-test/java/.gitkeep`
       )
     ).not.toThrow();
 
@@ -1293,16 +1264,9 @@ describe('nx-quarkus-gradle e2e', () => {
       checkFilesExist(
         `apps/${appName}/build.gradle.kts`,
         `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/kotlin/org/acme/${names(
-          appName
-        ).className.toLocaleLowerCase()}/.gitkeep`,
-        `apps/${appName}/src/test/kotlin/org/acme/${names(
-          appName
-        ).className.toLocaleLowerCase()}/.gitkeep`,
-
-        `apps/${appName}/src/native-test/kotlin/org/acme/${names(
-          appName
-        ).className.toLocaleLowerCase()}/.gitkeep`
+        `apps/${appName}/src/main/kotlin/.gitkeep`,
+        `apps/${appName}/src/test/kotlin/.gitkeep`,
+        `apps/${appName}/src/native-test/kotlin/.gitkeep`
       )
     ).not.toThrow();
 
@@ -1336,12 +1300,8 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(() =>
       checkFilesExist(
         `libs/${libName}/build.gradle`,
-        `libs/${libName}/src/main/java/org/acme/${names(
-          libName
-        ).className.toLocaleLowerCase()}/.gitkeep`,
-        `libs/${libName}/src/test/java/org/acme/${names(
-          libName
-        ).className.toLocaleLowerCase()}/.gitkeep`
+        `libs/${libName}/src/main/java/.gitkeep`,
+        `libs/${libName}/src/test/java/.gitkeep`
       )
     ).not.toThrow();
 
@@ -1372,12 +1332,8 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(() =>
       checkFilesExist(
         `libs/${libName}/build.gradle.kts`,
-        `libs/${libName}/src/main/kotlin/org/acme/${names(
-          libName
-        ).className.toLocaleLowerCase()}/.gitkeep`,
-        `libs/${libName}/src/test/kotlin/org/acme/${names(
-          libName
-        ).className.toLocaleLowerCase()}/.gitkeep`
+        `libs/${libName}/src/main/kotlin/.gitkeep`,
+        `libs/${libName}/src/test/kotlin/.gitkeep`
       )
     ).not.toThrow();
 
