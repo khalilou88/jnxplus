@@ -1614,4 +1614,137 @@ describe('nx-boot-maven e2e', () => {
       target: parentProjectName,
     });
   }, 1200000);
+
+  it('should skip starter code when generating a java application with skipStarterCode option', async () => {
+    const appName = uniq('boot-maven-app-');
+
+    await runNxCommandAsync(`generate @jnxplus/nx-boot-maven:init`);
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:application ${appName} --skipStarterCode`
+    );
+
+    expect(() => checkFilesExist(`apps/${appName}/build.maven`)).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/java/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/${
+          names(appName).className
+        }Application.java`,
+        `apps/${appName}/src/main/java/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/HelloController.java`,
+
+        `apps/${appName}/src/test/resources/application.properties`,
+        `apps/${appName}/src/test/java/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+      )
+    ).toThrow();
+  }, 1200000);
+
+  it('should skip starter code when generating a kotlin application with skipStarterCode option', async () => {
+    const appName = uniq('boot-maven-app-');
+
+    await runNxCommandAsync(`generate @jnxplus/nx-boot-maven:init`);
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:application ${appName} --language kotlin --skipStarterCode`
+    );
+
+    expect(() =>
+      checkFilesExist(`apps/${appName}/build.maven.kts`)
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/build.maven.kts`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/${
+          names(appName).className
+        }Application.kt`,
+        `apps/${appName}/src/main/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
+        `apps/${appName}/src/main/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/HelloController.kt`,
+        `apps/${appName}/src/test/resources/application.properties`,
+        `apps/${appName}/src/test/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/${
+          names(appName).className
+        }ApplicationTests.kt`,
+        `apps/${appName}/src/test/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/HelloControllerTests.kt`
+      )
+    ).toThrow();
+  }, 1200000);
+
+  it('should skip starter code when generating a java library with skipStarterCode option', async () => {
+    const libName = uniq('boot-maven-lib-');
+
+    const rootProjectName = uniq('root-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:init --rootProjectName ${rootProjectName}`
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:library ${libName} --skipStarterCode`
+    );
+
+    expect(() => checkFilesExist(`libs/${libName}/build.maven`)).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/src/main/java/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/HelloService.java`,
+        `libs/${libName}/src/test/java/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
+        `libs/${libName}/src/test/java/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+      )
+    ).toThrow();
+  }, 1200000);
+
+  it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
+    const libName = uniq('boot-maven-lib-');
+
+    const rootProjectName = uniq('root-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:init --rootProjectName ${rootProjectName}`
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:library ${libName} --language kotlin --skipStarterCode`
+    );
+
+    expect(() =>
+      checkFilesExist(`libs/${libName}/build.maven.kts`)
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/src/main/kotlin/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/HelloService.kt`,
+        `apps/${libName}/src/test/resources/junit-platform.properties`,
+        `libs/${libName}/src/test/kotlin/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/TestConfiguration.kt`,
+        `libs/${libName}/src/test/kotlin/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/HelloServiceTests.kt`
+      )
+    ).toThrow();
+  }, 1200000);
 });

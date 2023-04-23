@@ -418,9 +418,16 @@ describe('nx-boot-gradle e2e', () => {
         }Application.kt`,
         `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
+        ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
+        `apps/${appName}/src/main/kotlin/com/example/${names(
+          appName
         ).className.toLocaleLowerCase()}/HelloController.kt`,
-
         `apps/${appName}/src/test/resources/application.properties`,
+        `apps/${appName}/src/test/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/${
+          names(appName).className
+        }ApplicationTests.kt`,
         `apps/${appName}/src/test/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTests.kt`
@@ -578,7 +585,7 @@ describe('nx-boot-gradle e2e', () => {
   }, 1200000);
 
   it('directory with dash', async () => {
-    const randomName = uniq('boot-maven-app-');
+    const randomName = uniq('boot-gradle-app-');
     const appName = `deep-sub-dir-${randomName}`;
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
@@ -1264,5 +1271,138 @@ describe('nx-boot-gradle e2e', () => {
       source: libName,
       target: 'spring-boot-root-project',
     });
+  }, 1200000);
+
+  it('should skip starter code when generating a java application with skipStarterCode option', async () => {
+    const appName = uniq('boot-gradle-app-');
+
+    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:application ${appName} --skipStarterCode`
+    );
+
+    expect(() => checkFilesExist(`apps/${appName}/build.gradle`)).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/java/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/${
+          names(appName).className
+        }Application.java`,
+        `apps/${appName}/src/main/java/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/HelloController.java`,
+
+        `apps/${appName}/src/test/resources/application.properties`,
+        `apps/${appName}/src/test/java/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+      )
+    ).toThrow();
+  }, 1200000);
+
+  it('should skip starter code when generating a kotlin application with skipStarterCode option', async () => {
+    const appName = uniq('boot-gradle-app-');
+
+    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:application ${appName} --language kotlin --skipStarterCode`
+    );
+
+    expect(() =>
+      checkFilesExist(`apps/${appName}/build.gradle.kts`)
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/build.gradle.kts`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/${
+          names(appName).className
+        }Application.kt`,
+        `apps/${appName}/src/main/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
+        `apps/${appName}/src/main/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/HelloController.kt`,
+        `apps/${appName}/src/test/resources/application.properties`,
+        `apps/${appName}/src/test/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/${
+          names(appName).className
+        }ApplicationTests.kt`,
+        `apps/${appName}/src/test/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/HelloControllerTests.kt`
+      )
+    ).toThrow();
+  }, 1200000);
+
+  it('should skip starter code when generating a java library with skipStarterCode option', async () => {
+    const libName = uniq('boot-gradle-lib-');
+
+    const rootProjectName = uniq('root-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:init --rootProjectName ${rootProjectName}`
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:library ${libName} --skipStarterCode`
+    );
+
+    expect(() => checkFilesExist(`libs/${libName}/build.gradle`)).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/src/main/java/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/HelloService.java`,
+        `libs/${libName}/src/test/java/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
+        `libs/${libName}/src/test/java/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+      )
+    ).toThrow();
+  }, 1200000);
+
+  it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
+    const libName = uniq('boot-gradle-lib-');
+
+    const rootProjectName = uniq('root-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:init --rootProjectName ${rootProjectName}`
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:library ${libName} --language kotlin --skipStarterCode`
+    );
+
+    expect(() =>
+      checkFilesExist(`libs/${libName}/build.gradle.kts`)
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/src/main/kotlin/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/HelloService.kt`,
+        `apps/${libName}/src/test/resources/junit-platform.properties`,
+        `libs/${libName}/src/test/kotlin/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/TestConfiguration.kt`,
+        `libs/${libName}/src/test/kotlin/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/HelloServiceTests.kt`
+      )
+    ).toThrow();
   }, 1200000);
 });

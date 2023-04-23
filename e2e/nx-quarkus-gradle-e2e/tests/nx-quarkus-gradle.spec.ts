@@ -1321,7 +1321,7 @@ describe('nx-quarkus-gradle e2e', () => {
     ).toThrow();
   }, 1200000);
 
-  it('should skip starter code when generating a library with skipStarterCode option', async () => {
+  it('should skip starter code when generating a java library with skipStarterCode option', async () => {
     const libName = uniq('quarkus-gradle-lib-');
 
     const rootProjectName = uniq('root-project-');

@@ -103,6 +103,11 @@
           }
         ]
       }
+    },
+    "skipStarterCode": {
+      "description": "Skip starter code",
+      "type": "boolean",
+      "default": false
     }
   },
   "required": [

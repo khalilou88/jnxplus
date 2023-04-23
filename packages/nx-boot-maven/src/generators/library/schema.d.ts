@@ -11,4 +11,5 @@ export interface NxBootMavenLibGeneratorSchema {
   projectVersion: string;
   parentProject?: string;
   projects?: string;
+  skipStarterCode?: boolean;
 }

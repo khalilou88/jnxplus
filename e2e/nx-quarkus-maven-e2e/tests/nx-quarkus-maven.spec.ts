@@ -22,7 +22,7 @@ import {
 } from './e2e-utils';
 import * as fs from 'fs';
 
-describe('nx-quarkus-maven e2e', () => {
+describe('nx-quarkus-gradle e2e', () => {
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
@@ -34,8 +34,8 @@ describe('nx-quarkus-maven e2e', () => {
     runNxNewCommand('', true);
 
     patchPackageJsonForPlugin(
-      '@jnxplus/nx-quarkus-maven',
-      'dist/packages/nx-quarkus-maven'
+      '@jnxplus/nx-quarkus-gradle',
+      'dist/packages/nx-quarkus-gradle'
     );
     patchPackageJsonForPlugin(
       'prettier-plugin-java',
@@ -48,7 +48,7 @@ describe('nx-quarkus-maven e2e', () => {
     runPackageManagerInstall();
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:init --parentProjectName ${parentProjectName}`
+      `generate @jnxplus/nx-quarkus-gradle:init --parentProjectName ${parentProjectName}`
     );
 
     if (isCI) {
@@ -65,21 +65,21 @@ describe('nx-quarkus-maven e2e', () => {
     runNxCommandAsync('reset');
   });
 
-  it('should init the workspace with @jnxplus/nx-quarkus-maven capabilities', async () => {
-    // Making sure the package.json file contains the @jnxplus/nx-quarkus-maven dependency
+  it('should init the workspace with @jnxplus/nx-quarkus-gradle capabilities', async () => {
+    // Making sure the package.json file contains the @jnxplus/nx-quarkus-gradle dependency
     const packageJson = readJson('package.json');
     expect(
-      packageJson.devDependencies['@jnxplus/nx-quarkus-maven']
+      packageJson.devDependencies['@jnxplus/nx-quarkus-gradle']
     ).toBeTruthy();
 
-    // Making sure the nx.json file contains the @jnxplus/nx-quarkus-maven inside the plugins section
+    // Making sure the nx.json file contains the @jnxplus/nx-quarkus-gradle inside the plugins section
     const nxJson = readJson('nx.json');
-    expect(nxJson.plugins.includes('@jnxplus/nx-quarkus-maven')).toBeTruthy();
+    expect(nxJson.plugins.includes('@jnxplus/nx-quarkus-gradle')).toBeTruthy();
 
     expect(() =>
       checkFilesExist(
-        '.mvn/wrapper/maven-wrapper.jar',
-        '.mvn/wrapper/maven-wrapper.properties',
+        '.mvn/wrapper/gradle-wrapper.jar',
+        '.mvn/wrapper/gradle-wrapper.properties',
         'mvnw',
         'mvnw.cmd',
         'pom.xml',
@@ -90,14 +90,14 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('should migrate', async () => {
-    await runNxCommandAsync(`generate @jnxplus/nx-quarkus-maven:migrate`);
+    await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:migrate`);
   }, 1200000);
 
   it('should create a java application', async () => {
-    const appName = uniq('quarkus-maven-app-');
+    const appName = uniq('quarkus-gradle-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${appName}`
+      `generate @jnxplus/nx-quarkus-gradle:application ${appName}`
     );
 
     expect(() =>
@@ -181,7 +181,7 @@ describe('nx-quarkus-maven e2e', () => {
     projectJson.targets = {
       ...projectJson.targets,
       'run-task': {
-        executor: '@jnxplus/nx-quarkus-maven:run-task',
+        executor: '@jnxplus/nx-quarkus-gradle:run-task',
       },
     };
     updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
@@ -193,12 +193,12 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('should use specified options to create an application', async () => {
-    const randomName = uniq('quarkus-maven-app-');
+    const randomName = uniq('quarkus-gradle-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId org.jnxplus --projectVersion 1.2.3 --configFormat .yml`
+      `generate @jnxplus/nx-quarkus-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId org.jnxplus --projectVersion 1.2.3 --configFormat .yml`
     );
 
     expect(() =>
@@ -268,10 +268,10 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('should create a kotlin application', async () => {
-    const appName = uniq('quarkus-maven-app-');
+    const appName = uniq('quarkus-gradle-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${appName} --language kotlin`
+      `generate @jnxplus/nx-quarkus-gradle:application ${appName} --language kotlin`
     );
 
     expect(() =>
@@ -351,12 +351,12 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('--an app with aliases', async () => {
-    const randomName = uniq('quarkus-maven-app-');
+    const randomName = uniq('quarkus-gradle-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-quarkus-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId org.jnxplus --v 1.2.3 --configFormat .yml`
+      `g @jnxplus/nx-quarkus-gradle:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId org.jnxplus --v 1.2.3 --configFormat .yml`
     );
 
     expect(() =>
@@ -424,12 +424,12 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('should generate an app with a simple package name', async () => {
-    const randomName = uniq('quarkus-maven-app-');
+    const randomName = uniq('quarkus-gradle-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-quarkus-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId org.jnxplus --simplePackageName --v 1.2.3 --configFormat .yml`
+      `g @jnxplus/nx-quarkus-gradle:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId org.jnxplus --simplePackageName --v 1.2.3 --configFormat .yml`
     );
 
     expect(() =>
@@ -497,11 +497,11 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('directory with dash', async () => {
-    const randomName = uniq('boot-maven-app-');
+    const randomName = uniq('boot-gradle-app-');
     const appName = `deep-sub-dir-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${randomName} --directory deep/sub-dir`
+      `generate @jnxplus/nx-quarkus-gradle:application ${randomName} --directory deep/sub-dir`
     );
 
     //graph
@@ -532,10 +532,10 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('should create a library', async () => {
-    const libName = uniq('quarkus-maven-lib-');
+    const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${libName}`
+      `generate @jnxplus/nx-quarkus-gradle:library ${libName}`
     );
 
     expect(() =>
@@ -593,10 +593,10 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('should create a kotlin library', async () => {
-    const libName = uniq('quarkus-maven-lib-');
+    const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${libName} --language kotlin`
+      `generate @jnxplus/nx-quarkus-gradle:library ${libName} --language kotlin`
     );
 
     expect(() =>
@@ -652,12 +652,12 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('should use the the specified properties to create a library', async () => {
-    const randomName = uniq('quarkus-maven-lib-');
+    const randomName = uniq('quarkus-gradle-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId org.jnxplus --projectVersion 1.2.3`
+      `generate @jnxplus/nx-quarkus-gradle:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId org.jnxplus --projectVersion 1.2.3`
     );
 
     expect(() =>
@@ -711,12 +711,12 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('should generare a lib with a simple package name', async () => {
-    const randomName = uniq('quarkus-maven-lib-');
+    const randomName = uniq('quarkus-gradle-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId org.jnxplus --simplePackageName --projectVersion 1.2.3`
+      `generate @jnxplus/nx-quarkus-gradle:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId org.jnxplus --simplePackageName --projectVersion 1.2.3`
     );
 
     expect(() =>
@@ -770,12 +770,12 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('--a lib with aliases', async () => {
-    const randomName = uniq('quarkus-maven-lib-');
+    const randomName = uniq('quarkus-gradle-lib-');
     const libDir = 'subdir';
     const libName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-quarkus-maven:lib ${randomName} --dir ${libDir} --t e2etag,e2ePackage --groupId org.jnxplus --v 1.2.3`
+      `g @jnxplus/nx-quarkus-gradle:lib ${randomName} --dir ${libDir} --t e2etag,e2ePackage --groupId org.jnxplus --v 1.2.3`
     );
 
     expect(() =>
@@ -829,15 +829,15 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('should add a lib to an app dependencies', async () => {
-    const appName = uniq('quarkus-maven-app-');
-    const libName = uniq('quarkus-maven-lib-');
+    const appName = uniq('quarkus-gradle-app-');
+    const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${appName}`
+      `generate @jnxplus/nx-quarkus-gradle:application ${appName}`
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${libName} --projects ${appName}`
+      `generate @jnxplus/nx-quarkus-gradle:library ${libName} --projects ${appName}`
     );
 
     // Making sure the app pom.xml file contains the lib
@@ -906,15 +906,15 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('should add a kotlin lib to a kotlin app dependencies', async () => {
-    const appName = uniq('quarkus-maven-app-');
-    const libName = uniq('quarkus-maven-lib-');
+    const appName = uniq('quarkus-gradle-app-');
+    const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${appName} --language kotlin`
+      `generate @jnxplus/nx-quarkus-gradle:application ${appName} --language kotlin`
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${libName} --language kotlin --projects ${appName}`
+      `generate @jnxplus/nx-quarkus-gradle:library ${libName} --language kotlin --projects ${appName}`
     );
 
     // Making sure the app pom.xml file contains the lib
@@ -981,10 +981,10 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it("should dep-graph don't crash when pom.xml don't contains dependencies tag", async () => {
-    const libName = uniq('quarkus-maven-lib-');
+    const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${libName}`
+      `generate @jnxplus/nx-quarkus-gradle:library ${libName}`
     );
 
     const regex = /<dependencies>[\s\S]*?<\/dependencies>/;
@@ -1011,26 +1011,26 @@ describe('nx-quarkus-maven e2e', () => {
   it('should generate java apps that use a parent project', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${appsParentProject}`
+      `generate @jnxplus/nx-quarkus-gradle:parent-project ${appsParentProject}`
     );
 
-    const randomName = uniq('boot-maven-app-');
+    const randomName = uniq('boot-gradle-app-');
     const appDir = 'dir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${randomName} --parent-project ${appsParentProject} --directory ${appDir}`
+      `generate @jnxplus/nx-quarkus-gradle:application ${randomName} --parent-project ${appsParentProject} --directory ${appDir}`
     );
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject}`
+      `generate @jnxplus/nx-quarkus-gradle:parent-project ${secondParentProject} --parent-project ${appsParentProject}`
     );
 
-    const secondAppName = uniq('boot-maven-app-');
+    const secondAppName = uniq('boot-gradle-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${secondAppName} --parent-project ${secondParentProject}`
+      `generate @jnxplus/nx-quarkus-gradle:application ${secondAppName} --parent-project ${secondParentProject}`
     );
     const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
     expect(secondBuildResult.stdout).toContain('Executor ran for Build');
@@ -1041,12 +1041,12 @@ describe('nx-quarkus-maven e2e', () => {
       parentProjectDir
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
+      `generate @jnxplus/nx-quarkus-gradle:parent-project ${randomParentproject} --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
     );
 
-    const thirdAppName = uniq('boot-maven-app-');
+    const thirdAppName = uniq('boot-gradle-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${thirdAppName} --parent-project ${thirdParentProject}`
+      `generate @jnxplus/nx-quarkus-gradle:application ${thirdAppName} --parent-project ${thirdParentProject}`
     );
     const thirdBuildResult = await runNxCommandAsync(`build ${thirdAppName}`);
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
@@ -1101,26 +1101,26 @@ describe('nx-quarkus-maven e2e', () => {
   it('should generate kotlin apps that use a parent project', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${appsParentProject}`
+      `generate @jnxplus/nx-quarkus-gradle:parent-project ${appsParentProject}`
     );
 
-    const randomName = uniq('boot-maven-app-');
+    const randomName = uniq('boot-gradle-app-');
     const appDir = 'dir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${randomName} --parent-project ${appsParentProject} --directory ${appDir} --language kotlin`
+      `generate @jnxplus/nx-quarkus-gradle:application ${randomName} --parent-project ${appsParentProject} --directory ${appDir} --language kotlin`
     );
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject}`
+      `generate @jnxplus/nx-quarkus-gradle:parent-project ${secondParentProject} --parent-project ${appsParentProject}`
     );
 
-    const secondAppName = uniq('boot-maven-app-');
+    const secondAppName = uniq('boot-gradle-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${secondAppName} --parent-project ${secondParentProject} --language kotlin`
+      `generate @jnxplus/nx-quarkus-gradle:application ${secondAppName} --parent-project ${secondParentProject} --language kotlin`
     );
     const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
     expect(secondBuildResult.stdout).toContain('Executor ran for Build');
@@ -1131,12 +1131,12 @@ describe('nx-quarkus-maven e2e', () => {
       parentProjectDir
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
+      `generate @jnxplus/nx-quarkus-gradle:parent-project ${randomParentproject} --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
     );
 
-    const thirdAppName = uniq('boot-maven-app-');
+    const thirdAppName = uniq('boot-gradle-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${thirdAppName} --parent-project ${thirdParentProject} --language kotlin`
+      `generate @jnxplus/nx-quarkus-gradle:application ${thirdAppName} --parent-project ${thirdParentProject} --language kotlin`
     );
     const thirdBuildResult = await runNxCommandAsync(`build ${thirdAppName}`);
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
@@ -1192,13 +1192,13 @@ describe('nx-quarkus-maven e2e', () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${libsParentProject} --projectType library`
+      `generate @jnxplus/nx-quarkus-gradle:parent-project ${libsParentProject} --projectType library`
     );
 
-    const libName = uniq('boot-maven-lib-');
+    const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${libName} --parent-project ${libsParentProject}`
+      `generate @jnxplus/nx-quarkus-gradle:library ${libName} --parent-project ${libsParentProject}`
     );
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
@@ -1207,15 +1207,15 @@ describe('nx-quarkus-maven e2e', () => {
     const secondParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject}`
+      `generate @jnxplus/nx-quarkus-gradle:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject}`
     );
 
-    const randomName = uniq('boot-maven-lib-');
+    const randomName = uniq('boot-gradle-lib-');
     const libDir = 'subdir';
     const secondLibName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${randomName} --parent-project ${secondParentProject} --dir ${libDir}`
+      `generate @jnxplus/nx-quarkus-gradle:library ${randomName} --parent-project ${secondParentProject} --dir ${libDir}`
     );
 
     const secondBuildResult = await runNxCommandAsync(`build ${secondLibName}`);
@@ -1227,12 +1227,12 @@ describe('nx-quarkus-maven e2e', () => {
       parentProjectDir
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
+      `generate @jnxplus/nx-quarkus-gradle:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
     );
 
-    const thirdLibName = uniq('boot-maven-lib-');
+    const thirdLibName = uniq('boot-gradle-lib-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${thirdLibName} --parent-project ${thirdParentProject}`
+      `generate @jnxplus/nx-quarkus-gradle:library ${thirdLibName} --parent-project ${thirdParentProject}`
     );
     const thirdBuildResult = await runNxCommandAsync(`build ${thirdLibName}`);
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
@@ -1288,13 +1288,13 @@ describe('nx-quarkus-maven e2e', () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${libsParentProject} --projectType library`
+      `generate @jnxplus/nx-quarkus-gradle:parent-project ${libsParentProject} --projectType library`
     );
 
-    const libName = uniq('boot-maven-lib-');
+    const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${libName} --parent-project ${libsParentProject} --language kotlin`
+      `generate @jnxplus/nx-quarkus-gradle:library ${libName} --parent-project ${libsParentProject} --language kotlin`
     );
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
@@ -1303,15 +1303,15 @@ describe('nx-quarkus-maven e2e', () => {
     const secondParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject}`
+      `generate @jnxplus/nx-quarkus-gradle:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject}`
     );
 
-    const randomName = uniq('boot-maven-lib-');
+    const randomName = uniq('boot-gradle-lib-');
     const libDir = 'subdir';
     const secondLibName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${randomName} --parent-project ${secondParentProject} --dir ${libDir} --language kotlin`
+      `generate @jnxplus/nx-quarkus-gradle:library ${randomName} --parent-project ${secondParentProject} --dir ${libDir} --language kotlin`
     );
 
     const secondBuildResult = await runNxCommandAsync(`build ${secondLibName}`);
@@ -1323,12 +1323,12 @@ describe('nx-quarkus-maven e2e', () => {
       parentProjectDir
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
+      `generate @jnxplus/nx-quarkus-gradle:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
     );
 
-    const thirdLibName = uniq('boot-maven-lib-');
+    const thirdLibName = uniq('boot-gradle-lib-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${thirdLibName} --parent-project ${thirdParentProject} --language kotlin`
+      `generate @jnxplus/nx-quarkus-gradle:library ${thirdLibName} --parent-project ${thirdParentProject} --language kotlin`
     );
     const thirdBuildResult = await runNxCommandAsync(`build ${thirdLibName}`);
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
@@ -1381,11 +1381,11 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('should create an application with simple name', async () => {
-    const appName = uniq('quarkus-maven-app-');
+    const appName = uniq('quarkus-gradle-app-');
     const appDir = 'deep/subdir';
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:application ${appName} --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId org.jnxplus --projectVersion 1.2.3 --configFormat .yml`
+      `generate @jnxplus/nx-quarkus-gradle:application ${appName} --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId org.jnxplus --projectVersion 1.2.3 --configFormat .yml`
     );
 
     expect(() =>
@@ -1455,11 +1455,11 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('should create a library with a simple name', async () => {
-    const libName = uniq('quarkus-maven-lib-');
+    const libName = uniq('quarkus-gradle-lib-');
     const libDir = 'deep/subdir';
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:library ${libName} --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId org.jnxplus --projectVersion 1.2.3`
+      `generate @jnxplus/nx-quarkus-gradle:library ${libName} --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId org.jnxplus --projectVersion 1.2.3`
     );
 
     expect(() =>
@@ -1510,5 +1510,121 @@ describe('nx-quarkus-maven e2e', () => {
       source: libName,
       target: parentProjectName,
     });
+  }, 1200000);
+
+  it('should skip starter code when generating a java application with skipStarterCode option', async () => {
+    const appName = uniq('quarkus-gradle-app-');
+
+    await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-gradle:application ${appName} --skipStarterCode`
+    );
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/build.gradle`,
+        `apps/${appName}/src/main/resources/application.properties`
+      )
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/src/main/java/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResource.java`,
+        `apps/${appName}/src/test/java/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
+        `apps/${appName}/src/native-test/java/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResourceIT.java`
+      )
+    ).toThrow();
+  }, 1200000);
+
+  it('should skip starter code when generating a kotlin application with skipStarterCode option', async () => {
+    const appName = uniq('quarkus-gradle-app-');
+
+    await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-gradle:application ${appName} --language kotlin --skipStarterCode`
+    );
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/build.gradle.kts`,
+        `apps/${appName}/src/main/resources/application.properties`
+      )
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/src/main/kotlin/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResource.kt`,
+        `apps/${appName}/src/test/kotlin/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`,
+        `apps/${appName}/src/native-test/kotlin/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResourceIT.kt`
+      )
+    ).toThrow();
+  }, 1200000);
+
+  it('should skip starter code when generating a java library with skipStarterCode option', async () => {
+    const libName = uniq('quarkus-gradle-lib-');
+
+    const rootProjectName = uniq('root-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-gradle:init --rootProjectName ${rootProjectName}`
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-gradle:library ${libName} --skipStarterCode`
+    );
+
+    expect(() => checkFilesExist(`libs/${libName}/build.gradle`)).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/src/main/java/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/GreetingService.java`,
+        `libs/${libName}/src/test/java/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
+      )
+    ).toThrow();
+  }, 1200000);
+
+  it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
+    const libName = uniq('quarkus-gradle-lib-');
+
+    const rootProjectName = uniq('root-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-gradle:init --rootProjectName ${rootProjectName}`
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-gradle:library ${libName} --language kotlin --skipStarterCode`
+    );
+
+    expect(() =>
+      checkFilesExist(`libs/${libName}/build.gradle.kts`)
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/src/main/kotlin/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/GreetingService.kt`,
+        `libs/${libName}/src/test/kotlin/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`
+      )
+    ).toThrow();
   }, 1200000);
 });

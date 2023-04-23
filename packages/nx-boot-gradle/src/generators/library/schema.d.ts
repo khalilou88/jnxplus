@@ -10,4 +10,5 @@ export interface NxBootGradleLibGeneratorSchema {
   groupId: string;
   projectVersion: string;
   projects?: string;
+  skipStarterCode?: boolean;
 }
