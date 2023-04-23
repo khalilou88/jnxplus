@@ -93,7 +93,7 @@ describe('nx-quarkus-maven e2e', () => {
     await runNxCommandAsync(`generate @jnxplus/nx-quarkus-maven:migrate`);
   }, 1200000);
 
-  it('should create an java application', async () => {
+  it('should create a java application', async () => {
     const appName = uniq('quarkus-maven-app-');
 
     await runNxCommandAsync(
@@ -267,7 +267,7 @@ describe('nx-quarkus-maven e2e', () => {
     }
   }, 1200000);
 
-  it('should create an kotlin application', async () => {
+  it('should create a kotlin application', async () => {
     const appName = uniq('quarkus-maven-app-');
 
     await runNxCommandAsync(
@@ -1510,5 +1510,111 @@ describe('nx-quarkus-maven e2e', () => {
       source: libName,
       target: parentProjectName,
     });
+  }, 1200000);
+
+  it('should skip starter code when generating a java application with skipStarterCode option', async () => {
+    const appName = uniq('quarkus-maven-app-');
+
+    await runNxCommandAsync(`generate @jnxplus/nx-quarkus-maven:init`);
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-maven:application ${appName} --skipStarterCode`
+    );
+
+    expect(() => checkFilesExist(`apps/${appName}/pom.xml`)).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/java/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResource.java`,
+        `apps/${appName}/src/test/java/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
+        `apps/${appName}/src/native-test/java/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResourceIT.java`
+      )
+    ).toThrow();
+  }, 1200000);
+
+  it('should skip starter code when generating a kotlin application with skipStarterCode option', async () => {
+    const appName = uniq('quarkus-maven-app-');
+
+    await runNxCommandAsync(`generate @jnxplus/nx-quarkus-maven:init`);
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-maven:application ${appName} --language kotlin --skipStarterCode`
+    );
+
+    expect(() => checkFilesExist(`apps/${appName}/pom.xml`)).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/kotlin/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResource.kt`,
+        `apps/${appName}/src/test/kotlin/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`,
+        `apps/${appName}/src/native-test/kotlin/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResourceIT.kt`
+      )
+    ).toThrow();
+  }, 1200000);
+
+  it('should skip starter code when generating a java library with skipStarterCode option', async () => {
+    const libName = uniq('quarkus-maven-lib-');
+
+    const rootProjectName = uniq('root-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-maven:init --rootProjectName ${rootProjectName}`
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-maven:library ${libName} --skipStarterCode`
+    );
+
+    expect(() => checkFilesExist(`libs/${libName}/pom.xml`)).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/src/main/java/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/GreetingService.java`,
+        `libs/${libName}/src/test/java/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
+      )
+    ).toThrow();
+  }, 1200000);
+
+  it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
+    const libName = uniq('quarkus-maven-lib-');
+
+    const rootProjectName = uniq('root-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-maven:init --rootProjectName ${rootProjectName}`
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-maven:library ${libName} --language kotlin --skipStarterCode`
+    );
+
+    expect(() => checkFilesExist(`libs/${libName}/pom.xml`)).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/src/main/kotlin/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/GreetingService.kt`,
+        `libs/${libName}/src/test/kotlin/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`
+      )
+    ).toThrow();
   }, 1200000);
 });

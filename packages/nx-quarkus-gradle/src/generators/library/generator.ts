@@ -1,12 +1,13 @@
 import {
+  Tree,
   addProjectConfiguration,
   formatFiles,
   generateFiles,
   getWorkspaceLayout,
+  joinPathFragments,
   names,
   offsetFromRoot,
   readProjectConfiguration,
-  Tree,
 } from '@nrwl/devkit';
 import { join } from 'path';
 import { normalizeName } from '../../utils/command';
@@ -99,6 +100,37 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     options.projectRoot,
     templateOptions
   );
+
+  if (options.skipStarterCode) {
+    const fileExtension = options.language === 'java' ? 'java' : 'kt';
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/${options.packageDirectory}/GreetingService.${fileExtension}`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/${options.packageDirectory}/GreetingServiceTest.${fileExtension}`
+      )
+    );
+  } else {
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/${options.packageDirectory}/.gitkeep`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/${options.packageDirectory}/.gitkeep`
+      )
+    );
+  }
 }
 
 export default async function (

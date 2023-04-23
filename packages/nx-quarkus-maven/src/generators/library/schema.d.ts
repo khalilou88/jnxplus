@@ -11,4 +11,5 @@ export interface NxQuarkusMavenLibGeneratorSchema {
   projectVersion: string;
   parentProject?: string;
   projects?: string;
+  skipStarterCode?: boolean;
 }

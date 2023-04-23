@@ -3,6 +3,7 @@ import {
   formatFiles,
   generateFiles,
   getWorkspaceLayout,
+  joinPathFragments,
   names,
   offsetFromRoot,
   readProjectConfiguration,
@@ -126,6 +127,39 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     options.projectRoot,
     templateOptions
   );
+
+  if (options.skipStarterCode) {
+    const fileExtension = options.language === 'java' ? 'java' : 'kt';
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/${options.packageDirectory}/HelloService.${fileExtension}`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/${options.packageDirectory}/HelloServiceTests.${fileExtension}`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/${options.packageDirectory}/TestConfiguration.${fileExtension}`
+      )
+    );
+
+    if (options.language === 'kotlin') {
+      tree.delete(
+        joinPathFragments(
+          options.projectRoot,
+          `/src/test/resources/junit-platform.properties`
+        )
+      );
+    }
+  }
 }
 
 export default async function (

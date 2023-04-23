@@ -116,7 +116,7 @@ describe('nx-quarkus-gradle e2e', () => {
     await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:migrate`);
   }, 1200000);
 
-  it('should create an java application', async () => {
+  it('should create a java application', async () => {
     const appName = uniq('quarkus-gradle-app-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
@@ -124,6 +124,21 @@ describe('nx-quarkus-gradle e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:application ${appName}`
     );
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/src/main/java/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/.gitkeep`,
+        `apps/${appName}/src/test/java/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/.gitkeep`,
+
+        `apps/${appName}/src/native-test/java/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/.gitkeep`
+      )
+    ).toThrow();
 
     expect(() =>
       checkFilesExist(
@@ -370,7 +385,7 @@ describe('nx-quarkus-gradle e2e', () => {
     }
   }, 1200000);
 
-  it('should create an kotlin application', async () => {
+  it('should create a kotlin application', async () => {
     const appName = uniq('quarkus-gradle-app-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
@@ -391,6 +406,21 @@ describe('nx-quarkus-gradle e2e', () => {
         ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`
       )
     ).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/src/main/kotlin/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/.gitkeep`,
+        `apps/${appName}/src/test/kotlin/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/.gitkeep`,
+
+        `apps/${appName}/src/native-test/kotlin/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/.gitkeep`
+      )
+    ).toThrow();
 
     // Making sure the build.gradle file contains the good information
     const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
@@ -590,6 +620,17 @@ describe('nx-quarkus-gradle e2e', () => {
       )
     ).not.toThrow();
 
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/src/main/java/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/.gitkeep`,
+        `libs/${libName}/src/test/java/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/.gitkeep`
+      )
+    ).toThrow();
+
     // Making sure the build.gradle file contains the good information
     const buildGradle = readFile(`libs/${libName}/build.gradle`);
     expect(buildGradle.includes('org.acme')).toBeTruthy();
@@ -655,6 +696,17 @@ describe('nx-quarkus-gradle e2e', () => {
         ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`
       )
     ).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/src/main/kotlin/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/.gitkeep`,
+        `libs/${libName}/src/test/kotlin/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/.gitkeep`
+      )
+    ).toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
     const buildGradle = readFile(`libs/${libName}/build.gradle.kts`);
@@ -1185,5 +1237,159 @@ describe('nx-quarkus-gradle e2e', () => {
       source: libName,
       target: 'quarkus-root-project',
     });
+  }, 1200000);
+
+  it('should skip starter code when generating a java application with skipStarterCode option', async () => {
+    const appName = uniq('quarkus-gradle-app-');
+
+    await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-gradle:application ${appName} --skipStarterCode`
+    );
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/build.gradle`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/java/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/.gitkeep`,
+        `apps/${appName}/src/test/java/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/.gitkeep`,
+
+        `apps/${appName}/src/native-test/java/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/.gitkeep`
+      )
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/src/main/java/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResource.java`,
+        `apps/${appName}/src/test/java/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
+        `apps/${appName}/src/native-test/java/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResourceIT.java`
+      )
+    ).toThrow();
+  }, 1200000);
+
+  it('should skip starter code when generating a kotlin application with skipStarterCode option', async () => {
+    const appName = uniq('quarkus-gradle-app-');
+
+    await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-gradle:application ${appName} --language kotlin --skipStarterCode`
+    );
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/build.gradle.kts`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/kotlin/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/.gitkeep`,
+        `apps/${appName}/src/test/kotlin/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/.gitkeep`,
+
+        `apps/${appName}/src/native-test/kotlin/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/.gitkeep`
+      )
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/src/main/kotlin/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResource.kt`,
+        `apps/${appName}/src/test/kotlin/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`,
+        `apps/${appName}/src/native-test/kotlin/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResourceIT.kt`
+      )
+    ).toThrow();
+  }, 1200000);
+
+  it('should skip starter code when generating a java library with skipStarterCode option', async () => {
+    const libName = uniq('quarkus-gradle-lib-');
+
+    const rootProjectName = uniq('root-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-gradle:init --rootProjectName ${rootProjectName}`
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-gradle:library ${libName} --skipStarterCode`
+    );
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/build.gradle`,
+        `libs/${libName}/src/main/java/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/.gitkeep`,
+        `libs/${libName}/src/test/java/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/.gitkeep`
+      )
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/src/main/java/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/GreetingService.java`,
+        `libs/${libName}/src/test/java/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
+      )
+    ).toThrow();
+  }, 1200000);
+
+  it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
+    const libName = uniq('quarkus-gradle-lib-');
+
+    const rootProjectName = uniq('root-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-gradle:init --rootProjectName ${rootProjectName}`
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-gradle:library ${libName} --language kotlin --skipStarterCode`
+    );
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/build.gradle.kts`,
+        `libs/${libName}/src/main/kotlin/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/.gitkeep`,
+        `libs/${libName}/src/test/kotlin/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/.gitkeep`
+      )
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/src/main/kotlin/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/GreetingService.kt`,
+        `libs/${libName}/src/test/kotlin/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`
+      )
+    ).toThrow();
   }, 1200000);
 });

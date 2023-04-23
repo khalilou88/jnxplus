@@ -3,6 +3,7 @@ import {
   formatFiles,
   generateFiles,
   getWorkspaceLayout,
+  joinPathFragments,
   names,
   offsetFromRoot,
   Tree,
@@ -96,6 +97,69 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     options.projectRoot,
     templateOptions
   );
+
+  if (options.skipStarterCode) {
+    const fileExtension = options.language === 'java' ? 'java' : 'kt';
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/${options.packageDirectory}/${options.appClassName}.${fileExtension}`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/${options.packageDirectory}/HelloController.${fileExtension}`
+      )
+    );
+
+    if (options.language === 'kotlin') {
+      tree.delete(
+        joinPathFragments(
+          options.projectRoot,
+          `/src/main/kotlin/${options.packageDirectory}/ServletInitializer.kt`
+        )
+      );
+
+      tree.delete(
+        joinPathFragments(
+          options.projectRoot,
+          `/src/test/kotlin/${options.packageDirectory}/${options.appClassName}Tests.kt`
+        )
+      );
+    }
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/resources/application${options.configFormat}`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/${options.packageDirectory}/HelloControllerTests.${fileExtension}`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/resources/application${options.configFormat}`
+      )
+    );
+
+    if (options.language === 'kotlin') {
+      tree.delete(
+        joinPathFragments(
+          options.projectRoot,
+          '/src/test/resources/junit-platform.properties'
+        )
+      );
+    }
+  }
 }
 
 export default async function (
