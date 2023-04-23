@@ -11,5 +11,5 @@ export interface NxBootGradleAppGeneratorSchema {
   projectVersion: string;
   packaging: PackagingType;
   configFormat: '.properties' | '.yml';
-  skipStarterCode?: boolean;
+  minimal?: boolean;
 }
