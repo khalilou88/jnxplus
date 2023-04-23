@@ -244,7 +244,7 @@ describe('nx-boot-gradle e2e', () => {
           randomName
         ).className.toLocaleLowerCase()}/HelloController.java`,
         `apps/${appDir}/${randomName}/src/main/java/com/example/${names(
-          appName
+          randomName
         ).className.toLocaleLowerCase()}/ServletInitializer.java`,
         `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
@@ -336,7 +336,7 @@ describe('nx-boot-gradle e2e', () => {
           randomName
         ).className.toLocaleLowerCase()}/HelloController.java`,
         `apps/${appDir}/${randomName}/src/main/java/com/example/${names(
-          appName
+          randomName
         ).className.toLocaleLowerCase()}/ServletInitializer.java`,
         `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
@@ -521,7 +521,7 @@ describe('nx-boot-gradle e2e', () => {
           randomName
         ).className.toLocaleLowerCase()}/HelloController.java`,
         `apps/${appDir}/${randomName}/src/main/java/com/example/${names(
-          appName
+          randomName
         ).className.toLocaleLowerCase()}/ServletInitializer.java`,
         `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
