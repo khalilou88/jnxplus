@@ -1629,56 +1629,85 @@ describe('nx-boot-maven e2e', () => {
     });
   }, 1200000);
 
-  it('should skip starter code when generating a java application with skipStarterCode option', async () => {
+  it('should create a minimal java application', async () => {
     const appName = uniq('boot-maven-app-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-maven:init`);
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:application ${appName} --skipStarterCode`
+      `generate @jnxplus/nx-boot-maven:application ${appName} --minimal`
     );
-
-    expect(() => checkFilesExist(`apps/${appName}/pom.xml`)).not.toThrow();
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/pom.xml`,
         `apps/${appName}/src/main/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/test/java/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/${
+          names(appName).className
+        }ApplicationTests.java`
+      )
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
         `apps/${appName}/src/main/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.java`,
-
         `apps/${appName}/src/test/resources/application.properties`,
         `apps/${appName}/src/test/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTests.java`
       )
     ).toThrow();
+
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Tomcat started on port(s): 8080`)
+    );
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(8080);
+    } catch (err) {
+      expect(err).toBeFalsy();
+    }
   }, 1200000);
 
-  it('should skip starter code when generating a kotlin application with skipStarterCode option', async () => {
+  it('should create a minimal kotlin application', async () => {
     const appName = uniq('boot-maven-app-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-boot-maven:init`);
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:application ${appName} --language kotlin --skipStarterCode`
+      `generate @jnxplus/nx-boot-maven:application ${appName} --language kotlin --minimal`
     );
-
-    expect(() => checkFilesExist(`apps/${appName}/pom.xml`)).not.toThrow();
 
     expect(() =>
       checkFilesExist(
+        `apps/${appName}/pom.xml`,
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.kt`,
+        `apps/${appName}/src/test/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/${
+          names(appName).className
+        }ApplicationTests.kt`
+      )
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
         `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
@@ -1686,16 +1715,24 @@ describe('nx-boot-maven e2e', () => {
           appName
         ).className.toLocaleLowerCase()}/HelloController.kt`,
         `apps/${appName}/src/test/resources/application.properties`,
-        `apps/${appName}/src/test/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }ApplicationTests.kt`,
+
         `apps/${appName}/src/test/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTests.kt`
       )
     ).toThrow();
+
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Tomcat started on port(s): 8080`)
+    );
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(8080);
+    } catch (err) {
+      expect(err).toBeFalsy();
+    }
   }, 1200000);
 
   it('should skip starter code when generating a java library with skipStarterCode option', async () => {

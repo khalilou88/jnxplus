@@ -12,5 +12,5 @@ export interface NxBootMavenAppGeneratorSchema {
   packaging: PackagingType;
   configFormat: '.properties' | '.yml';
   parentProject?: string;
-  skipStarterCode?: boolean;
+  minimal?: boolean;
 }
