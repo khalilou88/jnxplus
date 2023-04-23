@@ -127,8 +127,18 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     templateOptions
   );
 
+  const fileExtension = options.language === 'java' ? 'java' : 'kt';
+
+  if (options.packaging === 'jar') {
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/${options.packageDirectory}/ServletInitializer.${fileExtension}`
+      )
+    );
+  }
+
   if (options.skipStarterCode) {
-    const fileExtension = options.language === 'java' ? 'java' : 'kt';
     tree.delete(
       joinPathFragments(
         options.projectRoot,

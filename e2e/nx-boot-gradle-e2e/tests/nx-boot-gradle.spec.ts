@@ -243,7 +243,9 @@ describe('nx-boot-gradle e2e', () => {
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloController.java`,
-
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/ServletInitializer.java`,
         `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
           randomName
@@ -333,7 +335,9 @@ describe('nx-boot-gradle e2e', () => {
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloController.java`,
-
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/ServletInitializer.java`,
         `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
           randomName
@@ -416,9 +420,6 @@ describe('nx-boot-gradle e2e', () => {
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.kt`,
-        `apps/${appName}/src/main/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
         `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.kt`,
@@ -519,7 +520,9 @@ describe('nx-boot-gradle e2e', () => {
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloController.java`,
-
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/ServletInitializer.java`,
         `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
           randomName
@@ -1053,6 +1056,14 @@ describe('nx-boot-gradle e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:library ${libName}  --language kotlin --projects ${appName}`
     );
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/src/main/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/ServletInitializer.kt`
+      )
+    ).not.toThrow();
 
     // Making sure the app build.gradle file contains the lib
     const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
