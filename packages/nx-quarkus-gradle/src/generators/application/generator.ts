@@ -146,21 +146,21 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/main/${options.language}/${options.packageDirectory}/.gitkeep`
+        `/src/main/${options.language}/.gitkeep`
       )
     );
 
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/test/${options.language}/${options.packageDirectory}/.gitkeep`
+        `/src/test/${options.language}/.gitkeep`
       )
     );
 
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/native-test/${options.language}/${options.packageDirectory}/.gitkeep`
+        `/src/native-test/${options.language}/.gitkeep`
       )
     );
   }
