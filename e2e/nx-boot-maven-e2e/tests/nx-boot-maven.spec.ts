@@ -1624,7 +1624,7 @@ describe('nx-boot-maven e2e', () => {
       `generate @jnxplus/nx-boot-maven:application ${appName} --skipStarterCode`
     );
 
-    expect(() => checkFilesExist(`apps/${appName}/pom.xml`)).not.toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/build.maven`)).not.toThrow();
 
     expect(() =>
       checkFilesExist(
@@ -1655,10 +1655,13 @@ describe('nx-boot-maven e2e', () => {
       `generate @jnxplus/nx-boot-maven:application ${appName} --language kotlin --skipStarterCode`
     );
 
-    expect(() => checkFilesExist(`apps/${appName}/pom.xml`)).not.toThrow();
+    expect(() =>
+      checkFilesExist(`apps/${appName}/build.maven.kts`)
+    ).not.toThrow();
 
     expect(() =>
       checkFilesExist(
+        `apps/${appName}/build.maven.kts`,
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
@@ -1696,7 +1699,7 @@ describe('nx-boot-maven e2e', () => {
       `generate @jnxplus/nx-boot-maven:library ${libName} --skipStarterCode`
     );
 
-    expect(() => checkFilesExist(`libs/${libName}/pom.xml`)).not.toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/build.maven`)).not.toThrow();
 
     expect(() =>
       checkFilesExist(
@@ -1725,7 +1728,9 @@ describe('nx-boot-maven e2e', () => {
       `generate @jnxplus/nx-boot-maven:library ${libName} --language kotlin --skipStarterCode`
     );
 
-    expect(() => checkFilesExist(`libs/${libName}/pom.xml`)).not.toThrow();
+    expect(() =>
+      checkFilesExist(`libs/${libName}/build.maven.kts`)
+    ).not.toThrow();
 
     expect(() =>
       checkFilesExist(
