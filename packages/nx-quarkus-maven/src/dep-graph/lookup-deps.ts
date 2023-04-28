@@ -21,7 +21,11 @@ export function processProjectGraph(
   return builder.getUpdatedProjectGraph();
 }
 
-function addProjects(graph, context, builder) {
+function addProjects(
+  graph: ProjectGraph,
+  context: ProjectGraphProcessorContext,
+  builder: ProjectGraphBuilder
+) {
   const hasher = new Hasher(graph, context.nxJsonConfiguration, {});
 
   const parentPomXmlPath = join(workspaceRoot, 'pom.xml');
@@ -55,7 +59,7 @@ function addProjects(graph, context, builder) {
   });
 }
 
-function addDependencies(builder) {
+function addDependencies(builder: ProjectGraphBuilder) {
   const projects = getManagedProjects(builder.graph.nodes);
 
   for (const project of projects) {
