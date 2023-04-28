@@ -1,1 +1,3 @@
-export interface TestExecutorSchema {} // eslint-disable-line
+export interface TestExecutorSchema {
+  mvnArgs?: string;
+}

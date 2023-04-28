@@ -6,6 +6,11 @@
   "title": "Test executor",
   "description": "",
   "type": "object",
-  "properties": {},
+  "properties": {
+    "mvnArgs": {
+      "type": "string",
+      "description": "Arguments to pass to the maven cli"
+    }
+  },
   "required": []
 }
