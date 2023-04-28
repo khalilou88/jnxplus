@@ -6,6 +6,7 @@
 - Add parent project generator to have multi pom projects inside the workspace
 - Add simpleName and skipStarterCode options to app and lib generators
 - Add skipClean option to build executor
+- Add mvnArgs to Test Executor
 - Rework lint and kformat executors to remove dependencies to checkstyle, ktlint and pmd projects
 - Bug Fixes
 
