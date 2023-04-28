@@ -7,5 +7,11 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   logger.info(`Executor ran for Test: ${JSON.stringify(options)}`);
-  return runCommand(`${getExecutable()} test -pl :${context.projectName}`);
+  let command = getExecutable();
+  command += ` test -pl :${context.projectName}`;
+
+  if (options.mvnArgs) {
+    command += ` ${options.mvnArgs}`;
+  }
+  return runCommand(command);
 }
