@@ -16,8 +16,12 @@ export function processProjectGraph(
   context: ProjectGraphProcessorContext
 ): ProjectGraph {
   const builder = new ProjectGraphBuilder(graph);
-  const projects = getManagedProjects(builder.graph.nodes);
+  addProjects(graph, context, builder);
+  addDependencies(builder);
+  return builder.getUpdatedProjectGraph();
+}
 
+function addProjects(graph, context, builder) {
   const hasher = new Hasher(graph, context.nxJsonConfiguration, {});
 
   const parentPomXmlPath = join(workspaceRoot, 'pom.xml');
@@ -49,20 +53,10 @@ export function processProjectGraph(
       ],
     },
   });
+}
 
-  const parentPomModules = getModules(
-    workspaceRoot,
-    parentPomXmlContent,
-    projects
-  );
-
-  for (const module of parentPomModules) {
-    builder.addStaticDependency(
-      module.name,
-      parentProjectName,
-      join(module.data.root, 'pom.xml').replace(/\\/g, '/')
-    );
-  }
+function addDependencies(builder) {
+  const projects = getManagedProjects(builder.graph.nodes);
 
   for (const project of projects) {
     const pomXmlPath = join(workspaceRoot, project.data.root, 'pom.xml');
@@ -87,8 +81,6 @@ export function processProjectGraph(
       );
     }
   }
-
-  return builder.getUpdatedProjectGraph();
 }
 
 function getManagedProjects(nodes: Record<string, ProjectGraphProjectNode>) {
