@@ -10,6 +10,7 @@ import { fileExists } from 'nx/src/utils/fileutils';
 import { join } from 'path';
 import { XmlDocument } from 'xmldoc';
 import { readXml } from '../utils/xml';
+import * as fs from 'fs';
 
 export function processProjectGraph(
   graph: ProjectGraph,
@@ -20,19 +21,6 @@ export function processProjectGraph(
   addProjects(builder, hasher, '');
   addDependencies(builder);
   return builder.getUpdatedProjectGraph();
-}
-
-function getProjectType(projectRoot: string): 'app' | 'e2e' | 'lib' {
-  if (projectRoot === '') {
-    return 'app';
-  }
-
-  //TODO read workspace layout from nx.json file
-  if (projectRoot.startsWith('apps')) {
-    return 'app';
-  }
-
-  return 'lib';
 }
 
 function addProjects(
@@ -47,11 +35,13 @@ function addProjects(
   if (!fileExists(projectJson)) {
     const projectName = pomXmlContent.childNamed('artifactId').val;
 
+    const projectType = getProjectType(projectRoot);
     builder.addNode({
       name: projectName,
-      type: getProjectType(projectRoot),
+      type: projectType,
       data: {
         root: projectRoot,
+        projectType: projectType === 'app' ? 'application' : 'library',
         targets: {
           build: {
             executor: '@jnxplus/nx-quarkus-maven:build',
@@ -173,4 +163,24 @@ function getModules(
   });
 
   return projects.filter((project) => modules.includes(project.name));
+}
+
+function getProjectType(projectRoot: string): 'app' | 'e2e' | 'lib' {
+  if (projectRoot === '') {
+    return 'app';
+  }
+
+  const nxJson = JSON.parse(
+    fs.readFileSync(join(workspaceRoot, 'nx.json'), 'utf8')
+  );
+
+  const appsDir = nxJson?.workspaceLayout?.appsDir
+    ? nxJson.workspaceLayout.appsDir
+    : 'apps';
+
+  if (projectRoot.startsWith(appsDir)) {
+    return 'app';
+  }
+
+  return 'lib';
 }
