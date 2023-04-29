@@ -48,7 +48,7 @@ As you see, the command added the following files :
 - Gradle wrapper and Gradle executables for windows and Linux :
   Using Gradle Wrapper we can distribute/share a project to everybody to use the same version and Gradle's functionality(compile, build, install...) even if it has not been installed
 - `gradle.properties` :
-  This file contain Java, Spring Boot and dependency management versions that we will use for all apps and libs inside Nx worspace.
+  This file contain Java, Spring Boot and dependency management versions that we will use for all apps and libs inside Nx workspace.
 - `settings.gradle` or `settings.gradle.kts` depending on the DSL option :
   Here we will add our apps and libs later so Gradle will be able to perform its tasks.
 - `build.gradle` or `build.gradle.kts` depending on the DSL option :
