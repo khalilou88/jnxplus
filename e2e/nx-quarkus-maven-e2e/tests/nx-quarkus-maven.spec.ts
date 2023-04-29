@@ -498,7 +498,7 @@ describe('nx-quarkus-maven e2e', () => {
   }, 1200000);
 
   it('directory with dash', async () => {
-    const randomName = uniq('boot-maven-app-');
+    const randomName = uniq('quarkus-maven-app-');
     const appName = `deep-sub-dir-${randomName}`;
 
     await runNxCommandAsync(
@@ -1015,7 +1015,7 @@ describe('nx-quarkus-maven e2e', () => {
       `generate @jnxplus/nx-quarkus-maven:parent-project ${appsParentProject}`
     );
 
-    const randomName = uniq('boot-maven-app-');
+    const randomName = uniq('quarkus-maven-app-');
     const appDir = 'dir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
     await runNxCommandAsync(
@@ -1029,7 +1029,7 @@ describe('nx-quarkus-maven e2e', () => {
       `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject}`
     );
 
-    const secondAppName = uniq('boot-maven-app-');
+    const secondAppName = uniq('quarkus-maven-app-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:application ${secondAppName} --parent-project ${secondParentProject}`
     );
@@ -1045,7 +1045,7 @@ describe('nx-quarkus-maven e2e', () => {
       `generate @jnxplus/nx-quarkus-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
     );
 
-    const thirdAppName = uniq('boot-maven-app-');
+    const thirdAppName = uniq('quarkus-maven-app-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:application ${thirdAppName} --parent-project ${thirdParentProject}`
     );
@@ -1105,7 +1105,7 @@ describe('nx-quarkus-maven e2e', () => {
       `generate @jnxplus/nx-quarkus-maven:parent-project ${appsParentProject}`
     );
 
-    const randomName = uniq('boot-maven-app-');
+    const randomName = uniq('quarkus-maven-app-');
     const appDir = 'dir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
     await runNxCommandAsync(
@@ -1119,7 +1119,7 @@ describe('nx-quarkus-maven e2e', () => {
       `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject}`
     );
 
-    const secondAppName = uniq('boot-maven-app-');
+    const secondAppName = uniq('quarkus-maven-app-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:application ${secondAppName} --parent-project ${secondParentProject} --language kotlin`
     );
@@ -1135,7 +1135,7 @@ describe('nx-quarkus-maven e2e', () => {
       `generate @jnxplus/nx-quarkus-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
     );
 
-    const thirdAppName = uniq('boot-maven-app-');
+    const thirdAppName = uniq('quarkus-maven-app-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:application ${thirdAppName} --parent-project ${thirdParentProject} --language kotlin`
     );
@@ -1196,7 +1196,7 @@ describe('nx-quarkus-maven e2e', () => {
       `generate @jnxplus/nx-quarkus-maven:parent-project ${libsParentProject} --projectType library`
     );
 
-    const libName = uniq('boot-maven-lib-');
+    const libName = uniq('quarkus-maven-lib-');
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:library ${libName} --parent-project ${libsParentProject}`
@@ -1211,7 +1211,7 @@ describe('nx-quarkus-maven e2e', () => {
       `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject}`
     );
 
-    const randomName = uniq('boot-maven-lib-');
+    const randomName = uniq('quarkus-maven-lib-');
     const libDir = 'subdir';
     const secondLibName = `${libDir}-${randomName}`;
 
@@ -1231,7 +1231,7 @@ describe('nx-quarkus-maven e2e', () => {
       `generate @jnxplus/nx-quarkus-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
     );
 
-    const thirdLibName = uniq('boot-maven-lib-');
+    const thirdLibName = uniq('quarkus-maven-lib-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:library ${thirdLibName} --parent-project ${thirdParentProject}`
     );
@@ -1292,7 +1292,7 @@ describe('nx-quarkus-maven e2e', () => {
       `generate @jnxplus/nx-quarkus-maven:parent-project ${libsParentProject} --projectType library`
     );
 
-    const libName = uniq('boot-maven-lib-');
+    const libName = uniq('quarkus-maven-lib-');
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:library ${libName} --parent-project ${libsParentProject} --language kotlin`
@@ -1307,7 +1307,7 @@ describe('nx-quarkus-maven e2e', () => {
       `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject}`
     );
 
-    const randomName = uniq('boot-maven-lib-');
+    const randomName = uniq('quarkus-maven-lib-');
     const libDir = 'subdir';
     const secondLibName = `${libDir}-${randomName}`;
 
@@ -1327,7 +1327,7 @@ describe('nx-quarkus-maven e2e', () => {
       `generate @jnxplus/nx-quarkus-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
     );
 
-    const thirdLibName = uniq('boot-maven-lib-');
+    const thirdLibName = uniq('quarkus-maven-lib-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:library ${thirdLibName} --parent-project ${thirdParentProject} --language kotlin`
     );
@@ -1649,7 +1649,7 @@ describe('nx-quarkus-maven e2e', () => {
       `generate @jnxplus/nx-quarkus-maven:parent-project ${appsParentProject}`
     );
 
-    const appName = uniq('boot-maven-app-');
+    const appName = uniq('quarkus-maven-app-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:application ${appName} --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject}`
     );
@@ -1661,7 +1661,7 @@ describe('nx-quarkus-maven e2e', () => {
       `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentProject} --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject}`
     );
 
-    const secondAppName = uniq('boot-maven-app-');
+    const secondAppName = uniq('quarkus-maven-app-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:application ${secondAppName} --simpleName --parent-project ${secondParentProject} --directory ${appsParentProject}/${secondParentProject}`
     );
@@ -1674,7 +1674,7 @@ describe('nx-quarkus-maven e2e', () => {
       `generate @jnxplus/nx-quarkus-maven:parent-project ${thirdParentProject} --simpleName --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
     );
 
-    const thirdAppName = uniq('boot-maven-app-');
+    const thirdAppName = uniq('quarkus-maven-app-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:application ${thirdAppName} --parent-project ${thirdParentProject}`
     );
