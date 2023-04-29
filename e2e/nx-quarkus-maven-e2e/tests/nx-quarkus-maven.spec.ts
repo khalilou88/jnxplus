@@ -1642,4 +1642,98 @@ describe('nx-quarkus-maven e2e', () => {
       )
     ).not.toThrow();
   }, 1200000);
+
+  it('should generate java nested sub-projects', async () => {
+    const appsParentProject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-maven:parent-project ${appsParentProject}`
+    );
+
+    const appName = uniq('boot-maven-app-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-maven:application ${appName} --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject}`
+    );
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const secondParentProject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-maven:parent-project ${secondParentProject} --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject}`
+    );
+
+    const secondAppName = uniq('boot-maven-app-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-maven:application ${secondAppName} --simpleName --parent-project ${secondParentProject} --directory ${appsParentProject}/${secondParentProject}`
+    );
+    const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
+    expect(secondBuildResult.stdout).toContain('Executor ran for Build');
+
+    const thirdParentProject = uniq('apps-parent-project-');
+    const parentProjectDir = `${appsParentProject}/${secondParentProject}/deep/subdir`;
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-maven:parent-project ${thirdParentProject} --simpleName --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
+    );
+
+    const thirdAppName = uniq('boot-maven-app-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-maven:application ${thirdAppName} --parent-project ${thirdParentProject}`
+    );
+    const thirdBuildResult = await runNxCommandAsync(`build ${thirdAppName}`);
+    expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
+
+    //graph
+    const localTmpDir = path.dirname(tmpProjPath());
+    const projectJson1 = path.join(
+      localTmpDir,
+      'proj',
+      'apps',
+      appsParentProject,
+      'project.json'
+    );
+    fse.removeSync(projectJson1);
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appsParentProject]).toContainEqual({
+      type: 'static',
+      source: appsParentProject,
+      target: parentProjectName,
+    });
+
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: appsParentProject,
+    });
+
+    expect(depGraphJson.graph.dependencies[secondParentProject]).toContainEqual(
+      {
+        type: 'static',
+        source: secondParentProject,
+        target: appsParentProject,
+      }
+    );
+
+    expect(depGraphJson.graph.dependencies[secondAppName]).toContainEqual({
+      type: 'static',
+      source: secondAppName,
+      target: secondParentProject,
+    });
+
+    expect(depGraphJson.graph.dependencies[thirdParentProject]).toContainEqual({
+      type: 'static',
+      source: thirdParentProject,
+      target: secondParentProject,
+    });
+
+    expect(depGraphJson.graph.dependencies[thirdAppName]).toContainEqual({
+      type: 'static',
+      source: thirdAppName,
+      target: thirdParentProject,
+    });
+  }, 1200000);
 });

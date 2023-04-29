@@ -15,7 +15,7 @@ export async function waitForever() {
 }
 
 export function getProjectRoot(context: ExecutorContext) {
-  return context.workspace.projects[context.projectName].root;
+  return context.projectsConfigurations.projects[context.projectName].root;
 }
 
 export function getExecutable() {
