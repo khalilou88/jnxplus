@@ -1,6 +1,6 @@
 import { ExecutorContext, logger } from '@nrwl/devkit';
 import { join } from 'path';
-import { getExecutable, runCommand } from '../../utils/command';
+import { getExecutable, getProjectRoot, runCommand } from '../../utils/command';
 import { readXml } from '../../utils/xml';
 import { BuildExecutorSchema } from './schema';
 
@@ -13,7 +13,7 @@ export default async function runExecutor(
   let command = getExecutable();
 
   if (isPomPackaging(context)) {
-    command += hasSubProjects() ? ' install -N' : ' install';
+    command += hasNestedSubProjects(context) ? ' install -N' : ' install';
 
     return runCommand(`${command} -pl :${context.projectName}`);
   }
@@ -46,11 +46,8 @@ export default async function runExecutor(
 }
 
 function getProjectType(context: ExecutorContext) {
-  return context.workspace.projects[context.projectName].projectType;
-}
-
-function getProjectRoot(context: ExecutorContext) {
-  return context.workspace.projects[context.projectName].root;
+  return context.projectsConfigurations.projects[context.projectName]
+    .projectType;
 }
 
 function isPomPackaging(context: ExecutorContext): boolean {
@@ -66,6 +63,15 @@ function isPomPackaging(context: ExecutorContext): boolean {
   return packagingXml.val === 'pom';
 }
 
-function hasSubProjects() {
-  return true;
+function hasNestedSubProjects(context: ExecutorContext): boolean {
+  const projectRoot = getProjectRoot(context);
+
+  if (projectRoot === '') {
+    return true;
+  }
+
+  return Object.values(context.projectsConfigurations.projects).some(
+    (project) =>
+      project.root.startsWith(projectRoot) && project.root !== projectRoot
+  );
 }
