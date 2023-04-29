@@ -86,7 +86,10 @@ function addProjects(
   }
 
   for (const moduleXmlElement of moduleXmlElementArray) {
-    const moduleRoot = join(projectRoot, moduleXmlElement.val);
+    const moduleRoot = join(projectRoot, moduleXmlElement.val).replace(
+      /\\/g,
+      '/'
+    );
     addProjects(builder, hasher, moduleRoot);
   }
 }
