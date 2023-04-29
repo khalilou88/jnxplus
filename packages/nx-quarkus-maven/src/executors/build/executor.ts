@@ -13,7 +13,7 @@ export default async function runExecutor(
   let command = getExecutable();
 
   if (isPomPackaging(context)) {
-    command += hasNestedSubProjects(context) ? ' install -N' : ' install';
+    command += isRootProject(context) ? ' install -N' : ' install';
 
     return runCommand(`${command} -pl :${context.projectName}`);
   }
@@ -63,15 +63,7 @@ function isPomPackaging(context: ExecutorContext): boolean {
   return packagingXml.val === 'pom';
 }
 
-function hasNestedSubProjects(context: ExecutorContext): boolean {
+function isRootProject(context: ExecutorContext): boolean {
   const projectRoot = getProjectRoot(context);
-
-  if (projectRoot === '') {
-    return true;
-  }
-
-  return Object.values(context.projectsConfigurations.projects).some(
-    (project) =>
-      project.root.startsWith(projectRoot) && project.root !== projectRoot
-  );
+  return projectRoot === '';
 }
