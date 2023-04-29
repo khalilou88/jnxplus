@@ -12,7 +12,7 @@ export default async function runExecutor(
 
   let command = getExecutable();
 
-  if (isPomPackaging(context.root)) {
+  if (isPomPackaging(context)) {
     command += hasSubProjects() ? ' install -N' : ' install';
 
     return runCommand(`${command} -pl :${context.projectName}`);
@@ -49,8 +49,13 @@ function getProjectType(context: ExecutorContext) {
   return context.workspace.projects[context.projectName].projectType;
 }
 
-function isPomPackaging(projectRoot: string): boolean {
-  const pomXmlPath = join(projectRoot, 'pom.xml');
+function getProjectRoot(context: ExecutorContext) {
+  return context.workspace.projects[context.projectName].root;
+}
+
+function isPomPackaging(context: ExecutorContext): boolean {
+  const projectRoot = getProjectRoot(context);
+  const pomXmlPath = join(context.root, projectRoot, 'pom.xml');
   const pomXmlContent = readXml(pomXmlPath);
   const packagingXml = pomXmlContent.childNamed('packaging');
 
