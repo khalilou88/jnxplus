@@ -1,5 +1,7 @@
 import { ExecutorContext, logger } from '@nrwl/devkit';
+import { join } from 'path';
 import { getExecutable, runCommand } from '../../utils/command';
+import { readXml } from '../../utils/xml';
 import { BuildExecutorSchema } from './schema';
 
 export default async function runExecutor(
@@ -9,6 +11,12 @@ export default async function runExecutor(
   logger.info(`Executor ran for Build: ${JSON.stringify(options)}`);
 
   let command = getExecutable();
+
+  if (isWarPackaging(context.root)) {
+    command += hasSubProjects() ? ' install -N' : ' install';
+
+    return runCommand(`${command} -pl :${context.projectName}`);
+  }
 
   if (options.mvnArgs) {
     command += ` ${options.mvnArgs}`;
@@ -39,4 +47,20 @@ export default async function runExecutor(
 
 function getProjectType(context: ExecutorContext) {
   return context.workspace.projects[context.projectName].projectType;
+}
+
+function isWarPackaging(projectRoot: string): boolean {
+  const pomXmlPath = join(projectRoot, 'pom.xml');
+  const pomXmlContent = readXml(pomXmlPath);
+  const packagingXml = pomXmlContent.childNamed('packaging');
+
+  if (packagingXml === undefined) {
+    return false;
+  }
+
+  return packagingXml.val === 'pom';
+}
+
+function hasSubProjects() {
+  return true;
 }

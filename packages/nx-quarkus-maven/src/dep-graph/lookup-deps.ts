@@ -16,47 +16,79 @@ export function processProjectGraph(
   context: ProjectGraphProcessorContext
 ): ProjectGraph {
   const builder = new ProjectGraphBuilder(graph);
-  addProjects(graph, context, builder);
+  const hasher = new Hasher(graph, context.nxJsonConfiguration, {});
+  addProjects(builder, hasher, '');
   addDependencies(builder);
   return builder.getUpdatedProjectGraph();
 }
 
+function getProjectType(projectRoot: string): 'app' | 'e2e' | 'lib' {
+  if (projectRoot === '') {
+    return 'app';
+  }
+
+  //TODO read workspace layout from nx.json file
+  if (projectRoot.startsWith('apps')) {
+    return 'app';
+  }
+
+  return 'lib';
+}
+
 function addProjects(
-  graph: ProjectGraph,
-  context: ProjectGraphProcessorContext,
-  builder: ProjectGraphBuilder
+  builder: ProjectGraphBuilder,
+  hasher: Hasher,
+  projectRoot: string
 ) {
-  const hasher = new Hasher(graph, context.nxJsonConfiguration, {});
+  const projectJson = join(workspaceRoot, projectRoot, 'project.json');
+  const pomXmlPath = join(workspaceRoot, projectRoot, 'pom.xml');
+  const pomXmlContent = readXml(pomXmlPath);
 
-  const parentPomXmlPath = join(workspaceRoot, 'pom.xml');
-  const parentPomXmlContent = readXml(parentPomXmlPath);
+  if (!fileExists(projectJson)) {
+    const projectName = pomXmlContent.childNamed('artifactId').val;
 
-  const parentProjectName = parentPomXmlContent.childNamed('artifactId').val;
-
-  builder.addNode({
-    name: parentProjectName,
-    type: 'app',
-    data: {
-      root: '',
-      targets: {
-        build: {
-          executor: '@jnxplus/nx-quarkus-maven:run-task',
-          options: {
-            task: 'install -N',
+    builder.addNode({
+      name: projectName,
+      type: getProjectType(projectRoot),
+      data: {
+        root: projectRoot,
+        targets: {
+          build: {
+            executor: '@jnxplus/nx-quarkus-maven:build',
+          },
+          'run-task': {
+            executor: '@jnxplus/nx-quarkus-maven:run-task',
           },
         },
-        'run-task': {
-          executor: '@jnxplus/nx-quarkus-maven:run-task',
-        },
+        files: [
+          projectRoot === ''
+            ? {
+                file: 'pom.xml',
+                hash: hasher.hashFile('pom.xml'),
+              }
+            : {
+                file: `${projectRoot}/pom.xml`,
+                hash: hasher.hashFile(`${projectRoot}/pom.xml`),
+              },
+        ],
       },
-      files: [
-        {
-          file: 'pom.xml',
-          hash: hasher.hashFile('pom.xml'),
-        },
-      ],
-    },
-  });
+    });
+  }
+
+  const modulesXmlElement = pomXmlContent.childNamed('modules');
+  if (modulesXmlElement === undefined) {
+    return;
+  }
+
+  const moduleXmlElementArray = modulesXmlElement.childrenNamed('module');
+  if (moduleXmlElementArray.length === 0) {
+    return;
+  }
+
+  for (const moduleXmlElement of moduleXmlElementArray) {
+    const moduleRoot = join(projectRoot, moduleXmlElement.val);
+    addProjects(builder, hasher, moduleRoot);
+  }
 }
 
 function addDependencies(builder: ProjectGraphBuilder) {
