@@ -1632,8 +1632,6 @@ describe('nx-boot-maven e2e', () => {
   it('should create a minimal java application', async () => {
     const appName = uniq('boot-maven-app-');
 
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-maven:init`);
-
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-maven:application ${appName} --minimal`
     );
@@ -1682,8 +1680,6 @@ describe('nx-boot-maven e2e', () => {
 
   it('should create a minimal kotlin application', async () => {
     const appName = uniq('boot-maven-app-');
-
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-maven:init`);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-maven:application ${appName} --language kotlin --minimal`
@@ -1738,11 +1734,6 @@ describe('nx-boot-maven e2e', () => {
   it('should skip starter code when generating a java library with skipStarterCode option', async () => {
     const libName = uniq('boot-maven-lib-');
 
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:init --rootProjectName ${rootProjectName}`
-    );
-
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-maven:library ${libName} --skipStarterCode`
     );
@@ -1766,11 +1757,6 @@ describe('nx-boot-maven e2e', () => {
 
   it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
     const libName = uniq('boot-maven-lib-');
-
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:init --rootProjectName ${rootProjectName}`
-    );
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-maven:library ${libName} --language kotlin --skipStarterCode`
