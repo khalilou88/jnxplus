@@ -1,4 +1,4 @@
-import { Tree } from '@nrwl/devkit';
+import { Tree } from '@nx/devkit';
 import { XmlDocument } from 'xmldoc';
 import * as fs from 'fs';
 

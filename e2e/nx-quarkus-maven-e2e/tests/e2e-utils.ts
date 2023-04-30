@@ -1,5 +1,5 @@
-import { getPackageManagerCommand } from '@nrwl/devkit';
-import { exists, tmpProjPath } from '@nrwl/nx-plugin/testing';
+import { getPackageManagerCommand } from '@nx/devkit';
+import { exists, tmpProjPath } from '@nx/plugin/testing';
 import { ChildProcess, exec } from 'child_process';
 import { check as portCheck } from 'tcp-port-used';
 import chalk = require('chalk');
@@ -13,7 +13,7 @@ export function runNxNewCommand(args?: string, silent?: boolean) {
   return execSync(
     `node ${require.resolve(
       'nx'
-    )} new proj --nx-workspace-root=${localTmpDir} --no-interactive --skip-install --collection=@nrwl/workspace --npmScope=proj --preset=empty ${
+    )} new proj --nx-workspace-root=${localTmpDir} --no-interactive --skip-install --collection=@nx/workspace --npmScope=proj --preset=empty ${
       args || ''
     }`,
     {

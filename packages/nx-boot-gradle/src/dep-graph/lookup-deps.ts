@@ -5,7 +5,7 @@ import {
   ProjectGraphProcessorContext,
   ProjectGraphProjectNode,
   workspaceRoot,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import * as fs from 'fs';
 import { fileExists } from 'nx/src/utils/fileutils';
 import { join } from 'path';

@@ -1,4 +1,4 @@
-import { ExecutorContext, logger } from '@nrwl/devkit';
+import { ExecutorContext, logger } from '@nx/devkit';
 import { getExecutable, runCommand } from '../../utils/command';
 import { BuildImageExecutorSchema } from './schema';
 

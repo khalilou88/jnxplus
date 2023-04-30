@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "$id": "NxQuarkusMavenApp",
   "title": "Create an application",
   "type": "object",

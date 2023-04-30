@@ -1,4 +1,4 @@
-import { uniq } from '@nrwl/nx-plugin/testing';
+import { uniq } from '@nx/plugin/testing';
 import { readJson } from 'fs-extra';
 
 import { execSync, ExecSyncOptions } from 'child_process';

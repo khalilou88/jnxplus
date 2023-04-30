@@ -8,7 +8,7 @@ import {
   names,
   offsetFromRoot,
   readProjectConfiguration,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import { join } from 'path';
 import { normalizeName } from '../../utils/command';
 import { LinterType } from '../../utils/types';

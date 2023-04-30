@@ -1,4 +1,4 @@
-import { ExecutorContext, logger, workspaceRoot } from '@nrwl/devkit';
+import { ExecutorContext, logger, workspaceRoot } from '@nx/devkit';
 import axios from 'axios';
 import { execSync } from 'child_process';
 import * as fs from 'fs';

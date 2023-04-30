@@ -5,7 +5,7 @@ import {
   offsetFromRoot,
   updateJson,
   writeJson,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import * as path from 'path';
 import {
   checkstyleVersion,

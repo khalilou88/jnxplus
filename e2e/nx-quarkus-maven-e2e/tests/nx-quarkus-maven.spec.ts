@@ -1,4 +1,4 @@
-import { names } from '@nrwl/devkit';
+import { names } from '@nx/devkit';
 import {
   checkFilesExist,
   cleanup,
@@ -10,7 +10,7 @@ import {
   tmpProjPath,
   uniq,
   updateFile,
-} from '@nrwl/nx-plugin/testing';
+} from '@nx/plugin/testing';
 import * as fse from 'fs-extra';
 import * as path from 'path';
 import {
@@ -1516,8 +1516,6 @@ describe('nx-quarkus-maven e2e', () => {
   it('should skip starter code when generating a java application with skipStarterCode option', async () => {
     const appName = uniq('quarkus-maven-app-');
 
-    await runNxCommandAsync(`generate @jnxplus/nx-quarkus-maven:init`);
-
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:application ${appName} --skipStarterCode`
     );
@@ -1548,8 +1546,6 @@ describe('nx-quarkus-maven e2e', () => {
 
   it('should skip starter code when generating a kotlin application with skipStarterCode option', async () => {
     const appName = uniq('quarkus-maven-app-');
-
-    await runNxCommandAsync(`generate @jnxplus/nx-quarkus-maven:init`);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:application ${appName} --language kotlin --skipStarterCode`
@@ -1582,11 +1578,6 @@ describe('nx-quarkus-maven e2e', () => {
   it('should skip starter code when generating a java library with skipStarterCode option', async () => {
     const libName = uniq('quarkus-maven-lib-');
 
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:init --rootProjectName ${rootProjectName}`
-    );
-
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:library ${libName} --skipStarterCode`
     );
@@ -1613,11 +1604,6 @@ describe('nx-quarkus-maven e2e', () => {
 
   it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
     const libName = uniq('quarkus-maven-lib-');
-
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-maven:init --rootProjectName ${rootProjectName}`
-    );
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:library ${libName} --language kotlin --skipStarterCode`

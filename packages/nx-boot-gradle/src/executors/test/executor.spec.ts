@@ -1,4 +1,4 @@
-import { ExecutorContext } from '@nrwl/devkit';
+import { ExecutorContext } from '@nx/devkit';
 import { runCommand } from '../../utils/command';
 import executor from './executor';
 import { TestExecutorSchema } from './schema';

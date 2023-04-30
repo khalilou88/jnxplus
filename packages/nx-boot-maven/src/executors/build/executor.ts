@@ -1,4 +1,4 @@
-import { ExecutorContext, logger } from '@nrwl/devkit';
+import { ExecutorContext, logger } from '@nx/devkit';
 import { join } from 'path';
 import { getExecutable, getProjectRoot, runCommand } from '../../utils/command';
 import { readXml } from '../../utils/xml';
