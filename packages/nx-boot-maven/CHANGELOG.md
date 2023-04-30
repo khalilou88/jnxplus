@@ -4,6 +4,7 @@
 
 - Update to NX 16
 - Add parent project generator to have multi pom projects inside the workspace
+- If project.json don't exists, we will add project to the graph based on pom.xml
 - Add simpleName and skipStarterCode options to app and lib generators
 - Add skipClean option to build executor
 - Add mvnArgs to Test Executor

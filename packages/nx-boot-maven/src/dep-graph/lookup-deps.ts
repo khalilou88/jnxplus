@@ -10,59 +10,82 @@ import { fileExists } from 'nx/src/utils/fileutils';
 import { join } from 'path';
 import { XmlDocument } from 'xmldoc';
 import { readXml } from '../utils/xml';
+import * as fs from 'fs';
 
 export function processProjectGraph(
   graph: ProjectGraph,
   context: ProjectGraphProcessorContext
 ): ProjectGraph {
   const builder = new ProjectGraphBuilder(graph);
-  const projects = getManagedProjects(builder.graph.nodes);
-
   const hasher = new Hasher(graph, context.nxJsonConfiguration, {});
+  addProjects(builder, hasher, '');
+  addDependencies(builder);
+  return builder.getUpdatedProjectGraph();
+}
 
-  const parentPomXmlPath = join(workspaceRoot, 'pom.xml');
-  const parentPomXmlContent = readXml(parentPomXmlPath);
+function addProjects(
+  builder: ProjectGraphBuilder,
+  hasher: Hasher,
+  projectRoot: string
+) {
+  const projectJson = join(workspaceRoot, projectRoot, 'project.json');
+  const pomXmlPath = join(workspaceRoot, projectRoot, 'pom.xml');
+  const pomXmlContent = readXml(pomXmlPath);
 
-  const parentProjectName = parentPomXmlContent.childNamed('artifactId').val;
+  if (!fileExists(projectJson)) {
+    const projectName = pomXmlContent.childNamed('artifactId').val;
 
-  builder.addNode({
-    name: parentProjectName,
-    type: 'app',
-    data: {
-      root: '',
-      targets: {
-        build: {
-          executor: '@jnxplus/nx-boot-maven:run-task',
-          options: {
-            task: 'install -N',
+    const projectType = getProjectType(projectRoot);
+    builder.addNode({
+      name: projectName,
+      type: projectType,
+      data: {
+        root: projectRoot,
+        projectType: projectType === 'app' ? 'application' : 'library',
+        targets: {
+          build: {
+            executor: '@jnxplus/nx-boot-maven:build',
+          },
+          'run-task': {
+            executor: '@jnxplus/nx-boot-maven:run-task',
           },
         },
-        'run-task': {
-          executor: '@jnxplus/nx-boot-maven:run-task',
-        },
+        files: [
+          projectRoot === ''
+            ? {
+                file: 'pom.xml',
+                hash: hasher.hashFile('pom.xml'),
+              }
+            : {
+                file: `${projectRoot}/pom.xml`,
+                hash: hasher.hashFile(`${projectRoot}/pom.xml`),
+              },
+        ],
       },
-      files: [
-        {
-          file: 'pom.xml',
-          hash: hasher.hashFile('pom.xml'),
-        },
-      ],
-    },
-  });
-
-  const parentPomModules = getModules(
-    workspaceRoot,
-    parentPomXmlContent,
-    projects
-  );
-
-  for (const module of parentPomModules) {
-    builder.addStaticDependency(
-      module.name,
-      parentProjectName,
-      join(module.data.root, 'pom.xml').replace(/\\/g, '/')
-    );
+    });
   }
+
+  const modulesXmlElement = pomXmlContent.childNamed('modules');
+  if (modulesXmlElement === undefined) {
+    return;
+  }
+
+  const moduleXmlElementArray = modulesXmlElement.childrenNamed('module');
+  if (moduleXmlElementArray.length === 0) {
+    return;
+  }
+
+  for (const moduleXmlElement of moduleXmlElementArray) {
+    const moduleRoot = join(projectRoot, moduleXmlElement.val).replace(
+      /\\/g,
+      '/'
+    );
+    addProjects(builder, hasher, moduleRoot);
+  }
+}
+
+function addDependencies(builder: ProjectGraphBuilder) {
+  const projects = getManagedProjects(builder.graph.nodes);
 
   for (const project of projects) {
     const pomXmlPath = join(workspaceRoot, project.data.root, 'pom.xml');
@@ -87,8 +110,6 @@ export function processProjectGraph(
       );
     }
   }
-
-  return builder.getUpdatedProjectGraph();
 }
 
 function getManagedProjects(nodes: Record<string, ProjectGraphProjectNode>) {
@@ -142,4 +163,24 @@ function getModules(
   });
 
   return projects.filter((project) => modules.includes(project.name));
+}
+
+function getProjectType(projectRoot: string): 'app' | 'e2e' | 'lib' {
+  if (projectRoot === '') {
+    return 'app';
+  }
+
+  const nxJson = JSON.parse(
+    fs.readFileSync(join(workspaceRoot, 'nx.json'), 'utf8')
+  );
+
+  const appsDir = nxJson?.workspaceLayout?.appsDir
+    ? nxJson.workspaceLayout.appsDir
+    : 'apps';
+
+  if (projectRoot.startsWith(appsDir)) {
+    return 'app';
+  }
+
+  return 'lib';
 }
