@@ -38,7 +38,8 @@ export default async function runExecutor(
 }
 
 function getProjectType(context: ExecutorContext) {
-  return context.workspace.projects[context.projectName].projectType;
+  return context.projectsConfigurations.projects[context.projectName]
+    .projectType;
 }
 
 function isPomPackaging(context: ExecutorContext): boolean {

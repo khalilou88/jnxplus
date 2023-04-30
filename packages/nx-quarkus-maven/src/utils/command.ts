@@ -44,7 +44,8 @@ export function runCommand(
 }
 
 export function getProjectSourceRoot(context: ExecutorContext) {
-  return context.workspace.projects[context.projectName].sourceRoot;
+  return context.projectsConfigurations.projects[context.projectName]
+    .sourceRoot;
 }
 
 export function normalizeName(name: string) {

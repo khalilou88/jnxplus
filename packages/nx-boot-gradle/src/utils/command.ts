@@ -14,7 +14,8 @@ export async function waitForever() {
 }
 
 export function getProjectPath(context: ExecutorContext) {
-  const projectFolder = context.workspace.projects[context.projectName].root;
+  const projectFolder =
+    context.projectsConfigurations.projects[context.projectName].root;
   return `:${projectFolder.split('/').join(':')}`;
 }
 
@@ -40,7 +41,8 @@ export function runCommand(command: string): { success: boolean } {
 }
 
 export function getProjectSourceRoot(context: ExecutorContext) {
-  return context.workspace.projects[context.projectName].sourceRoot;
+  return context.projectsConfigurations.projects[context.projectName]
+    .sourceRoot;
 }
 
 export function normalizeName(name: string) {
