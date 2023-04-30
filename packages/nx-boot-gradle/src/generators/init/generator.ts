@@ -78,7 +78,8 @@ export default async function (
   addFiles(tree, normalizedOptions);
   updateNxJson(tree);
   updateGitIgnore(tree);
-  updatePrettierIgnore(tree);
+  addOrUpdatePrettierIgnore(tree);
+  addOrUpdateGitattributes(tree);
   tree.changePermissions('gradlew', '755');
   tree.changePermissions('gradlew.bat', '755');
   await formatFiles(tree);
@@ -105,7 +106,7 @@ function updateNxJson(tree: Tree) {
   });
 }
 
-function updatePrettierIgnore(tree: Tree) {
+function addOrUpdatePrettierIgnore(tree: Tree) {
   const prettierIgnorePath = `.prettierignore`;
   const gradlePrettierIgnore = '# Gradle build\nbuild';
   if (tree.exists(prettierIgnorePath)) {
@@ -117,5 +118,21 @@ function updatePrettierIgnore(tree: Tree) {
     tree.write(prettierIgnorePath, prettierIgnoreContent);
   } else {
     tree.write(prettierIgnorePath, gradlePrettierIgnore);
+  }
+}
+
+function addOrUpdateGitattributes(tree: Tree) {
+  const gitattributesPath = `.gitattributes`;
+  const gradleWrapperGitattributes =
+    '# OS specific line endings for the Gradle wrapper script\ngradlew text eol=lf\ngradlew.cmd text eol=crlf';
+  if (tree.exists(gitattributesPath)) {
+    const gitattributesOldContent = tree.read(gitattributesPath, 'utf-8');
+    const gitattributesContent = gitattributesOldContent.concat(
+      '\n',
+      gradleWrapperGitattributes
+    );
+    tree.write(gitattributesPath, gitattributesContent);
+  } else {
+    tree.write(gitattributesPath, gradleWrapperGitattributes);
   }
 }
