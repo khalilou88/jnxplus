@@ -1790,9 +1790,8 @@ describe('nx-boot-maven e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-maven:application ${appName} --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject}`
     );
-    //TODO this build don't work in CI
-    // const buildResult = await runNxCommandAsync(`build ${appName}`);
-    // expect(buildResult.stdout).toContain('Executor ran for Build');
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
@@ -1803,9 +1802,8 @@ describe('nx-boot-maven e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-maven:application ${secondAppName} --simpleName --parent-project ${secondParentProject} --directory ${appsParentProject}/${secondParentProject}`
     );
-    //TODO this build don't work in CI
-    // const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
-    // expect(secondBuildResult.stdout).toContain('Executor ran for Build');
+    const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
+    expect(secondBuildResult.stdout).toContain('Executor ran for Build');
 
     const thirdParentProject = uniq('apps-parent-project-');
     const parentProjectDir = `${appsParentProject}/${secondParentProject}/deep/subdir`;
@@ -1817,9 +1815,8 @@ describe('nx-boot-maven e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-maven:application ${thirdAppName} --parent-project ${thirdParentProject}`
     );
-    //TODO this build don't work in CI
-    // const thirdBuildResult = await runNxCommandAsync(`build ${thirdAppName}`);
-    // expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
+    const thirdBuildResult = await runNxCommandAsync(`build ${thirdAppName}`);
+    expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
 
     //graph
     const localTmpDir = path.dirname(tmpProjPath());
