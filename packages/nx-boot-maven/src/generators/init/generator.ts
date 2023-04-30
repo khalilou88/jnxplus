@@ -73,8 +73,9 @@ export default async function (
   addFiles(tree, normalizedOptions);
   updateNxJson(tree);
   updateGitIgnore(tree);
-  updatePrettierRc(tree);
-  updatePrettierIgnore(tree);
+  addOrUpdatePrettierRc(tree);
+  addOrUpdatePrettierIgnore(tree);
+  addOrUpdateGitattributes(tree);
   tree.changePermissions('mvnw', '755');
   tree.changePermissions('mvnw.cmd', '755');
   await formatFiles(tree);
@@ -102,7 +103,7 @@ function updateNxJson(tree: Tree) {
   });
 }
 
-function updatePrettierRc(tree: Tree) {
+function addOrUpdatePrettierRc(tree: Tree) {
   const prettierRcPath = `.prettierrc`;
   if (tree.exists(prettierRcPath)) {
     updateJson(tree, prettierRcPath, (prettierRcJson) => {
@@ -117,7 +118,7 @@ function updatePrettierRc(tree: Tree) {
   }
 }
 
-function updatePrettierIgnore(tree: Tree) {
+function addOrUpdatePrettierIgnore(tree: Tree) {
   const prettierIgnorePath = `.prettierignore`;
   const mavenPrettierIgnore = '# Maven target\ntarget/';
   if (tree.exists(prettierIgnorePath)) {
@@ -129,5 +130,21 @@ function updatePrettierIgnore(tree: Tree) {
     tree.write(prettierIgnorePath, prettierIgnoreContent);
   } else {
     tree.write(prettierIgnorePath, mavenPrettierIgnore);
+  }
+}
+
+function addOrUpdateGitattributes(tree: Tree) {
+  const gitattributesPath = `.gitattributes`;
+  const mavenWrapperGitattributes =
+    '# OS specific line endings for the Maven wrapper script\nmvnw text eol=lf\nmvnw.cmd text eol=crlf';
+  if (tree.exists(gitattributesPath)) {
+    const gitattributesOldContent = tree.read(gitattributesPath, 'utf-8');
+    const gitattributesContent = gitattributesOldContent.concat(
+      '\n',
+      mavenWrapperGitattributes
+    );
+    tree.write(gitattributesPath, gitattributesContent);
+  } else {
+    tree.write(gitattributesPath, mavenWrapperGitattributes);
   }
 }
