@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "$id": "NxQuarkusGradleLib",
   "title": "Create a library",
   "type": "object",

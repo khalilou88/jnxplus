@@ -8,7 +8,7 @@ import {
   offsetFromRoot,
   Tree,
   workspaceRoot,
-} from '@nrwl/devkit';
+} from '@nx/devkit';
 import * as path from 'path';
 import { getQuarkusPlatformVersion, normalizeName } from '../../utils/command';
 import { LinterType } from '../../utils/types';

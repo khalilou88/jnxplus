@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "$id": "NxBootGradleApp",
   "title": "Create an application",
   "type": "object",

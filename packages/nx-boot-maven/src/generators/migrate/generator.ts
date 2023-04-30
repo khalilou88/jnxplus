@@ -1,4 +1,4 @@
-import { formatFiles, generateFiles, offsetFromRoot, Tree } from '@nrwl/devkit';
+import { formatFiles, generateFiles, offsetFromRoot, Tree } from '@nx/devkit';
 import * as path from 'path';
 import {
   kotlinVersion,

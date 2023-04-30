@@ -1,10 +1,11 @@
 {
+  "name": "nx-quarkus-gradle",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/nx-quarkus-gradle/src",
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/js:tsc",
+      "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/nx-quarkus-gradle",
@@ -37,14 +38,14 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["packages/nx-quarkus-gradle/**/*.ts"]
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/packages/nx-quarkus-gradle"],
       "options": {
         "jestConfig": "packages/nx-quarkus-gradle/jest.config.ts",
@@ -53,6 +54,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": [],
-  "name": "nx-quarkus-gradle"
+  "implicitDependencies": []
 }

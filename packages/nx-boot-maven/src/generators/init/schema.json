@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "$id": "NxBootMavenInit",
   "title": "Init",
   "type": "object",

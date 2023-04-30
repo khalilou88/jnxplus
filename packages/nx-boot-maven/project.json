@@ -1,17 +1,18 @@
 {
+  "name": "nx-boot-maven",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/nx-boot-maven/src",
   "projectType": "library",
   "targets": {
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["packages/nx-boot-maven/**/*.ts"]
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/packages/nx-boot-maven"],
       "options": {
         "jestConfig": "packages/nx-boot-maven/jest.config.ts",
@@ -19,7 +20,7 @@
       }
     },
     "build": {
-      "executor": "@nrwl/js:tsc",
+      "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/nx-boot-maven",
@@ -53,6 +54,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": [],
-  "name": "nx-boot-maven"
+  "implicitDependencies": []
 }

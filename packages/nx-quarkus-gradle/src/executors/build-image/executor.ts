@@ -1,4 +1,4 @@
-import { ExecutorContext, logger, workspaceRoot } from '@nrwl/devkit';
+import { ExecutorContext, logger, workspaceRoot } from '@nx/devkit';
 import { getProjectRoot, runCommand } from '../../utils/command';
 import { BuildImageExecutorSchema } from './schema';
 import { join } from 'path';

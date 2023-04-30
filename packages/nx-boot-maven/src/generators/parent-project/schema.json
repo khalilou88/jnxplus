@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "$id": "NxBootMavenParentProject",
   "title": "Create a parent project",
   "type": "object",
