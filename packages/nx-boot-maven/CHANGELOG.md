@@ -3,6 +3,7 @@
 # 6.0.0 (2023-05-xx) - not yet published
 
 - Update to NX 16
+- Update Maven wrapper
 - Add parent project generator to have multi pom projects inside the workspace
 - If project.json don't exists, we will add project to the graph based on pom.xml
 - Add simpleName and skipStarterCode options to app and lib generators
