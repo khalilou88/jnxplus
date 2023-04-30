@@ -27,8 +27,6 @@
     "prettier-plugin-java": "^2.1.0"
   },
   "peerDependencies": {
-    "@nrwl/tao": ">=14.0.0",
-    "@nx/devkit": "16.0.1",
-    "@nx/workspace": "16.0.1"
+    "@nx/devkit": ">=16.0.0"
   }
 }
