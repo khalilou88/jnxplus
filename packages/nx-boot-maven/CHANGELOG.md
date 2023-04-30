@@ -1,15 +1,17 @@
 # Changelog
 
-# 6.0.0 (2023-05-xx) - not yet published
+# 5.4.0 (2023-04-30)
 
-- Update to NX 16
+- Add .gitattributes
 - Update Maven wrapper
 - Add parent project generator to have multi pom projects inside the workspace
-- If project.json don't exists, we will add project to the graph based on pom.xml
-- Add simpleName and skipStarterCode options to app and lib generators
+- Optional project.json: If project.json don't exists, we will add project to the graph based on pom.xml
+- Add simpleName option to app and lib generators
+- Add minimal option to app generator
+- Add skipStarterCode option to lib generator
 - Add skipClean option to build executor
-- Add mvnArgs to Test Executor
-- Rework lint and kformat executors to remove dependencies to checkstyle, ktlint and pmd projects
+- Add mvnArgs option to Test Executor
+- Rework lint and kformat executors to remove dependencies to checkstyle, ktlint and pmd internal projects
 - Bug Fixes
 
 ## BREAKING CHANGES

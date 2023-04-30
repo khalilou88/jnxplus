@@ -1,10 +1,12 @@
 # Changelog
 
-# 6.0.0 (2023-05-xx) - not yet published
+# 5.4.0 (2023-04-30)
 
-- Update to NX 16
-- Add simpleName and skipStarterCode options to app and lib generators
-- Rework lint and kformat executors to remove dependencies to checkstyle, ktlint and pmd projects
+- Add .gitattributes
+- Add simpleName option to app and lib generators
+- Add minimal option to app generator
+- Add skipStarterCode option to lib generator
+- Rework lint and kformat executors to remove dependencies to checkstyle, ktlint and pmd internal projects
 - Bug Fixes
 
 ## BREAKING CHANGES
