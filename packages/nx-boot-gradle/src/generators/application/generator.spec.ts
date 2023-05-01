@@ -13,6 +13,7 @@ describe('application generator', () => {
     packaging: 'jar',
     configFormat: '.yml',
     minimal: false,
+    port: 8080,
   };
 
   beforeEach(() => {
