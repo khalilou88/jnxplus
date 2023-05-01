@@ -14,6 +14,7 @@ describe('application generator', () => {
     configFormat: '.yml',
     parentProject: '',
     minimal: false,
+    port: 8080,
   };
 
   beforeEach(() => {
