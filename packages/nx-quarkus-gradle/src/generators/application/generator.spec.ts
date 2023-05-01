@@ -11,6 +11,7 @@ describe('application generator', () => {
     groupId: 'com.example',
     projectVersion: '0.0.1-SNAPSHOT',
     configFormat: '.yml',
+    port: 8080,
   };
 
   beforeEach(() => {

@@ -12,6 +12,7 @@ describe('application generator', () => {
     projectVersion: '0.0.1-SNAPSHOT',
     configFormat: '.yml',
     parentProject: '',
+    port: 8080,
   };
 
   beforeEach(() => {
