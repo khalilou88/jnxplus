@@ -21,22 +21,23 @@ import {
   runNxCommandUntil,
   runNxNewCommand,
   normalizeName,
+  checkFilesDoNotExist,
 } from './e2e-utils';
 
-describe('nx-boot-gradle e2e', () => {
+describe('nx-quarkus-gradle kt dsl e2e', () => {
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
-  const rootProjectName = uniq('boot-root-project-');
+  const rootProjectName = uniq('quarkus-root-project-');
   beforeEach(async () => {
     fse.ensureDirSync(tmpProjPath());
     cleanup();
     runNxNewCommand('', true);
 
     patchPackageJsonForPlugin(
-      '@jnxplus/nx-boot-gradle',
-      'dist/packages/nx-boot-gradle'
+      '@jnxplus/nx-quarkus-gradle',
+      'dist/packages/nx-quarkus-gradle'
     );
     patchPackageJsonForPlugin(
       'prettier-plugin-java',
@@ -45,7 +46,7 @@ describe('nx-boot-gradle e2e', () => {
     runPackageManagerInstall();
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:init --rootProjectName ${rootProjectName}`
+      `generate @jnxplus/nx-quarkus-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
     );
 
     if (isCI) {
@@ -62,14 +63,16 @@ describe('nx-boot-gradle e2e', () => {
     runNxCommandAsync('reset');
   });
 
-  it('should init the workspace with @jnxplus/nx-boot-gradle capabilities', async () => {
-    // Making sure the package.json file contains the @jnxplus/nx-boot-gradle dependency
+  it('should use dsl option when initiating the workspace', async () => {
+    // Making sure the package.json file contains the @jnxplus/nx-quarkus-gradle dependency
     const packageJson = readJson('package.json');
-    expect(packageJson.devDependencies['@jnxplus/nx-boot-gradle']).toBeTruthy();
+    expect(
+      packageJson.devDependencies['@jnxplus/nx-quarkus-gradle']
+    ).toBeTruthy();
 
-    // Making sure the nx.json file contains the @jnxplus/nx-boot-gradle inside the plugins section
+    // Making sure the nx.json file contains the @jnxplus/nx-quarkus-gradle inside the plugins section
     const nxJson = readJson('nx.json');
-    expect(nxJson.plugins.includes('@jnxplus/nx-boot-gradle')).toBeTruthy();
+    expect(nxJson.plugins.includes('@jnxplus/nx-quarkus-gradle')).toBeTruthy();
 
     expect(() =>
       checkFilesExist(
@@ -78,46 +81,48 @@ describe('nx-boot-gradle e2e', () => {
         'gradlew',
         'gradlew.bat',
         'gradle.properties',
-        'settings.gradle',
+        'settings.gradle.kts',
         'tools/linters/checkstyle.xml'
       )
     ).not.toThrow();
   }, 1200000);
 
   it('should migrate', async () => {
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:migrate`);
+    await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:migrate`);
   }, 1200000);
 
   it('should create a java application', async () => {
-    const appName = uniq('boot-gradle-app-');
+    const appName = uniq('quarkus-gradle-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:application ${appName}`
+      `generate @jnxplus/nx-quarkus-gradle:application ${appName}`
     );
+
+    expect(() =>
+      checkFilesDoNotExist(
+        `apps/${appName}/src/main/java/.gitkeep`,
+        `apps/${appName}/src/test/java/.gitkeep`,
+        `apps/${appName}/src/native-test/java/.gitkeep`
+      )
+    ).not.toThrow();
 
     expect(() =>
       checkFilesExist(
         `apps/${appName}/build.gradle`,
         `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/java/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
-        `apps/${appName}/src/main/java/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/HelloController.java`,
 
-        `apps/${appName}/src/test/resources/application.properties`,
-        `apps/${appName}/src/test/java/com/example/${names(
+        `apps/${appName}/src/main/java/org/acme/${names(
           appName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+        ).className.toLocaleLowerCase()}/GreetingResource.java`,
+        `apps/${appName}/src/test/java/org/acme/${names(
+          appName
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
       )
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
     const buildGradle = readFile(`apps/${appName}/build.gradle`);
-    expect(buildGradle.includes('com.example')).toBeTruthy();
+    expect(buildGradle.includes('org.acme')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
@@ -154,7 +159,7 @@ describe('nx-boot-gradle e2e', () => {
     projectJson.targets = {
       ...projectJson.targets,
       'run-task': {
-        executor: '@jnxplus/nx-boot-gradle:run-task',
+        executor: '@jnxplus/nx-quarkus-gradle:run-task',
       },
     };
     updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
@@ -179,7 +184,7 @@ describe('nx-boot-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`)
+      output.includes(`Listening on: http://localhost:8080`)
     );
 
     // port and process cleanup
@@ -192,12 +197,12 @@ describe('nx-boot-gradle e2e', () => {
   }, 1200000);
 
   it('should use specified options to create an application', async () => {
-    const randomName = uniq('boot-gradle-app-');
+    const randomName = uniq('quarkus-gradle-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml`
+      `generate @jnxplus/nx-quarkus-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --configFormat .yml`
     );
 
     expect(() =>
@@ -206,19 +211,10 @@ describe('nx-boot-gradle e2e', () => {
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloController.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/ServletInitializer.java`,
-        `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
+        ).className.toLocaleLowerCase()}/GreetingResource.java`,
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
       )
     ).not.toThrow();
 
@@ -226,12 +222,6 @@ describe('nx-boot-gradle e2e', () => {
     const buildGradle = readFile(`apps/${appDir}/${randomName}/build.gradle`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
-    expect(buildGradle.includes('war')).toBeTruthy();
-    expect(
-      buildGradle.includes(
-        'org.springframework.boot:spring-boot-starter-tomcat'
-      )
-    ).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
@@ -266,8 +256,8 @@ describe('nx-boot-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(
-      `serve ${appName} --args="--spring.profiles.active=test"`,
-      (output) => output.includes(`Tomcat started on port(s): 8080`)
+      `serve ${appName} --args="-Dquarkus-profile=prod"`,
+      (output) => output.includes(`Listening on: http://localhost:8080`)
     );
 
     // port and process cleanup
@@ -280,12 +270,12 @@ describe('nx-boot-gradle e2e', () => {
   }, 1200000);
 
   it('should generate an app with a simple package name', async () => {
-    const randomName = uniq('boot-gradle-app-');
+    const randomName = uniq('quarkus-gradle-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3 --packaging war --configFormat .yml`
+      `generate @jnxplus/nx-quarkus-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3 --configFormat .yml`
     );
 
     expect(() =>
@@ -294,19 +284,10 @@ describe('nx-boot-gradle e2e', () => {
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloController.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/ServletInitializer.java`,
-        `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
+        ).className.toLocaleLowerCase()}/GreetingResource.java`,
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
           randomName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
       )
     ).not.toThrow();
 
@@ -314,12 +295,6 @@ describe('nx-boot-gradle e2e', () => {
     const buildGradle = readFile(`apps/${appDir}/${randomName}/build.gradle`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
-    expect(buildGradle.includes('war')).toBeTruthy();
-    expect(
-      buildGradle.includes(
-        'org.springframework.boot:spring-boot-starter-tomcat'
-      )
-    ).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
@@ -354,8 +329,8 @@ describe('nx-boot-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(
-      `serve ${appName} --args="--spring.profiles.active=test"`,
-      (output) => output.includes(`Tomcat started on port(s): 8080`)
+      `serve ${appName} --args="-Dquarkus-profile=prod"`,
+      (output) => output.includes(`Listening on: http://localhost:8080`)
     );
 
     // port and process cleanup
@@ -368,39 +343,36 @@ describe('nx-boot-gradle e2e', () => {
   }, 1200000);
 
   it('should create a kotlin application', async () => {
-    const appName = uniq('boot-gradle-app-');
+    const appName = uniq('quarkus-gradle-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:application ${appName} --language kotlin`
+      `generate @jnxplus/nx-quarkus-gradle:application ${appName} --language kotlin`
     );
 
     expect(() =>
       checkFilesExist(
         `apps/${appName}/build.gradle.kts`,
         `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/kotlin/com/example/${names(
+        `apps/${appName}/src/main/kotlin/org/acme/${names(
           appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.kt`,
-        `apps/${appName}/src/main/kotlin/com/example/${names(
+        ).className.toLocaleLowerCase()}/GreetingResource.kt`,
+        `apps/${appName}/src/test/kotlin/org/acme/${names(
           appName
-        ).className.toLocaleLowerCase()}/HelloController.kt`,
-        `apps/${appName}/src/test/resources/application.properties`,
-        `apps/${appName}/src/test/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }ApplicationTests.kt`,
-        `apps/${appName}/src/test/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.kt`
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`
+      )
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesDoNotExist(
+        `apps/${appName}/src/main/kotlin/.gitkeep`,
+        `apps/${appName}/src/test/kotlin/.gitkeep`,
+        `apps/${appName}/src/native-test/kotlin/.gitkeep`
       )
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
     const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
-    expect(buildGradle.includes('com.example')).toBeTruthy();
+    expect(buildGradle.includes('org.acme')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
@@ -424,7 +396,7 @@ describe('nx-boot-gradle e2e', () => {
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
-    const formatResult = await runNxCommandAsync(`kformat ${appName}`);
+    const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
     expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
@@ -445,7 +417,7 @@ describe('nx-boot-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`)
+      output.includes(`Listening on: http://localhost:8080`)
     );
 
     // port and process cleanup
@@ -458,12 +430,12 @@ describe('nx-boot-gradle e2e', () => {
   }, 1200000);
 
   it('--an app with aliases', async () => {
-    const randomName = uniq('boot-gradle-app-');
+    const randomName = uniq('quarkus-gradle-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-boot-gradle:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml`
+      `g @jnxplus/nx-quarkus-gradle:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --configFormat .yml`
     );
 
     expect(() =>
@@ -472,19 +444,10 @@ describe('nx-boot-gradle e2e', () => {
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloController.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/ServletInitializer.java`,
-        `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
+        ).className.toLocaleLowerCase()}/GreetingResource.java`,
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
       )
     ).not.toThrow();
 
@@ -492,12 +455,6 @@ describe('nx-boot-gradle e2e', () => {
     const buildGradle = readFile(`apps/${appDir}/${randomName}/build.gradle`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
-    expect(buildGradle.includes('war')).toBeTruthy();
-    expect(
-      buildGradle.includes(
-        'org.springframework.boot:spring-boot-starter-tomcat'
-      )
-    ).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
@@ -532,8 +489,8 @@ describe('nx-boot-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(
-      `serve ${appName} --args="--spring.profiles.active=test"`,
-      (output) => output.includes(`Tomcat started on port(s): 8080`)
+      `serve ${appName} --args="-Dquarkus-profile=prod"`,
+      (output) => output.includes(`Listening on: http://localhost:8080`)
     );
 
     // port and process cleanup
@@ -546,11 +503,11 @@ describe('nx-boot-gradle e2e', () => {
   }, 1200000);
 
   it('directory with dash', async () => {
-    const randomName = uniq('boot-gradle-app-');
+    const randomName = uniq('boot-maven-app-');
     const appName = `deep-sub-dir-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:application ${randomName} --directory deep/sub-dir`
+      `generate @jnxplus/nx-quarkus-gradle:application ${randomName} --directory deep/sub-dir`
     );
 
     //graph
@@ -568,7 +525,7 @@ describe('nx-boot-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`)
+      output.includes(`Listening on: http://localhost:8080`)
     );
 
     // port and process cleanup
@@ -581,30 +538,34 @@ describe('nx-boot-gradle e2e', () => {
   }, 1200000);
 
   it('should create a library', async () => {
-    const libName = uniq('boot-gradle-lib-');
+    const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:library ${libName}`
+      `generate @jnxplus/nx-quarkus-gradle:library ${libName}`
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libName}/build.gradle`,
-        `libs/${libName}/src/main/java/com/example/${names(
+        `libs/${libName}/src/main/java/org/acme/${names(
           libName
-        ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/${libName}/src/test/java/com/example/${names(
+        ).className.toLocaleLowerCase()}/GreetingService.java`,
+        `libs/${libName}/src/test/java/org/acme/${names(
           libName
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libName}/src/test/java/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
+      )
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesDoNotExist(
+        `libs/${libName}/src/main/java/.gitkeep`,
+        `libs/${libName}/src/test/java/.gitkeep`
       )
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
     const buildGradle = readFile(`libs/${libName}/build.gradle`);
-    expect(buildGradle.includes('com.example')).toBeTruthy();
+    expect(buildGradle.includes('org.acme')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
@@ -645,30 +606,34 @@ describe('nx-boot-gradle e2e', () => {
   }, 1200000);
 
   it('should create a kotlin library', async () => {
-    const libName = uniq('boot-gradle-lib-');
+    const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:library ${libName} --language kotlin`
+      `generate @jnxplus/nx-quarkus-gradle:library ${libName} --language kotlin`
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libName}/build.gradle.kts`,
-        `libs/${libName}/src/main/kotlin/com/example/${names(
+        `libs/${libName}/src/main/kotlin/org/acme/${names(
           libName
-        ).className.toLocaleLowerCase()}/HelloService.kt`,
-        `libs/${libName}/src/test/kotlin/com/example/${names(
+        ).className.toLocaleLowerCase()}/GreetingService.kt`,
+        `libs/${libName}/src/test/kotlin/org/acme/${names(
           libName
-        ).className.toLocaleLowerCase()}/TestConfiguration.kt`,
-        `libs/${libName}/src/test/kotlin/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.kt`
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`
       )
     ).not.toThrow();
 
-    // Making sure the build.gradle file contains the good information
+    expect(() =>
+      checkFilesDoNotExist(
+        `libs/${libName}/src/main/kotlin/.gitkeep`,
+        `libs/${libName}/src/test/kotlin/.gitkeep`
+      )
+    ).not.toThrow();
+
+    // Making sure the build.gradle.kts file contains the good information
     const buildGradle = readFile(`libs/${libName}/build.gradle.kts`);
-    expect(buildGradle.includes('com.example')).toBeTruthy();
+    expect(buildGradle.includes('org.acme')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
@@ -685,7 +650,7 @@ describe('nx-boot-gradle e2e', () => {
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
-    const formatResult = await runNxCommandAsync(`kformat ${libName}`);
+    const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
     expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
 
     const lintResult = await runNxCommandAsync(`lint ${libName}`);
@@ -707,12 +672,12 @@ describe('nx-boot-gradle e2e', () => {
   }, 1200000);
 
   it('should create a library with the specified properties', async () => {
-    const randomName = uniq('boot-gradle-lib-');
+    const randomName = uniq('quarkus-gradle-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
+      `generate @jnxplus/nx-quarkus-gradle:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
     );
 
     expect(() =>
@@ -720,13 +685,10 @@ describe('nx-boot-gradle e2e', () => {
         `libs/${libDir}/${randomName}/build.gradle`,
         `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/HelloService.java`,
+        ).className.toLocaleLowerCase()}/GreetingService.java`,
         `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
       )
     ).not.toThrow();
 
@@ -769,12 +731,12 @@ describe('nx-boot-gradle e2e', () => {
   }, 1200000);
 
   it('should generare a lib with a simple package name', async () => {
-    const randomName = uniq('boot-gradle-lib-');
+    const randomName = uniq('quarkus-gradle-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3`
+      `generate @jnxplus/nx-quarkus-gradle:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3`
     );
 
     expect(() =>
@@ -782,13 +744,10 @@ describe('nx-boot-gradle e2e', () => {
         `libs/${libDir}/${randomName}/build.gradle`,
         `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName
-        ).className.toLocaleLowerCase()}/HelloService.java`,
+        ).className.toLocaleLowerCase()}/GreetingService.java`,
         `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
           randomName
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
       )
     ).not.toThrow();
 
@@ -831,12 +790,12 @@ describe('nx-boot-gradle e2e', () => {
   }, 1200000);
 
   it('--a lib with aliases', async () => {
-    const randomName = uniq('boot-gradle-lib-');
+    const randomName = uniq('quarkus-gradle-lib-');
     const libDir = 'subdir';
     const libName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-boot-gradle:lib ${randomName} --dir ${libDir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`
+      `g @jnxplus/nx-quarkus-gradle:lib ${randomName} --dir ${libDir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`
     );
 
     expect(() =>
@@ -844,13 +803,10 @@ describe('nx-boot-gradle e2e', () => {
         `libs/${libDir}/${randomName}/build.gradle`,
         `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/HelloService.java`,
+        ).className.toLocaleLowerCase()}/GreetingService.java`,
         `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
       )
     ).not.toThrow();
 
@@ -893,43 +849,43 @@ describe('nx-boot-gradle e2e', () => {
   }, 1200000);
 
   it('should add a lib to an app dependencies', async () => {
-    const appName = uniq('boot-gradle-app-');
-    const libName = uniq('boot-gradle-lib-');
+    const appName = uniq('quarkus-gradle-app-');
+    const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:application ${appName}`
+      `generate @jnxplus/nx-quarkus-gradle:application ${appName}`
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:library ${libName} --projects ${appName}`
+      `generate @jnxplus/nx-quarkus-gradle:library ${libName} --projects ${appName}`
     );
 
     // Making sure the app build.gradle file contains the lib
     const buildGradle = readFile(`apps/${appName}/build.gradle`);
     expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `apps/${appName}/src/main/java/com/example/${names(
+    const greetingResourcePath = `apps/${appName}/src/main/java/org/acme/${names(
       appName
-    ).className.toLocaleLowerCase()}/HelloController.java`;
-    const helloControllerContent = readFile(helloControllerPath);
+    ).className.toLocaleLowerCase()}/GreetingResource.java`;
+    const greetingResourceContent = readFile(greetingResourcePath);
 
-    const regex1 = /package\s*com\.example\..*\s*;/;
+    const regex1 = /package\s*org\.acme\..*\s*;/;
 
-    const regex2 = /public\s*class\s*HelloController\s*{/;
+    const regex2 = /public\s*class\s*GreetingResource\s*{/;
 
     const regex3 = /"Hello World!"/;
 
-    const newHelloControllerContent = helloControllerContent
+    const newGreetingResourceContent = greetingResourceContent
       .replace(
         regex1,
-        `$&\nimport org.springframework.beans.factory.annotation.Autowired;\nimport com.example.${names(
+        `$&\nimport javax.inject.Inject;\nimport org.acme.${names(
           libName
-        ).className.toLocaleLowerCase()}.HelloService;`
+        ).className.toLocaleLowerCase()}.GreetingService;`
       )
-      .replace(regex2, '$&\n@Autowired\nprivate HelloService helloService;')
-      .replace(regex3, 'this.helloService.message()');
+      .replace(regex2, '$&\n@Inject\nGreetingService service;')
+      .replace(regex3, 'service.greeting()');
 
-    updateFile(helloControllerPath, newHelloControllerContent);
+    updateFile(greetingResourcePath, newGreetingResourceContent);
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
@@ -940,7 +896,7 @@ describe('nx-boot-gradle e2e', () => {
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`
     );
-    expect(formatResult.stdout).toContain('HelloController.java');
+    expect(formatResult.stdout).toContain('GreetingResource.java');
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -971,51 +927,43 @@ describe('nx-boot-gradle e2e', () => {
   }, 1200000);
 
   it('should add a kotlin lib to a kotlin app dependencies', async () => {
-    const appName = uniq('boot-gradle-app-');
-    const libName = uniq('boot-gradle-lib-');
+    const appName = uniq('quarkus-gradle-app-');
+    const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:application ${appName} --language kotlin --packaging war`
+      `generate @jnxplus/nx-quarkus-gradle:application ${appName} --language kotlin`
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:library ${libName}  --language kotlin --projects ${appName}`
+      `generate @jnxplus/nx-quarkus-gradle:library ${libName}  --language kotlin --projects ${appName}`
     );
-
-    expect(() =>
-      checkFilesExist(
-        `apps/${appName}/src/main/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/ServletInitializer.kt`
-      )
-    ).not.toThrow();
 
     // Making sure the app build.gradle file contains the lib
     const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
     expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `apps/${appName}/src/main/kotlin/com/example/${names(
+    const greetingResourcePath = `apps/${appName}/src/main/kotlin/org/acme/${names(
       appName
-    ).className.toLocaleLowerCase()}/HelloController.kt`;
-    const helloControllerContent = readFile(helloControllerPath);
+    ).className.toLocaleLowerCase()}/GreetingResource.kt`;
+    const greetingResourceContent = readFile(greetingResourcePath);
 
-    const regex1 = /package\s*com\.example\..*/;
+    const regex1 = /package\s*org\.acme\..*/;
 
-    const regex2 = /class\s*HelloController/;
+    const regex2 = /class\s*GreetingResource/;
 
     const regex3 = /"Hello World!"/;
 
-    const newHelloControllerContent = helloControllerContent
+    const newGreetingResourceContent = greetingResourceContent
       .replace(
         regex1,
-        `$&\nimport org.springframework.beans.factory.annotation.Autowired\nimport com.example.${names(
+        `$&\nimport org.acme.${names(
           libName
-        ).className.toLocaleLowerCase()}.HelloService`
+        ).className.toLocaleLowerCase()}.GreetingService`
       )
-      .replace(regex2, '$&(@Autowired val helloService: HelloService)')
-      .replace(regex3, 'helloService.message()');
+      .replace(regex2, '$&(private val greetingService: GreetingService)')
+      .replace(regex3, 'greetingService.greeting()');
 
-    updateFile(helloControllerPath, newHelloControllerContent);
+    updateFile(greetingResourcePath, newGreetingResourceContent);
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
@@ -1023,7 +971,7 @@ describe('nx-boot-gradle e2e', () => {
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
-    const formatResult = await runNxCommandAsync(`kformat ${appName}`);
+    const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
     expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
@@ -1054,12 +1002,12 @@ describe('nx-boot-gradle e2e', () => {
     });
   }, 1200000);
 
-  it('should create an application with a simple name', async () => {
-    const appName = uniq('boot-gradle-app-');
+  it('should create an application with simple name', async () => {
+    const appName = uniq('quarkus-gradle-app-');
     const appDir = 'deep/subdir';
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:application ${appName} --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml`
+      `generate @jnxplus/nx-quarkus-gradle:application ${appName} --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --configFormat .yml`
     );
 
     expect(() =>
@@ -1068,17 +1016,10 @@ describe('nx-boot-gradle e2e', () => {
         `apps/${appDir}/${appName}/src/main/resources/application.yml`,
         `apps/${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
           appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
-        `apps/${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          appName
-        ).className.toLocaleLowerCase()}/HelloController.java`,
-
-        `apps/${appDir}/${appName}/src/test/resources/application.yml`,
+        ).className.toLocaleLowerCase()}/GreetingResource.java`,
         `apps/${appDir}/${appName}/src/test/java/com/jnxplus/deep/subdir/${names(
           appName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
       )
     ).not.toThrow();
 
@@ -1086,12 +1027,6 @@ describe('nx-boot-gradle e2e', () => {
     const buildGradle = readFile(`apps/${appDir}/${appName}/build.gradle`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
-    expect(buildGradle.includes('war')).toBeTruthy();
-    expect(
-      buildGradle.includes(
-        'org.springframework.boot:spring-boot-starter-tomcat'
-      )
-    ).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${appName}/project.json`);
@@ -1126,8 +1061,8 @@ describe('nx-boot-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(
-      `serve ${appName} --args="--spring.profiles.active=test"`,
-      (output) => output.includes(`Tomcat started on port(s): 8080`)
+      `serve ${appName} --args="-Dquarkus-profile=prod"`,
+      (output) => output.includes(`Listening on: http://localhost:8080`)
     );
 
     // port and process cleanup
@@ -1139,12 +1074,12 @@ describe('nx-boot-gradle e2e', () => {
     }
   }, 1200000);
 
-  it('should create a library with a simple name', async () => {
-    const libName = uniq('boot-gradle-lib-');
+  it('should create a library with simple name', async () => {
+    const libName = uniq('quarkus-gradle-lib-');
     const libDir = 'deep/subdir';
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:library ${libName} --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
+      `generate @jnxplus/nx-quarkus-gradle:library ${libName} --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
     );
 
     expect(() =>
@@ -1152,13 +1087,10 @@ describe('nx-boot-gradle e2e', () => {
         `libs/${libDir}/${libName}/build.gradle`,
         `libs/${libDir}/${libName}/src/main/java/com/jnxplus/deep/subdir/${names(
           libName
-        ).className.toLocaleLowerCase()}/HelloService.java`,
+        ).className.toLocaleLowerCase()}/GreetingService.java`,
         `libs/${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
           libName
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
       )
     ).not.toThrow();
 
@@ -1200,159 +1132,121 @@ describe('nx-boot-gradle e2e', () => {
     });
   }, 1200000);
 
-  it('should create a minimal java application', async () => {
-    const appName = uniq('boot-gradle-app-');
+  it('should skip starter code when generating a java application with skipStarterCode option', async () => {
+    const appName = uniq('quarkus-gradle-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:application ${appName} --minimal`
+      `generate @jnxplus/nx-quarkus-gradle:application ${appName} --skipStarterCode`
     );
 
     expect(() =>
       checkFilesExist(
         `apps/${appName}/build.gradle`,
-        `apps/${appName}/src/main/java/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
         `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/test/java/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }ApplicationTests.java`
+        `apps/${appName}/src/main/java/.gitkeep`,
+        `apps/${appName}/src/test/java/.gitkeep`,
+        `apps/${appName}/src/native-test/java/.gitkeep`
       )
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
-        `apps/${appName}/src/main/java/com/example/${names(
+      checkFilesDoNotExist(
+        `apps/${appName}/src/main/java/org/acme/${names(
           appName
-        ).className.toLocaleLowerCase()}/ServletInitializer.java`,
-        `apps/${appName}/src/main/java/com/example/${names(
+        ).className.toLocaleLowerCase()}/GreetingResource.java`,
+        `apps/${appName}/src/test/java/org/acme/${names(
           appName
-        ).className.toLocaleLowerCase()}/HelloController.java`,
-        `apps/${appName}/src/test/resources/application.properties`,
-        `apps/${appName}/src/test/java/com/example/${names(
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
+        `apps/${appName}/src/native-test/java/org/acme/${names(
           appName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+        ).className.toLocaleLowerCase()}/GreetingResourceIT.java`
       )
-    ).toThrow();
-
-    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`)
-    );
-
-    // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
-    } catch (err) {
-      expect(err).toBeFalsy();
-    }
+    ).not.toThrow();
   }, 1200000);
 
-  it('should create a minimal kotlin application', async () => {
-    const appName = uniq('boot-gradle-app-');
+  it('should skip starter code when generating a kotlin application with skipStarterCode option', async () => {
+    const appName = uniq('quarkus-gradle-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:application ${appName} --language kotlin --minimal`
+      `generate @jnxplus/nx-quarkus-gradle:application ${appName} --language kotlin --skipStarterCode`
     );
 
     expect(() =>
       checkFilesExist(
         `apps/${appName}/build.gradle.kts`,
         `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.kt`,
-        `apps/${appName}/src/test/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }ApplicationTests.kt`
+        `apps/${appName}/src/main/kotlin/.gitkeep`,
+        `apps/${appName}/src/test/kotlin/.gitkeep`,
+        `apps/${appName}/src/native-test/kotlin/.gitkeep`
       )
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
-        `apps/${appName}/src/main/kotlin/com/example/${names(
+      checkFilesDoNotExist(
+        `apps/${appName}/src/main/kotlin/org/acme/${names(
           appName
-        ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
-        `apps/${appName}/src/main/kotlin/com/example/${names(
+        ).className.toLocaleLowerCase()}/GreetingResource.kt`,
+        `apps/${appName}/src/test/kotlin/org/acme/${names(
           appName
-        ).className.toLocaleLowerCase()}/HelloController.kt`,
-        `apps/${appName}/src/test/resources/application.properties`,
-
-        `apps/${appName}/src/test/kotlin/com/example/${names(
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`,
+        `apps/${appName}/src/native-test/kotlin/org/acme/${names(
           appName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.kt`
+        ).className.toLocaleLowerCase()}/GreetingResourceIT.kt`
       )
-    ).toThrow();
-
-    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`)
-    );
-
-    // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
-    } catch (err) {
-      expect(err).toBeFalsy();
-    }
+    ).not.toThrow();
   }, 1200000);
 
   it('should skip starter code when generating a java library with skipStarterCode option', async () => {
-    const libName = uniq('boot-gradle-lib-');
+    const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:library ${libName} --skipStarterCode`
+      `generate @jnxplus/nx-quarkus-gradle:library ${libName} --skipStarterCode`
     );
-
-    expect(() => checkFilesExist(`libs/${libName}/build.gradle`)).not.toThrow();
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/src/main/java/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/${libName}/src/test/java/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libName}/src/test/java/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+        `libs/${libName}/build.gradle`,
+        `libs/${libName}/src/main/java/.gitkeep`,
+        `libs/${libName}/src/test/java/.gitkeep`
       )
-    ).toThrow();
-  }, 1200000);
-
-  it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
-    const libName = uniq('boot-gradle-lib-');
-
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:library ${libName} --language kotlin --skipStarterCode`
-    );
-
-    expect(() =>
-      checkFilesExist(`libs/${libName}/build.gradle.kts`)
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
-        `libs/${libName}/src/main/kotlin/com/example/${names(
+      checkFilesDoNotExist(
+        `libs/${libName}/src/main/java/org/acme/${names(
           libName
-        ).className.toLocaleLowerCase()}/HelloService.kt`,
-        `apps/${libName}/src/test/resources/junit-platform.properties`,
-        `libs/${libName}/src/test/kotlin/com/example/${names(
+        ).className.toLocaleLowerCase()}/GreetingService.java`,
+        `libs/${libName}/src/test/java/org/acme/${names(
           libName
-        ).className.toLocaleLowerCase()}/TestConfiguration.kt`,
-        `libs/${libName}/src/test/kotlin/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.kt`
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
       )
-    ).toThrow();
+    ).not.toThrow();
+  }, 1200000);
+
+  it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
+    const libName = uniq('quarkus-gradle-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-gradle:library ${libName} --language kotlin --skipStarterCode`
+    );
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/build.gradle.kts`,
+        `libs/${libName}/src/main/kotlin/.gitkeep`,
+        `libs/${libName}/src/test/kotlin/.gitkeep`
+      )
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesDoNotExist(
+        `libs/${libName}/src/main/kotlin/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/GreetingService.kt`,
+        `libs/${libName}/src/test/kotlin/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`
+      )
+    ).not.toThrow();
   }, 1200000);
 });

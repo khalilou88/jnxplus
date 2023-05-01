@@ -29,6 +29,7 @@ describe('nx-quarkus-gradle e2e', () => {
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
+  const rootProjectName = uniq('quarkus-root-project-');
   beforeEach(async () => {
     fse.ensureDirSync(tmpProjPath());
     cleanup();
@@ -43,6 +44,10 @@ describe('nx-quarkus-gradle e2e', () => {
       'node_modules/prettier-plugin-java'
     );
     runPackageManagerInstall();
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-quarkus-gradle:init --rootProjectName ${rootProjectName}`
+    );
 
     if (isCI) {
       const filePath = `${process.cwd()}/.gitignore`;
@@ -59,8 +64,6 @@ describe('nx-quarkus-gradle e2e', () => {
   });
 
   it('should init the workspace with @jnxplus/nx-quarkus-gradle capabilities', async () => {
-    await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
-
     // Making sure the package.json file contains the @jnxplus/nx-quarkus-gradle dependency
     const packageJson = readJson('package.json');
     expect(
@@ -84,43 +87,12 @@ describe('nx-quarkus-gradle e2e', () => {
     ).not.toThrow();
   }, 1200000);
 
-  it('should use dsl option when initiating the workspace', async () => {
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:init --dsl kotlin`
-    );
-
-    // Making sure the package.json file contains the @jnxplus/nx-quarkus-gradle dependency
-    const packageJson = readJson('package.json');
-    expect(
-      packageJson.devDependencies['@jnxplus/nx-quarkus-gradle']
-    ).toBeTruthy();
-
-    // Making sure the nx.json file contains the @jnxplus/nx-quarkus-gradle inside the plugins section
-    const nxJson = readJson('nx.json');
-    expect(nxJson.plugins.includes('@jnxplus/nx-quarkus-gradle')).toBeTruthy();
-
-    expect(() =>
-      checkFilesExist(
-        'gradle/wrapper/gradle-wrapper.jar',
-        'gradle/wrapper/gradle-wrapper.properties',
-        'gradlew',
-        'gradlew.bat',
-        'gradle.properties',
-        'settings.gradle.kts',
-        'tools/linters/checkstyle.xml'
-      )
-    ).not.toThrow();
-  }, 1200000);
-
   it('should migrate', async () => {
-    await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
     await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:migrate`);
   }, 1200000);
 
   it('should create a java application', async () => {
     const appName = uniq('quarkus-gradle-app-');
-
-    await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:application ${appName}`
@@ -208,7 +180,7 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: 'quarkus-root-project',
+      target: rootProjectName,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
@@ -228,11 +200,6 @@ describe('nx-quarkus-gradle e2e', () => {
     const randomName = uniq('quarkus-gradle-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
-
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
-    );
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --configFormat .yml`
@@ -308,10 +275,6 @@ describe('nx-quarkus-gradle e2e', () => {
     const appName = `${normalizeName(appDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:init --dsl kotlin`
-    );
-
-    await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3 --configFormat .yml`
     );
 
@@ -362,7 +325,7 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: 'quarkus-root-project',
+      target: rootProjectName,
     });
 
     const process = await runNxCommandUntil(
@@ -381,8 +344,6 @@ describe('nx-quarkus-gradle e2e', () => {
 
   it('should create a kotlin application', async () => {
     const appName = uniq('quarkus-gradle-app-');
-
-    await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:application ${appName} --language kotlin`
@@ -452,7 +413,7 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: 'quarkus-root-project',
+      target: rootProjectName,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
@@ -472,11 +433,6 @@ describe('nx-quarkus-gradle e2e', () => {
     const randomName = uniq('quarkus-gradle-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
-
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
-    );
 
     await runNxCommandAsync(
       `g @jnxplus/nx-quarkus-gradle:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --configFormat .yml`
@@ -550,8 +506,6 @@ describe('nx-quarkus-gradle e2e', () => {
     const randomName = uniq('boot-maven-app-');
     const appName = `deep-sub-dir-${randomName}`;
 
-    await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
-
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:application ${randomName} --directory deep/sub-dir`
     );
@@ -567,7 +521,7 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: 'quarkus-root-project',
+      target: rootProjectName,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
@@ -585,11 +539,6 @@ describe('nx-quarkus-gradle e2e', () => {
 
   it('should create a library', async () => {
     const libName = uniq('quarkus-gradle-lib-');
-
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:init --rootProjectName ${rootProjectName}`
-    );
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:library ${libName}`
@@ -658,11 +607,6 @@ describe('nx-quarkus-gradle e2e', () => {
 
   it('should create a kotlin library', async () => {
     const libName = uniq('quarkus-gradle-lib-');
-
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:init --rootProjectName ${rootProjectName}`
-    );
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:library ${libName} --language kotlin`
@@ -733,10 +677,6 @@ describe('nx-quarkus-gradle e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:init --dsl kotlin`
-    );
-
-    await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
     );
 
@@ -786,7 +726,7 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: 'quarkus-root-project',
+      target: rootProjectName,
     });
   }, 1200000);
 
@@ -794,11 +734,6 @@ describe('nx-quarkus-gradle e2e', () => {
     const randomName = uniq('quarkus-gradle-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
-
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
-    );
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3`
@@ -859,8 +794,6 @@ describe('nx-quarkus-gradle e2e', () => {
     const libDir = 'subdir';
     const libName = `${libDir}-${randomName}`;
 
-    await runNxCommandAsync(`g @jnxplus/nx-quarkus-gradle:init`);
-
     await runNxCommandAsync(
       `g @jnxplus/nx-quarkus-gradle:lib ${randomName} --dir ${libDir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`
     );
@@ -911,18 +844,13 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: 'quarkus-root-project',
+      target: rootProjectName,
     });
   }, 1200000);
 
   it('should add a lib to an app dependencies', async () => {
     const appName = uniq('quarkus-gradle-app-');
     const libName = uniq('quarkus-gradle-lib-');
-
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:init --rootProjectName ${rootProjectName}`
-    );
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:application ${appName}`
@@ -1002,11 +930,6 @@ describe('nx-quarkus-gradle e2e', () => {
     const appName = uniq('quarkus-gradle-app-');
     const libName = uniq('quarkus-gradle-lib-');
 
-    const rootProjectName = uniq('root-project-name-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
-    );
-
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:application ${appName} --language kotlin`
     );
@@ -1083,11 +1006,6 @@ describe('nx-quarkus-gradle e2e', () => {
     const appName = uniq('quarkus-gradle-app-');
     const appDir = 'deep/subdir';
 
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
-    );
-
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:application ${appName} --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --configFormat .yml`
     );
@@ -1161,10 +1079,6 @@ describe('nx-quarkus-gradle e2e', () => {
     const libDir = 'deep/subdir';
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:init --dsl kotlin`
-    );
-
-    await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:library ${libName} --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
     );
 
@@ -1214,14 +1128,12 @@ describe('nx-quarkus-gradle e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: 'quarkus-root-project',
+      target: rootProjectName,
     });
   }, 1200000);
 
   it('should skip starter code when generating a java application with skipStarterCode option', async () => {
     const appName = uniq('quarkus-gradle-app-');
-
-    await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:application ${appName} --skipStarterCode`
@@ -1255,8 +1167,6 @@ describe('nx-quarkus-gradle e2e', () => {
   it('should skip starter code when generating a kotlin application with skipStarterCode option', async () => {
     const appName = uniq('quarkus-gradle-app-');
 
-    await runNxCommandAsync(`generate @jnxplus/nx-quarkus-gradle:init`);
-
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:application ${appName} --language kotlin --skipStarterCode`
     );
@@ -1289,11 +1199,6 @@ describe('nx-quarkus-gradle e2e', () => {
   it('should skip starter code when generating a java library with skipStarterCode option', async () => {
     const libName = uniq('quarkus-gradle-lib-');
 
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:init --rootProjectName ${rootProjectName}`
-    );
-
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:library ${libName} --skipStarterCode`
     );
@@ -1320,11 +1225,6 @@ describe('nx-quarkus-gradle e2e', () => {
 
   it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
     const libName = uniq('quarkus-gradle-lib-');
-
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:init --rootProjectName ${rootProjectName}`
-    );
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:library ${libName} --language kotlin --skipStarterCode`

@@ -28,7 +28,7 @@ describe('nx-quarkus-maven e2e', () => {
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
-  const parentProjectName = uniq('parent-project-');
+  const parentProjectName = uniq('quarkus-parent-project-');
   beforeAll(async () => {
     fse.ensureDirSync(tmpProjPath());
     cleanup();
@@ -151,6 +151,21 @@ describe('nx-quarkus-maven e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
+    //test run-task
+    const projectJson = readJson(`apps/${appName}/project.json`);
+    projectJson.targets = {
+      ...projectJson.targets,
+      'run-task': {
+        executor: '@jnxplus/nx-quarkus-maven:run-task',
+      },
+    };
+    updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
+    const runTaskResult = await runNxCommandAsync(
+      `run-task ${appName} --task="clean install -DskipTests=true"`
+    );
+    expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
+    //end test run-task
+
     //graph
     const depGraphResult = await runNxCommandAsync(
       `dep-graph --file=dep-graph.json`
@@ -176,21 +191,6 @@ describe('nx-quarkus-maven e2e', () => {
     } catch (err) {
       expect(err).toBeFalsy();
     }
-
-    //test run-task
-    const projectJson = readJson(`apps/${appName}/project.json`);
-    projectJson.targets = {
-      ...projectJson.targets,
-      'run-task': {
-        executor: '@jnxplus/nx-quarkus-maven:run-task',
-      },
-    };
-    updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
-    const runTaskResult = await runNxCommandAsync(
-      `run-task ${appName} --task="clean install -DskipTests=true"`
-    );
-    expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
-    //end test run-task
   }, 1200000);
 
   it('should use specified options to create an application', async () => {
@@ -1639,9 +1639,8 @@ describe('nx-quarkus-maven e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:application ${appName} --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject}`
     );
-    //TODO this build don't work in CI
-    // const buildResult = await runNxCommandAsync(`build ${appName}`);
-    // expect(buildResult.stdout).toContain('Executor ran for Build');
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
@@ -1652,9 +1651,8 @@ describe('nx-quarkus-maven e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:application ${secondAppName} --simpleName --parent-project ${secondParentProject} --directory ${appsParentProject}/${secondParentProject}`
     );
-    //TODO this build don't work in CI
-    // const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
-    // expect(secondBuildResult.stdout).toContain('Executor ran for Build');
+    const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
+    expect(secondBuildResult.stdout).toContain('Executor ran for Build');
 
     const thirdParentProject = uniq('apps-parent-project-');
     const parentProjectDir = `${appsParentProject}/${secondParentProject}/deep/subdir`;
@@ -1666,9 +1664,8 @@ describe('nx-quarkus-maven e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:application ${thirdAppName} --parent-project ${thirdParentProject}`
     );
-    //TODO this build don't work in CI
-    // const thirdBuildResult = await runNxCommandAsync(`build ${thirdAppName}`);
-    // expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
+    const thirdBuildResult = await runNxCommandAsync(`build ${thirdAppName}`);
+    expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
 
     //graph
     const localTmpDir = path.dirname(tmpProjPath());
