@@ -30,6 +30,7 @@ interface NormalizedSchema extends NxBootMavenAppGeneratorSchema {
   parentProjectVersion: string;
   relativePath: string;
   parentProjectRoot: string;
+  isCustomPort: boolean;
 }
 
 function normalizeOptions(
@@ -95,6 +96,8 @@ function normalizeOptions(
   const parentProjectName = pomXmlContent.childNamed('artifactId').val;
   const parentProjectVersion = pomXmlContent.childNamed('version').val;
 
+  const isCustomPort = +options.port !== 8080;
+
   return {
     ...options,
     projectName,
@@ -110,6 +113,7 @@ function normalizeOptions(
     parentProjectVersion,
     relativePath,
     parentProjectRoot,
+    isCustomPort,
   };
 }
 

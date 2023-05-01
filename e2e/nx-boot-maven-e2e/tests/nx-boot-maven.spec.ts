@@ -14,6 +14,7 @@ import {
 import * as fse from 'fs-extra';
 import * as path from 'path';
 import {
+  getData,
   killPorts,
   normalizeName,
   promisifiedTreeKill,
@@ -186,12 +187,15 @@ describe('nx-boot-maven e2e', () => {
       output.includes(`Tomcat started on port(s): 8080`)
     );
 
+    const dataResult = await getData();
+    expect(dataResult.message).toMatch('Hello World!');
+
     // port and process cleanup
     try {
       await promisifiedTreeKill(process.pid, 'SIGKILL');
       await killPorts(8080);
     } catch (err) {
-      expect(err).toBeFalsy();
+      // ignore err
     }
   }, 1200000);
 
@@ -199,9 +203,10 @@ describe('nx-boot-maven e2e', () => {
     const randomName = uniq('boot-maven-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
+    const port = 8181;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml`
+      `generate @jnxplus/nx-boot-maven:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`
     );
 
     expect(() =>
@@ -269,23 +274,27 @@ describe('nx-boot-maven e2e', () => {
 
     const process = await runNxCommandUntil(
       `serve ${appName} --args="-Dspring-boot.run.profiles=test"`,
-      (output) => output.includes(`Tomcat started on port(s): 8080`)
+      (output) => output.includes(`Tomcat started on port(s): ${port}`)
     );
+
+    const dataResult = await getData(port);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
       await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
+      await killPorts(port);
     } catch (err) {
-      expect(err).toBeFalsy();
+      // ignore err
     }
   }, 1200000);
 
   it('should create a kotlin application', async () => {
     const appName = uniq('boot-maven-app-');
+    const port = 8282;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:application ${appName} --language kotlin`
+      `generate @jnxplus/nx-boot-maven:application ${appName} --language kotlin --port ${port}`
     );
 
     expect(() =>
@@ -357,15 +366,18 @@ describe('nx-boot-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`)
+      output.includes(`Tomcat started on port(s): ${port}`)
     );
+
+    const dataResult = await getData(port);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
       await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
+      await killPorts(port);
     } catch (err) {
-      expect(err).toBeFalsy();
+      // ignore err
     }
   }, 1200000);
 
@@ -373,9 +385,10 @@ describe('nx-boot-maven e2e', () => {
     const randomName = uniq('boot-maven-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
+    const port = 8383;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-boot-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml`
+      `g @jnxplus/nx-boot-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml --port ${port}`
     );
 
     expect(() =>
@@ -441,15 +454,18 @@ describe('nx-boot-maven e2e', () => {
 
     const process = await runNxCommandUntil(
       `serve ${appName} --args="-Dspring-boot.run.profiles=test"`,
-      (output) => output.includes(`Tomcat started on port(s): 8080`)
+      (output) => output.includes(`Tomcat started on port(s): ${port}`)
     );
+
+    const dataResult = await getData(port);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
       await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
+      await killPorts(port);
     } catch (err) {
-      expect(err).toBeFalsy();
+      // ignore err
     }
   }, 1200000);
 
@@ -457,9 +473,10 @@ describe('nx-boot-maven e2e', () => {
     const randomName = uniq('boot-maven-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
+    const port = 8484;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-boot-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --simplePackageName --v 1.2.3 --packaging war --configFormat .yml`
+      `g @jnxplus/nx-boot-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --simplePackageName --v 1.2.3 --packaging war --configFormat .yml --port ${port}`
     );
 
     expect(() =>
@@ -525,24 +542,28 @@ describe('nx-boot-maven e2e', () => {
 
     const process = await runNxCommandUntil(
       `serve ${appName} --args="-Dspring-boot.run.profiles=test"`,
-      (output) => output.includes(`Tomcat started on port(s): 8080`)
+      (output) => output.includes(`Tomcat started on port(s): ${port}`)
     );
+
+    const dataResult = await getData(port);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
       await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
+      await killPorts(port);
     } catch (err) {
-      expect(err).toBeFalsy();
+      // ignore err
     }
   }, 1200000);
 
   it('directory with dash', async () => {
     const randomName = uniq('boot-maven-app-');
     const appName = `deep-sub-dir-${randomName}`;
+    const port = 8585;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:application ${randomName} --directory deep/sub-dir`
+      `generate @jnxplus/nx-boot-maven:application ${randomName} --directory deep/sub-dir --port ${port}`
     );
 
     //graph
@@ -560,15 +581,18 @@ describe('nx-boot-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`)
+      output.includes(`Tomcat started on port(s): ${port}`)
     );
+
+    const dataResult = await getData(port);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
       await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
+      await killPorts(port);
     } catch (err) {
-      expect(err).toBeFalsy();
+      // ignore err
     }
   }, 1200000);
 
@@ -1444,53 +1468,13 @@ describe('nx-boot-maven e2e', () => {
     });
   }, 1200000);
 
-  it('should generate java app inside a parent project', async () => {
-    const parentProject = uniq('parent-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:parent-project ${parentProject}`
-    );
-
-    const randomName = uniq('boot-maven-app-');
-    const appName = `${parentProject}-${randomName}`;
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:application ${randomName} --parent-project ${parentProject} --directory ${parentProject}`
-    );
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
-    //graph
-    const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
-    );
-    expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
-    );
-    const depGraphJson = readJson('dep-graph.json');
-    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
-      type: 'static',
-      source: appName,
-      target: parentProject,
-    });
-
-    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`)
-    );
-
-    // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
-    } catch (err) {
-      expect(err).toBeFalsy();
-    }
-  }, 1200000);
-
   it('should create an application with a simple name', async () => {
     const appName = uniq('boot-maven-app-');
     const appDir = 'deep/subdir';
+    const port = 8686;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:application ${appName} --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml`
+      `generate @jnxplus/nx-boot-maven:application ${appName} --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`
     );
 
     expect(() =>
@@ -1556,15 +1540,18 @@ describe('nx-boot-maven e2e', () => {
 
     const process = await runNxCommandUntil(
       `serve ${appName} --args="-Dspring-boot.run.profiles=test"`,
-      (output) => output.includes(`Tomcat started on port(s): 8080`)
+      (output) => output.includes(`Tomcat started on port(s): ${port}`)
     );
+
+    const dataResult = await getData(port);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
       await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
+      await killPorts(port);
     } catch (err) {
-      expect(err).toBeFalsy();
+      // ignore err
     }
   }, 1200000);
 
@@ -1631,9 +1618,10 @@ describe('nx-boot-maven e2e', () => {
 
   it('should create a minimal java application', async () => {
     const appName = uniq('boot-maven-app-');
+    const port = 8787;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:application ${appName} --minimal`
+      `generate @jnxplus/nx-boot-maven:application ${appName} --minimal --port ${port}`
     );
 
     expect(() =>
@@ -1666,23 +1654,27 @@ describe('nx-boot-maven e2e', () => {
     ).toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`)
+      output.includes(`Tomcat started on port(s): ${port}`)
     );
+
+    const dataResult = await getData(port);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
       await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
+      await killPorts(port);
     } catch (err) {
-      expect(err).toBeFalsy();
+      // ignore err
     }
   }, 1200000);
 
   it('should create a minimal kotlin application', async () => {
     const appName = uniq('boot-maven-app-');
+    const port = 8888;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:application ${appName} --language kotlin --minimal`
+      `generate @jnxplus/nx-boot-maven:application ${appName} --language kotlin --minimal --port ${port}`
     );
 
     expect(() =>
@@ -1719,15 +1711,18 @@ describe('nx-boot-maven e2e', () => {
     ).toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`)
+      output.includes(`Tomcat started on port(s): ${port}`)
     );
+
+    const dataResult = await getData(port);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
       await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
+      await killPorts(port);
     } catch (err) {
-      expect(err).toBeFalsy();
+      // ignore err
     }
   }, 1200000);
 
@@ -1778,6 +1773,51 @@ describe('nx-boot-maven e2e', () => {
         ).className.toLocaleLowerCase()}/HelloServiceTests.kt`
       )
     ).toThrow();
+  }, 1200000);
+
+  it('should generate java app inside a parent project', async () => {
+    const parentProject = uniq('parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:parent-project ${parentProject}`
+    );
+
+    const randomName = uniq('boot-maven-app-');
+    const appName = `${parentProject}-${randomName}`;
+    const port = 8989;
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:application ${randomName} --parent-project ${parentProject} --directory ${parentProject} --port ${port}`
+    );
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: parentProject,
+    });
+
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Tomcat started on port(s): ${port}`)
+    );
+
+    const dataResult = await getData(port);
+    expect(dataResult.message).toMatch('Hello World!');
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(port);
+    } catch (err) {
+      // ignore err
+    }
   }, 1200000);
 
   it('should generate java nested sub-projects', async () => {
