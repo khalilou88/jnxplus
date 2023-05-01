@@ -1665,17 +1665,17 @@ describe('nx-boot-maven e2e', () => {
       )
     ).toThrow();
 
-    // const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-    //   output.includes(`Tomcat started on port(s): 8080`)
-    // );
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Tomcat started on port(s): 8080`)
+    );
 
-    // // port and process cleanup
-    // try {
-    //   await promisifiedTreeKill(process.pid, 'SIGKILL');
-    //   await killPorts(8080);
-    // } catch (err) {
-    //   expect(err).toBeFalsy();
-    // }
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(8080);
+    } catch (err) {
+      expect(err).toBeFalsy();
+    }
   }, 1200000);
 
   it('should create a minimal kotlin application', async () => {
@@ -1718,17 +1718,17 @@ describe('nx-boot-maven e2e', () => {
       )
     ).toThrow();
 
-    // const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-    //   output.includes(`Tomcat started on port(s): 8080`)
-    // );
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Tomcat started on port(s): 8080`)
+    );
 
-    // // port and process cleanup
-    // try {
-    //   await promisifiedTreeKill(process.pid, 'SIGKILL');
-    //   await killPorts(8080);
-    // } catch (err) {
-    //   expect(err).toBeFalsy();
-    // }
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(8080);
+    } catch (err) {
+      expect(err).toBeFalsy();
+    }
   }, 1200000);
 
   it('should skip starter code when generating a java library with skipStarterCode option', async () => {

@@ -28,6 +28,7 @@ describe('nx-boot-gradle kt dsl e2e', () => {
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
+  const rootProjectName = uniq('boot-root-project-');
   beforeEach(async () => {
     fse.ensureDirSync(tmpProjPath());
     cleanup();
@@ -43,6 +44,10 @@ describe('nx-boot-gradle kt dsl e2e', () => {
     );
     runPackageManagerInstall();
 
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
+    );
+
     if (isCI) {
       const filePath = `${process.cwd()}/.gitignore`;
       const fileContent = fs.readFileSync(filePath, 'utf-8');
@@ -57,35 +62,7 @@ describe('nx-boot-gradle kt dsl e2e', () => {
     runNxCommandAsync('reset');
   });
 
-  it('should init the workspace with @jnxplus/nx-boot-gradle capabilities', async () => {
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
-
-    // Making sure the package.json file contains the @jnxplus/nx-boot-gradle dependency
-    const packageJson = readJson('package.json');
-    expect(packageJson.devDependencies['@jnxplus/nx-boot-gradle']).toBeTruthy();
-
-    // Making sure the nx.json file contains the @jnxplus/nx-boot-gradle inside the plugins section
-    const nxJson = readJson('nx.json');
-    expect(nxJson.plugins.includes('@jnxplus/nx-boot-gradle')).toBeTruthy();
-
-    expect(() =>
-      checkFilesExist(
-        'gradle/wrapper/gradle-wrapper.jar',
-        'gradle/wrapper/gradle-wrapper.properties',
-        'gradlew',
-        'gradlew.bat',
-        'gradle.properties',
-        'settings.gradle',
-        'tools/linters/checkstyle.xml'
-      )
-    ).not.toThrow();
-  }, 1200000);
-
   it('should use dsl option when initiating the workspace', async () => {
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
-    );
-
     // Making sure the package.json file contains the @jnxplus/nx-boot-gradle dependency
     const packageJson = readJson('package.json');
     expect(packageJson.devDependencies['@jnxplus/nx-boot-gradle']).toBeTruthy();
@@ -108,14 +85,11 @@ describe('nx-boot-gradle kt dsl e2e', () => {
   }, 1200000);
 
   it('should migrate', async () => {
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:migrate`);
   }, 1200000);
 
   it('should create a java application', async () => {
     const appName = uniq('boot-gradle-app-');
-
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName}`
@@ -201,7 +175,7 @@ describe('nx-boot-gradle kt dsl e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: 'spring-boot-root-project',
+      target: rootProjectName,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
@@ -221,11 +195,6 @@ describe('nx-boot-gradle kt dsl e2e', () => {
     const randomName = uniq('boot-gradle-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
-
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
-    );
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml`
@@ -316,10 +285,6 @@ describe('nx-boot-gradle kt dsl e2e', () => {
     const appName = `${normalizeName(appDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
-    );
-
-    await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3 --packaging war --configFormat .yml`
     );
 
@@ -385,7 +350,7 @@ describe('nx-boot-gradle kt dsl e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: 'spring-boot-root-project',
+      target: rootProjectName,
     });
 
     const process = await runNxCommandUntil(
@@ -404,8 +369,6 @@ describe('nx-boot-gradle kt dsl e2e', () => {
 
   it('should create a kotlin application', async () => {
     const appName = uniq('boot-gradle-app-');
-
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName} --language kotlin`
@@ -478,7 +441,7 @@ describe('nx-boot-gradle kt dsl e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: 'spring-boot-root-project',
+      target: rootProjectName,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
@@ -498,11 +461,6 @@ describe('nx-boot-gradle kt dsl e2e', () => {
     const randomName = uniq('boot-gradle-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
-
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
-    );
 
     await runNxCommandAsync(
       `g @jnxplus/nx-boot-gradle:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml`
@@ -591,8 +549,6 @@ describe('nx-boot-gradle kt dsl e2e', () => {
     const randomName = uniq('boot-gradle-app-');
     const appName = `deep-sub-dir-${randomName}`;
 
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
-
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${randomName} --directory deep/sub-dir`
     );
@@ -608,7 +564,7 @@ describe('nx-boot-gradle kt dsl e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: 'spring-boot-root-project',
+      target: rootProjectName,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
@@ -626,11 +582,6 @@ describe('nx-boot-gradle kt dsl e2e', () => {
 
   it('should create a library', async () => {
     const libName = uniq('boot-gradle-lib-');
-
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:init --rootProjectName ${rootProjectName}`
-    );
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:library ${libName}`
@@ -695,11 +646,6 @@ describe('nx-boot-gradle kt dsl e2e', () => {
 
   it('should create a kotlin library', async () => {
     const libName = uniq('boot-gradle-lib-');
-
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:init --rootProjectName ${rootProjectName}`
-    );
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:library ${libName} --language kotlin`
@@ -766,10 +712,6 @@ describe('nx-boot-gradle kt dsl e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
-    );
-
-    await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
     );
 
@@ -822,7 +764,7 @@ describe('nx-boot-gradle kt dsl e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: 'spring-boot-root-project',
+      target: rootProjectName,
     });
   }, 1200000);
 
@@ -830,11 +772,6 @@ describe('nx-boot-gradle kt dsl e2e', () => {
     const randomName = uniq('boot-gradle-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
-
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
-    );
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3`
@@ -898,8 +835,6 @@ describe('nx-boot-gradle kt dsl e2e', () => {
     const libDir = 'subdir';
     const libName = `${libDir}-${randomName}`;
 
-    await runNxCommandAsync(`g @jnxplus/nx-boot-gradle:init`);
-
     await runNxCommandAsync(
       `g @jnxplus/nx-boot-gradle:lib ${randomName} --dir ${libDir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`
     );
@@ -953,18 +888,13 @@ describe('nx-boot-gradle kt dsl e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: 'spring-boot-root-project',
+      target: rootProjectName,
     });
   }, 1200000);
 
   it('should add a lib to an app dependencies', async () => {
     const appName = uniq('boot-gradle-app-');
     const libName = uniq('boot-gradle-lib-');
-
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:init --rootProjectName ${rootProjectName}`
-    );
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName}`
@@ -1043,11 +973,6 @@ describe('nx-boot-gradle kt dsl e2e', () => {
   it('should add a kotlin lib to a kotlin app dependencies', async () => {
     const appName = uniq('boot-gradle-app-');
     const libName = uniq('boot-gradle-lib-');
-
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
-    );
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName} --language kotlin --packaging war`
@@ -1132,11 +1057,6 @@ describe('nx-boot-gradle kt dsl e2e', () => {
   it('should create an application with a simple name', async () => {
     const appName = uniq('boot-gradle-app-');
     const appDir = 'deep/subdir';
-
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
-    );
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName} --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml`
@@ -1224,10 +1144,6 @@ describe('nx-boot-gradle kt dsl e2e', () => {
     const libDir = 'deep/subdir';
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:init --dsl kotlin`
-    );
-
-    await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:library ${libName} --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
     );
 
@@ -1280,14 +1196,12 @@ describe('nx-boot-gradle kt dsl e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: 'spring-boot-root-project',
+      target: rootProjectName,
     });
   }, 1200000);
 
   it('should create a minimal java application', async () => {
     const appName = uniq('boot-gradle-app-');
-
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName} --minimal`
@@ -1340,8 +1254,6 @@ describe('nx-boot-gradle kt dsl e2e', () => {
 
   it('should create a minimal kotlin application', async () => {
     const appName = uniq('boot-gradle-app-');
-
-    await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:init`);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:application ${appName} --language kotlin --minimal`
@@ -1396,11 +1308,6 @@ describe('nx-boot-gradle kt dsl e2e', () => {
   it('should skip starter code when generating a java library with skipStarterCode option', async () => {
     const libName = uniq('boot-gradle-lib-');
 
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:init --rootProjectName ${rootProjectName}`
-    );
-
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:library ${libName} --skipStarterCode`
     );
@@ -1424,11 +1331,6 @@ describe('nx-boot-gradle kt dsl e2e', () => {
 
   it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
     const libName = uniq('boot-gradle-lib-');
-
-    const rootProjectName = uniq('root-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-gradle:init --rootProjectName ${rootProjectName}`
-    );
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:library ${libName} --language kotlin --skipStarterCode`
