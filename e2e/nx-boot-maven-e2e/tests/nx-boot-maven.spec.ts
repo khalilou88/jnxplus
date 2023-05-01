@@ -27,7 +27,7 @@ describe('nx-boot-maven e2e', () => {
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
-  const parentProjectName = uniq('parent-project-');
+  const parentProjectName = uniq('boot-parent-project-');
   beforeAll(async () => {
     fse.ensureDirSync(tmpProjPath());
     cleanup();
@@ -153,6 +153,21 @@ describe('nx-boot-maven e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
+    //test run-task
+    const projectJson = readJson(`apps/${appName}/project.json`);
+    projectJson.targets = {
+      ...projectJson.targets,
+      'run-task': {
+        executor: '@jnxplus/nx-boot-maven:run-task',
+      },
+    };
+    updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
+    const runTaskResult = await runNxCommandAsync(
+      `run-task ${appName} --task="clean install -DskipTests=true"`
+    );
+    expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
+    //end test run-task
+
     //graph
     const depGraphResult = await runNxCommandAsync(
       `dep-graph --file=dep-graph.json`
@@ -178,21 +193,6 @@ describe('nx-boot-maven e2e', () => {
     } catch (err) {
       expect(err).toBeFalsy();
     }
-
-    //test run-task
-    const projectJson = readJson(`apps/${appName}/project.json`);
-    projectJson.targets = {
-      ...projectJson.targets,
-      'run-task': {
-        executor: '@jnxplus/nx-boot-maven:run-task',
-      },
-    };
-    updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
-    const runTaskResult = await runNxCommandAsync(
-      `run-task ${appName} --task="clean install -DskipTests=true"`
-    );
-    expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
-    //end test run-task
   }, 1200000);
 
   it('should use specified options to create an application', async () => {
