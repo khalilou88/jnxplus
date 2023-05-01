@@ -136,7 +136,7 @@ describe('nx-boot-maven e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
-    if (!isWin && !isMacOs) {
+    if (!isWin && !isMacOs && isCI) {
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
       );
@@ -188,7 +188,7 @@ describe('nx-boot-maven e2e', () => {
     );
 
     const dataResult = await getData();
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -278,7 +278,7 @@ describe('nx-boot-maven e2e', () => {
     );
 
     const dataResult = await getData(port);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -335,7 +335,7 @@ describe('nx-boot-maven e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
-    if (!isWin && !isMacOs) {
+    if (!isWin && !isMacOs && isCI) {
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
       );
@@ -370,7 +370,7 @@ describe('nx-boot-maven e2e', () => {
     );
 
     const dataResult = await getData(port);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -458,7 +458,7 @@ describe('nx-boot-maven e2e', () => {
     );
 
     const dataResult = await getData(port);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -546,7 +546,7 @@ describe('nx-boot-maven e2e', () => {
     );
 
     const dataResult = await getData(port);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -585,7 +585,7 @@ describe('nx-boot-maven e2e', () => {
     );
 
     const dataResult = await getData(port);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -1544,7 +1544,7 @@ describe('nx-boot-maven e2e', () => {
     );
 
     const dataResult = await getData(port);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -1658,7 +1658,7 @@ describe('nx-boot-maven e2e', () => {
     );
 
     const dataResult = await getData(port);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -1715,7 +1715,7 @@ describe('nx-boot-maven e2e', () => {
     );
 
     const dataResult = await getData(port);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -1809,7 +1809,7 @@ describe('nx-boot-maven e2e', () => {
     );
 
     const dataResult = await getData(port);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult).toMatch('Hello World!');
 
     // port and process cleanup
     try {

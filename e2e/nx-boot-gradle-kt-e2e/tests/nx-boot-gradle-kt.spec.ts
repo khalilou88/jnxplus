@@ -131,7 +131,7 @@ describe('nx-boot-gradle kt dsl e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
 
-    if (!isWin && !isMacOs) {
+    if (!isWin && !isMacOs && isCI) {
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
       );
@@ -414,7 +414,7 @@ describe('nx-boot-gradle kt dsl e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
 
-    if (!isWin && !isMacOs) {
+    if (!isWin && !isMacOs && isCI) {
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
       );

@@ -136,7 +136,7 @@ describe('nx-quarkus-gradle e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
 
-    if (!isWin && !isMacOs) {
+    if (!isWin && !isMacOs && isCI) {
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
       );
@@ -386,7 +386,7 @@ describe('nx-quarkus-gradle e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
 
-    if (!isWin && !isMacOs) {
+    if (!isWin && !isMacOs && isCI) {
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
       );

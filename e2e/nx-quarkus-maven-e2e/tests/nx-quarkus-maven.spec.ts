@@ -133,7 +133,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     //build-image preparation
     await runNxCommandAsync(`build ${appName} --mvnBuildCommand="package"`);
-    if (!isWin && !isMacOs) {
+    if (!isWin && !isMacOs && isCI) {
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
       );
@@ -308,7 +308,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     //build-image preparation
     await runNxCommandAsync(`build ${appName} --mvnBuildCommand="package"`);
-    if (!isWin && !isMacOs) {
+    if (!isWin && !isMacOs && isCI) {
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
       );
