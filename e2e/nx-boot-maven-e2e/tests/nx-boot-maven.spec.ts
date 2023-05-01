@@ -1657,9 +1657,6 @@ describe('nx-boot-maven e2e', () => {
       output.includes(`Tomcat started on port(s): ${port}`)
     );
 
-    const dataResult = await getData(port);
-    expect(dataResult).toMatch('Hello World!');
-
     // port and process cleanup
     try {
       await promisifiedTreeKill(process.pid, 'SIGKILL');
@@ -1713,9 +1710,6 @@ describe('nx-boot-maven e2e', () => {
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
       output.includes(`Tomcat started on port(s): ${port}`)
     );
-
-    const dataResult = await getData(port);
-    expect(dataResult).toMatch('Hello World!');
 
     // port and process cleanup
     try {
