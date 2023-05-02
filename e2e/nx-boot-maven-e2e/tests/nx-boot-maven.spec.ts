@@ -1,7 +1,8 @@
-import { names, workspaceRoot } from '@nx/devkit';
+import { names } from '@nx/devkit';
 import {
   checkFilesExist,
   cleanup,
+  patchPackageJsonForPlugin,
   readFile,
   readJson,
   runNxCommandAsync,
@@ -16,12 +17,9 @@ import {
   getData,
   killPorts,
   normalizeName,
-  patchPackageJson,
-  patchRootPackageJson,
   promisifiedTreeKill,
   runNxCommandUntil,
   runNxNewCommand,
-  runPackageManagerInstallDir,
 } from '@jnxplus/common';
 import * as fs from 'fs';
 
@@ -31,56 +29,26 @@ describe('nx-boot-maven e2e', () => {
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
   const parentProjectName = uniq('boot-parent-project-');
-
   beforeAll(async () => {
     fse.ensureDirSync(tmpProjPath());
     cleanup();
     runNxNewCommand('', true);
 
-    const pluginName = 'nx-boot-maven';
-    const nxBootMavenDistAbsolutePath = path.join(
-      workspaceRoot,
-      'dist',
-      'packages',
-      pluginName
+    patchPackageJsonForPlugin(
+      '@jnxplus/nx-boot-maven',
+      'dist/packages/nx-boot-maven'
     );
-
-    const commonDistAbsolutePath = path.join(
-      workspaceRoot,
-      'dist',
-      'packages',
-      'common'
+    patchPackageJsonForPlugin(
+      'prettier-plugin-java',
+      'node_modules/prettier-plugin-java'
     );
-
-    const mavenDistAbsolutePath = path.join(
-      workspaceRoot,
-      'dist',
-      'packages',
-      'maven'
+    patchPackageJsonForPlugin(
+      '@prettier/plugin-xml',
+      'node_modules/@prettier/plugin-xml'
     );
-
-    patchRootPackageJson(pluginName, nxBootMavenDistAbsolutePath);
-    patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
-    patchRootPackageJson('@jnxplus/maven', mavenDistAbsolutePath);
-    patchPackageJson(
-      mavenDistAbsolutePath,
-      '@jnxplus/common',
-      commonDistAbsolutePath
-    );
-    patchPackageJson(
-      nxBootMavenDistAbsolutePath,
-      '@jnxplus/common',
-      commonDistAbsolutePath
-    );
-    patchPackageJson(
-      nxBootMavenDistAbsolutePath,
-      '@jnxplus/maven',
-      mavenDistAbsolutePath
-    );
-
+    patchPackageJsonForPlugin('@jnxplus/common', 'dist/packages/common');
+    patchPackageJsonForPlugin('@jnxplus/maven', 'dist/packages/maven');
     runPackageManagerInstall();
-    runPackageManagerInstallDir(nxBootMavenDistAbsolutePath);
-    runPackageManagerInstallDir(mavenDistAbsolutePath);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-maven:init --parentProjectName ${parentProjectName}`
@@ -94,10 +62,10 @@ describe('nx-boot-maven e2e', () => {
     }
   }, 120000);
 
-  afterAll(async () => {
+  afterAll(() => {
     // `nx reset` kills the daemon, and performs
     // some work which can help clean up e2e leftovers
-    await runNxCommandAsync('reset');
+    runNxCommandAsync('reset');
   });
 
   it('should init the workspace with @jnxplus/nx-boot-maven capabilities', async () => {

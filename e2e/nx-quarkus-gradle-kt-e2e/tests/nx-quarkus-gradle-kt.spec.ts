@@ -1,7 +1,8 @@
-import { names, workspaceRoot } from '@nx/devkit';
+import { names } from '@nx/devkit';
 import {
   checkFilesExist,
   cleanup,
+  patchPackageJsonForPlugin,
   readFile,
   readJson,
   runNxCommandAsync,
@@ -22,69 +23,30 @@ import {
   normalizeName,
   checkFilesDoNotExist,
   getData,
-  patchPackageJson,
-  patchRootPackageJson,
-  runPackageManagerInstallDir,
 } from '@jnxplus/common';
 
-describe('nx-quarkus-gradle kt e2e', () => {
+describe('nx-quarkus-gradle e2e', () => {
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
   const rootProjectName = uniq('quarkus-root-project-');
-
   beforeAll(async () => {
     fse.ensureDirSync(tmpProjPath());
     cleanup();
     runNxNewCommand('', true);
 
-    const pluginName = 'nx-quarkus-gradle';
-    const nxQuarkusGradleDistAbsolutePath = path.join(
-      workspaceRoot,
-      'dist',
-      'packages',
-      pluginName
+    patchPackageJsonForPlugin(
+      '@jnxplus/nx-quarkus-gradle',
+      'dist/packages/nx-quarkus-gradle'
     );
-
-    const commonDistAbsolutePath = path.join(
-      workspaceRoot,
-      'dist',
-      'packages',
-      'common'
+    patchPackageJsonForPlugin(
+      'prettier-plugin-java',
+      'node_modules/prettier-plugin-java'
     );
-
-    const gradleDistAbsolutePath = path.join(
-      workspaceRoot,
-      'dist',
-      'packages',
-      'gradle'
-    );
-
-    patchRootPackageJson(pluginName, nxQuarkusGradleDistAbsolutePath);
-    patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
-    patchRootPackageJson('@jnxplus/gradle', gradleDistAbsolutePath);
-
-    patchPackageJson(
-      gradleDistAbsolutePath,
-      '@jnxplus/common',
-      commonDistAbsolutePath
-    );
-
-    patchPackageJson(
-      nxQuarkusGradleDistAbsolutePath,
-      '@jnxplus/common',
-      commonDistAbsolutePath
-    );
-    patchPackageJson(
-      nxQuarkusGradleDistAbsolutePath,
-      '@jnxplus/gradle',
-      gradleDistAbsolutePath
-    );
-
+    patchPackageJsonForPlugin('@jnxplus/common', 'dist/packages/common');
+    patchPackageJsonForPlugin('@jnxplus/gradle', 'dist/packages/gradle');
     runPackageManagerInstall();
-    runPackageManagerInstallDir(nxQuarkusGradleDistAbsolutePath);
-    runPackageManagerInstallDir(gradleDistAbsolutePath);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
@@ -98,10 +60,10 @@ describe('nx-quarkus-gradle kt e2e', () => {
     }
   }, 120000);
 
-  afterAll(async () => {
+  afterAll(() => {
     // `nx reset` kills the daemon, and performs
     // some work which can help clean up e2e leftovers
-    await runNxCommandAsync('reset');
+    runNxCommandAsync('reset');
   });
 
   it('should use dsl option when initiating the workspace', async () => {
@@ -561,7 +523,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
   }, 120000);
 
   it('directory with dash', async () => {
-    const randomName = uniq('quarkus-maven-app-');
+    const randomName = uniq('boot-maven-app-');
     const appName = `deep-sub-dir-${randomName}`;
     const port = 8585;
 

@@ -1,7 +1,8 @@
-import { names, workspaceRoot } from '@nx/devkit';
+import { names } from '@nx/devkit';
 import {
   checkFilesExist,
   cleanup,
+  patchPackageJsonForPlugin,
   readFile,
   readJson,
   runNxCommandAsync,
@@ -17,12 +18,9 @@ import {
   getData,
   killPorts,
   normalizeName,
-  patchPackageJson,
-  patchRootPackageJson,
   promisifiedTreeKill,
   runNxCommandUntil,
   runNxNewCommand,
-  runPackageManagerInstallDir,
 } from '@jnxplus/common';
 import * as fs from 'fs';
 
@@ -32,56 +30,26 @@ describe('nx-quarkus-maven e2e', () => {
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
   const parentProjectName = uniq('quarkus-parent-project-');
-
   beforeAll(async () => {
     fse.ensureDirSync(tmpProjPath());
     cleanup();
     runNxNewCommand('', true);
 
-    const pluginName = 'nx-quarkus-maven';
-    const nxQuarkusMavenDistAbsolutePath = path.join(
-      workspaceRoot,
-      'dist',
-      'packages',
-      pluginName
+    patchPackageJsonForPlugin(
+      '@jnxplus/nx-quarkus-maven',
+      'dist/packages/nx-quarkus-maven'
     );
-
-    const commonDistAbsolutePath = path.join(
-      workspaceRoot,
-      'dist',
-      'packages',
-      'common'
+    patchPackageJsonForPlugin(
+      'prettier-plugin-java',
+      'node_modules/prettier-plugin-java'
     );
-
-    const mavenDistAbsolutePath = path.join(
-      workspaceRoot,
-      'dist',
-      'packages',
-      'maven'
+    patchPackageJsonForPlugin(
+      '@prettier/plugin-xml',
+      'node_modules/@prettier/plugin-xml'
     );
-
-    patchRootPackageJson(pluginName, nxQuarkusMavenDistAbsolutePath);
-    patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
-    patchRootPackageJson('@jnxplus/maven', mavenDistAbsolutePath);
-    patchPackageJson(
-      mavenDistAbsolutePath,
-      '@jnxplus/common',
-      commonDistAbsolutePath
-    );
-    patchPackageJson(
-      nxQuarkusMavenDistAbsolutePath,
-      '@jnxplus/common',
-      commonDistAbsolutePath
-    );
-    patchPackageJson(
-      nxQuarkusMavenDistAbsolutePath,
-      '@jnxplus/maven',
-      mavenDistAbsolutePath
-    );
-
+    patchPackageJsonForPlugin('@jnxplus/common', 'dist/packages/common');
+    patchPackageJsonForPlugin('@jnxplus/maven', 'dist/packages/maven');
     runPackageManagerInstall();
-    runPackageManagerInstallDir(nxQuarkusMavenDistAbsolutePath);
-    runPackageManagerInstallDir(mavenDistAbsolutePath);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:init --parentProjectName ${parentProjectName}`
@@ -95,10 +63,10 @@ describe('nx-quarkus-maven e2e', () => {
     }
   }, 120000);
 
-  afterAll(async () => {
+  afterAll(() => {
     // `nx reset` kills the daemon, and performs
     // some work which can help clean up e2e leftovers
-    await runNxCommandAsync('reset');
+    runNxCommandAsync('reset');
   });
 
   it('should init the workspace with @jnxplus/nx-quarkus-maven capabilities', async () => {
