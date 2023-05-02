@@ -55,7 +55,7 @@ describe('nx-boot-gradle e2e', () => {
       const updatedFileContent = fileContent.replace('/tmp', '');
       fs.writeFileSync(filePath, updatedFileContent);
     }
-  }, 1200000);
+  }, 120000);
 
   afterAll(() => {
     // `nx reset` kills the daemon, and performs
@@ -83,11 +83,11 @@ describe('nx-boot-gradle e2e', () => {
         'tools/linters/checkstyle.xml'
       )
     ).not.toThrow();
-  }, 1200000);
+  }, 120000);
 
   it('should migrate', async () => {
     await runNxCommandAsync(`generate @jnxplus/nx-boot-gradle:migrate`);
-  }, 1200000);
+  }, 120000);
 
   it('should create a java application', async () => {
     const appName = uniq('boot-gradle-app-');
@@ -193,7 +193,7 @@ describe('nx-boot-gradle e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 1200000);
+  }, 120000);
 
   it('should use specified options to create an application', async () => {
     const randomName = uniq('boot-gradle-app-');
@@ -285,7 +285,7 @@ describe('nx-boot-gradle e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 1200000);
+  }, 120000);
 
   it('should generate an app with a simple package name', async () => {
     const randomName = uniq('boot-gradle-app-');
@@ -377,7 +377,7 @@ describe('nx-boot-gradle e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 1200000);
+  }, 120000);
 
   it('should create a kotlin application', async () => {
     const appName = uniq('boot-gradle-app-');
@@ -471,7 +471,7 @@ describe('nx-boot-gradle e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 1200000);
+  }, 120000);
 
   it('--an app with aliases', async () => {
     const randomName = uniq('boot-gradle-app-');
@@ -563,7 +563,7 @@ describe('nx-boot-gradle e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 1200000);
+  }, 120000);
 
   it('directory with dash', async () => {
     const randomName = uniq('boot-gradle-app-');
@@ -602,7 +602,7 @@ describe('nx-boot-gradle e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 1200000);
+  }, 120000);
 
   it('should create a library', async () => {
     const libName = uniq('boot-gradle-lib-');
@@ -666,7 +666,7 @@ describe('nx-boot-gradle e2e', () => {
       source: libName,
       target: rootProjectName,
     });
-  }, 1200000);
+  }, 120000);
 
   it('should create a kotlin library', async () => {
     const libName = uniq('boot-gradle-lib-');
@@ -728,7 +728,7 @@ describe('nx-boot-gradle e2e', () => {
       source: libName,
       target: rootProjectName,
     });
-  }, 1200000);
+  }, 120000);
 
   it('should create a library with the specified properties', async () => {
     const randomName = uniq('boot-gradle-lib-');
@@ -790,7 +790,7 @@ describe('nx-boot-gradle e2e', () => {
       source: libName,
       target: rootProjectName,
     });
-  }, 1200000);
+  }, 120000);
 
   it('should generare a lib with a simple package name', async () => {
     const randomName = uniq('boot-gradle-lib-');
@@ -852,7 +852,7 @@ describe('nx-boot-gradle e2e', () => {
       source: libName,
       target: rootProjectName,
     });
-  }, 1200000);
+  }, 120000);
 
   it('--a lib with aliases', async () => {
     const randomName = uniq('boot-gradle-lib-');
@@ -914,7 +914,7 @@ describe('nx-boot-gradle e2e', () => {
       source: libName,
       target: rootProjectName,
     });
-  }, 1200000);
+  }, 120000);
 
   it('should add a lib to an app dependencies', async () => {
     const appName = uniq('boot-gradle-app-');
@@ -992,7 +992,7 @@ describe('nx-boot-gradle e2e', () => {
       source: appName,
       target: libName,
     });
-  }, 1200000);
+  }, 120000);
 
   it('should add a kotlin lib to a kotlin app dependencies', async () => {
     const appName = uniq('boot-gradle-app-');
@@ -1076,7 +1076,7 @@ describe('nx-boot-gradle e2e', () => {
       source: appName,
       target: libName,
     });
-  }, 1200000);
+  }, 120000);
 
   it('should create an application with a simple name', async () => {
     const appName = uniq('boot-gradle-app-');
@@ -1165,7 +1165,7 @@ describe('nx-boot-gradle e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 1200000);
+  }, 120000);
 
   it('should create a library with a simple name', async () => {
     const libName = uniq('boot-gradle-lib-');
@@ -1226,7 +1226,7 @@ describe('nx-boot-gradle e2e', () => {
       source: libName,
       target: rootProjectName,
     });
-  }, 1200000);
+  }, 120000);
 
   it('should create a minimal java application', async () => {
     const appName = uniq('boot-gradle-app-');
@@ -1279,7 +1279,7 @@ describe('nx-boot-gradle e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 1200000);
+  }, 120000);
 
   it('should create a minimal kotlin application', async () => {
     const appName = uniq('boot-gradle-app-');
@@ -1333,7 +1333,7 @@ describe('nx-boot-gradle e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 1200000);
+  }, 120000);
 
   it('should skip starter code when generating a java library with skipStarterCode option', async () => {
     const libName = uniq('boot-gradle-lib-');
@@ -1357,7 +1357,7 @@ describe('nx-boot-gradle e2e', () => {
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
     ).toThrow();
-  }, 1200000);
+  }, 120000);
 
   it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
     const libName = uniq('boot-gradle-lib-');
@@ -1384,5 +1384,5 @@ describe('nx-boot-gradle e2e', () => {
         ).className.toLocaleLowerCase()}/HelloServiceTests.kt`
       )
     ).toThrow();
-  }, 1200000);
+  }, 120000);
 });
