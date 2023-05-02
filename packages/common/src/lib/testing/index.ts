@@ -9,6 +9,7 @@ import { execSync } from 'child_process';
 import * as path from 'path';
 import * as http from 'http';
 import kill = require('kill-port');
+import { expect } from '@jest/globals';
 
 export function runNxNewCommand(args?: string, silent?: boolean) {
   const localTmpDir = path.dirname(tmpProjPath());
@@ -156,8 +157,7 @@ export function checkFilesDoNotExist(...expectedFiles: string[]) {
 export function getData(port = 8080, path = ''): Promise<any> {
   return new Promise((resolve) => {
     http.get(`http://localhost:${port}${path}`, (res) => {
-      //TODO
-      //expect(res.statusCode).toEqual(200);
+      expect(res.statusCode).toEqual(200);
       let data = '';
       res.on('data', (chunk) => {
         data += chunk;

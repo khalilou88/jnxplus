@@ -24,7 +24,7 @@ export function getQuarkusPlatformVersion(gradlePropertiesContent: string) {
   return matches[0];
 }
 
-function getktlintVersion(gradlePropertiesContent: string) {
+function getktlintVersion2(gradlePropertiesContent: string) {
   const regexp = /ktlintVersion=(.*)/g;
   const matches = (gradlePropertiesContent.match(regexp) || []).map((e) =>
     e.replace(regexp, '$1')
@@ -32,40 +32,20 @@ function getktlintVersion(gradlePropertiesContent: string) {
   return matches[0];
 }
 
-export async function getKtlintAbsolutePath() {
+export function getKtlintVersion() {
   const gradlePropertiesPath = path.join(workspaceRoot, 'gradle.properties');
   const gradlePropertiesContent = fs.readFileSync(
     gradlePropertiesPath,
     'utf-8'
   );
-  const versionFromFile = getktlintVersion(gradlePropertiesContent);
+  const versionFromFile = getktlintVersion2(gradlePropertiesContent);
 
   const version =
     versionFromFile === undefined ? ktlintVersion : versionFromFile;
-
-  const downloadUrl = `https://github.com/pinterest/ktlint/releases/download/${version}/ktlint`;
-
-  const outputDirectory = path.join(
-    workspaceRoot,
-    'node_modules',
-    '@jnxplus',
-    'tools',
-    'linters',
-    'ktlint'
-  );
-
-  if (!fs.existsSync(outputDirectory)) {
-    fs.mkdirSync(outputDirectory, { recursive: true });
-  }
-
-  const ktlintAbsolutePath = path.join(outputDirectory, 'ktlint');
-  if (!fs.existsSync(ktlintAbsolutePath)) {
-    await downloadFile(downloadUrl, ktlintAbsolutePath);
-  }
-  return ktlintAbsolutePath;
+  return version;
 }
 
-function getCheckstyleVersion(gradlePropertiesContent: string) {
+function getCheckstyleVersion2(gradlePropertiesContent: string) {
   const regexp = /checkstyleVersion=(.*)/g;
   const matches = (gradlePropertiesContent.match(regexp) || []).map((e) =>
     e.replace(regexp, '$1')
@@ -73,40 +53,15 @@ function getCheckstyleVersion(gradlePropertiesContent: string) {
   return matches[0];
 }
 
-export async function getCheckstyleJarAbsolutePath() {
+export function getCheckstyleVersion() {
   const gradlePropertiesPath = path.join(workspaceRoot, 'gradle.properties');
   const gradlePropertiesContent = fs.readFileSync(
     gradlePropertiesPath,
     'utf-8'
   );
-  const versionFromFile = getCheckstyleVersion(gradlePropertiesContent);
+  const versionFromFile = getCheckstyleVersion2(gradlePropertiesContent);
 
   const version =
     versionFromFile === undefined ? checkstyleVersion : versionFromFile;
-
-  const checkstyleJarName = `checkstyle-${version}-all.jar`;
-  const downloadUrl = `https://github.com/checkstyle/checkstyle/releases/download/checkstyle-${version}/${checkstyleJarName}`;
-
-  const outputDirectory = path.join(
-    workspaceRoot,
-    'node_modules',
-    '@jnxplus',
-    'tools',
-    'linters',
-    'checkstyle'
-  );
-
-  if (!fs.existsSync(outputDirectory)) {
-    fs.mkdirSync(outputDirectory, { recursive: true });
-  }
-
-  const checkstyleJarAbsolutePath = path.join(
-    outputDirectory,
-    checkstyleJarName
-  );
-
-  if (!fs.existsSync(checkstyleJarAbsolutePath)) {
-    await downloadFile(downloadUrl, checkstyleJarAbsolutePath);
-  }
-  return checkstyleJarAbsolutePath;
+  return version;
 }
