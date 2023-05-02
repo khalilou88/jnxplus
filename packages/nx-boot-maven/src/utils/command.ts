@@ -6,7 +6,7 @@ import * as path from 'path';
 import * as stream from 'stream';
 import { promisify } from 'util';
 import { checkstyleVersion, ktlintVersion } from './versions';
-import { readXml } from './xml';
+import { readXml } from '@jnxplus/common/xml';
 
 export async function waitForever() {
   return new Promise(() => {
@@ -92,7 +92,7 @@ export async function getKtlintAbsolutePath() {
   }
 
   const ktlintAbsolutePath = path.join(outputDirectory, 'ktlint');
-  if(!fs.existsSync(ktlintAbsolutePath)) {
+  if (!fs.existsSync(ktlintAbsolutePath)) {
     await downloadFile(downloadUrl, ktlintAbsolutePath);
   }
   return ktlintAbsolutePath;
@@ -132,7 +132,7 @@ export async function getCheckstyleJarAbsolutePath() {
     checkstyleJarName
   );
 
-  if(!fs.existsSync(checkstyleJarAbsolutePath)) {
+  if (!fs.existsSync(checkstyleJarAbsolutePath)) {
     await downloadFile(downloadUrl, checkstyleJarAbsolutePath);
   }
   return checkstyleJarAbsolutePath;

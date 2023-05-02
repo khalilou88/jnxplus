@@ -60,7 +60,7 @@ export function runNxCommandUntil(
     let output = '';
     let complete = false;
 
-    function checkCriteria(c) {
+    function checkCriteria(c: any) {
       output += c.toString();
       if (criteria(stripConsoleColors(output)) && !complete) {
         complete = true;

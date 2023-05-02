@@ -6,7 +6,7 @@ import * as path from 'path';
 import * as stream from 'stream';
 import { promisify } from 'util';
 import { checkstyleVersion, ktlintVersion } from './versions';
-import { readXml } from './xml';
+import { readXml } from '@jnxplus/common/xml';
 
 export async function waitForever() {
   return new Promise(() => {
