@@ -92,8 +92,9 @@ export async function getKtlintAbsolutePath() {
   }
 
   const ktlintAbsolutePath = path.join(outputDirectory, 'ktlint');
-
-  await downloadFile(downloadUrl, ktlintAbsolutePath);
+  if (!fs.existsSync(ktlintAbsolutePath)) {
+    await downloadFile(downloadUrl, ktlintAbsolutePath);
+  }
   return ktlintAbsolutePath;
 }
 
@@ -131,7 +132,9 @@ export async function getCheckstyleJarAbsolutePath() {
     checkstyleJarName
   );
 
-  await downloadFile(downloadUrl, checkstyleJarAbsolutePath);
+  if (!fs.existsSync(checkstyleJarAbsolutePath)) {
+    await downloadFile(downloadUrl, checkstyleJarAbsolutePath);
+  }
   return checkstyleJarAbsolutePath;
 }
 
