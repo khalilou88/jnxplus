@@ -13,7 +13,7 @@ import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
 import { normalizeName } from '../../utils/command';
 import { LinterType } from '../../utils/types';
-import { readXmlTree, xmlToString } from '../../utils/xml';
+import { readXmlTree, xmlToString } from '@jnxplus/common/xml';
 import { NxQuarkusMavenAppGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxQuarkusMavenAppGeneratorSchema {
