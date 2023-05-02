@@ -4,8 +4,7 @@ import {
   ProjectGraphBuilder,
   ProjectGraphProcessorContext,
 } from '@nx/devkit';
-
-import { addDependencies, addProjects } from '@jnxplus/common/graph/maven';
+import { addDependencies, addProjects } from '@jnxplus/maven';
 
 export function processProjectGraph(
   graph: ProjectGraph,

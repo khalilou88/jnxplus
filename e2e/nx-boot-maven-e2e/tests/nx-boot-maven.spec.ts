@@ -20,7 +20,7 @@ import {
   promisifiedTreeKill,
   runNxCommandUntil,
   runNxNewCommand,
-} from '@jnxplus/common/testing';
+} from '@jnxplus/common';
 import * as fs from 'fs';
 
 describe('nx-boot-maven e2e', () => {
@@ -46,6 +46,8 @@ describe('nx-boot-maven e2e', () => {
       '@prettier/plugin-xml',
       'node_modules/@prettier/plugin-xml'
     );
+    patchPackageJsonForPlugin('@jnxplus/common', 'dist/packages/common');
+    patchPackageJsonForPlugin('@jnxplus/maven', 'dist/packages/maven');
     runPackageManagerInstall();
 
     await runNxCommandAsync(

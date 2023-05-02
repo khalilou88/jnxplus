@@ -1,6 +1,7 @@
 import { ExecutorContext, logger } from '@nx/devkit';
-import { getExecutable, runCommand } from '../../utils/command';
+import { runCommand } from '@jnxplus/common';
 import { BuildImageExecutorSchema } from './schema';
+import { getExecutable } from '@jnxplus/maven';
 
 export default async function runExecutor(
   options: BuildImageExecutorSchema,

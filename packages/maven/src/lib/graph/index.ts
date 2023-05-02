@@ -7,7 +7,7 @@ import {
 import { fileExists } from 'nx/src/utils/fileutils';
 import { join } from 'path';
 import { XmlDocument } from 'xmldoc';
-import { readXml } from '../../xml';
+import { readXml } from '@jnxplus/common';
 import * as fs from 'fs';
 
 export function addProjects(

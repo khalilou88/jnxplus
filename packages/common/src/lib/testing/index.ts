@@ -26,10 +26,6 @@ export function runNxNewCommand(args?: string, silent?: boolean) {
   );
 }
 
-export function normalizeName(name: string) {
-  return name.replace(/[^0-9a-zA-Z]/g, '-');
-}
-
 /**
  * Remove log colors for fail proof string search
  * @param log

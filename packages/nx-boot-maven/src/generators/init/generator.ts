@@ -12,7 +12,7 @@ import {
   kotlinVersion,
   ktlintVersion,
   springBootStarterParentVersion,
-} from '../../utils/versions';
+} from '@jnxplus/common';
 import { NxBootMavenGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootMavenGeneratorSchema {

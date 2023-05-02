@@ -1,4 +1,4 @@
-import { LanguageType } from '@jnxplus/common/types';
+import { LanguageType } from '@jnxplus/common';
 
 export interface NxQuarkusMavenLibGeneratorSchema {
   name: string;

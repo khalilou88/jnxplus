@@ -1,12 +1,14 @@
 import { ExecutorContext, logger } from '@nx/devkit';
 import {
-  getKtlintAbsolutePath,
   getPmdExecutable,
   getProjectSourceRoot,
-  getCheckstyleJarAbsolutePath,
   runCommand,
-} from '../../utils/command';
+} from '@jnxplus/common';
 import { LintExecutorSchema } from './schema';
+import {
+  getCheckstyleJarAbsolutePath,
+  getKtlintAbsolutePath,
+} from '@jnxplus/gradle';
 
 export default async function runExecutor(
   options: LintExecutorSchema,

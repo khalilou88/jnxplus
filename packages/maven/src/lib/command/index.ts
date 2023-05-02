@@ -1,68 +1,30 @@
-import { ExecutorContext, logger, workspaceRoot } from '@nx/devkit';
-import axios from 'axios';
-import { execSync } from 'child_process';
+import {
+  checkstyleVersion,
+  downloadFile,
+  getProjectRoot,
+  ktlintVersion,
+  readXml,
+} from '@jnxplus/common';
+import { ExecutorContext, workspaceRoot } from '@nx/devkit';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as stream from 'stream';
-import { promisify } from 'util';
-import { checkstyleVersion, ktlintVersion } from './versions';
-import { readXml } from '@jnxplus/common/xml';
-
-export async function waitForever() {
-  return new Promise(() => {
-    // wait forever
-  });
-}
-
-export function getProjectRoot(context: ExecutorContext) {
-  return context.projectsConfigurations.projects[context.projectName].root;
-}
 
 export function getExecutable() {
   const isWin = process.platform === 'win32';
   return isWin ? 'mvnw.cmd' : './mvnw';
 }
 
-export function runCommand(command: string): { success: boolean } {
-  try {
-    if (process.env.NX_VERBOSE_LOGGING === 'true') {
-      logger.debug(`Executing command: ${command}`);
-    }
-    execSync(command, { cwd: workspaceRoot, stdio: [0, 1, 2] });
-    return { success: true };
-  } catch (e) {
-    if (process.env.NX_VERBOSE_LOGGING === 'true') {
-      logger.error(`Failed to execute command: ${command}`);
-      logger.error(e);
-    }
-    return { success: false };
+export function isPomPackaging(context: ExecutorContext): boolean {
+  const projectRoot = getProjectRoot(context) || '';
+  const pomXmlPath = path.join(context.root, projectRoot, 'pom.xml');
+  const pomXmlContent = readXml(pomXmlPath);
+  const packagingXml = pomXmlContent.childNamed('packaging');
+
+  if (packagingXml === undefined) {
+    return false;
   }
-}
 
-export function getProjectSourceRoot(context: ExecutorContext) {
-  return context.projectsConfigurations.projects[context.projectName]
-    .sourceRoot;
-}
-
-export function normalizeName(name: string) {
-  return name.replace(/[^0-9a-zA-Z]/g, '-');
-}
-
-const finished = promisify(stream.finished);
-export async function downloadFile(
-  fileUrl: string,
-  outputLocationPath: string
-  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-): Promise<any> {
-  const writer = fs.createWriteStream(outputLocationPath);
-  return axios({
-    method: 'get',
-    url: fileUrl,
-    responseType: 'stream',
-  }).then((response) => {
-    response.data.pipe(writer);
-    return finished(writer); //this is a Promise
-  });
+  return packagingXml.val === 'pom';
 }
 
 export async function getKtlintAbsolutePath() {
@@ -71,7 +33,7 @@ export async function getKtlintAbsolutePath() {
 
   const ktlintVersionXml = parentPomXmlContent
     .childNamed('properties')
-    .childNamed('ktlint.version');
+    ?.childNamed('ktlint.version');
 
   const version =
     ktlintVersionXml === undefined ? ktlintVersion : ktlintVersionXml.val;
@@ -104,7 +66,7 @@ export async function getCheckstyleJarAbsolutePath() {
 
   const checkstyleVersionXml = parentPomXmlContent
     .childNamed('properties')
-    .childNamed('checkstyle.version');
+    ?.childNamed('checkstyle.version');
 
   const version =
     checkstyleVersionXml === undefined
@@ -136,9 +98,4 @@ export async function getCheckstyleJarAbsolutePath() {
     await downloadFile(downloadUrl, checkstyleJarAbsolutePath);
   }
   return checkstyleJarAbsolutePath;
-}
-
-export function getPmdExecutable() {
-  const isWin = process.platform === 'win32';
-  return isWin ? 'pmd.bat' : 'pmd';
 }

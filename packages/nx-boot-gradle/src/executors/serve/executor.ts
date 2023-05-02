@@ -1,10 +1,7 @@
+import { runCommand, waitForever } from '@jnxplus/common';
 import { ExecutorContext, logger } from '@nx/devkit';
-import {
-  getExecutable,
-  getProjectPath,
-  runCommand,
-  waitForever,
-} from '../../utils/command';
+
+import { getExecutable, getProjectPath } from '@jnxplus/gradle';
 import { ServeExecutorSchema } from './schema';
 
 export default async function runExecutor(

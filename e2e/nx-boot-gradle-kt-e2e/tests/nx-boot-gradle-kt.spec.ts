@@ -22,7 +22,7 @@ import {
   runNxNewCommand,
   normalizeName,
   getData,
-} from '@jnxplus/common/testing';
+} from '@jnxplus/common';
 
 describe('nx-boot-gradle e2e', () => {
   const isCI =
@@ -43,6 +43,8 @@ describe('nx-boot-gradle e2e', () => {
       'prettier-plugin-java',
       'node_modules/prettier-plugin-java'
     );
+    patchPackageJsonForPlugin('@jnxplus/common', 'dist/packages/common');
+    patchPackageJsonForPlugin('@jnxplus/gradle', 'dist/packages/gradle');
     runPackageManagerInstall();
 
     await runNxCommandAsync(

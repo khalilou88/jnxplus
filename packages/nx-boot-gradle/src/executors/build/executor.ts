@@ -1,5 +1,6 @@
+import { getProjectType, runCommand } from '@jnxplus/common';
+import { getExecutable, getProjectPath } from '@jnxplus/gradle';
 import { ExecutorContext, logger } from '@nx/devkit';
-import { getExecutable, getProjectPath, runCommand } from '../../utils/command';
 import { BuildExecutorSchema } from './schema';
 
 export default async function runExecutor(
@@ -20,9 +21,4 @@ export default async function runExecutor(
   }
 
   return runCommand(`${getExecutable()} ${getProjectPath(context)}:${target}`);
-}
-
-function getProjectType(context: ExecutorContext) {
-  return context.projectsConfigurations.projects[context.projectName]
-    .projectType;
 }

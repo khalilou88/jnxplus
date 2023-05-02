@@ -1,4 +1,4 @@
-import { DSLType } from '@jnxplus/common/types';
+import { DSLType } from '@jnxplus/common';
 
 export interface NxBootGradleGeneratorSchema {
   javaVersion: string | number;

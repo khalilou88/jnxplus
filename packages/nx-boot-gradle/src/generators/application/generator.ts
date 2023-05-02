@@ -9,8 +9,8 @@ import {
   Tree,
 } from '@nx/devkit';
 import * as path from 'path';
-import { normalizeName } from '../../utils/command';
-import { LinterType } from '@jnxplus/common/types';
+import { normalizeName } from '@jnxplus/common';
+import { LinterType } from '@jnxplus/common';
 import { NxBootGradleAppGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootGradleAppGeneratorSchema {

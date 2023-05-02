@@ -1,6 +1,6 @@
 import { formatFiles, generateFiles, offsetFromRoot, Tree } from '@nx/devkit';
 import * as path from 'path';
-import { kotlinVersion, quarkusVersion } from '../../utils/versions';
+import { kotlinVersion, quarkusVersion } from '@jnxplus/common';
 import { NxQuarkusMavenGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxQuarkusMavenGeneratorSchema {
