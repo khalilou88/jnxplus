@@ -1,2 +1,2 @@
 export * from './lib/graph';
-export * from './lib/command';
+export * from './lib/utils';

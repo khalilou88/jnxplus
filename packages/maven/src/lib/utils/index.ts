@@ -33,9 +33,7 @@ export function getKtlintVersion() {
     .childNamed('properties')
     ?.childNamed('ktlint.version');
 
-  const version =
-    ktlintVersionXml === undefined ? ktlintVersion : ktlintVersionXml.val;
-  return version;
+  return ktlintVersionXml === undefined ? ktlintVersion : ktlintVersionXml.val;
 }
 
 export function getCheckstyleVersion() {
@@ -46,9 +44,7 @@ export function getCheckstyleVersion() {
     .childNamed('properties')
     ?.childNamed('checkstyle.version');
 
-  const version =
-    checkstyleVersionXml === undefined
-      ? checkstyleVersion
-      : checkstyleVersionXml.val;
-  return version;
+  return checkstyleVersionXml === undefined
+    ? checkstyleVersion
+    : checkstyleVersionXml.val;
 }

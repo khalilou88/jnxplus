@@ -1,8 +1,7 @@
+import { checkstyleVersion, ktlintVersion } from '@jnxplus/common';
 import { ExecutorContext, workspaceRoot } from '@nx/devkit';
 import * as fs from 'fs';
 import * as path from 'path';
-import { checkstyleVersion, ktlintVersion } from '@jnxplus/common';
-import { downloadFile } from '@jnxplus/common';
 
 export function getExecutable() {
   const isWin = process.platform === 'win32';
@@ -24,7 +23,7 @@ export function getQuarkusPlatformVersion(gradlePropertiesContent: string) {
   return matches[0];
 }
 
-function getktlintVersion2(gradlePropertiesContent: string) {
+function readKtlintVersion(gradlePropertiesContent: string) {
   const regexp = /ktlintVersion=(.*)/g;
   const matches = (gradlePropertiesContent.match(regexp) || []).map((e) =>
     e.replace(regexp, '$1')
@@ -38,14 +37,11 @@ export function getKtlintVersion() {
     gradlePropertiesPath,
     'utf-8'
   );
-  const versionFromFile = getktlintVersion2(gradlePropertiesContent);
-
-  const version =
-    versionFromFile === undefined ? ktlintVersion : versionFromFile;
-  return version;
+  const version = readKtlintVersion(gradlePropertiesContent);
+  return version === undefined ? ktlintVersion : version;
 }
 
-function getCheckstyleVersion2(gradlePropertiesContent: string) {
+function readCheckstyleVersion(gradlePropertiesContent: string) {
   const regexp = /checkstyleVersion=(.*)/g;
   const matches = (gradlePropertiesContent.match(regexp) || []).map((e) =>
     e.replace(regexp, '$1')
@@ -59,9 +55,6 @@ export function getCheckstyleVersion() {
     gradlePropertiesPath,
     'utf-8'
   );
-  const versionFromFile = getCheckstyleVersion2(gradlePropertiesContent);
-
-  const version =
-    versionFromFile === undefined ? checkstyleVersion : versionFromFile;
-  return version;
+  const version = readCheckstyleVersion(gradlePropertiesContent);
+  return version === undefined ? checkstyleVersion : version;
 }
