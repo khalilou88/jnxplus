@@ -23,7 +23,7 @@ import {
   normalizeName,
   checkFilesDoNotExist,
   getData,
-} from '@jnxplus/common/testing';
+} from '@jnxplus/common';
 
 describe('nx-quarkus-gradle e2e', () => {
   const isCI =
@@ -44,6 +44,8 @@ describe('nx-quarkus-gradle e2e', () => {
       'prettier-plugin-java',
       'node_modules/prettier-plugin-java'
     );
+    patchPackageJsonForPlugin('@jnxplus/common', 'dist/packages/common');
+    patchPackageJsonForPlugin('@jnxplus/gradle', 'dist/packages/gradle');
     runPackageManagerInstall();
 
     await runNxCommandAsync(

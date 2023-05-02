@@ -10,10 +10,11 @@ import {
   workspaceRoot,
 } from '@nx/devkit';
 import * as path from 'path';
-import { getQuarkusPlatformVersion, normalizeName } from '../../utils/command';
-import { LinterType } from '@jnxplus/common/types';
+import { normalizeName } from '@jnxplus/common';
+import { getQuarkusPlatformVersion } from '@jnxplus/gradle';
+import { LinterType } from '@jnxplus/common';
 import { NxQuarkusGradleAppGeneratorSchema } from './schema';
-import { quarkusPlatformVersion } from '../../utils/versions';
+import { quarkusPlatformVersion } from '@jnxplus/common';
 import * as fs from 'fs';
 
 interface NormalizedSchema extends NxQuarkusGradleAppGeneratorSchema {

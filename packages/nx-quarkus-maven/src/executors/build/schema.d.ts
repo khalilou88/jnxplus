@@ -1,4 +1,4 @@
-import { MvnBuildCommandType } from '@jnxplus/common/types';
+import { MvnBuildCommandType } from '@jnxplus/common';
 
 export interface BuildExecutorSchema {
   mvnArgs: string;

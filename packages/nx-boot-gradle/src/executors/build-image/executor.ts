@@ -1,5 +1,6 @@
 import { ExecutorContext, logger } from '@nx/devkit';
-import { getExecutable, getProjectPath, runCommand } from '../../utils/command';
+import { getExecutable, getProjectPath } from '@jnxplus/gradle';
+import { runCommand } from '@jnxplus/common';
 import { BuildImageExecutorSchema } from './schema';
 
 export default async function runExecutor(

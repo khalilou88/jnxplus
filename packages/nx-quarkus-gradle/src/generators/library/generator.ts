@@ -10,8 +10,8 @@ import {
   readProjectConfiguration,
 } from '@nx/devkit';
 import { join } from 'path';
-import { normalizeName } from '../../utils/command';
-import { LinterType } from '@jnxplus/common/types';
+import { normalizeName } from '@jnxplus/common';
+import { LinterType } from '@jnxplus/common';
 import { NxQuarkusGradleLibGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxQuarkusGradleLibGeneratorSchema {

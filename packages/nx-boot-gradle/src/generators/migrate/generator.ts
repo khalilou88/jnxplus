@@ -5,7 +5,7 @@ import {
   kotlinJvmVersion,
   kotlinSpringVersion,
   springBootVersion,
-} from '../../utils/versions';
+} from '@jnxplus/common';
 import { NxBootGradleGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootGradleGeneratorSchema {

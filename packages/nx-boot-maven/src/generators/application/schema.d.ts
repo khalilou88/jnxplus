@@ -1,4 +1,4 @@
-import { LanguageType, PackagingType } from '@jnxplus/common/types';
+import { LanguageType, PackagingType } from '@jnxplus/common';
 
 export interface NxBootMavenAppGeneratorSchema {
   name: string;

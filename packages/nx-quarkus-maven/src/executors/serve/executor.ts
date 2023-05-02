@@ -1,6 +1,7 @@
 import { ExecutorContext, logger } from '@nx/devkit';
-import { getExecutable, runCommand, waitForever } from '../../utils/command';
+import { runCommand, waitForever } from '@jnxplus/common';
 import { ServeExecutorSchema } from './schema';
+import { getExecutable } from '@jnxplus/maven';
 
 export default async function runExecutor(
   options: ServeExecutorSchema,

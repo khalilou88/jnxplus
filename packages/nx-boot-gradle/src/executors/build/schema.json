@@ -11,5 +11,5 @@
       "default": "jar"
     }
   },
-  "required": ["packaging"]
+  "required": []
 }

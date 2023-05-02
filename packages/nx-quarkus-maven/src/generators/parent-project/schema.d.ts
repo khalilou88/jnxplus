@@ -1,4 +1,4 @@
-import { ProjectType } from '@jnxplus/common/types';
+import { ProjectType } from '@jnxplus/common';
 
 export interface NxQuarkusMavenParentProjectGeneratorSchema {
   name: string;

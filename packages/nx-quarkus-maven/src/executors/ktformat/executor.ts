@@ -1,10 +1,7 @@
 import { ExecutorContext, logger } from '@nx/devkit';
-import {
-  getKtlintAbsolutePath,
-  getProjectSourceRoot,
-  runCommand,
-} from '../../utils/command';
+import { getProjectSourceRoot, runCommand } from '@jnxplus/common';
 import { KotlinFormatExecutorSchema } from './schema';
+import { getKtlintAbsolutePath } from '@jnxplus/maven';
 
 export default async function runExecutor(
   options: KotlinFormatExecutorSchema,
