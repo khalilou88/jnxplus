@@ -1,4 +1,4 @@
-import { PackagingType } from '../../utils/types';
+import { PackagingType } from '@jnxplus/common/types';
 
 export interface BuildExecutorSchema {
   packaging: PackagingType;

@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@jnxplus/common/types": ["packages/common/src/lib/types/index.ts"],
       "@jnxplus/common/testing": ["packages/common/src/lib/testing/index.ts"],
       "@jnxplus/common/xml": ["packages/common/src/lib/xml/index.ts"],
       "@jnxplus/common/graph/maven": [
