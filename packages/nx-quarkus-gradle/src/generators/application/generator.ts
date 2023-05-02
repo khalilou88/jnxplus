@@ -25,7 +25,8 @@ interface NormalizedSchema extends NxQuarkusGradleAppGeneratorSchema {
   packageName: string;
   packageDirectory: string;
   linter?: LinterType;
-  quarkusVersion;
+  quarkusVersion: string;
+  isCustomPort: boolean;
 }
 
 function normalizeOptions(
@@ -85,6 +86,8 @@ function normalizeOptions(
     quarkusVersion = quarkusPlatformVersion;
   }
 
+  const isCustomPort = +options.port !== 8080;
+
   return {
     ...options,
     projectName,
@@ -96,6 +99,7 @@ function normalizeOptions(
     packageDirectory,
     linter,
     quarkusVersion,
+    isCustomPort,
   };
 }
 

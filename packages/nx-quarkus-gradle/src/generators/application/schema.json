@@ -88,6 +88,18 @@
       "description": "Skip starter code",
       "type": "boolean",
       "default": false
+    },
+    "port": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "default": 8080,
+      "description": "Port to start the server at. Default is 8080."
     }
   },
   "required": ["name", "language", "groupId", "projectVersion", "configFormat"]

@@ -19,6 +19,9 @@ dependencies {
     implementation("io.quarkus:quarkus-kotlin")
     implementation("io.quarkus:quarkus-arc")
     implementation("io.quarkus:quarkus-resteasy-reactive")
+<% if(configFormat === '.yml') { %>
+    implementation("io.quarkus:quarkus-config-yaml")
+<% } %>
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.rest-assured:rest-assured")
 }

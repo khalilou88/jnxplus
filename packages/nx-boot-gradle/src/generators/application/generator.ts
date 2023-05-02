@@ -22,6 +22,7 @@ interface NormalizedSchema extends NxBootGradleAppGeneratorSchema {
   packageName: string;
   packageDirectory: string;
   linter?: LinterType;
+  isCustomPort: boolean;
 }
 
 function normalizeOptions(
@@ -71,6 +72,8 @@ function normalizeOptions(
 
   const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
 
+  const isCustomPort = +options.port !== 8080;
+
   return {
     ...options,
     projectName,
@@ -81,6 +84,7 @@ function normalizeOptions(
     packageName,
     packageDirectory,
     linter,
+    isCustomPort,
   };
 }
 

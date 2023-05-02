@@ -31,6 +31,7 @@ interface NormalizedSchema extends NxQuarkusMavenAppGeneratorSchema {
   relativePath: string;
   quarkusVersion: string;
   parentProjectRoot: string;
+  isCustomPort: boolean;
 }
 
 function normalizeOptions(
@@ -100,6 +101,8 @@ function normalizeOptions(
     .childNamed('properties')
     .childNamed('quarkus.platform.version').val;
 
+  const isCustomPort = +options.port !== 8080;
+
   return {
     ...options,
     projectName,
@@ -116,6 +119,7 @@ function normalizeOptions(
     relativePath,
     quarkusVersion,
     parentProjectRoot,
+    isCustomPort,
   };
 }
 

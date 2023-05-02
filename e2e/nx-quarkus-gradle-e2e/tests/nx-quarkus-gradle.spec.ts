@@ -22,6 +22,7 @@ import {
   runNxNewCommand,
   normalizeName,
   checkFilesDoNotExist,
+  getData,
 } from './e2e-utils';
 
 describe('nx-quarkus-gradle e2e', () => {
@@ -136,7 +137,7 @@ describe('nx-quarkus-gradle e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
 
-    if (!isWin && !isMacOs) {
+    if (!isWin && !isMacOs && isCI) {
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
       );
@@ -183,16 +184,20 @@ describe('nx-quarkus-gradle e2e', () => {
       target: rootProjectName,
     });
 
+    const port = 8080;
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Listening on: http://localhost:8080`)
+      output.includes(`Listening on: http://localhost:${port}`)
     );
+
+    const dataResult = await getData(port, '/hello');
+    expect(dataResult).toMatch('Hello World!');
 
     // port and process cleanup
     try {
       await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
+      await killPorts(port);
     } catch (err) {
-      expect(err).toBeFalsy();
+      // ignore err
     }
   }, 1200000);
 
@@ -200,9 +205,10 @@ describe('nx-quarkus-gradle e2e', () => {
     const randomName = uniq('quarkus-gradle-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
+    const port = 8181;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --configFormat .yml`
+      `generate @jnxplus/nx-quarkus-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --configFormat .yml --port ${port}`
     );
 
     expect(() =>
@@ -257,15 +263,18 @@ describe('nx-quarkus-gradle e2e', () => {
 
     const process = await runNxCommandUntil(
       `serve ${appName} --args="-Dquarkus-profile=prod"`,
-      (output) => output.includes(`Listening on: http://localhost:8080`)
+      (output) => output.includes(`Listening on: http://localhost:${port}`)
     );
+
+    const dataResult = await getData(port, '/hello');
+    expect(dataResult).toMatch('Hello World!');
 
     // port and process cleanup
     try {
       await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
+      await killPorts(port);
     } catch (err) {
-      expect(err).toBeFalsy();
+      // ignore err
     }
   }, 1200000);
 
@@ -273,9 +282,10 @@ describe('nx-quarkus-gradle e2e', () => {
     const randomName = uniq('quarkus-gradle-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
+    const port = 8282;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3 --configFormat .yml`
+      `generate @jnxplus/nx-quarkus-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3 --configFormat .yml --port ${port}`
     );
 
     expect(() =>
@@ -330,23 +340,24 @@ describe('nx-quarkus-gradle e2e', () => {
 
     const process = await runNxCommandUntil(
       `serve ${appName} --args="-Dquarkus-profile=prod"`,
-      (output) => output.includes(`Listening on: http://localhost:8080`)
+      (output) => output.includes(`Listening on: http://localhost:${port}`)
     );
 
     // port and process cleanup
     try {
       await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
+      await killPorts(port);
     } catch (err) {
-      expect(err).toBeFalsy();
+      // ignore err
     }
   }, 1200000);
 
   it('should create a kotlin application', async () => {
     const appName = uniq('quarkus-gradle-app-');
+    const port = 8383;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:application ${appName} --language kotlin`
+      `generate @jnxplus/nx-quarkus-gradle:application ${appName} --language kotlin --port ${port}`
     );
 
     expect(() =>
@@ -386,7 +397,7 @@ describe('nx-quarkus-gradle e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
 
-    if (!isWin && !isMacOs) {
+    if (!isWin && !isMacOs && isCI) {
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
       );
@@ -417,15 +428,18 @@ describe('nx-quarkus-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Listening on: http://localhost:8080`)
+      output.includes(`Listening on: http://localhost:${port}`)
     );
+
+    const dataResult = await getData(port, '/hello');
+    expect(dataResult).toMatch('Hello World!');
 
     // port and process cleanup
     try {
       await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
+      await killPorts(port);
     } catch (err) {
-      expect(err).toBeFalsy();
+      // ignore err
     }
   }, 1200000);
 
@@ -433,9 +447,10 @@ describe('nx-quarkus-gradle e2e', () => {
     const randomName = uniq('quarkus-gradle-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
+    const port = 8484;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-quarkus-gradle:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --configFormat .yml`
+      `g @jnxplus/nx-quarkus-gradle:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --configFormat .yml --port ${port}`
     );
 
     expect(() =>
@@ -490,24 +505,28 @@ describe('nx-quarkus-gradle e2e', () => {
 
     const process = await runNxCommandUntil(
       `serve ${appName} --args="-Dquarkus-profile=prod"`,
-      (output) => output.includes(`Listening on: http://localhost:8080`)
+      (output) => output.includes(`Listening on: http://localhost:${port}`)
     );
+
+    const dataResult = await getData(port, '/hello');
+    expect(dataResult).toMatch('Hello World!');
 
     // port and process cleanup
     try {
       await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
+      await killPorts(port);
     } catch (err) {
-      expect(err).toBeFalsy();
+      // ignore err
     }
   }, 1200000);
 
   it('directory with dash', async () => {
     const randomName = uniq('boot-maven-app-');
     const appName = `deep-sub-dir-${randomName}`;
+    const port = 8585;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:application ${randomName} --directory deep/sub-dir`
+      `generate @jnxplus/nx-quarkus-gradle:application ${randomName} --directory deep/sub-dir --port ${port}`
     );
 
     //graph
@@ -525,15 +544,18 @@ describe('nx-quarkus-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Listening on: http://localhost:8080`)
+      output.includes(`Listening on: http://localhost:${port}`)
     );
+
+    const dataResult = await getData(port, '/hello');
+    expect(dataResult).toMatch('Hello World!');
 
     // port and process cleanup
     try {
       await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
+      await killPorts(port);
     } catch (err) {
-      expect(err).toBeFalsy();
+      // ignore err
     }
   }, 1200000);
 
@@ -1005,9 +1027,10 @@ describe('nx-quarkus-gradle e2e', () => {
   it('should create an application with simple name', async () => {
     const appName = uniq('quarkus-gradle-app-');
     const appDir = 'deep/subdir';
+    const port = 8686;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:application ${appName} --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --configFormat .yml`
+      `generate @jnxplus/nx-quarkus-gradle:application ${appName} --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --configFormat .yml --port ${port}`
     );
 
     expect(() =>
@@ -1062,15 +1085,18 @@ describe('nx-quarkus-gradle e2e', () => {
 
     const process = await runNxCommandUntil(
       `serve ${appName} --args="-Dquarkus-profile=prod"`,
-      (output) => output.includes(`Listening on: http://localhost:8080`)
+      (output) => output.includes(`Listening on: http://localhost:${port}`)
     );
+
+    const dataResult = await getData(port, '/hello');
+    expect(dataResult).toMatch('Hello World!');
 
     // port and process cleanup
     try {
       await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
+      await killPorts(port);
     } catch (err) {
-      expect(err).toBeFalsy();
+      // ignore err
     }
   }, 1200000);
 

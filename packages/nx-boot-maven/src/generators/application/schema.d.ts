@@ -13,4 +13,5 @@ export interface NxBootMavenAppGeneratorSchema {
   configFormat: '.properties' | '.yml';
   parentProject?: string;
   minimal?: boolean;
+  port?: string | number;
 }

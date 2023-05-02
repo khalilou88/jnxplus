@@ -7,6 +7,7 @@ import { promisify } from 'util';
 import treeKill = require('tree-kill');
 import { execSync } from 'child_process';
 import * as path from 'path';
+import * as http from 'http';
 
 export function runNxNewCommand(args?: string, silent?: boolean) {
   const localTmpDir = path.dirname(tmpProjPath());
@@ -146,3 +147,22 @@ export const promisifiedTreeKill: (
   pid: number,
   signal: string
 ) => Promise<void> = promisify(treeKill);
+
+export function getData(port: number = 8080, path = ''): Promise<any> {
+  return new Promise((resolve) => {
+    http.get(`http://localhost:${port}${path}`, (res) => {
+      expect(res.statusCode).toEqual(200);
+      let data = '';
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
+      res.once('end', () => {
+        try {
+          resolve(JSON.parse(data));
+        } catch (e) {
+          resolve(data);
+        }
+      });
+    });
+  });
+}

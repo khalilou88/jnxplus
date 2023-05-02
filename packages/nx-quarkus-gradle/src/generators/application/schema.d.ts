@@ -11,4 +11,5 @@ export interface NxQuarkusGradleAppGeneratorSchema {
   projectVersion: string;
   configFormat: '.properties' | '.yml';
   skipStarterCode?: boolean;
+  port?: string | number;
 }
