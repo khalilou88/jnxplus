@@ -1,18 +1,15 @@
-// import { expect } from '@jest/globals';
-import {
-  getPackageManagerCommand,
-  readJsonFile,
-  writeJsonFile,
-} from '@nx/devkit';
+import { getPackageManagerCommand } from '@nx/devkit';
 import { exists, tmpProjPath } from '@nx/plugin/testing';
-import { ChildProcess, exec, execSync } from 'child_process';
-import * as http from 'http';
-import * as path from 'path';
+import { ChildProcess, exec } from 'child_process';
 import { check as portCheck } from 'tcp-port-used';
-import { promisify } from 'util';
 import chalk = require('chalk');
+import { promisify } from 'util';
 import treeKill = require('tree-kill');
+import { execSync } from 'child_process';
+import * as path from 'path';
+import * as http from 'http';
 import kill = require('kill-port');
+import { expect } from '@jest/globals';
 
 export function runNxNewCommand(args?: string, silent?: boolean) {
   const localTmpDir = path.dirname(tmpProjPath());
@@ -160,7 +157,7 @@ export function checkFilesDoNotExist(...expectedFiles: string[]) {
 export function getData(port = 8080, path = ''): Promise<any> {
   return new Promise((resolve) => {
     http.get(`http://localhost:${port}${path}`, (res) => {
-      // expect(res.statusCode).toEqual(200);
+      expect(res.statusCode).toEqual(200);
       let data = '';
       res.on('data', (chunk) => {
         data += chunk;
@@ -174,38 +171,4 @@ export function getData(port = 8080, path = ''): Promise<any> {
       });
     });
   });
-}
-
-export function patchRootPackageJson(
-  npmPackageName: string,
-  distAbsolutePath: string
-) {
-  const path = tmpProjPath('package.json');
-  const json = readJsonFile(path);
-  json.devDependencies[npmPackageName] = `file:${distAbsolutePath}`;
-  writeJsonFile(path, json);
-}
-
-export function patchPackageJson(
-  pluginDistAbsulutePath: string,
-  npmPackageName: string,
-  npmPackageDistAbsolutePath: string
-) {
-  const packageJsonPath = path.join(pluginDistAbsulutePath, 'package.json');
-  const json = readJsonFile(packageJsonPath);
-  json.dependencies[npmPackageName] = `file:${npmPackageDistAbsolutePath}`;
-  writeJsonFile(packageJsonPath, json);
-}
-
-/**
- * Run the appropriate package manager install command in a directory
- * @param silent silent output from the install
- */
-export function runPackageManagerInstallDir(dir: string, silent = true) {
-  // const pmc = getPackageManagerCommand();
-  // const install = execSync(pmc.install, {
-  //   cwd: dir,
-  //   ...(silent ? { stdio: ['ignore', 'ignore', 'ignore'] } : {}),
-  // });
-  // return install ? install.toString() : '';
 }
