@@ -1,12 +1,10 @@
 import {
   checkstyleVersion,
-  downloadFile,
   getProjectRoot,
   ktlintVersion,
   readXml,
 } from '@jnxplus/common';
 import { ExecutorContext, workspaceRoot } from '@nx/devkit';
-import * as fs from 'fs';
 import * as path from 'path';
 
 export function getExecutable() {
@@ -27,7 +25,7 @@ export function isPomPackaging(context: ExecutorContext): boolean {
   return packagingXml.val === 'pom';
 }
 
-export async function getKtlintAbsolutePath() {
+export function getKtlintVersion() {
   const parentPomXmlPath = path.join(workspaceRoot, 'pom.xml');
   const parentPomXmlContent = readXml(parentPomXmlPath);
 
@@ -37,30 +35,10 @@ export async function getKtlintAbsolutePath() {
 
   const version =
     ktlintVersionXml === undefined ? ktlintVersion : ktlintVersionXml.val;
-
-  const downloadUrl = `https://github.com/pinterest/ktlint/releases/download/${version}/ktlint`;
-
-  const outputDirectory = path.join(
-    workspaceRoot,
-    'node_modules',
-    '@jnxplus',
-    'tools',
-    'linters',
-    'ktlint'
-  );
-
-  if (!fs.existsSync(outputDirectory)) {
-    fs.mkdirSync(outputDirectory, { recursive: true });
-  }
-
-  const ktlintAbsolutePath = path.join(outputDirectory, 'ktlint');
-  if (!fs.existsSync(ktlintAbsolutePath)) {
-    await downloadFile(downloadUrl, ktlintAbsolutePath);
-  }
-  return ktlintAbsolutePath;
+  return version;
 }
 
-export async function getCheckstyleJarAbsolutePath() {
+export function getCheckstyleVersion() {
   const parentPomXmlPath = path.join(workspaceRoot, 'pom.xml');
   const parentPomXmlContent = readXml(parentPomXmlPath);
 
@@ -72,30 +50,5 @@ export async function getCheckstyleJarAbsolutePath() {
     checkstyleVersionXml === undefined
       ? checkstyleVersion
       : checkstyleVersionXml.val;
-
-  const checkstyleJarName = `checkstyle-${version}-all.jar`;
-  const downloadUrl = `https://github.com/checkstyle/checkstyle/releases/download/checkstyle-${version}/${checkstyleJarName}`;
-
-  const outputDirectory = path.join(
-    workspaceRoot,
-    'node_modules',
-    '@jnxplus',
-    'tools',
-    'linters',
-    'checkstyle'
-  );
-
-  if (!fs.existsSync(outputDirectory)) {
-    fs.mkdirSync(outputDirectory, { recursive: true });
-  }
-
-  const checkstyleJarAbsolutePath = path.join(
-    outputDirectory,
-    checkstyleJarName
-  );
-
-  if (!fs.existsSync(checkstyleJarAbsolutePath)) {
-    await downloadFile(downloadUrl, checkstyleJarAbsolutePath);
-  }
-  return checkstyleJarAbsolutePath;
+  return version;
 }

@@ -1,4 +1,4 @@
-export type ImageType = 'jvm' | 'legacy-jar' | 'native' | 'native-micro';
+import { ImageType } from '@jnxplus/common';
 
 export interface BuildImageExecutorSchema {
   imageType: ImageType;
