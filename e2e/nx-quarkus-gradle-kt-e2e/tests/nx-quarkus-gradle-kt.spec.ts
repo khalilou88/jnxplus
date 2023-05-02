@@ -23,7 +23,7 @@ import {
   normalizeName,
   checkFilesDoNotExist,
   getData,
-} from './e2e-utils';
+} from '@jnxplus/common/testing';
 
 describe('nx-quarkus-gradle e2e', () => {
   const isCI =
