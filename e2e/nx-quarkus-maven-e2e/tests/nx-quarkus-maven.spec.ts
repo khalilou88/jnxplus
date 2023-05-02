@@ -21,7 +21,7 @@ import {
   promisifiedTreeKill,
   runNxCommandUntil,
   runNxNewCommand,
-} from './e2e-utils';
+} from '@jnxplus/common/testing';
 import * as fs from 'fs';
 
 describe('nx-quarkus-maven e2e', () => {

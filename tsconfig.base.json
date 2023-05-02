@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@jnxplus/common/testing": ["packages/common/src/lib/testing/index.ts"],
       "@jnxplus/nx-boot-gradle": ["packages/nx-boot-gradle/src/index.ts"],
       "@jnxplus/nx-boot-maven": ["packages/nx-boot-maven/src/index.ts"],
       "@jnxplus/nx-quarkus-gradle": ["packages/nx-quarkus-gradle/src/index.ts"],
