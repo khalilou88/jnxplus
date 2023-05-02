@@ -10,7 +10,7 @@ import {
 } from '@nx/devkit';
 import * as path from 'path';
 import { normalizeName } from '../../utils/command';
-import { LinterType } from '../../utils/types';
+import { LinterType } from '@jnxplus/common/types';
 import { NxBootGradleAppGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootGradleAppGeneratorSchema {

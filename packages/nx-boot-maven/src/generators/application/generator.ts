@@ -12,7 +12,7 @@ import {
 import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
 import { normalizeName } from '../../utils/command';
-import { LinterType } from '../../utils/types';
+import { LinterType } from '@jnxplus/common/types';
 import { readXmlTree, xmlToString } from '@jnxplus/common/xml';
 import { NxBootMavenAppGeneratorSchema } from './schema';
 

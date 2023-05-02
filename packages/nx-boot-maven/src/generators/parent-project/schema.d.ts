@@ -1,4 +1,4 @@
-import { ProjectType } from '../../utils/types';
+import { ProjectType } from '@jnxplus/common/types';
 
 export interface NxBootMavenParentProjectGeneratorSchema {
   name: string;

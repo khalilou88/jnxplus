@@ -11,7 +11,7 @@ import {
 } from '@nx/devkit';
 import * as path from 'path';
 import { getQuarkusPlatformVersion, normalizeName } from '../../utils/command';
-import { LinterType } from '../../utils/types';
+import { LinterType } from '@jnxplus/common/types';
 import { NxQuarkusGradleAppGeneratorSchema } from './schema';
 import { quarkusPlatformVersion } from '../../utils/versions';
 import * as fs from 'fs';

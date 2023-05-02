@@ -1,4 +1,4 @@
-import { LanguageType } from '../../utils/types';
+import { LanguageType } from '@jnxplus/common/types';
 
 export interface NxQuarkusGradleAppGeneratorSchema {
   name: string;

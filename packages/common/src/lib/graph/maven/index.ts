@@ -21,7 +21,8 @@ export function addProjects(
   const pomXmlContent = readXml(pomXmlPath);
 
   if (!fileExists(projectJson)) {
-    const projectName = pomXmlContent.childNamed('artifactId').val;
+    const projectName =
+      pomXmlContent.childNamed('artifactId')?.val ?? 'missingArtifactId';
 
     const projectType = getProjectType(projectRoot);
     builder.addNode({
@@ -126,7 +127,7 @@ function getDependencies(
   const dependencies = dependenciesXml
     .childrenNamed('dependency')
     .map((dependencyXmlElement) => {
-      return dependencyXmlElement.childNamed('artifactId').val;
+      return dependencyXmlElement.childNamed('artifactId')?.val;
     });
 
   return projects.filter((project) => dependencies.includes(project.name));
@@ -146,7 +147,7 @@ function getModules(
     const moduleRoot = join(projectAbsolutePath, moduleXmlElement.val);
     const modulePomXmlPath = join(moduleRoot, 'pom.xml');
     const modulePomXmlContent = readXml(modulePomXmlPath);
-    const moduleProjectName = modulePomXmlContent.childNamed('artifactId').val;
+    const moduleProjectName = modulePomXmlContent.childNamed('artifactId')?.val;
     return moduleProjectName;
   });
 
