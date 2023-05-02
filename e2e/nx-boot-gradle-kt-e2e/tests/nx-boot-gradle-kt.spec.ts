@@ -22,7 +22,7 @@ import {
   runNxNewCommand,
   normalizeName,
   getData,
-} from './e2e-utils';
+} from '@jnxplus/common/testing';
 
 describe('nx-boot-gradle e2e', () => {
   const isCI =
