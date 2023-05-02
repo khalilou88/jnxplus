@@ -1,7 +1,7 @@
 import { ExecutorContext, logger } from '@nx/devkit';
 import { join } from 'path';
 import { getExecutable, getProjectRoot, runCommand } from '../../utils/command';
-import { readXml } from '../../utils/xml';
+import { readXml } from '@jnxplus/common/xml';
 import { BuildExecutorSchema } from './schema';
 
 export default async function runExecutor(
