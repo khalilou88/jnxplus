@@ -42,7 +42,7 @@ describe('nx-quarkus-gradle e2e', () => {
       workspaceRoot,
       'dist',
       'packages',
-      'nx-quarkus-maven'
+      'nx-quarkus-gradle'
     );
 
     const commonDistAbsolutePath = path.join(
