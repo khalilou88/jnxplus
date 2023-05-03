@@ -26,7 +26,7 @@ import {
   runPackageManagerInstallDir,
 } from '@jnxplus/common';
 
-describe('nx-boot-gradle e2e', () => {
+describe('nx-boot-gradle kt e2e', () => {
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
