@@ -81,6 +81,7 @@ describe('nx-boot-maven e2e', () => {
 
     runPackageManagerInstall();
     runPackageManagerInstallDir(nxBootMavenDistAbsolutePath);
+    runPackageManagerInstallDir(mavenDistAbsolutePath);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-maven:init --parentProjectName ${parentProjectName}`

@@ -85,6 +85,7 @@ describe('nx-quarkus-gradle e2e', () => {
 
     runPackageManagerInstall();
     runPackageManagerInstallDir(nxQuarkusGradleDistAbsolutePath);
+    runPackageManagerInstallDir(gradleDistAbsolutePath);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
