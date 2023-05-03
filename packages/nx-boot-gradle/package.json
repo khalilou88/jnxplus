@@ -1,6 +1,7 @@
 {
   "name": "@jnxplus/nx-boot-gradle",
   "version": "5.4.0",
+  "type": "commonjs",
   "main": "src/index.js",
   "generators": "./generators.json",
   "executors": "./executors.json",

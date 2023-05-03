@@ -9,9 +9,11 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/maven",
-        "packageJson": "packages/maven/package.json",
         "main": "packages/maven/src/index.ts",
+        "packageJson": "packages/maven/package.json",
         "tsConfig": "packages/maven/tsconfig.lib.json",
+        "updateBuildableProjectDepsInPackageJson": true,
+        "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": ["packages/maven/*.md"]
       }
     },

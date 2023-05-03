@@ -9,9 +9,11 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/nx-quarkus-gradle",
-        "tsConfig": "packages/nx-quarkus-gradle/tsconfig.lib.json",
-        "packageJson": "packages/nx-quarkus-gradle/package.json",
         "main": "packages/nx-quarkus-gradle/src/index.ts",
+        "packageJson": "packages/nx-quarkus-gradle/package.json",
+        "tsConfig": "packages/nx-quarkus-gradle/tsconfig.lib.json",
+        "updateBuildableProjectDepsInPackageJson": true,
+        "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": [
           "packages/nx-quarkus-gradle/*.md",
           {

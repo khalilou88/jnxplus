@@ -9,9 +9,11 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/gradle",
-        "packageJson": "packages/gradle/package.json",
         "main": "packages/gradle/src/index.ts",
+        "packageJson": "packages/gradle/package.json",
         "tsConfig": "packages/gradle/tsconfig.lib.json",
+        "updateBuildableProjectDepsInPackageJson": true,
+        "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": ["packages/gradle/*.md"]
       }
     },
