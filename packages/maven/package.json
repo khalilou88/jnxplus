@@ -1,5 +1,8 @@
 {
   "name": "@jnxplus/maven",
   "version": "0.0.1",
-  "type": "commonjs"
+  "type": "commonjs",
+  "peerDependencies": {
+    "@nx/devkit": ">=16.0.0"
+  }
 }
