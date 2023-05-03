@@ -41,7 +41,7 @@ describe('nx-boot-gradle e2e', () => {
       workspaceRoot,
       'dist',
       'packages',
-      'nx-boot-maven'
+      'nx-boot-gradle'
     );
 
     const commonDistAbsolutePath = path.join(
