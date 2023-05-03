@@ -61,10 +61,6 @@ describe('nx-boot-gradle e2e', () => {
       '@jnxplus/nx-boot-gradle',
       nxBootGradleDistAbsolutePath
     );
-    patchPackageJsonForPlugin2(
-      'prettier-plugin-java',
-      path.join(workspaceRoot, 'node_modules', 'prettier-plugin-java')
-    );
     patchPackageJsonForPlugin2('@jnxplus/common', commonDistAbsolutePath);
     patchPackageJsonForPlugin2('@jnxplus/gradle', gradleDistAbsolutePath);
 
