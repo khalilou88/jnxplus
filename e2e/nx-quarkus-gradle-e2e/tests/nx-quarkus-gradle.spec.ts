@@ -24,6 +24,7 @@ import {
   getData,
   patchPackageJson,
   patchPackageJsonForPlugin2,
+  runPackageManagerInstallDir,
 } from '@jnxplus/common';
 
 describe('nx-quarkus-gradle e2e', () => {
@@ -83,6 +84,7 @@ describe('nx-quarkus-gradle e2e', () => {
     );
 
     runPackageManagerInstall();
+    runPackageManagerInstallDir(nxQuarkusGradleDistAbsolutePath);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:init --rootProjectName ${rootProjectName}`
