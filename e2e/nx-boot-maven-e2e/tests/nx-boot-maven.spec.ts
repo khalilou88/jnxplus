@@ -1,8 +1,7 @@
-import { names } from '@nx/devkit';
+import { names, workspaceRoot } from '@nx/devkit';
 import {
   checkFilesExist,
   cleanup,
-  patchPackageJsonForPlugin,
   readFile,
   readJson,
   runNxCommandAsync,
@@ -18,6 +17,7 @@ import {
   killPorts,
   normalizeName,
   patchPackageJson,
+  patchPackageJsonForPlugin2,
   promisifiedTreeKill,
   runNxCommandUntil,
   runNxNewCommand,
@@ -35,36 +35,55 @@ describe('nx-boot-maven e2e', () => {
     cleanup();
     runNxNewCommand('', true);
 
-    patchPackageJsonForPlugin(
+    const nxBootMavenDistAbsolutePath = path.join(
+      workspaceRoot,
+      'dist',
+      'packages',
+      'nx-boot-maven'
+    );
+
+    const commonDistAbsolutePath = path.join(
+      workspaceRoot,
+      'dist',
+      'packages',
+      'common'
+    );
+
+    const mavenDistAbsolutePath = path.join(
+      workspaceRoot,
+      'dist',
+      'packages',
+      'maven'
+    );
+
+    patchPackageJsonForPlugin2(
       '@jnxplus/nx-boot-maven',
-      'dist/packages/nx-boot-maven'
+      nxBootMavenDistAbsolutePath
     );
-    patchPackageJsonForPlugin(
+    patchPackageJsonForPlugin2(
       'prettier-plugin-java',
-      'node_modules/prettier-plugin-java'
+      path.join(workspaceRoot, 'node_modules', 'prettier-plugin-java')
     );
-    patchPackageJsonForPlugin(
+    patchPackageJsonForPlugin2(
       '@prettier/plugin-xml',
-      'node_modules/@prettier/plugin-xml'
+      path.join(workspaceRoot, 'node_modules', '@prettier/plugin-xml')
     );
-    patchPackageJsonForPlugin('@jnxplus/common', 'dist/packages/common');
-    patchPackageJsonForPlugin('@jnxplus/maven', 'dist/packages/maven');
-
+    patchPackageJsonForPlugin2('@jnxplus/common', commonDistAbsolutePath);
+    patchPackageJsonForPlugin2('@jnxplus/maven', mavenDistAbsolutePath);
     patchPackageJson(
-      'dist/packages/maven',
+      mavenDistAbsolutePath,
       '@jnxplus/common',
-      'dist/packages/common'
+      commonDistAbsolutePath
     );
-
     patchPackageJson(
-      'dist/packages/nx-boot-maven',
+      nxBootMavenDistAbsolutePath,
       '@jnxplus/common',
-      'dist/packages/common'
+      commonDistAbsolutePath
     );
     patchPackageJson(
-      'dist/packages/nx-boot-maven',
+      nxBootMavenDistAbsolutePath,
       '@jnxplus/maven',
-      'dist/packages/maven'
+      mavenDistAbsolutePath
     );
 
     runPackageManagerInstall();

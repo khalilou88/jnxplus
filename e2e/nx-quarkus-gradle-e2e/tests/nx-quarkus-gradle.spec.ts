@@ -1,8 +1,7 @@
-import { names } from '@nx/devkit';
+import { names, workspaceRoot } from '@nx/devkit';
 import {
   checkFilesExist,
   cleanup,
-  patchPackageJsonForPlugin,
   readFile,
   readJson,
   runNxCommandAsync,
@@ -24,6 +23,7 @@ import {
   checkFilesDoNotExist,
   getData,
   patchPackageJson,
+  patchPackageJsonForPlugin2,
 } from '@jnxplus/common';
 
 describe('nx-quarkus-gradle e2e', () => {
@@ -37,32 +37,53 @@ describe('nx-quarkus-gradle e2e', () => {
     cleanup();
     runNxNewCommand('', true);
 
-    patchPackageJsonForPlugin(
-      '@jnxplus/nx-quarkus-gradle',
-      'dist/packages/nx-quarkus-gradle'
+    const nxQuarkusGradleDistAbsolutePath = path.join(
+      workspaceRoot,
+      'dist',
+      'packages',
+      'nx-quarkus-maven'
     );
-    patchPackageJsonForPlugin(
+
+    const commonDistAbsolutePath = path.join(
+      workspaceRoot,
+      'dist',
+      'packages',
+      'common'
+    );
+
+    const gradleDistAbsolutePath = path.join(
+      workspaceRoot,
+      'dist',
+      'packages',
+      'gradle'
+    );
+
+    patchPackageJsonForPlugin2(
+      '@jnxplus/nx-boot-gradle',
+      nxQuarkusGradleDistAbsolutePath
+    );
+    patchPackageJsonForPlugin2(
       'prettier-plugin-java',
-      'node_modules/prettier-plugin-java'
+      path.join(workspaceRoot, 'node_modules', 'prettier-plugin-java')
     );
-    patchPackageJsonForPlugin('@jnxplus/common', 'dist/packages/common');
-    patchPackageJsonForPlugin('@jnxplus/gradle', 'dist/packages/gradle');
+    patchPackageJsonForPlugin2('@jnxplus/common', commonDistAbsolutePath);
+    patchPackageJsonForPlugin2('@jnxplus/gradle', gradleDistAbsolutePath);
 
     patchPackageJson(
-      'dist/packages/gradle',
+      gradleDistAbsolutePath,
       '@jnxplus/common',
-      'dist/packages/common'
+      commonDistAbsolutePath
     );
 
     patchPackageJson(
-      'dist/packages/nx-quarkus-gradle',
+      nxQuarkusGradleDistAbsolutePath,
       '@jnxplus/common',
-      'dist/packages/common'
+      commonDistAbsolutePath
     );
     patchPackageJson(
-      'dist/packages/nx-quarkus-gradle',
+      nxQuarkusGradleDistAbsolutePath,
       '@jnxplus/gradle',
-      'dist/packages/gradle'
+      gradleDistAbsolutePath
     );
 
     runPackageManagerInstall();
