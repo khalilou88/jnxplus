@@ -176,7 +176,7 @@ export function getData(port = 8080, path = ''): Promise<any> {
   });
 }
 
-export function patchPackageJsonForPlugin2(
+export function patchRootPackageJson(
   npmPackageName: string,
   distAbsolutePath: string
 ) {
