@@ -24,9 +24,11 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/nx-quarkus-maven",
-        "tsConfig": "packages/nx-quarkus-maven/tsconfig.lib.json",
-        "packageJson": "packages/nx-quarkus-maven/package.json",
         "main": "packages/nx-quarkus-maven/src/index.ts",
+        "packageJson": "packages/nx-quarkus-maven/package.json",
+        "tsConfig": "packages/nx-quarkus-maven/tsconfig.lib.json",
+        "updateBuildableProjectDepsInPackageJson": true,
+        "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": [
           "packages/nx-quarkus-maven/*.md",
           {
