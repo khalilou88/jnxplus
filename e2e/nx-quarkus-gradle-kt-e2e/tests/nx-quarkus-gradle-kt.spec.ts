@@ -27,7 +27,7 @@ import {
   runPackageManagerInstallDir,
 } from '@jnxplus/common';
 
-describe('nx-quarkus-gradle e2e', () => {
+describe('nx-quarkus-gradle kt e2e', () => {
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
@@ -560,7 +560,7 @@ describe('nx-quarkus-gradle e2e', () => {
   }, 120000);
 
   it('directory with dash', async () => {
-    const randomName = uniq('boot-maven-app-');
+    const randomName = uniq('quarkus-maven-app-');
     const appName = `deep-sub-dir-${randomName}`;
     const port = 8585;
 
