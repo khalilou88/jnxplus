@@ -22,6 +22,7 @@ import {
   runNxNewCommand,
   normalizeName,
   getData,
+  patchPackageJson,
 } from '@jnxplus/common';
 
 describe('nx-boot-gradle e2e', () => {
@@ -45,6 +46,24 @@ describe('nx-boot-gradle e2e', () => {
     );
     patchPackageJsonForPlugin('@jnxplus/common', 'dist/packages/common');
     patchPackageJsonForPlugin('@jnxplus/gradle', 'dist/packages/gradle');
+
+    patchPackageJson(
+      'dist/packages/gradle',
+      '@jnxplus/common',
+      'dist/packages/common'
+    );
+
+    patchPackageJson(
+      'dist/packages/nx-boot-gradle',
+      '@jnxplus/common',
+      'dist/packages/common'
+    );
+    patchPackageJson(
+      'dist/packages/nx-boot-gradle',
+      '@jnxplus/gradle',
+      'dist/packages/gradle'
+    );
+
     runPackageManagerInstall();
 
     await runNxCommandAsync(
