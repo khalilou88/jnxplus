@@ -92,7 +92,7 @@ describe('nx-quarkus-maven e2e', () => {
       const updatedFileContent = fileContent.replace('/tmp', '');
       fs.writeFileSync(filePath, updatedFileContent);
     }
-  }, 240000);
+  }, 120000);
 
   afterAll(() => {
     // `nx reset` kills the daemon, and performs
