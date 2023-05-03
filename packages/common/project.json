@@ -9,6 +9,7 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/common",
+        "packageJson": "packages/common/package.json",
         "main": "packages/common/src/index.ts",
         "tsConfig": "packages/common/tsconfig.lib.json",
         "assets": ["packages/common/*.md"]
