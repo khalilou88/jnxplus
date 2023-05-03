@@ -18,6 +18,7 @@ import {
   getData,
   killPorts,
   normalizeName,
+  patchPackageJson,
   promisifiedTreeKill,
   runNxCommandUntil,
   runNxNewCommand,
@@ -49,6 +50,24 @@ describe('nx-quarkus-maven e2e', () => {
     );
     patchPackageJsonForPlugin('@jnxplus/common', 'dist/packages/common');
     patchPackageJsonForPlugin('@jnxplus/maven', 'dist/packages/maven');
+
+    patchPackageJson(
+      'dist/packages/maven',
+      '@jnxplus/common',
+      'dist/packages/common'
+    );
+
+    patchPackageJson(
+      'dist/packages/nx-quarkus-maven',
+      '@jnxplus/common',
+      'dist/packages/common'
+    );
+    patchPackageJson(
+      'dist/packages/nx-quarkus-maven',
+      '@jnxplus/maven',
+      'dist/packages/maven'
+    );
+
     runPackageManagerInstall();
 
     await runNxCommandAsync(

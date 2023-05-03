@@ -23,6 +23,7 @@ import {
   normalizeName,
   checkFilesDoNotExist,
   getData,
+  patchPackageJson,
 } from '@jnxplus/common';
 
 describe('nx-quarkus-gradle e2e', () => {
@@ -46,6 +47,24 @@ describe('nx-quarkus-gradle e2e', () => {
     );
     patchPackageJsonForPlugin('@jnxplus/common', 'dist/packages/common');
     patchPackageJsonForPlugin('@jnxplus/gradle', 'dist/packages/gradle');
+
+    patchPackageJson(
+      'dist/packages/gradle',
+      '@jnxplus/common',
+      'dist/packages/common'
+    );
+
+    patchPackageJson(
+      'dist/packages/nx-quarkus-gradle',
+      '@jnxplus/common',
+      'dist/packages/common'
+    );
+    patchPackageJson(
+      'dist/packages/nx-quarkus-gradle',
+      '@jnxplus/gradle',
+      'dist/packages/gradle'
+    );
+
     runPackageManagerInstall();
 
     await runNxCommandAsync(
