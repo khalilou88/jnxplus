@@ -22,7 +22,7 @@ import {
   normalizeName,
   getData,
   patchPackageJson,
-  patchPackageJsonForPlugin2,
+  patchRootPackageJson,
   runPackageManagerInstallDir,
 } from '@jnxplus/common';
 
@@ -59,9 +59,9 @@ describe('nx-boot-gradle e2e', () => {
       'gradle'
     );
 
-    patchPackageJsonForPlugin2(pluginName, nxBootGradleDistAbsolutePath);
-    patchPackageJsonForPlugin2('@jnxplus/common', commonDistAbsolutePath);
-    patchPackageJsonForPlugin2('@jnxplus/gradle', gradleDistAbsolutePath);
+    patchRootPackageJson(pluginName, nxBootGradleDistAbsolutePath);
+    patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
+    patchRootPackageJson('@jnxplus/gradle', gradleDistAbsolutePath);
 
     patchPackageJson(
       gradleDistAbsolutePath,
