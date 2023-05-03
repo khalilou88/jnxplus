@@ -61,14 +61,6 @@ describe('nx-quarkus-maven e2e', () => {
       '@jnxplus/nx-boot-maven',
       nxQuarkusMavenDistAbsolutePath
     );
-    patchPackageJsonForPlugin2(
-      'prettier-plugin-java',
-      path.join(workspaceRoot, 'node_modules', 'prettier-plugin-java')
-    );
-    patchPackageJsonForPlugin2(
-      '@prettier/plugin-xml',
-      path.join(workspaceRoot, 'node_modules', '@prettier/plugin-xml')
-    );
     patchPackageJsonForPlugin2('@jnxplus/common', commonDistAbsolutePath);
     patchPackageJsonForPlugin2('@jnxplus/maven', mavenDistAbsolutePath);
     patchPackageJson(

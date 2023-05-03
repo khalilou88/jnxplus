@@ -62,10 +62,6 @@ describe('nx-quarkus-gradle e2e', () => {
       '@jnxplus/nx-boot-gradle',
       nxQuarkusGradleDistAbsolutePath
     );
-    patchPackageJsonForPlugin2(
-      'prettier-plugin-java',
-      path.join(workspaceRoot, 'node_modules', 'prettier-plugin-java')
-    );
     patchPackageJsonForPlugin2('@jnxplus/common', commonDistAbsolutePath);
     patchPackageJsonForPlugin2('@jnxplus/gradle', gradleDistAbsolutePath);
 
