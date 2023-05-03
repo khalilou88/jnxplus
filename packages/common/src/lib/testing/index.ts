@@ -202,10 +202,10 @@ export function patchPackageJson(
  * @param silent silent output from the install
  */
 export function runPackageManagerInstallDir(dir: string, silent = true) {
-  const pmc = getPackageManagerCommand();
-  const install = execSync(pmc.install, {
-    cwd: dir,
-    ...(silent ? { stdio: ['ignore', 'ignore', 'ignore'] } : {}),
-  });
-  return install ? install.toString() : '';
+  // const pmc = getPackageManagerCommand();
+  // const install = execSync(pmc.install, {
+  //   cwd: dir,
+  //   ...(silent ? { stdio: ['ignore', 'ignore', 'ignore'] } : {}),
+  // });
+  // return install ? install.toString() : '';
 }
