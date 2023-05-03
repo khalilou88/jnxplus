@@ -9,6 +9,7 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/maven",
+        "packageJson": "packages/maven/package.json",
         "main": "packages/maven/src/index.ts",
         "tsConfig": "packages/maven/tsconfig.lib.json",
         "assets": ["packages/maven/*.md"]

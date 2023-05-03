@@ -9,6 +9,7 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/gradle",
+        "packageJson": "packages/gradle/package.json",
         "main": "packages/gradle/src/index.ts",
         "tsConfig": "packages/gradle/tsconfig.lib.json",
         "assets": ["packages/gradle/*.md"]
