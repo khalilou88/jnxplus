@@ -1,15 +1,19 @@
-import { getPackageManagerCommand } from '@nx/devkit';
-import { exists, tmpProjPath } from '@nx/plugin/testing';
-import { ChildProcess, exec } from 'child_process';
-import { check as portCheck } from 'tcp-port-used';
-import chalk = require('chalk');
-import { promisify } from 'util';
-import treeKill = require('tree-kill');
-import { execSync } from 'child_process';
-import * as path from 'path';
-import * as http from 'http';
-import kill = require('kill-port');
 import { expect } from '@jest/globals';
+import {
+  getPackageManagerCommand,
+  readJsonFile,
+  workspaceRoot,
+  writeJsonFile,
+} from '@nx/devkit';
+import { exists, tmpProjPath } from '@nx/plugin/testing';
+import { ChildProcess, exec, execSync } from 'child_process';
+import * as http from 'http';
+import * as path from 'path';
+import { check as portCheck } from 'tcp-port-used';
+import { promisify } from 'util';
+import chalk = require('chalk');
+import treeKill = require('tree-kill');
+import kill = require('kill-port');
 
 export function runNxNewCommand(args?: string, silent?: boolean) {
   const localTmpDir = path.dirname(tmpProjPath());
@@ -171,4 +175,21 @@ export function getData(port = 8080, path = ''): Promise<any> {
       });
     });
   });
+}
+
+export function patchPackageJson(
+  pluginDistPath: string,
+  npmPackageName: string,
+  npmPackageDistPath: string
+) {
+  const packageJsonPath = path.join(
+    workspaceRoot,
+    pluginDistPath,
+    'package.json'
+  );
+  const json = readJsonFile(packageJsonPath);
+  json.dependencies[
+    npmPackageName
+  ] = `file:${workspaceRoot}/${npmPackageDistPath}`;
+  writeJsonFile(packageJsonPath, json);
 }
