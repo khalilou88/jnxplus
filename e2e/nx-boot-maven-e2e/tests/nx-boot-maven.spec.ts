@@ -36,11 +36,12 @@ describe('nx-boot-maven e2e', () => {
     cleanup();
     runNxNewCommand('', true);
 
+    const pluginName = 'nx-boot-maven';
     const nxBootMavenDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
-      'nx-boot-maven'
+      pluginName
     );
 
     const commonDistAbsolutePath = path.join(
@@ -57,10 +58,7 @@ describe('nx-boot-maven e2e', () => {
       'maven'
     );
 
-    patchPackageJsonForPlugin2(
-      '@jnxplus/nx-boot-maven',
-      nxBootMavenDistAbsolutePath
-    );
+    patchPackageJsonForPlugin2(pluginName, nxBootMavenDistAbsolutePath);
     patchPackageJsonForPlugin2('@jnxplus/common', commonDistAbsolutePath);
     patchPackageJsonForPlugin2('@jnxplus/maven', mavenDistAbsolutePath);
     patchPackageJson(

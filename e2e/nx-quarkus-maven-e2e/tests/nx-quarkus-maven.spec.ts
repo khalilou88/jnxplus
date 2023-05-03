@@ -18,7 +18,7 @@ import {
   killPorts,
   normalizeName,
   patchPackageJson,
-  patchPackageJsonForPlugin2,
+  patchRootPackageJson,
   promisifiedTreeKill,
   runNxCommandUntil,
   runNxNewCommand,
@@ -37,11 +37,12 @@ describe('nx-quarkus-maven e2e', () => {
     cleanup();
     runNxNewCommand('', true);
 
+    const pluginName = 'nx-quarkus-maven';
     const nxQuarkusMavenDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
-      'nx-quarkus-maven'
+      pluginName
     );
 
     const commonDistAbsolutePath = path.join(
@@ -58,12 +59,9 @@ describe('nx-quarkus-maven e2e', () => {
       'maven'
     );
 
-    patchPackageJsonForPlugin2(
-      '@jnxplus/nx-boot-maven',
-      nxQuarkusMavenDistAbsolutePath
-    );
-    patchPackageJsonForPlugin2('@jnxplus/common', commonDistAbsolutePath);
-    patchPackageJsonForPlugin2('@jnxplus/maven', mavenDistAbsolutePath);
+    patchRootPackageJson(pluginName, nxQuarkusMavenDistAbsolutePath);
+    patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
+    patchRootPackageJson('@jnxplus/maven', mavenDistAbsolutePath);
     patchPackageJson(
       mavenDistAbsolutePath,
       '@jnxplus/common',
@@ -94,7 +92,7 @@ describe('nx-quarkus-maven e2e', () => {
       const updatedFileContent = fileContent.replace('/tmp', '');
       fs.writeFileSync(filePath, updatedFileContent);
     }
-  }, 120000);
+  }, 240000);
 
   afterAll(() => {
     // `nx reset` kills the daemon, and performs
