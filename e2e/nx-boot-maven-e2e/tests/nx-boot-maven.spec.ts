@@ -17,7 +17,7 @@ import {
   killPorts,
   normalizeName,
   patchPackageJson,
-  patchPackageJsonForPlugin2,
+  patchRootPackageJson,
   promisifiedTreeKill,
   runNxCommandUntil,
   runNxNewCommand,
@@ -58,9 +58,9 @@ describe('nx-boot-maven e2e', () => {
       'maven'
     );
 
-    patchPackageJsonForPlugin2(pluginName, nxBootMavenDistAbsolutePath);
-    patchPackageJsonForPlugin2('@jnxplus/common', commonDistAbsolutePath);
-    patchPackageJsonForPlugin2('@jnxplus/maven', mavenDistAbsolutePath);
+    patchRootPackageJson(pluginName, nxBootMavenDistAbsolutePath);
+    patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
+    patchRootPackageJson('@jnxplus/maven', mavenDistAbsolutePath);
     patchPackageJson(
       mavenDistAbsolutePath,
       '@jnxplus/common',

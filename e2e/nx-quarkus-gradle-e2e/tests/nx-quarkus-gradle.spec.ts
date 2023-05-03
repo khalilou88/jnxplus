@@ -23,7 +23,7 @@ import {
   checkFilesDoNotExist,
   getData,
   patchPackageJson,
-  patchPackageJsonForPlugin2,
+  patchRootPackageJson,
   runPackageManagerInstallDir,
 } from '@jnxplus/common';
 
@@ -60,9 +60,9 @@ describe('nx-quarkus-gradle e2e', () => {
       'gradle'
     );
 
-    patchPackageJsonForPlugin2(pluginName, nxQuarkusGradleDistAbsolutePath);
-    patchPackageJsonForPlugin2('@jnxplus/common', commonDistAbsolutePath);
-    patchPackageJsonForPlugin2('@jnxplus/gradle', gradleDistAbsolutePath);
+    patchRootPackageJson(pluginName, nxQuarkusGradleDistAbsolutePath);
+    patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
+    patchRootPackageJson('@jnxplus/gradle', gradleDistAbsolutePath);
 
     patchPackageJson(
       gradleDistAbsolutePath,
