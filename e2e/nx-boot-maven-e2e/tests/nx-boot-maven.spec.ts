@@ -21,6 +21,7 @@ import {
   promisifiedTreeKill,
   runNxCommandUntil,
   runNxNewCommand,
+  runPackageManagerInstallDir,
 } from '@jnxplus/common';
 import * as fs from 'fs';
 
@@ -79,6 +80,7 @@ describe('nx-boot-maven e2e', () => {
     );
 
     runPackageManagerInstall();
+    runPackageManagerInstallDir(nxBootMavenDistAbsolutePath);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-maven:init --parentProjectName ${parentProjectName}`

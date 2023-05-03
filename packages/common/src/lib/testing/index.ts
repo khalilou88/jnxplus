@@ -196,3 +196,16 @@ export function patchPackageJson(
   json.dependencies[npmPackageName] = `file:${npmPackageDistAbsolutePath}`;
   writeJsonFile(packageJsonPath, json);
 }
+
+/**
+ * Run the appropriate package manager install command in a directory
+ * @param silent silent output from the install
+ */
+export function runPackageManagerInstallDir(dir: string, silent = true) {
+  const pmc = getPackageManagerCommand();
+  const install = execSync(pmc.install, {
+    cwd: dir,
+    ...(silent ? { stdio: ['ignore', 'ignore', 'ignore'] } : {}),
+  });
+  return install ? install.toString() : '';
+}
