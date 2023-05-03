@@ -1,8 +1,7 @@
-import { names } from '@nx/devkit';
+import { names, workspaceRoot } from '@nx/devkit';
 import {
   checkFilesExist,
   cleanup,
-  patchPackageJsonForPlugin,
   readFile,
   readJson,
   runNxCommandAsync,
@@ -23,6 +22,7 @@ import {
   normalizeName,
   getData,
   patchPackageJson,
+  patchPackageJsonForPlugin2,
 } from '@jnxplus/common';
 
 describe('nx-boot-gradle e2e', () => {
@@ -36,32 +36,53 @@ describe('nx-boot-gradle e2e', () => {
     cleanup();
     runNxNewCommand('', true);
 
-    patchPackageJsonForPlugin(
+    const nxBootGradleDistAbsolutePath = path.join(
+      workspaceRoot,
+      'dist',
+      'packages',
+      'nx-boot-maven'
+    );
+
+    const commonDistAbsolutePath = path.join(
+      workspaceRoot,
+      'dist',
+      'packages',
+      'common'
+    );
+
+    const gradleDistAbsolutePath = path.join(
+      workspaceRoot,
+      'dist',
+      'packages',
+      'gradle'
+    );
+
+    patchPackageJsonForPlugin2(
       '@jnxplus/nx-boot-gradle',
-      'dist/packages/nx-boot-gradle'
+      nxBootGradleDistAbsolutePath
     );
-    patchPackageJsonForPlugin(
+    patchPackageJsonForPlugin2(
       'prettier-plugin-java',
-      'node_modules/prettier-plugin-java'
+      path.join(workspaceRoot, 'node_modules', 'prettier-plugin-java')
     );
-    patchPackageJsonForPlugin('@jnxplus/common', 'dist/packages/common');
-    patchPackageJsonForPlugin('@jnxplus/gradle', 'dist/packages/gradle');
+    patchPackageJsonForPlugin2('@jnxplus/common', commonDistAbsolutePath);
+    patchPackageJsonForPlugin2('@jnxplus/gradle', gradleDistAbsolutePath);
 
     patchPackageJson(
-      'dist/packages/gradle',
+      gradleDistAbsolutePath,
       '@jnxplus/common',
-      'dist/packages/common'
+      commonDistAbsolutePath
     );
 
     patchPackageJson(
-      'dist/packages/nx-boot-gradle',
+      nxBootGradleDistAbsolutePath,
       '@jnxplus/common',
-      'dist/packages/common'
+      commonDistAbsolutePath
     );
     patchPackageJson(
-      'dist/packages/nx-boot-gradle',
+      nxBootGradleDistAbsolutePath,
       '@jnxplus/gradle',
-      'dist/packages/gradle'
+      gradleDistAbsolutePath
     );
 
     runPackageManagerInstall();

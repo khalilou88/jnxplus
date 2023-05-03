@@ -177,19 +177,23 @@ export function getData(port = 8080, path = ''): Promise<any> {
   });
 }
 
-export function patchPackageJson(
-  pluginDistPath: string,
+export function patchPackageJsonForPlugin2(
   npmPackageName: string,
-  npmPackageDistPath: string
+  distAbsolutePath: string
 ) {
-  const packageJsonPath = path.join(
-    workspaceRoot,
-    pluginDistPath,
-    'package.json'
-  );
+  const path = tmpProjPath('package.json');
+  const json = readJsonFile(path);
+  json.devDependencies[npmPackageName] = `file:${distAbsolutePath}`;
+  writeJsonFile(path, json);
+}
+
+export function patchPackageJson(
+  pluginDistAbsulutePath: string,
+  npmPackageName: string,
+  npmPackageDistAbsolutePath: string
+) {
+  const packageJsonPath = path.join(pluginDistAbsulutePath, 'package.json');
   const json = readJsonFile(packageJsonPath);
-  json.dependencies[
-    npmPackageName
-  ] = `file:${workspaceRoot}/${npmPackageDistPath}`;
+  json.dependencies[npmPackageName] = `file:${npmPackageDistAbsolutePath}`;
   writeJsonFile(packageJsonPath, json);
 }
