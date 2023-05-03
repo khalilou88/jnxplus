@@ -82,6 +82,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     runPackageManagerInstall();
     runPackageManagerInstallDir(nxQuarkusMavenDistAbsolutePath);
+    runPackageManagerInstallDir(mavenDistAbsolutePath);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:init --parentProjectName ${parentProjectName}`

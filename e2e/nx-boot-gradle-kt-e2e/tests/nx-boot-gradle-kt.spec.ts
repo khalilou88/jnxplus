@@ -84,6 +84,7 @@ describe('nx-boot-gradle e2e', () => {
 
     runPackageManagerInstall();
     runPackageManagerInstallDir(nxBootGradleDistAbsolutePath);
+    runPackageManagerInstallDir(gradleDistAbsolutePath);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
