@@ -23,7 +23,6 @@ import {
   getData,
   patchPackageJson,
   patchRootPackageJson,
-  runPackageManagerInstallDir,
 } from '@jnxplus/common';
 
 describe('nx-boot-gradle kt e2e', () => {
@@ -82,8 +81,6 @@ describe('nx-boot-gradle kt e2e', () => {
     );
 
     runPackageManagerInstall();
-    runPackageManagerInstallDir(nxBootGradleDistAbsolutePath);
-    runPackageManagerInstallDir(gradleDistAbsolutePath);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`

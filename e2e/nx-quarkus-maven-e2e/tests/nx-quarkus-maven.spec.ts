@@ -22,7 +22,6 @@ import {
   promisifiedTreeKill,
   runNxCommandUntil,
   runNxNewCommand,
-  runPackageManagerInstallDir,
 } from '@jnxplus/common';
 import * as fs from 'fs';
 
@@ -80,8 +79,6 @@ describe('nx-quarkus-maven e2e', () => {
     );
 
     runPackageManagerInstall();
-    runPackageManagerInstallDir(nxQuarkusMavenDistAbsolutePath);
-    runPackageManagerInstallDir(mavenDistAbsolutePath);
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:init --parentProjectName ${parentProjectName}`
