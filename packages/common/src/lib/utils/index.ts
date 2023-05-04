@@ -98,3 +98,21 @@ export async function getCheckstylePath(
   }
   return checkstyleJarAbsolutePath;
 }
+
+export function isE2eTest(tmpWorkspaceRoot: string) {
+  return (
+    fs.existsSync(tmpWorkspaceRoot) && isSubdir(tmpWorkspaceRoot, process.cwd())
+  );
+}
+
+function isSubdir(parentPath: string, childPath: string) {
+  const relative = path.relative(parentPath, childPath);
+  const isSubdir =
+    relative && !relative.startsWith('..') && !path.isAbsolute(relative);
+  return isSubdir;
+}
+
+function isSameDir(path1: string, path2: string) {
+  const relative = path.relative(path1, path2);
+  return !relative;
+}

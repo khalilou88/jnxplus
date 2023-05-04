@@ -119,6 +119,13 @@ describe('nx-quarkus-maven e2e', () => {
         'tools/linters/pmd.xml'
       )
     ).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-10.9.3-all.jar`,
+        `node_modules/@jnxplus/tools/linters/ktlint/ktlint`
+      )
+    ).not.toThrow();
   }, 120000);
 
   it('should migrate', async () => {
@@ -161,15 +168,6 @@ describe('nx-quarkus-maven e2e', () => {
     expect(() => checkFilesExist(`apps/${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
-
-    //build-image preparation
-    await runNxCommandAsync(`build ${appName} --mvnBuildCommand="package"`);
-    if (!isWin && !isMacOs && isCI) {
-      const buildImageResult = await runNxCommandAsync(
-        `build-image ${appName}`
-      );
-      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
-    }
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
@@ -225,6 +223,20 @@ describe('nx-quarkus-maven e2e', () => {
       await killPorts(port);
     } catch (err) {
       // ignore err
+    }
+  }, 120000);
+
+  it('should build an image for java app', async () => {
+    if (!isWin && !isMacOs && isCI) {
+      const appName = uniq('quarkus-maven-app-');
+      await runNxCommandAsync(
+        `generate @jnxplus/nx-quarkus-maven:application ${appName}`
+      );
+      await runNxCommandAsync(`build ${appName} --mvnBuildCommand="package"`);
+      const buildImageResult = await runNxCommandAsync(
+        `build-image ${appName}`
+      );
+      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
   }, 120000);
 
@@ -346,15 +358,6 @@ describe('nx-quarkus-maven e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
-    //build-image preparation
-    await runNxCommandAsync(`build ${appName} --mvnBuildCommand="package"`);
-    if (!isWin && !isMacOs && isCI) {
-      const buildImageResult = await runNxCommandAsync(
-        `build-image ${appName}`
-      );
-      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
-    }
-
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
@@ -391,6 +394,20 @@ describe('nx-quarkus-maven e2e', () => {
       await killPorts(port);
     } catch (err) {
       // ignore err
+    }
+  }, 120000);
+
+  it('should build an image for kotlin app', async () => {
+    if (!isWin && !isMacOs && isCI) {
+      const appName = uniq('quarkus-maven-app-');
+      await runNxCommandAsync(
+        `generate @jnxplus/nx-quarkus-maven:application ${appName} --language kotlin`
+      );
+      await runNxCommandAsync(`build ${appName} --mvnBuildCommand="package"`);
+      const buildImageResult = await runNxCommandAsync(
+        `build-image ${appName}`
+      );
+      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
   }, 120000);
 
