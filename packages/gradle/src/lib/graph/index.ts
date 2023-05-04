@@ -117,6 +117,11 @@ export function addProjects(
       type: 'lib',
       data: {
         root: '',
+        targets: {
+          build: {
+            executor: 'nx:noop',
+          },
+        },
         files: [
           {
             file: 'build.gradle',
@@ -143,6 +148,11 @@ export function addProjects(
       type: 'lib',
       data: {
         root: '',
+        targets: {
+          build: {
+            executor: 'nx:noop',
+          },
+        },
         files: [
           {
             file: 'build.gradle.kts',
