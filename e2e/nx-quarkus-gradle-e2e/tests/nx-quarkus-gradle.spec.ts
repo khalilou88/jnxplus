@@ -31,7 +31,7 @@ describe('nx-quarkus-gradle e2e', () => {
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
   const rootProjectName = uniq('quarkus-root-project-');
-  beforeEach(async () => {
+  beforeAll(async () => {
     fse.ensureDirSync(tmpProjPath());
     cleanup();
     runNxNewCommand('', true);
