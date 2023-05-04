@@ -1,9 +1,7 @@
 import { logger, workspaceRoot } from '@nx/devkit';
-import {
-  getCheckstyleJarAbsolutePath,
-  getKtlintAbsolutePath,
-} from '../utils/command';
 import * as path from 'path';
+import { getCheckstyleVersion, getKtlintVersion } from '@jnxplus/maven';
+import { getCheckstylePath, getKtlintPath } from '@jnxplus/common';
 
 (async () => {
   if (process.env.NX_VERBOSE_LOGGING === 'true') {
@@ -16,10 +14,10 @@ import * as path from 'path';
     relative && !relative.startsWith('..') && !path.isAbsolute(relative);
 
   if (isSubdir) {
-    await getCheckstyleJarAbsolutePath(tmpProjPath);
-    await getKtlintAbsolutePath(tmpProjPath);
+    await getCheckstylePath(getCheckstyleVersion, tmpProjPath);
+    await getKtlintPath(getKtlintVersion, tmpProjPath);
   } else {
-    await getCheckstyleJarAbsolutePath();
-    await getKtlintAbsolutePath();
+    await getCheckstylePath(getCheckstyleVersion);
+    await getKtlintPath(getKtlintVersion);
   }
 })();
