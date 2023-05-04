@@ -32,6 +32,6 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
 
-      - uses: bahmutov/npm-install@v1.8.18
+      - uses: bahmutov/npm-install@v1.8.32
 
       - run: npm run nx run-many --all -- --target=smoke
