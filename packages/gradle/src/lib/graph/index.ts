@@ -166,10 +166,10 @@ export function addDependencies(builder: ProjectGraphBuilder) {
   const projects = getProjects(builder.graph.nodes);
 
   for (const project of projects) {
-    let buildGradleContent = '';
-    let settingsGradleContent = '';
-
     if (project.buildFile === 'groovy') {
+      let buildGradleContent = '';
+      let settingsGradleContent = '';
+
       const buildGradleFile = join(
         workspaceRoot,
         project.data.root,
@@ -213,6 +213,9 @@ export function addDependencies(builder: ProjectGraphBuilder) {
     }
 
     if (project.buildFile === 'kotlin') {
+      let buildGradleContentKts = '';
+      let settingsGradleContentKts = '';
+
       const buildGradleKtsFile = join(
         workspaceRoot,
         project.data.root,
@@ -226,15 +229,19 @@ export function addDependencies(builder: ProjectGraphBuilder) {
       );
 
       if (fs.existsSync(settingsGradleKtsFile)) {
-        settingsGradleContent = fs.readFileSync(settingsGradleKtsFile, 'utf-8');
+        settingsGradleContentKts = fs.readFileSync(
+          settingsGradleKtsFile,
+          'utf-8'
+        );
       }
-      const subProjects = getSubProjects(settingsGradleContent);
+      const subProjects = getSubProjects(settingsGradleContentKts);
       for (const subProjectPath of subProjects) {
         const subProject = getProject(subProjectPath, projects);
         builder.addStaticDependency(
           subProject?.name || '',
           project.name,
           join(
+            subProject?.data?.root || '',
             subProject?.buildFile === 'groovy'
               ? 'build.gradle'
               : 'build.gradle.kts'
@@ -242,8 +249,8 @@ export function addDependencies(builder: ProjectGraphBuilder) {
         );
       }
 
-      buildGradleContent = fs.readFileSync(buildGradleKtsFile, 'utf-8');
-      const dependencies = getDependencies(buildGradleContent);
+      buildGradleContentKts = fs.readFileSync(buildGradleKtsFile, 'utf-8');
+      const dependencies = getDependencies(buildGradleContentKts);
       for (const dependencyPath of dependencies) {
         const dependency = getProject(dependencyPath, projects);
         builder.addStaticDependency(
