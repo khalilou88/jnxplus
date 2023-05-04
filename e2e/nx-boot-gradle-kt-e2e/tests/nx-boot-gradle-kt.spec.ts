@@ -5,24 +5,24 @@ import {
   readFile,
   readJson,
   runNxCommandAsync,
-  runPackageManagerInstall,
   tmpProjPath,
   uniq,
   updateFile,
 } from '@nx/plugin/testing';
+import * as fs from 'fs';
 import * as fse from 'fs-extra';
 import * as path from 'path';
-import * as fs from 'fs';
 
 import {
+  getData,
   killPorts,
+  normalizeName,
+  patchPackageJson,
+  patchRootPackageJson,
   promisifiedTreeKill,
   runNxCommandUntil,
   runNxNewCommand,
-  normalizeName,
-  getData,
-  patchPackageJson,
-  patchRootPackageJson,
+  runPackageManagerInstallLinks,
 } from '@jnxplus/common';
 
 describe('nx-boot-gradle kt e2e', () => {
@@ -80,7 +80,7 @@ describe('nx-boot-gradle kt e2e', () => {
       gradleDistAbsolutePath
     );
 
-    runPackageManagerInstall();
+    runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`

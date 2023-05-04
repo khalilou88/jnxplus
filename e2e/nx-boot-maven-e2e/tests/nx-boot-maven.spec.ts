@@ -1,17 +1,3 @@
-import { names, workspaceRoot } from '@nx/devkit';
-import {
-  checkFilesExist,
-  cleanup,
-  readFile,
-  readJson,
-  runNxCommandAsync,
-  runPackageManagerInstall,
-  tmpProjPath,
-  uniq,
-  updateFile,
-} from '@nx/plugin/testing';
-import * as fse from 'fs-extra';
-import * as path from 'path';
 import {
   getData,
   killPorts,
@@ -21,8 +7,22 @@ import {
   promisifiedTreeKill,
   runNxCommandUntil,
   runNxNewCommand,
+  runPackageManagerInstallLinks,
 } from '@jnxplus/common';
+import { names, workspaceRoot } from '@nx/devkit';
+import {
+  checkFilesExist,
+  cleanup,
+  readFile,
+  readJson,
+  runNxCommandAsync,
+  tmpProjPath,
+  uniq,
+  updateFile,
+} from '@nx/plugin/testing';
 import * as fs from 'fs';
+import * as fse from 'fs-extra';
+import * as path from 'path';
 
 describe('nx-boot-maven e2e', () => {
   const isCI =
@@ -77,7 +77,7 @@ describe('nx-boot-maven e2e', () => {
       mavenDistAbsolutePath
     );
 
-    runPackageManagerInstall();
+    runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-maven:init --parentProjectName ${parentProjectName}`

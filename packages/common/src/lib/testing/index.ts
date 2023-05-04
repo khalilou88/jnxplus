@@ -196,3 +196,15 @@ export function patchPackageJson(
   json.dependencies[npmPackageName] = `file:${npmPackageDistAbsolutePath}`;
   writeJsonFile(packageJsonPath, json);
 }
+
+/**
+ * Run the appropriate package manager install command in the e2e directory
+ * @param silent silent output from the install
+ */
+export function runPackageManagerInstallLinks(silent = true) {
+  const install = execSync('npm i --install-links', {
+    cwd: tmpProjPath(),
+    ...(silent ? { stdio: ['ignore', 'ignore', 'ignore'] } : {}),
+  });
+  return install ? install.toString() : '';
+}
