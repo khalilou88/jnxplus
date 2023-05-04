@@ -25,8 +25,8 @@ export function isPomPackaging(context: ExecutorContext): boolean {
   return packagingXml.val === 'pom';
 }
 
-export function getKtlintVersion() {
-  const parentPomXmlPath = path.join(workspaceRoot, 'pom.xml');
+export function getKtlintVersion(dir: string) {
+  const parentPomXmlPath = path.join(dir, 'pom.xml');
   const parentPomXmlContent = readXml(parentPomXmlPath);
 
   const ktlintVersionXml = parentPomXmlContent
@@ -36,8 +36,8 @@ export function getKtlintVersion() {
   return ktlintVersionXml === undefined ? ktlintVersion : ktlintVersionXml.val;
 }
 
-export function getCheckstyleVersion() {
-  const parentPomXmlPath = path.join(workspaceRoot, 'pom.xml');
+export function getCheckstyleVersion(dir: string) {
+  const parentPomXmlPath = path.join(dir, 'pom.xml');
   const parentPomXmlContent = readXml(parentPomXmlPath);
 
   const checkstyleVersionXml = parentPomXmlContent

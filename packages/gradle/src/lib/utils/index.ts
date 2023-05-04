@@ -31,8 +31,8 @@ function readKtlintVersion(gradlePropertiesContent: string) {
   return matches[0];
 }
 
-export function getKtlintVersion() {
-  const gradlePropertiesPath = path.join(workspaceRoot, 'gradle.properties');
+export function getKtlintVersion(dir: string) {
+  const gradlePropertiesPath = path.join(dir, 'gradle.properties');
   const gradlePropertiesContent = fs.readFileSync(
     gradlePropertiesPath,
     'utf-8'
@@ -49,8 +49,8 @@ function readCheckstyleVersion(gradlePropertiesContent: string) {
   return matches[0];
 }
 
-export function getCheckstyleVersion() {
-  const gradlePropertiesPath = path.join(workspaceRoot, 'gradle.properties');
+export function getCheckstyleVersion(dir: string) {
+  const gradlePropertiesPath = path.join(dir, 'gradle.properties');
   const gradlePropertiesContent = fs.readFileSync(
     gradlePropertiesPath,
     'utf-8'

@@ -3,7 +3,7 @@ import axios from 'axios';
 import * as fs from 'fs';
 import * as stream from 'stream';
 import { promisify } from 'util';
-import path = require('path');
+import * as path from 'path';
 
 export function getProjectType(context: ExecutorContext) {
   return context.projectsConfigurations?.projects[context.projectName || '']
@@ -36,15 +36,18 @@ export async function downloadFile(
   });
 }
 
-type GetVersionFunction = () => string;
+type GetVersionFunction = (dir: string) => string;
 
-export async function getKtlintPath(getKtlintVersion: GetVersionFunction) {
-  const version = getKtlintVersion();
+export async function getKtlintPath(
+  getKtlintVersion: GetVersionFunction,
+  dir = workspaceRoot
+) {
+  const version = getKtlintVersion(dir);
 
   const downloadUrl = `https://github.com/pinterest/ktlint/releases/download/${version}/ktlint`;
 
   const outputDirectory = path.join(
-    workspaceRoot,
+    dir,
     'node_modules',
     '@jnxplus',
     'tools',
@@ -64,15 +67,16 @@ export async function getKtlintPath(getKtlintVersion: GetVersionFunction) {
 }
 
 export async function getCheckstylePath(
-  getCheckstyleVersion: GetVersionFunction
+  getCheckstyleVersion: GetVersionFunction,
+  dir = workspaceRoot
 ) {
-  const version = getCheckstyleVersion();
+  const version = getCheckstyleVersion(dir);
 
   const checkstyleJarName = `checkstyle-${version}-all.jar`;
   const downloadUrl = `https://github.com/checkstyle/checkstyle/releases/download/checkstyle-${version}/${checkstyleJarName}`;
 
   const outputDirectory = path.join(
-    workspaceRoot,
+    dir,
     'node_modules',
     '@jnxplus',
     'tools',
