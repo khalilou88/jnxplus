@@ -84,7 +84,7 @@ export function processProjectGraph(
   const settingsGradleProjects = getProjects(settingsGradle);
 
   for (const settingsGradleProject of settingsGradleProjects) {
-    const projectRoot = settingsGradleProject.replace('/:/g', '/');
+    const projectRoot = settingsGradleProject.replace(/:/g, '/');
     const node = managedProjects.find(
       (project) => project.data.root === projectRoot
     );
