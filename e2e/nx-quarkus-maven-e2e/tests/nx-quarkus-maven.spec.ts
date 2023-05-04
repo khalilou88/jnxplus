@@ -1,28 +1,28 @@
-import { names } from '@nx/devkit';
+import {
+  checkFilesDoNotExist,
+  killPorts,
+  normalizeName,
+  patchPackageJson,
+  patchRootPackageJson,
+  promisifiedTreeKill,
+  runNxCommandUntil,
+  runNxNewCommand,
+  runPackageManagerInstallLinks,
+} from '@jnxplus/common';
+import { names, workspaceRoot } from '@nx/devkit';
 import {
   checkFilesExist,
   cleanup,
-  patchPackageJsonForPlugin,
   readFile,
   readJson,
   runNxCommandAsync,
-  runPackageManagerInstall,
   tmpProjPath,
   uniq,
   updateFile,
 } from '@nx/plugin/testing';
+import * as fs from 'fs';
 import * as fse from 'fs-extra';
 import * as path from 'path';
-import {
-  checkFilesDoNotExist,
-  getData,
-  killPorts,
-  normalizeName,
-  promisifiedTreeKill,
-  runNxCommandUntil,
-  runNxNewCommand,
-} from './e2e-utils';
-import * as fs from 'fs';
 
 describe('nx-quarkus-maven e2e', () => {
   const isCI =
@@ -30,24 +30,54 @@ describe('nx-quarkus-maven e2e', () => {
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
   const parentProjectName = uniq('quarkus-parent-project-');
+
   beforeAll(async () => {
     fse.ensureDirSync(tmpProjPath());
     cleanup();
     runNxNewCommand('', true);
 
-    patchPackageJsonForPlugin(
-      '@jnxplus/nx-quarkus-maven',
-      'dist/packages/nx-quarkus-maven'
+    const pluginName = '@jnxplus/nx-quarkus-maven';
+    const nxQuarkusMavenDistAbsolutePath = path.join(
+      workspaceRoot,
+      'dist',
+      'packages',
+      'nx-quarkus-maven'
     );
-    patchPackageJsonForPlugin(
-      'prettier-plugin-java',
-      'node_modules/prettier-plugin-java'
+
+    const commonDistAbsolutePath = path.join(
+      workspaceRoot,
+      'dist',
+      'packages',
+      'common'
     );
-    patchPackageJsonForPlugin(
-      '@prettier/plugin-xml',
-      'node_modules/@prettier/plugin-xml'
+
+    const mavenDistAbsolutePath = path.join(
+      workspaceRoot,
+      'dist',
+      'packages',
+      'maven'
     );
-    runPackageManagerInstall();
+
+    patchRootPackageJson(pluginName, nxQuarkusMavenDistAbsolutePath);
+    patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
+    patchRootPackageJson('@jnxplus/maven', mavenDistAbsolutePath);
+    patchPackageJson(
+      mavenDistAbsolutePath,
+      '@jnxplus/common',
+      commonDistAbsolutePath
+    );
+    patchPackageJson(
+      nxQuarkusMavenDistAbsolutePath,
+      '@jnxplus/common',
+      commonDistAbsolutePath
+    );
+    patchPackageJson(
+      nxQuarkusMavenDistAbsolutePath,
+      '@jnxplus/maven',
+      mavenDistAbsolutePath
+    );
+
+    runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:init --parentProjectName ${parentProjectName}`
@@ -61,10 +91,10 @@ describe('nx-quarkus-maven e2e', () => {
     }
   }, 120000);
 
-  afterAll(() => {
+  afterAll(async () => {
     // `nx reset` kills the daemon, and performs
     // some work which can help clean up e2e leftovers
-    runNxCommandAsync('reset');
+    await runNxCommandAsync('reset');
   });
 
   it('should init the workspace with @jnxplus/nx-quarkus-maven capabilities', async () => {
@@ -87,6 +117,13 @@ describe('nx-quarkus-maven e2e', () => {
         'pom.xml',
         'tools/linters/checkstyle.xml',
         'tools/linters/pmd.xml'
+      )
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-10.9.3-all.jar`,
+        `node_modules/@jnxplus/tools/linters/ktlint/ktlint`
       )
     ).not.toThrow();
   }, 120000);
@@ -131,15 +168,6 @@ describe('nx-quarkus-maven e2e', () => {
     expect(() => checkFilesExist(`apps/${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
-
-    //build-image preparation
-    await runNxCommandAsync(`build ${appName} --mvnBuildCommand="package"`);
-    if (!isWin && !isMacOs && isCI) {
-      const buildImageResult = await runNxCommandAsync(
-        `build-image ${appName}`
-      );
-      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
-    }
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
@@ -195,6 +223,20 @@ describe('nx-quarkus-maven e2e', () => {
       await killPorts(port);
     } catch (err) {
       // ignore err
+    }
+  }, 120000);
+
+  it('should build an image for java app', async () => {
+    if (!isWin && !isMacOs && isCI) {
+      const appName = uniq('quarkus-maven-app-');
+      await runNxCommandAsync(
+        `generate @jnxplus/nx-quarkus-maven:application ${appName}`
+      );
+      await runNxCommandAsync(`build ${appName} --mvnBuildCommand="package"`);
+      const buildImageResult = await runNxCommandAsync(
+        `build-image ${appName}`
+      );
+      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
   }, 120000);
 
@@ -316,15 +358,6 @@ describe('nx-quarkus-maven e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
-    //build-image preparation
-    await runNxCommandAsync(`build ${appName} --mvnBuildCommand="package"`);
-    if (!isWin && !isMacOs && isCI) {
-      const buildImageResult = await runNxCommandAsync(
-        `build-image ${appName}`
-      );
-      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
-    }
-
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
@@ -361,6 +394,20 @@ describe('nx-quarkus-maven e2e', () => {
       await killPorts(port);
     } catch (err) {
       // ignore err
+    }
+  }, 120000);
+
+  it('should build an image for kotlin app', async () => {
+    if (!isWin && !isMacOs && isCI) {
+      const appName = uniq('quarkus-maven-app-');
+      await runNxCommandAsync(
+        `generate @jnxplus/nx-quarkus-maven:application ${appName} --language kotlin`
+      );
+      await runNxCommandAsync(`build ${appName} --mvnBuildCommand="package"`);
+      const buildImageResult = await runNxCommandAsync(
+        `build-image ${appName}`
+      );
+      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
   }, 120000);
 

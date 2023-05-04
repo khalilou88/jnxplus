@@ -10,8 +10,8 @@ import {
   Tree,
 } from '@nx/devkit';
 import { join } from 'path';
-import { normalizeName } from '../../utils/command';
-import { LinterType } from '../../utils/types';
+import { normalizeName } from '@jnxplus/common';
+import { LinterType } from '@jnxplus/common';
 import { NxBootGradleLibGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootGradleLibGeneratorSchema {

@@ -1,7 +1,6 @@
+import { getProjectType, isRootProject, runCommand } from '@jnxplus/common';
+import { getExecutable, isPomPackaging } from '@jnxplus/maven';
 import { ExecutorContext, logger } from '@nx/devkit';
-import { join } from 'path';
-import { getExecutable, getProjectRoot, runCommand } from '../../utils/command';
-import { readXml } from '../../utils/xml';
 import { BuildExecutorSchema } from './schema';
 
 export default async function runExecutor(
@@ -35,27 +34,4 @@ export default async function runExecutor(
   }
 
   return runCommand(`${command} -DskipTests=true -pl :${context.projectName}`);
-}
-
-function getProjectType(context: ExecutorContext) {
-  return context.projectsConfigurations.projects[context.projectName]
-    .projectType;
-}
-
-function isPomPackaging(context: ExecutorContext): boolean {
-  const projectRoot = getProjectRoot(context);
-  const pomXmlPath = join(context.root, projectRoot, 'pom.xml');
-  const pomXmlContent = readXml(pomXmlPath);
-  const packagingXml = pomXmlContent.childNamed('packaging');
-
-  if (packagingXml === undefined) {
-    return false;
-  }
-
-  return packagingXml.val === 'pom';
-}
-
-function isRootProject(context: ExecutorContext): boolean {
-  const projectRoot = getProjectRoot(context);
-  return projectRoot === '';
 }

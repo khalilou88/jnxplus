@@ -1,11 +1,11 @@
+import { getCheckstyleVersion, getKtlintVersion } from '@jnxplus/gradle';
 import { ExecutorContext, logger } from '@nx/devkit';
+import { getCheckstylePath, getKtlintPath } from '@jnxplus/common';
 import {
-  getKtlintAbsolutePath,
   getPmdExecutable,
   getProjectSourceRoot,
-  getCheckstyleJarAbsolutePath,
   runCommand,
-} from '../../utils/command';
+} from '@jnxplus/common';
 import { LintExecutorSchema } from './schema';
 
 export default async function runExecutor(
@@ -17,8 +17,8 @@ export default async function runExecutor(
   const projectSourceRoot = getProjectSourceRoot(context);
 
   if (options.linter === 'checkstyle') {
-    const checkstyleJarAbsolutePath = await getCheckstyleJarAbsolutePath();
-    command = `java -jar ${checkstyleJarAbsolutePath} -c ./tools/linters/checkstyle.xml ${projectSourceRoot}`;
+    const checkstylePath = await getCheckstylePath(getCheckstyleVersion);
+    command = `java -jar ${checkstylePath} -c ./tools/linters/checkstyle.xml ${projectSourceRoot}`;
   }
 
   if (options.linter === 'pmd') {
@@ -26,8 +26,8 @@ export default async function runExecutor(
   }
 
   if (options.linter === 'ktlint') {
-    const ktlintAbsolutePath = await getKtlintAbsolutePath();
-    command = `java --add-opens java.base/java.lang=ALL-UNNAMED -jar ${ktlintAbsolutePath} "${projectSourceRoot}/**/*.kt"`;
+    const ktlintPath = await getKtlintPath(getKtlintVersion);
+    command = `java --add-opens java.base/java.lang=ALL-UNNAMED -jar ${ktlintPath} "${projectSourceRoot}/**/*.kt"`;
   }
 
   return runCommand(command);

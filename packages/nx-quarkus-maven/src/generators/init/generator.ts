@@ -12,7 +12,7 @@ import {
   kotlinVersion,
   ktlintVersion,
   quarkusVersion,
-} from '../../utils/versions';
+} from '@jnxplus/common';
 import { NxQuarkusMavenGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxQuarkusMavenGeneratorSchema {

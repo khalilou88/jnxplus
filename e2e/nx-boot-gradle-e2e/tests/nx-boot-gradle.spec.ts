@@ -1,28 +1,29 @@
-import { names } from '@nx/devkit';
+import { names, workspaceRoot } from '@nx/devkit';
 import {
   checkFilesExist,
   cleanup,
-  patchPackageJsonForPlugin,
   readFile,
   readJson,
   runNxCommandAsync,
-  runPackageManagerInstall,
   tmpProjPath,
   uniq,
   updateFile,
 } from '@nx/plugin/testing';
+import * as fs from 'fs';
 import * as fse from 'fs-extra';
 import * as path from 'path';
-import * as fs from 'fs';
 
 import {
+  getData,
   killPorts,
+  normalizeName,
+  patchPackageJson,
+  patchRootPackageJson,
   promisifiedTreeKill,
   runNxCommandUntil,
   runNxNewCommand,
-  normalizeName,
-  getData,
-} from './e2e-utils';
+  runPackageManagerInstallLinks,
+} from '@jnxplus/common';
 
 describe('nx-boot-gradle e2e', () => {
   const isCI =
@@ -30,20 +31,56 @@ describe('nx-boot-gradle e2e', () => {
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
   const rootProjectName = uniq('boot-root-project-');
+
   beforeAll(async () => {
     fse.ensureDirSync(tmpProjPath());
     cleanup();
     runNxNewCommand('', true);
 
-    patchPackageJsonForPlugin(
-      '@jnxplus/nx-boot-gradle',
-      'dist/packages/nx-boot-gradle'
+    const pluginName = '@jnxplus/nx-boot-gradle';
+    const nxBootGradleDistAbsolutePath = path.join(
+      workspaceRoot,
+      'dist',
+      'packages',
+      'nx-boot-gradle'
     );
-    patchPackageJsonForPlugin(
-      'prettier-plugin-java',
-      'node_modules/prettier-plugin-java'
+
+    const commonDistAbsolutePath = path.join(
+      workspaceRoot,
+      'dist',
+      'packages',
+      'common'
     );
-    runPackageManagerInstall();
+
+    const gradleDistAbsolutePath = path.join(
+      workspaceRoot,
+      'dist',
+      'packages',
+      'gradle'
+    );
+
+    patchRootPackageJson(pluginName, nxBootGradleDistAbsolutePath);
+    patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
+    patchRootPackageJson('@jnxplus/gradle', gradleDistAbsolutePath);
+
+    patchPackageJson(
+      gradleDistAbsolutePath,
+      '@jnxplus/common',
+      commonDistAbsolutePath
+    );
+
+    patchPackageJson(
+      nxBootGradleDistAbsolutePath,
+      '@jnxplus/common',
+      commonDistAbsolutePath
+    );
+    patchPackageJson(
+      nxBootGradleDistAbsolutePath,
+      '@jnxplus/gradle',
+      gradleDistAbsolutePath
+    );
+
+    runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:init --rootProjectName ${rootProjectName}`
@@ -57,10 +94,10 @@ describe('nx-boot-gradle e2e', () => {
     }
   }, 120000);
 
-  afterAll(() => {
+  afterAll(async () => {
     // `nx reset` kills the daemon, and performs
     // some work which can help clean up e2e leftovers
-    runNxCommandAsync('reset');
+    await runNxCommandAsync('reset');
   });
 
   it('should init the workspace with @jnxplus/nx-boot-gradle capabilities', async () => {

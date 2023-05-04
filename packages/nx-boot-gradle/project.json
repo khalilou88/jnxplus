@@ -9,9 +9,11 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/nx-boot-gradle",
-        "tsConfig": "packages/nx-boot-gradle/tsconfig.lib.json",
-        "packageJson": "packages/nx-boot-gradle/package.json",
         "main": "packages/nx-boot-gradle/src/index.ts",
+        "packageJson": "packages/nx-boot-gradle/package.json",
+        "tsConfig": "packages/nx-boot-gradle/tsconfig.lib.json",
+        "updateBuildableProjectDepsInPackageJson": true,
+        "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": [
           "packages/nx-boot-gradle/*.md",
           {

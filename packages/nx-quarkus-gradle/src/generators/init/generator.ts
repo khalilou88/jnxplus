@@ -12,7 +12,7 @@ import {
   kotlinPluginAllopenVersion,
   checkstyleVersion,
   ktlintVersion,
-} from '../../utils/versions';
+} from '@jnxplus/common';
 import { NxQuarkusGradleGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxQuarkusGradleGeneratorSchema {

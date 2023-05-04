@@ -1,6 +1,7 @@
 import { ExecutorContext, logger } from '@nx/devkit';
-import { getExecutable, getProjectPath, runCommand } from '../../utils/command';
+import { getExecutable, getProjectPath } from '@jnxplus/gradle';
 import { RunTaskExecutorSchema } from './schema';
+import { runCommand } from '@jnxplus/common';
 
 export default async function runExecutor(
   options: RunTaskExecutorSchema,

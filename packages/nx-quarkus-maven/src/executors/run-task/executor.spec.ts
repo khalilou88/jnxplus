@@ -1,8 +1,8 @@
 import { ExecutorContext } from '@nx/devkit';
-import { runCommand } from '../../utils/command';
+import { runCommand } from '@jnxplus/common';
 import executor from './executor';
 import { RunTaskExecutorSchema } from './schema';
-jest.mock('../../utils/command');
+jest.mock('@jnxplus/common');
 
 const options: RunTaskExecutorSchema = {
   task: 'clean install -DskipTests=true',

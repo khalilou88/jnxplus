@@ -1,9 +1,6 @@
 import { formatFiles, generateFiles, offsetFromRoot, Tree } from '@nx/devkit';
 import * as path from 'path';
-import {
-  kotlinVersion,
-  springBootStarterParentVersion,
-} from '../../utils/versions';
+import { kotlinVersion, springBootStarterParentVersion } from '@jnxplus/common';
 import { NxBootMavenGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootMavenGeneratorSchema {

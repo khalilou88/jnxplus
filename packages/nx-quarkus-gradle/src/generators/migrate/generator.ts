@@ -1,6 +1,6 @@
 import { formatFiles, generateFiles, offsetFromRoot, Tree } from '@nx/devkit';
 import * as path from 'path';
-import { kotlinJvmVersion } from '../../utils/versions';
+import { kotlinJvmVersion } from '@jnxplus/common';
 import { NxQuarkusGradleGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxQuarkusGradleGeneratorSchema {

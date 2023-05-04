@@ -24,9 +24,11 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/nx-boot-maven",
-        "tsConfig": "packages/nx-boot-maven/tsconfig.lib.json",
-        "packageJson": "packages/nx-boot-maven/package.json",
         "main": "packages/nx-boot-maven/src/index.ts",
+        "packageJson": "packages/nx-boot-maven/package.json",
+        "tsConfig": "packages/nx-boot-maven/tsconfig.lib.json",
+        "updateBuildableProjectDepsInPackageJson": true,
+        "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": [
           "packages/nx-boot-maven/*.md",
           {

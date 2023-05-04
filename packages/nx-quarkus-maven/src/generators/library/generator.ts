@@ -11,9 +11,9 @@ import {
 } from '@nx/devkit';
 import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
-import { normalizeName } from '../../utils/command';
-import { LinterType } from '../../utils/types';
-import { readXmlTree, xmlToString } from '../../utils/xml';
+import { normalizeName } from '@jnxplus/common';
+import { LinterType } from '@jnxplus/common';
+import { readXmlTree, xmlToString } from '@jnxplus/common';
 import { NxQuarkusMavenLibGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxQuarkusMavenLibGeneratorSchema {

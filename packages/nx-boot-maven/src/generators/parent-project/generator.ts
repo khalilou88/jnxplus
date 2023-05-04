@@ -10,8 +10,8 @@ import {
 } from '@nx/devkit';
 import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
-import { normalizeName } from '../../utils/command';
-import { readXmlTree, xmlToString } from '../../utils/xml';
+import { normalizeName } from '@jnxplus/common';
+import { readXmlTree, xmlToString } from '@jnxplus/common';
 import { NxBootMavenParentProjectGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootMavenParentProjectGeneratorSchema {

@@ -1,9 +1,10 @@
-import { ExecutorContext, logger } from '@nx/devkit';
 import {
-  getKtlintAbsolutePath,
+  getKtlintPath,
   getProjectSourceRoot,
   runCommand,
-} from '../../utils/command';
+} from '@jnxplus/common';
+import { getKtlintVersion } from '@jnxplus/gradle';
+import { ExecutorContext, logger } from '@nx/devkit';
 import { KotlinFormatExecutorSchema } from './schema';
 
 export default async function runExecutor(
@@ -13,9 +14,9 @@ export default async function runExecutor(
   logger.info(`Executor ran for Kotlin Format: ${JSON.stringify(options)}`);
   const projectSourceRoot = getProjectSourceRoot(context);
 
-  const ktlintAbsolutePath = await getKtlintAbsolutePath();
+  const ktlintPath = await getKtlintPath(getKtlintVersion);
 
-  const command = `java --add-opens java.base/java.lang=ALL-UNNAMED -jar ${ktlintAbsolutePath} -F "${projectSourceRoot}/**/*.kt"`;
+  const command = `java --add-opens java.base/java.lang=ALL-UNNAMED -jar ${ktlintPath} -F "${projectSourceRoot}/**/*.kt"`;
 
   return runCommand(command);
 }
