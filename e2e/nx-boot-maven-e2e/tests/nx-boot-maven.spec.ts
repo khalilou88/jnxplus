@@ -31,6 +31,7 @@ describe('nx-boot-maven e2e', () => {
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
   const parentProjectName = uniq('boot-parent-project-');
+
   beforeAll(async () => {
     fse.ensureDirSync(tmpProjPath());
     cleanup();
@@ -91,12 +92,12 @@ describe('nx-boot-maven e2e', () => {
       const updatedFileContent = fileContent.replace('/tmp', '');
       fs.writeFileSync(filePath, updatedFileContent);
     }
-  }, 120000);
+  });
 
-  afterAll(() => {
+  afterAll(async () => {
     // `nx reset` kills the daemon, and performs
     // some work which can help clean up e2e leftovers
-    runNxCommandAsync('reset');
+    await runNxCommandAsync('reset');
   });
 
   it('should init the workspace with @jnxplus/nx-boot-maven capabilities', async () => {

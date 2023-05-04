@@ -33,6 +33,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
   const rootProjectName = uniq('quarkus-root-project-');
+
   beforeAll(async () => {
     fse.ensureDirSync(tmpProjPath());
     cleanup();
@@ -95,12 +96,12 @@ describe('nx-quarkus-gradle kt e2e', () => {
       const updatedFileContent = fileContent.replace('/tmp', '');
       fs.writeFileSync(filePath, updatedFileContent);
     }
-  }, 120000);
+  });
 
-  afterAll(() => {
+  afterAll(async () => {
     // `nx reset` kills the daemon, and performs
     // some work which can help clean up e2e leftovers
-    runNxCommandAsync('reset');
+    await runNxCommandAsync('reset');
   });
 
   it('should use dsl option when initiating the workspace', async () => {
