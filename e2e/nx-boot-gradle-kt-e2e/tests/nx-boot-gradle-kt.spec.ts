@@ -120,6 +120,13 @@ describe('nx-boot-gradle kt e2e', () => {
         'tools/linters/checkstyle.xml'
       )
     ).not.toThrow();
+
+    expect(() =>
+      checkFilesExist(
+        `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-10.9.3-all.jar`,
+        `node_modules/@jnxplus/tools/linters/ktlint/ktlint`
+      )
+    ).not.toThrow();
   }, 120000);
 
   it('should migrate', async () => {

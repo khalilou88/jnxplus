@@ -25,6 +25,9 @@
     "gradle",
     "gradle multi-project build"
   ],
+  "scripts": {
+    "postinstall": "node src/scripts/install-linters.js"
+  },
   "dependencies": {
     "prettier-plugin-java": "^2.1.0"
   },
