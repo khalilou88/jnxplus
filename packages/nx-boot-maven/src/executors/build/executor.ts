@@ -1,4 +1,4 @@
-import { isRootProject, runCommand } from '@jnxplus/common';
+import { getProjectType, isRootProject, runCommand } from '@jnxplus/common';
 import { getExecutable, isPomPackaging } from '@jnxplus/maven';
 import { ExecutorContext, logger } from '@nx/devkit';
 import { BuildExecutorSchema } from './schema';
@@ -34,9 +34,4 @@ export default async function runExecutor(
   }
 
   return runCommand(`${command} -DskipTests=true -pl :${context.projectName}`);
-}
-
-function getProjectType(context: ExecutorContext) {
-  return context.projectsConfigurations.projects[context.projectName]
-    .projectType;
 }
