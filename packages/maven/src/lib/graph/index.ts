@@ -156,7 +156,7 @@ function getModules(
 
 function getProjectType(projectRoot: string): 'app' | 'e2e' | 'lib' {
   if (projectRoot === '') {
-    return 'app';
+    return 'lib';
   }
 
   const nxJson = JSON.parse(

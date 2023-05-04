@@ -1,4 +1,10 @@
-import { ProjectGraphProjectNode, workspaceRoot } from '@nx/devkit';
+import {
+  Hasher,
+  ProjectGraphBuilder,
+  ProjectGraphProjectNode,
+  workspaceRoot,
+} from '@nx/devkit';
+import * as fs from 'fs';
 import { fileExists } from 'nx/src/utils/fileutils';
 import { join } from 'path';
 
@@ -7,7 +13,7 @@ type ProjectGraphProjectNodeExtended = ProjectGraphProjectNode & {
   buildFile: BuildFileType;
 };
 
-export function getManagedProjects(
+function getProjects(
   nodes: Record<string, ProjectGraphProjectNode>
 ): ProjectGraphProjectNodeExtended[] {
   return Object.entries(nodes)
@@ -64,7 +70,7 @@ function isAppOrLibProject(
   );
 }
 
-export function getParentProjectName(settingsGradle: string) {
+function getParentProjectName(settingsGradle: string) {
   const regexp = /rootProject.name\s*=\s*['"](.*)['"]/g;
   const matches = (settingsGradle.match(regexp) || []).map((e) =>
     e.replace(regexp, '$1')
@@ -72,29 +78,180 @@ export function getParentProjectName(settingsGradle: string) {
   return matches[0];
 }
 
-export function getProjects(settingsGradle: string) {
+function getSubProjects(settingsGradle: string) {
   const regexp = /include\s*\(['"](.*)['"]\)/g;
   return (settingsGradle.match(regexp) || []).map((e) =>
     e.replace(regexp, '$1')
   );
 }
 
-export function getDependencies(buildGradleContents: string) {
+function getDependencies(buildGradleContent: string) {
   const regexp = /project\s*\(['"](.*)['"]\)/g;
-  return (buildGradleContents.match(regexp) || []).map((e) =>
+  return (buildGradleContent.match(regexp) || []).map((e) =>
     e.replace(regexp, '$1')
   );
 }
 
-export function getDependencyProjectName(
-  gradleProjectPath: string,
-  managedProjects: ProjectGraphProjectNode[]
+function getProject(
+  projectPath: string,
+  projects: ProjectGraphProjectNodeExtended[]
 ) {
-  const [, ...folders] = gradleProjectPath.split(':');
-  const root = folders.join('/');
-  const node = managedProjects.find((project) => project.data.root === root);
+  const root = projectPath.replace(/:/g, '/');
+  return projects.find((p) => p.data.root === root);
+}
 
-  return (
-    node?.name || gradleProjectPath.split(':libs:').pop()?.replace(/:/g, '-')
-  );
+export function addProjects(
+  builder: ProjectGraphBuilder,
+  hasher: Hasher,
+  pluginName: string,
+  projectRoot: string
+) {
+  const settingsGradlePath = join(workspaceRoot, 'settings.gradle');
+  const settingsGradleKtsPath = join(workspaceRoot, 'settings.gradle.kts');
+
+  if (fileExists(settingsGradlePath)) {
+    const settingsGradle = fs.readFileSync(settingsGradlePath, 'utf-8');
+    const parentProjectName = getParentProjectName(settingsGradle);
+    builder.addNode({
+      name: parentProjectName,
+      type: 'lib',
+      data: {
+        root: '',
+        files: [
+          {
+            file: 'build.gradle',
+            hash: hasher.hashFile('build.gradle'),
+          },
+          {
+            file: 'settings.gradle',
+            hash: hasher.hashFile('settings.gradle'),
+          },
+          {
+            file: 'gradle.properties',
+            hash: hasher.hashFile('gradle.properties'),
+          },
+        ],
+      },
+    });
+  }
+
+  if (fileExists(settingsGradleKtsPath)) {
+    const settingsGradle = fs.readFileSync(settingsGradleKtsPath, 'utf-8');
+    const parentProjectName = getParentProjectName(settingsGradle);
+    builder.addNode({
+      name: parentProjectName,
+      type: 'lib',
+      data: {
+        root: '',
+        files: [
+          {
+            file: 'build.gradle.kts',
+            hash: hasher.hashFile('build.gradle.kts'),
+          },
+          {
+            file: 'settings.gradle.kts',
+            hash: hasher.hashFile('settings.gradle.kts'),
+          },
+          {
+            file: 'gradle.properties',
+            hash: hasher.hashFile('gradle.properties'),
+          },
+        ],
+      },
+    });
+  }
+}
+
+export function addDependencies(builder: ProjectGraphBuilder) {
+  const projects = getProjects(builder.graph.nodes);
+
+  for (const project of projects) {
+    let buildGradleContent = '';
+    let settingsGradleContent = '';
+
+    if (project.buildFile === 'groovy') {
+      const buildGradleFile = join(
+        workspaceRoot,
+        project.data.root,
+        'build.gradle'
+      );
+
+      const settingsGradleFile = join(
+        workspaceRoot,
+        project.data.root,
+        'settings.gradle'
+      );
+
+      if (fs.existsSync(settingsGradleFile)) {
+        settingsGradleContent = fs.readFileSync(settingsGradleFile, 'utf-8');
+      }
+      const subProjects = getSubProjects(settingsGradleContent);
+      for (const subProjectPath of subProjects) {
+        const subProject = getProject(subProjectPath, projects);
+        builder.addStaticDependency(
+          subProject?.name || '',
+          project.name,
+          join(
+            subProject?.data?.root || '',
+            subProject?.buildFile === 'groovy'
+              ? 'build.gradle'
+              : 'build.gradle.kts'
+          ).replace(/\\/g, '/')
+        );
+      }
+
+      buildGradleContent = fs.readFileSync(buildGradleFile, 'utf-8');
+      const dependencies = getDependencies(buildGradleContent);
+      for (const dependencyPath of dependencies) {
+        const dependency = getProject(dependencyPath, projects);
+        builder.addStaticDependency(
+          project.name,
+          dependency?.name || '',
+          join(project.data.root, 'build.gradle').replace(/\\/g, '/')
+        );
+      }
+    }
+
+    if (project.buildFile === 'kotlin') {
+      const buildGradleKtsFile = join(
+        workspaceRoot,
+        project.data.root,
+        'build.gradle.kts'
+      );
+
+      const settingsGradleKtsFile = join(
+        workspaceRoot,
+        project.data.root,
+        'settings.gradle.kts'
+      );
+
+      if (fs.existsSync(settingsGradleKtsFile)) {
+        settingsGradleContent = fs.readFileSync(settingsGradleKtsFile, 'utf-8');
+      }
+      const subProjects = getSubProjects(settingsGradleContent);
+      for (const subProjectPath of subProjects) {
+        const subProject = getProject(subProjectPath, projects);
+        builder.addStaticDependency(
+          subProject?.name || '',
+          project.name,
+          join(
+            subProject?.buildFile === 'groovy'
+              ? 'build.gradle'
+              : 'build.gradle.kts'
+          ).replace(/\\/g, '/')
+        );
+      }
+
+      buildGradleContent = fs.readFileSync(buildGradleKtsFile, 'utf-8');
+      const dependencies = getDependencies(buildGradleContent);
+      for (const dependencyPath of dependencies) {
+        const dependency = getProject(dependencyPath, projects);
+        builder.addStaticDependency(
+          project.name,
+          dependency?.name || '',
+          join(project.data.root, 'build.gradle.kts').replace(/\\/g, '/')
+        );
+      }
+    }
+  }
 }

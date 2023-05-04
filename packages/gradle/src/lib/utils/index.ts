@@ -1,5 +1,5 @@
 import { checkstyleVersion, ktlintVersion } from '@jnxplus/common';
-import { ExecutorContext, workspaceRoot } from '@nx/devkit';
+import { ExecutorContext } from '@nx/devkit';
 import * as fs from 'fs';
 import * as path from 'path';
 
