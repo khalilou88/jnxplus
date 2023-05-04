@@ -39,12 +39,12 @@ describe('nx-quarkus-gradle e2e', () => {
     cleanup();
     runNxNewCommand('', true);
 
-    const pluginName = 'nx-quarkus-gradle';
+    const pluginName = '@jnxplus/nx-quarkus-gradle';
     const nxQuarkusGradleDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
-      pluginName
+      'nx-quarkus-gradle'
     );
 
     const commonDistAbsolutePath = path.join(

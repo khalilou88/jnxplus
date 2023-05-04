@@ -38,12 +38,12 @@ describe('nx-quarkus-maven e2e', () => {
     cleanup();
     runNxNewCommand('', true);
 
-    const pluginName = 'nx-quarkus-maven';
+    const pluginName = '@jnxplus/nx-quarkus-maven';
     const nxQuarkusMavenDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
-      pluginName
+      'nx-quarkus-maven'
     );
 
     const commonDistAbsolutePath = path.join(

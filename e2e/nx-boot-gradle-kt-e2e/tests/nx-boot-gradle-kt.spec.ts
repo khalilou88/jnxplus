@@ -38,12 +38,12 @@ describe('nx-boot-gradle kt e2e', () => {
     cleanup();
     runNxNewCommand('', true);
 
-    const pluginName = 'nx-boot-gradle';
+    const pluginName = '@jnxplus/nx-boot-gradle';
     const nxBootGradleDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
-      pluginName
+      'nx-boot-gradle'
     );
 
     const commonDistAbsolutePath = path.join(

@@ -37,12 +37,12 @@ describe('nx-boot-maven e2e', () => {
     cleanup();
     runNxNewCommand('', true);
 
-    const pluginName = 'nx-boot-maven';
+    const pluginName = '@jnxplus/nx-boot-maven';
     const nxBootMavenDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
-      pluginName
+      'nx-boot-maven'
     );
 
     const commonDistAbsolutePath = path.join(
