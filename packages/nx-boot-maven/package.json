@@ -29,6 +29,9 @@
     "./generators": "./generators.js",
     "./package.json": "./package.json"
   },
+  "scripts": {
+    "postinstall": "node src/scripts/install-linters.js"
+  },
   "dependencies": {
     "prettier-plugin-java": "^2.1.0",
     "@prettier/plugin-xml": "^2.2.0",

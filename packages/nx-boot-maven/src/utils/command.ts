@@ -65,13 +65,16 @@ export async function downloadFile(
   });
 }
 
-export async function getKtlintAbsolutePath() {
-  const parentPomXmlPath = path.join(workspaceRoot, 'pom.xml');
-  const parentPomXmlContent = readXml(parentPomXmlPath);
+export async function getKtlintAbsolutePath(wRoot = workspaceRoot) {
+  const parentPomXmlPath = path.join(wRoot, 'pom.xml');
 
-  const ktlintVersionXml = parentPomXmlContent
-    .childNamed('properties')
-    .childNamed('ktlint.version');
+  let ktlintVersionXml = undefined;
+  if (fs.existsSync(parentPomXmlPath)) {
+    const parentPomXmlContent = readXml(parentPomXmlPath);
+    ktlintVersionXml = parentPomXmlContent
+      .childNamed('properties')
+      .childNamed('ktlint.version');
+  }
 
   const version =
     ktlintVersionXml === undefined ? ktlintVersion : ktlintVersionXml.val;
@@ -79,7 +82,7 @@ export async function getKtlintAbsolutePath() {
   const downloadUrl = `https://github.com/pinterest/ktlint/releases/download/${version}/ktlint`;
 
   const outputDirectory = path.join(
-    workspaceRoot,
+    wRoot,
     'node_modules',
     '@jnxplus',
     'tools',
@@ -92,19 +95,25 @@ export async function getKtlintAbsolutePath() {
   }
 
   const ktlintAbsolutePath = path.join(outputDirectory, 'ktlint');
-  if(!fs.existsSync(ktlintAbsolutePath)) {
+  if (!fs.existsSync(ktlintAbsolutePath)) {
+    if (process.env.NX_VERBOSE_LOGGING === 'true') {
+      logger.debug('Download Ktlint');
+    }
     await downloadFile(downloadUrl, ktlintAbsolutePath);
   }
   return ktlintAbsolutePath;
 }
 
-export async function getCheckstyleJarAbsolutePath() {
-  const parentPomXmlPath = path.join(workspaceRoot, 'pom.xml');
-  const parentPomXmlContent = readXml(parentPomXmlPath);
+export async function getCheckstyleJarAbsolutePath(wRoot = workspaceRoot) {
+  const parentPomXmlPath = path.join(wRoot, 'pom.xml');
 
-  const checkstyleVersionXml = parentPomXmlContent
-    .childNamed('properties')
-    .childNamed('checkstyle.version');
+  let checkstyleVersionXml = undefined;
+  if (fs.existsSync(parentPomXmlPath)) {
+    const parentPomXmlContent = readXml(parentPomXmlPath);
+    checkstyleVersionXml = parentPomXmlContent
+      .childNamed('properties')
+      .childNamed('checkstyle.version');
+  }
 
   const version =
     checkstyleVersionXml === undefined
@@ -115,7 +124,7 @@ export async function getCheckstyleJarAbsolutePath() {
   const downloadUrl = `https://github.com/checkstyle/checkstyle/releases/download/checkstyle-${version}/${checkstyleJarName}`;
 
   const outputDirectory = path.join(
-    workspaceRoot,
+    wRoot,
     'node_modules',
     '@jnxplus',
     'tools',
@@ -132,7 +141,10 @@ export async function getCheckstyleJarAbsolutePath() {
     checkstyleJarName
   );
 
-  if(!fs.existsSync(checkstyleJarAbsolutePath)) {
+  if (!fs.existsSync(checkstyleJarAbsolutePath)) {
+    if (process.env.NX_VERBOSE_LOGGING === 'true') {
+      logger.debug('Download Checkstyle');
+    }
     await downloadFile(downloadUrl, checkstyleJarAbsolutePath);
   }
   return checkstyleJarAbsolutePath;
