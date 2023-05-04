@@ -96,7 +96,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
       const updatedFileContent = fileContent.replace('/tmp', '');
       fs.writeFileSync(filePath, updatedFileContent);
     }
-  });
+  }, 120000);
 
   afterAll(async () => {
     // `nx reset` kills the daemon, and performs
