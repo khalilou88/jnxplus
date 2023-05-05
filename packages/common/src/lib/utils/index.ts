@@ -1,18 +1,44 @@
 import { ExecutorContext, workspaceRoot } from '@nx/devkit';
 import axios from 'axios';
 import * as fs from 'fs';
+import * as path from 'path';
 import * as stream from 'stream';
 import { promisify } from 'util';
-import * as path from 'path';
+
+export function getProject(context: ExecutorContext) {
+  if (!context.projectName) {
+    throw new Error('No project name found in context');
+  }
+
+  const project =
+    context?.projectsConfigurations?.projects[context.projectName];
+
+  if (!project) {
+    throw new Error(
+      `No project found in project graph for ${context.projectName}`
+    );
+  }
+  return project;
+}
+
+export function getProjectRoot(context: ExecutorContext) {
+  const project = getProject(context);
+  return project.root;
+}
+
+export function isRootProject(context: ExecutorContext): boolean {
+  const projectRoot = getProjectRoot(context);
+  return projectRoot === '';
+}
 
 export function getProjectType(context: ExecutorContext) {
-  return context.projectsConfigurations?.projects[context.projectName || '']
-    .projectType;
+  const project = getProject(context);
+  return project.projectType;
 }
 
 export function getProjectSourceRoot(context: ExecutorContext) {
-  return context.projectsConfigurations?.projects[context.projectName || '']
-    .sourceRoot;
+  const project = getProject(context);
+  return project.sourceRoot;
 }
 
 export function normalizeName(name: string) {
