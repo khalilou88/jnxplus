@@ -6,9 +6,7 @@ This plugin adds Quarkus and Maven multi-module capabilities to Nx workspace.
 
 Here is a quick overview of the plugin, to know more, please visit [the documentation](https://khalilou88.github.io/jnxplus/).
 
-## Nx supported versions
-
-The supported versions are:
+## Supported versions
 
 | @jnxplus/nx-quarkus-maven | Nx     | Quarkus      |
 | ------------------------- | ------ | ------------ |

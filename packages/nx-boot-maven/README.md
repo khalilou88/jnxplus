@@ -6,18 +6,12 @@ This plugin adds Spring Boot and Maven multi-module capabilities to Nx workspace
 
 Here is a quick overview of the plugin, to know more, please visit [the documentation](https://khalilou88.github.io/jnxplus/).
 
-## Nx supported versions
+## Supported versions
 
-The supported versions are:
-
-| @jnxplus/nx-boot-maven    | Nx       | Spring Boot |
-| ------------------------- | -------- | ----------- |
-| 5.x.x                     | 15.x.x   | 3.x.x       |
-| 4.x.x (not yet published) | >=16.x.x | 2.x.x       |
-| 3.x.x                     | 15.x.x   | 2.x.x       |
-| 2.x.x                     | 14.x.x   | 2.x.x       |
-| 1.x.x                     | 13.x.x   | 2.x.x       |
-| 0.x.x                     | 12.x.x   | 2.x.x       |
+| @jnxplus/nx-boot-maven | Nx     | Spring Boot |
+| ---------------------- | ------ | ----------- |
+| 6.x.x                  | 16.x.x | 3.x.x       |
+| 5.x.x                  | 15.x.x | 3.x.x       |
 
 ## Getting Started
 
