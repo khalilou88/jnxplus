@@ -11,7 +11,7 @@ import {
 import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
 import { normalizeName } from '@jnxplus/common';
-import { readXmlTree, xmlToString } from '@jnxplus/common';
+import { readXmlTree, xmlToString } from '@jnxplus/maven';
 import { NxQuarkusMavenParentProjectGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxQuarkusMavenParentProjectGeneratorSchema {
