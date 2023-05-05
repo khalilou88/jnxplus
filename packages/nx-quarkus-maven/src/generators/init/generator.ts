@@ -11,7 +11,7 @@ import {
   checkstyleVersion,
   kotlinVersion,
   ktlintVersion,
-  quarkusVersion,
+  quarkusPlatformVersion,
 } from '@jnxplus/common';
 import { NxQuarkusMavenGeneratorSchema } from './schema';
 
@@ -33,7 +33,7 @@ function normalizeOptions(
     ...options,
     dot,
     kotlinVersion,
-    quarkusVersion,
+    quarkusVersion: quarkusPlatformVersion,
     checkstyleVersion,
     ktlintVersion,
   };

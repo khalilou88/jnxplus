@@ -11,7 +11,7 @@ import {
   checkstyleVersion,
   kotlinVersion,
   ktlintVersion,
-  springBootStarterParentVersion,
+  springBootVersion,
 } from '@jnxplus/common';
 import { NxBootMavenGeneratorSchema } from './schema';
 
@@ -33,7 +33,7 @@ function normalizeOptions(
     ...options,
     dot,
     kotlinVersion,
-    springBootStarterParentVersion,
+    springBootStarterParentVersion: springBootVersion,
     checkstyleVersion,
     ktlintVersion,
   };
