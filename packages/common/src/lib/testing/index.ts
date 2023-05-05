@@ -1,17 +1,17 @@
-// import { expect } from '@jest/globals';
 import {
   getPackageManagerCommand,
   readJsonFile,
   writeJsonFile,
 } from '@nx/devkit';
 import { exists, tmpProjPath } from '@nx/plugin/testing';
+import axios from 'axios';
 import { ChildProcess, exec, execSync } from 'child_process';
 import * as http from 'http';
 import * as path from 'path';
 import { check as portCheck } from 'tcp-port-used';
 import { promisify } from 'util';
-import chalk = require('chalk');
-import treeKill = require('tree-kill');
+import * as chalk from 'chalk';
+import * as treeKill from 'tree-kill';
 import kill = require('kill-port');
 
 export function runNxNewCommand(args?: string, silent?: boolean) {
@@ -156,6 +156,10 @@ export function checkFilesDoNotExist(...expectedFiles: string[]) {
     }
   });
 }
+
+export const getData2 = async (port = 8080, path = '') => {
+  return await axios.get(`http://localhost:${port}${path}`);
+};
 
 export function getData(port = 8080, path = ''): Promise<any> {
   return new Promise((resolve) => {
