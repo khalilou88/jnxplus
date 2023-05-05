@@ -11,7 +11,7 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run build nx-common
+        run: npm run build common
 
       - name: Setup .npmrc file to publish to npm
         uses: actions/setup-node@v3
@@ -20,6 +20,6 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Publish
-        run: npm publish dist/packages/nx-common
+        run: npm publish dist/packages/common
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
