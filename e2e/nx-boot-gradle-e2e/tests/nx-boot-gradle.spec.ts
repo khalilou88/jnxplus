@@ -14,6 +14,7 @@ import * as fse from 'fs-extra';
 import * as path from 'path';
 
 import {
+  checkstyleVersion,
   getData,
   killPorts,
   normalizeName,
@@ -123,7 +124,7 @@ describe('nx-boot-gradle e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-10.9.3-all.jar`,
+        `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-${checkstyleVersion}-all.jar`,
         `node_modules/@jnxplus/tools/linters/ktlint/ktlint`
       )
     ).not.toThrow();

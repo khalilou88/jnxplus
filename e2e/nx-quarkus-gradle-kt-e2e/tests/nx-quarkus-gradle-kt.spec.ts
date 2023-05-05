@@ -15,6 +15,7 @@ import * as path from 'path';
 
 import {
   checkFilesDoNotExist,
+  checkstyleVersion,
   killPorts,
   normalizeName,
   patchPackageJson,
@@ -125,7 +126,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-10.9.3-all.jar`,
+        `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-${checkstyleVersion}-all.jar`,
         `node_modules/@jnxplus/tools/linters/ktlint/ktlint`
       )
     ).not.toThrow();
@@ -179,13 +180,6 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(() => checkFilesExist(`apps/${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
-
-    if (!isWin && !isMacOs && isCI) {
-      const buildImageResult = await runNxCommandAsync(
-        `build-image ${appName}`
-      );
-      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
-    }
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
@@ -241,6 +235,21 @@ describe('nx-quarkus-gradle kt e2e', () => {
       await killPorts(port);
     } catch (err) {
       // ignore err
+    }
+  }, 120000);
+
+  it('should build-image a java application', async () => {
+    if (!isWin && !isMacOs && isCI) {
+      const appName = uniq('quarkus-gradle-app-');
+
+      await runNxCommandAsync(
+        `generate @jnxplus/nx-quarkus-gradle:application ${appName}`
+      );
+
+      const buildImageResult = await runNxCommandAsync(
+        `build-image ${appName}`
+      );
+      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
   }, 120000);
 
@@ -440,13 +449,6 @@ describe('nx-quarkus-gradle kt e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
 
-    if (!isWin && !isMacOs && isCI) {
-      const buildImageResult = await runNxCommandAsync(
-        `build-image ${appName}`
-      );
-      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
-    }
-
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
@@ -483,6 +485,20 @@ describe('nx-quarkus-gradle kt e2e', () => {
       await killPorts(port);
     } catch (err) {
       // ignore err
+    }
+  }, 120000);
+
+  it('should build-image a kotlin application', async () => {
+    if (!isWin && !isMacOs && isCI) {
+      const appName = uniq('quarkus-gradle-app-');
+
+      await runNxCommandAsync(
+        `generate @jnxplus/nx-quarkus-gradle:application ${appName} --language kotlin`
+      );
+      const buildImageResult = await runNxCommandAsync(
+        `build-image ${appName}`
+      );
+      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
   }, 120000);
 

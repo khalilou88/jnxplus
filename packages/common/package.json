@@ -2,6 +2,22 @@
   "name": "@jnxplus/common",
   "version": "0.0.1",
   "type": "commonjs",
+  "main": "src/index.js",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "author": "Khalil LAGRIDA",
+  "homepage": "https://github.com/khalilou88/jnxplus/blob/main/packages/common/README.md",
+  "bugs": {
+    "url": "https://github.com/khalilou88/jnxplus/issues"
+  },
+  "keywords": [
+    "nx",
+    "nx-workspace",
+    "nx-plugin"
+  ],
   "peerDependencies": {
     "@nx/devkit": ">=16.0.0"
   }
