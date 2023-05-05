@@ -248,6 +248,9 @@ describe('nx-quarkus-gradle kt e2e', () => {
         `generate @jnxplus/nx-quarkus-gradle:application ${appName}`
       );
 
+      const buildResult = await runNxCommandAsync(`build ${appName}`);
+      expect(buildResult.stdout).toContain('Executor ran for Build');
+
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
       );
@@ -499,6 +502,10 @@ describe('nx-quarkus-gradle kt e2e', () => {
       await runNxCommandAsync(
         `generate @jnxplus/nx-quarkus-gradle:application ${appName} --language kotlin`
       );
+
+      const buildResult = await runNxCommandAsync(`build ${appName}`);
+      expect(buildResult.stdout).toContain('Executor ran for Build');
+
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
       );
