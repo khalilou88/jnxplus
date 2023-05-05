@@ -16,6 +16,7 @@ import * as path from 'path';
 import {
   checkFilesDoNotExist,
   checkstyleVersion,
+  getData,
   killPorts,
   normalizeName,
   patchPackageJson,
@@ -226,8 +227,9 @@ describe('nx-quarkus-gradle e2e', () => {
       output.includes(`Listening on: http://localhost:${port}`)
     );
 
-    //const dataResult = await getData(port, '/hello');
-    //expect(dataResult).toMatch('Hello World!');
+    const dataResult = await getData(port, '/hello');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -245,6 +247,9 @@ describe('nx-quarkus-gradle e2e', () => {
       await runNxCommandAsync(
         `generate @jnxplus/nx-quarkus-gradle:application ${appName}`
       );
+
+      const buildResult = await runNxCommandAsync(`build ${appName}`);
+      expect(buildResult.stdout).toContain('Executor ran for Build');
 
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
@@ -318,8 +323,9 @@ describe('nx-quarkus-gradle e2e', () => {
       (output) => output.includes(`Listening on: http://localhost:${port}`)
     );
 
-    //const dataResult = await getData(port, '/hello');
-    //expect(dataResult).toMatch('Hello World!');
+    const dataResult = await getData(port, '/hello');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -476,8 +482,9 @@ describe('nx-quarkus-gradle e2e', () => {
       output.includes(`Listening on: http://localhost:${port}`)
     );
 
-    //const dataResult = await getData(port, '/hello');
-    //expect(dataResult).toMatch('Hello World!');
+    const dataResult = await getData(port, '/hello');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -495,6 +502,9 @@ describe('nx-quarkus-gradle e2e', () => {
       await runNxCommandAsync(
         `generate @jnxplus/nx-quarkus-gradle:application ${appName} --language kotlin`
       );
+
+      const buildResult = await runNxCommandAsync(`build ${appName}`);
+      expect(buildResult.stdout).toContain('Executor ran for Build');
 
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
@@ -568,8 +578,9 @@ describe('nx-quarkus-gradle e2e', () => {
       (output) => output.includes(`Listening on: http://localhost:${port}`)
     );
 
-    //const dataResult = await getData(port, '/hello');
-    //expect(dataResult).toMatch('Hello World!');
+    const dataResult = await getData(port, '/hello');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -607,8 +618,9 @@ describe('nx-quarkus-gradle e2e', () => {
       output.includes(`Listening on: http://localhost:${port}`)
     );
 
-    //const dataResult = await getData(port, '/hello');
-    //expect(dataResult).toMatch('Hello World!');
+    const dataResult = await getData(port, '/hello');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -1148,8 +1160,9 @@ describe('nx-quarkus-gradle e2e', () => {
       (output) => output.includes(`Listening on: http://localhost:${port}`)
     );
 
-    //const dataResult = await getData(port, '/hello');
-    //expect(dataResult).toMatch('Hello World!');
+    const dataResult = await getData(port, '/hello');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
