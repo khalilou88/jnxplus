@@ -92,11 +92,19 @@ function getDependencies(buildGradleContent: string) {
   );
 }
 
-function getProject(
+function getSubProject(
   projectPath: string,
   projects: ProjectGraphProjectNodeExtended[]
 ) {
   const root = projectPath.replace(/:/g, '/');
+  return projects.find((p) => p.data.root === root);
+}
+
+function getDepProject(
+  projectPath: string,
+  projects: ProjectGraphProjectNodeExtended[]
+) {
+  const root = projectPath.substring(1).replace(/:/g, '/');
   return projects.find((p) => p.data.root === root);
 }
 
@@ -197,9 +205,9 @@ export function addDependencies(builder: ProjectGraphBuilder) {
       }
       const subProjects = getSubProjects(settingsGradleContent);
       for (const subProjectPath of subProjects) {
-        const subProject = getProject(subProjectPath, projects);
+        const subProject = getSubProject(subProjectPath, projects);
         builder.addStaticDependency(
-          subProject?.name || '',
+          subProject?.name || 'no-sub-project-1',
           project.name,
           join(
             subProject?.data?.root || '',
@@ -213,10 +221,10 @@ export function addDependencies(builder: ProjectGraphBuilder) {
       buildGradleContent = fs.readFileSync(buildGradleFile, 'utf-8');
       const dependencies = getDependencies(buildGradleContent);
       for (const dependencyPath of dependencies) {
-        const dependency = getProject(dependencyPath, projects);
+        const dependency = getDepProject(dependencyPath, projects);
         builder.addStaticDependency(
           project.name,
-          dependency?.name || '',
+          dependency?.name || 'no-dep-project-1',
           join(project.data.root, 'build.gradle').replace(/\\/g, '/')
         );
       }
@@ -246,9 +254,9 @@ export function addDependencies(builder: ProjectGraphBuilder) {
       }
       const subProjects = getSubProjects(settingsGradleContentKts);
       for (const subProjectPath of subProjects) {
-        const subProject = getProject(subProjectPath, projects);
+        const subProject = getSubProject(subProjectPath, projects);
         builder.addStaticDependency(
-          subProject?.name || '',
+          subProject?.name || 'no-sub-project-2',
           project.name,
           join(
             subProject?.data?.root || '',
@@ -262,10 +270,10 @@ export function addDependencies(builder: ProjectGraphBuilder) {
       buildGradleContentKts = fs.readFileSync(buildGradleKtsFile, 'utf-8');
       const dependencies = getDependencies(buildGradleContentKts);
       for (const dependencyPath of dependencies) {
-        const dependency = getProject(dependencyPath, projects);
+        const dependency = getDepProject(dependencyPath, projects);
         builder.addStaticDependency(
           project.name,
-          dependency?.name || '',
+          dependency?.name || 'no-dep-project-2',
           join(project.data.root, 'build.gradle.kts').replace(/\\/g, '/')
         );
       }

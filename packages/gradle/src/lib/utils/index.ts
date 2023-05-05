@@ -33,11 +33,14 @@ function readKtlintVersion(gradlePropertiesContent: string) {
 
 export function getKtlintVersion(dir: string) {
   const gradlePropertiesPath = path.join(dir, 'gradle.properties');
-  const gradlePropertiesContent = fs.readFileSync(
-    gradlePropertiesPath,
-    'utf-8'
-  );
-  const version = readKtlintVersion(gradlePropertiesContent);
+  let version = undefined;
+  if (fs.existsSync(gradlePropertiesPath)) {
+    const gradlePropertiesContent = fs.readFileSync(
+      gradlePropertiesPath,
+      'utf-8'
+    );
+    version = readKtlintVersion(gradlePropertiesContent);
+  }
   return version === undefined ? ktlintVersion : version;
 }
 
@@ -51,10 +54,13 @@ function readCheckstyleVersion(gradlePropertiesContent: string) {
 
 export function getCheckstyleVersion(dir: string) {
   const gradlePropertiesPath = path.join(dir, 'gradle.properties');
-  const gradlePropertiesContent = fs.readFileSync(
-    gradlePropertiesPath,
-    'utf-8'
-  );
-  const version = readCheckstyleVersion(gradlePropertiesContent);
+  let version = undefined;
+  if (fs.existsSync(gradlePropertiesPath)) {
+    const gradlePropertiesContent = fs.readFileSync(
+      gradlePropertiesPath,
+      'utf-8'
+    );
+    version = readCheckstyleVersion(gradlePropertiesContent);
+  }
   return version === undefined ? checkstyleVersion : version;
 }
