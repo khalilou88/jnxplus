@@ -1,5 +1,12 @@
 # Changelog
 
+# 6.0.0 (2023-05-06)
+
+- Update Nx to version 16.1.0
+- Add port option to app generator
+- Refactor code to use shared libs
+- Install linters with postinstall script
+
 # 5.4.0 (2023-04-30)
 
 - Add .gitattributes

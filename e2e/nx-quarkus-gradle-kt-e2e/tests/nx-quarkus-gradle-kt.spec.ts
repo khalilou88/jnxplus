@@ -126,7 +126,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-${checkstyleVersion}.jar`,
+        `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-${checkstyleVersion}-all.jar`,
         `node_modules/@jnxplus/tools/linters/ktlint/ktlint`
       )
     ).not.toThrow();
