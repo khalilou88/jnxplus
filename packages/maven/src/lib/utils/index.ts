@@ -2,11 +2,11 @@ import {
   checkstyleVersion,
   getProjectRoot,
   ktlintVersion,
-  readXml,
 } from '@jnxplus/common';
 import { ExecutorContext } from '@nx/devkit';
 import * as fs from 'fs';
 import * as path from 'path';
+import { readXml } from '../xml';
 
 export function getExecutable() {
   const isWin = process.platform === 'win32';

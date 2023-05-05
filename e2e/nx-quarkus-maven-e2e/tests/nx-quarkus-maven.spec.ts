@@ -1,16 +1,15 @@
+import { checkstyleVersion, normalizeName } from '@jnxplus/common';
 import {
   checkFilesDoNotExist,
-  checkstyleVersion,
   getData,
   killPorts,
-  normalizeName,
   patchPackageJson,
   patchRootPackageJson,
   promisifiedTreeKill,
   runNxCommandUntil,
   runNxNewCommand,
   runPackageManagerInstallLinks,
-} from '@jnxplus/common';
+} from '@jnxplus/e2e/testing';
 import { names, workspaceRoot } from '@nx/devkit';
 import {
   checkFilesExist,

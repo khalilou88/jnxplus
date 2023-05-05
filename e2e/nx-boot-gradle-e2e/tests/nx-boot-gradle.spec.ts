@@ -12,19 +12,17 @@ import {
 import * as fs from 'fs';
 import * as fse from 'fs-extra';
 import * as path from 'path';
-
+import { checkstyleVersion, normalizeName } from '@jnxplus/common';
 import {
-  checkstyleVersion,
   getData,
   killPorts,
-  normalizeName,
   patchPackageJson,
   patchRootPackageJson,
   promisifiedTreeKill,
   runNxCommandUntil,
   runNxNewCommand,
   runPackageManagerInstallLinks,
-} from '@jnxplus/common';
+} from '@jnxplus/e2e/testing';
 
 describe('nx-boot-gradle e2e', () => {
   const isCI =
