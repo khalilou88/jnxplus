@@ -222,7 +222,8 @@ describe('nx-boot-gradle kt e2e', () => {
     );
 
     const dataResult = await getData();
-    expect(dataResult).toMatch('Hello World!');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -327,7 +328,8 @@ describe('nx-boot-gradle kt e2e', () => {
     );
 
     const dataResult = await getData(port);
-    expect(dataResult).toMatch('Hello World!');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -419,7 +421,8 @@ describe('nx-boot-gradle kt e2e', () => {
     );
 
     const dataResult = await getData(port);
-    expect(dataResult).toMatch('Hello World!');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -506,7 +509,8 @@ describe('nx-boot-gradle kt e2e', () => {
     );
 
     const dataResult = await getData(port);
-    expect(dataResult).toMatch('Hello World!');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -611,7 +615,8 @@ describe('nx-boot-gradle kt e2e', () => {
     );
 
     const dataResult = await getData(port);
-    expect(dataResult).toMatch('Hello World!');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -650,7 +655,8 @@ describe('nx-boot-gradle kt e2e', () => {
     );
 
     const dataResult = await getData(port);
-    expect(dataResult).toMatch('Hello World!');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -1213,7 +1219,8 @@ describe('nx-boot-gradle kt e2e', () => {
     );
 
     const dataResult = await getData(port);
-    expect(dataResult).toMatch('Hello World!');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {

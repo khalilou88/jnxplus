@@ -16,7 +16,7 @@ import * as path from 'path';
 import {
   checkFilesDoNotExist,
   checkstyleVersion,
-  getData2,
+  getData,
   killPorts,
   normalizeName,
   patchPackageJson,
@@ -227,7 +227,7 @@ describe('nx-quarkus-gradle e2e', () => {
       output.includes(`Listening on: http://localhost:${port}`)
     );
 
-    const dataResult = await getData2(port, '/hello');
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -320,7 +320,7 @@ describe('nx-quarkus-gradle e2e', () => {
       (output) => output.includes(`Listening on: http://localhost:${port}`)
     );
 
-    const dataResult = await getData2(port, '/hello');
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -479,7 +479,7 @@ describe('nx-quarkus-gradle e2e', () => {
       output.includes(`Listening on: http://localhost:${port}`)
     );
 
-    const dataResult = await getData2(port, '/hello');
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -572,7 +572,7 @@ describe('nx-quarkus-gradle e2e', () => {
       (output) => output.includes(`Listening on: http://localhost:${port}`)
     );
 
-    const dataResult = await getData2(port, '/hello');
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -612,7 +612,7 @@ describe('nx-quarkus-gradle e2e', () => {
       output.includes(`Listening on: http://localhost:${port}`)
     );
 
-    const dataResult = await getData2(port, '/hello');
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -1154,7 +1154,7 @@ describe('nx-quarkus-gradle e2e', () => {
       (output) => output.includes(`Listening on: http://localhost:${port}`)
     );
 
-    const dataResult = await getData2(port, '/hello');
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
