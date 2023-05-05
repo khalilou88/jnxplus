@@ -1,4 +1,5 @@
 import {
+  checkstyleVersion,
   getData,
   killPorts,
   normalizeName,
@@ -120,7 +121,7 @@ describe('nx-boot-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-10.9.3-all.jar`,
+        `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-${checkstyleVersion}.jar`,
         `node_modules/@jnxplus/tools/linters/ktlint/ktlint`
       )
     ).not.toThrow();
