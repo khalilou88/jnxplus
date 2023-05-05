@@ -16,6 +16,7 @@ import * as path from 'path';
 import {
   checkFilesDoNotExist,
   checkstyleVersion,
+  getData2,
   killPorts,
   normalizeName,
   patchPackageJson,
@@ -226,8 +227,9 @@ describe('nx-quarkus-gradle kt e2e', () => {
       output.includes(`Listening on: http://localhost:${port}`)
     );
 
-    //const dataResult = await getData(port, '/hello');
-    //expect(dataResult).toMatch('Hello World!');
+    const dataResult = await getData2(port, '/hello');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -318,8 +320,9 @@ describe('nx-quarkus-gradle kt e2e', () => {
       (output) => output.includes(`Listening on: http://localhost:${port}`)
     );
 
-    //const dataResult = await getData(port, '/hello');
-    //expect(dataResult).toMatch('Hello World!');
+    const dataResult = await getData2(port, '/hello');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -476,8 +479,9 @@ describe('nx-quarkus-gradle kt e2e', () => {
       output.includes(`Listening on: http://localhost:${port}`)
     );
 
-    //const dataResult = await getData(port, '/hello');
-    //expect(dataResult).toMatch('Hello World!');
+    const dataResult = await getData2(port, '/hello');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -567,8 +571,9 @@ describe('nx-quarkus-gradle kt e2e', () => {
       (output) => output.includes(`Listening on: http://localhost:${port}`)
     );
 
-    //const dataResult = await getData(port, '/hello');
-    //expect(dataResult).toMatch('Hello World!');
+    const dataResult = await getData2(port, '/hello');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -606,8 +611,9 @@ describe('nx-quarkus-gradle kt e2e', () => {
       output.includes(`Listening on: http://localhost:${port}`)
     );
 
-    //const dataResult = await getData(port, '/hello');
-    //expect(dataResult).toMatch('Hello World!');
+    const dataResult = await getData2(port, '/hello');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -1147,8 +1153,9 @@ describe('nx-quarkus-gradle kt e2e', () => {
       (output) => output.includes(`Listening on: http://localhost:${port}`)
     );
 
-    //const dataResult = await getData(port, '/hello');
-    //expect(dataResult).toMatch('Hello World!');
+    const dataResult = await getData2(port, '/hello');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {

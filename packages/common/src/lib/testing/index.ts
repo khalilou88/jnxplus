@@ -158,7 +158,7 @@ export function checkFilesDoNotExist(...expectedFiles: string[]) {
 }
 
 export const getData2 = async (port = 8080, path = '') => {
-  const response = await axios.get(`http://localhost:${port}${path}`);
+  const response = await axios.get(`http://127.0.0.1:${port}${path}`);
   return { status: response.status, message: response.data };
 };
 
