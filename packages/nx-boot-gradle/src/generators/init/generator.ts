@@ -87,7 +87,7 @@ export default async function (
 
 function updateGitIgnore(tree: Tree) {
   const filePath = `.gitignore`;
-  const contents = tree.read(filePath, 'utf-8');
+  const contents = tree.read(filePath, 'utf-8') || '';
 
   const gradleIgnore = '\n# Gradle\n.gradle\nbuild';
 
@@ -110,7 +110,8 @@ function addOrUpdatePrettierIgnore(tree: Tree) {
   const prettierIgnorePath = `.prettierignore`;
   const gradlePrettierIgnore = '# Gradle build\nbuild';
   if (tree.exists(prettierIgnorePath)) {
-    const prettierIgnoreOldContent = tree.read(prettierIgnorePath, 'utf-8');
+    const prettierIgnoreOldContent =
+      tree.read(prettierIgnorePath, 'utf-8') || '';
     const prettierIgnoreContent = prettierIgnoreOldContent.concat(
       '\n',
       gradlePrettierIgnore
@@ -126,7 +127,7 @@ function addOrUpdateGitattributes(tree: Tree) {
   const gradleWrapperGitattributes =
     '# OS specific line endings for the Gradle wrapper script\ngradlew text eol=lf\ngradlew.cmd text eol=crlf';
   if (tree.exists(gitattributesPath)) {
-    const gitattributesOldContent = tree.read(gitattributesPath, 'utf-8');
+    const gitattributesOldContent = tree.read(gitattributesPath, 'utf-8') || '';
     const gitattributesContent = gitattributesOldContent.concat(
       '\n',
       gradleWrapperGitattributes

@@ -8,7 +8,7 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   logger.info(`Executor ran for Build: ${JSON.stringify(options)}`);
-  let target: string;
+  let target = '';
   if (getProjectType(context) === 'library') {
     target = 'jar';
   } else {

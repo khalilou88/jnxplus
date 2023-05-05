@@ -14,7 +14,7 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   logger.info(`Executor ran for Lint: ${JSON.stringify(options)}`);
-  let command: string;
+  let command = '';
   const projectSourceRoot = getProjectSourceRoot(context);
 
   if (options.linter === 'checkstyle') {

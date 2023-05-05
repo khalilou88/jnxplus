@@ -92,9 +92,12 @@ function normalizeOptions(
     .relative(projectRoot, parentProjectRoot)
     .replace(new RegExp(/\\/, 'g'), '/');
 
-  const parentGroupId = pomXmlContent.childNamed('groupId').val;
-  const parentProjectName = pomXmlContent.childNamed('artifactId').val;
-  const parentProjectVersion = pomXmlContent.childNamed('version').val;
+  const parentGroupId =
+    pomXmlContent?.childNamed('groupId')?.val || 'parentGroupId';
+  const parentProjectName =
+    pomXmlContent?.childNamed('artifactId')?.val || 'parentProjectName';
+  const parentProjectVersion =
+    pomXmlContent?.childNamed('version')?.val || 'parentProjectVersion';
 
   return {
     ...options,
@@ -245,6 +248,10 @@ function addProjectToParentPomXml(tree: Tree, options: NormalizedSchema) {
     modules = xmldoc.childNamed('modules');
   }
 
+  if (modules === undefined) {
+    throw new Error('Modules tag undefined');
+  }
+
   modules.children.push(module);
 
   tree.write(parentProjectPomPath, xmlToString(xmldoc));
@@ -274,6 +281,10 @@ function addLibraryToProjects(tree: Tree, options: NormalizedSchema) {
     `)
       );
       dependencies = xmldoc.childNamed('dependencies');
+    }
+
+    if (dependencies === undefined) {
+      throw new Error('Dependencies tag undefined');
     }
 
     dependencies.children.push(dependency);
