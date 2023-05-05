@@ -158,13 +158,13 @@ export function checkFilesDoNotExist(...expectedFiles: string[]) {
 }
 
 export const getData2 = async (port = 8080, path = '') => {
-  return await axios.get(`http://localhost:${port}${path}`);
+  const response = await axios.get(`http://localhost:${port}${path}`);
+  return { status: response.status, message: response.data };
 };
 
 export function getData(port = 8080, path = ''): Promise<any> {
   return new Promise((resolve) => {
     http.get(`http://localhost:${port}${path}`, (res) => {
-      // expect(res.statusCode).toEqual(200);
       let data = '';
       res.on('data', (chunk) => {
         data += chunk;
