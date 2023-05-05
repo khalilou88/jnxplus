@@ -4,7 +4,7 @@ import { logger, workspaceRoot } from '@nx/devkit';
 import * as path from 'path';
 
 (async () => {
-  if (process.env.NX_VERBOSE_LOGGING === 'true') {
+  if (process.env['NX_VERBOSE_LOGGING'] === 'true') {
     logger.debug('Install Linters');
   }
 

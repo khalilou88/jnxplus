@@ -257,7 +257,7 @@ function addProjectToGradleSetting(tree: Tree, options: NormalizedSchema) {
   );
 
   if (tree.exists(filePath)) {
-    const settingsContent = tree.read(filePath, 'utf-8');
+    const settingsContent = tree.read(filePath, 'utf-8') || '';
 
     const newSettingsContent = settingsContent.replace(
       regex,
@@ -267,7 +267,7 @@ function addProjectToGradleSetting(tree: Tree, options: NormalizedSchema) {
   }
 
   if (tree.exists(ktsFilePath)) {
-    const settingsContent = tree.read(ktsFilePath, 'utf-8');
+    const settingsContent = tree.read(ktsFilePath, 'utf-8') || '';
 
     const newSettingsContent = settingsContent.replace(
       regex,

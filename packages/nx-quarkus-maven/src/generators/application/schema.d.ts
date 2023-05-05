@@ -12,5 +12,5 @@ export interface NxQuarkusMavenAppGeneratorSchema {
   configFormat: '.properties' | '.yml';
   parentProject?: string;
   skipStarterCode?: boolean;
-  port?: string | number;
+  port: string | number;
 }

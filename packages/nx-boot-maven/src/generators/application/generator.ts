@@ -92,9 +92,12 @@ function normalizeOptions(
     .relative(projectRoot, parentProjectRoot)
     .replace(new RegExp(/\\/, 'g'), '/');
 
-  const parentGroupId = pomXmlContent.childNamed('groupId').val;
-  const parentProjectName = pomXmlContent.childNamed('artifactId').val;
-  const parentProjectVersion = pomXmlContent.childNamed('version').val;
+  const parentGroupId =
+    pomXmlContent?.childNamed('groupId')?.val || 'parentGroupId';
+  const parentProjectName =
+    pomXmlContent?.childNamed('artifactId')?.val || 'parentProjectName';
+  const parentProjectVersion =
+    pomXmlContent?.childNamed('version')?.val || 'parentProjectVersion';
 
   const isCustomPort = +options.port !== 8080;
 
@@ -291,6 +294,10 @@ function addProjectToParentPomXml(tree: Tree, options: NormalizedSchema) {
   `)
     );
     modules = xmldoc.childNamed('modules');
+  }
+
+  if (modules === undefined) {
+    throw new Error('Modules tag undefined');
   }
 
   modules.children.push(fragment);

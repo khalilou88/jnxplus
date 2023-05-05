@@ -204,7 +204,7 @@ function addProjectToGradleSetting(tree: Tree, options: NormalizedSchema) {
   );
 
   if (tree.exists(filePath)) {
-    const settingsContent = tree.read(filePath, 'utf-8');
+    const settingsContent = tree.read(filePath, 'utf-8') || '';
 
     const newSettingsContent = settingsContent.replace(
       regex,
@@ -214,7 +214,7 @@ function addProjectToGradleSetting(tree: Tree, options: NormalizedSchema) {
   }
 
   if (tree.exists(ktsFilePath)) {
-    const settingsContent = tree.read(ktsFilePath, 'utf-8');
+    const settingsContent = tree.read(ktsFilePath, 'utf-8') || '';
 
     const newSettingsContent = settingsContent.replace(
       regex,
@@ -236,7 +236,7 @@ function addLibraryToProjects(tree: Tree, options: NormalizedSchema) {
     const ktsPath = join(projectRoot, `build.gradle.kts`);
 
     if (tree.exists(filePath)) {
-      const buildGradleContent = tree.read(filePath, 'utf-8');
+      const buildGradleContent = tree.read(filePath, 'utf-8') || '';
       const newBuildGradleContent = buildGradleContent.replace(
         regex,
         `$&\nimplementation project(':${gradleProjectPath}')`
@@ -245,7 +245,7 @@ function addLibraryToProjects(tree: Tree, options: NormalizedSchema) {
     }
 
     if (tree.exists(ktsPath)) {
-      const buildGradleContent = tree.read(ktsPath, 'utf-8');
+      const buildGradleContent = tree.read(ktsPath, 'utf-8') || '';
 
       const newBuildGradleContent = buildGradleContent.replace(
         regex,
