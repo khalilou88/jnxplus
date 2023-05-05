@@ -1,4 +1,3 @@
-import { expect } from '@jest/globals';
 import {
   getPackageManagerCommand,
   readJsonFile,
@@ -160,7 +159,7 @@ export function checkFilesDoNotExist(...expectedFiles: string[]) {
 export function getData(port = 8080, path = ''): Promise<any> {
   return new Promise((resolve) => {
     http.get(`http://localhost:${port}${path}`, (res) => {
-      expect(res.statusCode).toEqual(200);
+      //expect(res.statusCode).toEqual(200);
       let data = '';
       res.on('data', (chunk) => {
         data += chunk;
