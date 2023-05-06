@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'nx-quarkus-maven-migrate',
-  preset: '../../jest.preset.js',
+  displayName: 'nx-boot-maven-migrate',
+  preset: '../../../jest.preset.js',
   globals: {},
   transform: {
     '^.+\\.[tj]s$': [
@@ -11,5 +11,5 @@ module.exports = {
     ],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/migrate/nx-quarkus-maven-migrate',
+  coverageDirectory: '../../../coverage/migrate/nx-boot-maven-migrate',
 };

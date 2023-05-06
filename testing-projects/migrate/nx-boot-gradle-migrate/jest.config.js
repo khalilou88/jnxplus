@@ -1,6 +1,6 @@
 module.exports = {
   displayName: 'nx-boot-gradle-migrate',
-  preset: '../../jest.preset.js',
+  preset: '../../../jest.preset.js',
   globals: {},
   transform: {
     '^.+\\.[tj]s$': [
@@ -11,5 +11,5 @@ module.exports = {
     ],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/migrate/nx-boot-gradle-migrate',
+  coverageDirectory: '../../../coverage/migrate/nx-boot-gradle-migrate',
 };
