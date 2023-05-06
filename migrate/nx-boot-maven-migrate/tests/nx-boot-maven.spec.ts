@@ -1,4 +1,6 @@
+import { uniq } from '@nx/plugin/testing';
 import { execSync, ExecSyncOptions } from 'child_process';
+import { readJson } from 'fs-extra';
 import { join } from 'path';
 
 import { dirSync } from 'tmp';
@@ -19,6 +21,14 @@ const execSyncOptions: () => ExecSyncOptions = () => ({
   },
   stdio: 'inherit',
 });
+
+const testApp = uniq('test-app');
+const testLib = uniq('test-lib');
+
+const testApp2 = uniq('test-app2');
+const testLib2 = uniq('test-lib2');
+const testApp3 = uniq('test-app3');
+const testApp4 = uniq('test-app4');
 
 describe('@jnxplus/nx-boot-maven migrate', () => {
   beforeEach(async () => {
@@ -53,6 +63,57 @@ describe('@jnxplus/nx-boot-maven migrate', () => {
     execSync('npm i', execSyncOptions());
 
     execSync('npx nx migrate --run-migrations --ifExists', execSyncOptions());
+
+    execSync('npx nx generate @jnxplus/nx-boot-maven:init', execSyncOptions());
+
+    execSync(
+      `npx nx g @jnxplus/nx-boot-maven:application ${testApp}`,
+      execSyncOptions()
+    );
+
+    execSync(
+      `npx nx g @jnxplus/nx-boot-maven:lib ${testLib} --projects ${testApp}`,
+      execSyncOptions()
+    );
+
+    execSync(
+      `npx nx g @jnxplus/nx-boot-maven:application ${testApp2}`,
+      execSyncOptions()
+    );
+
+    execSync(
+      `npx nx g @jnxplus/nx-boot-maven:application ${testApp3}`,
+      execSyncOptions()
+    );
+
+    execSync(
+      `npx nx g @jnxplus/nx-boot-maven:application ${testApp4}`,
+      execSyncOptions()
+    );
+
+    execSync(
+      `npx nx g @jnxplus/nx-boot-maven:lib ${testLib2} --projects ${testApp2},${testApp3},${testApp4}`,
+      execSyncOptions()
+    );
+
+    execSync(
+      `npx nx run-many --target=build --all --parallel=1`,
+      execSyncOptions()
+    );
+
+    execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
+
+    const depGraphJson = await readJson(
+      join(migrateDirectory, 'test', 'dep-graph.json')
+    );
+    expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
+    expect(depGraphJson.graph.nodes[testLib]).toBeDefined();
+
+    expect(depGraphJson.graph.dependencies[testApp]).toContainEqual({
+      type: 'static',
+      source: testApp,
+      target: testLib,
+    });
 
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
   }, 1500000);
