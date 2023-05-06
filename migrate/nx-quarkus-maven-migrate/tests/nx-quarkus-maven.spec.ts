@@ -5,8 +5,6 @@ import { join } from 'path';
 
 import { dirSync } from 'tmp';
 
-const nxVersion = '15.9.4';
-
 let migrateDirectory: string;
 let cleanup: () => void;
 
@@ -43,7 +41,7 @@ describe('@jnxplus/nx-quarkus-maven migrate', () => {
 
   it('should migrate', async () => {
     execSync(
-      `npx create-nx-workspace@${nxVersion} test --preset apps --nxCloud false`,
+      `npx create-nx-workspace@latest test --preset apps --nxCloud false`,
       {
         cwd: migrateDirectory,
         env: process.env,
@@ -53,51 +51,49 @@ describe('@jnxplus/nx-quarkus-maven migrate', () => {
 
     execSync('git init', execSyncOptions());
 
-    execSync(`npm i --save-dev @nrwl/devkit@${nxVersion}`, execSyncOptions());
+    execSync(
+      'npm i --save-dev @jnxplus/nx-quarkus-maven@latest',
+      execSyncOptions()
+    );
 
-    execSync('npm i --save-dev @jnxplus/nx-quarkus-maven', execSyncOptions());
+    execSync('nx generate @jnxplus/nx-quarkus-maven:init', execSyncOptions());
 
     execSync(
-      'npx nx generate @jnxplus/nx-quarkus-maven:init',
+      `nx g @jnxplus/nx-quarkus-maven:application ${testApp}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-quarkus-maven:application ${testApp}`,
+      `nx g @jnxplus/nx-quarkus-maven:lib ${testLib} --projects ${testApp}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-quarkus-maven:lib ${testLib} --projects ${testApp}`,
+      `nx g @jnxplus/nx-quarkus-maven:application ${testApp2}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-quarkus-maven:application ${testApp2}`,
+      `nx g @jnxplus/nx-quarkus-maven:application ${testApp3}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-quarkus-maven:application ${testApp3}`,
+      `nx g @jnxplus/nx-quarkus-maven:application ${testApp4}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-quarkus-maven:application ${testApp4}`,
+      `nx g @jnxplus/nx-quarkus-maven:lib ${testLib2} --projects ${testApp2},${testApp3},${testApp4}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-quarkus-maven:lib ${testLib2} --projects ${testApp2},${testApp3},${testApp4}`,
+      `nx run-many --target=build --all --parallel=1`,
       execSyncOptions()
     );
 
-    execSync(
-      `npx nx run-many --target=build --all --parallel=1`,
-      execSyncOptions()
-    );
-
-    execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
+    execSync(`nx graph --file=dep-graph.json`, execSyncOptions());
 
     const depGraphJson = await readJson(
       join(migrateDirectory, 'test', 'dep-graph.json')
@@ -111,12 +107,14 @@ describe('@jnxplus/nx-quarkus-maven migrate', () => {
       target: testLib,
     });
 
-    execSync('npx nx migrate latest', execSyncOptions());
+    execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
+
+    execSync('nx migrate next', execSyncOptions());
 
     execSync('npm i', execSyncOptions());
 
-    execSync('npx nx migrate --run-migrations --ifExists', execSyncOptions());
+    execSync('nx migrate --run-migrations --ifExists', execSyncOptions());
 
-    execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
+    execSync(`git commit -am "chore: nx migrate"`, execSyncOptions());
   }, 1500000);
 });

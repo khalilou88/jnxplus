@@ -5,9 +5,6 @@ import { join } from 'path';
 
 import { dirSync } from 'tmp';
 
-const nxVersion = '15.9.4';
-const pluginVersion = '5.4.0';
-
 let migrateDirectory: string;
 let cleanup: () => void;
 
@@ -44,7 +41,7 @@ describe('@jnxplus/nx-boot-gradle migrate', () => {
 
   it('should migrate', async () => {
     execSync(
-      `npx create-nx-workspace@${nxVersion} test --preset apps --nxCloud false`,
+      `npx create-nx-workspace@latest test --preset apps --nxCloud false`,
       {
         cwd: migrateDirectory,
         env: process.env,
@@ -54,51 +51,46 @@ describe('@jnxplus/nx-boot-gradle migrate', () => {
 
     execSync('git init', execSyncOptions());
 
-    execSync(`npm i --save-dev @nrwl/devkit@${nxVersion}`, execSyncOptions());
-
     execSync(
-      `npm i --save-dev @jnxplus/nx-boot-gradle@${pluginVersion}`,
+      `npm i --save-dev @jnxplus/nx-boot-gradle@latest`,
       execSyncOptions()
     );
 
-    execSync('npx nx generate @jnxplus/nx-boot-gradle:init', execSyncOptions());
+    execSync('nx generate @jnxplus/nx-boot-gradle:init', execSyncOptions());
 
     execSync(
-      `npx nx g @jnxplus/nx-boot-gradle:application ${testApp}`,
-      execSyncOptions()
-    );
-
-    execSync(
-      `npx nx g @jnxplus/nx-boot-gradle:lib ${testLib} --projects ${testApp}`,
+      `nx g @jnxplus/nx-boot-gradle:application ${testApp}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-boot-gradle:application ${testApp2}`,
+      `nx g @jnxplus/nx-boot-gradle:lib ${testLib} --projects ${testApp}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-boot-gradle:application ${testApp3}`,
+      `nx g @jnxplus/nx-boot-gradle:application ${testApp2}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-boot-gradle:application ${testApp4}`,
+      `nx g @jnxplus/nx-boot-gradle:application ${testApp3}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-boot-gradle:lib ${testLib2} --projects ${testApp2},${testApp3},${testApp4}`,
+      `nx g @jnxplus/nx-boot-gradle:application ${testApp4}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx run-many --target=build --all --parallel`,
+      `nx g @jnxplus/nx-boot-gradle:lib ${testLib2} --projects ${testApp2},${testApp3},${testApp4}`,
       execSyncOptions()
     );
 
-    execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
+    execSync(`nx run-many --target=build --all --parallel`, execSyncOptions());
+
+    execSync(`nx graph --file=dep-graph.json`, execSyncOptions());
 
     const depGraphJson = await readJson(
       join(migrateDirectory, 'test', 'dep-graph.json')
@@ -112,12 +104,14 @@ describe('@jnxplus/nx-boot-gradle migrate', () => {
       target: testLib,
     });
 
-    execSync('npx nx migrate latest', execSyncOptions());
+    execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
+
+    execSync('nx migrate next', execSyncOptions());
 
     execSync('npm i', execSyncOptions());
 
-    execSync('npx nx migrate --run-migrations --ifExists', execSyncOptions());
+    execSync('nx migrate --run-migrations --ifExists', execSyncOptions());
 
-    execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
+    execSync(`git commit -am "chore: nx migrate"`, execSyncOptions());
   }, 1500000);
 });
