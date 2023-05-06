@@ -13,7 +13,7 @@
     }
   },
   "workspaceLayout": {
-    "appsDir": "e2e",
+    "appsDir": "testing-projects",
     "libsDir": "packages"
   },
   "$schema": "./node_modules/nx/schemas/nx-schema.json",

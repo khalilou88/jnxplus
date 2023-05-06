@@ -1,0 +1,16 @@
+{
+  "name": "nx-boot-gradle-migrate",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "testing-projects/migrate/nx-boot-gradle-migrate/src",
+  "targets": {
+    "migrate": {
+      "executor": "@nx/jest:jest",
+      "options": {
+        "jestConfig": "testing-projects/migrate/nx-boot-gradle-migrate/jest.config.js"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["nx-boot-gradle"]
+}
