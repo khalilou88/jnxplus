@@ -87,7 +87,7 @@ function normalizeOptions(
     quarkusVersion = quarkusPlatformVersion;
   }
 
-  const isCustomPort = +options.port !== 8080;
+  const isCustomPort = !!options.port && +options.port !== 8080;
 
   return {
     ...options,

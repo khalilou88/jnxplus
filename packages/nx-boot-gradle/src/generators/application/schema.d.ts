@@ -12,5 +12,5 @@ export interface NxBootGradleAppGeneratorSchema {
   packaging: PackagingType;
   configFormat: '.properties' | '.yml';
   minimal?: boolean;
-  port: string | number;
+  port?: string | number;
 }
