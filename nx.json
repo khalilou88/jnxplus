@@ -28,6 +28,9 @@
     "smoke": {
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"]
     },
+    "migrate": {
+      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"]
+    },
     "lint": {
       "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
     }

@@ -1,0 +1,16 @@
+{
+  "name": "nx-quarkus-maven-migrate",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "migrate/nx-quarkus-maven-migrate/src",
+  "targets": {
+    "migrate": {
+      "executor": "@nx/jest:jest",
+      "options": {
+        "jestConfig": "migrate/nx-quarkus-maven-migrate/jest.config.js"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["nx-quarkus-maven"]
+}
