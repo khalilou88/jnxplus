@@ -1,6 +1,6 @@
 module.exports = {
   displayName: 'nx-boot-gradle-kt-e2e',
-  preset: '../../jest.preset.js',
+  preset: '../../../jest.preset.js',
   globals: {},
   testEnvironment: 'node',
   transform: {
@@ -12,5 +12,5 @@ module.exports = {
     ],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/e2e/nx-boot-gradle-kt-e2e',
+  coverageDirectory: '../../../coverage/e2e/nx-boot-gradle-kt-e2e',
 };

@@ -1,14 +1,14 @@
 {
   "name": "nx-boot-gradle-kt-e2e",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "e2e/nx-boot-gradle-kt-e2e/src",
+  "sourceRoot": "testing-projects/e2e/nx-boot-gradle-kt-e2e/src",
   "targets": {
     "e2e": {
       "executor": "@nx/plugin:e2e",
       "options": {
         "target": "nx-boot-gradle:build",
-        "jestConfig": "e2e/nx-boot-gradle-kt-e2e/jest.config.js"
+        "jestConfig": "testing-projects/e2e/nx-boot-gradle-kt-e2e/jest.config.js"
       }
     }
   },
