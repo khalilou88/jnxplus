@@ -5,7 +5,8 @@ import { join } from 'path';
 
 import { dirSync } from 'tmp';
 
-let nxOldVersion = '15.9.4';
+const nxVersion = '15.9.4';
+const pluginVersion = '5.4.0';
 
 let migrateDirectory: string;
 let cleanup: () => void;
@@ -43,7 +44,7 @@ describe('@jnxplus/nx-boot-gradle migrate', () => {
 
   it('should migrate', async () => {
     execSync(
-      `npx create-nx-workspace@${nxOldVersion} test --preset empty --nxCloud false`,
+      `npx create-nx-workspace@${nxVersion} test --preset apps --nxCloud false`,
       {
         cwd: migrateDirectory,
         env: process.env,
@@ -53,15 +54,12 @@ describe('@jnxplus/nx-boot-gradle migrate', () => {
 
     execSync('git init', execSyncOptions());
 
-    execSync(`npm i @nrwl/devkit@${nxOldVersion}`, execSyncOptions());
+    execSync(`npm i --save-dev @nrwl/devkit@${nxVersion}`, execSyncOptions());
 
-    execSync('npm i --save-dev @jnxplus/nx-boot-gradle', execSyncOptions());
-
-    execSync('npx nx migrate latest', execSyncOptions());
-
-    execSync('npm i', execSyncOptions());
-
-    execSync('npx nx migrate --run-migrations --ifExists', execSyncOptions());
+    execSync(
+      `npm i --save-dev @jnxplus/nx-boot-gradle@${pluginVersion}`,
+      execSyncOptions()
+    );
 
     execSync('npx nx generate @jnxplus/nx-boot-gradle:init', execSyncOptions());
 
@@ -113,6 +111,12 @@ describe('@jnxplus/nx-boot-gradle migrate', () => {
       source: testApp,
       target: testLib,
     });
+
+    execSync('npx nx migrate latest', execSyncOptions());
+
+    execSync('npm i', execSyncOptions());
+
+    execSync('npx nx migrate --run-migrations --ifExists', execSyncOptions());
 
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
   }, 1500000);
