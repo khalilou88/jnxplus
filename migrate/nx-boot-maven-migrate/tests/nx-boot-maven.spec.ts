@@ -5,7 +5,7 @@ import { join } from 'path';
 
 import { dirSync } from 'tmp';
 
-let nxOldVersion = '15.9.4';
+let nxOldVersion = '15.8.6';
 
 let migrateDirectory: string;
 let cleanup: () => void;
