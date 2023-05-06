@@ -49,6 +49,8 @@ describe('@jnxplus/nx-quarkus-gradle migrate', () => {
 
     execSync('npm i', execSyncOptions());
 
+    execSync('npx nx migrate --run-migrations --ifExists', execSyncOptions());
+
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
   }, 1500000);
 });

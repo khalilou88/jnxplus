@@ -43,11 +43,16 @@ describe('@jnxplus/nx-boot-maven migrate', () => {
 
     execSync('git init', execSyncOptions());
 
-    execSync('npm i --save-dev @jnxplus/nx-boot-maven', execSyncOptions());
+    execSync(
+      'npm i --save-dev @jnxplus/nx-boot-maven@5.4.2',
+      execSyncOptions()
+    );
 
     execSync('npx nx migrate latest', execSyncOptions());
 
     execSync('npm i', execSyncOptions());
+
+    execSync('npx nx migrate --run-migrations --ifExists', execSyncOptions());
 
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
   }, 1500000);
