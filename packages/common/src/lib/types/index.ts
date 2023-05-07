@@ -5,3 +5,4 @@ export type LinterType = 'checkstyle' | 'pmd' | 'ktlint';
 export type ProjectType = 'application' | 'library';
 export type MvnBuildCommandType = 'compile' | 'package' | 'install';
 export type ImageType = 'jvm' | 'legacy-jar' | 'native' | 'native-micro';
+export type GetVersionFunction = (dir: string) => string;

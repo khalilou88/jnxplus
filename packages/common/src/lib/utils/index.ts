@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as stream from 'stream';
 import { promisify } from 'util';
+import { GetVersionFunction } from '../types';
 
 export function getProject(context: ExecutorContext) {
   if (!context.projectName) {
@@ -61,8 +62,6 @@ export async function downloadFile(
     return finished(writer); //this is a Promise
   });
 }
-
-type GetVersionFunction = (dir: string) => string;
 
 export async function getKtlintPath(
   getKtlintVersion: GetVersionFunction,
