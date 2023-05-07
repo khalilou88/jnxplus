@@ -8,7 +8,7 @@ on:
 
 jobs:
   migrate:
-    name: Nx migrate Test
+    name: Nx migrate Tests
     strategy:
       fail-fast: false
       matrix:
@@ -33,5 +33,7 @@ jobs:
           node-version: ${{ matrix.node_version }}
 
       - uses: bahmutov/npm-install@v1.8.32
+        with:
+          install-command: npm ci --force
 
       - run: npm run nx run-many --all -- --target=migrate
