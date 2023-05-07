@@ -53,6 +53,31 @@
         "jestConfig": "packages/nx-boot-gradle/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular",
+        "trackDeps": true,
+        "push": true,
+        "noVerify": true,
+        "postTargets": ["nx-boot-gradle:github", "nx-boot-gradle:publish"],
+        "commitMessageFormat": "release(${projectName}): cut release to ${version}"
+      }
+    },
+    "github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "${tag}",
+        "generateNotes": true,
+        "notesStartTag": "${previousTag}"
+      }
+    },
+    "publish": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public"
+      }
     }
   },
   "tags": [],
