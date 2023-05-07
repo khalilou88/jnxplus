@@ -62,7 +62,7 @@
         "push": true,
         "noVerify": true,
         "postTargets": ["nx-quarkus-maven:github", "nx-quarkus-maven:publish"],
-        "commitMessageFormat": "release(${projectName}): 🎸 cut release to ${version}"
+        "commitMessageFormat": "release(${projectName}): cut release to ${version}"
       }
     },
     "github": {

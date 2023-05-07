@@ -65,7 +65,7 @@
           "nx-quarkus-gradle:github",
           "nx-quarkus-gradle:publish"
         ],
-        "commitMessageFormat": "release(${projectName}): 🎸 cut release to ${version}"
+        "commitMessageFormat": "release(${projectName}): cut release to ${version}"
       }
     },
     "github": {
