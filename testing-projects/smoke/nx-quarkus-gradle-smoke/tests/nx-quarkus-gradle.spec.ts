@@ -111,6 +111,6 @@ describe('@jnxplus/nx-quarkus-gradle smoke', () => {
       target: testLib,
     });
 
-    execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
+    //execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
   }, 1500000);
 });
