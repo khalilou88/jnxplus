@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.2.2](https://github.com/khalilou88/jnxplus/compare/common-0.2.1...common-0.2.2) (2023-05-07)
+
+
+### Bug Fixes
+
+* **common:** fake fix to test release workflow ([96f9128](https://github.com/khalilou88/jnxplus/commit/96f9128dcea13b6b1f3feb7a57a3a18bbebcede8))
+
+
+
 ## [0.2.1](https://github.com/khalilou88/jnxplus/compare/common-0.2.0...common-0.2.1) (2023-05-07)
 
 
