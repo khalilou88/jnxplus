@@ -2,6 +2,14 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.4.3](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-gradle-0.4.2...nx-quarkus-gradle-0.4.3) (2023-05-07)
+
+### Dependency Updates
+
+* `gradle` updated to version `0.1.4`
+* `common` updated to version `0.2.1`
+
+
 ## [0.4.2](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-gradle-0.4.1...nx-quarkus-gradle-0.4.2) (2023-05-07)
 
 ### Dependency Updates
