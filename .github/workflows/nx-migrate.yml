@@ -33,9 +33,10 @@ jobs:
             */*/node_modules
           key: ${{ runner.os }}-${{ matrix.node_version }}-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Setup git user to "🤖 jnxplus bot"
-        shell: bash
-        run: git config user.email "-" && git config user.name "🤖 jnxplus bot"
+      - name: Setup Git
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
 
       - name: Check if @nx/workspace is outdated
         id: nx-workspace-outdated
@@ -92,6 +93,6 @@ jobs:
           BRANCH="update-nx-${LAST_VERSION}-${{ github.run_id }}-${{ github.run_attempt }}"
           git checkout -b ${BRANCH}
           git push -f --set-upstream origin ${BRANCH}
-          gh pr view ${BRANCH} || gh pr create -t "Update @nx/workspace to ${BRANCH}" -b "Update @nx/workspace dependencies to ${LAST_VERSION}."
+          gh pr create
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
