@@ -111,7 +111,7 @@ jobs:
 
       - name: Create PR
         # if: steps.nx-workspace-outdated.outputs.outdated == 'true' && steps.e2e.outcome != 'success'
-        if: steps.nx-workspace-outdated.outputs.outdated == 'true'
+        if: steps.nx-workspace-outdated.outputs.outdated == 'true' && steps.e2e.outcome == 'success' #TODO change condition after tests
         run: |
           LAST_VERSION=$(npm view @nx/workspace version)
           BRANCH="update-nx-${LAST_VERSION}-${{ github.run_id }}-${{ github.run_attempt }}"
