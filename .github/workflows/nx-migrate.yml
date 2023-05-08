@@ -65,11 +65,15 @@ jobs:
         run: npx nx migrate --run-migrations
 
       - name: Setup Java
-        if: steps.nx-workspace-has-migrations.outputs.has_migrations == 'true'
+        if: steps.nx-workspace-outdated.outputs.outdated == 'true'
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
+
+      - name: Build
+        if: steps.nx-workspace-outdated.outputs.outdated == 'true'
+        run: npm run nx run-many --all -- --target=build
 
       - name: E2E tests
         id: e2e
@@ -96,17 +100,18 @@ jobs:
           git rm -f migrations.json
           git commit -m "build: remove migrations.json"
 
-      - name: Push changes
-        if: steps.nx-workspace-outdated.outputs.outdated == 'true' && steps.e2e.outcome == 'success'
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
-          force: true
-          tags: true
+      # - name: Push changes
+      #   if: steps.nx-workspace-outdated.outputs.outdated == 'true' && steps.e2e.outcome == 'success'
+      #   uses: ad-m/github-push-action@master
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     branch: ${{ github.ref }}
+      #     force: true
+      #     tags: true
 
       - name: Create PR
-        if: steps.nx-workspace-outdated.outputs.outdated == 'true' && steps.e2e.outcome != 'success'
+        # if: steps.nx-workspace-outdated.outputs.outdated == 'true' && steps.e2e.outcome != 'success'
+        if: steps.nx-workspace-outdated.outputs.outdated == 'true'
         run: |
           LAST_VERSION=$(npm view @nx/workspace version)
           BRANCH="update-nx-${LAST_VERSION}-${{ github.run_id }}-${{ github.run_attempt }}"
