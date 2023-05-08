@@ -12,6 +12,7 @@ import { check as portCheck } from 'tcp-port-used';
 import * as treeKill from 'tree-kill';
 import { promisify } from 'util';
 import kill = require('kill-port');
+import * as fs from 'fs';
 
 export function runNxNewCommand(args?: string, silent?: boolean) {
   const localTmpDir = path.dirname(tmpProjPath());
@@ -192,4 +193,18 @@ export function runPackageManagerInstallLinks(silent = true) {
     ...(silent ? { stdio: ['ignore', 'ignore', 'ignore'] } : {}),
   });
   return install ? install.toString() : '';
+}
+
+export function removeTmpFromGitignore() {
+  const filePath = `${process.cwd()}/.gitignore`;
+  const fileContent = fs.readFileSync(filePath, 'utf-8');
+  const updatedFileContent = fileContent.replace('/tmp', '');
+  fs.writeFileSync(filePath, updatedFileContent);
+}
+
+export function addTmpFromGitignore() {
+  const filePath = `${process.cwd()}/.gitignore`;
+  const fileContent = fs.readFileSync(filePath, 'utf-8');
+  const updatedFileContent = fileContent.concat('\n/tmp');
+  fs.writeFileSync(filePath, updatedFileContent);
 }

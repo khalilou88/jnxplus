@@ -1,11 +1,13 @@
 import { checkstyleVersion, normalizeName } from '@jnxplus/common';
 import {
+  addTmpFromGitignore,
   checkFilesDoNotExist,
   getData,
   killPorts,
   patchPackageJson,
   patchRootPackageJson,
   promisifiedTreeKill,
+  removeTmpFromGitignore,
   runNxCommandUntil,
   runNxNewCommand,
   runPackageManagerInstallLinks,
@@ -21,7 +23,6 @@ import {
   uniq,
   updateFile,
 } from '@nx/plugin/testing';
-import * as fs from 'fs';
 import * as fse from 'fs-extra';
 import * as path from 'path';
 
@@ -85,14 +86,15 @@ describe('nx-quarkus-maven e2e', () => {
     );
 
     if (isCI) {
-      const filePath = `${process.cwd()}/.gitignore`;
-      const fileContent = fs.readFileSync(filePath, 'utf-8');
-      const updatedFileContent = fileContent.replace('/tmp', '');
-      fs.writeFileSync(filePath, updatedFileContent);
+      removeTmpFromGitignore();
     }
   }, 120000);
 
   afterAll(async () => {
+    if (isCI) {
+      addTmpFromGitignore();
+    }
+
     // `nx reset` kills the daemon, and performs
     // some work which can help clean up e2e leftovers
     await runNxCommandAsync('reset');
