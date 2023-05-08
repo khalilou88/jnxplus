@@ -37,10 +37,6 @@ jobs:
         shell: bash
         run: git config user.email "-" && git config user.name "🤖 jnxplus bot"
 
-      - name: Fix husky executables
-        shell: bash
-        run: chmod ug+x .husky/*
-
       - name: Check if @nx/workspace is outdated
         id: nx-workspace-outdated
         run: |
