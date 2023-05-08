@@ -38,6 +38,10 @@ jobs:
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
 
+      - name: Fix husky executables
+        shell: bash
+        run: chmod ug+x .husky/*
+
       - name: Check if @nx/workspace is outdated
         id: nx-workspace-outdated
         run: |
