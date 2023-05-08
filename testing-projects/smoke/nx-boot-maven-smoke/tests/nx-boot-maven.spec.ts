@@ -52,9 +52,6 @@ describe('@jnxplus/nx-boot-maven smoke', () => {
 
     execSync('git init', execSyncOptions());
 
-    execSync('git config user.email "Smoke Test CI"', execSyncOptions());
-    execSync('git config user.name "no-reply@fake.com"', execSyncOptions());
-
     execSync('npm i --save-dev @jnxplus/nx-boot-maven', execSyncOptions());
 
     execSync('npx nx generate @jnxplus/nx-boot-maven:init', execSyncOptions());

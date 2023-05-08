@@ -53,9 +53,6 @@ describe('@jnxplus/nx-quarkus-gradle smoke', () => {
 
     execSync('git init', execSyncOptions());
 
-    execSync('git config user.email "Smoke Test CI"', execSyncOptions());
-    execSync('git config user.name "no-reply@fake.com"', execSyncOptions());
-
     execSync('npm i --save-dev @jnxplus/nx-quarkus-gradle', execSyncOptions());
 
     execSync(
@@ -112,6 +109,6 @@ describe('@jnxplus/nx-quarkus-gradle smoke', () => {
       target: testLib,
     });
 
-    //execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
+    execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
   }, 1500000);
 });
