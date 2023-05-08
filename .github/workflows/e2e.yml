@@ -1,4 +1,4 @@
-name: Nightly e2e Tests
+name: E2e Tests
 
 on:
   # Trigger manually or on schedule
@@ -8,6 +8,7 @@ on:
 
 jobs:
   Run_checks:
+    name: E2e Tests
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
@@ -17,7 +18,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
