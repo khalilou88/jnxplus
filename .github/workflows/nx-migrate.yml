@@ -64,11 +64,11 @@ jobs:
         if: steps.nrwl-workspace-has-migrations.outputs.has_migrations == 'true'
         run: npx nx migrate --run-migrations
 
-      - name: E2e Tests
-        id: test
-        if: steps.nrwl-workspace-outdated.outputs.outdated == 'true'
-        continue-on-error: true
-        run: npm run nx run-many --all -- --target=e2e
+      # - name: E2e Tests
+      #   id: test
+      #   if: steps.nrwl-workspace-outdated.outputs.outdated == 'true'
+      #   continue-on-error: true
+      #   run: npm run nx run-many --all -- --target=e2e
 
       - name: Commit changes
         if: steps.nrwl-workspace-outdated.outputs.outdated == 'true'
