@@ -46,7 +46,7 @@
         "push": true,
         "noVerify": true,
         "postTargets": ["gradle:github", "gradle:publish"],
-        "commitMessageFormat": "release(${projectName}): cut release to ${version}"
+        "commitMessageFormat": "release(${projectName}): cut release ${version} [ci skip]"
       }
     },
     "github": {
