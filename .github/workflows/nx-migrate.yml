@@ -33,10 +33,9 @@ jobs:
             */*/node_modules
           key: ${{ runner.os }}-${{ matrix.node_version }}-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Setup Git
-        run: |
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
+      - name: Setup git user to "🤖 jnxplus bot"
+        shell: bash
+        run: git config user.email "-" && git config user.name "🤖 jnxplus bot"
 
       - name: Fix husky executables
         shell: bash
@@ -73,7 +72,7 @@ jobs:
         run: |
           LAST_VERSION=$(npm view @nx/workspace version)
           git add .
-          [[ $(git status --porcelain) ]] && git commit -m "build: update nx to ${LAST_VERSION}" || echo "nothing to commit"
+          [[ $(git status --porcelain) ]] && git commit -m "build: update nx to version ${LAST_VERSION}" || echo "nothing to commit"
 
       - name: Remove migrations.json & commit
         if: steps.nx-workspace-has-migrations.outputs.has_migrations == 'true'
