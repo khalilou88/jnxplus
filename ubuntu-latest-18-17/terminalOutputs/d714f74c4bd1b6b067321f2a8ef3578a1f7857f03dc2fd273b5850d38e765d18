@@ -1,0 +1,112 @@
+Compiling TypeScript files for project "nx-boot-gradle"...
+[96mpackages/nx-boot-gradle/src/dep-graph/lookup-deps.ts[0m:[93m1[0m:[93m46[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/gradle' or its corresponding type declarations.
+
+[7m1[0m import { addDependencies, addProjects } from '@jnxplus/gradle';
+[7m [0m [91m                                             ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/executors/build-image/executor.ts[0m:[93m2[0m:[93m47[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/gradle' or its corresponding type declarations.
+
+[7m2[0m import { getExecutable, getProjectPath } from '@jnxplus/gradle';
+[7m [0m [91m                                              ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/executors/build-image/executor.ts[0m:[93m3[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/common' or its corresponding type declarations.
+
+[7m3[0m import { runCommand } from '@jnxplus/common';
+[7m [0m [91m                           ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/executors/build/executor.ts[0m:[93m1[0m:[93m44[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/common' or its corresponding type declarations.
+
+[7m1[0m import { getProjectType, runCommand } from '@jnxplus/common';
+[7m [0m [91m                                           ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/executors/build/executor.ts[0m:[93m2[0m:[93m47[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/gradle' or its corresponding type declarations.
+
+[7m2[0m import { getExecutable, getProjectPath } from '@jnxplus/gradle';
+[7m [0m [91m                                              ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/executors/kformat/executor.ts[0m:[93m1[0m:[93m31[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/common' or its corresponding type declarations.
+
+[7m1[0m import { getKtlintPath } from '@jnxplus/common';
+[7m [0m [91m                              ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/executors/kformat/executor.ts[0m:[93m3[0m:[93m50[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/common' or its corresponding type declarations.
+
+[7m3[0m import { getProjectSourceRoot, runCommand } from '@jnxplus/common';
+[7m [0m [91m                                                 ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/executors/kformat/executor.ts[0m:[93m5[0m:[93m34[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/gradle' or its corresponding type declarations.
+
+[7m5[0m import { getKtlintVersion } from '@jnxplus/gradle';
+[7m [0m [91m                                 ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/executors/lint/executor.ts[0m:[93m1[0m:[93m56[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/gradle' or its corresponding type declarations.
+
+[7m1[0m import { getCheckstyleVersion, getKtlintVersion } from '@jnxplus/gradle';
+[7m [0m [91m                                                       ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/executors/lint/executor.ts[0m:[93m3[0m:[93m50[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/common' or its corresponding type declarations.
+
+[7m3[0m import { getCheckstylePath, getKtlintPath } from '@jnxplus/common';
+[7m [0m [91m                                                 ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/executors/lint/executor.ts[0m:[93m8[0m:[93m8[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/common' or its corresponding type declarations.
+
+[7m8[0m } from '@jnxplus/common';
+[7m [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/executors/run-task/executor.ts[0m:[93m2[0m:[93m47[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/gradle' or its corresponding type declarations.
+
+[7m2[0m import { getExecutable, getProjectPath } from '@jnxplus/gradle';
+[7m [0m [91m                                              ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/executors/run-task/executor.ts[0m:[93m4[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/common' or its corresponding type declarations.
+
+[7m4[0m import { runCommand } from '@jnxplus/common';
+[7m [0m [91m                           ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/executors/serve/executor.ts[0m:[93m1[0m:[93m41[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/common' or its corresponding type declarations.
+
+[7m1[0m import { runCommand, waitForever } from '@jnxplus/common';
+[7m [0m [91m                                        ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/executors/serve/executor.ts[0m:[93m4[0m:[93m47[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/gradle' or its corresponding type declarations.
+
+[7m4[0m import { getExecutable, getProjectPath } from '@jnxplus/gradle';
+[7m [0m [91m                                              ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/executors/test/executor.ts[0m:[93m2[0m:[93m47[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/gradle' or its corresponding type declarations.
+
+[7m2[0m import { getExecutable, getProjectPath } from '@jnxplus/gradle';
+[7m [0m [91m                                              ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/executors/test/executor.ts[0m:[93m4[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/common' or its corresponding type declarations.
+
+[7m4[0m import { runCommand } from '@jnxplus/common';
+[7m [0m [91m                           ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/generators/application/generator.ts[0m:[93m12[0m:[93m31[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/common' or its corresponding type declarations.
+
+[7m12[0m import { normalizeName } from '@jnxplus/common';
+[7m  [0m [91m                              ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/generators/application/generator.ts[0m:[93m13[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/common' or its corresponding type declarations.
+
+[7m13[0m import { LinterType } from '@jnxplus/common';
+[7m  [0m [91m                           ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/generators/init/generator.ts[0m:[93m16[0m:[93m8[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/common' or its corresponding type declarations.
+
+[7m16[0m } from '@jnxplus/common';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/generators/library/generator.ts[0m:[93m13[0m:[93m31[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/common' or its corresponding type declarations.
+
+[7m13[0m import { normalizeName } from '@jnxplus/common';
+[7m  [0m [91m                              ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/generators/library/generator.ts[0m:[93m14[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/common' or its corresponding type declarations.
+
+[7m14[0m import { LinterType } from '@jnxplus/common';
+[7m  [0m [91m                           ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/generators/migrate/generator.ts[0m:[93m8[0m:[93m8[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/common' or its corresponding type declarations.
+
+[7m8[0m } from '@jnxplus/common';
+[7m [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/scripts/install-linters.ts[0m:[93m1[0m:[93m61[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/common' or its corresponding type declarations.
+
+[7m1[0m import { getCheckstylePath, getKtlintPath, isE2eTest } from '@jnxplus/common';
+[7m [0m [91m                                                            ~~~~~~~~~~~~~~~~~[0m
+[96mpackages/nx-boot-gradle/src/scripts/install-linters.ts[0m:[93m2[0m:[93m56[0m - [91merror[0m[90m TS2307: [0mCannot find module '@jnxplus/gradle' or its corresponding type declarations.
+
+[7m2[0m import { getCheckstyleVersion, getKtlintVersion } from '@jnxplus/gradle';
+[7m [0m [91m                                                       ~~~~~~~~~~~~~~~~~[0m
+
+
+ >  NX   Could not compile application files.
+
+
+Error: Could not compile application files.
+    at runBuildTarget_1 (/home/runner/work/jnxplus/jnxplus/node_modules/@nx/plugin/src/executors/e2e/e2e.impl.js:57:31)
+    at runBuildTarget_1.next (<anonymous>)
+    at resume (/home/runner/work/jnxplus/jnxplus/node_modules/tslib/tslib.js:279:48)
+    at fulfill (/home/runner/work/jnxplus/jnxplus/node_modules/tslib/tslib.js:281:35)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
