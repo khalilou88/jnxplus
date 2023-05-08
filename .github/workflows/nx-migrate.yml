@@ -77,15 +77,6 @@ jobs:
           git rm -f migrations.json
           git commit -m "build: remove migrations.json"
 
-      # - name: Push changes
-      #   if: steps.nx-workspace-outdated.outputs.outdated == 'true'
-      #   uses: ad-m/github-push-action@master
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     branch: ${{ github.ref }}
-      #     force: true
-      #     tags: true
-
       - name: Create PR
         if: steps.nx-workspace-outdated.outputs.outdated == 'true'
         run: |
@@ -93,6 +84,6 @@ jobs:
           BRANCH="update-nx-${LAST_VERSION}-${{ github.run_id }}-${{ github.run_attempt }}"
           git checkout -b ${BRANCH}
           git push -f --set-upstream origin ${BRANCH}
-          gh pr view ${BRANCH} || gh pr create -t "Update @nx/workspace to ${BRANCH}" -b "Update @nx/workspace dependencies to ${LAST_VERSION}."
+          gh pr view ${BRANCH} || gh pr create -t "build: update nx to version ${LAST_VERSION}" -b "Update nx to version ${LAST_VERSION}."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
