@@ -1,0 +1,44 @@
+Compiling TypeScript files for project "nx-quarkus-maven"...
+Done compiling TypeScript files for project "nx-quarkus-maven".
+
+ E2E   INFO  Attempting to close port 8080
+
+
+ E2E   ERROR  Port 8080 closing failed
+
+
+ E2E   INFO  Attempting to close port 8181
+
+
+ E2E   ERROR  Port 8181 closing failed
+
+
+ E2E   INFO  Attempting to close port 8282
+
+
+ E2E   ERROR  Port 8282 closing failed
+
+
+ E2E   INFO  Attempting to close port 8383
+
+
+ E2E   ERROR  Port 8383 closing failed
+
+
+ E2E   INFO  Attempting to close port 8484
+
+
+ E2E   ERROR  Port 8484 closing failed
+
+
+ E2E   INFO  Attempting to close port 8585
+
+
+ E2E   ERROR  Port 8585 closing failed
+
+
+ E2E   INFO  Attempting to close port 8686
+
+
+ E2E   ERROR  Port 8686 closing failed
+

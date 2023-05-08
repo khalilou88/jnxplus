@@ -1,0 +1,25 @@
+{
+  "name": "subdir-boot-maven-lib-2825830",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/subdir/boot-maven-lib-2825830/src",
+  "targets": {
+    "build": {
+      "executor": "@jnxplus/nx-boot-maven:build",
+      "outputs": ["libs/subdir/boot-maven-lib-2825830/target"]
+    },
+    "lint": {
+      "executor": "@jnxplus/nx-boot-maven:lint",
+      "options": {
+        "linter": "ktlint"
+      }
+    },
+    "test": {
+      "executor": "@jnxplus/nx-boot-maven:test"
+    },
+    "kformat": {
+      "executor": "@jnxplus/nx-boot-maven:kformat"
+    }
+  },
+  "tags": []
+}

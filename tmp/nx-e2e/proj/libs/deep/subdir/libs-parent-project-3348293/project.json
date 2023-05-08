@@ -1,0 +1,11 @@
+{
+  "name": "deep-subdir-libs-parent-project-3348293",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@jnxplus/nx-boot-maven:build"
+    }
+  },
+  "tags": []
+}

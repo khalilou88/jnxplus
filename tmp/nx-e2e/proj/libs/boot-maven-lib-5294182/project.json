@@ -1,0 +1,25 @@
+{
+  "name": "boot-maven-lib-5294182",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/boot-maven-lib-5294182/src",
+  "targets": {
+    "build": {
+      "executor": "@jnxplus/nx-boot-maven:build",
+      "outputs": ["libs/boot-maven-lib-5294182/target"]
+    },
+    "lint": {
+      "executor": "@jnxplus/nx-boot-maven:lint",
+      "options": {
+        "linter": "ktlint"
+      }
+    },
+    "test": {
+      "executor": "@jnxplus/nx-boot-maven:test"
+    },
+    "kformat": {
+      "executor": "@jnxplus/nx-boot-maven:kformat"
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,4183 @@
+{
+  "graph": {
+    "nodes": {
+      "apps-parent-project-5209106": {
+        "name": "apps-parent-project-5209106",
+        "type": "app",
+        "data": {
+          "name": "apps-parent-project-5209106",
+          "$schema": "../../../../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "options": {},
+              "configurations": {}
+            }
+          },
+          "tags": [],
+          "root": "apps/apps-parent-project-7652180/apps-parent-project-3135897/deep/subdir/apps-parent-project-5209106",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/apps-parent-project-7652180/apps-parent-project-3135897/deep/subdir/apps-parent-project-5209106/pom.xml",
+              "hash": "17533720704600734665",
+              "dependencies": [
+                {
+                  "source": "apps-parent-project-5209106",
+                  "target": "apps-parent-project-3135897",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/apps-parent-project-7652180/apps-parent-project-3135897/deep/subdir/apps-parent-project-5209106/project.json",
+              "hash": "15549853658416922904"
+            }
+          ]
+        }
+      },
+      "boot-maven-app-9242296": {
+        "name": "boot-maven-app-9242296",
+        "type": "app",
+        "data": {
+          "name": "boot-maven-app-9242296",
+          "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/apps-parent-project-7652180/apps-parent-project-3135897/boot-maven-app-9242296/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": [
+                "apps/apps-parent-project-7652180/apps-parent-project-3135897/boot-maven-app-9242296/target"
+              ],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            }
+          },
+          "tags": [],
+          "root": "apps/apps-parent-project-7652180/apps-parent-project-3135897/boot-maven-app-9242296",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/apps-parent-project-7652180/apps-parent-project-3135897/boot-maven-app-9242296/pom.xml",
+              "hash": "2742295858293838005",
+              "dependencies": [
+                {
+                  "source": "boot-maven-app-9242296",
+                  "target": "apps-parent-project-3135897",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/apps-parent-project-7652180/apps-parent-project-3135897/boot-maven-app-9242296/project.json",
+              "hash": "5129043735494164139"
+            },
+            {
+              "file": "apps/apps-parent-project-7652180/apps-parent-project-3135897/boot-maven-app-9242296/src/main/java/com/example/appsparentproject7652180/appsparentproject3135897/bootmavenapp9242296/BootMavenApp9242296Application.java",
+              "hash": "12770933848504923648"
+            },
+            {
+              "file": "apps/apps-parent-project-7652180/apps-parent-project-3135897/boot-maven-app-9242296/src/main/java/com/example/appsparentproject7652180/appsparentproject3135897/bootmavenapp9242296/HelloController.java",
+              "hash": "10551804270924697311"
+            },
+            {
+              "file": "apps/apps-parent-project-7652180/apps-parent-project-3135897/boot-maven-app-9242296/src/main/resources/application.properties",
+              "hash": "12724836385602680334"
+            },
+            {
+              "file": "apps/apps-parent-project-7652180/apps-parent-project-3135897/boot-maven-app-9242296/src/test/java/com/example/appsparentproject7652180/appsparentproject3135897/bootmavenapp9242296/BootMavenApp9242296ApplicationTests.java",
+              "hash": "11312087652237498327"
+            },
+            {
+              "file": "apps/apps-parent-project-7652180/apps-parent-project-3135897/boot-maven-app-9242296/src/test/java/com/example/appsparentproject7652180/appsparentproject3135897/bootmavenapp9242296/HelloControllerTests.java",
+              "hash": "15484924658087516296"
+            },
+            {
+              "file": "apps/apps-parent-project-7652180/apps-parent-project-3135897/boot-maven-app-9242296/src/test/resources/application.properties",
+              "hash": "15036214574332298676"
+            }
+          ]
+        }
+      },
+      "apps-parent-project-3135897": {
+        "name": "apps-parent-project-3135897",
+        "type": "app",
+        "data": {
+          "name": "apps-parent-project-3135897",
+          "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "options": {},
+              "configurations": {}
+            }
+          },
+          "tags": [],
+          "root": "apps/apps-parent-project-7652180/apps-parent-project-3135897",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/apps-parent-project-7652180/apps-parent-project-3135897/pom.xml",
+              "hash": "2977033381566538568",
+              "dependencies": [
+                {
+                  "source": "apps-parent-project-3135897",
+                  "target": "apps-parent-project-7652180",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/apps-parent-project-7652180/apps-parent-project-3135897/project.json",
+              "hash": "12254783183660095287"
+            }
+          ]
+        }
+      },
+      "boot-maven-app-8970720": {
+        "name": "boot-maven-app-8970720",
+        "type": "app",
+        "data": {
+          "name": "boot-maven-app-8970720",
+          "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/apps-parent-project-7652180/boot-maven-app-8970720/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": [
+                "apps/apps-parent-project-7652180/boot-maven-app-8970720/target"
+              ],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            }
+          },
+          "tags": [],
+          "root": "apps/apps-parent-project-7652180/boot-maven-app-8970720",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/apps-parent-project-7652180/boot-maven-app-8970720/pom.xml",
+              "hash": "15563986165018286486",
+              "dependencies": [
+                {
+                  "source": "boot-maven-app-8970720",
+                  "target": "apps-parent-project-7652180",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/apps-parent-project-7652180/boot-maven-app-8970720/project.json",
+              "hash": "4045485421210318718"
+            },
+            {
+              "file": "apps/apps-parent-project-7652180/boot-maven-app-8970720/src/main/java/com/example/appsparentproject7652180/bootmavenapp8970720/BootMavenApp8970720Application.java",
+              "hash": "3175800978337683373"
+            },
+            {
+              "file": "apps/apps-parent-project-7652180/boot-maven-app-8970720/src/main/java/com/example/appsparentproject7652180/bootmavenapp8970720/HelloController.java",
+              "hash": "18338424147492686623"
+            },
+            {
+              "file": "apps/apps-parent-project-7652180/boot-maven-app-8970720/src/main/resources/application.properties",
+              "hash": "12724836385602680334"
+            },
+            {
+              "file": "apps/apps-parent-project-7652180/boot-maven-app-8970720/src/test/java/com/example/appsparentproject7652180/bootmavenapp8970720/BootMavenApp8970720ApplicationTests.java",
+              "hash": "11792220698879539447"
+            },
+            {
+              "file": "apps/apps-parent-project-7652180/boot-maven-app-8970720/src/test/java/com/example/appsparentproject7652180/bootmavenapp8970720/HelloControllerTests.java",
+              "hash": "16265947452472919207"
+            },
+            {
+              "file": "apps/apps-parent-project-7652180/boot-maven-app-8970720/src/test/resources/application.properties",
+              "hash": "15036214574332298676"
+            }
+          ]
+        }
+      },
+      "parent-project-5918416-boot-maven-app-6616444": {
+        "name": "parent-project-5918416-boot-maven-app-6616444",
+        "type": "app",
+        "data": {
+          "name": "parent-project-5918416-boot-maven-app-6616444",
+          "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/parent-project-5918416/boot-maven-app-6616444/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": [
+                "apps/parent-project-5918416/boot-maven-app-6616444/target"
+              ],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            }
+          },
+          "tags": [],
+          "root": "apps/parent-project-5918416/boot-maven-app-6616444",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/parent-project-5918416/boot-maven-app-6616444/pom.xml",
+              "hash": "5292629687833970726",
+              "dependencies": [
+                {
+                  "source": "parent-project-5918416-boot-maven-app-6616444",
+                  "target": "parent-project-5918416",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/parent-project-5918416/boot-maven-app-6616444/project.json",
+              "hash": "11000740318381768139"
+            },
+            {
+              "file": "apps/parent-project-5918416/boot-maven-app-6616444/src/main/java/com/example/parentproject5918416/bootmavenapp6616444/HelloController.java",
+              "hash": "13469024956157444317"
+            },
+            {
+              "file": "apps/parent-project-5918416/boot-maven-app-6616444/src/main/java/com/example/parentproject5918416/bootmavenapp6616444/ParentProject5918416BootMavenApp6616444Application.java",
+              "hash": "16457225816269488019"
+            },
+            {
+              "file": "apps/parent-project-5918416/boot-maven-app-6616444/src/main/resources/application.properties",
+              "hash": "7235254428478188515"
+            },
+            {
+              "file": "apps/parent-project-5918416/boot-maven-app-6616444/src/test/java/com/example/parentproject5918416/bootmavenapp6616444/HelloControllerTests.java",
+              "hash": "9264651571823989420"
+            },
+            {
+              "file": "apps/parent-project-5918416/boot-maven-app-6616444/src/test/java/com/example/parentproject5918416/bootmavenapp6616444/ParentProject5918416BootMavenApp6616444ApplicationTests.java",
+              "hash": "15305933901698350636"
+            },
+            {
+              "file": "apps/parent-project-5918416/boot-maven-app-6616444/src/test/resources/application.properties",
+              "hash": "15036214574332298676"
+            }
+          ]
+        }
+      },
+      "deep-subdir-apps-parent-project-4029618": {
+        "name": "deep-subdir-apps-parent-project-4029618",
+        "type": "app",
+        "data": {
+          "name": "deep-subdir-apps-parent-project-4029618",
+          "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "options": {},
+              "configurations": {}
+            }
+          },
+          "tags": [],
+          "root": "apps/deep/subdir/apps-parent-project-4029618",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/deep/subdir/apps-parent-project-4029618/pom.xml",
+              "hash": "9320364291559045360",
+              "dependencies": [
+                {
+                  "source": "deep-subdir-apps-parent-project-4029618",
+                  "target": "apps-parent-project-474022",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/deep/subdir/apps-parent-project-4029618/project.json",
+              "hash": "12349522706024886172"
+            }
+          ]
+        }
+      },
+      "deep-subdir-libs-parent-project-3348293": {
+        "name": "deep-subdir-libs-parent-project-3348293",
+        "type": "lib",
+        "data": {
+          "name": "deep-subdir-libs-parent-project-3348293",
+          "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "options": {},
+              "configurations": {}
+            }
+          },
+          "tags": [],
+          "root": "libs/deep/subdir/libs-parent-project-3348293",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/deep/subdir/libs-parent-project-3348293/pom.xml",
+              "hash": "2287186240508164020",
+              "dependencies": [
+                {
+                  "source": "deep-subdir-libs-parent-project-3348293",
+                  "target": "libs-parent-project-4630794",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/deep/subdir/libs-parent-project-3348293/project.json",
+              "hash": "51456089072595587"
+            }
+          ]
+        }
+      },
+      "deep-subdir-libs-parent-project-9637027": {
+        "name": "deep-subdir-libs-parent-project-9637027",
+        "type": "lib",
+        "data": {
+          "name": "deep-subdir-libs-parent-project-9637027",
+          "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "options": {},
+              "configurations": {}
+            }
+          },
+          "tags": [],
+          "root": "libs/deep/subdir/libs-parent-project-9637027",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/deep/subdir/libs-parent-project-9637027/pom.xml",
+              "hash": "11508742816637026578",
+              "dependencies": [
+                {
+                  "source": "deep-subdir-libs-parent-project-9637027",
+                  "target": "libs-parent-project-9933577",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/deep/subdir/libs-parent-project-9637027/project.json",
+              "hash": "7654806495652941321"
+            }
+          ]
+        }
+      },
+      "deep-subdir-apps-parent-project-47755": {
+        "name": "deep-subdir-apps-parent-project-47755",
+        "type": "app",
+        "data": {
+          "name": "deep-subdir-apps-parent-project-47755",
+          "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "options": {},
+              "configurations": {}
+            }
+          },
+          "tags": [],
+          "root": "apps/deep/subdir/apps-parent-project-47755",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/deep/subdir/apps-parent-project-47755/pom.xml",
+              "hash": "11448850517286613393",
+              "dependencies": [
+                {
+                  "source": "deep-subdir-apps-parent-project-47755",
+                  "target": "apps-parent-project-755999",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/deep/subdir/apps-parent-project-47755/project.json",
+              "hash": "1506423911893138010"
+            }
+          ]
+        }
+      },
+      "deep-sub-dir-boot-maven-app-6328097": {
+        "name": "deep-sub-dir-boot-maven-app-6328097",
+        "type": "app",
+        "data": {
+          "name": "deep-sub-dir-boot-maven-app-6328097",
+          "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/deep/sub-dir/boot-maven-app-6328097/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["apps/deep/sub-dir/boot-maven-app-6328097/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            }
+          },
+          "tags": [],
+          "root": "apps/deep/sub-dir/boot-maven-app-6328097",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/deep/sub-dir/boot-maven-app-6328097/pom.xml",
+              "hash": "717903135370674534",
+              "dependencies": [
+                {
+                  "source": "deep-sub-dir-boot-maven-app-6328097",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/deep/sub-dir/boot-maven-app-6328097/project.json",
+              "hash": "3447222375986250389"
+            },
+            {
+              "file": "apps/deep/sub-dir/boot-maven-app-6328097/src/main/java/com/example/deep/subdir/bootmavenapp6328097/DeepSubDirBootMavenApp6328097Application.java",
+              "hash": "18044980256021417788"
+            },
+            {
+              "file": "apps/deep/sub-dir/boot-maven-app-6328097/src/main/java/com/example/deep/subdir/bootmavenapp6328097/HelloController.java",
+              "hash": "13451459817937515907"
+            },
+            {
+              "file": "apps/deep/sub-dir/boot-maven-app-6328097/src/main/resources/application.properties",
+              "hash": "10417768381252487720"
+            },
+            {
+              "file": "apps/deep/sub-dir/boot-maven-app-6328097/src/test/java/com/example/deep/subdir/bootmavenapp6328097/DeepSubDirBootMavenApp6328097ApplicationTests.java",
+              "hash": "8790040148519924948"
+            },
+            {
+              "file": "apps/deep/sub-dir/boot-maven-app-6328097/src/test/java/com/example/deep/subdir/bootmavenapp6328097/HelloControllerTests.java",
+              "hash": "12867180750061994516"
+            },
+            {
+              "file": "apps/deep/sub-dir/boot-maven-app-6328097/src/test/resources/application.properties",
+              "hash": "15036214574332298676"
+            }
+          ]
+        }
+      },
+      "boot-maven-app-4074304": {
+        "name": "boot-maven-app-4074304",
+        "type": "app",
+        "data": {
+          "name": "boot-maven-app-4074304",
+          "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/deep/subdir/boot-maven-app-4074304/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["apps/deep/subdir/boot-maven-app-4074304/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            }
+          },
+          "tags": ["e2etag", "e2ePackage"],
+          "root": "apps/deep/subdir/boot-maven-app-4074304",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/deep/subdir/boot-maven-app-4074304/pom.xml",
+              "hash": "6878193432522357729",
+              "dependencies": [
+                {
+                  "source": "boot-maven-app-4074304",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/deep/subdir/boot-maven-app-4074304/project.json",
+              "hash": "6027289490335980352"
+            },
+            {
+              "file": "apps/deep/subdir/boot-maven-app-4074304/src/main/java/com/jnxplus/deep/subdir/bootmavenapp4074304/BootMavenApp4074304Application.java",
+              "hash": "2293786875202371386"
+            },
+            {
+              "file": "apps/deep/subdir/boot-maven-app-4074304/src/main/java/com/jnxplus/deep/subdir/bootmavenapp4074304/HelloController.java",
+              "hash": "1726833704704694681"
+            },
+            {
+              "file": "apps/deep/subdir/boot-maven-app-4074304/src/main/java/com/jnxplus/deep/subdir/bootmavenapp4074304/ServletInitializer.java",
+              "hash": "9024817309874471727"
+            },
+            {
+              "file": "apps/deep/subdir/boot-maven-app-4074304/src/main/resources/application.yml",
+              "hash": "9524705035595798454"
+            },
+            {
+              "file": "apps/deep/subdir/boot-maven-app-4074304/src/test/java/com/jnxplus/deep/subdir/bootmavenapp4074304/BootMavenApp4074304ApplicationTests.java",
+              "hash": "6529930741963744851"
+            },
+            {
+              "file": "apps/deep/subdir/boot-maven-app-4074304/src/test/java/com/jnxplus/deep/subdir/bootmavenapp4074304/HelloControllerTests.java",
+              "hash": "17027392217470577111"
+            },
+            {
+              "file": "apps/deep/subdir/boot-maven-app-4074304/src/test/resources/application.yml",
+              "hash": "3244421341483603138"
+            }
+          ]
+        }
+      },
+      "deep-subdir-boot-maven-app-5935365": {
+        "name": "deep-subdir-boot-maven-app-5935365",
+        "type": "app",
+        "data": {
+          "name": "deep-subdir-boot-maven-app-5935365",
+          "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/deep/subdir/boot-maven-app-5935365/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["apps/deep/subdir/boot-maven-app-5935365/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            }
+          },
+          "tags": ["e2etag", "e2ePackage"],
+          "root": "apps/deep/subdir/boot-maven-app-5935365",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/deep/subdir/boot-maven-app-5935365/pom.xml",
+              "hash": "4334079576989577616",
+              "dependencies": [
+                {
+                  "source": "deep-subdir-boot-maven-app-5935365",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/deep/subdir/boot-maven-app-5935365/project.json",
+              "hash": "12984923051782570680"
+            },
+            {
+              "file": "apps/deep/subdir/boot-maven-app-5935365/src/main/java/com/jnxplus/deep/subdir/bootmavenapp5935365/DeepSubdirBootMavenApp5935365Application.java",
+              "hash": "12731906616688049985"
+            },
+            {
+              "file": "apps/deep/subdir/boot-maven-app-5935365/src/main/java/com/jnxplus/deep/subdir/bootmavenapp5935365/HelloController.java",
+              "hash": "10434250361752657670"
+            },
+            {
+              "file": "apps/deep/subdir/boot-maven-app-5935365/src/main/java/com/jnxplus/deep/subdir/bootmavenapp5935365/ServletInitializer.java",
+              "hash": "2678637570116641574"
+            },
+            {
+              "file": "apps/deep/subdir/boot-maven-app-5935365/src/main/resources/application.yml",
+              "hash": "1113028389647270859"
+            },
+            {
+              "file": "apps/deep/subdir/boot-maven-app-5935365/src/test/java/com/jnxplus/deep/subdir/bootmavenapp5935365/DeepSubdirBootMavenApp5935365ApplicationTests.java",
+              "hash": "2893047103101165111"
+            },
+            {
+              "file": "apps/deep/subdir/boot-maven-app-5935365/src/test/java/com/jnxplus/deep/subdir/bootmavenapp5935365/HelloControllerTests.java",
+              "hash": "1575877363215463876"
+            },
+            {
+              "file": "apps/deep/subdir/boot-maven-app-5935365/src/test/resources/application.yml",
+              "hash": "3244421341483603138"
+            }
+          ]
+        }
+      },
+      "boot-maven-lib-4513547": {
+        "name": "boot-maven-lib-4513547",
+        "type": "lib",
+        "data": {
+          "name": "boot-maven-lib-4513547",
+          "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "sourceRoot": "libs/deep/subdir/boot-maven-lib-4513547/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["libs/deep/subdir/boot-maven-lib-4513547/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test"
+            }
+          },
+          "tags": ["e2etag", "e2ePackage"],
+          "root": "libs/deep/subdir/boot-maven-lib-4513547",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/deep/subdir/boot-maven-lib-4513547/pom.xml",
+              "hash": "17851919630518008262",
+              "dependencies": [
+                {
+                  "source": "boot-maven-lib-4513547",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/deep/subdir/boot-maven-lib-4513547/project.json",
+              "hash": "17872727044329552033"
+            },
+            {
+              "file": "libs/deep/subdir/boot-maven-lib-4513547/src/main/java/com/jnxplus/deep/subdir/bootmavenlib4513547/HelloService.java",
+              "hash": "17117960981095778122"
+            },
+            {
+              "file": "libs/deep/subdir/boot-maven-lib-4513547/src/test/java/com/jnxplus/deep/subdir/bootmavenlib4513547/HelloServiceTests.java",
+              "hash": "3202918058689572269"
+            },
+            {
+              "file": "libs/deep/subdir/boot-maven-lib-4513547/src/test/java/com/jnxplus/deep/subdir/bootmavenlib4513547/TestConfiguration.java",
+              "hash": "10792697944490851251"
+            }
+          ]
+        }
+      },
+      "deep-subdir-boot-maven-lib-8130683": {
+        "name": "deep-subdir-boot-maven-lib-8130683",
+        "type": "lib",
+        "data": {
+          "name": "deep-subdir-boot-maven-lib-8130683",
+          "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "sourceRoot": "libs/deep/subdir/boot-maven-lib-8130683/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["libs/deep/subdir/boot-maven-lib-8130683/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test"
+            }
+          },
+          "tags": ["e2etag", "e2ePackage"],
+          "root": "libs/deep/subdir/boot-maven-lib-8130683",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/deep/subdir/boot-maven-lib-8130683/pom.xml",
+              "hash": "6943976882837531736",
+              "dependencies": [
+                {
+                  "source": "deep-subdir-boot-maven-lib-8130683",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/deep/subdir/boot-maven-lib-8130683/project.json",
+              "hash": "9752236464536741652"
+            },
+            {
+              "file": "libs/deep/subdir/boot-maven-lib-8130683/src/main/java/com/jnxplus/deep/subdir/bootmavenlib8130683/HelloService.java",
+              "hash": "16113206619416079461"
+            },
+            {
+              "file": "libs/deep/subdir/boot-maven-lib-8130683/src/test/java/com/jnxplus/deep/subdir/bootmavenlib8130683/HelloServiceTests.java",
+              "hash": "9828872521282030150"
+            },
+            {
+              "file": "libs/deep/subdir/boot-maven-lib-8130683/src/test/java/com/jnxplus/deep/subdir/bootmavenlib8130683/TestConfiguration.java",
+              "hash": "11092654667087001811"
+            }
+          ]
+        }
+      },
+      "deep-subdir-boot-maven-lib-9104398": {
+        "name": "deep-subdir-boot-maven-lib-9104398",
+        "type": "lib",
+        "data": {
+          "name": "deep-subdir-boot-maven-lib-9104398",
+          "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "sourceRoot": "libs/deep/subdir/boot-maven-lib-9104398/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["libs/deep/subdir/boot-maven-lib-9104398/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test"
+            }
+          },
+          "tags": ["e2etag", "e2ePackage"],
+          "root": "libs/deep/subdir/boot-maven-lib-9104398",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/deep/subdir/boot-maven-lib-9104398/pom.xml",
+              "hash": "4236840098353312139",
+              "dependencies": [
+                {
+                  "source": "deep-subdir-boot-maven-lib-9104398",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/deep/subdir/boot-maven-lib-9104398/project.json",
+              "hash": "9736988909173544355"
+            },
+            {
+              "file": "libs/deep/subdir/boot-maven-lib-9104398/src/main/java/com/jnxplus/bootmavenlib9104398/HelloService.java",
+              "hash": "9300441703130302524"
+            },
+            {
+              "file": "libs/deep/subdir/boot-maven-lib-9104398/src/test/java/com/jnxplus/bootmavenlib9104398/HelloServiceTests.java",
+              "hash": "15280980236280585694"
+            },
+            {
+              "file": "libs/deep/subdir/boot-maven-lib-9104398/src/test/java/com/jnxplus/bootmavenlib9104398/TestConfiguration.java",
+              "hash": "5440213304144896131"
+            }
+          ]
+        }
+      },
+      "subdir-boot-maven-app-4172491": {
+        "name": "subdir-boot-maven-app-4172491",
+        "type": "app",
+        "data": {
+          "name": "subdir-boot-maven-app-4172491",
+          "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/subdir/boot-maven-app-4172491/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["apps/subdir/boot-maven-app-4172491/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            }
+          },
+          "tags": ["e2etag", "e2ePackage"],
+          "root": "apps/subdir/boot-maven-app-4172491",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/subdir/boot-maven-app-4172491/pom.xml",
+              "hash": "12066465552641838747",
+              "dependencies": [
+                {
+                  "source": "subdir-boot-maven-app-4172491",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/subdir/boot-maven-app-4172491/project.json",
+              "hash": "17100395199575049629"
+            },
+            {
+              "file": "apps/subdir/boot-maven-app-4172491/src/main/java/com/jnxplus/subdir/bootmavenapp4172491/HelloController.java",
+              "hash": "3728712921339016100"
+            },
+            {
+              "file": "apps/subdir/boot-maven-app-4172491/src/main/java/com/jnxplus/subdir/bootmavenapp4172491/ServletInitializer.java",
+              "hash": "2676343557553145681"
+            },
+            {
+              "file": "apps/subdir/boot-maven-app-4172491/src/main/java/com/jnxplus/subdir/bootmavenapp4172491/SubdirBootMavenApp4172491Application.java",
+              "hash": "4879756639397826880"
+            },
+            {
+              "file": "apps/subdir/boot-maven-app-4172491/src/main/resources/application.yml",
+              "hash": "6721222860473933827"
+            },
+            {
+              "file": "apps/subdir/boot-maven-app-4172491/src/test/java/com/jnxplus/subdir/bootmavenapp4172491/HelloControllerTests.java",
+              "hash": "8158156429943556250"
+            },
+            {
+              "file": "apps/subdir/boot-maven-app-4172491/src/test/java/com/jnxplus/subdir/bootmavenapp4172491/SubdirBootMavenApp4172491ApplicationTests.java",
+              "hash": "2011496998029751051"
+            },
+            {
+              "file": "apps/subdir/boot-maven-app-4172491/src/test/resources/application.yml",
+              "hash": "3244421341483603138"
+            }
+          ]
+        }
+      },
+      "subdir-boot-maven-app-4331202": {
+        "name": "subdir-boot-maven-app-4331202",
+        "type": "app",
+        "data": {
+          "name": "subdir-boot-maven-app-4331202",
+          "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/subdir/boot-maven-app-4331202/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["apps/subdir/boot-maven-app-4331202/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            }
+          },
+          "tags": ["e2etag", "e2ePackage"],
+          "root": "apps/subdir/boot-maven-app-4331202",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/subdir/boot-maven-app-4331202/pom.xml",
+              "hash": "9868370819622331155",
+              "dependencies": [
+                {
+                  "source": "subdir-boot-maven-app-4331202",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/subdir/boot-maven-app-4331202/project.json",
+              "hash": "13428590730529696639"
+            },
+            {
+              "file": "apps/subdir/boot-maven-app-4331202/src/main/java/com/jnxplus/bootmavenapp4331202/HelloController.java",
+              "hash": "3980850152356303719"
+            },
+            {
+              "file": "apps/subdir/boot-maven-app-4331202/src/main/java/com/jnxplus/bootmavenapp4331202/ServletInitializer.java",
+              "hash": "12216235517939162454"
+            },
+            {
+              "file": "apps/subdir/boot-maven-app-4331202/src/main/java/com/jnxplus/bootmavenapp4331202/SubdirBootMavenApp4331202Application.java",
+              "hash": "504972703551569248"
+            },
+            {
+              "file": "apps/subdir/boot-maven-app-4331202/src/main/resources/application.yml",
+              "hash": "16111313292763395201"
+            },
+            {
+              "file": "apps/subdir/boot-maven-app-4331202/src/test/java/com/jnxplus/bootmavenapp4331202/HelloControllerTests.java",
+              "hash": "8034034614928064932"
+            },
+            {
+              "file": "apps/subdir/boot-maven-app-4331202/src/test/java/com/jnxplus/bootmavenapp4331202/SubdirBootMavenApp4331202ApplicationTests.java",
+              "hash": "10672601400950329694"
+            },
+            {
+              "file": "apps/subdir/boot-maven-app-4331202/src/test/resources/application.yml",
+              "hash": "3244421341483603138"
+            }
+          ]
+        }
+      },
+      "subdir-boot-maven-lib-2085508": {
+        "name": "subdir-boot-maven-lib-2085508",
+        "type": "lib",
+        "data": {
+          "name": "subdir-boot-maven-lib-2085508",
+          "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "sourceRoot": "libs/subdir/boot-maven-lib-2085508/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["libs/subdir/boot-maven-lib-2085508/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test"
+            }
+          },
+          "tags": [],
+          "root": "libs/subdir/boot-maven-lib-2085508",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/subdir/boot-maven-lib-2085508/pom.xml",
+              "hash": "4200675748464353366",
+              "dependencies": [
+                {
+                  "source": "subdir-boot-maven-lib-2085508",
+                  "target": "libs-parent-project-9933577",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/subdir/boot-maven-lib-2085508/project.json",
+              "hash": "12085580107714477711"
+            },
+            {
+              "file": "libs/subdir/boot-maven-lib-2085508/src/main/java/com/example/subdir/bootmavenlib2085508/HelloService.java",
+              "hash": "5981652523848820646"
+            },
+            {
+              "file": "libs/subdir/boot-maven-lib-2085508/src/test/java/com/example/subdir/bootmavenlib2085508/HelloServiceTests.java",
+              "hash": "3766832937064956640"
+            },
+            {
+              "file": "libs/subdir/boot-maven-lib-2085508/src/test/java/com/example/subdir/bootmavenlib2085508/TestConfiguration.java",
+              "hash": "1561102737263832579"
+            }
+          ]
+        }
+      },
+      "subdir-boot-maven-lib-2825830": {
+        "name": "subdir-boot-maven-lib-2825830",
+        "type": "lib",
+        "data": {
+          "name": "subdir-boot-maven-lib-2825830",
+          "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "sourceRoot": "libs/subdir/boot-maven-lib-2825830/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["libs/subdir/boot-maven-lib-2825830/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "ktlint"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test"
+            },
+            "kformat": {
+              "executor": "@jnxplus/nx-boot-maven:kformat"
+            }
+          },
+          "tags": [],
+          "root": "libs/subdir/boot-maven-lib-2825830",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/subdir/boot-maven-lib-2825830/pom.xml",
+              "hash": "16365305726067775534",
+              "dependencies": [
+                {
+                  "source": "subdir-boot-maven-lib-2825830",
+                  "target": "libs-parent-project-4630794",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/subdir/boot-maven-lib-2825830/project.json",
+              "hash": "18339653504512647924"
+            },
+            {
+              "file": "libs/subdir/boot-maven-lib-2825830/src/main/kotlin/com/example/subdir/bootmavenlib2825830/HelloService.kt",
+              "hash": "16835528129195386853"
+            },
+            {
+              "file": "libs/subdir/boot-maven-lib-2825830/src/test/kotlin/com/example/subdir/bootmavenlib2825830/HelloServiceTests.kt",
+              "hash": "14322935624447585462"
+            },
+            {
+              "file": "libs/subdir/boot-maven-lib-2825830/src/test/kotlin/com/example/subdir/bootmavenlib2825830/TestConfiguration.kt",
+              "hash": "11063997021806929039"
+            },
+            {
+              "file": "libs/subdir/boot-maven-lib-2825830/src/test/resources/junit-platform.properties",
+              "hash": "7919264814801936699"
+            }
+          ]
+        }
+      },
+      "subdir-boot-maven-lib-3185232": {
+        "name": "subdir-boot-maven-lib-3185232",
+        "type": "lib",
+        "data": {
+          "name": "subdir-boot-maven-lib-3185232",
+          "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "sourceRoot": "libs/subdir/boot-maven-lib-3185232/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["libs/subdir/boot-maven-lib-3185232/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test"
+            }
+          },
+          "tags": ["e2etag", "e2ePackage"],
+          "root": "libs/subdir/boot-maven-lib-3185232",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/subdir/boot-maven-lib-3185232/pom.xml",
+              "hash": "5757059732551180848",
+              "dependencies": [
+                {
+                  "source": "subdir-boot-maven-lib-3185232",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/subdir/boot-maven-lib-3185232/project.json",
+              "hash": "6453749876096044044"
+            },
+            {
+              "file": "libs/subdir/boot-maven-lib-3185232/src/main/java/com/jnxplus/subdir/bootmavenlib3185232/HelloService.java",
+              "hash": "14717155689724916830"
+            },
+            {
+              "file": "libs/subdir/boot-maven-lib-3185232/src/test/java/com/jnxplus/subdir/bootmavenlib3185232/HelloServiceTests.java",
+              "hash": "12631845425296947149"
+            },
+            {
+              "file": "libs/subdir/boot-maven-lib-3185232/src/test/java/com/jnxplus/subdir/bootmavenlib3185232/TestConfiguration.java",
+              "hash": "14884618621415099167"
+            }
+          ]
+        }
+      },
+      "apps-parent-project-1408243": {
+        "name": "apps-parent-project-1408243",
+        "type": "app",
+        "data": {
+          "name": "apps-parent-project-1408243",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "options": {},
+              "configurations": {}
+            }
+          },
+          "tags": [],
+          "root": "apps/apps-parent-project-1408243",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/apps-parent-project-1408243/pom.xml",
+              "hash": "4887892933758679901",
+              "dependencies": [
+                {
+                  "source": "apps-parent-project-1408243",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/apps-parent-project-1408243/project.json",
+              "hash": "15588162807689943957"
+            }
+          ]
+        }
+      },
+      "apps-parent-project-8512788": {
+        "name": "apps-parent-project-8512788",
+        "type": "app",
+        "data": {
+          "name": "apps-parent-project-8512788",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "options": {},
+              "configurations": {}
+            }
+          },
+          "tags": [],
+          "root": "apps/apps-parent-project-8512788",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/apps-parent-project-8512788/pom.xml",
+              "hash": "12367228548877939901",
+              "dependencies": [
+                {
+                  "source": "apps-parent-project-8512788",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/apps-parent-project-8512788/project.json",
+              "hash": "7994627755296725577"
+            }
+          ]
+        }
+      },
+      "libs-parent-project-3447754": {
+        "name": "libs-parent-project-3447754",
+        "type": "lib",
+        "data": {
+          "name": "libs-parent-project-3447754",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "options": {},
+              "configurations": {}
+            }
+          },
+          "tags": [],
+          "root": "libs/libs-parent-project-3447754",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/libs-parent-project-3447754/pom.xml",
+              "hash": "17014579722136546305",
+              "dependencies": [
+                {
+                  "source": "libs-parent-project-3447754",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/libs-parent-project-3447754/project.json",
+              "hash": "1096416619526144524"
+            }
+          ]
+        }
+      },
+      "libs-parent-project-4630794": {
+        "name": "libs-parent-project-4630794",
+        "type": "lib",
+        "data": {
+          "name": "libs-parent-project-4630794",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "options": {},
+              "configurations": {}
+            }
+          },
+          "tags": [],
+          "root": "libs/libs-parent-project-4630794",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/libs-parent-project-4630794/pom.xml",
+              "hash": "3512518751954545781",
+              "dependencies": [
+                {
+                  "source": "libs-parent-project-4630794",
+                  "target": "libs-parent-project-3447754",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/libs-parent-project-4630794/project.json",
+              "hash": "14552243785431484992"
+            }
+          ]
+        }
+      },
+      "libs-parent-project-9860972": {
+        "name": "libs-parent-project-9860972",
+        "type": "lib",
+        "data": {
+          "name": "libs-parent-project-9860972",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "options": {},
+              "configurations": {}
+            }
+          },
+          "tags": [],
+          "root": "libs/libs-parent-project-9860972",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/libs-parent-project-9860972/pom.xml",
+              "hash": "10277828242241437913",
+              "dependencies": [
+                {
+                  "source": "libs-parent-project-9860972",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/libs-parent-project-9860972/project.json",
+              "hash": "11275504511930096194"
+            }
+          ]
+        }
+      },
+      "libs-parent-project-9933577": {
+        "name": "libs-parent-project-9933577",
+        "type": "lib",
+        "data": {
+          "name": "libs-parent-project-9933577",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "options": {},
+              "configurations": {}
+            }
+          },
+          "tags": [],
+          "root": "libs/libs-parent-project-9933577",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/libs-parent-project-9933577/pom.xml",
+              "hash": "11222285328018694231",
+              "dependencies": [
+                {
+                  "source": "libs-parent-project-9933577",
+                  "target": "libs-parent-project-9860972",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/libs-parent-project-9933577/project.json",
+              "hash": "2297899952674950120"
+            }
+          ]
+        }
+      },
+      "apps-parent-project-474022": {
+        "name": "apps-parent-project-474022",
+        "type": "app",
+        "data": {
+          "name": "apps-parent-project-474022",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "options": {},
+              "configurations": {}
+            }
+          },
+          "tags": [],
+          "root": "apps/apps-parent-project-474022",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/apps-parent-project-474022/pom.xml",
+              "hash": "11078896693819769734",
+              "dependencies": [
+                {
+                  "source": "apps-parent-project-474022",
+                  "target": "apps-parent-project-1408243",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/apps-parent-project-474022/project.json",
+              "hash": "5703756199248370111"
+            }
+          ]
+        }
+      },
+      "apps-parent-project-755999": {
+        "name": "apps-parent-project-755999",
+        "type": "app",
+        "data": {
+          "name": "apps-parent-project-755999",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "options": {},
+              "configurations": {}
+            }
+          },
+          "tags": [],
+          "root": "apps/apps-parent-project-755999",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/apps-parent-project-755999/pom.xml",
+              "hash": "16815495226690398727",
+              "dependencies": [
+                {
+                  "source": "apps-parent-project-755999",
+                  "target": "apps-parent-project-8512788",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/apps-parent-project-755999/project.json",
+              "hash": "4722301311456751478"
+            }
+          ]
+        }
+      },
+      "dir-boot-maven-app-8847808": {
+        "name": "dir-boot-maven-app-8847808",
+        "type": "app",
+        "data": {
+          "name": "dir-boot-maven-app-8847808",
+          "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/dir/boot-maven-app-8847808/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["apps/dir/boot-maven-app-8847808/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            }
+          },
+          "tags": [],
+          "root": "apps/dir/boot-maven-app-8847808",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/dir/boot-maven-app-8847808/pom.xml",
+              "hash": "9807350065810733900",
+              "dependencies": [
+                {
+                  "source": "dir-boot-maven-app-8847808",
+                  "target": "apps-parent-project-8512788",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/dir/boot-maven-app-8847808/project.json",
+              "hash": "13056021436007084028"
+            },
+            {
+              "file": "apps/dir/boot-maven-app-8847808/src/main/java/com/example/dir/bootmavenapp8847808/DirBootMavenApp8847808Application.java",
+              "hash": "3265698508522826943"
+            },
+            {
+              "file": "apps/dir/boot-maven-app-8847808/src/main/java/com/example/dir/bootmavenapp8847808/HelloController.java",
+              "hash": "8696333196996505225"
+            },
+            {
+              "file": "apps/dir/boot-maven-app-8847808/src/main/resources/application.properties",
+              "hash": "12724836385602680334"
+            },
+            {
+              "file": "apps/dir/boot-maven-app-8847808/src/test/java/com/example/dir/bootmavenapp8847808/DirBootMavenApp8847808ApplicationTests.java",
+              "hash": "3269627201923703459"
+            },
+            {
+              "file": "apps/dir/boot-maven-app-8847808/src/test/java/com/example/dir/bootmavenapp8847808/HelloControllerTests.java",
+              "hash": "17767568381319216186"
+            },
+            {
+              "file": "apps/dir/boot-maven-app-8847808/src/test/resources/application.properties",
+              "hash": "15036214574332298676"
+            }
+          ]
+        }
+      },
+      "dir-boot-maven-app-766115": {
+        "name": "dir-boot-maven-app-766115",
+        "type": "app",
+        "data": {
+          "name": "dir-boot-maven-app-766115",
+          "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/dir/boot-maven-app-766115/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["apps/dir/boot-maven-app-766115/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "ktlint"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "kformat": {
+              "executor": "@jnxplus/nx-boot-maven:kformat"
+            }
+          },
+          "tags": [],
+          "root": "apps/dir/boot-maven-app-766115",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/dir/boot-maven-app-766115/pom.xml",
+              "hash": "10425473804966284506",
+              "dependencies": [
+                {
+                  "source": "dir-boot-maven-app-766115",
+                  "target": "apps-parent-project-1408243",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/dir/boot-maven-app-766115/project.json",
+              "hash": "12487759702508847162"
+            },
+            {
+              "file": "apps/dir/boot-maven-app-766115/src/main/kotlin/com/example/dir/bootmavenapp766115/DirBootMavenApp766115Application.kt",
+              "hash": "6865769950029725208"
+            },
+            {
+              "file": "apps/dir/boot-maven-app-766115/src/main/kotlin/com/example/dir/bootmavenapp766115/HelloController.kt",
+              "hash": "3050742390220608029"
+            },
+            {
+              "file": "apps/dir/boot-maven-app-766115/src/main/resources/application.properties",
+              "hash": "12724836385602680334"
+            },
+            {
+              "file": "apps/dir/boot-maven-app-766115/src/test/kotlin/com/example/dir/bootmavenapp766115/DirBootMavenApp766115ApplicationTests.kt",
+              "hash": "4139153948318807337"
+            },
+            {
+              "file": "apps/dir/boot-maven-app-766115/src/test/kotlin/com/example/dir/bootmavenapp766115/HelloControllerTests.kt",
+              "hash": "11488346287791382675"
+            },
+            {
+              "file": "apps/dir/boot-maven-app-766115/src/test/resources/application.properties",
+              "hash": "15036214574332298676"
+            },
+            {
+              "file": "apps/dir/boot-maven-app-766115/src/test/resources/junit-platform.properties",
+              "hash": "7919264814801936699"
+            }
+          ]
+        }
+      },
+      "boot-maven-app-1599613": {
+        "name": "boot-maven-app-1599613",
+        "type": "app",
+        "data": {
+          "name": "boot-maven-app-1599613",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/boot-maven-app-1599613/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["apps/boot-maven-app-1599613/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "ktlint"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "kformat": {
+              "executor": "@jnxplus/nx-boot-maven:kformat"
+            }
+          },
+          "tags": [],
+          "root": "apps/boot-maven-app-1599613",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/boot-maven-app-1599613/pom.xml",
+              "hash": "13255395179643660440",
+              "dependencies": [
+                {
+                  "source": "boot-maven-app-1599613",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/boot-maven-app-1599613/project.json",
+              "hash": "9834855801305249897"
+            },
+            {
+              "file": "apps/boot-maven-app-1599613/src/main/kotlin/com/example/bootmavenapp1599613/BootMavenApp1599613Application.kt",
+              "hash": "7202866786569810041"
+            },
+            {
+              "file": "apps/boot-maven-app-1599613/src/main/resources/application.properties",
+              "hash": "5110052210942964788"
+            },
+            {
+              "file": "apps/boot-maven-app-1599613/src/test/kotlin/com/example/bootmavenapp1599613/BootMavenApp1599613ApplicationTests.kt",
+              "hash": "10744047495639990534"
+            }
+          ]
+        }
+      },
+      "boot-maven-app-1748002": {
+        "name": "boot-maven-app-1748002",
+        "type": "app",
+        "data": {
+          "name": "boot-maven-app-1748002",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/boot-maven-app-1748002/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["apps/boot-maven-app-1748002/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "run-task": {
+              "executor": "@jnxplus/nx-boot-maven:run-task"
+            }
+          },
+          "tags": [],
+          "root": "apps/boot-maven-app-1748002",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/boot-maven-app-1748002/pom.xml",
+              "hash": "8270008361722950055",
+              "dependencies": [
+                {
+                  "source": "boot-maven-app-1748002",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/boot-maven-app-1748002/project.json",
+              "hash": "11504598213181363138"
+            },
+            {
+              "file": "apps/boot-maven-app-1748002/src/main/java/com/example/bootmavenapp1748002/BootMavenApp1748002Application.java",
+              "hash": "4937461311988084745"
+            },
+            {
+              "file": "apps/boot-maven-app-1748002/src/main/java/com/example/bootmavenapp1748002/HelloController.java",
+              "hash": "18383184552662004742"
+            },
+            {
+              "file": "apps/boot-maven-app-1748002/src/main/resources/application.properties",
+              "hash": "12724836385602680334"
+            },
+            {
+              "file": "apps/boot-maven-app-1748002/src/test/java/com/example/bootmavenapp1748002/BootMavenApp1748002ApplicationTests.java",
+              "hash": "520745693837855216"
+            },
+            {
+              "file": "apps/boot-maven-app-1748002/src/test/java/com/example/bootmavenapp1748002/HelloControllerTests.java",
+              "hash": "1922111156979605069"
+            },
+            {
+              "file": "apps/boot-maven-app-1748002/src/test/resources/application.properties",
+              "hash": "15036214574332298676"
+            }
+          ]
+        }
+      },
+      "boot-maven-app-2708025": {
+        "name": "boot-maven-app-2708025",
+        "type": "app",
+        "data": {
+          "name": "boot-maven-app-2708025",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/boot-maven-app-2708025/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["apps/boot-maven-app-2708025/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            }
+          },
+          "tags": [],
+          "root": "apps/boot-maven-app-2708025",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/boot-maven-app-2708025/pom.xml",
+              "hash": "4608506857725132358",
+              "dependencies": [
+                {
+                  "source": "boot-maven-app-2708025",
+                  "target": "deep-subdir-apps-parent-project-47755",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/boot-maven-app-2708025/project.json",
+              "hash": "10658925744580482647"
+            },
+            {
+              "file": "apps/boot-maven-app-2708025/src/main/java/com/example/bootmavenapp2708025/BootMavenApp2708025Application.java",
+              "hash": "16006833090879236406"
+            },
+            {
+              "file": "apps/boot-maven-app-2708025/src/main/java/com/example/bootmavenapp2708025/HelloController.java",
+              "hash": "11656602053609909314"
+            },
+            {
+              "file": "apps/boot-maven-app-2708025/src/main/resources/application.properties",
+              "hash": "12724836385602680334"
+            },
+            {
+              "file": "apps/boot-maven-app-2708025/src/test/java/com/example/bootmavenapp2708025/BootMavenApp2708025ApplicationTests.java",
+              "hash": "12022529869304606663"
+            },
+            {
+              "file": "apps/boot-maven-app-2708025/src/test/java/com/example/bootmavenapp2708025/HelloControllerTests.java",
+              "hash": "11464886804024859351"
+            },
+            {
+              "file": "apps/boot-maven-app-2708025/src/test/resources/application.properties",
+              "hash": "15036214574332298676"
+            }
+          ]
+        }
+      },
+      "boot-maven-app-4121168": {
+        "name": "boot-maven-app-4121168",
+        "type": "app",
+        "data": {
+          "name": "boot-maven-app-4121168",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/boot-maven-app-4121168/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["apps/boot-maven-app-4121168/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            }
+          },
+          "tags": [],
+          "root": "apps/boot-maven-app-4121168",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/boot-maven-app-4121168/pom.xml",
+              "hash": "1065092700154436698",
+              "dependencies": [
+                {
+                  "source": "boot-maven-app-4121168",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/boot-maven-app-4121168/project.json",
+              "hash": "6558767204206575156"
+            },
+            {
+              "file": "apps/boot-maven-app-4121168/src/main/java/com/example/bootmavenapp4121168/BootMavenApp4121168Application.java",
+              "hash": "3128448725351587877"
+            },
+            {
+              "file": "apps/boot-maven-app-4121168/src/main/resources/application.properties",
+              "hash": "13897526436896341248"
+            },
+            {
+              "file": "apps/boot-maven-app-4121168/src/test/java/com/example/bootmavenapp4121168/BootMavenApp4121168ApplicationTests.java",
+              "hash": "16288797938158567023"
+            }
+          ]
+        }
+      },
+      "boot-maven-app-4158627": {
+        "name": "boot-maven-app-4158627",
+        "type": "app",
+        "data": {
+          "name": "boot-maven-app-4158627",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/boot-maven-app-4158627/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["apps/boot-maven-app-4158627/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "ktlint"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "kformat": {
+              "executor": "@jnxplus/nx-boot-maven:kformat"
+            }
+          },
+          "tags": [],
+          "root": "apps/boot-maven-app-4158627",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/boot-maven-app-4158627/pom.xml",
+              "hash": "10809683501796651561",
+              "dependencies": [
+                {
+                  "source": "boot-maven-app-4158627",
+                  "target": "deep-subdir-apps-parent-project-4029618",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/boot-maven-app-4158627/project.json",
+              "hash": "5446987962175438046"
+            },
+            {
+              "file": "apps/boot-maven-app-4158627/src/main/kotlin/com/example/bootmavenapp4158627/BootMavenApp4158627Application.kt",
+              "hash": "14769192255611699126"
+            },
+            {
+              "file": "apps/boot-maven-app-4158627/src/main/kotlin/com/example/bootmavenapp4158627/HelloController.kt",
+              "hash": "6428941325938144065"
+            },
+            {
+              "file": "apps/boot-maven-app-4158627/src/main/resources/application.properties",
+              "hash": "12724836385602680334"
+            },
+            {
+              "file": "apps/boot-maven-app-4158627/src/test/kotlin/com/example/bootmavenapp4158627/BootMavenApp4158627ApplicationTests.kt",
+              "hash": "13757322238586179069"
+            },
+            {
+              "file": "apps/boot-maven-app-4158627/src/test/kotlin/com/example/bootmavenapp4158627/HelloControllerTests.kt",
+              "hash": "17221923378233339896"
+            },
+            {
+              "file": "apps/boot-maven-app-4158627/src/test/resources/application.properties",
+              "hash": "15036214574332298676"
+            },
+            {
+              "file": "apps/boot-maven-app-4158627/src/test/resources/junit-platform.properties",
+              "hash": "7919264814801936699"
+            }
+          ]
+        }
+      },
+      "boot-maven-app-4532651": {
+        "name": "boot-maven-app-4532651",
+        "type": "app",
+        "data": {
+          "name": "boot-maven-app-4532651",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/boot-maven-app-4532651/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["apps/boot-maven-app-4532651/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "ktlint"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "kformat": {
+              "executor": "@jnxplus/nx-boot-maven:kformat"
+            }
+          },
+          "tags": [],
+          "root": "apps/boot-maven-app-4532651",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/boot-maven-app-4532651/pom.xml",
+              "hash": "333949692027747",
+              "dependencies": [
+                {
+                  "source": "boot-maven-app-4532651",
+                  "target": "boot-maven-lib-495386",
+                  "type": "static"
+                },
+                {
+                  "source": "boot-maven-app-4532651",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/boot-maven-app-4532651/project.json",
+              "hash": "17775268970041850321"
+            },
+            {
+              "file": "apps/boot-maven-app-4532651/src/main/kotlin/com/example/bootmavenapp4532651/BootMavenApp4532651Application.kt",
+              "hash": "9214888532226275961"
+            },
+            {
+              "file": "apps/boot-maven-app-4532651/src/main/kotlin/com/example/bootmavenapp4532651/HelloController.kt",
+              "hash": "4017036241856911072"
+            },
+            {
+              "file": "apps/boot-maven-app-4532651/src/main/kotlin/com/example/bootmavenapp4532651/ServletInitializer.kt",
+              "hash": "13090785082263489025"
+            },
+            {
+              "file": "apps/boot-maven-app-4532651/src/main/resources/application.properties",
+              "hash": "12724836385602680334"
+            },
+            {
+              "file": "apps/boot-maven-app-4532651/src/test/kotlin/com/example/bootmavenapp4532651/BootMavenApp4532651ApplicationTests.kt",
+              "hash": "4337543394273220488"
+            },
+            {
+              "file": "apps/boot-maven-app-4532651/src/test/kotlin/com/example/bootmavenapp4532651/HelloControllerTests.kt",
+              "hash": "11831868566830732407"
+            },
+            {
+              "file": "apps/boot-maven-app-4532651/src/test/resources/application.properties",
+              "hash": "15036214574332298676"
+            },
+            {
+              "file": "apps/boot-maven-app-4532651/src/test/resources/junit-platform.properties",
+              "hash": "7919264814801936699"
+            }
+          ]
+        }
+      },
+      "boot-maven-app-5233978": {
+        "name": "boot-maven-app-5233978",
+        "type": "app",
+        "data": {
+          "name": "boot-maven-app-5233978",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/boot-maven-app-5233978/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["apps/boot-maven-app-5233978/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "ktlint"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "kformat": {
+              "executor": "@jnxplus/nx-boot-maven:kformat"
+            }
+          },
+          "tags": [],
+          "root": "apps/boot-maven-app-5233978",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/boot-maven-app-5233978/pom.xml",
+              "hash": "1069065419474877712",
+              "dependencies": [
+                {
+                  "source": "boot-maven-app-5233978",
+                  "target": "apps-parent-project-474022",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/boot-maven-app-5233978/project.json",
+              "hash": "12649923163298449083"
+            },
+            {
+              "file": "apps/boot-maven-app-5233978/src/main/kotlin/com/example/bootmavenapp5233978/BootMavenApp5233978Application.kt",
+              "hash": "6424202979569171152"
+            },
+            {
+              "file": "apps/boot-maven-app-5233978/src/main/kotlin/com/example/bootmavenapp5233978/HelloController.kt",
+              "hash": "8339151265901665560"
+            },
+            {
+              "file": "apps/boot-maven-app-5233978/src/main/resources/application.properties",
+              "hash": "12724836385602680334"
+            },
+            {
+              "file": "apps/boot-maven-app-5233978/src/test/kotlin/com/example/bootmavenapp5233978/BootMavenApp5233978ApplicationTests.kt",
+              "hash": "10028791295147998248"
+            },
+            {
+              "file": "apps/boot-maven-app-5233978/src/test/kotlin/com/example/bootmavenapp5233978/HelloControllerTests.kt",
+              "hash": "6808492037196803101"
+            },
+            {
+              "file": "apps/boot-maven-app-5233978/src/test/resources/application.properties",
+              "hash": "15036214574332298676"
+            },
+            {
+              "file": "apps/boot-maven-app-5233978/src/test/resources/junit-platform.properties",
+              "hash": "7919264814801936699"
+            }
+          ]
+        }
+      },
+      "boot-maven-app-6275796": {
+        "name": "boot-maven-app-6275796",
+        "type": "app",
+        "data": {
+          "name": "boot-maven-app-6275796",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/boot-maven-app-6275796/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["apps/boot-maven-app-6275796/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            }
+          },
+          "tags": [],
+          "root": "apps/boot-maven-app-6275796",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/boot-maven-app-6275796/pom.xml",
+              "hash": "1521802815210556669",
+              "dependencies": [
+                {
+                  "source": "boot-maven-app-6275796",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/boot-maven-app-6275796/project.json",
+              "hash": "9862531718838174351"
+            },
+            {
+              "file": "apps/boot-maven-app-6275796/src/main/java/com/example/bootmavenapp6275796/BootMavenApp6275796Application.java",
+              "hash": "5635726512570015595"
+            },
+            {
+              "file": "apps/boot-maven-app-6275796/src/main/java/com/example/bootmavenapp6275796/HelloController.java",
+              "hash": "5206430438332857396"
+            },
+            {
+              "file": "apps/boot-maven-app-6275796/src/main/resources/application.properties",
+              "hash": "12724836385602680334"
+            },
+            {
+              "file": "apps/boot-maven-app-6275796/src/test/java/com/example/bootmavenapp6275796/BootMavenApp6275796ApplicationTests.java",
+              "hash": "6072754629126184737"
+            },
+            {
+              "file": "apps/boot-maven-app-6275796/src/test/java/com/example/bootmavenapp6275796/HelloControllerTests.java",
+              "hash": "13058519050130146150"
+            },
+            {
+              "file": "apps/boot-maven-app-6275796/src/test/resources/application.properties",
+              "hash": "15036214574332298676"
+            }
+          ]
+        }
+      },
+      "boot-maven-app-7083602": {
+        "name": "boot-maven-app-7083602",
+        "type": "app",
+        "data": {
+          "name": "boot-maven-app-7083602",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/boot-maven-app-7083602/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["apps/boot-maven-app-7083602/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "ktlint"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "kformat": {
+              "executor": "@jnxplus/nx-boot-maven:kformat"
+            }
+          },
+          "tags": [],
+          "root": "apps/boot-maven-app-7083602",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/boot-maven-app-7083602/pom.xml",
+              "hash": "470187391914176168",
+              "dependencies": [
+                {
+                  "source": "boot-maven-app-7083602",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/boot-maven-app-7083602/project.json",
+              "hash": "17678269127453493367"
+            },
+            {
+              "file": "apps/boot-maven-app-7083602/src/main/kotlin/com/example/bootmavenapp7083602/BootMavenApp7083602Application.kt",
+              "hash": "13971575271000442364"
+            },
+            {
+              "file": "apps/boot-maven-app-7083602/src/main/kotlin/com/example/bootmavenapp7083602/HelloController.kt",
+              "hash": "14205061991591843317"
+            },
+            {
+              "file": "apps/boot-maven-app-7083602/src/main/resources/application.properties",
+              "hash": "4260449685721510298"
+            },
+            {
+              "file": "apps/boot-maven-app-7083602/src/test/kotlin/com/example/bootmavenapp7083602/BootMavenApp7083602ApplicationTests.kt",
+              "hash": "13628634438345360290"
+            },
+            {
+              "file": "apps/boot-maven-app-7083602/src/test/kotlin/com/example/bootmavenapp7083602/HelloControllerTests.kt",
+              "hash": "12305513292508164157"
+            },
+            {
+              "file": "apps/boot-maven-app-7083602/src/test/resources/application.properties",
+              "hash": "15036214574332298676"
+            },
+            {
+              "file": "apps/boot-maven-app-7083602/src/test/resources/junit-platform.properties",
+              "hash": "7919264814801936699"
+            }
+          ]
+        }
+      },
+      "boot-maven-app-7848059": {
+        "name": "boot-maven-app-7848059",
+        "type": "app",
+        "data": {
+          "name": "boot-maven-app-7848059",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/boot-maven-app-7848059/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["apps/boot-maven-app-7848059/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            }
+          },
+          "tags": [],
+          "root": "apps/boot-maven-app-7848059",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/boot-maven-app-7848059/pom.xml",
+              "hash": "17585140169424090448",
+              "dependencies": [
+                {
+                  "source": "boot-maven-app-7848059",
+                  "target": "apps-parent-project-755999",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/boot-maven-app-7848059/project.json",
+              "hash": "17947537598993399092"
+            },
+            {
+              "file": "apps/boot-maven-app-7848059/src/main/java/com/example/bootmavenapp7848059/BootMavenApp7848059Application.java",
+              "hash": "13351771712822366242"
+            },
+            {
+              "file": "apps/boot-maven-app-7848059/src/main/java/com/example/bootmavenapp7848059/HelloController.java",
+              "hash": "15380654009589954925"
+            },
+            {
+              "file": "apps/boot-maven-app-7848059/src/main/resources/application.properties",
+              "hash": "12724836385602680334"
+            },
+            {
+              "file": "apps/boot-maven-app-7848059/src/test/java/com/example/bootmavenapp7848059/BootMavenApp7848059ApplicationTests.java",
+              "hash": "13503322320842402748"
+            },
+            {
+              "file": "apps/boot-maven-app-7848059/src/test/java/com/example/bootmavenapp7848059/HelloControllerTests.java",
+              "hash": "5047341686269042863"
+            },
+            {
+              "file": "apps/boot-maven-app-7848059/src/test/resources/application.properties",
+              "hash": "15036214574332298676"
+            }
+          ]
+        }
+      },
+      "boot-maven-app-9276178": {
+        "name": "boot-maven-app-9276178",
+        "type": "app",
+        "data": {
+          "name": "boot-maven-app-9276178",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/boot-maven-app-9276178/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["apps/boot-maven-app-9276178/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "ktlint"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "kformat": {
+              "executor": "@jnxplus/nx-boot-maven:kformat"
+            }
+          },
+          "tags": [],
+          "root": "apps/boot-maven-app-9276178",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/boot-maven-app-9276178/pom.xml",
+              "hash": "3188875236475828584",
+              "dependencies": [
+                {
+                  "source": "boot-maven-app-9276178",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/boot-maven-app-9276178/project.json",
+              "hash": "13862491228243257495"
+            },
+            {
+              "file": "apps/boot-maven-app-9276178/src/main/kotlin/com/example/bootmavenapp9276178/BootMavenApp9276178Application.kt",
+              "hash": "17711020748013980097"
+            },
+            {
+              "file": "apps/boot-maven-app-9276178/src/main/kotlin/com/example/bootmavenapp9276178/HelloController.kt",
+              "hash": "4996705787639930551"
+            },
+            {
+              "file": "apps/boot-maven-app-9276178/src/main/resources/application.properties",
+              "hash": "12724836385602680334"
+            },
+            {
+              "file": "apps/boot-maven-app-9276178/src/test/kotlin/com/example/bootmavenapp9276178/BootMavenApp9276178ApplicationTests.kt",
+              "hash": "7945774042073321202"
+            },
+            {
+              "file": "apps/boot-maven-app-9276178/src/test/kotlin/com/example/bootmavenapp9276178/HelloControllerTests.kt",
+              "hash": "6103422489697462954"
+            },
+            {
+              "file": "apps/boot-maven-app-9276178/src/test/resources/application.properties",
+              "hash": "15036214574332298676"
+            },
+            {
+              "file": "apps/boot-maven-app-9276178/src/test/resources/junit-platform.properties",
+              "hash": "7919264814801936699"
+            }
+          ]
+        }
+      },
+      "boot-maven-app-9586133": {
+        "name": "boot-maven-app-9586133",
+        "type": "app",
+        "data": {
+          "name": "boot-maven-app-9586133",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/boot-maven-app-9586133/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["apps/boot-maven-app-9586133/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            }
+          },
+          "tags": [],
+          "root": "apps/boot-maven-app-9586133",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/boot-maven-app-9586133/pom.xml",
+              "hash": "1511809097115579604",
+              "dependencies": [
+                {
+                  "source": "boot-maven-app-9586133",
+                  "target": "apps-parent-project-5209106",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/boot-maven-app-9586133/project.json",
+              "hash": "6919951639049550097"
+            },
+            {
+              "file": "apps/boot-maven-app-9586133/src/main/java/com/example/bootmavenapp9586133/BootMavenApp9586133Application.java",
+              "hash": "14999815154576741877"
+            },
+            {
+              "file": "apps/boot-maven-app-9586133/src/main/java/com/example/bootmavenapp9586133/HelloController.java",
+              "hash": "14598475789614604297"
+            },
+            {
+              "file": "apps/boot-maven-app-9586133/src/main/resources/application.properties",
+              "hash": "12724836385602680334"
+            },
+            {
+              "file": "apps/boot-maven-app-9586133/src/test/java/com/example/bootmavenapp9586133/BootMavenApp9586133ApplicationTests.java",
+              "hash": "12696231482637663442"
+            },
+            {
+              "file": "apps/boot-maven-app-9586133/src/test/java/com/example/bootmavenapp9586133/HelloControllerTests.java",
+              "hash": "6385777451996768853"
+            },
+            {
+              "file": "apps/boot-maven-app-9586133/src/test/resources/application.properties",
+              "hash": "15036214574332298676"
+            }
+          ]
+        }
+      },
+      "boot-maven-app-9727701": {
+        "name": "boot-maven-app-9727701",
+        "type": "app",
+        "data": {
+          "name": "boot-maven-app-9727701",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "sourceRoot": "apps/boot-maven-app-9727701/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["apps/boot-maven-app-9727701/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "build-image": {
+              "executor": "@jnxplus/nx-boot-maven:build-image"
+            },
+            "serve": {
+              "executor": "@jnxplus/nx-boot-maven:serve",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test",
+              "dependsOn": [
+                {
+                  "target": "build",
+                  "projects": "self"
+                }
+              ]
+            }
+          },
+          "tags": [],
+          "root": "apps/boot-maven-app-9727701",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/boot-maven-app-9727701/pom.xml",
+              "hash": "9710805085002457638",
+              "dependencies": [
+                {
+                  "source": "boot-maven-app-9727701",
+                  "target": "boot-maven-lib-3433640",
+                  "type": "static"
+                },
+                {
+                  "source": "boot-maven-app-9727701",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/boot-maven-app-9727701/project.json",
+              "hash": "3856183779862050291"
+            },
+            {
+              "file": "apps/boot-maven-app-9727701/src/main/java/com/example/bootmavenapp9727701/BootMavenApp9727701Application.java",
+              "hash": "9938805980486293163"
+            },
+            {
+              "file": "apps/boot-maven-app-9727701/src/main/java/com/example/bootmavenapp9727701/HelloController.java",
+              "hash": "5464978149415955630"
+            },
+            {
+              "file": "apps/boot-maven-app-9727701/src/main/resources/application.properties",
+              "hash": "12724836385602680334"
+            },
+            {
+              "file": "apps/boot-maven-app-9727701/src/test/java/com/example/bootmavenapp9727701/BootMavenApp9727701ApplicationTests.java",
+              "hash": "12423623159485515730"
+            },
+            {
+              "file": "apps/boot-maven-app-9727701/src/test/java/com/example/bootmavenapp9727701/HelloControllerTests.java",
+              "hash": "17408903547810209963"
+            },
+            {
+              "file": "apps/boot-maven-app-9727701/src/test/resources/application.properties",
+              "hash": "15036214574332298676"
+            }
+          ]
+        }
+      },
+      "parent-project-5918416": {
+        "name": "parent-project-5918416",
+        "type": "app",
+        "data": {
+          "name": "parent-project-5918416",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "application",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "options": {},
+              "configurations": {}
+            }
+          },
+          "tags": [],
+          "root": "apps/parent-project-5918416",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "apps/parent-project-5918416/pom.xml",
+              "hash": "15757063259710004111",
+              "dependencies": [
+                {
+                  "source": "parent-project-5918416",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "apps/parent-project-5918416/project.json",
+              "hash": "5977052410508533945"
+            }
+          ]
+        }
+      },
+      "boot-maven-lib-1110424": {
+        "name": "boot-maven-lib-1110424",
+        "type": "lib",
+        "data": {
+          "name": "boot-maven-lib-1110424",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "sourceRoot": "libs/boot-maven-lib-1110424/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["libs/boot-maven-lib-1110424/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "ktlint"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test"
+            },
+            "kformat": {
+              "executor": "@jnxplus/nx-boot-maven:kformat"
+            }
+          },
+          "tags": [],
+          "root": "libs/boot-maven-lib-1110424",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/boot-maven-lib-1110424/pom.xml",
+              "hash": "1934950163931687494",
+              "dependencies": [
+                {
+                  "source": "boot-maven-lib-1110424",
+                  "target": "libs-parent-project-3447754",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/boot-maven-lib-1110424/project.json",
+              "hash": "3514648541437200049"
+            },
+            {
+              "file": "libs/boot-maven-lib-1110424/src/main/kotlin/com/example/bootmavenlib1110424/HelloService.kt",
+              "hash": "7517341783299548302"
+            },
+            {
+              "file": "libs/boot-maven-lib-1110424/src/test/kotlin/com/example/bootmavenlib1110424/HelloServiceTests.kt",
+              "hash": "11989263062077486461"
+            },
+            {
+              "file": "libs/boot-maven-lib-1110424/src/test/kotlin/com/example/bootmavenlib1110424/TestConfiguration.kt",
+              "hash": "5902536783242569495"
+            },
+            {
+              "file": "libs/boot-maven-lib-1110424/src/test/resources/junit-platform.properties",
+              "hash": "7919264814801936699"
+            }
+          ]
+        }
+      },
+      "boot-maven-lib-1416264": {
+        "name": "boot-maven-lib-1416264",
+        "type": "lib",
+        "data": {
+          "name": "boot-maven-lib-1416264",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "sourceRoot": "libs/boot-maven-lib-1416264/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["libs/boot-maven-lib-1416264/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "ktlint"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test"
+            },
+            "kformat": {
+              "executor": "@jnxplus/nx-boot-maven:kformat"
+            }
+          },
+          "tags": [],
+          "root": "libs/boot-maven-lib-1416264",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/boot-maven-lib-1416264/pom.xml",
+              "hash": "17415426993390362516",
+              "dependencies": [
+                {
+                  "source": "boot-maven-lib-1416264",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/boot-maven-lib-1416264/project.json",
+              "hash": "14451448114546911141"
+            },
+            {
+              "file": "libs/boot-maven-lib-1416264/src/main/kotlin/com/example/bootmavenlib1416264/HelloService.kt",
+              "hash": "14518470795150620720"
+            },
+            {
+              "file": "libs/boot-maven-lib-1416264/src/test/kotlin/com/example/bootmavenlib1416264/HelloServiceTests.kt",
+              "hash": "9597964076458280871"
+            },
+            {
+              "file": "libs/boot-maven-lib-1416264/src/test/kotlin/com/example/bootmavenlib1416264/TestConfiguration.kt",
+              "hash": "5788481406785205441"
+            },
+            {
+              "file": "libs/boot-maven-lib-1416264/src/test/resources/junit-platform.properties",
+              "hash": "7919264814801936699"
+            }
+          ]
+        }
+      },
+      "boot-maven-lib-3433640": {
+        "name": "boot-maven-lib-3433640",
+        "type": "lib",
+        "data": {
+          "name": "boot-maven-lib-3433640",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "sourceRoot": "libs/boot-maven-lib-3433640/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["libs/boot-maven-lib-3433640/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test"
+            }
+          },
+          "tags": [],
+          "root": "libs/boot-maven-lib-3433640",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/boot-maven-lib-3433640/pom.xml",
+              "hash": "4026097907884789130",
+              "dependencies": [
+                {
+                  "source": "boot-maven-lib-3433640",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/boot-maven-lib-3433640/project.json",
+              "hash": "11197973826999181335"
+            },
+            {
+              "file": "libs/boot-maven-lib-3433640/src/main/java/com/example/bootmavenlib3433640/HelloService.java",
+              "hash": "7026527664796698216"
+            },
+            {
+              "file": "libs/boot-maven-lib-3433640/src/test/java/com/example/bootmavenlib3433640/HelloServiceTests.java",
+              "hash": "5303096702920355945"
+            },
+            {
+              "file": "libs/boot-maven-lib-3433640/src/test/java/com/example/bootmavenlib3433640/TestConfiguration.java",
+              "hash": "4103751038349372626"
+            }
+          ]
+        }
+      },
+      "boot-maven-lib-5294182": {
+        "name": "boot-maven-lib-5294182",
+        "type": "lib",
+        "data": {
+          "name": "boot-maven-lib-5294182",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "sourceRoot": "libs/boot-maven-lib-5294182/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["libs/boot-maven-lib-5294182/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "ktlint"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test"
+            },
+            "kformat": {
+              "executor": "@jnxplus/nx-boot-maven:kformat"
+            }
+          },
+          "tags": [],
+          "root": "libs/boot-maven-lib-5294182",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/boot-maven-lib-5294182/pom.xml",
+              "hash": "11981658088176132271",
+              "dependencies": [
+                {
+                  "source": "boot-maven-lib-5294182",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/boot-maven-lib-5294182/project.json",
+              "hash": "12980143724408305176"
+            }
+          ]
+        }
+      },
+      "boot-maven-lib-7800376": {
+        "name": "boot-maven-lib-7800376",
+        "type": "lib",
+        "data": {
+          "name": "boot-maven-lib-7800376",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "sourceRoot": "libs/boot-maven-lib-7800376/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["libs/boot-maven-lib-7800376/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test"
+            }
+          },
+          "tags": [],
+          "root": "libs/boot-maven-lib-7800376",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/boot-maven-lib-7800376/pom.xml",
+              "hash": "15578620284907654777",
+              "dependencies": [
+                {
+                  "source": "boot-maven-lib-7800376",
+                  "target": "deep-subdir-libs-parent-project-9637027",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/boot-maven-lib-7800376/project.json",
+              "hash": "2582583573194397619"
+            },
+            {
+              "file": "libs/boot-maven-lib-7800376/src/main/java/com/example/bootmavenlib7800376/HelloService.java",
+              "hash": "15144367362170794149"
+            },
+            {
+              "file": "libs/boot-maven-lib-7800376/src/test/java/com/example/bootmavenlib7800376/HelloServiceTests.java",
+              "hash": "12936041093933323349"
+            },
+            {
+              "file": "libs/boot-maven-lib-7800376/src/test/java/com/example/bootmavenlib7800376/TestConfiguration.java",
+              "hash": "14484940403565526830"
+            }
+          ]
+        }
+      },
+      "boot-maven-lib-8024050": {
+        "name": "boot-maven-lib-8024050",
+        "type": "lib",
+        "data": {
+          "name": "boot-maven-lib-8024050",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "sourceRoot": "libs/boot-maven-lib-8024050/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["libs/boot-maven-lib-8024050/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test"
+            }
+          },
+          "tags": [],
+          "root": "libs/boot-maven-lib-8024050",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/boot-maven-lib-8024050/pom.xml",
+              "hash": "13758875078508892785",
+              "dependencies": [
+                {
+                  "source": "boot-maven-lib-8024050",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/boot-maven-lib-8024050/project.json",
+              "hash": "10024905606457559910"
+            }
+          ]
+        }
+      },
+      "boot-maven-lib-9440732": {
+        "name": "boot-maven-lib-9440732",
+        "type": "lib",
+        "data": {
+          "name": "boot-maven-lib-9440732",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "sourceRoot": "libs/boot-maven-lib-9440732/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["libs/boot-maven-lib-9440732/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test"
+            }
+          },
+          "tags": [],
+          "root": "libs/boot-maven-lib-9440732",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/boot-maven-lib-9440732/pom.xml",
+              "hash": "16450834228815630654",
+              "dependencies": [
+                {
+                  "source": "boot-maven-lib-9440732",
+                  "target": "libs-parent-project-9860972",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/boot-maven-lib-9440732/project.json",
+              "hash": "4718450892722684850"
+            },
+            {
+              "file": "libs/boot-maven-lib-9440732/src/main/java/com/example/bootmavenlib9440732/HelloService.java",
+              "hash": "11499817442018660684"
+            },
+            {
+              "file": "libs/boot-maven-lib-9440732/src/test/java/com/example/bootmavenlib9440732/HelloServiceTests.java",
+              "hash": "1433168625858382847"
+            },
+            {
+              "file": "libs/boot-maven-lib-9440732/src/test/java/com/example/bootmavenlib9440732/TestConfiguration.java",
+              "hash": "11677809623723871387"
+            }
+          ]
+        }
+      },
+      "boot-maven-lib-9943866": {
+        "name": "boot-maven-lib-9943866",
+        "type": "lib",
+        "data": {
+          "name": "boot-maven-lib-9943866",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "sourceRoot": "libs/boot-maven-lib-9943866/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["libs/boot-maven-lib-9943866/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test"
+            }
+          },
+          "tags": [],
+          "root": "libs/boot-maven-lib-9943866",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/boot-maven-lib-9943866/pom.xml",
+              "hash": "17624881272756523322",
+              "dependencies": [
+                {
+                  "source": "boot-maven-lib-9943866",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/boot-maven-lib-9943866/project.json",
+              "hash": "13016584708732708654"
+            },
+            {
+              "file": "libs/boot-maven-lib-9943866/src/main/java/com/example/bootmavenlib9943866/HelloService.java",
+              "hash": "7644396757796593273"
+            },
+            {
+              "file": "libs/boot-maven-lib-9943866/src/test/java/com/example/bootmavenlib9943866/HelloServiceTests.java",
+              "hash": "11240484173934343457"
+            },
+            {
+              "file": "libs/boot-maven-lib-9943866/src/test/java/com/example/bootmavenlib9943866/TestConfiguration.java",
+              "hash": "4803902140704838979"
+            }
+          ]
+        }
+      },
+      "boot-maven-lib-495386": {
+        "name": "boot-maven-lib-495386",
+        "type": "lib",
+        "data": {
+          "name": "boot-maven-lib-495386",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "sourceRoot": "libs/boot-maven-lib-495386/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["libs/boot-maven-lib-495386/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "ktlint"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test"
+            },
+            "kformat": {
+              "executor": "@jnxplus/nx-boot-maven:kformat"
+            }
+          },
+          "tags": [],
+          "root": "libs/boot-maven-lib-495386",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/boot-maven-lib-495386/pom.xml",
+              "hash": "17434394491676024977",
+              "dependencies": [
+                {
+                  "source": "boot-maven-lib-495386",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/boot-maven-lib-495386/project.json",
+              "hash": "9424822451247801812"
+            },
+            {
+              "file": "libs/boot-maven-lib-495386/src/main/kotlin/com/example/bootmavenlib495386/HelloService.kt",
+              "hash": "6833439216634987267"
+            },
+            {
+              "file": "libs/boot-maven-lib-495386/src/test/kotlin/com/example/bootmavenlib495386/HelloServiceTests.kt",
+              "hash": "9953067956809680895"
+            },
+            {
+              "file": "libs/boot-maven-lib-495386/src/test/kotlin/com/example/bootmavenlib495386/TestConfiguration.kt",
+              "hash": "13254355810065487786"
+            },
+            {
+              "file": "libs/boot-maven-lib-495386/src/test/resources/junit-platform.properties",
+              "hash": "7919264814801936699"
+            }
+          ]
+        }
+      },
+      "boot-maven-lib-716408": {
+        "name": "boot-maven-lib-716408",
+        "type": "lib",
+        "data": {
+          "name": "boot-maven-lib-716408",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "sourceRoot": "libs/boot-maven-lib-716408/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["libs/boot-maven-lib-716408/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "ktlint"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test"
+            },
+            "kformat": {
+              "executor": "@jnxplus/nx-boot-maven:kformat"
+            }
+          },
+          "tags": [],
+          "root": "libs/boot-maven-lib-716408",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/boot-maven-lib-716408/pom.xml",
+              "hash": "2008554860281741996",
+              "dependencies": [
+                {
+                  "source": "boot-maven-lib-716408",
+                  "target": "deep-subdir-libs-parent-project-3348293",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/boot-maven-lib-716408/project.json",
+              "hash": "10287343320351925210"
+            },
+            {
+              "file": "libs/boot-maven-lib-716408/src/main/kotlin/com/example/bootmavenlib716408/HelloService.kt",
+              "hash": "14756330793680117651"
+            },
+            {
+              "file": "libs/boot-maven-lib-716408/src/test/kotlin/com/example/bootmavenlib716408/HelloServiceTests.kt",
+              "hash": "13307607603274878853"
+            },
+            {
+              "file": "libs/boot-maven-lib-716408/src/test/kotlin/com/example/bootmavenlib716408/TestConfiguration.kt",
+              "hash": "2131597679656183525"
+            },
+            {
+              "file": "libs/boot-maven-lib-716408/src/test/resources/junit-platform.properties",
+              "hash": "7919264814801936699"
+            }
+          ]
+        }
+      },
+      "boot-maven-lib-722461": {
+        "name": "boot-maven-lib-722461",
+        "type": "lib",
+        "data": {
+          "name": "boot-maven-lib-722461",
+          "$schema": "../../node_modules/nx/schemas/project-schema.json",
+          "projectType": "library",
+          "sourceRoot": "libs/boot-maven-lib-722461/src",
+          "targets": {
+            "build": {
+              "dependsOn": ["^build"],
+              "executor": "@jnxplus/nx-boot-maven:build",
+              "outputs": ["libs/boot-maven-lib-722461/target"],
+              "options": {},
+              "configurations": {}
+            },
+            "lint": {
+              "executor": "@jnxplus/nx-boot-maven:lint",
+              "options": {
+                "linter": "checkstyle"
+              }
+            },
+            "test": {
+              "executor": "@jnxplus/nx-boot-maven:test"
+            }
+          },
+          "tags": [],
+          "root": "libs/boot-maven-lib-722461",
+          "implicitDependencies": [],
+          "files": [
+            {
+              "file": "libs/boot-maven-lib-722461/pom.xml",
+              "hash": "78528923332884679",
+              "dependencies": [
+                {
+                  "source": "boot-maven-lib-722461",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            },
+            {
+              "file": "libs/boot-maven-lib-722461/project.json",
+              "hash": "4334510569012196132"
+            },
+            {
+              "file": "libs/boot-maven-lib-722461/src/main/java/com/example/bootmavenlib722461/HelloService.java",
+              "hash": "6384412404314345159"
+            },
+            {
+              "file": "libs/boot-maven-lib-722461/src/test/java/com/example/bootmavenlib722461/HelloServiceTests.java",
+              "hash": "4648196548792218427"
+            },
+            {
+              "file": "libs/boot-maven-lib-722461/src/test/java/com/example/bootmavenlib722461/TestConfiguration.java",
+              "hash": "18212264125469849999"
+            }
+          ]
+        }
+      },
+      "boot-parent-project-6590304": {
+        "name": "boot-parent-project-6590304",
+        "type": "lib",
+        "data": {
+          "root": "",
+          "projectType": "library",
+          "targets": {
+            "build": {
+              "executor": "@jnxplus/nx-boot-maven:build"
+            },
+            "run-task": {
+              "executor": "@jnxplus/nx-boot-maven:run-task"
+            }
+          },
+          "files": [
+            {
+              "file": "pom.xml",
+              "hash": "bd2bed5f0223d39947a7d488751ee93a4e7ba4da100bed622f5ce743dc27cf8f"
+            }
+          ]
+        }
+      },
+      "apps-parent-project-7652180": {
+        "name": "apps-parent-project-7652180",
+        "type": "app",
+        "data": {
+          "root": "apps/apps-parent-project-7652180",
+          "projectType": "application",
+          "targets": {
+            "build": {
+              "executor": "@jnxplus/nx-boot-maven:build"
+            },
+            "run-task": {
+              "executor": "@jnxplus/nx-boot-maven:run-task"
+            }
+          },
+          "files": [
+            {
+              "file": "apps/apps-parent-project-7652180/pom.xml",
+              "hash": "1dbbeda452dbaf1b673ff6edf544efb93f189dc30d56fd897a249f4744e28a9f",
+              "dependencies": [
+                {
+                  "source": "apps-parent-project-7652180",
+                  "target": "boot-parent-project-6590304",
+                  "type": "static"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "dependencies": {
+      "apps-parent-project-5209106": [
+        {
+          "source": "apps-parent-project-5209106",
+          "target": "apps-parent-project-3135897",
+          "type": "static"
+        }
+      ],
+      "boot-maven-app-9242296": [
+        {
+          "source": "boot-maven-app-9242296",
+          "target": "apps-parent-project-3135897",
+          "type": "static"
+        }
+      ],
+      "apps-parent-project-3135897": [
+        {
+          "source": "apps-parent-project-3135897",
+          "target": "apps-parent-project-7652180",
+          "type": "static"
+        }
+      ],
+      "boot-maven-app-8970720": [
+        {
+          "source": "boot-maven-app-8970720",
+          "target": "apps-parent-project-7652180",
+          "type": "static"
+        }
+      ],
+      "parent-project-5918416-boot-maven-app-6616444": [
+        {
+          "source": "parent-project-5918416-boot-maven-app-6616444",
+          "target": "parent-project-5918416",
+          "type": "static"
+        }
+      ],
+      "deep-subdir-apps-parent-project-4029618": [
+        {
+          "source": "deep-subdir-apps-parent-project-4029618",
+          "target": "apps-parent-project-474022",
+          "type": "static"
+        }
+      ],
+      "deep-subdir-libs-parent-project-3348293": [
+        {
+          "source": "deep-subdir-libs-parent-project-3348293",
+          "target": "libs-parent-project-4630794",
+          "type": "static"
+        }
+      ],
+      "deep-subdir-libs-parent-project-9637027": [
+        {
+          "source": "deep-subdir-libs-parent-project-9637027",
+          "target": "libs-parent-project-9933577",
+          "type": "static"
+        }
+      ],
+      "deep-subdir-apps-parent-project-47755": [
+        {
+          "source": "deep-subdir-apps-parent-project-47755",
+          "target": "apps-parent-project-755999",
+          "type": "static"
+        }
+      ],
+      "deep-sub-dir-boot-maven-app-6328097": [
+        {
+          "source": "deep-sub-dir-boot-maven-app-6328097",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "boot-maven-app-4074304": [
+        {
+          "source": "boot-maven-app-4074304",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "deep-subdir-boot-maven-app-5935365": [
+        {
+          "source": "deep-subdir-boot-maven-app-5935365",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "boot-maven-lib-4513547": [
+        {
+          "source": "boot-maven-lib-4513547",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "deep-subdir-boot-maven-lib-8130683": [
+        {
+          "source": "deep-subdir-boot-maven-lib-8130683",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "deep-subdir-boot-maven-lib-9104398": [
+        {
+          "source": "deep-subdir-boot-maven-lib-9104398",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "subdir-boot-maven-app-4172491": [
+        {
+          "source": "subdir-boot-maven-app-4172491",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "subdir-boot-maven-app-4331202": [
+        {
+          "source": "subdir-boot-maven-app-4331202",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "subdir-boot-maven-lib-2085508": [
+        {
+          "source": "subdir-boot-maven-lib-2085508",
+          "target": "libs-parent-project-9933577",
+          "type": "static"
+        }
+      ],
+      "subdir-boot-maven-lib-2825830": [
+        {
+          "source": "subdir-boot-maven-lib-2825830",
+          "target": "libs-parent-project-4630794",
+          "type": "static"
+        }
+      ],
+      "subdir-boot-maven-lib-3185232": [
+        {
+          "source": "subdir-boot-maven-lib-3185232",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "apps-parent-project-1408243": [
+        {
+          "source": "apps-parent-project-1408243",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "apps-parent-project-8512788": [
+        {
+          "source": "apps-parent-project-8512788",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "libs-parent-project-3447754": [
+        {
+          "source": "libs-parent-project-3447754",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "libs-parent-project-4630794": [
+        {
+          "source": "libs-parent-project-4630794",
+          "target": "libs-parent-project-3447754",
+          "type": "static"
+        }
+      ],
+      "libs-parent-project-9860972": [
+        {
+          "source": "libs-parent-project-9860972",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "libs-parent-project-9933577": [
+        {
+          "source": "libs-parent-project-9933577",
+          "target": "libs-parent-project-9860972",
+          "type": "static"
+        }
+      ],
+      "apps-parent-project-474022": [
+        {
+          "source": "apps-parent-project-474022",
+          "target": "apps-parent-project-1408243",
+          "type": "static"
+        }
+      ],
+      "apps-parent-project-755999": [
+        {
+          "source": "apps-parent-project-755999",
+          "target": "apps-parent-project-8512788",
+          "type": "static"
+        }
+      ],
+      "dir-boot-maven-app-8847808": [
+        {
+          "source": "dir-boot-maven-app-8847808",
+          "target": "apps-parent-project-8512788",
+          "type": "static"
+        }
+      ],
+      "dir-boot-maven-app-766115": [
+        {
+          "source": "dir-boot-maven-app-766115",
+          "target": "apps-parent-project-1408243",
+          "type": "static"
+        }
+      ],
+      "boot-maven-app-1599613": [
+        {
+          "source": "boot-maven-app-1599613",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "boot-maven-app-1748002": [
+        {
+          "source": "boot-maven-app-1748002",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "boot-maven-app-2708025": [
+        {
+          "source": "boot-maven-app-2708025",
+          "target": "deep-subdir-apps-parent-project-47755",
+          "type": "static"
+        }
+      ],
+      "boot-maven-app-4121168": [
+        {
+          "source": "boot-maven-app-4121168",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "boot-maven-app-4158627": [
+        {
+          "source": "boot-maven-app-4158627",
+          "target": "deep-subdir-apps-parent-project-4029618",
+          "type": "static"
+        }
+      ],
+      "boot-maven-app-4532651": [
+        {
+          "source": "boot-maven-app-4532651",
+          "target": "boot-maven-lib-495386",
+          "type": "static"
+        },
+        {
+          "source": "boot-maven-app-4532651",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "boot-maven-app-5233978": [
+        {
+          "source": "boot-maven-app-5233978",
+          "target": "apps-parent-project-474022",
+          "type": "static"
+        }
+      ],
+      "boot-maven-app-6275796": [
+        {
+          "source": "boot-maven-app-6275796",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "boot-maven-app-7083602": [
+        {
+          "source": "boot-maven-app-7083602",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "boot-maven-app-7848059": [
+        {
+          "source": "boot-maven-app-7848059",
+          "target": "apps-parent-project-755999",
+          "type": "static"
+        }
+      ],
+      "boot-maven-app-9276178": [
+        {
+          "source": "boot-maven-app-9276178",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "boot-maven-app-9586133": [
+        {
+          "source": "boot-maven-app-9586133",
+          "target": "apps-parent-project-5209106",
+          "type": "static"
+        }
+      ],
+      "boot-maven-app-9727701": [
+        {
+          "source": "boot-maven-app-9727701",
+          "target": "boot-maven-lib-3433640",
+          "type": "static"
+        },
+        {
+          "source": "boot-maven-app-9727701",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "parent-project-5918416": [
+        {
+          "source": "parent-project-5918416",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "boot-maven-lib-1110424": [
+        {
+          "source": "boot-maven-lib-1110424",
+          "target": "libs-parent-project-3447754",
+          "type": "static"
+        }
+      ],
+      "boot-maven-lib-1416264": [
+        {
+          "source": "boot-maven-lib-1416264",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "boot-maven-lib-3433640": [
+        {
+          "source": "boot-maven-lib-3433640",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "boot-maven-lib-5294182": [
+        {
+          "source": "boot-maven-lib-5294182",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "boot-maven-lib-7800376": [
+        {
+          "source": "boot-maven-lib-7800376",
+          "target": "deep-subdir-libs-parent-project-9637027",
+          "type": "static"
+        }
+      ],
+      "boot-maven-lib-8024050": [
+        {
+          "source": "boot-maven-lib-8024050",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "boot-maven-lib-9440732": [
+        {
+          "source": "boot-maven-lib-9440732",
+          "target": "libs-parent-project-9860972",
+          "type": "static"
+        }
+      ],
+      "boot-maven-lib-9943866": [
+        {
+          "source": "boot-maven-lib-9943866",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "boot-maven-lib-495386": [
+        {
+          "source": "boot-maven-lib-495386",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "boot-maven-lib-716408": [
+        {
+          "source": "boot-maven-lib-716408",
+          "target": "deep-subdir-libs-parent-project-3348293",
+          "type": "static"
+        }
+      ],
+      "boot-maven-lib-722461": [
+        {
+          "source": "boot-maven-lib-722461",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ],
+      "boot-parent-project-6590304": [],
+      "apps-parent-project-7652180": [
+        {
+          "source": "apps-parent-project-7652180",
+          "target": "boot-parent-project-6590304",
+          "type": "static"
+        }
+      ]
+    }
+  },
+  "affectedProjects": [],
+  "criticalPath": []
+}

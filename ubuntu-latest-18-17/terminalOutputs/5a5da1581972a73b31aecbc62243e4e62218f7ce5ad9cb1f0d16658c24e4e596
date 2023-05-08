@@ -1,0 +1,93 @@
+Compiling TypeScript files for project "nx-quarkus-gradle"...
+Done compiling TypeScript files for project "nx-quarkus-gradle".
+● Validation Warning:
+
+  Unknown option "coverageDirectory" with value "../../../coverage/e2e/nx-quarkus-gradle-kt-e2e" was found.
+  This is probably a typing mistake. Fixing it will remove this message.
+
+  Configuration Documentation:
+  https://jestjs.io/docs/configuration
+
+
+ E2E   INFO  Attempting to close port 8181
+
+
+ E2E   ERROR  Port 8181 closing failed
+
+
+ E2E   INFO  Attempting to close port 8282
+
+
+ E2E   ERROR  Port 8282 closing failed
+
+
+ E2E   INFO  Attempting to close port 8383
+
+
+ E2E   SUCCESS  Port 8383 successfully closed
+
+
+ E2E   INFO  Attempting to close port 8484
+
+
+ E2E   SUCCESS  Port 8484 successfully closed
+
+
+ E2E   INFO  Attempting to close port 8585
+
+
+ E2E   ERROR  Port 8585 closing failed
+
+
+ E2E   INFO  Attempting to close port 8686
+
+
+ E2E   ERROR  Port 8686 closing failed
+
+FAIL nx-quarkus-gradle-kt-e2e testing-projects/e2e/nx-quarkus-gradle-kt-e2e/tests/nx-quarkus-gradle-kt.spec.ts (693.707 s)
+  nx-quarkus-gradle kt e2e
+    ✓ should use dsl option when initiating the workspace (3 ms)
+    ✓ should migrate (1679 ms)
+    ✕ should create a java application (120001 ms)
+    ✓ should build-image a java application (32163 ms)
+    ✓ should use specified options to create an application (39585 ms)
+    ✓ should generate an app with a simple package name (38539 ms)
+    ✓ should create a kotlin application (81179 ms)
+    ✓ should build-image a kotlin application (22695 ms)
+    ✓ --an app with aliases (44936 ms)
+    ✓ directory with dash (14474 ms)
+    ✓ should create a library (24237 ms)
+    ✓ should create a kotlin library (29725 ms)
+    ✓ should create a library with the specified properties (23048 ms)
+    ✓ should generare a lib with a simple package name (22826 ms)
+    ✓ --a lib with aliases (22999 ms)
+    ✓ should add a lib to an app dependencies (38656 ms)
+    ✓ should add a kotlin lib to a kotlin app dependencies (46310 ms)
+    ✓ should create an application with simple name (40267 ms)
+    ✓ should create a library with simple name (23437 ms)
+    ✓ should skip starter code when generating a java application with skipStarterCode option (2066 ms)
+    ✓ should skip starter code when generating a kotlin application with skipStarterCode option (2094 ms)
+    ✓ should skip starter code when generating a java library with skipStarterCode option (1991 ms)
+    ✓ should skip starter code when generating a kotlin library with skipStarterCode option (1974 ms)
+
+  ● nx-quarkus-gradle kt e2e › should create a java application
+
+    thrown: "Exceeded timeout of 120000 ms for a test.
+    Add a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout."
+
+      137 |   }, 120000);
+      138 |
+    > 139 |   it('should create a java application', async () => {
+          |   ^
+      140 |     const appName = uniq('quarkus-gradle-app-');
+      141 |
+      142 |     await runNxCommandAsync(
+
+      at tests/nx-quarkus-gradle-kt.spec.ts:139:3
+      at Object.<anonymous> (tests/nx-quarkus-gradle-kt.spec.ts:29:1)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 22 passed, 23 total
+Snapshots:   0 total
+Time:        693.789 s
+Ran all test suites.

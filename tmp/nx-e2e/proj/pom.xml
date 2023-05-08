@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.0.6</version>
+    <relativePath />
+    <!-- lookup parent from repository -->
+  </parent>
+
+  <groupId>com.example</groupId>
+  <artifactId>boot-parent-project-6590304</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <properties>
+    <java.version>17</java.version>
+    <kotlin.version>1.7.22</kotlin.version>
+    <checkstyle.version>10.10.0</checkstyle.version>
+    <ktlint.version>0.49.0</ktlint.version>
+  </properties>
+
+  <modules>
+    <module>apps/boot-maven-app-1748002</module>
+    <module>apps/boot-maven-app-6275796</module>
+    <module>apps/deep/subdir/boot-maven-app-5935365</module>
+    <module>apps/boot-maven-app-7083602</module>
+    <module>apps/boot-maven-app-9276178</module>
+    <module>apps/subdir/boot-maven-app-4172491</module>
+    <module>apps/subdir/boot-maven-app-4331202</module>
+    <module>apps/deep/sub-dir/boot-maven-app-6328097</module>
+    <module>libs/boot-maven-lib-722461</module>
+    <module>libs/boot-maven-lib-1416264</module>
+    <module>libs/deep/subdir/boot-maven-lib-8130683</module>
+    <module>libs/deep/subdir/boot-maven-lib-9104398</module>
+    <module>libs/subdir/boot-maven-lib-3185232</module>
+    <module>apps/boot-maven-app-9727701</module>
+    <module>libs/boot-maven-lib-3433640</module>
+    <module>apps/boot-maven-app-4532651</module>
+    <module>libs/boot-maven-lib-495386</module>
+    <module>libs/boot-maven-lib-9943866</module>
+    <module>apps/apps-parent-project-8512788</module>
+    <module>apps/apps-parent-project-1408243</module>
+    <module>libs/libs-parent-project-9860972</module>
+    <module>libs/libs-parent-project-3447754</module>
+    <module>apps/deep/subdir/boot-maven-app-4074304</module>
+    <module>libs/deep/subdir/boot-maven-lib-4513547</module>
+    <module>apps/boot-maven-app-4121168</module>
+    <module>apps/boot-maven-app-1599613</module>
+    <module>libs/boot-maven-lib-8024050</module>
+    <module>libs/boot-maven-lib-5294182</module>
+    <module>apps/parent-project-5918416</module>
+    <module>apps/apps-parent-project-7652180</module>
+  </modules>
+</project>

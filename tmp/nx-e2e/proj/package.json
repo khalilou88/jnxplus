@@ -1,0 +1,15 @@
+{
+  "name": "proj",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {},
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "nx": "16.1.3",
+    "@nx/workspace": "16.1.3",
+    "@jnxplus/nx-boot-maven": "file:/home/runner/work/jnxplus/jnxplus/dist/packages/nx-boot-maven",
+    "@jnxplus/common": "file:/home/runner/work/jnxplus/jnxplus/dist/packages/common",
+    "@jnxplus/maven": "file:/home/runner/work/jnxplus/jnxplus/dist/packages/maven"
+  }
+}

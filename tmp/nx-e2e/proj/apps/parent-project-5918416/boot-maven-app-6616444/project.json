@@ -1,0 +1,40 @@
+{
+  "name": "parent-project-5918416-boot-maven-app-6616444",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/parent-project-5918416/boot-maven-app-6616444/src",
+  "targets": {
+    "build": {
+      "executor": "@jnxplus/nx-boot-maven:build",
+      "outputs": ["apps/parent-project-5918416/boot-maven-app-6616444/target"]
+    },
+    "build-image": {
+      "executor": "@jnxplus/nx-boot-maven:build-image"
+    },
+    "serve": {
+      "executor": "@jnxplus/nx-boot-maven:serve",
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "self"
+        }
+      ]
+    },
+    "lint": {
+      "executor": "@jnxplus/nx-boot-maven:lint",
+      "options": {
+        "linter": "checkstyle"
+      }
+    },
+    "test": {
+      "executor": "@jnxplus/nx-boot-maven:test",
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "self"
+        }
+      ]
+    }
+  },
+  "tags": []
+}

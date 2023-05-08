@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.example</groupId>
+    <artifactId>apps-parent-project-5209106</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <relativePath>
+      ../apps-parent-project-7652180/apps-parent-project-3135897/deep/subdir/apps-parent-project-5209106
+    </relativePath>
+  </parent>
+  <groupId>com.example</groupId>
+  <artifactId>boot-maven-app-9586133</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <name>boot-maven-app-9586133</name>
+  <description>This project was generated with nx-boot-maven</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>

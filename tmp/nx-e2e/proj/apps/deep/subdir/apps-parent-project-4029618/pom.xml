@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.example</groupId>
+    <artifactId>apps-parent-project-474022</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../../../apps-parent-project-474022</relativePath>
+  </parent>
+  <groupId>com.example</groupId>
+  <artifactId>deep-subdir-apps-parent-project-4029618</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>deep-subdir-apps-parent-project-4029618</name>
+  <description>This project was generated with nx-boot-maven</description>
+  <modules>
+    <module>../../../boot-maven-app-4158627</module>
+  </modules>
+</project>

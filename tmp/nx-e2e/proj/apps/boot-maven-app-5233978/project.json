@@ -1,0 +1,43 @@
+{
+  "name": "boot-maven-app-5233978",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/boot-maven-app-5233978/src",
+  "targets": {
+    "build": {
+      "executor": "@jnxplus/nx-boot-maven:build",
+      "outputs": ["apps/boot-maven-app-5233978/target"]
+    },
+    "build-image": {
+      "executor": "@jnxplus/nx-boot-maven:build-image"
+    },
+    "serve": {
+      "executor": "@jnxplus/nx-boot-maven:serve",
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "self"
+        }
+      ]
+    },
+    "lint": {
+      "executor": "@jnxplus/nx-boot-maven:lint",
+      "options": {
+        "linter": "ktlint"
+      }
+    },
+    "test": {
+      "executor": "@jnxplus/nx-boot-maven:test",
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "self"
+        }
+      ]
+    },
+    "kformat": {
+      "executor": "@jnxplus/nx-boot-maven:kformat"
+    }
+  },
+  "tags": []
+}
