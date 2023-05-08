@@ -1,25 +1,36 @@
-name: Nx migrate Tests
+name: Nx migrate
 
 on:
-  # Trigger manually or on schedule
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'
+    # Every day at 6am UTC
+    - cron: '0 6 * * *'
 
 jobs:
-  migrate:
-    name: Nx migrate Tests
+  nx-migrate:
     strategy:
-      fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
-        node_version: ['16', '18']
+        os: [ubuntu-latest]
+        node_version: ['18']
         java: ['17']
-    runs-on: ${{matrix.os}}
-    env:
-      NX_RUN_GROUP: ${{ github.run_id }}-v${{matrix.java}}
+      fail-fast: true
+    runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Set up node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node_version }}
+
+      - name: Use cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ matrix.node_version }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Setup Java
         uses: actions/setup-java@v2
@@ -27,13 +38,67 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
 
-      - name: Set up node
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node_version }}
+      - name: Check if @nx/workspace is outdated
+        id: nrwl-workspace-outdated
+        run: |
+          IS_OUTDATED=$(test ! -z "$(npm outdated @nx/workspace)" && echo true || echo false)
+          echo $IS_OUTDATED
+          echo "outdated=$IS_OUTDATED" >> $GITHUB_OUTPUT
 
-      - uses: bahmutov/npm-install@v1.8.32
-        with:
-          install-command: npm ci --force
+      - name: Update @nx/workspace
+        if: steps.nrwl-workspace-outdated.outputs.outdated == 'true'
+        run: npx nx migrate latest
 
-      - run: npm run nx run-many --all -- --target=migrate
+      - name: Install dependencies
+        if: steps.nrwl-workspace-outdated.outputs.outdated == 'true'
+        run: npm i --force
+
+      - name: Check if has migrations
+        id: nrwl-workspace-has-migrations
+        run: |
+          HAS_MIGRATIONS=$(test -f migrations.json && echo true || echo false)
+          echo $HAS_MIGRATIONS
+          echo "has_migrations=$HAS_MIGRATIONS" >> $GITHUB_OUTPUT
+
+      - name: Run @nx/workspace migrations
+        if: steps.nrwl-workspace-has-migrations.outputs.has_migrations == 'true'
+        run: npx nx migrate --run-migrations
+
+      - name: E2e Tests
+        id: test
+        if: steps.nrwl-workspace-outdated.outputs.outdated == 'true'
+        continue-on-error: true
+        run: npm run nx run-many --all -- --target=e2e
+
+      - name: Commit changes
+        if: steps.nrwl-workspace-outdated.outputs.outdated == 'true'
+        run: |
+          LAST_VERSION=$(npm view @nx/workspace version)
+          git add .
+          [[ $(git status --porcelain) ]] && git commit -m "build: 📦 update nrwl workspace to ${LAST_VERSION}" || echo "nothing to commit"
+
+      - name: Remove migrations.json & commit
+        if: steps.nrwl-workspace-has-migrations.outputs.has_migrations == 'true'
+        run: |
+          git rm -f migrations.json
+          git commit -m "build: remove migrations.json"
+
+      - name: Push changes
+        if: steps.nrwl-workspace-outdated.outputs.outdated == 'true' && steps.test.outcome == 'success'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+          force: true
+          tags: true
+
+      - name: Create PR
+        if: steps.nrwl-workspace-outdated.outputs.outdated == 'true' && steps.test.outcome != 'success'
+        run: |
+          LAST_VERSION=$(npm view @nx/workspace version)
+          BRANCH="update-nrwl-workspace-${LAST_VERSION}"
+          git checkout -b ${BRANCH}
+          git push -f --set-upstream origin ${BRANCH}
+          gh pr view ${BRANCH} || gh pr create -t "Update @nx/workspace to ${BRANCH}" -b "Update @nx/workspace dependencies to ${LAST_VERSION}."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

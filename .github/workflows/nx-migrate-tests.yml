@@ -1,0 +1,39 @@
+name: Nx migrate Tests
+
+on:
+  # Trigger manually or on schedule
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  migrate:
+    name: Nx migrate Tests
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        node_version: ['16', '18']
+        java: ['17']
+    runs-on: ${{matrix.os}}
+    env:
+      NX_RUN_GROUP: ${{ github.run_id }}-v${{matrix.java}}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.java }}
+
+      - name: Set up node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node_version }}
+
+      - uses: bahmutov/npm-install@v1.8.32
+        with:
+          install-command: npm ci --force
+
+      - run: npm run nx run-many --all -- --target=migrate
