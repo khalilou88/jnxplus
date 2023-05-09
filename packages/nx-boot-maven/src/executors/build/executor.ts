@@ -10,10 +10,18 @@ export default async function runExecutor(
   logger.info(`Executor ran for Build: ${JSON.stringify(options)}`);
 
   if (process.env['NX_MAVEN_CLI_OPTS']) {
-    options.mvnArgs += ` ${process.env['NX_MAVEN_CLI_OPTS']}`;
+    if (options.mvnArgs) {
+      options.mvnArgs += ` ${process.env['NX_MAVEN_CLI_OPTS']}`;
+    } else {
+      options.mvnArgs = `${process.env['NX_MAVEN_CLI_OPTS']}`;
+    }
   }
 
   let command = getExecutable();
+
+  if (options.mvnArgs) {
+    command += ` ${options.mvnArgs}`;
+  }
 
   if (isPomPackaging(context)) {
     if (!options.skipClean) {
@@ -21,10 +29,6 @@ export default async function runExecutor(
     }
 
     command += isRootProject(context) ? ' install -N' : ' install';
-
-    if (options.mvnArgs) {
-      command += ` ${options.mvnArgs}`;
-    }
 
     return runCommand(`${command} -pl :${context.projectName}`);
   }
@@ -39,10 +43,6 @@ export default async function runExecutor(
 
   if (getProjectType(context) === 'library') {
     command += ' install';
-  }
-
-  if (options.mvnArgs) {
-    command += ` ${options.mvnArgs}`;
   }
 
   return runCommand(`${command} -DskipTests=true -pl :${context.projectName}`);
