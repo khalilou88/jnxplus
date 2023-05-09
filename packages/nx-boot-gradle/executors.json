@@ -26,10 +26,15 @@
       "schema": "./src/executors/test/schema.json",
       "description": "test executor"
     },
+    "ktformat": {
+      "implementation": "./src/executors/ktformat/executor",
+      "schema": "./src/executors/ktformat/schema.json",
+      "description": "kotlin format executor"
+    },
     "kformat": {
       "implementation": "./src/executors/kformat/executor",
       "schema": "./src/executors/kformat/schema.json",
-      "description": "kotlin format executor"
+      "description": "(Deprecated) kotlin format executor"
     },
     "run-task": {
       "implementation": "./src/executors/run-task/executor",

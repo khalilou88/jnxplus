@@ -19,7 +19,17 @@ nx format:write
 
 For more information, please check the Nx documentation.
 
-# Kformat
+# Ktformat
+
+For Kotlin projects please use ktformat executor that uses ktlint.
+
+## Usage
+
+```bash
+nx ktformat my-project-name
+```
+
+# Kformat (Deprecated)
 
 For Kotlin projects please use kformat executor that uses ktlint.
 
