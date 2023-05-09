@@ -209,8 +209,8 @@ export default async function (
         test: {
           executor: '@jnxplus/nx-boot-gradle:test',
         },
-        kformat: {
-          executor: '@jnxplus/nx-boot-gradle:kformat',
+        ktformat: {
+          executor: '@jnxplus/nx-boot-gradle:ktformat',
         },
       },
       tags: normalizedOptions.parsedTags,

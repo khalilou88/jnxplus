@@ -484,7 +484,7 @@ describe('nx-boot-gradle e2e', () => {
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
-    const formatResult = await runNxCommandAsync(`kformat ${appName}`);
+    const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
     expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
@@ -772,7 +772,7 @@ describe('nx-boot-gradle e2e', () => {
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
-    const formatResult = await runNxCommandAsync(`kformat ${libName}`);
+    const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
     expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
 
     const lintResult = await runNxCommandAsync(`lint ${libName}`);
@@ -1110,7 +1110,7 @@ describe('nx-boot-gradle e2e', () => {
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
-    const formatResult = await runNxCommandAsync(`kformat ${appName}`);
+    const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
     expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
