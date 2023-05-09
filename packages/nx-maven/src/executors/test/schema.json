@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "outputCapture": "direct-nodejs",
+  "$schema": "http://json-schema.org/schema",
+  "title": "Test executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "mvnArgs": {
+      "type": "string",
+      "description": "Arguments to pass to the maven cli"
+    }
+  },
+  "required": []
+}
