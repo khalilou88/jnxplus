@@ -53,6 +53,7 @@
     "jest": "29.4.3",
     "jest-environment-jsdom": "29.4.3",
     "jest-environment-node": "^29.4.1",
+    "jsonc-eslint-parser": "^2.1.0",
     "kill-port": "^2.0.1",
     "lint-staged": "^13.2.1",
     "ngx-deploy-npm": "^5.2.0",
