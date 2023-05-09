@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "outputCapture": "direct-nodejs",
+  "$schema": "http://json-schema.org/schema",
+  "title": "Run Task executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "task": {
+      "type": "string"
+    }
+  },
+  "required": ["task"]
+}

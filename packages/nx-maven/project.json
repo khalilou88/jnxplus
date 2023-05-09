@@ -1,0 +1,85 @@
+{
+  "name": "nx-maven",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/nx-maven/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/nx-maven/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/packages/nx-maven"],
+      "options": {
+        "jestConfig": "packages/nx-maven/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/nx-maven",
+        "main": "packages/nx-maven/src/index.ts",
+        "packageJson": "packages/nx-maven/package.json",
+        "tsConfig": "packages/nx-maven/tsconfig.lib.json",
+        "updateBuildableProjectDepsInPackageJson": true,
+        "buildableProjectDepsInPackageJsonType": "dependencies",
+        "assets": [
+          "packages/nx-maven/*.md",
+          {
+            "input": "./packages/nx-maven/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-maven/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-maven",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./packages/nx-maven",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular",
+        "trackDeps": true,
+        "push": true,
+        "noVerify": true,
+        "postTargets": ["nx-maven:github", "nx-maven:publish"],
+        "commitMessageFormat": "release(${projectName}): cut release ${version} [ci skip]"
+      }
+    },
+    "github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "${tag}",
+        "generateNotes": true,
+        "notesStartTag": "${previousTag}"
+      }
+    },
+    "publish": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}
