@@ -212,8 +212,8 @@ export default async function (
         test: {
           executor: '@jnxplus/nx-boot-maven:test',
         },
-        kformat: {
-          executor: '@jnxplus/nx-boot-maven:kformat',
+        ktformat: {
+          executor: '@jnxplus/nx-boot-maven:ktformat',
         },
       },
       tags: normalizedOptions.parsedTags,
