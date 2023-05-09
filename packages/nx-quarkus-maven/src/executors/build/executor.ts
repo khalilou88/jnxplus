@@ -9,13 +9,15 @@ export default async function runExecutor(
 ) {
   logger.info(`Executor ran for Build: ${JSON.stringify(options)}`);
 
-  let command = getExecutable();
-
-  if (isPomPackaging(context)) {
-    command += isRootProject(context) ? ' install -N' : ' install';
-
-    return runCommand(`${command} -pl :${context.projectName}`);
+  if (process.env['NX_MAVEN_CLI_OPTS']) {
+    if (options.mvnArgs) {
+      options.mvnArgs += ` ${process.env['NX_MAVEN_CLI_OPTS']}`;
+    } else {
+      options.mvnArgs = `${process.env['NX_MAVEN_CLI_OPTS']}`;
+    }
   }
+
+  let command = getExecutable();
 
   if (options.mvnArgs) {
     command += ` ${options.mvnArgs}`;
@@ -23,6 +25,12 @@ export default async function runExecutor(
 
   if (!options.skipClean) {
     command += ' clean';
+  }
+
+  if (isPomPackaging(context)) {
+    command += isRootProject(context) ? ' install -N' : ' install';
+
+    return runCommand(`${command} -pl :${context.projectName}`);
   }
 
   if (options.mvnBuildCommand) {

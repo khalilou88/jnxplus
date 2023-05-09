@@ -23,18 +23,14 @@ export default async function runExecutor(
     command += ` ${options.mvnArgs}`;
   }
 
-  if (isPomPackaging(context)) {
-    if (!options.skipClean) {
-      command += ' clean';
-    }
+  if (!options.skipClean) {
+    command += ' clean';
+  }
 
+  if (isPomPackaging(context)) {
     command += isRootProject(context) ? ' install -N' : ' install';
 
     return runCommand(`${command} -pl :${context.projectName}`);
-  }
-
-  if (!options.skipClean) {
-    command += ' clean';
   }
 
   if (getProjectType(context) === 'application') {
