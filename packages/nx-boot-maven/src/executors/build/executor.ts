@@ -9,10 +9,22 @@ export default async function runExecutor(
 ) {
   logger.info(`Executor ran for Build: ${JSON.stringify(options)}`);
 
+  if (process.env['NX_MAVEN_CLI_OPTS']) {
+    options.mvnArgs += ` ${process.env['NX_MAVEN_CLI_OPTS']}`;
+  }
+
   let command = getExecutable();
 
   if (isPomPackaging(context)) {
+    if (!options.skipClean) {
+      command += ' clean';
+    }
+
     command += isRootProject(context) ? ' install -N' : ' install';
+
+    if (options.mvnArgs) {
+      command += ` ${options.mvnArgs}`;
+    }
 
     return runCommand(`${command} -pl :${context.projectName}`);
   }
