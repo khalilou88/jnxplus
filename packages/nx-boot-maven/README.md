@@ -37,17 +37,19 @@ nx generate @jnxplus/nx-boot-maven:init
 
 ### 3. Usage
 
-| Action                               | Command                                                      |
-| ------------------------------------ | ------------------------------------------------------------ |
-| Generate an application              | `nx generate @jnxplus/nx-boot-maven:application my-app-name` |
-| Generate a library                   | `nx generate @jnxplus/nx-boot-maven:library my-lib-name`     |
-| Build a project                      | `nx build my-project-name`                                   |
-| Serve an application                 | `nx serve my-app-name`                                       |
-| Test a project                       | `nx test my-project-name`                                    |
-| Lint a project                       | `nx lint my-project-name`                                    |
-| Format a java project                | `nx format --projects my-project-name`                       |
-| Format a kotlin project              | `nx ktformat my-project-name`                                |
-| Visualize project's dependency graph | `nx dep-graph`                                               |
+| Action                               | Command                                                               |
+| ------------------------------------ | --------------------------------------------------------------------- |
+| Generate an application              | `nx generate @jnxplus/nx-boot-maven:application my-app-name`          |
+| Generate a library                   | `nx generate @jnxplus/nx-boot-maven:library my-lib-name`              |
+| Build a project                      | `nx build my-project-name`                                            |
+| Serve an application                 | `nx serve my-app-name`                                                |
+| Test a project                       | `nx test my-project-name`                                             |
+| Lint a project                       | `nx lint my-project-name`                                             |
+| Format a java project                | `nx format --projects my-project-name`                                |
+| Format a kotlin project              | `nx ktformat my-project-name`                                         |
+| Run a custom task                    | `nx run-task my-project-name --task="clean install -DskipTests=true"` |
+| Publish a project                    | `nx publish my-project-name`                                          |
+| Visualize project's dependency graph | `nx dep-graph`                                                        |
 
 ## License
 

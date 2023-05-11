@@ -49,6 +49,7 @@ nx generate @jnxplus/nx-quarkus-gradle:init
 | Lint a project                       | `nx lint my-project-name`                                        |
 | Format a java project                | `nx format --projects my-project-name`                           |
 | Format a kotlin project              | `nx ktformat my-project-name`                                    |
+| Run a custom task                    | `nx run-task my-project-name --task="test"`                      |
 | Visualize project's dependency graph | `nx dep-graph`                                                   |
 
 ## License
