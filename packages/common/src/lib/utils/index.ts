@@ -5,6 +5,7 @@ import * as path from 'path';
 import * as stream from 'stream';
 import { promisify } from 'util';
 import { GetVersionFunction } from '../types';
+import { readNxJson } from 'nx/src/config/configuration';
 
 export function getProject(context: ExecutorContext) {
   if (!context.projectName) {
@@ -71,14 +72,29 @@ export async function getKtlintPath(
 
   const downloadUrl = `https://github.com/pinterest/ktlint/releases/download/${version}/ktlint`;
 
-  const outputDirectory = path.join(
-    dir,
-    'node_modules',
-    '@jnxplus',
-    'tools',
-    'linters',
-    'ktlint'
-  );
+  let outputDirectory;
+  const nxJson = readNxJson();
+  if (nxJson.installation) {
+    outputDirectory = path.join(
+      dir,
+      '.nx',
+      'installation',
+      'node_modules',
+      '@jnxplus',
+      'tools',
+      'linters',
+      'ktlint'
+    );
+  } else {
+    outputDirectory = path.join(
+      dir,
+      'node_modules',
+      '@jnxplus',
+      'tools',
+      'linters',
+      'ktlint'
+    );
+  }
 
   if (!fs.existsSync(outputDirectory)) {
     fs.mkdirSync(outputDirectory, { recursive: true });
@@ -100,14 +116,29 @@ export async function getCheckstylePath(
   const checkstyleJarName = `checkstyle-${version}-all.jar`;
   const downloadUrl = `https://github.com/checkstyle/checkstyle/releases/download/checkstyle-${version}/${checkstyleJarName}`;
 
-  const outputDirectory = path.join(
-    dir,
-    'node_modules',
-    '@jnxplus',
-    'tools',
-    'linters',
-    'checkstyle'
-  );
+  let outputDirectory;
+  const nxJson = readNxJson();
+  if (nxJson.installation) {
+    outputDirectory = path.join(
+      dir,
+      '.nx',
+      'installation',
+      'node_modules',
+      '@jnxplus',
+      'tools',
+      'linters',
+      'checkstyle'
+    );
+  } else {
+    outputDirectory = path.join(
+      dir,
+      'node_modules',
+      '@jnxplus',
+      'tools',
+      'linters',
+      'checkstyle'
+    );
+  }
 
   if (!fs.existsSync(outputDirectory)) {
     fs.mkdirSync(outputDirectory, { recursive: true });
