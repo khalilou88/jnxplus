@@ -1,41 +1,14 @@
-- [JNxPlus](/)
-- @jnxplus/nx-boot-gradle
+- [_JNxPlus_](/)
 
-  - Getting started
-    - [Introduction](nx-boot-gradle/getting-started/intro)
-    - [Setup](nx-boot-gradle/getting-started/setup)
-  - Generators
-    - [Init workspace](nx-boot-gradle/generators/init)
-    - [Generate an application](nx-boot-gradle/generators/application)
-    - [Generate a library](nx-boot-gradle/generators/library)
-    - [Migrate](nx-boot-gradle/generators/migrate)
-  - Executors
-    - [Build](nx-boot-gradle/executors/build)
-    - [Build image](nx-boot-gradle/executors/build-image)
-    - [Serve](nx-boot-gradle/executors/serve)
-    - [Test](nx-boot-gradle/executors/test)
-    - [Lint](nx-boot-gradle/executors/lint)
-    - [Format](nx-boot-gradle/executors/format)
-    - [Run a custom task](nx-boot-gradle/executors/run-task)
-  - [Project graph](nx-boot-gradle/dep-graph/dep-graph)
-  - [Upgrading](nx-boot-gradle/upgrading/upgrading)
-
-- @jnxplus/nx-boot-maven
-  - Getting started
-    - [Introduction](nx-boot-maven/getting-started/intro)
-    - [Setup](nx-boot-maven/getting-started/setup)
-  - Generators
-    - [Init workspace](nx-boot-maven/generators/init)
-    - [Generate an application](nx-boot-maven/generators/application)
-    - [Generate a library](nx-boot-maven/generators/library)
-    - [Migrate](nx-boot-maven/generators/migrate)
-  - Executors
-    - [Build](nx-boot-maven/executors/build)
-    - [Build image](nx-boot-maven/executors/build-image)
-    - [Serve](nx-boot-maven/executors/serve)
-    - [Test](nx-boot-maven/executors/test)
-    - [Lint](nx-boot-maven/executors/lint)
-    - [Format](nx-boot-maven/executors/format)
-    - [Run a custom task](nx-boot-maven/executors/run-task)
-  - [Project graph](nx-boot-maven/dep-graph/dep-graph)
-  - [Upgrading](nx-boot-maven/upgrading/upgrading)
+- **@jnxplus/nx-boot-gradle**
+  - [Getting started](nx-boot-gradle/1-getting-started)
+  - [Generators](nx-boot-gradle/2-generators)
+  - [Executors](nx-boot-gradle/3-executors)
+  - [Project graph](nx-boot-gradle/4-dep-graph)
+  - [Upgrading](nx-boot-gradle/5-upgrading)
+- **@jnxplus/nx-boot-maven**
+  - [Getting started](nx-boot-maven/1-getting-started)
+  - [Generators](nx-boot-maven/2-generators)
+  - [Executors](nx-boot-maven/3-executors)
+  - [Project graph](nx-boot-maven/4-dep-graph)
+  - [Upgrading](nx-boot-maven/5-upgrading)

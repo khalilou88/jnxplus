@@ -8,9 +8,14 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   logger.info(`Executor ran for Build Image: ${JSON.stringify(options)}`);
+
+  let command = getExecutable();
+
+  if (process.env['NX_MAVEN_CLI_OPTS']) {
+    command += ` ${process.env['NX_MAVEN_CLI_OPTS']}`;
+  }
+
   return runCommand(
-    `${getExecutable()} spring-boot:build-image -DskipTests=true -pl :${
-      context.projectName
-    }`
+    `${command} spring-boot:build-image -DskipTests=true -pl :${context.projectName}`
   );
 }
