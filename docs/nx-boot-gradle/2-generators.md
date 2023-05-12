@@ -161,6 +161,7 @@ Don't include the directory in the package name
 #### minimal
 
 Default: `false`
+
 Type: `boolean`
 
 Generate an app with a minimal setup

@@ -304,6 +304,70 @@ Type: `string`
 
 ArtifactId of the parent project or leave it blank for the root project
 
+## @jnxplus/nx-boot-maven:parent-project
+
+Create a parent project.
+
+### Usage
+
+```bash
+nx generate @jnxplus/nx-boot-maven:parent-project my-parent-project
+```
+
+### Options
+
+#### name (_**required**_)
+
+Type: `string`
+
+The name of the library.
+
+#### groupId (_**required**_)
+
+Type: `string`
+
+The groupId of the library.
+
+#### projectVersion (_**required**_)
+
+Alias(es): v
+
+Type: `string`
+
+The version of the library.
+
+#### directory
+
+Alias(es): dir
+
+Type: `string`
+
+A directory where the library is placed.
+
+#### tags
+
+Alias(es): t
+
+Type: `string`
+
+Add tags to the library (used for linting).
+
+#### simpleName
+
+Default: `false`
+
+Type: `boolean`
+
+Don't include the directory in the lib name
+
+#### parentProject
+
+Default: `root project`
+
+Type: `string`
+
+ArtifactId of the parent project or leave it blank for the root project
+
 ## @jnxplus/nx-boot-maven:migrate
 
 Update Maven wrapper.
