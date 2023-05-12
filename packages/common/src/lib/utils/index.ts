@@ -6,6 +6,7 @@ import * as stream from 'stream';
 import { promisify } from 'util';
 import { GetVersionFunction } from '../types';
 import { readNxJson } from 'nx/src/config/configuration';
+import { execSync } from 'child_process';
 
 export function getProject(context: ExecutorContext) {
   if (!context.projectName) {
@@ -103,8 +104,18 @@ export async function getKtlintPath(
   const ktlintAbsolutePath = path.join(outputDirectory, 'ktlint');
   if (!fs.existsSync(ktlintAbsolutePath)) {
     await downloadFile(downloadUrl, ktlintAbsolutePath);
+  } else if (isAnotherVersion(ktlintAbsolutePath, version)) {
+    fs.unlinkSync(ktlintAbsolutePath);
+    await downloadFile(downloadUrl, ktlintAbsolutePath);
   }
   return ktlintAbsolutePath;
+}
+
+function isAnotherVersion(ktlintAbsolutePath: string, version: string) {
+  const jarVersion = execSync(`java -jar ${ktlintAbsolutePath} --version`)
+    .toString()
+    .trim();
+  return jarVersion !== version;
 }
 
 export async function getCheckstylePath(
