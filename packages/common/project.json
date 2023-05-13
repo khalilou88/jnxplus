@@ -46,7 +46,7 @@
         "push": true,
         "noVerify": true,
         "postTargets": ["common:github", "common:publish"],
-        "commitMessageFormat": "release(${projectName}): cut release ${version} [ci skip]"
+        "commitMessageFormat": "release(${projectName}): cut release ${version} [skip ci]"
       }
     },
     "github": {
