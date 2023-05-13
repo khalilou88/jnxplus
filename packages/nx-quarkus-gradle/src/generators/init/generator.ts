@@ -8,8 +8,7 @@ import {
 import * as path from 'path';
 import {
   quarkusPlatformVersion,
-  kotlinJvmVersion,
-  kotlinPluginAllopenVersion,
+  kotlinVersion,
   checkstyleVersion,
   ktlintVersion,
 } from '@jnxplus/common';
@@ -34,8 +33,8 @@ function normalizeOptions(
     ...options,
     kotlinExtension,
     quarkusPlatformVersion,
-    kotlinJvmVersion,
-    kotlinPluginAllopenVersion,
+    kotlinJvmVersion: kotlinVersion,
+    kotlinPluginAllopenVersion: kotlinVersion,
     checkstyleVersion,
     ktlintVersion,
   };

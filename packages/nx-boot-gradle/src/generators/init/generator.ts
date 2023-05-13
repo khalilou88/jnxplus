@@ -8,8 +8,7 @@ import {
 import * as path from 'path';
 import {
   dependencyManagementVersion,
-  kotlinJvmVersion,
-  kotlinSpringVersion,
+  kotlinVersion,
   springBootVersion,
   checkstyleVersion,
   ktlintVersion,
@@ -37,8 +36,8 @@ function normalizeOptions(
     kotlinExtension,
     springBootVersion,
     dependencyManagementVersion,
-    kotlinJvmVersion,
-    kotlinSpringVersion,
+    kotlinJvmVersion: kotlinVersion,
+    kotlinSpringVersion: kotlinVersion,
     checkstyleVersion,
     ktlintVersion,
   };
