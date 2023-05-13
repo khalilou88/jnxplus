@@ -4,8 +4,8 @@ export const dependencyManagementVersion = '1.1.0';
 export const springKotlinVersion = '1.7.22';
 
 //Quarkus
-export const quarkusPlatformVersion = '3.0.3.Final';
-export const quarkusKotlinVersion = '1.8.10';
+export const quarkusPlatformVersion = '2.16.6.Final';
+export const quarkusKotlinVersion = '1.7.22';
 
 //Linters
 export const checkstyleVersion = '10.11.0';
