@@ -1,25 +1,15 @@
 import { formatFiles, generateFiles, offsetFromRoot, Tree } from '@nx/devkit';
 import * as path from 'path';
-import { kotlinJvmVersion } from '@jnxplus/common';
-import { NxQuarkusGradleGeneratorSchema } from './schema';
+import { NxQuarkusGradleMigrateGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends NxQuarkusGradleGeneratorSchema {
-  //TODO remove this if not used
-  kotlinJvmVersion: string;
-  kotlinExtension: string;
-}
+interface NormalizedSchema extends NxQuarkusGradleMigrateGeneratorSchema {} // eslint-disable-line
 
 function normalizeOptions(
   tree: Tree,
-  options: NxQuarkusGradleGeneratorSchema
+  options: NxQuarkusGradleMigrateGeneratorSchema
 ): NormalizedSchema {
-  //TODO
-  const kotlinExtension = '.kts';
-
   return {
     ...options,
-    kotlinExtension,
-    kotlinJvmVersion,
   };
 }
 
@@ -39,7 +29,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
 
 export default async function (
   tree: Tree,
-  options: NxQuarkusGradleGeneratorSchema
+  options: NxQuarkusGradleMigrateGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);

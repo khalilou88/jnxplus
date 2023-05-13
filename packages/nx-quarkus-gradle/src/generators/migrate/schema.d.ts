@@ -1,1 +1,1 @@
-export interface NxQuarkusGradleGeneratorSchema {} // eslint-disable-line
+export interface NxQuarkusGradleMigrateGeneratorSchema {} // eslint-disable-line
