@@ -37,3 +37,5 @@ jobs:
           install-command: npm ci --force
 
       - run: npm run nx run-many --all -- --target=migrate
+        env:
+          NX_MAVEN_CLI_OPTS: '--batch-mode'
