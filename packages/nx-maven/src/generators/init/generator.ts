@@ -9,7 +9,7 @@ import {
 import * as path from 'path';
 import {
   checkstyleVersion,
-  kotlinVersion,
+  springKotlinVersion,
   ktlintVersion,
   springBootVersion,
 } from '@jnxplus/common';
@@ -32,7 +32,7 @@ function normalizeOptions(
   return {
     ...options,
     dot,
-    kotlinVersion,
+    kotlinVersion: springKotlinVersion,
     springBootStarterParentVersion: springBootVersion,
     checkstyleVersion,
     ktlintVersion,

@@ -9,7 +9,7 @@ import {
 import * as path from 'path';
 import {
   checkstyleVersion,
-  kotlinVersion,
+  quarkusKotlinVersion,
   ktlintVersion,
   quarkusPlatformVersion,
 } from '@jnxplus/common';
@@ -32,7 +32,7 @@ function normalizeOptions(
   return {
     ...options,
     dot,
-    kotlinVersion,
+    kotlinVersion: quarkusKotlinVersion,
     quarkusVersion: quarkusPlatformVersion,
     checkstyleVersion,
     ktlintVersion,
