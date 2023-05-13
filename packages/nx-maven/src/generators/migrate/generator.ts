@@ -1,25 +1,20 @@
 import { formatFiles, generateFiles, offsetFromRoot, Tree } from '@nx/devkit';
 import * as path from 'path';
-import { kotlinVersion, springBootVersion } from '@jnxplus/common';
-import { NxMavenGeneratorSchema } from './schema';
+import { NxMavenMigrateGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends NxMavenGeneratorSchema {
+interface NormalizedSchema extends NxMavenMigrateGeneratorSchema {
   dot: string;
-  kotlinVersion: string;
-  springBootStarterParentVersion: string;
 }
 
 function normalizeOptions(
   tree: Tree,
-  options: NxMavenGeneratorSchema
+  options: NxMavenMigrateGeneratorSchema
 ): NormalizedSchema {
   const dot = '.';
 
   return {
     ...options,
     dot,
-    kotlinVersion,
-    springBootStarterParentVersion: springBootVersion,
   };
 }
 
@@ -37,7 +32,10 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   );
 }
 
-export default async function (tree: Tree, options: NxMavenGeneratorSchema) {
+export default async function (
+  tree: Tree,
+  options: NxMavenMigrateGeneratorSchema
+) {
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);
   tree.changePermissions('mvnw', '755');

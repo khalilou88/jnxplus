@@ -1,1 +1,1 @@
-export interface NxBootGradleGeneratorSchema {} // eslint-disable-line
+export interface NxBootGradleMigrateGeneratorSchema {} // eslint-disable-line

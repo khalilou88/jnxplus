@@ -1,11 +1,11 @@
 import { Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import generator from './generator';
-import { NxQuarkusMavenGeneratorSchema } from './schema';
+import { NxQuarkusMavenMigrateGeneratorSchema } from './schema';
 
 describe('migrate generator', () => {
   let appTree: Tree;
-  const options: NxQuarkusMavenGeneratorSchema = {
+  const options: NxQuarkusMavenMigrateGeneratorSchema = {
     javaVersion: '17',
     groupId: 'com.example',
     parentProjectName: 'test-quarkus-multiproject',

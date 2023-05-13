@@ -1,35 +1,15 @@
 import { formatFiles, generateFiles, offsetFromRoot, Tree } from '@nx/devkit';
 import * as path from 'path';
-import {
-  dependencyManagementVersion,
-  kotlinJvmVersion,
-  kotlinSpringVersion,
-  springBootVersion,
-} from '@jnxplus/common';
-import { NxBootGradleGeneratorSchema } from './schema';
+import { NxBootGradleMigrateGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends NxBootGradleGeneratorSchema {
-  kotlinExtension: string;
-  springBootVersion: string;
-  dependencyManagementVersion: string;
-  kotlinJvmVersion: string;
-  kotlinSpringVersion: string;
-}
+interface NormalizedSchema extends NxBootGradleMigrateGeneratorSchema {} // eslint-disable-line
 
 function normalizeOptions(
   tree: Tree,
-  options: NxBootGradleGeneratorSchema
+  options: NxBootGradleMigrateGeneratorSchema
 ): NormalizedSchema {
-  //TODO
-  const kotlinExtension = '.kts';
-
   return {
     ...options,
-    kotlinExtension,
-    springBootVersion,
-    dependencyManagementVersion,
-    kotlinJvmVersion,
-    kotlinSpringVersion,
   };
 }
 
@@ -49,7 +29,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
 
 export default async function (
   tree: Tree,
-  options: NxBootGradleGeneratorSchema
+  options: NxBootGradleMigrateGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);

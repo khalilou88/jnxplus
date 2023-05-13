@@ -1,11 +1,11 @@
 import { Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import generator from './generator';
-import { NxQuarkusGradleGeneratorSchema } from './schema';
+import { NxQuarkusGradleMigrateGeneratorSchema } from './schema';
 
 describe('migrate generator', () => {
   let appTree: Tree;
-  const options: NxQuarkusGradleGeneratorSchema = {
+  const options: NxQuarkusGradleMigrateGeneratorSchema = {
     javaVersion: '17',
     dsl: 'groovy',
     rootProjectName: 'quarkus-root-project',

@@ -1,11 +1,11 @@
 import { Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import generator from './generator';
-import { NxMavenGeneratorSchema } from './schema';
+import { NxMavenMigrateGeneratorSchema } from './schema';
 
 describe('migrate generator', () => {
   let appTree: Tree;
-  const options: NxMavenGeneratorSchema = {
+  const options: NxMavenMigrateGeneratorSchema = {
     javaVersion: '17',
     groupId: 'com.example',
     parentProjectName: 'test-boot-multiproject',

@@ -1,25 +1,20 @@
 import { formatFiles, generateFiles, offsetFromRoot, Tree } from '@nx/devkit';
 import * as path from 'path';
-import { kotlinVersion, quarkusPlatformVersion } from '@jnxplus/common';
-import { NxQuarkusMavenGeneratorSchema } from './schema';
+import { NxQuarkusMavenMigrateGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends NxQuarkusMavenGeneratorSchema {
+interface NormalizedSchema extends NxQuarkusMavenMigrateGeneratorSchema {
   dot: string;
-  kotlinVersion: string;
-  quarkusVersion: string;
 }
 
 function normalizeOptions(
   tree: Tree,
-  options: NxQuarkusMavenGeneratorSchema
+  options: NxQuarkusMavenMigrateGeneratorSchema
 ): NormalizedSchema {
   const dot = '.';
 
   return {
     ...options,
     dot,
-    kotlinVersion,
-    quarkusVersion: quarkusPlatformVersion,
   };
 }
 
@@ -39,7 +34,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
 
 export default async function (
   tree: Tree,
-  options: NxQuarkusMavenGeneratorSchema
+  options: NxQuarkusMavenMigrateGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);

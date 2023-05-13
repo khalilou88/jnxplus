@@ -1,11 +1,11 @@
 import { Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import generator from './generator';
-import { NxBootGradleGeneratorSchema } from './schema';
+import { NxBootGradleMigrateGeneratorSchema } from './schema';
 
 describe('migrate generator', () => {
   let appTree: Tree;
-  const options: NxBootGradleGeneratorSchema = {
+  const options: NxBootGradleMigrateGeneratorSchema = {
     javaVersion: '17',
     dsl: 'groovy',
     rootProjectName: 'test-boot-multiproject',

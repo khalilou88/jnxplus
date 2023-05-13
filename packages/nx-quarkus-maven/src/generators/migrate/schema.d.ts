@@ -1,1 +1,1 @@
-export interface NxQuarkusMavenGeneratorSchema {} // eslint-disable-line
+export interface NxQuarkusMavenMigrateGeneratorSchema {} // eslint-disable-line

@@ -1,1 +1,1 @@
-export interface NxBootMavenGeneratorSchema {} // eslint-disable-line
+export interface NxBootMavenMigrateGeneratorSchema {} // eslint-disable-line
