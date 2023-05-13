@@ -54,6 +54,7 @@ jobs:
         run: npm i --force
 
       - name: Check if has migrations
+        if: steps.nx-workspace-outdated.outputs.outdated == 'true'
         id: nx-workspace-has-migrations
         run: |
           HAS_MIGRATIONS=$(test -f migrations.json && echo true || echo false)
