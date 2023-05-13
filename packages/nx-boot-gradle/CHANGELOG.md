@@ -6,37 +6,9 @@ This file was generated using [@jscutlery/semver](https://github.com/jscutlery/s
 
 ### Dependency Updates
 
-* `gradle` updated to version `0.1.6`
-* `common` updated to version `0.2.3`
+- `gradle` updated to version `0.1.6`
+- `common` updated to version `0.2.3`
 
 ### Features
 
-* **nx-boot-gradle:** add ktformat executor ([#196](https://github.com/khalilou88/jnxplus/issues/196)) ([9266914](https://github.com/khalilou88/jnxplus/commit/9266914a661b0ffa329a1a4470db14fd586e1dfe))
-
-
-
-## [6.1.4](https://github.com/khalilou88/jnxplus/compare/nx-boot-gradle-6.1.3...nx-boot-gradle-6.1.4) (2023-05-07)
-
-### Dependency Updates
-
-* `gradle` updated to version `0.1.5`
-* `common` updated to version `0.2.2`
-
-
-## [6.1.3](https://github.com/khalilou88/jnxplus/compare/nx-boot-gradle-6.1.2...nx-boot-gradle-6.1.3) (2023-05-07)
-
-### Dependency Updates
-
-* `gradle` updated to version `0.1.4`
-* `common` updated to version `0.2.1`
-
-
-## [6.1.2](https://github.com/khalilou88/jnxplus/compare/nx-boot-gradle-6.1.1...nx-boot-gradle-6.1.2) (2023-05-07)
-
-### Dependency Updates
-
-* `gradle` updated to version `0.1.3`
-* `common` updated to version `0.2.0`
-
-
-## [6.1.1](https://github.com/khalilou88/jnxplus/compare/nx-boot-gradle-6.1.0...nx-boot-gradle-6.1.1) (2023-05-07)
+- **nx-boot-gradle:** add ktformat executor ([#196](https://github.com/khalilou88/jnxplus/issues/196)) ([9266914](https://github.com/khalilou88/jnxplus/commit/9266914a661b0ffa329a1a4470db14fd586e1dfe))
