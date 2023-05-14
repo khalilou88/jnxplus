@@ -7,6 +7,29 @@ import {
 import * as fs from 'fs';
 import { fileExists } from 'nx/src/utils/fileutils';
 import { join } from 'path';
+import { execSync } from 'child_process';
+import { getExecutable } from '../utils';
+
+export function addProjectsAndDependencies(
+  builder: ProjectGraphBuilder,
+  hasher: Hasher,
+  pluginName: string,
+  projectRoot: string
+) {
+  const output = execSync(`${getExecutable()} projectGraph`).toString();
+  console.log('output');
+  console.log(output);
+  console.log('end output');
+
+  const projects = JSON.parse(
+    fs.readFileSync(join(workspaceRoot, 'graph.json'), 'utf8')
+  );
+
+  for (const project of projects) {
+    console.log('project');
+    console.log(project);
+  }
+}
 
 type BuildFileType = 'groovy' | 'kotlin' | 'undefined';
 type ProjectGraphProjectNodeExtended = ProjectGraphProjectNode & {
