@@ -120,8 +120,7 @@ function addOrUpdatePrettierIgnore(tree: Tree) {
 
 function addOrUpdateGitattributes(tree: Tree) {
   const gitattributesPath = `.gitattributes`;
-  const gradleWrapperGitattributes =
-    '# OS specific line endings for the Gradle wrapper script\ngradlew text eol=lf\ngradlew.cmd text eol=crlf';
+  const gradleWrapperGitattributes = `#\n# https://help.github.com/articles/dealing-with-line-endings/\n#\n# Linux start script should use lf\n/gradlew        text eol=lf\n# These are Windows script files and should use crlf\n*.bat           text eol=crlf`;
   if (tree.exists(gitattributesPath)) {
     const gitattributesOldContent = tree.read(gitattributesPath, 'utf-8') || '';
     const gitattributesContent = gitattributesOldContent.concat(
