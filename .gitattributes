@@ -1,8 +1,11 @@
+#
+# https://help.github.com/articles/dealing-with-line-endings/
+#
 * text=auto
+# Linux start script should use lf
 *.sh text eol=lf
-# OS specific line endings for the Maven wrapper script
-mvnw text eol=lf
-mvnw.cmd text eol=crlf
-# OS specific line endings for the Gradle wrapper script
 gradlew text eol=lf
-gradlew.cmd text eol=crlf
+mvnw text eol=lf
+# These are Windows script files and should use crlf
+*.bat text eol=crlf
+mvnw.cmd text eol=crlf
