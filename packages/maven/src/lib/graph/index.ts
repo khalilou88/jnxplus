@@ -4,11 +4,11 @@ import {
   ProjectGraphProjectNode,
   workspaceRoot,
 } from '@nx/devkit';
+import { workspaceLayout } from 'nx/src/config/configuration';
 import { fileExists } from 'nx/src/utils/fileutils';
 import { join } from 'path';
 import { XmlDocument } from 'xmldoc';
 import { readXml } from '../xml/index';
-import * as fs from 'fs';
 
 export function addProjects(
   builder: ProjectGraphBuilder,
@@ -24,13 +24,13 @@ export function addProjects(
     const projectName =
       pomXmlContent.childNamed('artifactId')?.val ?? 'missingArtifactId';
 
-    const projectType = getProjectType(projectRoot);
+    const projectGraphNodeType = getProjectGraphNodeType(projectRoot);
     builder.addNode({
       name: projectName,
-      type: projectType,
+      type: projectGraphNodeType,
       data: {
         root: projectRoot,
-        projectType: projectType === 'app' ? 'application' : 'library',
+        projectType: projectGraphNodeType === 'app' ? 'application' : 'library',
         targets: {
           build: {
             executor: `${pluginName}:build`,
@@ -154,20 +154,14 @@ function getModules(
   return projects.filter((project) => modules.includes(project.name));
 }
 
-function getProjectType(projectRoot: string): 'app' | 'e2e' | 'lib' {
+function getProjectGraphNodeType(projectRoot: string): 'app' | 'e2e' | 'lib' {
   if (projectRoot === '') {
     return 'lib';
   }
 
-  const nxJson = JSON.parse(
-    fs.readFileSync(join(workspaceRoot, 'nx.json'), 'utf8')
-  );
+  const layout = workspaceLayout();
 
-  const appsDir = nxJson?.workspaceLayout?.appsDir
-    ? nxJson.workspaceLayout.appsDir
-    : 'apps';
-
-  if (projectRoot.startsWith(appsDir)) {
+  if (projectRoot.startsWith(layout.appsDir)) {
     return 'app';
   }
 
