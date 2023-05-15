@@ -93,35 +93,51 @@ export function addProjectsAndDependencies(
   }
 
   for (const proj of projects) {
+    const projName = getProjectName(proj);
+    const projRoot = path.relative(workspaceRoot, proj.projectDirPath);
+    const projSourceFile = proj.isBuildGradleExists
+      ? 'build.gradle'
+      : 'build.gradle.kts';
+
     for (const subproject of proj.subprojects) {
+      const subprojectName = getProjectName(subproject);
       const subprojectRoot = path.relative(
         workspaceRoot,
         subproject.projectDirPath
       );
-
-      const sourceProjectFile = subproject.isBuildGradleExists
+      const subprojectSourceFile = subproject.isBuildGradleExists
         ? 'build.gradle'
         : 'build.gradle.kts';
 
       builder.addStaticDependency(
-        subproject.name,
-        proj.name,
-        joinPathFragments(subprojectRoot, sourceProjectFile)
+        subprojectName,
+        projName,
+        joinPathFragments(subprojectRoot, subprojectSourceFile)
       );
     }
 
     for (const dependency of proj.dependencies) {
-      const projRoot = path.relative(workspaceRoot, proj.projectDirPath);
-
-      const sourceProjectFile = proj.isBuildGradleExists
-        ? 'build.gradle'
-        : 'build.gradle.kts';
+      const dependencyName = getProjectName(dependency);
 
       builder.addStaticDependency(
-        proj.name,
-        dependency.name,
-        joinPathFragments(projRoot, sourceProjectFile)
+        projName,
+        dependencyName,
+        joinPathFragments(projRoot, projSourceFile)
       );
     }
   }
+}
+
+function getProjectName(project: {
+  name: string;
+  isProjectJsonExists: boolean;
+  projectDirPath: string;
+}) {
+  if (project.isProjectJsonExists) {
+    const projectJsonPath = join(project.projectDirPath, 'project.json');
+    const projectJson = JSON.parse(fs.readFileSync(projectJsonPath, 'utf8'));
+    return projectJson.name;
+  }
+
+  return project.name;
 }
