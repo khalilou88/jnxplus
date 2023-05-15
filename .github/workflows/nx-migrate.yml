@@ -51,7 +51,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.nx-workspace-outdated.outputs.outdated == 'true'
-        run: npm i --force
+        run: npm i
 
       - name: Check if has migrations
         if: steps.nx-workspace-outdated.outputs.outdated == 'true'

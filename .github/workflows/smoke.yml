@@ -34,7 +34,7 @@ jobs:
 
       - uses: bahmutov/npm-install@v1.8.32
         with:
-          install-command: npm ci --force
+          install-command: npm ci
 
       - run: npm run nx run-many --all -- --target=smoke
         env:
