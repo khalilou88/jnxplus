@@ -3,16 +3,32 @@ import {
   Hasher,
   ProjectGraphBuilder,
   joinPathFragments,
-  logger,
   workspaceRoot,
 } from '@nx/devkit';
 import { execSync } from 'child_process';
-import * as crypto from 'crypto';
 import * as fs from 'fs';
 import { projectGraphCacheDirectory } from 'nx/src/utils/cache-directory';
 import * as path from 'path';
 import { join } from 'path';
 import { getExecutable } from '../utils';
+
+type GradleProject1Type = {
+  name: string;
+  projectDirPath: string;
+  isProjectJsonExists: boolean;
+  isBuildGradleExists: boolean;
+};
+
+type GradleProject2Type = {
+  isBuildGradleKtsExists: boolean;
+  isSettingsGradleExists: boolean;
+  isSettingsGradleKtsExists: boolean;
+  isGradlePropertiesExists: boolean;
+  subprojects: GradleProject1Type[];
+  dependencies: GradleProject1Type[];
+};
+
+type GradleProjectType = GradleProject1Type & GradleProject2Type;
 
 export function addProjectsAndDependencies(
   builder: ProjectGraphBuilder,
@@ -20,22 +36,26 @@ export function addProjectsAndDependencies(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   pluginName: string
 ) {
-  const random = crypto.randomBytes(20).toString('hex');
-  const outputFile = join(
-    projectGraphCacheDirectory,
-    `gradle-dep-graph-${random}.json`
-  );
+  const outputFile = join(projectGraphCacheDirectory, 'nx-gradle-deps.json');
 
   execSync(`${getExecutable()} projectGraph --outputFile=${outputFile}`, {
     cwd: workspaceRoot,
   }).toString();
 
-  if (!fs.existsSync(outputFile)) {
-    logger.debug(`File ${outputFile} not found`);
-  }
+  const projects: GradleProjectType[] = JSON.parse(
+    fs.readFileSync(outputFile, 'utf8')
+  );
 
-  const projects = JSON.parse(fs.readFileSync(outputFile, 'utf8'));
+  addProjects(builder, hasher, projects);
 
+  addDependencies(builder, projects);
+}
+
+function addProjects(
+  builder: ProjectGraphBuilder,
+  hasher: Hasher,
+  projects: GradleProjectType[]
+) {
   for (const project of projects) {
     if (!project.isProjectJsonExists) {
       const projectRoot = path.relative(workspaceRoot, project.projectDirPath);
@@ -101,7 +121,12 @@ export function addProjectsAndDependencies(
       });
     }
   }
+}
 
+function addDependencies(
+  builder: ProjectGraphBuilder,
+  projects: GradleProjectType[]
+) {
   for (const proj of projects) {
     const projName = getProjectName(proj);
     const projRoot = path.relative(workspaceRoot, proj.projectDirPath);
@@ -138,11 +163,7 @@ export function addProjectsAndDependencies(
   }
 }
 
-function getProjectName(project: {
-  name: string;
-  isProjectJsonExists: boolean;
-  projectDirPath: string;
-}) {
+function getProjectName(project: GradleProject1Type) {
   if (project.isProjectJsonExists) {
     const projectJsonPath = join(project.projectDirPath, 'project.json');
     const projectJson = JSON.parse(fs.readFileSync(projectJsonPath, 'utf8'));
