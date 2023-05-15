@@ -1,7 +1,13 @@
 import { getProjectGraphNodeType } from '@jnxplus/common';
-import { Hasher, ProjectGraphBuilder, workspaceRoot } from '@nx/devkit';
+import {
+  Hasher,
+  ProjectGraphBuilder,
+  joinPathFragments,
+  workspaceRoot,
+} from '@nx/devkit';
 import { execSync } from 'child_process';
 import * as fs from 'fs';
+import { projectGraphCacheDirectory } from 'nx/src/utils/cache-directory';
 import * as path from 'path';
 import { join } from 'path';
 import { getExecutable } from '../utils';
@@ -12,7 +18,7 @@ export function addProjectsAndDependencies(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   pluginName: string
 ) {
-  const outputFile = join(workspaceRoot, 'gradle-dep-graph.json');
+  const outputFile = join(projectGraphCacheDirectory, 'gradle-dep-graph.json');
 
   execSync(`${getExecutable()} projectGraph --outputFile=${outputFile}`, {
     cwd: workspaceRoot,
@@ -26,39 +32,43 @@ export function addProjectsAndDependencies(
 
       const files = [];
 
-      const projectRootWithSlash = projectRoot ? `${projectRoot}/` : '';
       if (project.isBuildGradleExists) {
+        const file = joinPathFragments(projectRoot, 'build.gradle');
         files.push({
-          file: `${projectRootWithSlash}build.gradle`,
-          hash: hasher.hashFile(`${projectRootWithSlash}build.gradle`),
+          file: file,
+          hash: hasher.hashFile(file),
         });
       }
 
       if (project.isBuildGradleKtsExists) {
+        const file = joinPathFragments(projectRoot, 'build.gradle.kts');
         files.push({
-          file: `${projectRootWithSlash}build.gradle.kts`,
-          hash: hasher.hashFile(`${projectRootWithSlash}build.gradle.kts`),
+          file: file,
+          hash: hasher.hashFile(file),
         });
       }
 
       if (project.isSettingsGradleExists) {
+        const file = joinPathFragments(projectRoot, 'settings.gradle');
         files.push({
-          file: `${projectRootWithSlash}settings.gradle`,
-          hash: hasher.hashFile(`${projectRootWithSlash}settings.gradle`),
+          file: file,
+          hash: hasher.hashFile(file),
         });
       }
 
       if (project.isSettingsGradleKtsExists) {
+        const file = joinPathFragments(projectRoot, 'settings.gradle.kts');
         files.push({
-          file: `${projectRootWithSlash}settings.gradle.kts`,
-          hash: hasher.hashFile(`${projectRootWithSlash}settings.gradle.kts`),
+          file: file,
+          hash: hasher.hashFile(file),
         });
       }
 
       if (project.isGradlePropertiesExists) {
+        const file = joinPathFragments(projectRoot, 'gradle.properties');
         files.push({
-          file: `${projectRootWithSlash}gradle.properties`,
-          hash: hasher.hashFile(`${projectRootWithSlash}gradle.properties`),
+          file: file,
+          hash: hasher.hashFile(file),
         });
       }
 
@@ -89,34 +99,28 @@ export function addProjectsAndDependencies(
         subproject.projectDirPath
       );
 
-      const subprojectRootWithSlash = subprojectRoot
-        ? `${subprojectRoot}/`
-        : '';
-
-      const sourceProjectFile = subproject.isSettingsGradleExists
+      const sourceProjectFile = subproject.isBuildGradleExists
         ? 'build.gradle'
         : 'build.gradle.kts';
 
       builder.addStaticDependency(
         subproject.name,
         proj.name,
-        `${subprojectRootWithSlash}${sourceProjectFile}`
+        joinPathFragments(subprojectRoot, sourceProjectFile)
       );
     }
 
     for (const dependency of proj.dependencies) {
       const projRoot = path.relative(workspaceRoot, proj.projectDirPath);
 
-      const projRootWithSlash = projRoot ? `${projRoot}/` : '';
-
-      const sourceProjectFile = proj.isSettingsGradleExists
+      const sourceProjectFile = proj.isBuildGradleExists
         ? 'build.gradle'
         : 'build.gradle.kts';
 
       builder.addStaticDependency(
         proj.name,
         dependency.name,
-        `${projRootWithSlash}${sourceProjectFile}`
+        joinPathFragments(projRoot, sourceProjectFile)
       );
     }
   }
