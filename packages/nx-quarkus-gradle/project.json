@@ -83,5 +83,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": []
+  "implicitDependencies": ["gradle-plugin"]
 }
