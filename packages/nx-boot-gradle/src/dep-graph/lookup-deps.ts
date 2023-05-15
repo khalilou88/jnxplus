@@ -12,6 +12,6 @@ export function processProjectGraph(
 ): ProjectGraph {
   const builder = new ProjectGraphBuilder(graph);
   const hasher = new Hasher(graph, context.nxJsonConfiguration, {});
-  addProjectsAndDependencies(builder, hasher, '@jnxplus/nx-boot-gradle', '');
+  addProjectsAndDependencies(builder, hasher, '@jnxplus/nx-boot-gradle');
   return builder.getUpdatedProjectGraph();
 }
