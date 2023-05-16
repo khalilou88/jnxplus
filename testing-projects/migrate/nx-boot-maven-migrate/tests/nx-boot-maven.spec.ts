@@ -109,11 +109,11 @@ describe('@jnxplus/nx-boot-maven migrate', () => {
 
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
 
-    execSync('nx migrate next', execSyncOptions());
+    execSync('npx nx migrate next', execSyncOptions());
 
     execSync('npm i', execSyncOptions());
 
-    execSync('nx migrate --run-migrations --ifExists', execSyncOptions());
+    execSync('npx nx migrate --run-migrations --ifExists', execSyncOptions());
 
     execSync(`git commit -am "chore: nx migrate"`, execSyncOptions());
   }, 1500000);
