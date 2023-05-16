@@ -21,20 +21,20 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup Java
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'temurin'
-          java-version: ${{ matrix.java }}
-
       - name: Set up node
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node_version }}
+          cache: 'npm'
 
-      - uses: bahmutov/npm-install@v1.8.32
+      - name: Setup Java
+        uses: actions/setup-java@v3
         with:
-          install-command: npm ci
+          distribution: 'temurin'
+          java-version: ${{ matrix.java }}
+
+      - name: Install dependencies
+        run: npm ci
 
       - run: npm run nx run-many --all -- --target=smoke
         env:

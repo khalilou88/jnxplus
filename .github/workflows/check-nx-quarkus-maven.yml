@@ -18,24 +18,17 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node_version }}
-
-      - name: Use cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-${{ matrix.node_version }}-${{ hashFiles('**/package-lock.json') }}
+          cache: 'npm'
 
       - name: Setup Java
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
+          cache: 'maven'
 
       - name: Install dependencies
         run: npm ci
-
 
       - name: Unit tests
         run: npm run test nx-quarkus-maven
@@ -47,6 +40,4 @@ jobs:
         run: npm run e2e nx-quarkus-maven-e2e
         env:
           NX_VERBOSE_LOGGING: 'true'
-          NX_E2E_SKIP_BUILD_CLEANUP: 'true'
-          NX_CACHE_DIRECTORY: ${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.java }}
           GITHUB_ACTIONS: 'true'
