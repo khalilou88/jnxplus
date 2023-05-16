@@ -1,3 +1,5 @@
+process.env['NX_VERBOSE_LOGGING'] = 'true';
+
 module.exports = {
   displayName: 'nx-boot-maven-e2e',
   preset: '../../../jest.preset.js',
