@@ -6,6 +6,6 @@
 *.sh text eol=lf
 gradlew text eol=lf
 mvnw text eol=lf
-# These are Windows script files and should use crlf
+# Windows script files should use crlf
 *.bat text eol=crlf
 mvnw.cmd text eol=crlf
