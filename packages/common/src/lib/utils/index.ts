@@ -5,7 +5,7 @@ import * as path from 'path';
 import * as stream from 'stream';
 import { promisify } from 'util';
 import { GetVersionFunction } from '../types';
-import { readNxJson } from 'nx/src/config/configuration';
+import { readNxJson, workspaceLayout } from 'nx/src/config/configuration';
 import { execSync } from 'child_process';
 
 export function getProject(context: ExecutorContext) {
@@ -182,4 +182,20 @@ function isSubdir(parentPath: string, childPath: string) {
 function isSameDir(path1: string, path2: string) {
   const relative = path.relative(path1, path2);
   return !relative;
+}
+
+export function getProjectGraphNodeType(
+  projectRoot: string
+): 'app' | 'e2e' | 'lib' {
+  if (!projectRoot) {
+    return 'lib';
+  }
+
+  const layout = workspaceLayout();
+
+  if (projectRoot.startsWith(layout.appsDir)) {
+    return 'app';
+  }
+
+  return 'lib';
 }
