@@ -36,6 +36,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - run: npm run nx run-many --all -- --target=migrate
+      - run: npm run nx run-many -- --target=migrate --all 
         env:
           NX_MAVEN_CLI_OPTS: '--no-transfer-progress'

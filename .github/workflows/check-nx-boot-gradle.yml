@@ -36,13 +36,7 @@ jobs:
         run: npm run build nx-boot-gradle
 
       - name: E2E tests
-        run: npm run e2e nx-boot-gradle-e2e
-        env:
-          NX_VERBOSE_LOGGING: 'true'
-          GITHUB_ACTIONS: 'true'
-
-      - name: Kt dsl E2E tests
-        run: npm run e2e nx-boot-gradle-kt-e2e
+        run: npm run nx run-many -- --target=e2e --projects=nx-boot-gradle-e2e,nx-boot-gradle-kt-e2e 
         env:
           NX_VERBOSE_LOGGING: 'true'
           GITHUB_ACTIONS: 'true'

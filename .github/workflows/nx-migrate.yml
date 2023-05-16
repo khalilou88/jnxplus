@@ -80,13 +80,13 @@ jobs:
 
       - name: Build
         if: steps.nx-workspace-outdated.outputs.outdated == 'true'
-        run: npm run nx run-many --all -- --target=build
+        run: npm run nx run-many -- --target=build --all 
 
       - name: E2E tests
         id: e2e
         if: steps.nx-workspace-outdated.outputs.outdated == 'true'
         continue-on-error: true
-        run: npm run nx run-many --all -- --target=e2e
+        run: npm run nx run-many -- --target=e2e --all 
         env:
           NX_VERBOSE_LOGGING: 'true'
           GITHUB_ACTIONS: 'true'
