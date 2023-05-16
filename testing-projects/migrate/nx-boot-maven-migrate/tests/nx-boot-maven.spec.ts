@@ -51,6 +51,8 @@ describe('@jnxplus/nx-boot-maven migrate', () => {
 
     execSync('git init', execSyncOptions());
 
+    execSync(`npm i --save-dev @nx/devkit@latest`, execSyncOptions());
+
     execSync(
       `npm i --save-dev @jnxplus/nx-boot-maven@latest`,
       execSyncOptions()

@@ -51,6 +51,8 @@ describe('@jnxplus/nx-quarkus-gradle migrate', () => {
 
     execSync('git init', execSyncOptions());
 
+    execSync(`npm i --save-dev @nx/devkit@latest`, execSyncOptions());
+
     execSync(
       'npm i --save-dev @jnxplus/nx-quarkus-gradle@latest',
       execSyncOptions()
