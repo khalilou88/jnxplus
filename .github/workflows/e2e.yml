@@ -22,20 +22,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: nrwl/nx-set-shas@v2
+      - uses: nrwl/nx-set-shas@v3
 
       - name: Set up node
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node_version }}
-
-      - name: Use cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-${{ matrix.node_version }}-${{ hashFiles('**/package-lock.json') }}
+          cache: 'npm'
 
       - name: Setup Java
         uses: actions/setup-java@v3
@@ -47,12 +40,10 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run nx run-many --all -- --target=build
+        run: npm run nx run-many -- --target=build --all 
 
       - name: E2E tests
-        run: npm run nx run-many --all -- --target=e2e
+        run: npm run nx run-many -- --target=e2e --all 
         env:
           NX_VERBOSE_LOGGING: 'true'
-          NX_E2E_SKIP_BUILD_CLEANUP: 'true'
-          NX_CACHE_DIRECTORY: ${{ matrix.os }}-${{ matrix.node_version }}-${{ matrix.java }}
           GITHUB_ACTIONS: 'true'
