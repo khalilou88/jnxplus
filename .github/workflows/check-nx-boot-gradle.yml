@@ -36,7 +36,7 @@ jobs:
         run: npm run build nx-boot-gradle
 
       - name: E2E tests
-        run: npm run nx run-many -- --target=e2e --projects=nx-boot-gradle-e2e,nx-boot-gradle-kt-e2e 
+        run: npm run nx run-many -- --target=e2e --projects=nx-boot-gradle-e2e,nx-boot-gradle-kt-e2e --parallel=1
         env:
           NX_VERBOSE_LOGGING: 'true'
           GITHUB_ACTIONS: 'true'
