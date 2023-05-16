@@ -2,6 +2,7 @@ import {
   Hasher,
   ProjectGraphBuilder,
   ProjectGraphProjectNode,
+  joinPathFragments,
   workspaceRoot,
 } from '@nx/devkit';
 import { workspaceLayout } from 'nx/src/config/configuration';
@@ -21,8 +22,13 @@ export function addProjects(
   const pomXmlContent = readXml(pomXmlPath);
 
   if (!fileExists(projectJson)) {
-    const projectName =
-      pomXmlContent.childNamed('artifactId')?.val ?? 'missingArtifactId';
+    const artifactIdXml = pomXmlContent.childNamed('artifactId');
+
+    if (artifactIdXml === undefined) {
+      throw new Error(`artifactId not found in pom.xml ${pomXmlPath}`);
+    }
+
+    const projectName = artifactIdXml.val;
 
     const projectGraphNodeType = getProjectGraphNodeType(projectRoot);
     builder.addNode({
@@ -40,15 +46,10 @@ export function addProjects(
           },
         },
         files: [
-          projectRoot === ''
-            ? {
-                file: 'pom.xml',
-                hash: hasher.hashFile('pom.xml'),
-              }
-            : {
-                file: `${projectRoot}/pom.xml`,
-                hash: hasher.hashFile(`${projectRoot}/pom.xml`),
-              },
+          {
+            file: joinPathFragments(projectRoot, 'pom.xml'),
+            hash: hasher.hashFile(joinPathFragments(projectRoot, 'pom.xml')),
+          },
         ],
       },
     });
@@ -65,10 +66,7 @@ export function addProjects(
   }
 
   for (const moduleXmlElement of moduleXmlElementArray) {
-    const moduleRoot = join(projectRoot, moduleXmlElement.val).replace(
-      /\\/g,
-      '/'
-    );
+    const moduleRoot = joinPathFragments(projectRoot, moduleXmlElement.val);
     addProjects(builder, hasher, pluginName, moduleRoot);
   }
 }
@@ -84,7 +82,7 @@ export function addDependencies(builder: ProjectGraphBuilder) {
       builder.addStaticDependency(
         project.name,
         dependency.name,
-        join(project.data.root, 'pom.xml').replace(/\\/g, '/')
+        joinPathFragments(project.data.root, 'pom.xml')
       );
     }
 
@@ -95,7 +93,7 @@ export function addDependencies(builder: ProjectGraphBuilder) {
       builder.addStaticDependency(
         module.name,
         project.name,
-        join(module.data.root, 'pom.xml').replace(/\\/g, '/')
+        joinPathFragments(module.data.root, 'pom.xml')
       );
     }
   }
