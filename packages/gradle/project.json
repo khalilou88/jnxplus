@@ -17,6 +17,16 @@
         "assets": [
           "packages/gradle/*.md",
           {
+            "input": "./packages/gradle/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/gradle/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
             "input": "./packages/gradle",
             "glob": "executors.json",
             "output": "."
