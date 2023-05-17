@@ -66,7 +66,7 @@
         "trackDeps": true,
         "push": false,
         "noVerify": true,
-        "postTargets": ["gradle:publish"],
+        "postTargets": ["gradle:github", "gradle:publish"],
         "commitMessageFormat": "release(${projectName}): cut release ${version} [skip ci]"
       }
     },
@@ -74,8 +74,7 @@
       "executor": "@jscutlery/semver:github",
       "options": {
         "tag": "${tag}",
-        "generateNotes": true,
-        "notesStartTag": "${previousTag}"
+        "notes": "${notes}"
       }
     },
     "publish": {
