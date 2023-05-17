@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "run-commands": {
+      "implementation": "./src/executors/run-commands/executor",
+      "schema": "./src/executors/run-commands/schema.json",
+      "description": "run-commands executor"
+    }
+  }
+}

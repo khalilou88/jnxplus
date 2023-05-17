@@ -14,14 +14,25 @@
         "tsConfig": "packages/gradle/tsconfig.lib.json",
         "updateBuildableProjectDepsInPackageJson": true,
         "buildableProjectDepsInPackageJsonType": "dependencies",
-        "assets": ["packages/gradle/*.md"]
+        "assets": [
+          "packages/gradle/*.md",
+          {
+            "input": "./packages/gradle",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
       }
     },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/gradle/**/*.ts"]
+        "lintFilePatterns": [
+          "packages/gradle/**/*.ts",
+          "packages/gradle/executors.json",
+          "packages/gradle/package.json"
+        ]
       }
     },
     "test": {
@@ -45,7 +56,7 @@
         "trackDeps": true,
         "push": true,
         "noVerify": true,
-        "postTargets": ["gradle:github", "gradle:publish"],
+        "postTargets": ["gradle:publish"],
         "commitMessageFormat": "release(${projectName}): cut release ${version} [skip ci]"
       }
     },
