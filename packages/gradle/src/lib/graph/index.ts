@@ -37,6 +37,7 @@ export function addProjectsAndDependencies(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   pluginName: string
 ) {
+  //TODO remove random for better perf
   const random = crypto.randomBytes(20).toString('hex');
   const outputFile = join(
     projectGraphCacheDirectory,
@@ -47,6 +48,7 @@ export function addProjectsAndDependencies(
     cwd: workspaceRoot,
   }).toString();
 
+  //TODO remove this condition if not needed
   if (!fs.existsSync(outputFile)) {
     throw new Error(`File ${outputFile} not found`);
   }
