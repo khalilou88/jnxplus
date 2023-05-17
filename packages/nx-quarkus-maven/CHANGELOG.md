@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.5.1](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-maven-0.5.0...nx-quarkus-maven-0.5.1) (2023-05-17)
+
+### Dependency Updates
+
+* `maven` updated to version `0.1.7`
+* `common` updated to version `0.2.4`
+
+### Bug Fixes
+
+* **nx-boot-maven:** refactor maven dep graph ([#206](https://github.com/khalilou88/jnxplus/issues/206)) ([0a704a4](https://github.com/khalilou88/jnxplus/commit/0a704a4acbfa1db93a072b37a8c2db0e3ea275ce))
+
+
+
 # [0.5.0](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-maven-0.4.4...nx-quarkus-maven-0.5.0) (2023-05-13)
 
 ### Dependency Updates
