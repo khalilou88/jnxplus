@@ -1,6 +1,7 @@
 const nxPreset = require('@nx/jest/preset').default;
 
 process.env['NX_VERBOSE_LOGGING'] = 'true';
+//process.env['NX_DAEMON'] = 'false';
 
 module.exports = {
   ...nxPreset,
