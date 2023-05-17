@@ -108,11 +108,11 @@ describe('@jnxplus/nx-boot-gradle migrate', () => {
 
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
 
-    execSync('npx nx migrate next', execSyncOptions());
+    execSync('npx nx@next migrate next', execSyncOptions());
 
     execSync('npm i', execSyncOptions());
 
-    execSync('npx nx migrate --run-migrations --ifExists', execSyncOptions());
+    execSync('npx nx@next migrate --run-migrations --ifExists', execSyncOptions());
 
     execSync(`git commit -am "chore: nx migrate"`, execSyncOptions());
   }, 1500000);
