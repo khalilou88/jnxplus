@@ -10,7 +10,7 @@ import { fileExists } from 'nx/src/utils/fileutils';
 import * as path from 'path';
 import { join } from 'path';
 import { XmlDocument } from 'xmldoc';
-import { readXml } from '../xml/index';
+import { readXml } from '../xml';
 
 type MavenProjectType = {
   name?: string;
