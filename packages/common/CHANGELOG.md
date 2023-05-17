@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.2.4](https://github.com/khalilou88/jnxplus/compare/common-0.2.3...common-0.2.4) (2023-05-17)
+
+
+### Bug Fixes
+
+* **nx-boot-maven:** refactor maven dep graph ([#206](https://github.com/khalilou88/jnxplus/issues/206)) ([0a704a4](https://github.com/khalilou88/jnxplus/commit/0a704a4acbfa1db93a072b37a8c2db0e3ea275ce))
+
+
+
 ## [0.2.3](https://github.com/khalilou88/jnxplus/compare/common-0.2.2...common-0.2.3) (2023-05-13)
 
 ### Bug Fixes
