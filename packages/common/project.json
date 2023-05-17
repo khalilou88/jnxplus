@@ -43,7 +43,7 @@
       "options": {
         "preset": "angular",
         "trackDeps": true,
-        "push": true,
+        "push": false,
         "noVerify": true,
         "postTargets": ["common:publish"],
         "commitMessageFormat": "release(${projectName}): cut release ${version} [skip ci]"
