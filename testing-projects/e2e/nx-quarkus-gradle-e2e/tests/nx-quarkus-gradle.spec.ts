@@ -596,7 +596,7 @@ describe('nx-quarkus-gradle e2e', () => {
   }, 120000);
 
   it('directory with dash', async () => {
-    const randomName = uniq('boot-maven-app-');
+    const randomName = uniq('quarkus-gradle-app-');
     const appName = `deep-sub-dir-${randomName}`;
     const port = 8585;
 
