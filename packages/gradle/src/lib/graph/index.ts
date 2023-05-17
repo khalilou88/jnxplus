@@ -6,7 +6,6 @@ import {
   workspaceRoot,
 } from '@nx/devkit';
 import { execSync } from 'child_process';
-import * as crypto from 'crypto';
 import * as fs from 'fs';
 import { projectGraphCacheDirectory } from 'nx/src/utils/cache-directory';
 import * as path from 'path';
@@ -37,21 +36,11 @@ export function addProjectsAndDependencies(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   pluginName: string
 ) {
-  //TODO remove random for better perf
-  const random = crypto.randomBytes(20).toString('hex');
-  const outputFile = join(
-    projectGraphCacheDirectory,
-    `nx-gradle-deps-${random}.json`
-  );
+  const outputFile = join(projectGraphCacheDirectory, `nx-gradle-deps.json`);
 
   execSync(`${getExecutable()} projectGraph --outputFile=${outputFile}`, {
     cwd: workspaceRoot,
   }).toString();
-
-  //TODO remove this condition if not needed
-  if (!fs.existsSync(outputFile)) {
-    throw new Error(`File ${outputFile} not found`);
-  }
 
   const projects: GradleProjectType[] = JSON.parse(
     fs.readFileSync(outputFile, 'utf8')
