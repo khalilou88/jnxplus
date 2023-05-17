@@ -13,7 +13,7 @@ import * as fse from 'fs-extra';
 import * as path from 'path';
 import { checkstyleVersion, normalizeName } from '@jnxplus/common';
 import {
-  addTmpFromGitignore,
+  addTmpToGitignore,
   getData,
   killPorts,
   patchPackageJson,
@@ -93,13 +93,17 @@ describe('nx-boot-gradle e2e', () => {
 
   afterAll(async () => {
     if (isCI) {
-      addTmpFromGitignore();
+      addTmpToGitignore();
     }
 
     // `nx reset` kills the daemon, and performs
     // some work which can help clean up e2e leftovers
     await runNxCommandAsync('reset');
   });
+
+  it('should set NX_VERBOSE_LOGGING to true', async () => {
+    expect(process.env['NX_VERBOSE_LOGGING']).toBe('true');
+  }, 120000);
 
   it('should init the workspace with @jnxplus/nx-boot-gradle capabilities', async () => {
     // Making sure the package.json file contains the @jnxplus/nx-boot-gradle dependency

@@ -202,7 +202,7 @@ export function removeTmpFromGitignore() {
   fs.writeFileSync(filePath, updatedFileContent);
 }
 
-export function addTmpFromGitignore() {
+export function addTmpToGitignore() {
   const filePath = `${process.cwd()}/.gitignore`;
   const fileContent = fs.readFileSync(filePath, 'utf-8');
   const updatedFileContent = fileContent.concat('\n/tmp');
