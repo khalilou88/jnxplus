@@ -61,7 +61,7 @@
         "trackDeps": true,
         "push": true,
         "noVerify": true,
-        "postTargets": ["nx-maven:github", "nx-maven:publish"],
+        "postTargets": ["nx-maven:publish"],
         "commitMessageFormat": "release(${projectName}): cut release ${version} [skip ci]"
       }
     },

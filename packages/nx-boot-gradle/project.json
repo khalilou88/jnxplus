@@ -69,8 +69,7 @@
       "executor": "@jscutlery/semver:github",
       "options": {
         "tag": "${tag}",
-        "generateNotes": true,
-        "notesStartTag": "${previousTag}"
+        "notes": "${notes}"
       }
     },
     "publish": {

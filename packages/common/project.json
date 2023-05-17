@@ -45,7 +45,7 @@
         "trackDeps": true,
         "push": true,
         "noVerify": true,
-        "postTargets": ["common:github", "common:publish"],
+        "postTargets": ["common:publish"],
         "commitMessageFormat": "release(${projectName}): cut release ${version} [skip ci]"
       }
     },
