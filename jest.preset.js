@@ -1,5 +1,7 @@
 const nxPreset = require('@nx/jest/preset').default;
 
+process.env['NX_VERBOSE_LOGGING'] = 'true';
+
 module.exports = {
   ...nxPreset,
   /* TODO: Update to latest Jest snapshotFormat
