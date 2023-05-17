@@ -43,4 +43,4 @@ Thumbs.db
 #gradle
 /packages/gradle-plugin/.gradle/
 /packages/gradle-plugin/build/
-/packages/gradle-plugin/.idea/workspace.xml
+/packages/gradle-plugin/.idea/
