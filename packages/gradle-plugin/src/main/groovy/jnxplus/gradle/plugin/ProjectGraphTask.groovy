@@ -3,17 +3,12 @@ package jnxplus.gradle.plugin
 import groovy.json.JsonOutput
 import org.gradle.api.DefaultTask
 import org.gradle.api.artifacts.ProjectDependency
-import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
 
 abstract class ProjectGraphTask extends DefaultTask {
-
-  @OutputFile
-  abstract RegularFileProperty getDestination()
 
   @Option(option = "outputFile", description = "Output file")
   @Input
@@ -25,12 +20,11 @@ abstract class ProjectGraphTask extends DefaultTask {
     def projects = []
     addProjects(projects, project)
 
-    //TODO disable prettyPrint
     def json_str = JsonOutput.toJson(projects)
     def json_pretty = JsonOutput.prettyPrint(json_str)
 
     //write file
-    def file = getDestination().get().asFile
+    def file = new File(getOutputFile().get())
     file.write(json_pretty)
   }
 

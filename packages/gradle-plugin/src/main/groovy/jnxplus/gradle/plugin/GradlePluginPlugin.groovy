@@ -14,12 +14,7 @@ class GradlePluginPlugin implements Plugin<Project> {
 
   void apply(Project project) {
     // Register a task
-    project.tasks.register("projectGraph", ProjectGraphTask) {
-
-      destination.convention(outputFile.map { outputFileVal -> project.layout.projectDirectory.file(outputFileVal)
-      })
-
-    }
+    project.tasks.register("projectGraph", ProjectGraphTask)
   }
 
 }
