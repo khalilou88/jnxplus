@@ -1,4 +1,11 @@
 import {
+  checkstyleVersion,
+  ktlintVersion,
+  quarkusKotlinVersion,
+  quarkusPlatformVersion,
+} from '@jnxplus/common';
+import { addOrUpdateGitattributes } from '@jnxplus/gradle';
+import {
   formatFiles,
   generateFiles,
   offsetFromRoot,
@@ -6,12 +13,6 @@ import {
   updateJson,
 } from '@nx/devkit';
 import * as path from 'path';
-import {
-  quarkusPlatformVersion,
-  quarkusKotlinVersion,
-  checkstyleVersion,
-  ktlintVersion,
-} from '@jnxplus/common';
 import { NxQuarkusGradleGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxQuarkusGradleGeneratorSchema {
@@ -115,20 +116,5 @@ function addOrUpdatePrettierIgnore(tree: Tree) {
     tree.write(prettierIgnorePath, prettierIgnoreContent);
   } else {
     tree.write(prettierIgnorePath, gradlePrettierIgnore);
-  }
-}
-
-function addOrUpdateGitattributes(tree: Tree) {
-  const gitattributesPath = `.gitattributes`;
-  const gradleWrapperGitattributes = `#\n# https://help.github.com/articles/dealing-with-line-endings/\n#\n# Linux start script should use lf\n/gradlew        text eol=lf\n# These are Windows script files and should use crlf\n*.bat           text eol=crlf`;
-  if (tree.exists(gitattributesPath)) {
-    const gitattributesOldContent = tree.read(gitattributesPath, 'utf-8') || '';
-    const gitattributesContent = gitattributesOldContent.concat(
-      '\n',
-      gradleWrapperGitattributes
-    );
-    tree.write(gitattributesPath, gitattributesContent);
-  } else {
-    tree.write(gitattributesPath, gradleWrapperGitattributes);
   }
 }
