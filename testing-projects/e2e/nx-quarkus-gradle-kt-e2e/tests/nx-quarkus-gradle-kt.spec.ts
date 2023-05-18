@@ -4,6 +4,7 @@ import {
   cleanup,
   readFile,
   readJson,
+  runCommandAsync,
   runNxCommandAsync,
   tmpProjPath,
   uniq,
@@ -26,6 +27,7 @@ import {
   runNxNewCommand,
   runPackageManagerInstallLinks,
 } from '@jnxplus/e2e/testing';
+import { getExecutable } from '@jnxplus/gradle';
 
 describe('nx-quarkus-gradle kt e2e', () => {
   const isCI =
@@ -87,6 +89,9 @@ describe('nx-quarkus-gradle kt e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
     );
+
+    //TODO update gradle wrapper
+    await runCommandAsync(`${getExecutable()} wrapper --gradle-version 8.1.1`);
 
     if (isCI) {
       removeTmpFromGitignore();
