@@ -117,6 +117,8 @@ describe('@jnxplus/nx-quarkus-gradle migrate', () => {
       execSyncOptions()
     );
 
+    execSync(`nx run-many --target=build --all --parallel`, execSyncOptions());
+
     execSync(`git commit -am "chore: nx migrate"`, execSyncOptions());
   }, 1500000);
 });
