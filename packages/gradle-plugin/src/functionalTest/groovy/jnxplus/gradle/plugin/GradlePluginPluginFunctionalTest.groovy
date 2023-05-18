@@ -35,7 +35,7 @@ plugins {
         def runner = GradleRunner.create()
         runner.forwardOutput()
         runner.withPluginClasspath()
-        runner.withArguments("projectGraph", "--outputFile", "example.json")
+        runner.withArguments("projectGraph", "--outputFile", "./build/example.json")
         runner.withProjectDir(projectDir)
         def result = runner.build()
 
