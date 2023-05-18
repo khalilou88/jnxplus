@@ -3,7 +3,7 @@ package <%= packageName %>
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test
 import io.quarkus.test.junit.QuarkusTest
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 
 @QuarkusTest
