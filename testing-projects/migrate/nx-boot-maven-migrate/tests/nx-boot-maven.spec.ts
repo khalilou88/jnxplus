@@ -90,7 +90,10 @@ describe('@jnxplus/nx-boot-maven migrate', () => {
       execSyncOptions()
     );
 
-    execSync(`nx run-many --target=build --all --parallel`, execSyncOptions());
+    execSync(
+      `nx run-many --target=build --all --parallel=1`,
+      execSyncOptions()
+    );
 
     execSync(`nx graph --file=dep-graph.json`, execSyncOptions());
 
@@ -117,7 +120,10 @@ describe('@jnxplus/nx-boot-maven migrate', () => {
       execSyncOptions()
     );
 
-    execSync(`nx run-many --target=build --all --parallel`, execSyncOptions());
+    execSync(
+      `nx run-many --target=build --all --parallel=1`,
+      execSyncOptions()
+    );
 
     execSync(`git commit -am "chore: nx migrate"`, execSyncOptions());
   }, 1500000);
