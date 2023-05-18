@@ -113,7 +113,7 @@ describe('@jnxplus/nx-quarkus-gradle migrate', () => {
     execSync('npm i --legacy-peer-deps', execSyncOptions());
 
     execSync(
-      'npx@next nx migrate --run-migrations --ifExists',
+      'npx nx@next migrate --run-migrations --ifExists',
       execSyncOptions()
     );
 
