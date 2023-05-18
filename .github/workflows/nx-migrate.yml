@@ -84,13 +84,13 @@ jobs:
 
       - name: Build
         if: steps.nx-workspace-outdated.outputs.outdated == 'true'
-        run: npm run nx run-many -- --target=build --all 
+        run: npm run nx run-many -- --target=build --all
 
       - name: E2E tests
         id: e2e
         if: steps.nx-workspace-outdated.outputs.outdated == 'true'
         continue-on-error: true
-        run: npm run nx run-many -- --target=e2e --all 
+        run: npm run nx run-many -- --target=e2e --all
         env:
           NX_VERBOSE_LOGGING: 'true'
           GITHUB_ACTIONS: 'true'
@@ -106,7 +106,7 @@ jobs:
 
       - name: Create PR
         # if: steps.nx-workspace-outdated.outputs.outdated == 'true' && steps.e2e.outcome != 'success'
-        if: steps.nx-workspace-outdated.outputs.outdated == 'true' && steps.e2e.outcome == 'success' #TODO change condition after tests
+        if: steps.nx-workspace-outdated.outputs.outdated == 'true' #TODO change condition after tests
         run: |
           LAST_VERSION=$(npm view @nx/workspace version)
           BRANCH="update-nx-${LAST_VERSION}-${{ github.run_id }}-${{ github.run_attempt }}"
