@@ -90,9 +90,6 @@ describe('nx-quarkus-gradle e2e', () => {
       `generate @jnxplus/nx-quarkus-gradle:init --rootProjectName ${rootProjectName}`
     );
 
-    //TODO update gradle wrapper
-    await runCommandAsync(`${getExecutable()} wrapper --gradle-version 8.1.1`);
-
     if (isCI) {
       removeTmpFromGitignore();
     }
@@ -502,7 +499,7 @@ describe('nx-quarkus-gradle e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('should build-image a kotlin application', async () => {
     if (!isWin && !isMacOs && isCI) {

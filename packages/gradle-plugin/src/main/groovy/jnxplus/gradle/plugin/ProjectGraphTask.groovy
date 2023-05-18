@@ -21,11 +21,11 @@ abstract class ProjectGraphTask extends DefaultTask {
     addProjects(projects, project)
 
     def json_str = JsonOutput.toJson(projects)
-    def json_pretty = JsonOutput.prettyPrint(json_str)
+    //def json_pretty = JsonOutput.prettyPrint(json_str)
 
     //write file
     def file = new File(getOutputFile().get())
-    file.write(json_pretty)
+    file.write(json_str)
   }
 
 
@@ -63,7 +63,7 @@ abstract class ProjectGraphTask extends DefaultTask {
                             isBuildGradleExists: element.dependencyProject.file('build.gradle').exists()]
                   }]);
 
-    if (!subprojects) {
+    if (subprojects.isEmpty()) {
       return
     }
 
