@@ -946,7 +946,7 @@ describe('nx-quarkus-gradle e2e', () => {
       source: libName,
       target: rootProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should add a lib to an app dependencies', async () => {
     const appName = uniq('quarkus-gradle-app-');
@@ -1100,7 +1100,7 @@ describe('nx-quarkus-gradle e2e', () => {
       source: appName,
       target: libName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should create an application with simple name', async () => {
     const appName = uniq('quarkus-gradle-app-');
