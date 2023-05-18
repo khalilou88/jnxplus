@@ -35,7 +35,7 @@ tasks.withType<Test> {
 }
 
 allOpen {
-    annotation("javax.enterprise.context.ApplicationScoped")
+    annotation("jakarta.enterprise.context.ApplicationScoped")
     annotation("io.quarkus.test.junit.QuarkusTest")
 }
 

@@ -977,7 +977,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const newGreetingResourceContent = greetingResourceContent
       .replace(
         regex1,
-        `$&\nimport javax.inject.Inject;\nimport org.acme.${names(
+        `$&\nimport jakarta.inject.Inject;\nimport org.acme.${names(
           libName
         ).className.toLocaleLowerCase()}.GreetingService;`
       )
