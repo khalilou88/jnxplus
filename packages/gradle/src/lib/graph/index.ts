@@ -36,16 +36,20 @@ export function addProjectsAndDependencies(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   pluginName: string
 ) {
+  const isVerbose = process.env['NX_VERBOSE_LOGGING'] === 'true';
   const outputFile = join(projectGraphCacheDirectory, `nx-gradle-deps.json`);
 
   let command = `${getExecutable()} projectGraph --outputFile=${outputFile}`;
 
-  if (process.env['NX_VERBOSE_LOGGING'] === 'true') {
+  if (isVerbose) {
     command += ' --stacktrace';
   }
 
   execSync(command, {
     cwd: workspaceRoot,
+    stdio: isVerbose ? 'inherit' : 'pipe',
+    env: process.env,
+    encoding: 'utf-8',
   });
 
   const projects: GradleProjectType[] = JSON.parse(
