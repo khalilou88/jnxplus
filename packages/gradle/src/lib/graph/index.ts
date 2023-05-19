@@ -228,7 +228,7 @@ function createProjectName(path: string) {
   return path.replace(/:/g, '-');
 }
 
-function getRootProjectName(settingsGradleContent: string) {
+export function getRootProjectName(settingsGradleContent: string) {
   const regexp = /rootProject.name\s*=\s*['"](.*)['"]/g;
   const matches = (settingsGradleContent.match(regexp) || []).map((e) =>
     e.replace(regexp, '$1')
@@ -236,14 +236,15 @@ function getRootProjectName(settingsGradleContent: string) {
   return matches[0];
 }
 
-function getSubprojects(settingsGradleContent: string): string[] {
-  const regexp = /include\s*\(['"](.*)['"]\)/g;
-  return (settingsGradleContent.match(regexp) || []).map((e) =>
-    e.replace(regexp, '$1')
-  );
+export function getSubprojects(settingsGradleContent: string): string[] {
+  const regexp = /include\s*\(*(['"].*['"])\)*/g;
+  const matches = (settingsGradleContent.match(regexp) || [])
+    .map((e) => e.replace(regexp, '$1'))
+    .map((e) => e.split(','));
+  return matches.flat().map((e) => e.replace(/\s*['"](.*)['"]/, '$1'));
 }
 
-function getDependencies(buildGradleContent: string) {
+export function getDependencies(buildGradleContent: string) {
   const regexp = /project\s*\(['"](.*)['"]\)/g;
   return (
     (buildGradleContent.match(regexp) || [])
