@@ -2,6 +2,24 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.6.0](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-gradle-0.5.0...nx-quarkus-gradle-0.6.0) (2023-05-19)
+
+### Dependency Updates
+
+* `gradle` updated to version `0.2.1`
+* `common` updated to version `0.3.0`
+
+### Bug Fixes
+
+* **nx-boot-gradle:** refactor deps graph ([#212](https://github.com/khalilou88/jnxplus/issues/212)) ([ad50fc6](https://github.com/khalilou88/jnxplus/commit/ad50fc6302e981080040a9343def126015b1e216))
+
+
+### Features
+
+* **nx-quarkus-maven:** migrate to quarkus 3 ([#209](https://github.com/khalilou88/jnxplus/issues/209)) ([b72bc15](https://github.com/khalilou88/jnxplus/commit/b72bc15c7426c33095cf2da14e7178d7b042557c))
+
+
+
 # [0.5.0](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-gradle-0.4.5...nx-quarkus-gradle-0.5.0) (2023-05-17)
 
 ### Dependency Updates

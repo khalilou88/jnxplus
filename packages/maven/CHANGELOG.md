@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.8](https://github.com/khalilou88/jnxplus/compare/maven-0.1.7...maven-0.1.8) (2023-05-19)
+
+### Dependency Updates
+
+* `common` updated to version `0.3.0`
+
+
 ## [0.1.7](https://github.com/khalilou88/jnxplus/compare/maven-0.1.6...maven-0.1.7) (2023-05-17)
 
 ### Dependency Updates

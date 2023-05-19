@@ -2,6 +2,14 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [6.2.2](https://github.com/khalilou88/jnxplus/compare/nx-boot-maven-6.2.1...nx-boot-maven-6.2.2) (2023-05-19)
+
+### Dependency Updates
+
+* `maven` updated to version `0.1.8`
+* `common` updated to version `0.3.0`
+
+
 ## [6.2.1](https://github.com/khalilou88/jnxplus/compare/nx-boot-maven-6.2.0...nx-boot-maven-6.2.1) (2023-05-17)
 
 ### Dependency Updates
