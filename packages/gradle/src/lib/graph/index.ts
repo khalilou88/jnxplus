@@ -38,7 +38,13 @@ export function addProjectsAndDependencies(
 ) {
   const outputFile = join(projectGraphCacheDirectory, `nx-gradle-deps.json`);
 
-  execSync(`${getExecutable()} projectGraph --outputFile=${outputFile}`, {
+  let command = `${getExecutable()} projectGraph --outputFile=${outputFile}`;
+
+  if (process.env['NX_VERBOSE_LOGGING'] === 'true') {
+    command += ` --debug --stacktrace`;
+  }
+
+  execSync(command, {
     cwd: workspaceRoot,
   }).toString();
 
