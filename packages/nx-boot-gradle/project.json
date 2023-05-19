@@ -59,7 +59,7 @@
       "options": {
         "preset": "angular",
         "trackDeps": true,
-        "push": false,
+        "push": true,
         "noVerify": true,
         "postTargets": ["nx-boot-gradle:github", "nx-boot-gradle:publish"],
         "commitMessageFormat": "release(${projectName}): cut release ${version} [skip ci]"

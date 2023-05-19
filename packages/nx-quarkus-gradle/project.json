@@ -59,7 +59,7 @@
       "options": {
         "preset": "angular",
         "trackDeps": true,
-        "push": false,
+        "push": true,
         "noVerify": true,
         "postTargets": [
           "nx-quarkus-gradle:github",

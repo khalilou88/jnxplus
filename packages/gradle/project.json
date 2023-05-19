@@ -47,7 +47,7 @@
       "options": {
         "preset": "angular",
         "trackDeps": true,
-        "push": false,
+        "push": true,
         "noVerify": true,
         "postTargets": ["gradle:github", "gradle:publish"],
         "commitMessageFormat": "release(${projectName}): cut release ${version} [skip ci]"

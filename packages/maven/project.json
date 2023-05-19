@@ -43,7 +43,7 @@
       "options": {
         "preset": "angular",
         "trackDeps": true,
-        "push": false,
+        "push": true,
         "noVerify": true,
         "postTargets": ["maven:github", "maven:publish"],
         "commitMessageFormat": "release(${projectName}): cut release ${version} [skip ci]"
