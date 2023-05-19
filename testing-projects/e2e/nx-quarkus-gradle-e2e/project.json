@@ -5,11 +5,12 @@
   "sourceRoot": "testing-projects/e2e/nx-quarkus-gradle-e2e/src",
   "targets": {
     "e2e": {
-      "executor": "@nx/plugin:e2e",
+      "executor": "@nx/jest:jest",
       "options": {
-        "target": "nx-quarkus-gradle:build",
-        "jestConfig": "testing-projects/e2e/nx-quarkus-gradle-e2e/jest.config.js"
-      }
+        "jestConfig": "testing-projects/e2e/nx-quarkus-gradle-e2e/jest.config.js",
+        "runInBand": true
+      },
+      "dependsOn": ["nx-quarkus-gradle:build"]
     }
   },
   "tags": [],
