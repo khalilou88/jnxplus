@@ -90,10 +90,7 @@ describe('@jnxplus/nx-quarkus-gradle smoke', () => {
       execSyncOptions()
     );
 
-    execSync(
-      `npx nx run-many --target=build --all --parallel`,
-      execSyncOptions()
-    );
+    execSync(`npx nx run-many --target=build --parallel`, execSyncOptions());
 
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
 

@@ -40,10 +40,10 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run nx run-many -- --target=build --all 
+        run: npm run nx run-many -- --target=build 
 
       - name: E2E tests
-        run: npm run nx run-many -- --target=e2e --all 
+        run: npm run nx run-many -- --target=e2e 
         env:
           NX_VERBOSE_LOGGING: 'true'
           GITHUB_ACTIONS: 'true'

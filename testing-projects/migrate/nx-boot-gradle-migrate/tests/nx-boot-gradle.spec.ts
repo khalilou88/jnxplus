@@ -90,7 +90,7 @@ describe('@jnxplus/nx-boot-gradle migrate', () => {
       execSyncOptions()
     );
 
-    execSync(`nx run-many --target=build --all --parallel`, execSyncOptions());
+    execSync(`nx run-many --target=build --parallel`, execSyncOptions());
 
     execSync(`nx graph --file=dep-graph.json`, execSyncOptions());
 
@@ -117,7 +117,7 @@ describe('@jnxplus/nx-boot-gradle migrate', () => {
       execSyncOptions()
     );
 
-    execSync(`nx run-many --target=build --all --parallel`, execSyncOptions());
+    execSync(`nx run-many --target=build --parallel`, execSyncOptions());
 
     execSync(`git commit -am "chore: nx migrate"`, execSyncOptions());
   }, 1500000);

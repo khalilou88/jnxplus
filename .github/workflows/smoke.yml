@@ -36,6 +36,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - run: npm run nx run-many -- --target=smoke --all 
+      - run: npm run nx run-many -- --target=smoke 
         env:
           NX_MAVEN_CLI_OPTS: '--no-transfer-progress'

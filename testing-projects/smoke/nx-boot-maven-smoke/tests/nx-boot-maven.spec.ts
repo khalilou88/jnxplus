@@ -86,10 +86,7 @@ describe('@jnxplus/nx-boot-maven smoke', () => {
       execSyncOptions()
     );
 
-    execSync(
-      `npx nx run-many --target=build --all --parallel=1`,
-      execSyncOptions()
-    );
+    execSync(`npx nx run-many --target=build --parallel=1`, execSyncOptions());
 
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
 
