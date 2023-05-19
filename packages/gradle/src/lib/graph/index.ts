@@ -10,7 +10,7 @@ import { fileExists } from 'nx/src/utils/fileutils';
 import * as path from 'path';
 
 type GradleProjectType = {
-  name?: string;
+  name: string;
   path: string;
   root: string;
   sourceFile: string;
@@ -60,6 +60,37 @@ function addProjects(
   const gradlePropertiesPath = path.join(projectDirPath, 'gradle.properties');
   const isGradlePropertiesExists = fileExists(gradlePropertiesPath);
 
+  let sourceFile = '';
+  let dependencies: string[] = [];
+  if (isBuildGradleExists) {
+    const buildGradleContent = fs.readFileSync(buildGradlePath, 'utf-8');
+    dependencies = getDependencies(buildGradleContent);
+    sourceFile = 'build.gradle';
+  }
+
+  if (isBuildGradleKtsExists) {
+    const buildGradleKtsContent = fs.readFileSync(buildGradleKtsPath, 'utf-8');
+    dependencies = getDependencies(buildGradleKtsContent);
+    sourceFile = 'build.gradle.kts';
+  }
+
+  let rootProjectName;
+  let subprojects: string[] = [];
+  if (isSettingsGradleExists) {
+    const settingsGradleContent = fs.readFileSync(settingsGradlePath, 'utf-8');
+    rootProjectName = getRootProjectName(settingsGradleContent);
+    subprojects = getSubprojects(settingsGradleContent);
+  }
+
+  if (isSettingsGradleKtsExists) {
+    const settingsGradleKtsContent = fs.readFileSync(
+      settingsGradleKtsPath,
+      'utf-8'
+    );
+    rootProjectName = getRootProjectName(settingsGradleKtsContent);
+    subprojects = getSubprojects(settingsGradleKtsContent);
+  }
+
   //project name
   let projectName;
   if (isProjectJsonExists) {
@@ -68,8 +99,6 @@ function addProjects(
   }
 
   if (!isProjectJsonExists) {
-    const projectRoot = path.relative(workspaceRoot, projectDirPath);
-
     const files = [];
 
     if (isSettingsGradleExists) {
@@ -115,7 +144,7 @@ function addProjects(
     const projectGraphNodeType = getProjectGraphNodeType(projectRoot);
 
     builder.addNode({
-      name: projectName,
+      name: rootProjectName || createProjectName(projectPath),
       type: projectGraphNodeType,
       data: {
         root: projectRoot,
@@ -130,39 +159,8 @@ function addProjects(
     });
   }
 
-  let sourceFile = '';
-  let dependencies: string[] = [];
-  if (isBuildGradleExists) {
-    const buildGradleContent = fs.readFileSync(buildGradlePath, 'utf-8');
-    dependencies = getDependencies(buildGradleContent);
-    sourceFile = 'build.gradle';
-  }
-
-  if (isBuildGradleKtsExists) {
-    const buildGradleKtsContent = fs.readFileSync(buildGradleKtsPath, 'utf-8');
-    dependencies = getDependencies(buildGradleKtsContent);
-    sourceFile = 'build.gradle.kts';
-  }
-
-  let rootProjectName;
-  let subprojects: string[] = [];
-  if (isSettingsGradleExists) {
-    const settingsGradleContent = fs.readFileSync(settingsGradlePath, 'utf-8');
-    rootProjectName = getRootProjectName(settingsGradleContent);
-    subprojects = getSubprojects(settingsGradleContent);
-  }
-
-  if (isSettingsGradleKtsExists) {
-    const settingsGradleKtsContent = fs.readFileSync(
-      settingsGradleKtsPath,
-      'utf-8'
-    );
-    rootProjectName = getRootProjectName(settingsGradleKtsContent);
-    subprojects = getSubprojects(settingsGradleKtsContent);
-  }
-
   projects.push({
-    name: rootProjectName || projectName,
+    name: rootProjectName || projectName || createProjectName(projectPath),
     path: projectPath,
     root: projectRoot,
     sourceFile: sourceFile,
@@ -190,8 +188,8 @@ function addDependencies(
 
     for (const dependency of dependencies) {
       builder.addStaticDependency(
-        project.name ?? createProjectName(project.path),
-        dependency.name ?? createProjectName(dependency.path),
+        project.name,
+        dependency.name,
         joinPathFragments(project.root, project.sourceFile)
       );
     }
@@ -202,8 +200,8 @@ function addDependencies(
 
     for (const subproject of subprojects) {
       builder.addStaticDependency(
-        subproject.name ?? createProjectName(subproject.path),
-        project.name ?? createProjectName(project.path),
+        subproject.name,
+        project.name,
         joinPathFragments(subproject.root, subproject.sourceFile)
       );
     }
@@ -217,6 +215,9 @@ function pathToRoot(path: string) {
 
 //TODO test when path starts with :
 function createProjectName(path: string) {
+  if (!path) {
+    throw new Error('project path is mandatory to create a project name');
+  }
   return path.replace(/:/g, '-');
 }
 
