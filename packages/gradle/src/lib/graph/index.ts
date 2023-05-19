@@ -41,12 +41,12 @@ export function addProjectsAndDependencies(
   let command = `${getExecutable()} projectGraph --outputFile=${outputFile}`;
 
   if (process.env['NX_VERBOSE_LOGGING'] === 'true') {
-    command += ` --debug --stacktrace`;
+    command += ' --stacktrace';
   }
 
   execSync(command, {
     cwd: workspaceRoot,
-  }).toString();
+  });
 
   const projects: GradleProjectType[] = JSON.parse(
     fs.readFileSync(outputFile, 'utf8')
