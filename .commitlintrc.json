@@ -7,7 +7,6 @@
       [
         "common",
         "gradle",
-        "gradle-plugin",
         "maven",
         "nx-boot-gradle",
         "nx-boot-maven",
