@@ -2,6 +2,18 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.2.1](https://github.com/khalilou88/jnxplus/compare/gradle-0.2.0...gradle-0.2.1) (2023-05-19)
+
+### Dependency Updates
+
+* `common` updated to version `0.3.0`
+
+### Bug Fixes
+
+* **nx-boot-gradle:** refactor deps graph ([#212](https://github.com/khalilou88/jnxplus/issues/212)) ([ad50fc6](https://github.com/khalilou88/jnxplus/commit/ad50fc6302e981080040a9343def126015b1e216))
+
+
+
 # [0.2.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.1.6...gradle-0.2.0) (2023-05-17)
 
 ### Dependency Updates
