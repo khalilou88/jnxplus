@@ -208,37 +208,47 @@ function addDependencies(
   }
 }
 
-//TODO test when path starts with :
 function pathToRoot(path: string) {
+  if (path.startsWith(':')) {
+    throw new Error(`Path ${path} should not starts with two dots (:)`);
+  }
+
   return path.replace(/:/g, '/');
 }
 
-//TODO test when path starts with :
 function createProjectName(path: string) {
   if (!path) {
     throw new Error('project path is mandatory to create a project name');
   }
+
+  if (path.startsWith(':')) {
+    path = path.substring(1);
+  }
+
   return path.replace(/:/g, '-');
 }
 
-function getRootProjectName(settingsGradle: string) {
+function getRootProjectName(settingsGradleContent: string) {
   const regexp = /rootProject.name\s*=\s*['"](.*)['"]/g;
-  const matches = (settingsGradle.match(regexp) || []).map((e) =>
+  const matches = (settingsGradleContent.match(regexp) || []).map((e) =>
     e.replace(regexp, '$1')
   );
   return matches[0];
 }
 
-function getSubprojects(settingsGradle: string): string[] {
+function getSubprojects(settingsGradleContent: string): string[] {
   const regexp = /include\s*\(['"](.*)['"]\)/g;
-  return (settingsGradle.match(regexp) || []).map((e) =>
+  return (settingsGradleContent.match(regexp) || []).map((e) =>
     e.replace(regexp, '$1')
   );
 }
 
 function getDependencies(buildGradleContent: string) {
   const regexp = /project\s*\(['"](.*)['"]\)/g;
-  return (buildGradleContent.match(regexp) || []).map((e) =>
-    e.replace(regexp, '$1')
+  return (
+    (buildGradleContent.match(regexp) || [])
+      .map((e) => e.replace(regexp, '$1'))
+      //remove two dots (:)
+      .map((e) => e.substring(1))
   );
 }
