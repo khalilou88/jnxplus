@@ -9,7 +9,6 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 import { projectGraphCacheDirectory } from 'nx/src/utils/cache-directory';
 import * as path from 'path';
-import { join } from 'path';
 import { getExecutable } from '../utils';
 
 type GradleProject1Type = {
@@ -37,7 +36,10 @@ export function addProjectsAndDependencies(
   pluginName: string
 ) {
   const isVerbose = process.env['NX_VERBOSE_LOGGING'] === 'true';
-  const outputFile = join(projectGraphCacheDirectory, `nx-gradle-deps.json`);
+  const outputFile = path.join(
+    projectGraphCacheDirectory,
+    `nx-gradle-deps.json`
+  );
 
   let command = `${getExecutable()} projectGraph --outputFile=${outputFile}`;
 
@@ -137,14 +139,14 @@ function addDependencies(
   builder: ProjectGraphBuilder,
   projects: GradleProjectType[]
 ) {
-  for (const proj of projects) {
-    const projName = getProjectName(proj);
-    const projRoot = path.relative(workspaceRoot, proj.projectDirPath);
-    const projSourceFile = proj.isBuildGradleExists
+  for (const project of projects) {
+    const projectName = getProjectName(project);
+    const projectRoot = path.relative(workspaceRoot, project.projectDirPath);
+    const projSourceFile = project.isBuildGradleExists
       ? 'build.gradle'
       : 'build.gradle.kts';
 
-    for (const subproject of proj.subprojects) {
+    for (const subproject of project.subprojects) {
       const subprojectName = getProjectName(subproject);
       const subprojectRoot = path.relative(
         workspaceRoot,
@@ -156,18 +158,18 @@ function addDependencies(
 
       builder.addStaticDependency(
         subprojectName,
-        projName,
+        projectName,
         joinPathFragments(subprojectRoot, subprojectSourceFile)
       );
     }
 
-    for (const dependency of proj.dependencies) {
+    for (const dependency of project.dependencies) {
       const dependencyName = getProjectName(dependency);
 
       builder.addStaticDependency(
-        projName,
+        projectName,
         dependencyName,
-        joinPathFragments(projRoot, projSourceFile)
+        joinPathFragments(projectRoot, projSourceFile)
       );
     }
   }
@@ -175,7 +177,7 @@ function addDependencies(
 
 function getProjectName(project: GradleProject1Type) {
   if (project.isProjectJsonExists) {
-    const projectJsonPath = join(project.projectDirPath, 'project.json');
+    const projectJsonPath = path.join(project.projectDirPath, 'project.json');
     const projectJson = JSON.parse(fs.readFileSync(projectJsonPath, 'utf8'));
     return projectJson.name;
   }
