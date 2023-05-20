@@ -27,7 +27,7 @@ dependencies {
 tasks.named('test') {
   useJUnitPlatform()
 }
-<% } %>
+<% } -%>
 <% if(dsl === 'kotlin') { -%>
 val javaVersion: String by project
 
@@ -59,4 +59,4 @@ dependencies {
 tasks.withType<Test> {
   useJUnitPlatform()
 }
-<% } %>
+<% } -%>
