@@ -6,27 +6,29 @@
 		<groupId><%= parentGroupId %></groupId>
 		<artifactId><%= parentProjectName %></artifactId>
 		<version><%= parentProjectVersion %></version>
-    <relativePath><%= relativePath %></relativePath> 
+    <relativePath><%= relativePath %></relativePath>
 	</parent>
 	<groupId><%= groupId %></groupId>
 	<artifactId><%= projectName %></artifactId>
 	<version><%= projectVersion %></version>
-	<% if(packaging === 'war') { %><packaging>war</packaging><% } %>
+<% if(packaging === 'war') { -%>
+  <packaging>war</packaging>
+<% } -%>
 	<name><%= projectName %></name>
 	<description>This project was generated with nx-maven</description>
-  
+
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
-	<% if(packaging === 'war') { %>
+<% if(packaging === 'war') { -%>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-tomcat</artifactId>
       <scope>provided</scope>
     </dependency>
-	<% } %>
+<% } -%>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
