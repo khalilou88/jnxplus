@@ -1,4 +1,4 @@
-<% if(dsl === 'groovy') { %>
+<% if(dsl === 'groovy') { -%>
 plugins {
     id 'org.jetbrains.kotlin.jvm'
     id 'org.jetbrains.kotlin.plugin.allopen'
@@ -42,8 +42,8 @@ compileKotlin {
 compileTestKotlin {
     kotlinOptions.jvmTarget = "$javaVersion"
 }
-<% } %>
-<% if(dsl === 'kotlin') { %>
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
 val javaVersion: String by project
 val quarkusPlatformGroupId: String by project
 val quarkusPlatformArtifactId: String by project
@@ -88,5 +88,5 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = javaVersion
     kotlinOptions.javaParameters = true
 }
-<% } %>
+<% } -%>
 

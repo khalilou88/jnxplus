@@ -1,4 +1,4 @@
-<% if(dsl === 'groovy') { %>
+<% if(dsl === 'groovy') { -%>
 plugins {
 	id 'java'
 	id 'org.springframework.boot' apply false
@@ -27,8 +27,8 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
-<% } %>
-<% if(dsl === 'kotlin') { %>
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
 val javaVersion: String by project
 
 plugins {
@@ -59,4 +59,4 @@ dependencies {
 tasks.withType<Test> {
   useJUnitPlatform()
 }
-<% } %>
+<% } -%>

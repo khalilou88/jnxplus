@@ -1,4 +1,4 @@
-<% if(dsl === 'groovy') { %>
+<% if(dsl === 'groovy') { -%>
 pluginManagement {
   plugins {
     id 'org.springframework.boot' version "$springBootVersion"
@@ -9,9 +9,8 @@ pluginManagement {
 }
 
 rootProject.name = '<%= rootProjectName %>'
-<% } %>
-
-<% if(dsl === 'kotlin') { %>
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
 pluginManagement {
   val springBootVersion: String by settings
   val dependencyManagementVersion: String by settings
@@ -26,4 +25,4 @@ pluginManagement {
 }
 
 rootProject.name = "<%= rootProjectName %>"
-<% } %>
+<% } -%>

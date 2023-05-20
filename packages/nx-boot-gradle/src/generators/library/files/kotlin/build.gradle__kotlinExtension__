@@ -1,4 +1,4 @@
-<% if(dsl === 'groovy') { %>
+<% if(dsl === 'groovy') { -%>
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -39,8 +39,8 @@ tasks.withType(KotlinCompile) {
 tasks.named('test') {
   useJUnitPlatform()
 }
-<% } %>
-<% if(dsl === 'kotlin') { %>
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val javaVersion: String by project
@@ -83,4 +83,4 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
   useJUnitPlatform()
 }
-<% } %>
+<% } -%>

@@ -1,4 +1,4 @@
-<% if(dsl === 'groovy') { %>
+<% if(dsl === 'groovy') { -%>
 plugins {
     id 'java'
     id 'io.quarkus'
@@ -35,8 +35,8 @@ compileJava {
 compileTestJava {
     options.encoding = 'UTF-8'
 }
-<% } %>
-<% if(dsl === 'kotlin') { %>
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
 val javaVersion: String by project
 val quarkusPlatformGroupId: String by project
 val quarkusPlatformArtifactId: String by project
@@ -74,5 +74,5 @@ tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
     options.compilerArgs.add("-parameters")
 }
-<% } %>
+<% } -%>
 
