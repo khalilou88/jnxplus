@@ -1,5 +1,7 @@
-<% if(configFormat === '.properties' && isCustomPort) { %>server.port=<%= port %><% } %>
-<% if(configFormat === '.yml' && isCustomPort) { %>
+<% if(configFormat === '.properties' && isCustomPort) { -%>
+server.port=<%= port %>
+<% } -%>
+<% if(configFormat === '.yml' && isCustomPort) { -%>
 server:
   port : <%= port %>
-<% } %>
+<% } -%>
