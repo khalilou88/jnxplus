@@ -424,7 +424,7 @@ describe('nx-quarkus-gradle e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/build.gradle.kts`,
+        `apps/${appName}/build.gradle`,
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/kotlin/org/acme/${names(
           appName
@@ -444,7 +444,7 @@ describe('nx-quarkus-gradle e2e', () => {
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
+    const buildGradle = readFile(`apps/${appName}/build.gradle`);
     expect(buildGradle.includes('org.acme')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -712,7 +712,7 @@ describe('nx-quarkus-gradle e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/build.gradle.kts`,
+        `libs/${libName}/build.gradle`,
         `libs/${libName}/src/main/kotlin/org/acme/${names(
           libName
         ).className.toLocaleLowerCase()}/GreetingService.kt`,
@@ -729,8 +729,8 @@ describe('nx-quarkus-gradle e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the build.gradle.kts file contains the good information
-    const buildGradle = readFile(`libs/${libName}/build.gradle.kts`);
+    // Making sure the build.gradle file contains the good information
+    const buildGradle = readFile(`libs/${libName}/build.gradle`);
     expect(buildGradle.includes('org.acme')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -1037,7 +1037,7 @@ describe('nx-quarkus-gradle e2e', () => {
     );
 
     // Making sure the app build.gradle file contains the lib
-    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
+    const buildGradle = readFile(`apps/${appName}/build.gradle`);
     expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
 
     const greetingResourcePath = `apps/${appName}/src/main/kotlin/org/acme/${names(
@@ -1276,7 +1276,7 @@ describe('nx-quarkus-gradle e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/build.gradle.kts`,
+        `apps/${appName}/build.gradle`,
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/kotlin/.gitkeep`,
         `apps/${appName}/src/test/kotlin/.gitkeep`,
@@ -1335,7 +1335,7 @@ describe('nx-quarkus-gradle e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/build.gradle.kts`,
+        `libs/${libName}/build.gradle`,
         `libs/${libName}/src/main/kotlin/.gitkeep`,
         `libs/${libName}/src/test/kotlin/.gitkeep`
       )
