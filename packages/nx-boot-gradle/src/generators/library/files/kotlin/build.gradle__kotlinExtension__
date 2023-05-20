@@ -61,9 +61,9 @@ repositories {
 }
 
 dependencyManagement {
-  imports {
-    mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
-  }
+	imports {
+		mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+	}
 }
 
 dependencies {
