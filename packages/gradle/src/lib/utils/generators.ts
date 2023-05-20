@@ -1,4 +1,15 @@
+import { DSLType } from '@jnxplus/common';
 import { Tree } from '@nx/devkit';
+
+export function getDsl(tree: Tree): DSLType {
+  const filePath = 'settings.gradle';
+
+  if (tree.exists(filePath)) {
+    return 'groovy';
+  }
+
+  return 'kotlin';
+}
 
 export function addOrUpdateGitattributes(tree: Tree) {
   const gitattributesPath = `.gitattributes`;

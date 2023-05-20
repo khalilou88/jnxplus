@@ -10,9 +10,10 @@ import {
   Tree,
 } from '@nx/devkit';
 import { join } from 'path';
-import { normalizeName } from '@jnxplus/common';
+import { DSLType, normalizeName } from '@jnxplus/common';
 import { LinterType } from '@jnxplus/common';
 import { NxBootGradleLibGeneratorSchema } from './schema';
+import { getDsl } from '@jnxplus/gradle';
 
 interface NormalizedSchema extends NxBootGradleLibGeneratorSchema {
   projectName: string;
@@ -23,6 +24,8 @@ interface NormalizedSchema extends NxBootGradleLibGeneratorSchema {
   packageDirectory: string;
   parsedProjects: string[];
   linter?: LinterType;
+  dsl: DSLType;
+  kotlinExtension: string;
 }
 
 function normalizeOptions(
@@ -74,6 +77,9 @@ function normalizeOptions(
 
   const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
 
+  const dsl = getDsl(tree);
+  const kotlinExtension = dsl === 'kotlin' ? '.kts' : '';
+
   return {
     ...options,
     projectName,
@@ -84,6 +90,8 @@ function normalizeOptions(
     packageDirectory,
     parsedProjects,
     linter,
+    dsl,
+    kotlinExtension,
   };
 }
 
