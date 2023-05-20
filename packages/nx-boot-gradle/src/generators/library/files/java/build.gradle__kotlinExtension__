@@ -28,7 +28,6 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 <% } %>
-
 <% if(dsl === 'kotlin') { %>
 val javaVersion: String by project
 

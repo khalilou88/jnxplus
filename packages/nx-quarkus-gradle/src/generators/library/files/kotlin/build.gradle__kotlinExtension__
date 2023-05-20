@@ -1,10 +1,7 @@
 <% if(dsl === 'groovy') { %>
-
-
-
 plugins {
-    id 'org.jetbrains.kotlin.jvm' 
-    id 'org.jetbrains.kotlin.plugin.allopen' 
+    id 'org.jetbrains.kotlin.jvm'
+    id 'org.jetbrains.kotlin.plugin.allopen'
     id 'io.quarkus'
 }
 
@@ -18,7 +15,6 @@ dependencies {
     implementation 'io.quarkus:quarkus-kotlin'
     implementation 'io.quarkus:quarkus-arc'
     testImplementation 'io.quarkus:quarkus-junit5'
-
 }
 
 group '<%= groupId %>'
@@ -46,23 +42,8 @@ compileKotlin {
 compileTestKotlin {
     kotlinOptions.jvmTarget = "$javaVersion"
 }
-
-
-
-
-
-
-
-
 <% } %>
-
-
-
-
-
-
 <% if(dsl === 'kotlin') { %>
-
 val javaVersion: String by project
 val quarkusPlatformGroupId: String by project
 val quarkusPlatformArtifactId: String by project
@@ -70,7 +51,7 @@ val quarkusPlatformVersion: String by project
 
 plugins {
     kotlin("jvm")
-    kotlin("plugin.allopen") 
+    kotlin("plugin.allopen")
     id("io.quarkus")
 }
 
@@ -78,7 +59,6 @@ repositories {
     mavenCentral()
     mavenLocal()
 }
-
 
 dependencies {
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
@@ -108,6 +88,5 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions.jvmTarget = javaVersion
     kotlinOptions.javaParameters = true
 }
-
 <% } %>
 

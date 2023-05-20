@@ -1,5 +1,4 @@
 <% if(dsl === 'groovy') { %>
-
 plugins {
     id 'java'
     id 'io.quarkus'
@@ -42,20 +41,12 @@ compileJava {
 compileTestJava {
     options.encoding = 'UTF-8'
 }
-
 <% } %>
-
-
-
-
-
-
 <% if(dsl === 'kotlin') { %>
 val javaVersion: String by project
 val quarkusPlatformGroupId: String by project
 val quarkusPlatformArtifactId: String by project
 val quarkusPlatformVersion: String by project
-
 
 plugins {
     java
@@ -79,8 +70,8 @@ dependencies {
     testImplementation("io.rest-assured:rest-assured")
 }
 
-group '<%= groupId %>'
-version '<%= projectVersion %>'
+group "<%= groupId %>"
+version "<%= projectVersion %>"
 
 java {
     sourceCompatibility = JavaVersion.toVersion(javaVersion)
@@ -95,8 +86,4 @@ tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
     options.compilerArgs.add("-parameters")
 }
-
-
-
-
 <% } %>

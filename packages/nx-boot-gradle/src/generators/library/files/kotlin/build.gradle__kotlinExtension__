@@ -39,10 +39,7 @@ tasks.withType(KotlinCompile) {
 tasks.named('test') {
   useJUnitPlatform()
 }
-
 <% } %>
-
-
 <% if(dsl === 'kotlin') { %>
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 

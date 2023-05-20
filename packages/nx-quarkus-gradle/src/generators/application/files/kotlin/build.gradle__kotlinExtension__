@@ -1,8 +1,7 @@
 <% if(dsl === 'groovy') { %>
-
 plugins {
-    id 'org.jetbrains.kotlin.jvm' 
-    id 'org.jetbrains.kotlin.plugin.allopen' 
+    id 'org.jetbrains.kotlin.jvm'
+    id 'org.jetbrains.kotlin.plugin.allopen'
     id 'io.quarkus'
 }
 
@@ -49,19 +48,7 @@ compileKotlin {
 compileTestKotlin {
     kotlinOptions.jvmTarget = "$javaVersion"
 }
-
-
-
-
-
-
 <% } %>
-
-
-
-
-
-
 <% if(dsl === 'kotlin') { %>
 val javaVersion: String by project
 val quarkusPlatformGroupId: String by project
@@ -70,7 +57,7 @@ val quarkusPlatformVersion: String by project
 
 plugins {
     kotlin("jvm")
-    kotlin("plugin.allopen") 
+    kotlin("plugin.allopen")
     id("io.quarkus")
 }
 
