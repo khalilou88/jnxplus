@@ -39,9 +39,6 @@ function addProjects(
   const projectRoot = pathToRoot(projectPath);
   const projectDirPath = path.join(workspaceRoot, projectRoot);
 
-  const projectJsonPath = path.join(projectDirPath, 'project.json');
-  const isProjectJsonExists = fileExists(projectJsonPath);
-
   const settingsGradlePath = path.join(projectDirPath, 'settings.gradle');
   const isSettingsGradleExists = fileExists(settingsGradlePath);
 
@@ -56,6 +53,18 @@ function addProjects(
 
   const buildGradleKtsPath = path.join(projectDirPath, 'build.gradle.kts');
   const isBuildGradleKtsExists = fileExists(buildGradleKtsPath);
+
+  if (
+    !isSettingsGradleExists &&
+    !isSettingsGradleKtsExists &&
+    !isBuildGradleExists &&
+    !isBuildGradleKtsExists
+  ) {
+    return;
+  }
+
+  const projectJsonPath = path.join(projectDirPath, 'project.json');
+  const isProjectJsonExists = fileExists(projectJsonPath);
 
   const gradlePropertiesPath = path.join(projectDirPath, 'gradle.properties');
   const isGradlePropertiesExists = fileExists(gradlePropertiesPath);

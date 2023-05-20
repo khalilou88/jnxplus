@@ -58,8 +58,8 @@ dependencies {
     testImplementation("io.quarkus:quarkus-junit5")
 }
 
-group '<%= groupId %>'
-version '<%= projectVersion %>'
+group "<%= groupId %>"
+version "<%= projectVersion %>"
 
 java {
     sourceCompatibility = JavaVersion.toVersion(javaVersion)
