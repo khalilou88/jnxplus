@@ -10,8 +10,8 @@ import {
   workspaceRoot,
 } from '@nx/devkit';
 import * as path from 'path';
-import { normalizeName } from '@jnxplus/common';
-import { getQuarkusPlatformVersion } from '@jnxplus/gradle';
+import { DSLType, normalizeName } from '@jnxplus/common';
+import { getDsl, getQuarkusPlatformVersion } from '@jnxplus/gradle';
 import { LinterType } from '@jnxplus/common';
 import { NxQuarkusGradleAppGeneratorSchema } from './schema';
 import { quarkusPlatformVersion } from '@jnxplus/common';
@@ -28,6 +28,8 @@ interface NormalizedSchema extends NxQuarkusGradleAppGeneratorSchema {
   linter?: LinterType;
   quarkusVersion: string;
   isCustomPort: boolean;
+  dsl: DSLType;
+  kotlinExtension: string;
 }
 
 function normalizeOptions(
@@ -89,6 +91,9 @@ function normalizeOptions(
 
   const isCustomPort = !!options.port && +options.port !== 8080;
 
+  const dsl = getDsl(tree);
+  const kotlinExtension = dsl === 'kotlin' ? '.kts' : '';
+
   return {
     ...options,
     projectName,
@@ -101,6 +106,8 @@ function normalizeOptions(
     linter,
     quarkusVersion,
     isCustomPort,
+    dsl,
+    kotlinExtension,
   };
 }
 

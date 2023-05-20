@@ -9,9 +9,10 @@ import {
   Tree,
 } from '@nx/devkit';
 import * as path from 'path';
-import { normalizeName } from '@jnxplus/common';
+import { DSLType, normalizeName } from '@jnxplus/common';
 import { LinterType } from '@jnxplus/common';
 import { NxBootGradleAppGeneratorSchema } from './schema';
+import { getDsl } from '@jnxplus/gradle';
 
 interface NormalizedSchema extends NxBootGradleAppGeneratorSchema {
   projectName: string;
@@ -23,6 +24,8 @@ interface NormalizedSchema extends NxBootGradleAppGeneratorSchema {
   packageDirectory: string;
   linter?: LinterType;
   isCustomPort: boolean;
+  dsl: DSLType;
+  kotlinExtension: string;
 }
 
 function normalizeOptions(
@@ -74,6 +77,9 @@ function normalizeOptions(
 
   const isCustomPort = !!options.port && +options.port !== 8080;
 
+  const dsl = getDsl(tree);
+  const kotlinExtension = dsl === 'kotlin' ? '.kts' : '';
+
   return {
     ...options,
     projectName,
@@ -85,6 +91,8 @@ function normalizeOptions(
     packageDirectory,
     linter,
     isCustomPort,
+    dsl,
+    kotlinExtension,
   };
 }
 

@@ -1,4 +1,4 @@
-<% if(dsl === 'groovy') { %>
+<% if(dsl === 'groovy') { -%>
 pluginManagement {
     repositories {
         mavenCentral()
@@ -12,9 +12,8 @@ pluginManagement {
     }
 }
 rootProject.name = '<%= rootProjectName %>'
-<% } %>
-
-<% if(dsl === 'kotlin') { %>
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
 pluginManagement {
     val quarkusPluginVersion: String by settings
     val quarkusPluginId: String by settings
@@ -33,4 +32,4 @@ pluginManagement {
     }
 }
 rootProject.name = "<%= rootProjectName %>"
-<% } %>
+<% } -%>

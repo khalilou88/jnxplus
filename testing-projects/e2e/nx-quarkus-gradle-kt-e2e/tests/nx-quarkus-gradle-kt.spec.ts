@@ -159,7 +159,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/build.gradle`,
+        `apps/${appName}/build.gradle.kts`,
         `apps/${appName}/src/main/resources/application.properties`,
 
         `apps/${appName}/src/main/java/org/acme/${names(
@@ -171,8 +171,8 @@ describe('nx-quarkus-gradle kt e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`apps/${appName}/build.gradle`);
+    // Making sure the build.gradle.kts file contains the good information
+    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
     expect(buildGradle.includes('org.acme')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -275,7 +275,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appDir}/${randomName}/build.gradle`,
+        `apps/${appDir}/${randomName}/build.gradle.kts`,
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName
@@ -286,8 +286,10 @@ describe('nx-quarkus-gradle kt e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`apps/${appDir}/${randomName}/build.gradle`);
+    // Making sure the build.gradle.kts file contains the good information
+    const buildGradle = readFile(
+      `apps/${appDir}/${randomName}/build.gradle.kts`
+    );
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
@@ -353,7 +355,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appDir}/${randomName}/build.gradle`,
+        `apps/${appDir}/${randomName}/build.gradle.kts`,
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName
@@ -364,8 +366,10 @@ describe('nx-quarkus-gradle kt e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the build.gradle file contains the good informations
-    const buildGradle = readFile(`apps/${appDir}/${randomName}/build.gradle`);
+    // Making sure the build.gradle.kts file contains the good informations
+    const buildGradle = readFile(
+      `apps/${appDir}/${randomName}/build.gradle.kts`
+    );
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
@@ -444,7 +448,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the build.gradle file contains the good information
+    // Making sure the build.gradle.kts file contains the good information
     const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
     expect(buildGradle.includes('org.acme')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
@@ -530,7 +534,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appDir}/${randomName}/build.gradle`,
+        `apps/${appDir}/${randomName}/build.gradle.kts`,
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName
@@ -541,8 +545,10 @@ describe('nx-quarkus-gradle kt e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`apps/${appDir}/${randomName}/build.gradle`);
+    // Making sure the build.gradle.kts file contains the good information
+    const buildGradle = readFile(
+      `apps/${appDir}/${randomName}/build.gradle.kts`
+    );
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
@@ -645,7 +651,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/build.gradle`,
+        `libs/${libName}/build.gradle.kts`,
         `libs/${libName}/src/main/java/org/acme/${names(
           libName
         ).className.toLocaleLowerCase()}/GreetingService.java`,
@@ -662,8 +668,8 @@ describe('nx-quarkus-gradle kt e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`libs/${libName}/build.gradle`);
+    // Making sure the build.gradle.kts file contains the good information
+    const buildGradle = readFile(`libs/${libName}/build.gradle.kts`);
     expect(buildGradle.includes('org.acme')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -781,7 +787,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libDir}/${randomName}/build.gradle`,
+        `libs/${libDir}/${randomName}/build.gradle.kts`,
         `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/GreetingService.java`,
@@ -791,8 +797,10 @@ describe('nx-quarkus-gradle kt e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`libs/${libDir}/${randomName}/build.gradle`);
+    // Making sure the build.gradle.kts file contains the good information
+    const buildGradle = readFile(
+      `libs/${libDir}/${randomName}/build.gradle.kts`
+    );
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
@@ -840,7 +848,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libDir}/${randomName}/build.gradle`,
+        `libs/${libDir}/${randomName}/build.gradle.kts`,
         `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName
         ).className.toLocaleLowerCase()}/GreetingService.java`,
@@ -850,8 +858,10 @@ describe('nx-quarkus-gradle kt e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the build.gradle file contains the good informations
-    const buildGradle = readFile(`libs/${libDir}/${randomName}/build.gradle`);
+    // Making sure the build.gradle.kts file contains the good informations
+    const buildGradle = readFile(
+      `libs/${libDir}/${randomName}/build.gradle.kts`
+    );
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
@@ -899,7 +909,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libDir}/${randomName}/build.gradle`,
+        `libs/${libDir}/${randomName}/build.gradle.kts`,
         `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/GreetingService.java`,
@@ -909,8 +919,10 @@ describe('nx-quarkus-gradle kt e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`libs/${libDir}/${randomName}/build.gradle`);
+    // Making sure the build.gradle.kts file contains the good information
+    const buildGradle = readFile(
+      `libs/${libDir}/${randomName}/build.gradle.kts`
+    );
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
@@ -959,8 +971,8 @@ describe('nx-quarkus-gradle kt e2e', () => {
       `generate @jnxplus/nx-quarkus-gradle:library ${libName} --projects ${appName}`
     );
 
-    // Making sure the app build.gradle file contains the lib
-    const buildGradle = readFile(`apps/${appName}/build.gradle`);
+    // Making sure the app build.gradle.kts file contains the lib
+    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
     expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
 
     const greetingResourcePath = `apps/${appName}/src/main/java/org/acme/${names(
@@ -1037,7 +1049,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
       `generate @jnxplus/nx-quarkus-gradle:library ${libName}  --language kotlin --projects ${appName}`
     );
 
-    // Making sure the app build.gradle file contains the lib
+    // Making sure the app build.gradle.kts file contains the lib
     const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
     expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
 
@@ -1112,7 +1124,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appDir}/${appName}/build.gradle`,
+        `apps/${appDir}/${appName}/build.gradle.kts`,
         `apps/${appDir}/${appName}/src/main/resources/application.yml`,
         `apps/${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
           appName
@@ -1123,8 +1135,8 @@ describe('nx-quarkus-gradle kt e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`apps/${appDir}/${appName}/build.gradle`);
+    // Making sure the build.gradle.kts file contains the good information
+    const buildGradle = readFile(`apps/${appDir}/${appName}/build.gradle.kts`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
@@ -1188,7 +1200,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libDir}/${libName}/build.gradle`,
+        `libs/${libDir}/${libName}/build.gradle.kts`,
         `libs/${libDir}/${libName}/src/main/java/com/jnxplus/deep/subdir/${names(
           libName
         ).className.toLocaleLowerCase()}/GreetingService.java`,
@@ -1198,8 +1210,8 @@ describe('nx-quarkus-gradle kt e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`libs/${libDir}/${libName}/build.gradle`);
+    // Making sure the build.gradle.kts file contains the good information
+    const buildGradle = readFile(`libs/${libDir}/${libName}/build.gradle.kts`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
@@ -1245,7 +1257,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/build.gradle`,
+        `apps/${appName}/build.gradle.kts`,
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/java/.gitkeep`,
         `apps/${appName}/src/test/java/.gitkeep`,
@@ -1309,7 +1321,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/build.gradle`,
+        `libs/${libName}/build.gradle.kts`,
         `libs/${libName}/src/main/java/.gitkeep`,
         `libs/${libName}/src/test/java/.gitkeep`
       )

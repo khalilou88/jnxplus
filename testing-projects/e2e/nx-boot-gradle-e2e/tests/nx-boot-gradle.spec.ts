@@ -447,7 +447,7 @@ describe('nx-boot-gradle e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/build.gradle.kts`,
+        `apps/${appName}/build.gradle`,
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
@@ -470,7 +470,7 @@ describe('nx-boot-gradle e2e', () => {
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
+    const buildGradle = readFile(`apps/${appName}/build.gradle`);
     expect(buildGradle.includes('com.example')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -744,7 +744,7 @@ describe('nx-boot-gradle e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/build.gradle.kts`,
+        `libs/${libName}/build.gradle`,
         `libs/${libName}/src/main/kotlin/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloService.kt`,
@@ -758,7 +758,7 @@ describe('nx-boot-gradle e2e', () => {
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`libs/${libName}/build.gradle.kts`);
+    const buildGradle = readFile(`libs/${libName}/build.gradle`);
     expect(buildGradle.includes('com.example')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -1082,7 +1082,7 @@ describe('nx-boot-gradle e2e', () => {
     ).not.toThrow();
 
     // Making sure the app build.gradle file contains the lib
-    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
+    const buildGradle = readFile(`apps/${appName}/build.gradle`);
     expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
 
     const helloControllerPath = `apps/${appName}/src/main/kotlin/com/example/${names(
@@ -1359,7 +1359,7 @@ describe('nx-boot-gradle e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/build.gradle.kts`,
+        `apps/${appName}/build.gradle`,
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
@@ -1434,9 +1434,7 @@ describe('nx-boot-gradle e2e', () => {
       `generate @jnxplus/nx-boot-gradle:library ${libName} --language kotlin --skipStarterCode`
     );
 
-    expect(() =>
-      checkFilesExist(`libs/${libName}/build.gradle.kts`)
-    ).not.toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/build.gradle`)).not.toThrow();
 
     expect(() =>
       checkFilesExist(
