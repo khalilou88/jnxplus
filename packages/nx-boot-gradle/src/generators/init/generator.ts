@@ -4,7 +4,8 @@ import {
   ktlintVersion,
   springBootVersion,
   springKotlinVersion,
-  updateNxJson,
+   updateNxJson,
+  jnxplusGradlePluginVersion,
 } from '@jnxplus/common';
 import {
   addOrUpdateGitattributes,
@@ -23,6 +24,7 @@ interface NormalizedSchema extends NxBootGradleGeneratorSchema {
   kotlinSpringVersion: string;
   checkstyleVersion: string;
   ktlintVersion: string;
+  jnxplusGradlePluginVersion: string;
 }
 
 function normalizeOptions(
@@ -40,6 +42,7 @@ function normalizeOptions(
     kotlinSpringVersion: springKotlinVersion,
     checkstyleVersion,
     ktlintVersion,
+    jnxplusGradlePluginVersion,
   };
 }
 

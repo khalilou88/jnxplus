@@ -5,6 +5,12 @@ pluginManagement {
     id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
     id 'org.jetbrains.kotlin.jvm' version "${kotlinJvmVersion}"
     id 'org.jetbrains.kotlin.plugin.spring' version "${kotlinSpringVersion}"
+    id 'io.github.jnxplus' version "${jnxplusGradlePluginVersion}"
+  }
+  repositories {
+      mavenCentral()
+      gradlePluginPortal()
+      mavenLocal()
   }
 }
 rootProject.name = '<%= rootProjectName %>'
@@ -15,11 +21,18 @@ pluginManagement {
   val dependencyManagementVersion: String by settings
   val kotlinJvmVersion: String by settings
   val kotlinSpringVersion: String by settings
+  val jnxplusGradlePluginVersion: String by settings
   plugins {
     id("org.springframework.boot") version springBootVersion
     id("io.spring.dependency-management") version dependencyManagementVersion
     id("org.jetbrains.kotlin.jvm") version kotlinJvmVersion
     id("org.jetbrains.kotlin.plugin.spring") version kotlinSpringVersion
+    id("io.github.jnxplus") version jnxplusGradlePluginVersion
+  }
+  repositories {
+      mavenCentral()
+      gradlePluginPortal()
+      mavenLocal()
   }
 }
 rootProject.name = "<%= rootProjectName %>"
