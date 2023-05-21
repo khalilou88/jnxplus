@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [6.2.3](https://github.com/khalilou88/jnxplus/compare/nx-boot-maven-6.2.2...nx-boot-maven-6.2.3) (2023-05-21)
+
+
+### Bug Fixes
+
+* **generators:** don't generate extras lines in templates ([#215](https://github.com/khalilou88/jnxplus/issues/215)) ([2a5da31](https://github.com/khalilou88/jnxplus/commit/2a5da31470aedb7658e9283555c89f1d28782e06))
+
+
+
 ## [6.2.2](https://github.com/khalilou88/jnxplus/compare/nx-boot-maven-6.2.1...nx-boot-maven-6.2.2) (2023-05-19)
 
 ### Dependency Updates
