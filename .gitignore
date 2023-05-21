@@ -39,3 +39,7 @@ testem.log
 .DS_Store
 Thumbs.db
 .eslintcache
+
+/packages/gradle-plugin/.gradle/
+/packages/gradle-plugin/build/
+/packages/gradle-plugin/.idea/

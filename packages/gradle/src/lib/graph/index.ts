@@ -8,7 +8,8 @@ import {
 import * as fs from 'fs';
 import { fileExists } from 'nx/src/utils/fileutils';
 import * as path from 'path';
-import { getProjectRootFromProjectPath } from '../utils';
+import { canUseGradleTask, getProjectRootFromProjectPath } from '../utils';
+import { addProjectsAndDependenciesFromTask } from './graph-task';
 
 type GradleProjectType = {
   name: string;
@@ -20,6 +21,18 @@ type GradleProjectType = {
 };
 
 export function addProjectsAndDependencies(
+  builder: ProjectGraphBuilder,
+  hasher: Hasher,
+  pluginName: string
+) {
+  if (canUseGradleTask()) {
+    addProjectsAndDependenciesFromTask(builder, hasher, pluginName);
+  } else {
+    addProjectsAndDependencies2(builder, hasher, pluginName);
+  }
+}
+
+function addProjectsAndDependencies2(
   builder: ProjectGraphBuilder,
   hasher: Hasher,
   pluginName: string
