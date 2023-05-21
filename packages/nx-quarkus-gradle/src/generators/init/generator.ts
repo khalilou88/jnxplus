@@ -4,6 +4,7 @@ import {
   quarkusKotlinVersion,
   quarkusPlatformVersion,
   updateNxJson,
+  jnxplusGradlePluginVersion,
 } from '@jnxplus/common';
 import {
   addOrUpdateGitattributes,
@@ -22,6 +23,7 @@ interface NormalizedSchema extends NxQuarkusGradleGeneratorSchema {
   kotlinExtension: string;
   checkstyleVersion: string;
   ktlintVersion: string;
+  jnxplusGradlePluginVersion: string;
 }
 
 function normalizeOptions(
@@ -39,6 +41,7 @@ function normalizeOptions(
     kotlinPluginAllopenVersion: quarkusKotlinVersion,
     checkstyleVersion,
     ktlintVersion,
+    jnxplusGradlePluginVersion,
   };
 }
 
