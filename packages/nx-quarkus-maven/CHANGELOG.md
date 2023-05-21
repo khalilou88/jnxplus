@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.6.1](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-maven-0.6.0...nx-quarkus-maven-0.6.1) (2023-05-21)
+
+
+### Bug Fixes
+
+* **generators:** don't generate extras lines in templates ([#215](https://github.com/khalilou88/jnxplus/issues/215)) ([2a5da31](https://github.com/khalilou88/jnxplus/commit/2a5da31470aedb7658e9283555c89f1d28782e06))
+
+
+
 # [0.6.0](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-maven-0.5.1...nx-quarkus-maven-0.6.0) (2023-05-19)
 
 ### Dependency Updates
