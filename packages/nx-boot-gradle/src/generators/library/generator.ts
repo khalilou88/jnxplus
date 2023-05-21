@@ -1,3 +1,9 @@
+import { DSLType, LinterType, normalizeName } from '@jnxplus/common';
+import {
+  addLibraryToProjects,
+  addProjectToGradleSetting,
+  getDsl,
+} from '@jnxplus/gradle';
 import {
   addProjectConfiguration,
   formatFiles,
@@ -6,14 +12,10 @@ import {
   joinPathFragments,
   names,
   offsetFromRoot,
-  readProjectConfiguration,
   Tree,
 } from '@nx/devkit';
 import { join } from 'path';
-import { DSLType, normalizeName } from '@jnxplus/common';
-import { LinterType } from '@jnxplus/common';
 import { NxBootGradleLibGeneratorSchema } from './schema';
-import { getDsl } from '@jnxplus/gradle';
 
 interface NormalizedSchema extends NxBootGradleLibGeneratorSchema {
   projectName: string;
@@ -200,66 +202,4 @@ export default async function (
   addProjectToGradleSetting(tree, normalizedOptions);
   addLibraryToProjects(tree, normalizedOptions);
   await formatFiles(tree);
-}
-
-function addProjectToGradleSetting(tree: Tree, options: NormalizedSchema) {
-  const filePath = `settings.gradle`;
-  const ktsFilePath = `settings.gradle.kts`;
-  const regex = /.*rootProject\.name.*/;
-  const gradleProjectPath = options.projectRoot.replace(
-    new RegExp('/', 'g'),
-    ':'
-  );
-
-  if (tree.exists(filePath)) {
-    const settingsContent = tree.read(filePath, 'utf-8') || '';
-
-    const newSettingsContent = settingsContent.replace(
-      regex,
-      `$&\ninclude('${gradleProjectPath}')`
-    );
-    tree.write(filePath, newSettingsContent);
-  }
-
-  if (tree.exists(ktsFilePath)) {
-    const settingsContent = tree.read(ktsFilePath, 'utf-8') || '';
-
-    const newSettingsContent = settingsContent.replace(
-      regex,
-      `$&\ninclude("${gradleProjectPath}")`
-    );
-    tree.write(ktsFilePath, newSettingsContent);
-  }
-}
-
-function addLibraryToProjects(tree: Tree, options: NormalizedSchema) {
-  const regex = /dependencies\s*{/;
-  const gradleProjectPath = options.projectRoot.replace(
-    new RegExp('/', 'g'),
-    ':'
-  );
-  for (const projectName of options.parsedProjects) {
-    const projectRoot = readProjectConfiguration(tree, projectName).root;
-    const filePath = join(projectRoot, `build.gradle`);
-    const ktsPath = join(projectRoot, `build.gradle.kts`);
-
-    if (tree.exists(filePath)) {
-      const buildGradleContent = tree.read(filePath, 'utf-8') || '';
-      const newBuildGradleContent = buildGradleContent.replace(
-        regex,
-        `$&\nimplementation project(':${gradleProjectPath}')`
-      );
-      tree.write(filePath, newBuildGradleContent);
-    }
-
-    if (tree.exists(ktsPath)) {
-      const buildGradleContent = tree.read(ktsPath, 'utf-8') || '';
-
-      const newBuildGradleContent = buildGradleContent.replace(
-        regex,
-        `$&\nimplementation(project(":${gradleProjectPath}"))`
-      );
-      tree.write(ktsPath, newBuildGradleContent);
-    }
-  }
 }

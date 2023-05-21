@@ -8,6 +8,7 @@ import {
 import * as fs from 'fs';
 import { fileExists } from 'nx/src/utils/fileutils';
 import * as path from 'path';
+import { getProjectRootFromProjectPath } from '../utils';
 
 type GradleProjectType = {
   name: string;
@@ -36,7 +37,7 @@ function addProjects(
   pluginName: string,
   projectPath: string
 ) {
-  const projectRoot = pathToRoot(projectPath);
+  const projectRoot = getProjectRootFromProjectPath(projectPath);
   const projectDirPath = path.join(workspaceRoot, projectRoot);
 
   const settingsGradlePath = path.join(projectDirPath, 'settings.gradle');
@@ -217,24 +218,16 @@ function addDependencies(
   }
 }
 
-function pathToRoot(path: string) {
-  if (path.startsWith(':')) {
-    throw new Error(`Path ${path} should not starts with two dots (:)`);
-  }
-
-  return path.replace(/:/g, '/');
-}
-
-function createProjectName(path: string) {
-  if (!path) {
+function createProjectName(projectPath: string) {
+  if (!projectPath) {
     throw new Error('project path is mandatory to create a project name');
   }
 
-  if (path.startsWith(':')) {
-    path = path.substring(1);
+  if (projectPath.startsWith(':')) {
+    throw new Error(`Path ${projectPath} should not starts with two dots (:)`);
   }
 
-  return path.replace(/:/g, '-');
+  return projectPath.replace(/:/g, '-');
 }
 
 export function getRootProjectName(settingsGradleContent: string) {
@@ -250,6 +243,8 @@ export function getSubprojects(settingsGradleContent: string): string[] {
   const matches = (settingsGradleContent.match(regexp) || [])
     .map((e) => e.replace(regexp, '$1'))
     .map((e) => e.split(','));
+
+  //TODO remove two dots (:)
   return matches.flat().map((e) => e.replace(/\s*['"](.*)['"]/, '$1'));
 }
 

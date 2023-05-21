@@ -1,4 +1,8 @@
-import { checkstyleVersion, ktlintVersion } from '@jnxplus/common';
+import {
+  checkstyleVersion,
+  getProjectRoot,
+  ktlintVersion,
+} from '@jnxplus/common';
 import { ExecutorContext } from '@nx/devkit';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -9,10 +13,20 @@ export function getExecutable() {
 }
 
 export function getProjectPath(context: ExecutorContext) {
-  const projectFolder =
-    context.projectsConfigurations?.projects[context.projectName || ''].root ||
-    '';
-  return `:${projectFolder.split('/').join(':')}`;
+  const projectRoot = getProjectRoot(context);
+  return `:${getProjectPathFromProjectRoot(projectRoot)}`;
+}
+
+export function getProjectPathFromProjectRoot(projectRoot: string) {
+  return projectRoot.replace(new RegExp('/', 'g'), ':');
+}
+
+export function getProjectRootFromProjectPath(projectPath: string) {
+  if (projectPath.startsWith(':')) {
+    throw new Error(`Path ${projectPath} should not starts with two dots (:)`);
+  }
+
+  return projectPath.replace(/:/g, '/');
 }
 
 export function getQuarkusPlatformVersion(gradlePropertiesContent: string) {
