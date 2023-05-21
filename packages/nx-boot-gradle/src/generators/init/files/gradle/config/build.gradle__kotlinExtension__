@@ -1,0 +1,74 @@
+<% if(dsl === 'groovy') { -%>
+import groovy.json.JsonOutput
+
+task projectDependencyReport {
+  doLast {
+    def file = new File("project-dependencies.json")
+    file.delete()
+    def projects = []
+
+    addProjects(projects, rootProject)
+
+    def json_str = JsonOutput.toJson(projects)
+    def json_pretty = JsonOutput.prettyPrint(json_str)
+
+    //write file
+    file.write(json_pretty)
+  }
+}
+
+def addProjects(projects, project) {
+
+  def subprojects = project
+    .subprojects
+    .findAll {
+      it.file('build.gradle').exists() || it.file('build.gradle.kts').exists()
+    }
+    .collect { element ->
+      return [name               : element.name,
+              projectDirPath     : element.projectDir.path,
+              isProjectJsonExists: element.file('project.json').exists(),
+              isBuildGradleExists: element.file('build.gradle').exists()]
+    }
+
+
+  def dependencies = project.configurations
+    .findAll { it.allDependencies }
+    .collectMany { it.dependencies }
+    .findAll { it instanceof ProjectDependency }
+    .collect { element ->
+      return [name               : element.name,
+              projectDirPath     : element.dependencyProject.projectDir.path,
+              isProjectJsonExists: element.dependencyProject.file('project.json').exists(),
+              isBuildGradleExists: element.dependencyProject.file('build.gradle').exists()]
+    }
+
+
+  projects.add([name                     : project.name,
+                isProjectJsonExists      : project.file('project.json').exists(),
+                isBuildGradleExists      : project.file('build.gradle').exists(),
+                isBuildGradleKtsExists   : project.file('build.gradle.kts').exists(),
+                isSettingsGradleExists   : project.file('settings.gradle').exists(),
+                isSettingsGradleKtsExists: project.file('settings.gradle.kts').exists(),
+                isGradlePropertiesExists : project.file('gradle.properties').exists(),
+                projectDirPath           : project.projectDir.path,
+                subprojects              : subprojects,
+                dependencies             : dependencies]);
+
+
+  project.childProjects.each { name, childProject ->
+    {
+      addToParentProject(projects, project.name, childProject)
+      addProjects(projects, childProject)
+    }
+  }
+}
+
+
+def addToParentProject(projects, parentProjectName, project) {
+//  projects.findAll {
+//    it.name == parentProjectName
+//  }
+
+}
+<% } -%>
