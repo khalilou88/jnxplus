@@ -2,6 +2,23 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [6.4.0](https://github.com/khalilou88/jnxplus/compare/nx-boot-gradle-6.3.1...nx-boot-gradle-6.4.0) (2023-05-21)
+
+### Dependency Updates
+
+* `gradle` updated to version `0.3.0`
+
+### Bug Fixes
+
+* **generators:** don't generate extras lines in templates ([#216](https://github.com/khalilou88/jnxplus/issues/216)) ([fd2835c](https://github.com/khalilou88/jnxplus/commit/fd2835ce58f0b67c0d02ec0586744735e94330b1))
+
+
+### Features
+
+* **generators:** read gradle dsl from root project ([#214](https://github.com/khalilou88/jnxplus/issues/214)) ([ddf52d0](https://github.com/khalilou88/jnxplus/commit/ddf52d0e0886081c2c4b3176488e1779457defeb))
+
+
+
 ## [6.3.1](https://github.com/khalilou88/jnxplus/compare/nx-boot-gradle-6.3.0...nx-boot-gradle-6.3.1) (2023-05-19)
 
 ### Dependency Updates
