@@ -4,6 +4,7 @@ pluginManagement {
         id "${quarkusPluginId}" version "${quarkusPluginVersion}"
         id "org.jetbrains.kotlin.jvm" version "${kotlinJvmVersion}"
         id "org.jetbrains.kotlin.plugin.allopen" version "${kotlinPluginAllopenVersion}"
+        id "jnxplus.gradle.plugin" version "${jnxplusGradlePluginVersion}"
     }
     repositories {
         mavenCentral()
@@ -19,10 +20,12 @@ pluginManagement {
     val quarkusPluginId: String by settings
     val kotlinJvmVersion: String by settings
     val kotlinPluginAllopenVersion: String by settings
+    val jnxplusGradlePluginVersion: String by settings
     plugins {
         id(quarkusPluginId) version quarkusPluginVersion
         kotlin("jvm") version kotlinJvmVersion
         kotlin("plugin.allopen") version kotlinPluginAllopenVersion
+        id("jnxplus.gradle.plugin") version jnxplusGradlePluginVersion
     }
     repositories {
         mavenCentral()
