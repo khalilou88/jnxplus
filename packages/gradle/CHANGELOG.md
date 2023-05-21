@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.3.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.2.1...gradle-0.3.0) (2023-05-21)
+
+
+### Features
+
+* **generators:** read gradle dsl from root project ([#214](https://github.com/khalilou88/jnxplus/issues/214)) ([ddf52d0](https://github.com/khalilou88/jnxplus/commit/ddf52d0e0886081c2c4b3176488e1779457defeb))
+
+
+
 ## [0.2.1](https://github.com/khalilou88/jnxplus/compare/gradle-0.2.0...gradle-0.2.1) (2023-05-19)
 
 ### Dependency Updates
