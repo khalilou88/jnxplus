@@ -7,7 +7,7 @@ task projectDependencyReport {
     file.delete()
     def projects = []
 
-    addProjects(projects, rootProject)
+    addProjects(projects, '', rootProject)
 
     def json_str = JsonOutput.toJson(projects)
     def json_pretty = JsonOutput.prettyPrint(json_str)
@@ -17,20 +17,7 @@ task projectDependencyReport {
   }
 }
 
-def addProjects(projects, project) {
-
-  def subprojects = project
-    .subprojects
-    .findAll {
-      it.file('build.gradle').exists() || it.file('build.gradle.kts').exists()
-    }
-    .collect { element ->
-      return [name               : element.name,
-              projectDirPath     : element.projectDir.path,
-              isProjectJsonExists: element.file('project.json').exists(),
-              isBuildGradleExists: element.file('build.gradle').exists()]
-    }
-
+def addProjects(projects, parentProjectName, project) {
 
   def dependencies = project.configurations
     .findAll { it.allDependencies }
@@ -43,7 +30,6 @@ def addProjects(projects, project) {
               isBuildGradleExists: element.dependencyProject.file('build.gradle').exists()]
     }
 
-
   projects.add([name                     : project.name,
                 isProjectJsonExists      : project.file('project.json').exists(),
                 isBuildGradleExists      : project.file('build.gradle').exists(),
@@ -52,23 +38,13 @@ def addProjects(projects, project) {
                 isSettingsGradleKtsExists: project.file('settings.gradle.kts').exists(),
                 isGradlePropertiesExists : project.file('gradle.properties').exists(),
                 projectDirPath           : project.projectDir.path,
-                subprojects              : subprojects,
+                parentProjectName        : parentProjectName,
                 dependencies             : dependencies]);
-
 
   project.childProjects.each { name, childProject ->
     {
-      addToParentProject(projects, project.name, childProject)
-      addProjects(projects, childProject)
+      addProjects(projects, project.name, childProject)
     }
   }
-}
-
-
-def addToParentProject(projects, parentProjectName, project) {
-//  projects.findAll {
-//    it.name == parentProjectName
-//  }
-
 }
 <% } -%>
