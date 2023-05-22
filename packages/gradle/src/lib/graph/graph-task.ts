@@ -69,68 +69,78 @@ function addProjects(
   projects: GradleProjectType[]
 ) {
   for (const project of projects) {
-    if (!project.isProjectJsonExists) {
-      const projectRoot = path.relative(workspaceRoot, project.projectDirPath);
+    if (
+      project.isBuildGradleExists ||
+      project.isBuildGradleKtsExists ||
+      project.isSettingsGradleExists ||
+      project.isSettingsGradleKtsExists
+    ) {
+      if (!project.isProjectJsonExists) {
+        const projectRoot = path.relative(
+          workspaceRoot,
+          project.projectDirPath
+        );
 
-      const files = [];
+        const files = [];
 
-      if (project.isBuildGradleExists) {
-        const file = joinPathFragments(projectRoot, 'build.gradle');
-        files.push({
-          file: file,
-          hash: hasher.hashFile(file),
-        });
-      }
+        if (project.isBuildGradleExists) {
+          const file = joinPathFragments(projectRoot, 'build.gradle');
+          files.push({
+            file: file,
+            hash: hasher.hashFile(file),
+          });
+        }
 
-      if (project.isBuildGradleKtsExists) {
-        const file = joinPathFragments(projectRoot, 'build.gradle.kts');
-        files.push({
-          file: file,
-          hash: hasher.hashFile(file),
-        });
-      }
+        if (project.isBuildGradleKtsExists) {
+          const file = joinPathFragments(projectRoot, 'build.gradle.kts');
+          files.push({
+            file: file,
+            hash: hasher.hashFile(file),
+          });
+        }
 
-      if (project.isSettingsGradleExists) {
-        const file = joinPathFragments(projectRoot, 'settings.gradle');
-        files.push({
-          file: file,
-          hash: hasher.hashFile(file),
-        });
-      }
+        if (project.isSettingsGradleExists) {
+          const file = joinPathFragments(projectRoot, 'settings.gradle');
+          files.push({
+            file: file,
+            hash: hasher.hashFile(file),
+          });
+        }
 
-      if (project.isSettingsGradleKtsExists) {
-        const file = joinPathFragments(projectRoot, 'settings.gradle.kts');
-        files.push({
-          file: file,
-          hash: hasher.hashFile(file),
-        });
-      }
+        if (project.isSettingsGradleKtsExists) {
+          const file = joinPathFragments(projectRoot, 'settings.gradle.kts');
+          files.push({
+            file: file,
+            hash: hasher.hashFile(file),
+          });
+        }
 
-      if (project.isGradlePropertiesExists) {
-        const file = joinPathFragments(projectRoot, 'gradle.properties');
-        files.push({
-          file: file,
-          hash: hasher.hashFile(file),
-        });
-      }
+        if (project.isGradlePropertiesExists) {
+          const file = joinPathFragments(projectRoot, 'gradle.properties');
+          files.push({
+            file: file,
+            hash: hasher.hashFile(file),
+          });
+        }
 
-      const projectGraphNodeType = getProjectGraphNodeType(projectRoot);
+        const projectGraphNodeType = getProjectGraphNodeType(projectRoot);
 
-      builder.addNode({
-        name: project.name,
-        type: projectGraphNodeType,
-        data: {
-          root: projectRoot,
-          projectType:
-            projectGraphNodeType === 'app' ? 'application' : 'library',
-          targets: {
-            build: {
-              executor: 'nx:noop',
+        builder.addNode({
+          name: project.name,
+          type: projectGraphNodeType,
+          data: {
+            root: projectRoot,
+            projectType:
+              projectGraphNodeType === 'app' ? 'application' : 'library',
+            targets: {
+              build: {
+                executor: 'nx:noop',
+              },
             },
+            files: files,
           },
-          files: files,
-        },
-      });
+        });
+      }
     }
   }
 }
@@ -140,31 +150,36 @@ function addDependencies(
   projects: GradleProjectType[]
 ) {
   for (const project of projects) {
-    const projectName = getProjectName(project);
-    const projectRoot = path.relative(workspaceRoot, project.projectDirPath);
-    const projectSourceFile = project.isBuildGradleExists
-      ? 'build.gradle'
-      : 'build.gradle.kts';
+    if (project.isBuildGradleExists || project.isBuildGradleKtsExists) {
+      const projectName = getProjectName(project);
+      const projectRoot = path.relative(workspaceRoot, project.projectDirPath);
+      const projectSourceFile = project.isBuildGradleExists
+        ? 'build.gradle'
+        : 'build.gradle.kts';
 
-    const parentProject = getParentProject(projects, project.parentProjectName);
-    if (parentProject) {
-      const parentProjectName = getProjectName(parentProject);
-
-      builder.addStaticDependency(
-        projectName,
-        parentProjectName,
-        joinPathFragments(projectRoot, projectSourceFile)
+      const parentProject = getParentProject(
+        projects,
+        project.parentProjectName
       );
-    }
+      if (parentProject) {
+        const parentProjectName = getProjectName(parentProject);
 
-    for (const dependency of project.dependencies) {
-      const dependencyName = getProjectName(dependency);
+        builder.addStaticDependency(
+          projectName,
+          parentProjectName,
+          joinPathFragments(projectRoot, projectSourceFile)
+        );
+      }
 
-      builder.addStaticDependency(
-        projectName,
-        dependencyName,
-        joinPathFragments(projectRoot, projectSourceFile)
-      );
+      for (const dependency of project.dependencies) {
+        const dependencyName = getProjectName(dependency);
+
+        builder.addStaticDependency(
+          projectName,
+          dependencyName,
+          joinPathFragments(projectRoot, projectSourceFile)
+        );
+      }
     }
   }
 }
