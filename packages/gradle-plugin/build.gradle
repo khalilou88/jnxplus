@@ -16,7 +16,7 @@ plugins {
   id 'maven-publish'
 }
 
-group = 'jnxplus.gradle.plugin'
+group = 'io.github.jnxplus'
 version = '0.0.1-SNAPSHOT'
 
 repositories {
@@ -33,8 +33,8 @@ gradlePlugin {
   // Define the plugin
   plugins {
     projectGraph {
-      id = 'jnxplus.gradle.plugin'
-      implementationClass = 'jnxplus.gradle.plugin.GradlePluginPlugin'
+      id = 'io.github.jnxplus'
+      implementationClass = 'io.github.jnxplus.GradlePlugin'
     }
   }
 }

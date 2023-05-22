@@ -9,7 +9,7 @@ pluginManagement {
         id "${quarkusPluginId}" version "${quarkusPluginVersion}"
         id "org.jetbrains.kotlin.jvm" version "${kotlinJvmVersion}"
         id "org.jetbrains.kotlin.plugin.allopen" version "${kotlinPluginAllopenVersion}"
-        id "jnxplus.gradle.plugin" version "$jnxplusGradlePluginVersion"
+        id "io.github.jnxplus" version "$jnxplusGradlePluginVersion"
     }
 }
 rootProject.name = '<%= rootProjectName %>'
@@ -31,7 +31,7 @@ pluginManagement {
         id(quarkusPluginId) version quarkusPluginVersion
         kotlin("jvm") version kotlinJvmVersion
         kotlin("plugin.allopen") version kotlinPluginAllopenVersion
-        id("jnxplus.gradle.plugin") version jnxplusGradlePluginVersion
+        id("io.github.jnxplus") version jnxplusGradlePluginVersion
     }
 }
 rootProject.name = "<%= rootProjectName %>"

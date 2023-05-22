@@ -1,4 +1,4 @@
-package jnxplus.gradle.plugin
+package io.github.jnxplus
 
 import groovy.json.JsonOutput
 import org.gradle.api.DefaultTask
