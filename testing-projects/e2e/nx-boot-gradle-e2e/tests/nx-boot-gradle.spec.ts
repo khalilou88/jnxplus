@@ -13,6 +13,7 @@ import * as fse from 'fs-extra';
 import * as path from 'path';
 import { checkstyleVersion, normalizeName } from '@jnxplus/common';
 import {
+  addJVMMemory,
   addTmpToGitignore,
   getData,
   killPorts,
@@ -86,6 +87,7 @@ describe('nx-boot-gradle e2e', () => {
       `generate @jnxplus/nx-boot-gradle:init --rootProjectName ${rootProjectName}`
     );
 
+    addJVMMemory();
     if (isCI) {
       removeTmpFromGitignore();
     }

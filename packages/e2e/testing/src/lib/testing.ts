@@ -196,15 +196,27 @@ export function runPackageManagerInstallLinks(silent = true) {
 }
 
 export function removeTmpFromGitignore() {
-  const filePath = `${process.cwd()}/.gitignore`;
+  const filePath = path.join(process.cwd(), '.gitignore');
   const fileContent = fs.readFileSync(filePath, 'utf-8');
   const updatedFileContent = fileContent.replace('/tmp', '');
   fs.writeFileSync(filePath, updatedFileContent);
 }
 
 export function addTmpToGitignore() {
-  const filePath = `${process.cwd()}/.gitignore`;
+  const filePath = path.join(process.cwd(), '.gitignore');
   const fileContent = fs.readFileSync(filePath, 'utf-8');
   const updatedFileContent = fileContent.concat('\n/tmp');
   fs.writeFileSync(filePath, updatedFileContent);
+}
+
+export function addJVMMemory() {
+  const gradlePropertiesPath = path.join(tmpProjPath(), 'gradle.properties');
+  const gradlePropertiesPathContent = fs.readFileSync(
+    gradlePropertiesPath,
+    'utf-8'
+  );
+  const updatedFileContent = gradlePropertiesPathContent.concat(
+    '\norg.gradle.jvmargs=-Xmx4096m'
+  );
+  fs.writeFileSync(gradlePropertiesPath, updatedFileContent);
 }

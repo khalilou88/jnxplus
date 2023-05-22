@@ -14,6 +14,7 @@ import * as path from 'path';
 
 import { checkstyleVersion, normalizeName } from '@jnxplus/common';
 import {
+  addJVMMemory,
   addTmpToGitignore,
   getData,
   killPorts,
@@ -87,6 +88,7 @@ describe('nx-boot-gradle kt e2e', () => {
       `generate @jnxplus/nx-boot-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`
     );
 
+    addJVMMemory();
     if (isCI) {
       removeTmpFromGitignore();
     }
