@@ -91,6 +91,10 @@ export function canUseGradleTask() {
     'utf-8'
   );
 
+  return jnxplusGradlePluginExists(gradlePropertiesContent);
+}
+
+export function jnxplusGradlePluginExists(gradlePropertiesContent: string) {
   const regexp = /jnxplusGradlePluginVersion=(.*)/g;
   const matches = gradlePropertiesContent.match(regexp) || [];
   return matches.length > 0;
