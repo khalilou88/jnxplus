@@ -2,6 +2,18 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [6.4.1](https://github.com/khalilou88/jnxplus/compare/nx-boot-gradle-6.4.0...nx-boot-gradle-6.4.1) (2023-05-22)
+
+### Dependency Updates
+
+* `gradle` updated to version `0.3.1`
+
+### Bug Fixes
+
+* **generators:** add `\t` when adding a dependency to a project ([#217](https://github.com/khalilou88/jnxplus/issues/217)) ([acb752f](https://github.com/khalilou88/jnxplus/commit/acb752f01a735cae98432e22934d457721378a4f))
+
+
+
 # [6.4.0](https://github.com/khalilou88/jnxplus/compare/nx-boot-gradle-6.3.1...nx-boot-gradle-6.4.0) (2023-05-21)
 
 ### Dependency Updates
