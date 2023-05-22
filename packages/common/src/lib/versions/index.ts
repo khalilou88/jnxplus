@@ -10,6 +10,3 @@ export const quarkusKotlinVersion = '1.8.10';
 //Linters
 export const checkstyleVersion = '10.11.0';
 export const ktlintVersion = '0.49.1';
-
-//Jnxplus gradle plugin
-export const jnxplusGradlePluginVersion = '0.0.1-SNAPSHOT';

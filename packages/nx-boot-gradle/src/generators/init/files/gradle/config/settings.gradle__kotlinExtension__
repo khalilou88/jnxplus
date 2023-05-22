@@ -1,16 +1,10 @@
 <% if(dsl === 'groovy') { -%>
 pluginManagement {
-  repositories {
-      mavenCentral()
-      gradlePluginPortal()
-      mavenLocal()
-  }
   plugins {
     id 'org.springframework.boot' version "$springBootVersion"
     id 'io.spring.dependency-management' version "$dependencyManagementVersion"
     id 'org.jetbrains.kotlin.jvm' version "$kotlinJvmVersion"
     id 'org.jetbrains.kotlin.plugin.spring' version "$kotlinSpringVersion"
-    id "io.github.jnxplus" version "$jnxplusGradlePluginVersion"
   }
 }
 rootProject.name = '<%= rootProjectName %>'
@@ -21,13 +15,7 @@ pluginManagement {
   val dependencyManagementVersion: String by settings
   val kotlinJvmVersion: String by settings
   val kotlinSpringVersion: String by settings
-  val jnxplusGradlePluginVersion: String by settings
 
-  repositories {
-      mavenCentral()
-      gradlePluginPortal()
-      mavenLocal()
-  }
   plugins {
     id("org.springframework.boot") version springBootVersion
     id("io.spring.dependency-management") version dependencyManagementVersion
