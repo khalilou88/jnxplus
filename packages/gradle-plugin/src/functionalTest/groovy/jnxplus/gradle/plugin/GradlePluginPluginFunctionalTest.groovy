@@ -3,43 +3,42 @@
  */
 package jnxplus.gradle.plugin
 
+import org.gradle.testkit.runner.GradleRunner
 import spock.lang.Specification
 import spock.lang.TempDir
-import org.gradle.testkit.runner.GradleRunner
 
 /**
- * A simple functional test for the 'jnxplus.gradle.plugin.projects' plugin.
- */
+ * A simple functional test for the 'jnxplus.gradle.plugin.projects' plugin.*/
 class GradlePluginPluginFunctionalTest extends Specification {
-    @TempDir
-    private File projectDir
+  @TempDir
+  private File projectDir
 
-    private getBuildFile() {
-        new File(projectDir, "build.gradle")
-    }
+  private getBuildFile() {
+    new File(projectDir, "build.gradle")
+  }
 
-    private getSettingsFile() {
-        new File(projectDir, "settings.gradle")
-    }
+  private getSettingsFile() {
+    new File(projectDir, "settings.gradle")
+  }
 
-    def "can run task"() {
-        given:
-        settingsFile << ""
-        buildFile << """
+  def "can run task"() {
+    given:
+    settingsFile << ""
+    buildFile << """
 plugins {
     id('jnxplus.gradle.plugin')
 }
 """
 
-        when:
-        def runner = GradleRunner.create()
-        runner.forwardOutput()
-        runner.withPluginClasspath()
-        runner.withArguments("projectDependencyReport", "--outputFile", "example.json")
-        runner.withProjectDir(projectDir)
-        def result = runner.build()
+    when:
+    def runner = GradleRunner.create()
+    runner.forwardOutput()
+    runner.withPluginClasspath()
+    runner.withArguments("projectDependencyReport", "--outputFile", "./build/example.json")
+    runner.withProjectDir(projectDir)
+    def result = runner.build()
 
-        then:
-        result.output.contains("Task ran for projectDependencyReport")
-    }
+    then:
+    result.output.contains("Task ran for projectDependencyReport")
+  }
 }

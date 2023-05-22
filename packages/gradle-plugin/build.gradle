@@ -7,62 +7,61 @@
  */
 
 plugins {
-    // Apply the Java Gradle plugin development plugin to add support for developing Gradle plugins
-    id 'java-gradle-plugin'
+  // Apply the Java Gradle plugin development plugin to add support for developing Gradle plugins
+  id 'java-gradle-plugin'
 
-    // Apply the Groovy plugin to add support for Groovy
-    id 'groovy'
+  // Apply the Groovy plugin to add support for Groovy
+  id 'groovy'
 
-   //TODO
-   id 'maven-publish'
+  id 'maven-publish'
 }
 
 group = 'jnxplus.gradle.plugin'
 version = '0.0.1-SNAPSHOT'
 
 repositories {
-    // Use Maven Central for resolving dependencies.
-    mavenCentral()
+  // Use Maven Central for resolving dependencies.
+  mavenCentral()
 }
 
 dependencies {
-    // Use the awesome Spock testing and specification framework
-    testImplementation 'org.spockframework:spock-core:2.2-groovy-3.0'
+  // Use the awesome Spock testing and specification framework
+  testImplementation 'org.spockframework:spock-core:2.2-groovy-3.0'
 }
 
 gradlePlugin {
-    // Define the plugin
-    plugins {
-        projectGraph {
-            id = 'jnxplus.gradle.plugin'
-            implementationClass = 'jnxplus.gradle.plugin.GradlePluginPlugin'
-        }
+  // Define the plugin
+  plugins {
+    projectGraph {
+      id = 'jnxplus.gradle.plugin'
+      implementationClass = 'jnxplus.gradle.plugin.GradlePluginPlugin'
     }
+  }
 }
 
 // Add a source set for the functional test suite
 sourceSets {
-    functionalTest {
-    }
+  functionalTest {
+  }
 }
 
 configurations.functionalTestImplementation.extendsFrom(configurations.testImplementation)
 
 // Add a task to run the functional tests
 tasks.register('functionalTest', Test) {
-    testClassesDirs = sourceSets.functionalTest.output.classesDirs
-    classpath = sourceSets.functionalTest.runtimeClasspath
-    useJUnitPlatform()
+  testClassesDirs = sourceSets.functionalTest.output.classesDirs
+  classpath = sourceSets.functionalTest.runtimeClasspath
+  useJUnitPlatform()
 }
 
 gradlePlugin.testSourceSets.add(sourceSets.functionalTest)
 
 tasks.named('check') {
-    // Run the functional tests as part of `check`
-    dependsOn(tasks.functionalTest)
+  // Run the functional tests as part of `check`
+  dependsOn(tasks.functionalTest)
 }
 
 tasks.named('test') {
-    // Use JUnit Jupiter for unit tests.
-    useJUnitPlatform()
+  // Use JUnit Jupiter for unit tests.
+  useJUnitPlatform()
 }
