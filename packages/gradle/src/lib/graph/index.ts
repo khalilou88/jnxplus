@@ -25,11 +25,11 @@ export function addProjectsAndDependencies(
   hasher: Hasher,
   pluginName: string
 ) {
-  // if (canUseGradleTask()) {
-  addProjectsAndDependenciesFromTask(builder, hasher, pluginName);
-  // } else {
-  //   addProjectsAndDependenciesLegacy(builder, hasher, pluginName);
-  // }
+  if (canUseGradleTask()) {
+    addProjectsAndDependenciesFromTask(builder, hasher, pluginName);
+  } else {
+    addProjectsAndDependenciesLegacy(builder, hasher, pluginName);
+  }
 }
 
 function addProjectsAndDependenciesLegacy(
