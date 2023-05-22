@@ -1,8 +1,8 @@
 plugins {
 <% if(dsl === 'groovy') { -%>
-  id 'jnxplus.gradle.plugin'
+  id 'io.github.jnxplus'
 <% } -%>
 <% if(dsl === 'kotlin') { -%>
-  id("jnxplus.gradle.plugin")
+  id("io.github.jnxplus")
 <% } -%>
 }
