@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "version": 2,
+  "title": "RunCommands executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "command": {
+      "type": "string"
+    },
+    "cwd": {
+      "type": "string"
+    }
+  },
+  "required": []
+}
