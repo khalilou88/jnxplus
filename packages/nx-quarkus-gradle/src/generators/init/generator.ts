@@ -16,6 +16,7 @@ import * as path from 'path';
 import { NxQuarkusGradleGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxQuarkusGradleGeneratorSchema {
+  quarkusPluginVersion: string;
   quarkusPlatformVersion: string;
   kotlinJvmVersion: string;
   kotlinPluginAllopenVersion: string;
@@ -33,6 +34,7 @@ function normalizeOptions(
   return {
     ...options,
     kotlinExtension,
+    quarkusPluginVersion: quarkusPlatformVersion,
     quarkusPlatformVersion,
     kotlinJvmVersion: quarkusKotlinVersion,
     kotlinPluginAllopenVersion: quarkusKotlinVersion,
