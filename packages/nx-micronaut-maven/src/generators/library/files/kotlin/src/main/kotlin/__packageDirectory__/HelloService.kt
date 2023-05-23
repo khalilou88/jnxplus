@@ -1,9 +1,9 @@
 package <%= packageName %>
 
-import jakarta.enterprise.context.ApplicationScoped
+import jakarta.inject.Singleton
 
-@ApplicationScoped
-class GreetingService  {
+@Singleton
+class HelloService  {
 
     fun greeting():String {
         return "Hello World!"

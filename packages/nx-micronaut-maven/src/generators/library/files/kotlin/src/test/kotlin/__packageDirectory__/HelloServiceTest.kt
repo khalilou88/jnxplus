@@ -2,22 +2,22 @@ package <%= packageName %>
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test
-import io.quarkus.test.junit.QuarkusTest
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import jakarta.inject.Inject
 
 
-@QuarkusTest
-class GreetingServiceTest {
+@MicronautTest
+class HelloServiceTest {
 
 
   @Inject
-  lateinit var greetingService: GreetingService
+  lateinit var service: HelloService
 
 
   @Test
   fun `Should return Hello World`() {
     println(">> Should return Hello World")
-    Assertions.assertTrue(greetingService.greeting().contains("Hello World"));
+    Assertions.assertTrue(service.greeting().contains("Hello World"));
   }
 
 

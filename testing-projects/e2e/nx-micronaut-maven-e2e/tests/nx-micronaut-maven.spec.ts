@@ -268,9 +268,6 @@ describe('nx-micronaut-maven e2e', () => {
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/ServletInitializer.java`,
 
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
           randomName
@@ -282,8 +279,8 @@ describe('nx-micronaut-maven e2e', () => {
     const pomXml = readFile(`apps/${appDir}/${randomName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
-    expect(pomXml.includes('war')).toBeTruthy();
-    expect(pomXml.includes('spring-micronaut-starter-tomcat')).toBeTruthy();
+    // expect(pomXml.includes('war')).toBeTruthy();
+    // expect(pomXml.includes('spring-micronaut-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
@@ -453,9 +450,6 @@ describe('nx-micronaut-maven e2e', () => {
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/ServletInitializer.java`,
 
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
           randomName
@@ -467,8 +461,8 @@ describe('nx-micronaut-maven e2e', () => {
     const pomXml = readFile(`apps/${appDir}/${randomName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
-    expect(pomXml.includes('war')).toBeTruthy();
-    expect(pomXml.includes('spring-micronaut-starter-tomcat')).toBeTruthy();
+    // expect(pomXml.includes('war')).toBeTruthy();
+    // expect(pomXml.includes('spring-micronaut-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
@@ -540,9 +534,7 @@ describe('nx-micronaut-maven e2e', () => {
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/ServletInitializer.java`,
+
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloControllerTest.java`
@@ -553,8 +545,8 @@ describe('nx-micronaut-maven e2e', () => {
     const buildmaven = readFile(`apps/${appDir}/${randomName}/pom.xml`);
     expect(buildmaven.includes('com.jnxplus')).toBeTruthy();
     expect(buildmaven.includes('1.2.3')).toBeTruthy();
-    expect(buildmaven.includes('war')).toBeTruthy();
-    expect(buildmaven.includes('spring-micronaut-starter-tomcat')).toBeTruthy();
+    // expect(buildmaven.includes('war')).toBeTruthy();
+    // expect(buildmaven.includes('spring-micronaut-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
@@ -1046,14 +1038,6 @@ describe('nx-micronaut-maven e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-micronaut-maven:library ${libName} --language kotlin --projects ${appName}`
     );
-
-    expect(() =>
-      checkFilesExist(
-        `apps/${appName}/src/main/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/ServletInitializer.kt`
-      )
-    ).not.toThrow();
 
     // Making sure the app pom.xml file contains the lib
     const pomXml = readFile(`apps/${appName}/pom.xml`);
@@ -1548,8 +1532,8 @@ describe('nx-micronaut-maven e2e', () => {
     const pomXml = readFile(`apps/${appDir}/${appName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
-    expect(pomXml.includes('war')).toBeTruthy();
-    expect(pomXml.includes('spring-micronaut-starter-tomcat')).toBeTruthy();
+    // expect(pomXml.includes('war')).toBeTruthy();
+    // expect(pomXml.includes('spring-micronaut-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${appName}/project.json`);
@@ -1739,9 +1723,6 @@ describe('nx-micronaut-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/src/main/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
         `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.kt`,

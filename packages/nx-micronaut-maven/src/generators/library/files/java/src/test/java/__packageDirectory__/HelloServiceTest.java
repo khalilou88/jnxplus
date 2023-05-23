@@ -5,13 +5,13 @@ import jakarta.inject.Inject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import io.quarkus.test.junit.QuarkusTest;
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 
-@QuarkusTest
-public class GreetingServiceTest {
+@MicronautTest
+public class HelloServiceTest {
 
-    @Inject 
-    GreetingService service;
+    @Inject
+    HelloService service;
 
     @Test
     public void testGreetingService() {
