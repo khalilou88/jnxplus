@@ -176,17 +176,17 @@ export default async function (
       sourceRoot: `${normalizedOptions.projectRoot}/src`,
       targets: {
         build: {
-          executor: '@jnxplus/nx-quarkus-maven:build',
+          executor: '@jnxplus/nx-micronaut-maven:build',
           outputs: [`${normalizedOptions.projectRoot}/target`],
         },
         lint: {
-          executor: '@jnxplus/nx-quarkus-maven:lint',
+          executor: '@jnxplus/nx-micronaut-maven:lint',
           options: {
             linter: `${normalizedOptions.linter}`,
           },
         },
         test: {
-          executor: '@jnxplus/nx-quarkus-maven:test',
+          executor: '@jnxplus/nx-micronaut-maven:test',
         },
       },
       tags: normalizedOptions.parsedTags,
@@ -198,20 +198,20 @@ export default async function (
       sourceRoot: `${normalizedOptions.projectRoot}/src`,
       targets: {
         build: {
-          executor: '@jnxplus/nx-quarkus-maven:build',
+          executor: '@jnxplus/nx-micronaut-maven:build',
           outputs: [`${normalizedOptions.projectRoot}/target`],
         },
         lint: {
-          executor: '@jnxplus/nx-quarkus-maven:lint',
+          executor: '@jnxplus/nx-micronaut-maven:lint',
           options: {
             linter: `${normalizedOptions.linter}`,
           },
         },
         test: {
-          executor: '@jnxplus/nx-quarkus-maven:test',
+          executor: '@jnxplus/nx-micronaut-maven:test',
         },
         ktformat: {
-          executor: '@jnxplus/nx-quarkus-maven:ktformat',
+          executor: '@jnxplus/nx-micronaut-maven:ktformat',
         },
       },
       tags: normalizedOptions.parsedTags,
