@@ -8,9 +8,9 @@ pluginManagement {
     id 'io.github.jnxplus' version "${jnxplusGradlePluginVersion}"
   }
   repositories {
-      mavenCentral()
-      gradlePluginPortal()
-      mavenLocal()
+    mavenCentral()
+    gradlePluginPortal()
+    mavenLocal()
   }
 }
 rootProject.name = '<%= rootProjectName %>'
@@ -30,9 +30,9 @@ pluginManagement {
     id("io.github.jnxplus") version jnxplusGradlePluginVersion
   }
   repositories {
-      mavenCentral()
-      gradlePluginPortal()
-      mavenLocal()
+    mavenCentral()
+    gradlePluginPortal()
+    mavenLocal()
   }
 }
 rootProject.name = "<%= rootProjectName %>"
