@@ -1,4 +1,8 @@
-import { getDependencies, getRootProjectName, getSubprojects } from './index';
+import {
+  getDependencies,
+  getRootProjectName,
+  getSubprojects,
+} from './graph-legacy';
 
 describe('regexp', () => {
   it('should get correct name and subs from settings.gradle', () => {
