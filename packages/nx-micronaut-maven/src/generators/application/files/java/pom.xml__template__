@@ -2,66 +2,97 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<groupId><%= groupId %></groupId>
+	<artifactId><%= projectName %></artifactId>
+	<version><%= projectVersion %></version>
+  <packaging>${packaging}</packaging>
+	<name><%= projectName %></name>
+	<description>This project was generated with nx-micronaut-maven</description>
+
 	<parent>
 		<groupId><%= parentGroupId %></groupId>
 		<artifactId><%= parentProjectName %></artifactId>
 		<version><%= parentProjectVersion %></version>
     <relativePath><%= relativePath %></relativePath>
 	</parent>
-	<groupId><%= groupId %></groupId>
-	<artifactId><%= projectName %></artifactId>
-	<version><%= projectVersion %></version>
-	<name><%= projectName %></name>
-	<description>This project was generated with nx-quarkus-maven</description>
 
-  	<dependencies>
-      <dependency>
-        <groupId>io.quarkus</groupId>
-        <artifactId>quarkus-resteasy-reactive</artifactId>
-    	</dependency>
-<% if(configFormat === '.yml') { -%>
-      <dependency>
-        <groupId>io.quarkus</groupId>
-        <artifactId>quarkus-config-yaml</artifactId>
-      </dependency>
-<% } -%>
-      <dependency>
-        <groupId>io.quarkus</groupId>
-        <artifactId>quarkus-junit5</artifactId>
-        <scope>test</scope>
-      </dependency>
-	    <dependency>
-			  <groupId>io.rest-assured</groupId>
-			  <artifactId>rest-assured</artifactId>
-			  <scope>test</scope>
-		  </dependency>
-	  </dependencies>
+  <properties>
+    <packaging>jar</packaging>
+    <jdk.version>17</jdk.version>
+    <release.version>17</release.version>
+    <micronaut.version>4.0.0-M2</micronaut.version>
+    <micronaut.runtime>netty</micronaut.runtime>
+    <exec.mainClass><%= packageName %>.Application</exec.mainClass>
+  </properties>
 
-	<build>
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>https://repo.maven.apache.org/maven2</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.micronaut</groupId>
+      <artifactId>micronaut-http-server-netty</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.micronaut</groupId>
+      <artifactId>micronaut-jackson-databind</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.micronaut</groupId>
+      <artifactId>micronaut-http-client</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.micronaut.test</groupId>
+      <artifactId>micronaut-test-junit5</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
     <plugins>
       <plugin>
-        <groupId>${quarkus.platform.group-id}</groupId>
-        <artifactId>quarkus-maven-plugin</artifactId>
+        <groupId>io.micronaut.maven</groupId>
+        <artifactId>micronaut-maven-plugin</artifactId>
       </plugin>
+
       <plugin>
-        <artifactId>maven-failsafe-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <!-- Uncomment to enable incremental compilation -->
+          <!-- <useIncrementalCompilation>false</useIncrementalCompilation> -->
+
+          <annotationProcessorPaths combine.children="append">
+          </annotationProcessorPaths>
+          <compilerArgs>
+            <arg>-Amicronaut.processing.group=com.example</arg>
+            <arg>-Amicronaut.processing.module=demo</arg>
+          </compilerArgs>
+        </configuration>
       </plugin>
     </plugins>
   </build>
-
-  <profiles>
-    <profile>
-      <id>native</id>
-      <activation>
-        <property>
-          <name>native</name>
-        </property>
-      </activation>
-      <properties>
-        <skipITs>false</skipITs>
-        <quarkus.package.type>native</quarkus.package.type>
-      </properties>
-    </profile>
-  </profiles>
 
 </project>

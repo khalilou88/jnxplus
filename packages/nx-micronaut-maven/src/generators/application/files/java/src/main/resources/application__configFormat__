@@ -1,8 +1,16 @@
 <% if(configFormat === '.properties' && isCustomPort) { -%>
-quarkus.http.port=<%= port %>
+micronaut.application.name=<%= projectName %>
+micronaut.server.port=<%= port %>
+netty.default.allocator.max-order=3
 <% } -%>
 <% if(configFormat === '.yml' && isCustomPort) { -%>
-quarkus:
-  http:
+micronaut:
+  application:
+    name: micronautguide
+  server:
     port: <%= port %>
+netty:
+  default:
+    allocator:
+      max-order: 3
 <% } -%>

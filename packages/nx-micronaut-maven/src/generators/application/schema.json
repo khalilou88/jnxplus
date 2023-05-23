@@ -55,7 +55,7 @@
     },
     "groupId": {
       "type": "string",
-      "default": "org.acme",
+      "default": "com.example",
       "x-prompt": "What groupId would you like to use?"
     },
     "projectVersion": {

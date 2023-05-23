@@ -9,7 +9,7 @@ export default async function runExecutor(
 ) {
   logger.info(`Executor ran for serve: ${JSON.stringify(options)}`);
 
-  let command = `${getExecutable()} quarkus:dev -pl :${context.projectName}`;
+  let command = `${getExecutable()} mn:run -pl :${context.projectName}`;
 
   if (options.args) {
     command += ` ${options.args}`;

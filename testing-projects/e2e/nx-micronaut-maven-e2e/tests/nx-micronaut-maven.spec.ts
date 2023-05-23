@@ -1,7 +1,6 @@
 import { checkstyleVersion, normalizeName } from '@jnxplus/common';
 import {
   addTmpToGitignore,
-  checkFilesDoNotExist,
   getData,
   killPorts,
   patchPackageJson,
@@ -39,7 +38,7 @@ describe('nx-micronaut-maven e2e', () => {
     runNxNewCommand('', true);
 
     const pluginName = '@jnxplus/nx-micronaut-maven';
-    const nxMicronautMavenDistAbsolutePath = path.join(
+    const nxmicronautMavenDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
@@ -60,7 +59,7 @@ describe('nx-micronaut-maven e2e', () => {
       'maven'
     );
 
-    patchRootPackageJson(pluginName, nxMicronautMavenDistAbsolutePath);
+    patchRootPackageJson(pluginName, nxmicronautMavenDistAbsolutePath);
     patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
     patchRootPackageJson('@jnxplus/maven', mavenDistAbsolutePath);
     patchPackageJson(
@@ -69,12 +68,12 @@ describe('nx-micronaut-maven e2e', () => {
       commonDistAbsolutePath
     );
     patchPackageJson(
-      nxMicronautMavenDistAbsolutePath,
+      nxmicronautMavenDistAbsolutePath,
       '@jnxplus/common',
       commonDistAbsolutePath
     );
     patchPackageJson(
-      nxMicronautMavenDistAbsolutePath,
+      nxmicronautMavenDistAbsolutePath,
       '@jnxplus/maven',
       mavenDistAbsolutePath
     );
@@ -150,18 +149,21 @@ describe('nx-micronaut-maven e2e', () => {
       checkFilesExist(
         `apps/${appName}/pom.xml`,
         `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/java/org/acme/${names(
+        `apps/${appName}/src/main/java/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `apps/${appName}/src/test/java/org/acme/${names(
+        ).className.toLocaleLowerCase()}/Application.java`,
+        `apps/${appName}/src/main/java/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
+        ).className.toLocaleLowerCase()}/HelloController.java`,
+        `apps/${appName}/src/test/java/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good informations
     const pomXml = readFile(`apps/${appName}/pom.xml`);
-    expect(pomXml.includes('org.acme')).toBeTruthy();
+    expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
@@ -216,31 +218,29 @@ describe('nx-micronaut-maven e2e', () => {
       target: parentProjectName,
     });
 
-    const port = 8080;
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Listening on: http://localhost:${port}`)
+      output.includes(`Tomcat started on port(s): 8080`)
     );
 
-    const dataResult = await getData(port, '/hello');
+    const dataResult = await getData();
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
       await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
+      await killPorts(8080);
     } catch (err) {
       // ignore err
     }
   }, 120000);
 
-  it('should build-image a java app', async () => {
+  it('should build-image a java application', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('micronaut-maven-app-');
       await runNxCommandAsync(
         `generate @jnxplus/nx-micronaut-maven:application ${appName}`
       );
-      await runNxCommandAsync(`build ${appName} --mvnBuildCommand="package"`);
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
       );
@@ -255,26 +255,37 @@ describe('nx-micronaut-maven e2e', () => {
     const port = 8181;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-micronaut-maven:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId org.jnxplus --projectVersion 1.2.3 --configFormat .yml --port ${port}`
+      `generate @jnxplus/nx-micronaut-maven:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`
     );
 
     expect(() =>
       checkFilesExist(
         `apps/${appDir}/${randomName}/pom.xml`,
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/main/java/org/jnxplus/deep/subdir/${names(
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `apps/${appDir}/${randomName}/src/test/java/org/jnxplus/deep/subdir/${names(
+        ).className.toLocaleLowerCase()}/${
+          names(appName).className
+        }Application.java`,
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
+        ).className.toLocaleLowerCase()}/HelloController.java`,
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/ServletInitializer.java`,
+        `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
+        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good informations
     const pomXml = readFile(`apps/${appDir}/${randomName}/pom.xml`);
-    expect(pomXml.includes('org.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
+    expect(pomXml.includes('war')).toBeTruthy();
+    expect(pomXml.includes('spring-micronaut-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
@@ -311,11 +322,11 @@ describe('nx-micronaut-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(
-      `serve ${appName} --args="-Dmicronaut-profile=prod"`,
-      (output) => output.includes(`Listening on: http://localhost:${port}`)
+      `serve ${appName} --args="-Dspring-micronaut.run.profiles=test"`,
+      (output) => output.includes(`Tomcat started on port(s): ${port}`)
     );
 
-    const dataResult = await getData(port, '/hello');
+    const dataResult = await getData(port);
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -340,18 +351,23 @@ describe('nx-micronaut-maven e2e', () => {
       checkFilesExist(
         `apps/${appName}/pom.xml`,
         `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/kotlin/org/acme/${names(
+        `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/GreetingResource.kt`,
-        `apps/${appName}/src/test/kotlin/org/acme/${names(
+        ).className.toLocaleLowerCase()}/Application.kt`,
+        `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`
+        ).className.toLocaleLowerCase()}/HelloController.kt`,
+
+        // `apps/${appName}/src/test/resources/application.properties`,
+        `apps/${appName}/src/test/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/HelloControllerTest.kt`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good informations
     const pomXml = readFile(`apps/${appName}/pom.xml`);
-    expect(pomXml.includes('org.acme')).toBeTruthy();
+    expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(
@@ -391,10 +407,10 @@ describe('nx-micronaut-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Listening on: http://localhost:${port}`)
+      output.includes(`Tomcat started on port(s): ${port}`)
     );
 
-    const dataResult = await getData(port, '/hello');
+    const dataResult = await getData(port);
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -407,13 +423,12 @@ describe('nx-micronaut-maven e2e', () => {
     }
   }, 120000);
 
-  it('should build-image a kotlin app', async () => {
+  it('should build-image a kotlin application', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('micronaut-maven-app-');
       await runNxCommandAsync(
         `generate @jnxplus/nx-micronaut-maven:application ${appName} --language kotlin`
       );
-      await runNxCommandAsync(`build ${appName} --mvnBuildCommand="package"`);
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
       );
@@ -428,26 +443,37 @@ describe('nx-micronaut-maven e2e', () => {
     const port = 8383;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-micronaut-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId org.jnxplus --v 1.2.3 --configFormat .yml --port ${port}`
+      `g @jnxplus/nx-micronaut-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml --port ${port}`
     );
 
     expect(() =>
       checkFilesExist(
         `apps/${appDir}/${randomName}/pom.xml`,
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/main/java/org/jnxplus/subdir/${names(
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `apps/${appDir}/${randomName}/src/test/java/org/jnxplus/subdir/${names(
+        ).className.toLocaleLowerCase()}/${
+          names(appName).className
+        }Application.java`,
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
+        ).className.toLocaleLowerCase()}/HelloController.java`,
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/ServletInitializer.java`,
+        `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
+        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good information
     const pomXml = readFile(`apps/${appDir}/${randomName}/pom.xml`);
-    expect(pomXml.includes('org.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
+    expect(pomXml.includes('war')).toBeTruthy();
+    expect(pomXml.includes('spring-micronaut-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
@@ -482,11 +508,11 @@ describe('nx-micronaut-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(
-      `serve ${appName} --args="-Dmicronaut-profile=prod"`,
-      (output) => output.includes(`Listening on: http://localhost:${port}`)
+      `serve ${appName} --args="-Dspring-micronaut.run.profiles=test"`,
+      (output) => output.includes(`Tomcat started on port(s): ${port}`)
     );
 
-    const dataResult = await getData(port, '/hello');
+    const dataResult = await getData(port);
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -506,26 +532,37 @@ describe('nx-micronaut-maven e2e', () => {
     const port = 8484;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-micronaut-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId org.jnxplus --simplePackageName --v 1.2.3 --configFormat .yml --port ${port}`
+      `g @jnxplus/nx-micronaut-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --simplePackageName --v 1.2.3 --packaging war --configFormat .yml --port ${port}`
     );
 
     expect(() =>
       checkFilesExist(
         `apps/${appDir}/${randomName}/pom.xml`,
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/main/java/org/jnxplus/${names(
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName
-        ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `apps/${appDir}/${randomName}/src/test/java/org/jnxplus/${names(
+        ).className.toLocaleLowerCase()}/${
+          names(appName).className
+        }Application.java`,
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName
-        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
+        ).className.toLocaleLowerCase()}/HelloController.java`,
+        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/ServletInitializer.java`,
+        `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
+        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good informations
     const buildmaven = readFile(`apps/${appDir}/${randomName}/pom.xml`);
-    expect(buildmaven.includes('org.jnxplus')).toBeTruthy();
+    expect(buildmaven.includes('com.jnxplus')).toBeTruthy();
     expect(buildmaven.includes('1.2.3')).toBeTruthy();
+    expect(buildmaven.includes('war')).toBeTruthy();
+    expect(buildmaven.includes('spring-micronaut-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
@@ -560,11 +597,11 @@ describe('nx-micronaut-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(
-      `serve ${appName} --args="-Dmicronaut-profile=prod"`,
-      (output) => output.includes(`Listening on: http://localhost:${port}`)
+      `serve ${appName} --args="-Dspring-micronaut.run.profiles=test"`,
+      (output) => output.includes(`Tomcat started on port(s): ${port}`)
     );
 
-    const dataResult = await getData(port, '/hello');
+    const dataResult = await getData(port);
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -601,10 +638,10 @@ describe('nx-micronaut-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Listening on: http://localhost:${port}`)
+      output.includes(`Tomcat started on port(s): ${port}`)
     );
 
-    const dataResult = await getData(port, '/hello');
+    const dataResult = await getData(port);
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -627,18 +664,21 @@ describe('nx-micronaut-maven e2e', () => {
     expect(() =>
       checkFilesExist(
         `libs/${libName}/pom.xml`,
-        `libs/${libName}/src/main/java/org/acme/${names(
+        `libs/${libName}/src/main/java/com/example/${names(
           libName
-        ).className.toLocaleLowerCase()}/GreetingService.java`,
-        `libs/${libName}/src/test/java/org/acme/${names(
+        ).className.toLocaleLowerCase()}/HelloService.java`,
+        `libs/${libName}/src/test/java/com/example/${names(
           libName
-        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
+        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
+        `libs/${libName}/src/test/java/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good informations
     const pomXml = readFile(`libs/${libName}/pom.xml`);
-    expect(pomXml.includes('org.acme')).toBeTruthy();
+    expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
@@ -688,18 +728,21 @@ describe('nx-micronaut-maven e2e', () => {
     expect(() =>
       checkFilesExist(
         `libs/${libName}/pom.xml`,
-        `libs/${libName}/src/main/kotlin/org/acme/${names(
+        `libs/${libName}/src/main/kotlin/com/example/${names(
           libName
-        ).className.toLocaleLowerCase()}/GreetingService.kt`,
-        `libs/${libName}/src/test/kotlin/org/acme/${names(
+        ).className.toLocaleLowerCase()}/HelloService.kt`,
+        `libs/${libName}/src/test/kotlin/com/example/${names(
           libName
-        ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`
+        ).className.toLocaleLowerCase()}/TestConfiguration.kt`,
+        `libs/${libName}/src/test/kotlin/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/HelloServiceTests.kt`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good informations
     const pomXml = readFile(`libs/${libName}/pom.xml`);
-    expect(pomXml.includes('org.acme')).toBeTruthy();
+    expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
@@ -743,24 +786,27 @@ describe('nx-micronaut-maven e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-micronaut-maven:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId org.jnxplus --projectVersion 1.2.3`
+      `generate @jnxplus/nx-micronaut-maven:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libDir}/${randomName}/pom.xml`,
-        `libs/${libDir}/${randomName}/src/main/java/org/jnxplus/deep/subdir/${names(
+        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/GreetingService.java`,
-        `libs/${libDir}/${randomName}/src/test/java/org/jnxplus/deep/subdir/${names(
+        ).className.toLocaleLowerCase()}/HelloService.java`,
+        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
+        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
+        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good information
     const pomXml = readFile(`libs/${libDir}/${randomName}/pom.xml`);
-    expect(pomXml.includes('org.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
@@ -802,24 +848,27 @@ describe('nx-micronaut-maven e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-micronaut-maven:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId org.jnxplus --simplePackageName --projectVersion 1.2.3`
+      `generate @jnxplus/nx-micronaut-maven:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3`
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libDir}/${randomName}/pom.xml`,
-        `libs/${libDir}/${randomName}/src/main/java/org/jnxplus/${names(
+        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName
-        ).className.toLocaleLowerCase()}/GreetingService.java`,
-        `libs/${libDir}/${randomName}/src/test/java/org/jnxplus/${names(
+        ).className.toLocaleLowerCase()}/HelloService.java`,
+        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
           randomName
-        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
+        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
+        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good informations
     const pomXml = readFile(`libs/${libDir}/${randomName}/pom.xml`);
-    expect(pomXml.includes('org.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
@@ -861,24 +910,27 @@ describe('nx-micronaut-maven e2e', () => {
     const libName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-micronaut-maven:lib ${randomName} --dir ${libDir} --t e2etag,e2ePackage --groupId org.jnxplus --v 1.2.3`
+      `g @jnxplus/nx-micronaut-maven:lib ${randomName} --dir ${libDir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libDir}/${randomName}/pom.xml`,
-        `libs/${libDir}/${randomName}/src/main/java/org/jnxplus/subdir/${names(
+        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/GreetingService.java`,
-        `libs/${libDir}/${randomName}/src/test/java/org/jnxplus/subdir/${names(
+        ).className.toLocaleLowerCase()}/HelloService.java`,
+        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
+        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
+        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good information
     const pomXml = readFile(`libs/${libDir}/${randomName}/pom.xml`);
-    expect(pomXml.includes('org.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
@@ -930,28 +982,28 @@ describe('nx-micronaut-maven e2e', () => {
     const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes(`${libName}`)).toBeTruthy();
 
-    const greetingResourcePath = `apps/${appName}/src/main/java/org/acme/${names(
+    const helloControllerPath = `apps/${appName}/src/main/java/com/example/${names(
       appName
-    ).className.toLocaleLowerCase()}/GreetingResource.java`;
-    const greetingResourceContent = readFile(greetingResourcePath);
+    ).className.toLocaleLowerCase()}/HelloController.java`;
+    const helloControllerContent = readFile(helloControllerPath);
 
-    const regex1 = /package\s*org\.acme\..*\s*;/;
+    const regex1 = /package\s*com\.example\..*\s*;/;
 
-    const regex2 = /public\s*class\s*GreetingResource\s*{/;
+    const regex2 = /public\s*class\s*HelloController\s*{/;
 
     const regex3 = /"Hello World!"/;
 
-    const newGreetingResourceContent = greetingResourceContent
+    const newHelloControllerContent = helloControllerContent
       .replace(
         regex1,
-        `$&\nimport jakarta.inject.Inject;\nimport org.acme.${names(
+        `$&\nimport org.springframework.beans.factory.annotation.Autowired;\nimport com.example.${names(
           libName
-        ).className.toLocaleLowerCase()}.GreetingService;`
+        ).className.toLocaleLowerCase()}.HelloService;`
       )
-      .replace(regex2, '$&\n@Inject\nGreetingService service;')
-      .replace(regex3, 'service.greeting()');
+      .replace(regex2, '$&\n@Autowired\nprivate HelloService helloService;')
+      .replace(regex3, 'this.helloService.message()');
 
-    updateFile(greetingResourcePath, newGreetingResourceContent);
+    updateFile(helloControllerPath, newHelloControllerContent);
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
@@ -962,7 +1014,7 @@ describe('nx-micronaut-maven e2e', () => {
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`
     );
-    expect(formatResult.stdout).toContain('GreetingResource.java');
+    expect(formatResult.stdout).toContain('HelloController.java');
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -996,39 +1048,47 @@ describe('nx-micronaut-maven e2e', () => {
     const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-micronaut-maven:application ${appName} --language kotlin`
+      `generate @jnxplus/nx-micronaut-maven:application ${appName} --language kotlin --packaging war`
     );
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-micronaut-maven:library ${libName} --language kotlin --projects ${appName}`
     );
 
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/src/main/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/ServletInitializer.kt`
+      )
+    ).not.toThrow();
+
     // Making sure the app pom.xml file contains the lib
     const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes(`${libName}`)).toBeTruthy();
 
-    const greetingResourcePath = `apps/${appName}/src/main/kotlin/org/acme/${names(
+    const helloControllerPath = `apps/${appName}/src/main/kotlin/com/example/${names(
       appName
-    ).className.toLocaleLowerCase()}/GreetingResource.kt`;
-    const greetingResourceContent = readFile(greetingResourcePath);
+    ).className.toLocaleLowerCase()}/HelloController.kt`;
+    const helloControllerContent = readFile(helloControllerPath);
 
-    const regex1 = /package\s*org\.acme\..*/;
+    const regex1 = /package\s*com\.example\..*/;
 
-    const regex2 = /class\s*GreetingResource/;
+    const regex2 = /class\s*HelloController/;
 
     const regex3 = /"Hello World!"/;
 
-    const newGreetingResourceContent = greetingResourceContent
+    const newHelloControllerContent = helloControllerContent
       .replace(
         regex1,
-        `$&\nimport org.acme.${names(
+        `$&\nimport org.springframework.beans.factory.annotation.Autowired\nimport com.example.${names(
           libName
-        ).className.toLocaleLowerCase()}.GreetingService`
+        ).className.toLocaleLowerCase()}.HelloService`
       )
-      .replace(regex2, '$&(private val greetingService: GreetingService)')
-      .replace(regex3, 'greetingService.greeting()');
+      .replace(regex2, '$&(@Autowired val helloService: HelloService)')
+      .replace(regex3, 'helloService.message()');
 
-    updateFile(greetingResourcePath, newGreetingResourceContent);
+    updateFile(helloControllerPath, newHelloControllerContent);
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
@@ -1466,32 +1526,41 @@ describe('nx-micronaut-maven e2e', () => {
     });
   }, 120000);
 
-  it('should create an application with simple name', async () => {
+  it('should create an application with a simple name', async () => {
     const appName = uniq('micronaut-maven-app-');
     const appDir = 'deep/subdir';
     const port = 8686;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-micronaut-maven:application ${appName} --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId org.jnxplus --projectVersion 1.2.3 --configFormat .yml --port ${port}`
+      `generate @jnxplus/nx-micronaut-maven:application ${appName} --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`
     );
 
     expect(() =>
       checkFilesExist(
         `apps/${appDir}/${appName}/pom.xml`,
         `apps/${appDir}/${appName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${appName}/src/main/java/org/jnxplus/deep/subdir/${names(
+        `apps/${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
           appName
-        ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `apps/${appDir}/${appName}/src/test/java/org/jnxplus/deep/subdir/${names(
+        ).className.toLocaleLowerCase()}/${
+          names(appName).className
+        }Application.java`,
+        `apps/${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
           appName
-        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
+        ).className.toLocaleLowerCase()}/HelloController.java`,
+
+        `apps/${appDir}/${appName}/src/test/resources/application.yml`,
+        `apps/${appDir}/${appName}/src/test/java/com/jnxplus/deep/subdir/${names(
+          appName
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good informations
     const pomXml = readFile(`apps/${appDir}/${appName}/pom.xml`);
-    expect(pomXml.includes('org.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
+    expect(pomXml.includes('war')).toBeTruthy();
+    expect(pomXml.includes('spring-micronaut-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${appName}/project.json`);
@@ -1528,11 +1597,11 @@ describe('nx-micronaut-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(
-      `serve ${appName} --args="-Dmicronaut-profile=prod"`,
-      (output) => output.includes(`Listening on: http://localhost:${port}`)
+      `serve ${appName} --args="-Dspring-micronaut.run.profiles=test"`,
+      (output) => output.includes(`Tomcat started on port(s): ${port}`)
     );
 
-    const dataResult = await getData(port, '/hello');
+    const dataResult = await getData(port);
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -1550,24 +1619,27 @@ describe('nx-micronaut-maven e2e', () => {
     const libDir = 'deep/subdir';
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-micronaut-maven:library ${libName} --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId org.jnxplus --projectVersion 1.2.3`
+      `generate @jnxplus/nx-micronaut-maven:library ${libName} --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libDir}/${libName}/pom.xml`,
-        `libs/${libDir}/${libName}/src/main/java/org/jnxplus/deep/subdir/${names(
+        `libs/${libDir}/${libName}/src/main/java/com/jnxplus/deep/subdir/${names(
           libName
-        ).className.toLocaleLowerCase()}/GreetingService.java`,
-        `libs/${libDir}/${libName}/src/test/java/org/jnxplus/deep/subdir/${names(
+        ).className.toLocaleLowerCase()}/HelloService.java`,
+        `libs/${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
           libName
-        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
+        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
+        `libs/${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
+          libName
+        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good information
     const pomXml = readFile(`libs/${libDir}/${libName}/pom.xml`);
-    expect(pomXml.includes('org.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
@@ -1603,66 +1675,108 @@ describe('nx-micronaut-maven e2e', () => {
     });
   }, 120000);
 
-  it('should skip starter code when generating a java application with skipStarterCode option', async () => {
+  it('should create a minimal java application', async () => {
     const appName = uniq('micronaut-maven-app-');
+    const port = 8787;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-micronaut-maven:application ${appName} --skipStarterCode`
+      `generate @jnxplus/nx-micronaut-maven:application ${appName} --minimal --port ${port}`
     );
 
     expect(() =>
       checkFilesExist(
         `apps/${appName}/pom.xml`,
+        `apps/${appName}/src/main/java/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/${
+          names(appName).className
+        }Application.java`,
         `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/java/.gitkeep`,
-        `apps/${appName}/src/test/java/.gitkeep`
+        `apps/${appName}/src/test/java/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/${
+          names(appName).className
+        }ApplicationTests.java`
       )
     ).not.toThrow();
 
     expect(() =>
-      checkFilesDoNotExist(
-        `apps/${appName}/src/main/java/org/acme/${names(
+      checkFilesExist(
+        `apps/${appName}/src/main/java/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `apps/${appName}/src/test/java/org/acme/${names(
+        ).className.toLocaleLowerCase()}/HelloController.java`,
+        `apps/${appName}/src/test/resources/application.properties`,
+        `apps/${appName}/src/test/java/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
-        `apps/${appName}/src/native-test/java/org/acme/${names(
-          appName
-        ).className.toLocaleLowerCase()}/GreetingResourceIT.java`
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`
       )
-    ).not.toThrow();
+    ).toThrow();
+
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Tomcat started on port(s): ${port}`)
+    );
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(port);
+    } catch (err) {
+      // ignore err
+    }
   }, 120000);
 
-  it('should skip starter code when generating a kotlin application with skipStarterCode option', async () => {
+  it('should create a minimal kotlin application', async () => {
     const appName = uniq('micronaut-maven-app-');
+    const port = 8888;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-micronaut-maven:application ${appName} --language kotlin --skipStarterCode`
+      `generate @jnxplus/nx-micronaut-maven:application ${appName} --language kotlin --minimal --port ${port}`
     );
 
     expect(() =>
       checkFilesExist(
         `apps/${appName}/pom.xml`,
         `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/kotlin/.gitkeep`,
-        `apps/${appName}/src/test/kotlin/.gitkeep`
+        `apps/${appName}/src/main/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/${
+          names(appName).className
+        }Application.kt`,
+        `apps/${appName}/src/test/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/${
+          names(appName).className
+        }ApplicationTests.kt`
       )
     ).not.toThrow();
 
     expect(() =>
-      checkFilesDoNotExist(
-        `apps/${appName}/src/main/kotlin/org/acme/${names(
+      checkFilesExist(
+        `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/GreetingResource.kt`,
-        `apps/${appName}/src/test/kotlin/org/acme/${names(
+        ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
+        `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`,
-        `apps/${appName}/src/native-test/kotlin/org/acme/${names(
+        ).className.toLocaleLowerCase()}/HelloController.kt`,
+        `apps/${appName}/src/test/resources/application.properties`,
+
+        `apps/${appName}/src/test/kotlin/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/GreetingResourceIT.kt`
+        ).className.toLocaleLowerCase()}/HelloControllerTest.kt`
       )
-    ).not.toThrow();
+    ).toThrow();
+
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Tomcat started on port(s): ${port}`)
+    );
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(port);
+    } catch (err) {
+      // ignore err
+    }
   }, 120000);
 
   it('should skip starter code when generating a java library with skipStarterCode option', async () => {
@@ -1672,24 +1786,21 @@ describe('nx-micronaut-maven e2e', () => {
       `generate @jnxplus/nx-micronaut-maven:library ${libName} --skipStarterCode`
     );
 
-    expect(() =>
-      checkFilesExist(
-        `libs/${libName}/pom.xml`,
-        `libs/${libName}/src/main/java/.gitkeep`,
-        `libs/${libName}/src/test/java/.gitkeep`
-      )
-    ).not.toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/pom.xml`)).not.toThrow();
 
     expect(() =>
-      checkFilesDoNotExist(
-        `libs/${libName}/src/main/java/org/acme/${names(
+      checkFilesExist(
+        `libs/${libName}/src/main/java/com/example/${names(
           libName
-        ).className.toLocaleLowerCase()}/GreetingService.java`,
-        `libs/${libName}/src/test/java/org/acme/${names(
+        ).className.toLocaleLowerCase()}/HelloService.java`,
+        `libs/${libName}/src/test/java/com/example/${names(
           libName
-        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
+        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
+        `libs/${libName}/src/test/java/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
-    ).not.toThrow();
+    ).toThrow();
   }, 120000);
 
   it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
@@ -1699,24 +1810,68 @@ describe('nx-micronaut-maven e2e', () => {
       `generate @jnxplus/nx-micronaut-maven:library ${libName} --language kotlin --skipStarterCode`
     );
 
-    expect(() =>
-      checkFilesExist(
-        `libs/${libName}/pom.xml`,
-        `libs/${libName}/src/main/kotlin/.gitkeep`,
-        `libs/${libName}/src/test/kotlin/.gitkeep`
-      )
-    ).not.toThrow();
+    expect(() => checkFilesExist(`libs/${libName}/pom.xml`)).not.toThrow();
 
     expect(() =>
-      checkFilesDoNotExist(
-        `libs/${libName}/src/main/kotlin/org/acme/${names(
+      checkFilesExist(
+        `libs/${libName}/src/main/kotlin/com/example/${names(
           libName
-        ).className.toLocaleLowerCase()}/GreetingService.kt`,
-        `libs/${libName}/src/test/kotlin/org/acme/${names(
+        ).className.toLocaleLowerCase()}/HelloService.kt`,
+        `apps/${libName}/src/test/resources/junit-platform.properties`,
+        `libs/${libName}/src/test/kotlin/com/example/${names(
           libName
-        ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`
+        ).className.toLocaleLowerCase()}/TestConfiguration.kt`,
+        `libs/${libName}/src/test/kotlin/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/HelloServiceTests.kt`
       )
-    ).not.toThrow();
+    ).toThrow();
+  }, 120000);
+
+  it('should generate java app inside a parent project', async () => {
+    const parentProject = uniq('parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-micronaut-maven:parent-project ${parentProject}`
+    );
+
+    const randomName = uniq('micronaut-maven-app-');
+    const appName = `${parentProject}-${randomName}`;
+    const port = 8989;
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-micronaut-maven:application ${randomName} --parent-project ${parentProject} --directory ${parentProject} --port ${port}`
+    );
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: parentProject,
+    });
+
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Tomcat started on port(s): ${port}`)
+    );
+
+    const dataResult = await getData(port);
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(port);
+    } catch (err) {
+      // ignore err
+    }
   }, 120000);
 
   it('should generate java nested sub-projects', async () => {
