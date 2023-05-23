@@ -25,8 +25,8 @@ group '<%= groupId %>'
 version '<%= projectVersion %>'
 
 java {
-    sourceCompatibility = "$javaVersion"
-    targetCompatibility = "$javaVersion"
+    sourceCompatibility = "${javaVersion}"
+    targetCompatibility = "${javaVersion}"
 }
 
 test {

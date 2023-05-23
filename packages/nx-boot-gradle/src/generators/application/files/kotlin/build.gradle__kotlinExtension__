@@ -13,7 +13,7 @@ plugins {
 
 group = '<%= groupId %>'
 version = '<%= projectVersion %>'
-sourceCompatibility = "$javaVersion"
+sourceCompatibility = "${javaVersion}"
 
 repositories {
   mavenCentral()
@@ -33,7 +33,7 @@ dependencies {
 tasks.withType(KotlinCompile) {
   kotlinOptions {
     freeCompilerArgs = ['-Xjsr305=strict']
-    jvmTarget = "$javaVersion"
+    jvmTarget = "${javaVersion}"
   }
 }
 

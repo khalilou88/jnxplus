@@ -26,8 +26,8 @@ group '<%= groupId %>'
 version '<%= projectVersion %>'
 
 java {
-    sourceCompatibility = "$javaVersion"
-    targetCompatibility = "$javaVersion"
+    sourceCompatibility = "${javaVersion}"
+    targetCompatibility = "${javaVersion}"
 }
 
 test {
@@ -41,12 +41,12 @@ allOpen {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = "$javaVersion"
+    kotlinOptions.jvmTarget = "${javaVersion}"
     kotlinOptions.javaParameters = true
 }
 
 compileTestKotlin {
-    kotlinOptions.jvmTarget = "$javaVersion"
+    kotlinOptions.jvmTarget = "${javaVersion}"
 }
 <% } -%>
 <% if(dsl === 'kotlin') { -%>

@@ -1,14 +1,14 @@
 <% if(dsl === 'groovy') { -%>
 pluginManagement {
-    repositories {
-        mavenCentral()
-        gradlePluginPortal()
-        mavenLocal()
-    }
     plugins {
         id "${quarkusPluginId}" version "${quarkusPluginVersion}"
         id "org.jetbrains.kotlin.jvm" version "${kotlinJvmVersion}"
         id "org.jetbrains.kotlin.plugin.allopen" version "${kotlinPluginAllopenVersion}"
+    }
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+        mavenLocal()
     }
 }
 rootProject.name = '<%= rootProjectName %>'
@@ -19,16 +19,15 @@ pluginManagement {
     val quarkusPluginId: String by settings
     val kotlinJvmVersion: String by settings
     val kotlinPluginAllopenVersion: String by settings
-
-    repositories {
-        mavenCentral()
-        gradlePluginPortal()
-        mavenLocal()
-    }
     plugins {
         id(quarkusPluginId) version quarkusPluginVersion
         kotlin("jvm") version kotlinJvmVersion
         kotlin("plugin.allopen") version kotlinPluginAllopenVersion
+    }
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+        mavenLocal()
     }
 }
 rootProject.name = "<%= rootProjectName %>"
