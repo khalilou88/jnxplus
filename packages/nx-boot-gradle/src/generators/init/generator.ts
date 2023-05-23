@@ -25,6 +25,7 @@ interface NormalizedSchema extends NxBootGradleGeneratorSchema {
   checkstyleVersion: string;
   ktlintVersion: string;
   jnxplusGradlePluginVersion: string;
+  generateRepositories: boolean;
 }
 
 function normalizeOptions(
@@ -32,6 +33,8 @@ function normalizeOptions(
   options: NxBootGradleGeneratorSchema
 ): NormalizedSchema {
   const kotlinExtension = options.dsl === 'kotlin' ? '.kts' : '';
+
+  const generateRepositories = process.env['NODE_ENV'] === 'test';
 
   return {
     ...options,
@@ -43,6 +46,7 @@ function normalizeOptions(
     checkstyleVersion,
     ktlintVersion,
     jnxplusGradlePluginVersion,
+    generateRepositories,
   };
 }
 

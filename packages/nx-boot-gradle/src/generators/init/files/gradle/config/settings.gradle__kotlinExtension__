@@ -7,11 +7,13 @@ pluginManagement {
     id 'org.jetbrains.kotlin.plugin.spring' version "${kotlinSpringVersion}"
     id 'io.github.jnxplus' version "${jnxplusGradlePluginVersion}"
   }
+<% if(generateRepositories) { -%>
   repositories {
     mavenCentral()
     gradlePluginPortal()
     mavenLocal()
   }
+<% } -%>
 }
 rootProject.name = '<%= rootProjectName %>'
 <% } -%>
@@ -29,11 +31,13 @@ pluginManagement {
     id("org.jetbrains.kotlin.plugin.spring") version kotlinSpringVersion
     id("io.github.jnxplus") version jnxplusGradlePluginVersion
   }
+<% if(generateRepositories) { -%>
   repositories {
     mavenCentral()
     gradlePluginPortal()
     mavenLocal()
   }
+<% } -%>
 }
 rootProject.name = "<%= rootProjectName %>"
 <% } -%>

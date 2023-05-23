@@ -24,6 +24,7 @@ interface NormalizedSchema extends NxQuarkusGradleGeneratorSchema {
   checkstyleVersion: string;
   ktlintVersion: string;
   jnxplusGradlePluginVersion: string;
+  generateRepositories: boolean;
 }
 
 function normalizeOptions(
@@ -31,6 +32,8 @@ function normalizeOptions(
   options: NxQuarkusGradleGeneratorSchema
 ): NormalizedSchema {
   const kotlinExtension = options.dsl === 'kotlin' ? '.kts' : '';
+
+  const generateRepositories = process.env['NODE_ENV'] === 'test';
 
   return {
     ...options,
@@ -42,6 +45,7 @@ function normalizeOptions(
     checkstyleVersion,
     ktlintVersion,
     jnxplusGradlePluginVersion,
+    generateRepositories,
   };
 }
 

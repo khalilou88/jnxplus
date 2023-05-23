@@ -6,11 +6,13 @@ pluginManagement {
     id "org.jetbrains.kotlin.plugin.allopen" version "${kotlinPluginAllopenVersion}"
     id "io.github.jnxplus" version "${jnxplusGradlePluginVersion}"
   }
+<% if(generateRepositories) { -%>
   repositories {
     mavenCentral()
     gradlePluginPortal()
     mavenLocal()
   }
+<% } -%>
 }
 rootProject.name = '<%= rootProjectName %>'
 <% } -%>
@@ -27,11 +29,13 @@ pluginManagement {
     kotlin("plugin.allopen") version kotlinPluginAllopenVersion
     id("io.github.jnxplus") version jnxplusGradlePluginVersion
   }
+<% if(generateRepositories) { -%>
   repositories {
     mavenCentral()
     gradlePluginPortal()
     mavenLocal()
   }
+<% } -%>
 }
 rootProject.name = "<%= rootProjectName %>"
 <% } -%>
