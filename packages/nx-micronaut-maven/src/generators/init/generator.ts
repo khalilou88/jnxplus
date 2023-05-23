@@ -9,31 +9,31 @@ import {
 import * as path from 'path';
 import {
   checkstyleVersion,
-  quarkusKotlinVersion,
+  micronautVersion,
   ktlintVersion,
-  quarkusPlatformVersion,
+  micronautKotlinVersion,
 } from '@jnxplus/common';
-import { NxQuarkusMavenGeneratorSchema } from './schema';
+import { NxMicronautMavenGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends NxQuarkusMavenGeneratorSchema {
+interface NormalizedSchema extends NxMicronautMavenGeneratorSchema {
   dot: string;
   kotlinVersion: string;
-  quarkusVersion: string;
+  micronautVersion: string;
   checkstyleVersion: string;
   ktlintVersion: string;
 }
 
 function normalizeOptions(
   tree: Tree,
-  options: NxQuarkusMavenGeneratorSchema
+  options: NxMicronautMavenGeneratorSchema
 ): NormalizedSchema {
   const dot = '.';
 
   return {
     ...options,
     dot,
-    kotlinVersion: quarkusKotlinVersion,
-    quarkusVersion: quarkusPlatformVersion,
+    kotlinVersion: micronautKotlinVersion,
+    micronautVersion,
     checkstyleVersion,
     ktlintVersion,
   };
@@ -67,7 +67,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
 
 export default async function (
   tree: Tree,
-  options: NxQuarkusMavenGeneratorSchema
+  options: NxMicronautMavenGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);

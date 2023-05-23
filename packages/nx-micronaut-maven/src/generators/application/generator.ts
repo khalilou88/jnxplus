@@ -14,9 +14,9 @@ import { XmlDocument } from 'xmldoc';
 import { normalizeName } from '@jnxplus/common';
 import { LinterType } from '@jnxplus/common';
 import { readXmlTree, xmlToString } from '@jnxplus/maven';
-import { NxQuarkusMavenAppGeneratorSchema } from './schema';
+import { NxMicronautMavenAppGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends NxQuarkusMavenAppGeneratorSchema {
+interface NormalizedSchema extends NxMicronautMavenAppGeneratorSchema {
   projectName: string;
   projectRoot: string;
   projectDirectory: string;
@@ -36,7 +36,7 @@ interface NormalizedSchema extends NxQuarkusMavenAppGeneratorSchema {
 
 function normalizeOptions(
   tree: Tree,
-  options: NxQuarkusMavenAppGeneratorSchema
+  options: NxMicronautMavenAppGeneratorSchema
 ): NormalizedSchema {
   const simpleProjectName = names(normalizeName(options.name)).fileName;
 
@@ -189,7 +189,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
 
 export default async function (
   tree: Tree,
-  options: NxQuarkusMavenAppGeneratorSchema
+  options: NxMicronautMavenAppGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
 

@@ -1,4 +1,4 @@
-export interface NxQuarkusMavenGeneratorSchema {
+export interface NxMicronautMavenGeneratorSchema {
   javaVersion: string | number;
   groupId: string;
   parentProjectName: string;

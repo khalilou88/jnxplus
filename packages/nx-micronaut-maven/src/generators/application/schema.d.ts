@@ -1,6 +1,6 @@
 import { LanguageType } from '@jnxplus/common';
 
-export interface NxQuarkusMavenAppGeneratorSchema {
+export interface NxMicronautMavenAppGeneratorSchema {
   name: string;
   tags?: string;
   directory?: string;

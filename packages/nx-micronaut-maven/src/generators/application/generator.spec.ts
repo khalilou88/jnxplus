@@ -1,11 +1,11 @@
 import { readProjectConfiguration, Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { NxQuarkusMavenAppGeneratorSchema } from './schema';
+import { NxMicronautMavenAppGeneratorSchema } from './schema';
 import generator from './generator';
 
 describe('application generator', () => {
   let appTree: Tree;
-  const options: NxQuarkusMavenAppGeneratorSchema = {
+  const options: NxMicronautMavenAppGeneratorSchema = {
     name: 'test',
     language: 'java',
     groupId: 'com.example',
@@ -22,11 +22,10 @@ describe('application generator', () => {
       './pom.xml',
       `<project>
         <groupId>com.example</groupId>
-        <artifactId>quarkus-multi-module</artifactId>
+        <artifactId>micronaut-multi-module</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <properties>
           <kotlin.version>1.7.22</kotlin.version>
-          <quarkus.platform.version>2.16.6.Final</quarkus.platform.version>
         </properties>
         <modules></modules>
       </project>`

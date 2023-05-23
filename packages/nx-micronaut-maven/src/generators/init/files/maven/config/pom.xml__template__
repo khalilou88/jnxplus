@@ -10,12 +10,12 @@
   <parent>
     <groupId>io.micronaut.platform</groupId>
     <artifactId>micronaut-parent</artifactId>
-    <version>4.0.0-M2</version>
+    <version><%= micronautVersion %></version>
   </parent>
 
   <properties>
+    <java.version><%= javaVersion %></java.version>
     <kotlin.version><%= kotlinVersion %></kotlin.version>
-    <maven.compiler.release><%= javaVersion %></maven.compiler.release>
     <checkstyle.version><%= checkstyleVersion %></checkstyle.version>
     <ktlint.version><%= ktlintVersion %></ktlint.version>
   </properties>

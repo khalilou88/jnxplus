@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "NxQuarkusMavenInit",
+  "$id": "NxMicronautMavenInit",
   "title": "Init",
   "type": "object",
   "properties": {
@@ -32,12 +32,12 @@
     },
     "groupId": {
       "type": "string",
-      "default": "org.acme",
+      "default": "com.example",
       "x-prompt": "What groupId would you like to use?"
     },
     "parentProjectName": {
       "type": "string",
-      "default": "quarkus-parent-project",
+      "default": "micronaut-parent-project",
       "x-prompt": "What parentProjectName would you like to use?",
       "pattern": "^[a-zA-Z].*$"
     },
