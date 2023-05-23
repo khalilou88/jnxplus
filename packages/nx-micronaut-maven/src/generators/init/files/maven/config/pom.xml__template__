@@ -14,6 +14,7 @@
   </parent>
 
   <properties>
+    <micronaut.version><%= micronautVersion %></micronaut.version>
     <java.version><%= javaVersion %></java.version>
     <kotlin.version><%= kotlinVersion %></kotlin.version>
     <checkstyle.version><%= checkstyleVersion %></checkstyle.version>
