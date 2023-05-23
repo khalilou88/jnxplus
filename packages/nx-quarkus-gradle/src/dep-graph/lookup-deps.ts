@@ -1,6 +1,5 @@
 import { addProjectsAndDependencies } from '@jnxplus/gradle';
 import {
-  Hasher,
   ProjectGraph,
   ProjectGraphBuilder,
   ProjectGraphProcessorContext,
@@ -11,7 +10,6 @@ export function processProjectGraph(
   context: ProjectGraphProcessorContext
 ): ProjectGraph {
   const builder = new ProjectGraphBuilder(graph);
-  const hasher = new Hasher(graph, context.nxJsonConfiguration, {});
-  addProjectsAndDependencies(builder, hasher, '@jnxplus/nx-quarkus-gradle');
+  addProjectsAndDependencies(builder, '@jnxplus/nx-quarkus-gradle');
   return builder.getUpdatedProjectGraph();
 }
