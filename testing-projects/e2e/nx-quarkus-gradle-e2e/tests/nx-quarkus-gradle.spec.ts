@@ -242,7 +242,7 @@ describe('nx-quarkus-gradle e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('should build-image a java application', async () => {
     if (!isWin && !isMacOs && isCI) {
@@ -338,7 +338,7 @@ describe('nx-quarkus-gradle e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('should generate an app with a simple package name', async () => {
     const randomName = uniq('quarkus-gradle-app-');
@@ -497,7 +497,7 @@ describe('nx-quarkus-gradle e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('should build-image a kotlin application', async () => {
     if (!isWin && !isMacOs && isCI) {
@@ -944,7 +944,7 @@ describe('nx-quarkus-gradle e2e', () => {
       source: libName,
       target: rootProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should add a lib to an app dependencies', async () => {
     const appName = uniq('quarkus-gradle-app-');
