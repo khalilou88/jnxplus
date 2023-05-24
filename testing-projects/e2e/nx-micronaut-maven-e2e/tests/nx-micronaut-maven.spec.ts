@@ -222,7 +222,7 @@ describe('nx-micronaut-maven e2e', () => {
       output.includes(`Tomcat started on port(s): 8080`)
     );
 
-    const dataResult = await getData();
+    const dataResult = await getData(8080, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -321,7 +321,7 @@ describe('nx-micronaut-maven e2e', () => {
       (output) => output.includes(`Tomcat started on port(s): ${port}`)
     );
 
-    const dataResult = await getData(port);
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -404,7 +404,7 @@ describe('nx-micronaut-maven e2e', () => {
       output.includes(`Tomcat started on port(s): ${port}`)
     );
 
-    const dataResult = await getData(port);
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -501,7 +501,7 @@ describe('nx-micronaut-maven e2e', () => {
       (output) => output.includes(`Tomcat started on port(s): ${port}`)
     );
 
-    const dataResult = await getData(port);
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -585,7 +585,7 @@ describe('nx-micronaut-maven e2e', () => {
       (output) => output.includes(`Tomcat started on port(s): ${port}`)
     );
 
-    const dataResult = await getData(port);
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -625,7 +625,7 @@ describe('nx-micronaut-maven e2e', () => {
       output.includes(`Tomcat started on port(s): ${port}`)
     );
 
-    const dataResult = await getData(port);
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -1562,7 +1562,7 @@ describe('nx-micronaut-maven e2e', () => {
       (output) => output.includes(`Tomcat started on port(s): ${port}`)
     );
 
-    const dataResult = await getData(port);
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -1810,7 +1810,7 @@ describe('nx-micronaut-maven e2e', () => {
       output.includes(`Tomcat started on port(s): ${port}`)
     );
 
-    const dataResult = await getData(port);
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
