@@ -13,15 +13,22 @@ on:
         type: choice
         description: Build Tool
         options:
-        - maven
-        - gradle
-        - gradle-kt
+          - maven
+          - gradle
+          - gradle-kt
+      os:
+        type: choice
+        description: Os
+        options:
+          - ubuntu-latest
+          - macOS-latest
+          - windows-latest
 
 jobs:
   Run_checks:
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [${{ github.event.inputs.os }}]
         node_version: ['18']
         java: ['17']
       fail-fast: true
