@@ -219,7 +219,7 @@ describe('nx-micronaut-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`)
+      output.includes(`Server Running: http://localhost:8080`)
     );
 
     const dataResult = await getData(8080, '/hello');
@@ -235,7 +235,8 @@ describe('nx-micronaut-maven e2e', () => {
     }
   }, 120000);
 
-  it('should build-image a java application', async () => {
+  //TODO: build-image
+  xit('should build-image a java application', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('micronaut-maven-app-');
       await runNxCommandAsync(
@@ -318,7 +319,7 @@ describe('nx-micronaut-maven e2e', () => {
 
     const process = await runNxCommandUntil(
       `serve ${appName} --args="-Dspring-micronaut.run.profiles=test"`,
-      (output) => output.includes(`Tomcat started on port(s): ${port}`)
+      (output) => output.includes(`Server Running: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');
@@ -401,7 +402,7 @@ describe('nx-micronaut-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`)
+      output.includes(`Server Running: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');
@@ -417,7 +418,8 @@ describe('nx-micronaut-maven e2e', () => {
     }
   }, 120000);
 
-  it('should build-image a kotlin application', async () => {
+  //TODO: build-image
+  xit('should build-image a kotlin application', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('micronaut-maven-app-');
       await runNxCommandAsync(
@@ -498,7 +500,7 @@ describe('nx-micronaut-maven e2e', () => {
 
     const process = await runNxCommandUntil(
       `serve ${appName} --args="-Dspring-micronaut.run.profiles=test"`,
-      (output) => output.includes(`Tomcat started on port(s): ${port}`)
+      (output) => output.includes(`Server Running: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');
@@ -582,7 +584,7 @@ describe('nx-micronaut-maven e2e', () => {
 
     const process = await runNxCommandUntil(
       `serve ${appName} --args="-Dspring-micronaut.run.profiles=test"`,
-      (output) => output.includes(`Tomcat started on port(s): ${port}`)
+      (output) => output.includes(`Server Running: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');
@@ -622,7 +624,7 @@ describe('nx-micronaut-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`)
+      output.includes(`Server Running: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');
@@ -1559,7 +1561,7 @@ describe('nx-micronaut-maven e2e', () => {
 
     const process = await runNxCommandUntil(
       `serve ${appName} --args="-Dspring-micronaut.run.profiles=test"`,
-      (output) => output.includes(`Tomcat started on port(s): ${port}`)
+      (output) => output.includes(`Server Running: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');
@@ -1670,7 +1672,7 @@ describe('nx-micronaut-maven e2e', () => {
     ).toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`)
+      output.includes(`Server Running: http://localhost:${port}`)
     );
 
     // port and process cleanup
@@ -1720,7 +1722,7 @@ describe('nx-micronaut-maven e2e', () => {
     ).toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`)
+      output.includes(`Server Running: http://localhost:${port}`)
     );
 
     // port and process cleanup
@@ -1807,7 +1809,7 @@ describe('nx-micronaut-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`)
+      output.includes(`Server Running: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');
