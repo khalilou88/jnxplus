@@ -136,14 +136,14 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/main/${options.language}/${options.packageDirectory}/GreetingService.${fileExtension}`
+        `/src/main/${options.language}/${options.packageDirectory}/HelloService.${fileExtension}`
       )
     );
 
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/test/${options.language}/${options.packageDirectory}/GreetingServiceTest.${fileExtension}`
+        `/src/test/${options.language}/${options.packageDirectory}/HelloServiceTest.${fileExtension}`
       )
     );
   } else {

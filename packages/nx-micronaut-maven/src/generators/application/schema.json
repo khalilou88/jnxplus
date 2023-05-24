@@ -88,8 +88,8 @@
       "type": "string",
       "description": "ArtifactId of the parent project or leave it blank for the root project"
     },
-    "skipStarterCode": {
-      "description": "Skip starter code",
+    "minimal": {
+      "description": "Generate an app with a minimal setup",
       "type": "boolean",
       "default": false
     },

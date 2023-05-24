@@ -11,6 +11,6 @@ export interface NxMicronautMavenAppGeneratorSchema {
   projectVersion: string;
   configFormat: '.properties' | '.yml';
   parentProject?: string;
-  skipStarterCode?: boolean;
+  minimal?: boolean;
   port?: string | number;
 }

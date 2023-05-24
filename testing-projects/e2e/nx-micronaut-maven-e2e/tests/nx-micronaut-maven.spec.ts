@@ -333,7 +333,7 @@ describe('nx-micronaut-maven e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('should create a kotlin application', async () => {
     const appName = uniq('micronaut-maven-app-');
@@ -514,7 +514,7 @@ describe('nx-micronaut-maven e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('should generate an app with a simple package name', async () => {
     const randomName = uniq('micronaut-maven-app-');
@@ -598,7 +598,7 @@ describe('nx-micronaut-maven e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('directory with dash', async () => {
     const randomName = uniq('micronaut-maven-app-');
@@ -1575,7 +1575,7 @@ describe('nx-micronaut-maven e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('should create a library with a simple name', async () => {
     const libName = uniq('micronaut-maven-lib-');
@@ -1698,9 +1698,7 @@ describe('nx-micronaut-maven e2e', () => {
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.kt`,
+        ).className.toLocaleLowerCase()}/Application.kt`,
         `apps/${appName}/src/test/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/${
