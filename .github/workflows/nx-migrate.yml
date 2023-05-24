@@ -3,8 +3,7 @@ name: Nx migrate
 on:
   workflow_dispatch:
   schedule:
-    # Every day at 6am UTC
-    - cron: '0 6 * * *'
+    - cron: '0 4 * * *'
 
 jobs:
   nx-migrate:
@@ -95,18 +94,15 @@ jobs:
           NX_VERBOSE_LOGGING: 'true'
           GITHUB_ACTIONS: 'true'
 
-      # - name: Push changes
-      #   if: steps.nx-workspace-outdated.outputs.outdated == 'true' && steps.e2e.outcome == 'success'
-      #   uses: ad-m/github-push-action@master
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     branch: ${{ github.ref }}
-      #     force: true
-      #     tags: true
+      - name: Push changes
+        if: steps.nx-workspace-outdated.outputs.outdated == 'true' && steps.e2e.outcome == 'success'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
 
       - name: Create PR
-        # if: steps.nx-workspace-outdated.outputs.outdated == 'true' && steps.e2e.outcome != 'success'
-        if: steps.nx-workspace-outdated.outputs.outdated == 'true' #TODO change condition after tests
+        if: steps.nx-workspace-outdated.outputs.outdated == 'true' && steps.e2e.outcome != 'success'
         run: |
           LAST_VERSION=$(npm view @nx/workspace version)
           BRANCH="update-nx-${LAST_VERSION}-${{ github.run_id }}-${{ github.run_attempt }}"

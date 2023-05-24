@@ -4,14 +4,14 @@ on:
   # Trigger manually or on schedule
   workflow_dispatch:
   schedule:
-    - cron: '0 4 * * *'
+    - cron: '0 6 * * *'
 
 jobs:
   Run_checks:
     name: E2e Tests
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+        os: [ubuntu-latest, macOS-latest, windows-latest]
         node_version: ['16', '18']
         java: ['17']
       fail-fast: false
@@ -40,10 +40,10 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run nx run-many -- --target=build 
+        run: npm run nx run-many -- --target=build
 
       - name: E2E tests
-        run: npm run nx run-many -- --target=e2e 
+        run: npm run nx run-many -- --target=e2e
         env:
           NX_VERBOSE_LOGGING: 'true'
           GITHUB_ACTIONS: 'true'
