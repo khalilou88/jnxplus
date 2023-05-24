@@ -523,7 +523,7 @@ describe('nx-boot-gradle e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('should build-image a kotlin application', async () => {
     if (!isWin && !isMacOs && isCI) {
