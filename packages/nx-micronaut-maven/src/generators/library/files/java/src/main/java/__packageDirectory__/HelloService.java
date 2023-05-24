@@ -6,6 +6,6 @@ import jakarta.inject.Singleton;
 public class HelloService  {
 
     public String greeting() {
-        return "Hello World!";
+        return "Hello World";
     }
 }

@@ -6,6 +6,6 @@ import jakarta.inject.Singleton
 class HelloService  {
 
     fun greeting():String {
-        return "Hello World!"
+        return "Hello World"
     }
 }

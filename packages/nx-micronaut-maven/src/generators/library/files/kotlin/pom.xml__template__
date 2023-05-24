@@ -22,21 +22,12 @@
     </repositories>
 
   <dependencies>
+
     <dependency>
       <groupId>io.micronaut</groupId>
-      <artifactId>micronaut-http-server-netty</artifactId>
-      <scope>compile</scope>
+      <artifactId>micronaut-inject-java</artifactId>
     </dependency>
-    <dependency>
-      <groupId>io.micronaut</groupId>
-      <artifactId>micronaut-jackson-databind</artifactId>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.micronaut.kotlin</groupId>
-      <artifactId>micronaut-kotlin-runtime</artifactId>
-      <scope>compile</scope>
-    </dependency>
+
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-reflect</artifactId>
@@ -49,21 +40,7 @@
       <version>${kotlinVersion}</version>
       <scope>compile</scope>
     </dependency>
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.module</groupId>
-      <artifactId>jackson-module-kotlin</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.micronaut</groupId>
-      <artifactId>micronaut-http-client</artifactId>
-      <scope>test</scope>
-    </dependency>
+
     <dependency>
       <groupId>io.micronaut.test</groupId>
       <artifactId>micronaut-test-junit5</artifactId>
@@ -83,11 +60,8 @@
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>io.micronaut.maven</groupId>
-        <artifactId>micronaut-maven-plugin</artifactId>
-      </plugin>
-      
+
+
       <plugin>
         <artifactId>kotlin-maven-plugin</artifactId>
         <groupId>org.jetbrains.kotlin</groupId>
@@ -112,20 +86,24 @@
                 <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
               </sourceDirs>
               <annotationProcessorPaths combine.self="override">
-               <annotationProcessorPath>
-                 <groupId>io.micronaut</groupId>
-                 <artifactId>micronaut-inject-java</artifactId>
-                 <version>${micronaut.core.version}</version>
-               </annotationProcessorPath>
-               <annotationProcessorPath>
-                 <groupId>io.micronaut</groupId>
-                 <artifactId>micronaut-graal</artifactId>
-                 <version>${micronaut.core.version}</version>
-               </annotationProcessorPath>
+                <annotationProcessorPath>
+                  <groupId>io.micronaut</groupId>
+                  <artifactId>micronaut-inject-java</artifactId>
+                  <version>${micronaut.core.version}</version>
+                </annotationProcessorPath>
+                <annotationProcessorPath>
+                  <groupId>io.micronaut</groupId>
+                  <artifactId>micronaut-graal</artifactId>
+                  <version>${micronaut.core.version}</version>
+                </annotationProcessorPath>
               </annotationProcessorPaths>
               <annotationProcessorArgs>
-                <annotationProcessorArg>micronaut.processing.group=com.example</annotationProcessorArg>
-                <annotationProcessorArg>micronaut.processing.module=demo</annotationProcessorArg>
+                <annotationProcessorArg>
+                  micronaut.processing.group=com.example
+                </annotationProcessorArg>
+                <annotationProcessorArg>
+                  micronaut.processing.module=demo
+                </annotationProcessorArg>
               </annotationProcessorArgs>
             </configuration>
           </execution>
@@ -150,16 +128,16 @@
                 <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
               </sourceDirs>
               <annotationProcessorPaths combine.self="override">
-               <annotationProcessorPath>
-                 <groupId>io.micronaut</groupId>
-                 <artifactId>micronaut-inject-java</artifactId>
-                 <version>${micronaut.core.version}</version>
-               </annotationProcessorPath>
-               <annotationProcessorPath>
-                 <groupId>io.micronaut</groupId>
-                 <artifactId>micronaut-graal</artifactId>
-                 <version>${micronaut.core.version}</version>
-               </annotationProcessorPath>
+                <annotationProcessorPath>
+                  <groupId>io.micronaut</groupId>
+                  <artifactId>micronaut-inject-java</artifactId>
+                  <version>${micronaut.core.version}</version>
+                </annotationProcessorPath>
+                <annotationProcessorPath>
+                  <groupId>io.micronaut</groupId>
+                  <artifactId>micronaut-graal</artifactId>
+                  <version>${micronaut.core.version}</version>
+                </annotationProcessorPath>
               </annotationProcessorPaths>
             </configuration>
           </execution>
@@ -171,7 +149,9 @@
             <configuration>
               <sourceDirs>
                 <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
-                <sourceDir>${project.basedir}/target/generated-sources/kapt/test</sourceDir>
+                <sourceDir>
+                  ${project.basedir}/target/generated-sources/kapt/test
+                </sourceDir>
               </sourceDirs>
             </configuration>
           </execution>
@@ -219,5 +199,5 @@
       </plugin>
     </plugins>
   </build>
-
 </project>
+

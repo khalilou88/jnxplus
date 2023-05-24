@@ -970,12 +970,12 @@ describe('nx-micronaut-maven e2e', () => {
     const newHelloControllerContent = helloControllerContent
       .replace(
         regex1,
-        `$&\nimport org.springframework.beans.factory.annotation.Autowired;\nimport com.example.${names(
+        `$&\nimport jakarta.inject.Inject;\nimport com.example.${names(
           libName
         ).className.toLocaleLowerCase()}.HelloService;`
       )
-      .replace(regex2, '$&\n@Autowired\nprivate HelloService helloService;')
-      .replace(regex3, 'this.helloService.message()');
+      .replace(regex2, '$&\n@Inject\nprivate HelloService helloService;')
+      .replace(regex3, 'this.helloService.greeting()');
 
     updateFile(helloControllerPath, newHelloControllerContent);
 
@@ -1047,12 +1047,12 @@ describe('nx-micronaut-maven e2e', () => {
     const newHelloControllerContent = helloControllerContent
       .replace(
         regex1,
-        `$&\nimport org.springframework.beans.factory.annotation.Autowired\nimport com.example.${names(
+        `$&\nimport jakarta.inject.Inject\nimport com.example.${names(
           libName
         ).className.toLocaleLowerCase()}.HelloService`
       )
-      .replace(regex2, '$&(@Autowired val helloService: HelloService)')
-      .replace(regex3, 'helloService.message()');
+      .replace(regex2, '$&(@Inject val helloService: HelloService)')
+      .replace(regex3, 'helloService.greeting()');
 
     updateFile(helloControllerPath, newHelloControllerContent);
 
@@ -1655,7 +1655,7 @@ describe('nx-micronaut-maven e2e', () => {
           appName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
-        }ApplicationTests.java`
+        }ApplicationTest.java`
       )
     ).not.toThrow();
 
@@ -1705,7 +1705,7 @@ describe('nx-micronaut-maven e2e', () => {
           appName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
-        }ApplicationTests.kt`
+        }ApplicationTest.kt`
       )
     ).not.toThrow();
 
