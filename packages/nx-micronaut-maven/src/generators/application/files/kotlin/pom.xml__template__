@@ -18,12 +18,8 @@
 
  <properties>
     <packaging>jar</packaging>
-    <jdk.version>17</jdk.version>
-    <release.version>17</release.version>
-    <micronaut.version>4.0.0-M2</micronaut.version>
     <micronaut.runtime>netty</micronaut.runtime>
     <exec.mainClass><%= packageName %>.ApplicationKt</exec.mainClass>
-    <kotlinVersion>1.8.20</kotlinVersion>
   </properties>
 
   <repositories>
