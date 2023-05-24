@@ -253,7 +253,9 @@ describe('nx-micronaut-maven e2e', () => {
     const randomName = uniq('micronaut-maven-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
+    //TODO
     const port = 8181;
+    const port2 = 8080;
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-micronaut-maven:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`
@@ -318,11 +320,11 @@ describe('nx-micronaut-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(
-      `serve ${appName} --args="-Dspring-micronaut.run.profiles=test"`,
-      (output) => output.includes(`Server Running: http://localhost:${port}`)
+      `serve ${appName} --args=""`,
+      (output) => output.includes(`Server Running: http://localhost:${port2}`)
     );
 
-    const dataResult = await getData(port, '/hello');
+    const dataResult = await getData(port2, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World');
 
@@ -438,6 +440,9 @@ describe('nx-micronaut-maven e2e', () => {
     const appName = `${appDir}-${randomName}`;
     const port = 8383;
 
+    //TODO
+    const port2 = 8080;
+
     await runNxCommandAsync(
       `g @jnxplus/nx-micronaut-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml --port ${port}`
     );
@@ -499,11 +504,11 @@ describe('nx-micronaut-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(
-      `serve ${appName} --args="-Dspring-micronaut.run.profiles=test"`,
-      (output) => output.includes(`Server Running: http://localhost:${port}`)
+      `serve ${appName} --args=""`,
+      (output) => output.includes(`Server Running: http://localhost:${port2}`)
     );
 
-    const dataResult = await getData(port, '/hello');
+    const dataResult = await getData(port2, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World');
 
@@ -520,7 +525,10 @@ describe('nx-micronaut-maven e2e', () => {
     const randomName = uniq('micronaut-maven-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
+
+    //TODO
     const port = 8484;
+    const port2 = 8080;
 
     await runNxCommandAsync(
       `g @jnxplus/nx-micronaut-maven:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --simplePackageName --v 1.2.3 --packaging war --configFormat .yml --port ${port}`
@@ -583,11 +591,11 @@ describe('nx-micronaut-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(
-      `serve ${appName} --args="-Dspring-micronaut.run.profiles=test"`,
-      (output) => output.includes(`Server Running: http://localhost:${port}`)
+      `serve ${appName} --args=""`,
+      (output) => output.includes(`Server Running: http://localhost:${port2}`)
     );
 
-    const dataResult = await getData(port, '/hello');
+    const dataResult = await getData(port2, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World');
 
@@ -1497,6 +1505,9 @@ describe('nx-micronaut-maven e2e', () => {
     const appDir = 'deep/subdir';
     const port = 8686;
 
+    //TODO
+    const port2 = 8080;
+
     await runNxCommandAsync(
       `generate @jnxplus/nx-micronaut-maven:application ${appName} --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`
     );
@@ -1560,11 +1571,11 @@ describe('nx-micronaut-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(
-      `serve ${appName} --args="-Dspring-micronaut.run.profiles=test"`,
-      (output) => output.includes(`Server Running: http://localhost:${port}`)
+      `serve ${appName} --args=""`,
+      (output) => output.includes(`Server Running: http://localhost:${port2}`)
     );
 
-    const dataResult = await getData(port, '/hello');
+    const dataResult = await getData(port2, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World');
 
