@@ -224,7 +224,7 @@ describe('nx-micronaut-maven e2e', () => {
 
     const dataResult = await getData(8080, '/hello');
     expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult.message).toMatch('Hello World');
 
     // port and process cleanup
     try {
@@ -324,7 +324,7 @@ describe('nx-micronaut-maven e2e', () => {
 
     const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult.message).toMatch('Hello World');
 
     // port and process cleanup
     try {
@@ -407,7 +407,7 @@ describe('nx-micronaut-maven e2e', () => {
 
     const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult.message).toMatch('Hello World');
 
     // port and process cleanup
     try {
@@ -505,7 +505,7 @@ describe('nx-micronaut-maven e2e', () => {
 
     const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult.message).toMatch('Hello World');
 
     // port and process cleanup
     try {
@@ -589,7 +589,7 @@ describe('nx-micronaut-maven e2e', () => {
 
     const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult.message).toMatch('Hello World');
 
     // port and process cleanup
     try {
@@ -629,7 +629,7 @@ describe('nx-micronaut-maven e2e', () => {
 
     const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult.message).toMatch('Hello World');
 
     // port and process cleanup
     try {
@@ -965,7 +965,7 @@ describe('nx-micronaut-maven e2e', () => {
 
     const regex2 = /public\s*class\s*HelloController\s*{/;
 
-    const regex3 = /"Hello World!"/;
+    const regex3 = /"Hello World"/;
 
     const newHelloControllerContent = helloControllerContent
       .replace(
@@ -1042,7 +1042,7 @@ describe('nx-micronaut-maven e2e', () => {
 
     const regex2 = /class\s*HelloController/;
 
-    const regex3 = /"Hello World!"/;
+    const regex3 = /"Hello World"/;
 
     const newHelloControllerContent = helloControllerContent
       .replace(
@@ -1566,7 +1566,7 @@ describe('nx-micronaut-maven e2e', () => {
 
     const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult.message).toMatch('Hello World');
 
     // port and process cleanup
     try {
@@ -1814,7 +1814,7 @@ describe('nx-micronaut-maven e2e', () => {
 
     const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult.message).toMatch('Hello World');
 
     // port and process cleanup
     try {
