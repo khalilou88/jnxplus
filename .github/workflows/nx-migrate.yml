@@ -81,10 +81,6 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
 
-      - name: Build
-        if: steps.nx-workspace-outdated.outputs.outdated == 'true'
-        run: npm run nx run-many -- --target=build
-
       - name: E2E tests
         id: e2e
         if: steps.nx-workspace-outdated.outputs.outdated == 'true'
