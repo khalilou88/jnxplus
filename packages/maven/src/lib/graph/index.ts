@@ -87,14 +87,14 @@ function addProjects(
     });
   }
 
-  const parentProjectName = getParentProjectName(pomXmlContent);
+  const parentProjectArtifactId = getParentProjectName(pomXmlContent);
   const dependencies = getDependenciesFromPom(pomXmlContent);
   projects.push({
     name: projectName,
     artifactId: artifactId,
     projectDirPath: projectDirPath,
     dependencies: dependencies,
-    parentProjectArtifactId: parentProjectName,
+    parentProjectArtifactId: parentProjectArtifactId,
     aggregatorProjectArtifactId: aggregatorProjectArtifactId,
   });
 
