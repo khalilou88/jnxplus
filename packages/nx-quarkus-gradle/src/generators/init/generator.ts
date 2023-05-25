@@ -66,7 +66,6 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     'tools/linters',
     templateOptions
   );
-  tree.delete('.gitkeep');
 }
 
 export default async function (
