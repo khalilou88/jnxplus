@@ -1,3 +1,5 @@
+import { normalizeName } from '@jnxplus/common';
+import { addProjectToAggregator, readXmlTree } from '@jnxplus/maven';
 import {
   addProjectConfiguration,
   formatFiles,
@@ -9,10 +11,8 @@ import {
   Tree,
 } from '@nx/devkit';
 import * as path from 'path';
-import { XmlDocument } from 'xmldoc';
-import { normalizeName } from '@jnxplus/common';
-import { readXmlTree, xmlToString } from '@jnxplus/maven';
 import { NxMavenParentProjectGeneratorSchema } from './schema';
+import { springBootVersion } from '@jnxplus/common';
 
 interface NormalizedSchema extends NxMavenParentProjectGeneratorSchema {
   projectName: string;
@@ -24,6 +24,7 @@ interface NormalizedSchema extends NxMavenParentProjectGeneratorSchema {
   parentProjectVersion: string;
   relativePath: string;
   parentProjectRoot: string;
+  springBootVersion: string;
 }
 
 function normalizeOptions(
@@ -58,23 +59,37 @@ function normalizeOptions(
     ? options.tags.split(',').map((s) => s.trim())
     : [];
 
-  const parentProjectRoot = options.parentProject
-    ? readProjectConfiguration(tree, options.parentProject).root
-    : '';
+  let parentProjectRoot = '';
+  if (options.parentProject !== undefined) {
+    options.parentProjectStrategy = 'artifact-id';
+    parentProjectRoot = readProjectConfiguration(
+      tree,
+      options.parentProject
+    ).root;
+  }
 
-  const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
+  let relativePath = '';
+  let parentGroupId = '';
+  let parentProjectName = '';
+  let parentProjectVersion = '';
+  if (
+    options.parentProjectStrategy === 'artifact-id' ||
+    options.parentProjectStrategy === 'root-project'
+  ) {
+    const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
 
-  const pomXmlContent = readXmlTree(tree, parentProjectPomPath);
-  const relativePath = path
-    .relative(projectRoot, parentProjectRoot)
-    .replace(new RegExp(/\\/, 'g'), '/');
+    const pomXmlContent = readXmlTree(tree, parentProjectPomPath);
+    relativePath = path
+      .relative(projectRoot, parentProjectRoot)
+      .replace(new RegExp(/\\/, 'g'), '/');
 
-  const parentGroupId =
-    pomXmlContent?.childNamed('groupId')?.val || 'parentGroupId';
-  const parentProjectName =
-    pomXmlContent?.childNamed('artifactId')?.val || 'parentProjectName';
-  const parentProjectVersion =
-    pomXmlContent?.childNamed('version')?.val || 'parentProjectVersion';
+    parentGroupId =
+      pomXmlContent?.childNamed('groupId')?.val || 'parentGroupId';
+    parentProjectName =
+      pomXmlContent?.childNamed('artifactId')?.val || 'parentProjectName';
+    parentProjectVersion =
+      pomXmlContent?.childNamed('version')?.val || 'parentProjectVersion';
+  }
 
   return {
     ...options,
@@ -87,6 +102,7 @@ function normalizeOptions(
     parentProjectVersion,
     relativePath,
     parentProjectRoot,
+    springBootVersion,
   };
 }
 
@@ -123,37 +139,9 @@ export default async function (
   });
 
   addFiles(tree, normalizedOptions);
-  addProjectToParentPomXml(tree, normalizedOptions);
+  addProjectToAggregator(tree, {
+    projectRoot: normalizedOptions.projectRoot,
+    aggregatorProject: normalizedOptions.aggregatorProject,
+  });
   await formatFiles(tree);
-}
-
-function addProjectToParentPomXml(tree: Tree, options: NormalizedSchema) {
-  const parentProjectPomPath = path.join(options.parentProjectRoot, 'pom.xml');
-  const xmldoc = readXmlTree(tree, parentProjectPomPath);
-
-  const relativePath = path
-    .relative(options.parentProjectRoot, options.projectRoot)
-    .replace(new RegExp(/\\/, 'g'), '/');
-
-  const fragment = new XmlDocument(`<module>${relativePath}</module>`);
-
-  let modules = xmldoc.childNamed('modules');
-
-  if (modules === undefined) {
-    xmldoc.children.push(
-      new XmlDocument(`
-    <modules>
-    </modules>
-  `)
-    );
-    modules = xmldoc.childNamed('modules');
-  }
-
-  if (modules === undefined) {
-    throw new Error('Modules tag undefined');
-  }
-
-  modules.children.push(fragment);
-
-  tree.write(parentProjectPomPath, xmlToString(xmldoc));
 }

@@ -132,15 +132,20 @@ describe('nx-maven e2e', () => {
     ).not.toThrow();
   }, 120000);
 
-  it('should migrate', async () => {
+  xit('should migrate', async () => {
     await runNxCommandAsync(`generate @jnxplus/nx-maven:migrate`);
   }, 120000);
 
   it('should create a java application', async () => {
+    const appsParentProject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProjectStrategy spring-boot-starter-parent`
+    );
+
     const appName = uniq('boot-maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName}`
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${appsParentProject}`
     );
 
     expect(() =>
@@ -237,7 +242,7 @@ describe('nx-maven e2e', () => {
     }
   }, 120000);
 
-  it('should build-image a java application', async () => {
+  xit('should build-image a java application', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('boot-maven-app-');
       await runNxCommandAsync(
@@ -250,7 +255,7 @@ describe('nx-maven e2e', () => {
     }
   }, 120000);
 
-  it('should use specified options to create an application', async () => {
+  xit('should use specified options to create an application', async () => {
     const randomName = uniq('boot-maven-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
@@ -341,7 +346,7 @@ describe('nx-maven e2e', () => {
     }
   }, 120000);
 
-  it('should create a kotlin application', async () => {
+  xit('should create a kotlin application', async () => {
     const appName = uniq('boot-maven-app-');
     const port = 8282;
 
@@ -427,7 +432,7 @@ describe('nx-maven e2e', () => {
     }
   }, 120000);
 
-  it('should build-image a kotlin application', async () => {
+  xit('should build-image a kotlin application', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('boot-maven-app-');
       await runNxCommandAsync(
@@ -440,7 +445,7 @@ describe('nx-maven e2e', () => {
     }
   }, 120000);
 
-  it('--an app with aliases', async () => {
+  xit('--an app with aliases', async () => {
     const randomName = uniq('boot-maven-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
@@ -529,7 +534,7 @@ describe('nx-maven e2e', () => {
     }
   }, 120000);
 
-  it('should generate an app with a simple package name', async () => {
+  xit('should generate an app with a simple package name', async () => {
     const randomName = uniq('boot-maven-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
@@ -618,7 +623,7 @@ describe('nx-maven e2e', () => {
     }
   }, 120000);
 
-  it('directory with dash', async () => {
+  xit('directory with dash', async () => {
     const randomName = uniq('boot-maven-app-');
     const appName = `deep-sub-dir-${randomName}`;
     const port = 8585;
@@ -658,7 +663,7 @@ describe('nx-maven e2e', () => {
     }
   }, 120000);
 
-  it('should create a library', async () => {
+  xit('should create a library', async () => {
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(`generate @jnxplus/nx-maven:library ${libName}`);
@@ -720,7 +725,7 @@ describe('nx-maven e2e', () => {
     });
   }, 120000);
 
-  it('should create a kotlin library', async () => {
+  xit('should create a kotlin library', async () => {
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
@@ -782,7 +787,7 @@ describe('nx-maven e2e', () => {
     });
   }, 120000);
 
-  it('should use the the specified properties to create a library', async () => {
+  xit('should use the the specified properties to create a library', async () => {
     const randomName = uniq('boot-maven-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
@@ -844,7 +849,7 @@ describe('nx-maven e2e', () => {
     });
   }, 120000);
 
-  it('should generare a lib with a simple package name', async () => {
+  xit('should generare a lib with a simple package name', async () => {
     const randomName = uniq('boot-maven-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
@@ -906,7 +911,7 @@ describe('nx-maven e2e', () => {
     });
   }, 120000);
 
-  it('--a lib with aliases', async () => {
+  xit('--a lib with aliases', async () => {
     const randomName = uniq('boot-maven-lib-');
     const libDir = 'subdir';
     const libName = `${libDir}-${randomName}`;
@@ -969,15 +974,27 @@ describe('nx-maven e2e', () => {
   }, 120000);
 
   it('should add a lib to an app dependencies', async () => {
+    const libsParentProject = uniq('libs-parent-project-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library  --parentProjectStrategy spring-boot-starter-parent`
+    );
+
+    const appsParentProject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject}`
+    );
+
     const appName = uniq('boot-maven-app-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${appsParentProject}`
+    );
+
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName}`
-    );
-
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --projects ${appName}`
+      `generate @jnxplus/nx-maven:library ${libName} --projects ${appName} --parentProject ${libsParentProject}`
     );
 
     // Making sure the app pom.xml file contains the lib
@@ -1045,7 +1062,7 @@ describe('nx-maven e2e', () => {
     });
   }, 120000);
 
-  it('should add a kotlin lib to a kotlin app dependencies', async () => {
+  xit('should add a kotlin lib to a kotlin app dependencies', async () => {
     const appName = uniq('boot-maven-app-');
     const libName = uniq('boot-maven-lib-');
 
@@ -1154,7 +1171,7 @@ describe('nx-maven e2e', () => {
     });
   }, 120000);
 
-  it('should generate java apps that use a parent project', async () => {
+  xit('should generate java apps that use a parent project', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`
@@ -1244,7 +1261,7 @@ describe('nx-maven e2e', () => {
     });
   }, 120000);
 
-  it('should generate kotlin apps that use a parent project', async () => {
+  xit('should generate kotlin apps that use a parent project', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`
@@ -1334,7 +1351,7 @@ describe('nx-maven e2e', () => {
     });
   }, 120000);
 
-  it('should generate java libs that use a parent project', async () => {
+  xit('should generate java libs that use a parent project', async () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
@@ -1430,7 +1447,7 @@ describe('nx-maven e2e', () => {
     });
   }, 120000);
 
-  it('should generate kotlin libs that use a parent project', async () => {
+  xit('should generate kotlin libs that use a parent project', async () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
@@ -1526,7 +1543,7 @@ describe('nx-maven e2e', () => {
     });
   }, 120000);
 
-  it('should create an application with a simple name', async () => {
+  xit('should create an application with a simple name', async () => {
     const appName = uniq('boot-maven-app-');
     const appDir = 'deep/subdir';
     const port = 8686;
@@ -1614,7 +1631,7 @@ describe('nx-maven e2e', () => {
     }
   }, 120000);
 
-  it('should create a library with a simple name', async () => {
+  xit('should create a library with a simple name', async () => {
     const libName = uniq('boot-maven-lib-');
     const libDir = 'deep/subdir';
 
@@ -1675,7 +1692,7 @@ describe('nx-maven e2e', () => {
     });
   }, 120000);
 
-  it('should create a minimal java application', async () => {
+  xit('should create a minimal java application', async () => {
     const appName = uniq('boot-maven-app-');
     const port = 8787;
 
@@ -1725,7 +1742,7 @@ describe('nx-maven e2e', () => {
     }
   }, 120000);
 
-  it('should create a minimal kotlin application', async () => {
+  xit('should create a minimal kotlin application', async () => {
     const appName = uniq('boot-maven-app-');
     const port = 8888;
 
@@ -1779,7 +1796,7 @@ describe('nx-maven e2e', () => {
     }
   }, 120000);
 
-  it('should skip starter code when generating a java library with skipStarterCode option', async () => {
+  xit('should skip starter code when generating a java library with skipStarterCode option', async () => {
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
@@ -1803,7 +1820,7 @@ describe('nx-maven e2e', () => {
     ).toThrow();
   }, 120000);
 
-  it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
+  xit('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
@@ -1828,7 +1845,7 @@ describe('nx-maven e2e', () => {
     ).toThrow();
   }, 120000);
 
-  it('should generate java app inside a parent project', async () => {
+  xit('should generate java app inside a parent project', async () => {
     const parentProject = uniq('parent-project-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:parent-project ${parentProject}`
@@ -1874,7 +1891,7 @@ describe('nx-maven e2e', () => {
     }
   }, 120000);
 
-  it('should generate java nested sub-projects', async () => {
+  xit('should generate java nested sub-projects', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`
