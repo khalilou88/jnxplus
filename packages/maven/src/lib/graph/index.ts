@@ -16,6 +16,9 @@ type MavenProjectType = {
   name?: string;
   artifactId: string;
   projectDirPath: string;
+  dependencies: (string | undefined)[];
+  parentProjectArtifactId?: string;
+  aggregatorProjectArtifactId?: string;
 };
 
 export function addProjectsAndDependencies(
@@ -33,7 +36,8 @@ function addProjects(
   hasher: Hasher,
   projects: MavenProjectType[],
   pluginName: string,
-  projectRoot: string
+  projectRoot: string,
+  aggregatorProjectArtifactId?: string
 ) {
   //projectDirPath
   const projectDirPath = join(workspaceRoot, projectRoot);
@@ -48,11 +52,9 @@ function addProjects(
   }
   const artifactId = artifactIdXml.val;
 
-  //isProjectJsonExists
-  const isProjectJsonExists = fileExists(projectJsonPath);
-
-  //name
+  //projectName
   let projectName;
+  const isProjectJsonExists = fileExists(projectJsonPath);
   if (isProjectJsonExists) {
     const projectJson = JSON.parse(fs.readFileSync(projectJsonPath, 'utf8'));
     projectName = projectJson.name;
@@ -85,10 +87,15 @@ function addProjects(
     });
   }
 
+  const parentProjectArtifactId = getParentProjectName(pomXmlContent);
+  const dependencies = getDependenciesFromPom(pomXmlContent);
   projects.push({
     name: projectName,
     artifactId: artifactId,
     projectDirPath: projectDirPath,
+    dependencies: dependencies,
+    parentProjectArtifactId: parentProjectArtifactId,
+    aggregatorProjectArtifactId: aggregatorProjectArtifactId,
   });
 
   const modulesXmlElement = pomXmlContent.childNamed('modules');
@@ -103,8 +110,23 @@ function addProjects(
 
   for (const moduleXmlElement of moduleXmlElementArray) {
     const moduleRoot = joinPathFragments(projectRoot, moduleXmlElement.val);
-    addProjects(builder, hasher, projects, pluginName, moduleRoot);
+    addProjects(builder, hasher, projects, pluginName, moduleRoot, artifactId);
   }
+}
+
+function getParentProjectName(pomXmlContent: XmlDocument): string | undefined {
+  const parentXmlElement = pomXmlContent.childNamed('parent');
+  if (parentXmlElement === undefined) {
+    return undefined;
+  }
+
+  const relativePath = parentXmlElement.childNamed('relativePath')?.val;
+
+  if (!relativePath) {
+    return undefined;
+  }
+
+  return parentXmlElement.childNamed('artifactId')?.val;
 }
 
 function addDependencies(
@@ -112,66 +134,74 @@ function addDependencies(
   projects: MavenProjectType[]
 ) {
   for (const project of projects) {
-    const pomXmlPath = join(project.projectDirPath, 'pom.xml');
-    const pomXmlContent = readXml(pomXmlPath);
-    const dependencies = getDependencies(pomXmlContent, projects);
-
     const projectRoot = path.relative(workspaceRoot, project.projectDirPath);
 
+    const projectSourceFile = joinPathFragments(projectRoot, 'pom.xml');
+
+    if (project.parentProjectArtifactId) {
+      const parentProject = getProject(
+        projects,
+        project.parentProjectArtifactId
+      );
+      builder.addStaticDependency(
+        project.name ?? project.artifactId,
+        parentProject.name ?? parentProject.artifactId,
+        projectSourceFile
+      );
+    }
+
+    if (
+      project.aggregatorProjectArtifactId &&
+      project.aggregatorProjectArtifactId !== project.parentProjectArtifactId
+    ) {
+      const aggregatorProject = getProject(
+        projects,
+        project.aggregatorProjectArtifactId
+      );
+      builder.addStaticDependency(
+        project.name ?? project.artifactId,
+        aggregatorProject.name ?? aggregatorProject.artifactId,
+        projectSourceFile
+      );
+    }
+
+    const dependencies = getDependencies(project, projects);
     for (const dependency of dependencies) {
       builder.addStaticDependency(
         project.name ?? project.artifactId,
         dependency.name ?? dependency.artifactId,
-        joinPathFragments(projectRoot, 'pom.xml')
-      );
-    }
-
-    const modules = getModules(project.projectDirPath, pomXmlContent, projects);
-    for (const module of modules) {
-      const moduleRoot = path.relative(workspaceRoot, module.projectDirPath);
-
-      builder.addStaticDependency(
-        module.name ?? module.artifactId,
-        project.name ?? project.artifactId,
-        joinPathFragments(moduleRoot, 'pom.xml')
+        projectSourceFile
       );
     }
   }
 }
 
-function getDependencies(pomXml: XmlDocument, projects: MavenProjectType[]) {
+function getProject(projects: MavenProjectType[], artifactId: string) {
+  const project = projects.find((project) => project.artifactId === artifactId);
+
+  if (!project) {
+    throw new Error(`Project ${artifactId} not found`);
+  }
+
+  return project;
+}
+
+function getDependenciesFromPom(pomXml: XmlDocument) {
   const dependenciesXml = pomXml.childNamed('dependencies');
   if (dependenciesXml === undefined) {
     return [];
   }
 
-  const dependencies = dependenciesXml
+  return dependenciesXml
     .childrenNamed('dependency')
     .map((dependencyXmlElement) => {
       return dependencyXmlElement.childNamed('artifactId')?.val;
     });
-
-  return projects.filter((project) =>
-    dependencies.includes(project.artifactId)
-  );
 }
 
-function getModules(
-  projectDirPath: string,
-  pomXml: XmlDocument,
+function getDependencies(
+  project: MavenProjectType,
   projects: MavenProjectType[]
 ) {
-  const modulesXml = pomXml.childNamed('modules');
-  if (modulesXml === undefined) {
-    return [];
-  }
-
-  const modules = modulesXml.childrenNamed('module').map((moduleXmlElement) => {
-    const moduleDirPath = join(projectDirPath, moduleXmlElement.val);
-    const modulePomXmlPath = join(moduleDirPath, 'pom.xml');
-    const modulePomXmlContent = readXml(modulePomXmlPath);
-    return modulePomXmlContent.childNamed('artifactId')?.val;
-  });
-
-  return projects.filter((project) => modules.includes(project.artifactId));
+  return projects.filter((p) => project.dependencies.includes(p.artifactId));
 }
