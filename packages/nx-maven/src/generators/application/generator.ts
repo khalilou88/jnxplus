@@ -267,7 +267,7 @@ export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
   addFiles(tree, normalizedOptions);
   addProjectToAggregator(tree, {
     projectRoot: normalizedOptions.projectRoot,
-    aggregator: normalizedOptions.aggregator,
+    aggregatorProject: normalizedOptions.aggregatorProject,
   });
   await formatFiles(tree);
 }

@@ -5,10 +5,10 @@ import { XmlDocument } from 'xmldoc';
 
 export function addProjectToAggregator(
   tree: Tree,
-  options: { projectRoot: string; aggregator: string | undefined }
+  options: { projectRoot: string; aggregatorProject: string | undefined }
 ) {
-  const aggregatorProjectRoot = options.aggregator
-    ? readProjectConfiguration(tree, options.aggregator).root
+  const aggregatorProjectRoot = options.aggregatorProject
+    ? readProjectConfiguration(tree, options.aggregatorProject).root
     : '';
 
   const parentProjectPomPath = path.join(aggregatorProjectRoot, 'pom.xml');

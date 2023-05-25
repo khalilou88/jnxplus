@@ -139,7 +139,7 @@ describe('nx-maven e2e', () => {
   it('should create a java application', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject spring-boot-starter-parent`
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProjectStrategy spring-boot-starter-parent`
     );
 
     const appName = uniq('boot-maven-app-');
@@ -973,16 +973,28 @@ describe('nx-maven e2e', () => {
     });
   }, 120000);
 
-  xit('should add a lib to an app dependencies', async () => {
+  it('should add a lib to an app dependencies', async () => {
+    const libsParentProject = uniq('libs-parent-project-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library  --parentProjectStrategy spring-boot-starter-parent`
+    );
+
+    const appsParentProject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject}`
+    );
+
     const appName = uniq('boot-maven-app-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${appsParentProject}`
+    );
+
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName}`
-    );
-
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --projects ${appName}`
+      `generate @jnxplus/nx-maven:library ${libName} --projects ${appName} --parentProject ${libsParentProject}`
     );
 
     // Making sure the app pom.xml file contains the lib

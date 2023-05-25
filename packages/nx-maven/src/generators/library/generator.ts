@@ -223,7 +223,7 @@ export default async function (tree: Tree, options: NxMavenLibGeneratorSchema) {
   addFiles(tree, normalizedOptions);
   addProjectToAggregator(tree, {
     projectRoot: normalizedOptions.projectRoot,
-    aggregator: normalizedOptions.aggregator,
+    aggregatorProject: normalizedOptions.aggregatorProject,
   });
   addLibraryToProjects(tree, normalizedOptions);
   await formatFiles(tree);

@@ -2,20 +2,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-<% if(parentProject === 'spring-boot-starter-parent') { -%>
+<% if(parentProjectStrategy === 'spring-boot-starter-parent') { -%>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version><%= springBootVersion %></version>
-        <relativePath/> 
+        <relativePath/>
     </parent>
 <% } -%>
-<% if(parentProject === 'root-project' || parentProject === 'artifact-id') { -%>
+<% if(parentProjectStrategy === 'root-project' || parentProjectStrategy === 'artifact-id') { -%>
 	<parent>
 		<groupId><%= parentGroupId %></groupId>
 		<artifactId><%= parentProjectName %></artifactId>
 		<version><%= parentProjectVersion %></version>
-    	<relativePath><%= relativePath %></relativePath> 
+    	<relativePath><%= relativePath %></relativePath>
 	</parent>
 <% } -%>
 	<groupId><%= groupId %></groupId>
@@ -24,5 +24,5 @@
   	<packaging>pom</packaging>
 	<name><%= projectName %></name>
 	<description>This project was generated with nx-maven</description>
-  
+
 </project>

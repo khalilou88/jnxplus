@@ -8,11 +8,11 @@ export interface NxMavenParentProjectGeneratorSchema {
   projectType: ProjectType;
   groupId: string;
   projectVersion?: string;
-  parentProject?:
+  parentProjectStrategy?:
     | 'spring-boot-starter-parent'
     | 'root-project'
     | 'artifact-id'
     | 'none';
-  parentProjectArtifactId?: string;
-  aggregator?: string;
+  parentProject?: string;
+  aggregatorProject?: string;
 }

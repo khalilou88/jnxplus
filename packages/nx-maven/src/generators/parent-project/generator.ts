@@ -60,13 +60,11 @@ function normalizeOptions(
     : [];
 
   let parentProjectRoot = '';
-  if (options.parentProject === 'artifact-id') {
-    if (options.parentProjectArtifactId === undefined) {
-      throw new Error('parentProjectArtifactId must be set');
-    }
+  if (options.parentProject !== undefined) {
+    options.parentProjectStrategy = 'artifact-id';
     parentProjectRoot = readProjectConfiguration(
       tree,
-      options.parentProjectArtifactId
+      options.parentProject
     ).root;
   }
 
@@ -75,8 +73,8 @@ function normalizeOptions(
   let parentProjectName = '';
   let parentProjectVersion = '';
   if (
-    options.parentProject === 'artifact-id' ||
-    options.parentProject === 'root-project'
+    options.parentProjectStrategy === 'artifact-id' ||
+    options.parentProjectStrategy === 'root-project'
   ) {
     const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
 
@@ -143,7 +141,7 @@ export default async function (
   addFiles(tree, normalizedOptions);
   addProjectToAggregator(tree, {
     projectRoot: normalizedOptions.projectRoot,
-    aggregator: normalizedOptions.aggregator,
+    aggregatorProject: normalizedOptions.aggregatorProject,
   });
   await formatFiles(tree);
 }

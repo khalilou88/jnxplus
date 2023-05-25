@@ -60,10 +60,10 @@
       "alias": "v",
       "x-prompt": "What project version would you like to use?"
     },
-    "parentProject": {
-      "description": "Which parent project(for dependency management,..), or 'none' to skip.",
+    "parentProjectStrategy": {
+      "description": "Which parent project to use, or 'none' to skip.",
       "type": "string",
-      "default": "none",
+      "default": "root-project",
       "enum": [
         "spring-boot-starter-parent",
         "root-project",
@@ -71,11 +71,11 @@
         "none"
       ]
     },
-    "parentProjectArtifactId": {
+    "parentProject": {
       "type": "string",
       "description": "ArtifactId of the parent project (only required if last answer is 'artifact-id')"
     },
-    "aggregator": {
+    "aggregatorProject": {
       "type": "string",
       "description": "ArtifactId of the aggregator project (that manages a group of submodules) or leave it blank for the root project"
     }
