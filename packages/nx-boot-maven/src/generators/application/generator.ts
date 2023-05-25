@@ -1,3 +1,5 @@
+import { LinterType, normalizeName } from '@jnxplus/common';
+import { addProjectToAggregator, readXmlTree } from '@jnxplus/maven';
 import {
   addProjectConfiguration,
   formatFiles,
@@ -10,10 +12,6 @@ import {
   Tree,
 } from '@nx/devkit';
 import * as path from 'path';
-import { XmlDocument } from 'xmldoc';
-import { normalizeName } from '@jnxplus/common';
-import { LinterType } from '@jnxplus/common';
-import { readXmlTree, xmlToString } from '@jnxplus/maven';
 import { NxBootMavenAppGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootMavenAppGeneratorSchema {
@@ -270,37 +268,9 @@ export default async function (
   }
 
   addFiles(tree, normalizedOptions);
-  addProjectToParentPomXml(tree, normalizedOptions);
+  addProjectToAggregator(tree, {
+    projectRoot: normalizedOptions.projectRoot,
+    aggregatorProject: normalizedOptions.parentProject,
+  });
   await formatFiles(tree);
-}
-
-function addProjectToParentPomXml(tree: Tree, options: NormalizedSchema) {
-  const parentProjectPomPath = path.join(options.parentProjectRoot, 'pom.xml');
-  const xmldoc = readXmlTree(tree, parentProjectPomPath);
-
-  const relativePath = path
-    .relative(options.parentProjectRoot, options.projectRoot)
-    .replace(new RegExp(/\\/, 'g'), '/');
-
-  const fragment = new XmlDocument(`<module>${relativePath}</module>`);
-
-  let modules = xmldoc.childNamed('modules');
-
-  if (modules === undefined) {
-    xmldoc.children.push(
-      new XmlDocument(`
-    <modules>
-    </modules>
-  `)
-    );
-    modules = xmldoc.childNamed('modules');
-  }
-
-  if (modules === undefined) {
-    throw new Error('Modules tag undefined');
-  }
-
-  modules.children.push(fragment);
-
-  tree.write(parentProjectPomPath, xmlToString(xmldoc));
 }

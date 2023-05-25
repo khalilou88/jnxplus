@@ -1,10 +1,11 @@
 import { LinterType, normalizeName } from '@jnxplus/common';
 import {
+  addLibraryToProjects,
   addProjectToAggregator,
   readXmlTree,
-  xmlToString,
 } from '@jnxplus/maven';
 import {
+  Tree,
   addProjectConfiguration,
   formatFiles,
   generateFiles,
@@ -13,10 +14,8 @@ import {
   names,
   offsetFromRoot,
   readProjectConfiguration,
-  Tree,
 } from '@nx/devkit';
 import * as path from 'path';
-import { XmlDocument } from 'xmldoc';
 import { NxMavenLibGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxMavenLibGeneratorSchema {
@@ -227,40 +226,4 @@ export default async function (tree: Tree, options: NxMavenLibGeneratorSchema) {
   });
   addLibraryToProjects(tree, normalizedOptions);
   await formatFiles(tree);
-}
-
-function addLibraryToProjects(tree: Tree, options: NormalizedSchema) {
-  for (const projectName of options.parsedProjects) {
-    const projectRoot = readProjectConfiguration(tree, projectName).root;
-    const filePath = path.join(projectRoot, `pom.xml`);
-    const xmldoc = readXmlTree(tree, filePath);
-
-    const dependency = new XmlDocument(`
-		<dependency>
-			<groupId>${options.groupId}</groupId>
-			<artifactId>${options.projectName}</artifactId>
-			<version>${options.projectVersion}</version>
-		</dependency>
-  `);
-
-    let dependencies = xmldoc.childNamed('dependencies');
-
-    if (dependencies === undefined) {
-      xmldoc.children.push(
-        new XmlDocument(`
-      <dependencies>
-      </dependencies>
-    `)
-      );
-      dependencies = xmldoc.childNamed('dependencies');
-    }
-
-    if (dependencies === undefined) {
-      throw new Error('Dependencies tag undefined');
-    }
-
-    dependencies.children.push(dependency);
-
-    tree.write(filePath, xmlToString(xmldoc));
-  }
 }
