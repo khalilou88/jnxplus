@@ -150,7 +150,10 @@ function addDependencies(
       );
     }
 
-    if (project.aggregatorProjectArtifactId) {
+    if (
+      project.aggregatorProjectArtifactId &&
+      project.aggregatorProjectArtifactId !== project.parentProjectArtifactId
+    ) {
       const aggregatorProject = getProject(
         projects,
         project.aggregatorProjectArtifactId
