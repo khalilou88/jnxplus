@@ -10,6 +10,7 @@ describe('init generator', () => {
     groupId: 'com.example',
     parentProjectName: 'test-boot-multiproject',
     parentProjectVersion: '1.0.0',
+    dependencyManagementStrategy: 'spring-boot-starter-parent',
   };
 
   beforeEach(() => {

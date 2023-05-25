@@ -3,7 +3,7 @@ export interface NxBootMavenGeneratorSchema {
   groupId: string;
   parentProjectName: string;
   parentProjectVersion: string;
-  dependencyManagementStrategy:
+  dependencyManagementStrategy?:
     | 'spring-boot-starter-parent'
     | 'spring-framework-bom'
     | 'none';
