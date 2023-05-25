@@ -16,8 +16,9 @@ type MavenProjectType = {
   name?: string;
   artifactId: string;
   projectDirPath: string;
-  parentProjectName?: string;
-  aggregatorProjectName?: string;
+  dependencies: (string | undefined)[];
+  parentProjectArtifactId?: string;
+  aggregatorProjectArtifactId?: string;
 };
 
 export function addProjectsAndDependencies(
@@ -36,7 +37,7 @@ function addProjects(
   projects: MavenProjectType[],
   pluginName: string,
   projectRoot: string,
-  aggregatorProjectName?: string
+  aggregatorProjectArtifactId?: string
 ) {
   //projectDirPath
   const projectDirPath = join(workspaceRoot, projectRoot);
@@ -51,11 +52,9 @@ function addProjects(
   }
   const artifactId = artifactIdXml.val;
 
-  //isProjectJsonExists
-  const isProjectJsonExists = fileExists(projectJsonPath);
-
-  //name
+  //projectName
   let projectName;
+  const isProjectJsonExists = fileExists(projectJsonPath);
   if (isProjectJsonExists) {
     const projectJson = JSON.parse(fs.readFileSync(projectJsonPath, 'utf8'));
     projectName = projectJson.name;
@@ -89,13 +88,14 @@ function addProjects(
   }
 
   const parentProjectName = getParentProjectName(pomXmlContent);
-
+  const dependencies = getDependenciesFromPom(pomXmlContent);
   projects.push({
     name: projectName,
     artifactId: artifactId,
     projectDirPath: projectDirPath,
-    parentProjectName: parentProjectName,
-    aggregatorProjectName: aggregatorProjectName,
+    dependencies: dependencies,
+    parentProjectArtifactId: parentProjectName,
+    aggregatorProjectArtifactId: aggregatorProjectArtifactId,
   });
 
   const modulesXmlElement = pomXmlContent.childNamed('modules');
@@ -134,30 +134,35 @@ function addDependencies(
   projects: MavenProjectType[]
 ) {
   for (const project of projects) {
-    const pomXmlPath = join(project.projectDirPath, 'pom.xml');
-    const pomXmlContent = readXml(pomXmlPath);
-    const dependencies = getDependencies(pomXmlContent, projects);
-
     const projectRoot = path.relative(workspaceRoot, project.projectDirPath);
 
     const projectSourceFile = joinPathFragments(projectRoot, 'pom.xml');
 
-    if (project.parentProjectName) {
+    if (project.parentProjectArtifactId) {
+      const parentProject = getProject(
+        projects,
+        project.parentProjectArtifactId
+      );
       builder.addStaticDependency(
         project.name ?? project.artifactId,
-        project.parentProjectName,
+        parentProject.name ?? parentProject.artifactId,
         projectSourceFile
       );
     }
 
-    if (project.aggregatorProjectName) {
+    if (project.aggregatorProjectArtifactId) {
+      const aggregatorProject = getProject(
+        projects,
+        project.aggregatorProjectArtifactId
+      );
       builder.addStaticDependency(
         project.name ?? project.artifactId,
-        project.aggregatorProjectName,
+        aggregatorProject.name ?? aggregatorProject.artifactId,
         projectSourceFile
       );
     }
 
+    const dependencies = getDependencies(project, projects);
     for (const dependency of dependencies) {
       builder.addStaticDependency(
         project.name ?? project.artifactId,
@@ -168,19 +173,32 @@ function addDependencies(
   }
 }
 
-function getDependencies(pomXml: XmlDocument, projects: MavenProjectType[]) {
+function getProject(projects: MavenProjectType[], artifactId: string) {
+  const project = projects.find((project) => project.artifactId === artifactId);
+
+  if (!project) {
+    throw new Error(`Project ${artifactId} not found`);
+  }
+
+  return project;
+}
+
+function getDependenciesFromPom(pomXml: XmlDocument) {
   const dependenciesXml = pomXml.childNamed('dependencies');
   if (dependenciesXml === undefined) {
     return [];
   }
 
-  const dependencies = dependenciesXml
+  return dependenciesXml
     .childrenNamed('dependency')
     .map((dependencyXmlElement) => {
       return dependencyXmlElement.childNamed('artifactId')?.val;
     });
+}
 
-  return projects.filter((project) =>
-    dependencies.includes(project.artifactId)
-  );
+function getDependencies(
+  project: MavenProjectType,
+  projects: MavenProjectType[]
+) {
+  return projects.filter((p) => project.dependencies.includes(p.artifactId));
 }
