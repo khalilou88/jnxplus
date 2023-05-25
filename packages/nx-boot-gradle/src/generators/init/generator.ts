@@ -4,15 +4,14 @@ import {
   ktlintVersion,
   springBootVersion,
   springKotlinVersion,
+  updateNxJson,
 } from '@jnxplus/common';
-import { addOrUpdateGitattributes } from '@jnxplus/gradle';
 import {
-  formatFiles,
-  generateFiles,
-  offsetFromRoot,
-  Tree,
-  updateJson,
-} from '@nx/devkit';
+  addOrUpdateGitattributes,
+  addOrUpdatePrettierIgnore,
+  updateGitIgnore,
+} from '@jnxplus/gradle';
+import { Tree, formatFiles, generateFiles, offsetFromRoot } from '@nx/devkit';
 import * as path from 'path';
 import { NxBootGradleGeneratorSchema } from './schema';
 
@@ -68,6 +67,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     'tools/linters',
     templateOptions
   );
+  tree.delete('.gitkeep');
 }
 
 export default async function (
@@ -76,48 +76,11 @@ export default async function (
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);
-  updateNxJson(tree);
+  updateNxJson(tree, '@jnxplus/nx-boot-gradle');
   updateGitIgnore(tree);
   addOrUpdatePrettierIgnore(tree);
   addOrUpdateGitattributes(tree);
   tree.changePermissions('gradlew', '755');
   tree.changePermissions('gradlew.bat', '755');
   await formatFiles(tree);
-}
-
-function updateGitIgnore(tree: Tree) {
-  const filePath = `.gitignore`;
-  const contents = tree.read(filePath, 'utf-8') || '';
-
-  const gradleIgnore = '\n# Gradle\n.gradle\nbuild';
-
-  const newContents = contents.concat(gradleIgnore);
-  tree.write(filePath, newContents);
-}
-
-function updateNxJson(tree: Tree) {
-  updateJson(tree, 'nx.json', (nxJson) => {
-    // if plugins is undefined, set it to an empty array
-    nxJson.plugins = nxJson.plugins ?? [];
-    // add @jnxplus/nx-boot-gradle plugin
-    nxJson.plugins.push('@jnxplus/nx-boot-gradle');
-    // return modified JSON object
-    return nxJson;
-  });
-}
-
-function addOrUpdatePrettierIgnore(tree: Tree) {
-  const prettierIgnorePath = `.prettierignore`;
-  const gradlePrettierIgnore = '# Gradle build\nbuild';
-  if (tree.exists(prettierIgnorePath)) {
-    const prettierIgnoreOldContent =
-      tree.read(prettierIgnorePath, 'utf-8') || '';
-    const prettierIgnoreContent = prettierIgnoreOldContent.concat(
-      '\n',
-      gradlePrettierIgnore
-    );
-    tree.write(prettierIgnorePath, prettierIgnoreContent);
-  } else {
-    tree.write(prettierIgnorePath, gradlePrettierIgnore);
-  }
 }

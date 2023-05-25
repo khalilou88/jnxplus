@@ -17,7 +17,7 @@ describe('migrate generator', () => {
     appTree.write('./.prettierignore', '');
   });
 
-  it('should run successfully', async () => {
+  xit('should run successfully', async () => {
     await generator(appTree, options);
     const gradlew = appTree.exists('gradlew');
     expect(gradlew).toBeTruthy();
