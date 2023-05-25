@@ -105,7 +105,11 @@
     },
     "parentProject": {
       "type": "string",
-      "description": "ArtifactId of the parent project or leave it blank for the root project"
+      "description": "ArtifactId of the parent project or leave it blank to skip"
+    },
+    "aggregator": {
+      "type": "string",
+      "description": "ArtifactId of the aggregator project (that manages a group of submodules) or leave it blank for the root project"
     },
     "minimal": {
       "description": "Generate an app with a minimal setup",
