@@ -1,4 +1,11 @@
+import { LinterType, normalizeName } from '@jnxplus/common';
 import {
+  addLibraryToProjects,
+  addProjectToAggregator,
+  readXmlTree,
+} from '@jnxplus/maven';
+import {
+  Tree,
   addProjectConfiguration,
   formatFiles,
   generateFiles,
@@ -7,13 +14,8 @@ import {
   names,
   offsetFromRoot,
   readProjectConfiguration,
-  Tree,
 } from '@nx/devkit';
 import * as path from 'path';
-import { XmlDocument } from 'xmldoc';
-import { normalizeName } from '@jnxplus/common';
-import { LinterType } from '@jnxplus/common';
-import { readXmlTree, xmlToString } from '@jnxplus/maven';
 import { NxBootMavenLibGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxBootMavenLibGeneratorSchema {
@@ -221,74 +223,10 @@ export default async function (
   }
 
   addFiles(tree, normalizedOptions);
-  addProjectToParentPomXml(tree, normalizedOptions);
+  addProjectToAggregator(tree, {
+    projectRoot: normalizedOptions.projectRoot,
+    aggregatorProject: normalizedOptions.parentProject,
+  });
   addLibraryToProjects(tree, normalizedOptions);
   await formatFiles(tree);
-}
-
-function addProjectToParentPomXml(tree: Tree, options: NormalizedSchema) {
-  const parentProjectPomPath = path.join(options.parentProjectRoot, 'pom.xml');
-  const xmldoc = readXmlTree(tree, parentProjectPomPath);
-
-  const relativePath = path
-    .relative(options.parentProjectRoot, options.projectRoot)
-    .replace(new RegExp(/\\/, 'g'), '/');
-
-  const module = new XmlDocument(`<module>${relativePath}</module>`);
-
-  let modules = xmldoc.childNamed('modules');
-
-  if (modules === undefined) {
-    xmldoc.children.push(
-      new XmlDocument(`
-    <modules>
-    </modules>
-  `)
-    );
-    modules = xmldoc.childNamed('modules');
-  }
-
-  if (modules === undefined) {
-    throw new Error('Modules tag undefined');
-  }
-
-  modules.children.push(module);
-
-  tree.write(parentProjectPomPath, xmlToString(xmldoc));
-}
-
-function addLibraryToProjects(tree: Tree, options: NormalizedSchema) {
-  for (const projectName of options.parsedProjects) {
-    const projectRoot = readProjectConfiguration(tree, projectName).root;
-    const filePath = path.join(projectRoot, `pom.xml`);
-    const xmldoc = readXmlTree(tree, filePath);
-
-    const dependency = new XmlDocument(`
-		<dependency>
-			<groupId>${options.groupId}</groupId>
-			<artifactId>${options.projectName}</artifactId>
-			<version>${options.projectVersion}</version>
-		</dependency>
-  `);
-
-    let dependencies = xmldoc.childNamed('dependencies');
-
-    if (dependencies === undefined) {
-      xmldoc.children.push(
-        new XmlDocument(`
-      <dependencies>
-      </dependencies>
-    `)
-      );
-      dependencies = xmldoc.childNamed('dependencies');
-    }
-
-    if (dependencies === undefined) {
-      throw new Error('Dependencies tag undefined');
-    }
-
-    dependencies.children.push(dependency);
-
-    tree.write(filePath, xmlToString(xmldoc));
-  }
 }

@@ -40,3 +40,47 @@ export function addProjectToAggregator(
 
   tree.write(parentProjectPomPath, xmlToString(xmldoc));
 }
+
+export function addLibraryToProjects(
+  tree: Tree,
+  options: {
+    parsedProjects: string[];
+    groupId: string;
+    projectName: string;
+    projectVersion: string;
+  }
+) {
+  for (const projectName of options.parsedProjects) {
+    const projectRoot = readProjectConfiguration(tree, projectName).root;
+    const filePath = path.join(projectRoot, `pom.xml`);
+    const xmldoc = readXmlTree(tree, filePath);
+
+    const dependency = new XmlDocument(`
+		<dependency>
+			<groupId>${options.groupId}</groupId>
+			<artifactId>${options.projectName}</artifactId>
+			<version>${options.projectVersion}</version>
+		</dependency>
+  `);
+
+    let dependencies = xmldoc.childNamed('dependencies');
+
+    if (dependencies === undefined) {
+      xmldoc.children.push(
+        new XmlDocument(`
+      <dependencies>
+      </dependencies>
+    `)
+      );
+      dependencies = xmldoc.childNamed('dependencies');
+    }
+
+    if (dependencies === undefined) {
+      throw new Error('Dependencies tag undefined');
+    }
+
+    dependencies.children.push(dependency);
+
+    tree.write(filePath, xmlToString(xmldoc));
+  }
+}
