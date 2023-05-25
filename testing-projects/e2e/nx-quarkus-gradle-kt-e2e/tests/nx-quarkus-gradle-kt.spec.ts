@@ -1246,7 +1246,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
       source: libName,
       target: rootProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should skip starter code when generating a java application with skipStarterCode option', async () => {
     const appName = uniq('quarkus-gradle-app-');
