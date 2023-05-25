@@ -35,6 +35,21 @@
             "input": "./packages/nx-quarkus-gradle",
             "glob": "executors.json",
             "output": "."
+          },
+          {
+            "input": "./packages/gradle-plugin",
+            "glob": "gradle/**",
+            "output": "./src/generators/init/files/gradle/wrapper"
+          },
+          {
+            "input": "./packages/gradle-plugin",
+            "glob": "gradlew",
+            "output": "./src/generators/init/files/gradle/wrapper"
+          },
+          {
+            "input": "./packages/gradle-plugin",
+            "glob": "gradlew.bat",
+            "output": "./src/generators/init/files/gradle/wrapper"
           }
         ]
       }

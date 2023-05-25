@@ -1,18 +1,18 @@
 import {
-  Tree,
-  formatFiles,
-  generateFiles,
-  offsetFromRoot,
-  updateJson,
-  writeJson,
-} from '@nx/devkit';
-import * as path from 'path';
-import {
   checkstyleVersion,
-  springKotlinVersion,
   ktlintVersion,
   springBootVersion,
+  springKotlinVersion,
+  updateNxJson,
 } from '@jnxplus/common';
+import {
+  addOrUpdateGitattributes,
+  addOrUpdatePrettierIgnore,
+  addOrUpdatePrettierRc,
+  updateGitIgnore,
+} from '@jnxplus/maven';
+import { Tree, formatFiles, generateFiles, offsetFromRoot } from '@nx/devkit';
+import * as path from 'path';
 import { NxMavenGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxMavenGeneratorSchema {
@@ -68,7 +68,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
 export default async function (tree: Tree, options: NxMavenGeneratorSchema) {
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);
-  updateNxJson(tree);
+  updateNxJson(tree, '@jnxplus/nx-maven');
   updateGitIgnore(tree);
   addOrUpdatePrettierRc(tree);
   addOrUpdatePrettierIgnore(tree);
@@ -76,73 +76,4 @@ export default async function (tree: Tree, options: NxMavenGeneratorSchema) {
   tree.changePermissions('mvnw', '755');
   tree.changePermissions('mvnw.cmd', '755');
   await formatFiles(tree);
-}
-
-function updateGitIgnore(tree: Tree) {
-  const filePath = `.gitignore`;
-  const contents = tree.read(filePath, 'utf-8') || '';
-
-  const mavenIgnore =
-    '\n# Maven\ntarget/\n!.mvn/wrapper/maven-wrapper.jar\n!**/src/main/**/target/\n!**/src/test/**/target/';
-
-  const newContents = contents.concat(mavenIgnore);
-  tree.write(filePath, newContents);
-}
-
-function updateNxJson(tree: Tree) {
-  updateJson(tree, 'nx.json', (nxJson) => {
-    // if plugins is undefined, set it to an empty array
-    nxJson.plugins = nxJson.plugins ?? [];
-    // add @jnxplus/nx-maven plugin
-    nxJson.plugins.push('@jnxplus/nx-maven');
-    // return modified JSON object
-    return nxJson;
-  });
-}
-
-function addOrUpdatePrettierRc(tree: Tree) {
-  const prettierRcPath = `.prettierrc`;
-  if (tree.exists(prettierRcPath)) {
-    updateJson(tree, prettierRcPath, (prettierRcJson) => {
-      prettierRcJson.xmlWhitespaceSensitivity = 'ignore';
-      // return modified JSON object
-      return prettierRcJson;
-    });
-  } else {
-    writeJson(tree, prettierRcPath, {
-      xmlWhitespaceSensitivity: 'ignore',
-    });
-  }
-}
-
-function addOrUpdatePrettierIgnore(tree: Tree) {
-  const prettierIgnorePath = `.prettierignore`;
-  const mavenPrettierIgnore = '# Maven target\ntarget/';
-  if (tree.exists(prettierIgnorePath)) {
-    const prettierIgnoreOldContent =
-      tree.read(prettierIgnorePath, 'utf-8') || '';
-    const prettierIgnoreContent = prettierIgnoreOldContent.concat(
-      '\n',
-      mavenPrettierIgnore
-    );
-    tree.write(prettierIgnorePath, prettierIgnoreContent);
-  } else {
-    tree.write(prettierIgnorePath, mavenPrettierIgnore);
-  }
-}
-
-function addOrUpdateGitattributes(tree: Tree) {
-  const gitattributesPath = `.gitattributes`;
-  const mavenWrapperGitattributes =
-    '# OS specific line endings for the Maven wrapper script\nmvnw text eol=lf\nmvnw.cmd text eol=crlf';
-  if (tree.exists(gitattributesPath)) {
-    const gitattributesOldContent = tree.read(gitattributesPath, 'utf-8') || '';
-    const gitattributesContent = gitattributesOldContent.concat(
-      '\n',
-      mavenWrapperGitattributes
-    );
-    tree.write(gitattributesPath, gitattributesContent);
-  } else {
-    tree.write(gitattributesPath, mavenWrapperGitattributes);
-  }
 }

@@ -91,3 +91,29 @@ export function addLibraryToProjects(
     }
   }
 }
+
+export function updateGitIgnore(tree: Tree) {
+  const filePath = `.gitignore`;
+  const contents = tree.read(filePath, 'utf-8') || '';
+
+  const gradleIgnore = '\n# Gradle\n.gradle\nbuild';
+
+  const newContents = contents.concat(gradleIgnore);
+  tree.write(filePath, newContents);
+}
+
+export function addOrUpdatePrettierIgnore(tree: Tree) {
+  const prettierIgnorePath = `.prettierignore`;
+  const gradlePrettierIgnore = '# Gradle build\nbuild';
+  if (tree.exists(prettierIgnorePath)) {
+    const prettierIgnoreOldContent =
+      tree.read(prettierIgnorePath, 'utf-8') || '';
+    const prettierIgnoreContent = prettierIgnoreOldContent.concat(
+      '\n',
+      gradlePrettierIgnore
+    );
+    tree.write(prettierIgnorePath, prettierIgnoreContent);
+  } else {
+    tree.write(prettierIgnorePath, gradlePrettierIgnore);
+  }
+}
