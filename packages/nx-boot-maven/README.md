@@ -41,6 +41,7 @@ nx generate @jnxplus/nx-boot-maven:init
 | ------------------------------------ | --------------------------------------------------------------------- |
 | Generate an application              | `nx generate @jnxplus/nx-boot-maven:application my-app-name`          |
 | Generate a library                   | `nx generate @jnxplus/nx-boot-maven:library my-lib-name`              |
+| Generate a parent project            | `nx generate @jnxplus/nx-boot-maven:parent-project my-parent-project` |
 | Build a project                      | `nx build my-project-name`                                            |
 | Serve an application                 | `nx serve my-app-name`                                                |
 | Test a project                       | `nx test my-project-name`                                             |
