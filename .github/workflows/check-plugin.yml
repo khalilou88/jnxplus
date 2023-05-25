@@ -14,6 +14,7 @@ on:
         description: Build Tool
         options:
           - maven
+          - maven-bom
           - gradle
           - gradle-kt
       os:
