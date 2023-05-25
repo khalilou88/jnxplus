@@ -76,6 +76,8 @@ function normalizeOptions(
   const parentProjectVersion =
     pomXmlContent?.childNamed('version')?.val || 'parentProjectVersion';
 
+  //TODO add <spring.boot.version><%= springBootVersion %></spring.boot.version> to parent pom if not exits
+
   return {
     ...options,
     projectName,

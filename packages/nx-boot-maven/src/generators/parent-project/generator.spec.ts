@@ -11,6 +11,7 @@ describe('parent project generator', () => {
     groupId: 'com.example',
     projectVersion: '0.0.1-SNAPSHOT',
     parentProject: '',
+    dependencyManagementStrategy: 'none',
   };
 
   beforeEach(() => {

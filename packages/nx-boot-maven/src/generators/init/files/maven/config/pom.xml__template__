@@ -17,6 +17,7 @@
 
     <properties>
         <java.version><%= javaVersion %></java.version>
+        <spring.boot.version><%= springBootVersion %></spring.boot.version>
         <kotlin.version><%= kotlinVersion %></kotlin.version>
         <checkstyle.version><%= checkstyleVersion %></checkstyle.version>
         <ktlint.version><%= ktlintVersion %></ktlint.version>
@@ -28,7 +29,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-framework-bom</artifactId>
-                <version><%= springBootVersion %></version>
+                <version>${spring.boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
