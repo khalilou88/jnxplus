@@ -63,6 +63,12 @@
     "parentProject": {
       "type": "string",
       "description": "ArtifactId of the parent project or leave it blank for the root project"
+    },
+    "dependencyManagementStrategy": {
+      "description": "Which strategy for dependency management, or 'none' to skip dependency management in this project.",
+      "type": "string",
+      "default": "none",
+      "enum": ["spring-framework-bom", "none"]
     }
   },
   "required": ["name", "projectType", "groupId", "projectVersion"]

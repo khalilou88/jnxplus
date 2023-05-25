@@ -18,7 +18,7 @@ import { NxMavenGeneratorSchema } from './schema';
 interface NormalizedSchema extends NxMavenGeneratorSchema {
   dot: string;
   kotlinVersion: string;
-  springBootStarterParentVersion: string;
+  springBootVersion: string;
   checkstyleVersion: string;
   ktlintVersion: string;
 }
@@ -33,7 +33,7 @@ function normalizeOptions(
     ...options,
     dot,
     kotlinVersion: springKotlinVersion,
-    springBootStarterParentVersion: springBootVersion,
+    springBootVersion,
     checkstyleVersion,
     ktlintVersion,
   };

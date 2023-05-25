@@ -11,8 +11,22 @@
 	<groupId><%= groupId %></groupId>
 	<artifactId><%= projectName %></artifactId>
 	<version><%= projectVersion %></version>
-  <packaging>pom</packaging>
+  	<packaging>pom</packaging>
 	<name><%= projectName %></name>
 	<description>This project was generated with nx-boot-maven</description>
+
+<% if(dependencyManagementStrategy === 'spring-framework-bom') { -%>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version><%= springBootVersion %></version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+<% } -%>
   
 </project>

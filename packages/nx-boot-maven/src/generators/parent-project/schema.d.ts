@@ -9,4 +9,5 @@ export interface NxBootMavenParentProjectGeneratorSchema {
   groupId: string;
   projectVersion?: string;
   parentProject?: string;
+  dependencyManagementStrategy?: 'none' | 'spring-framework-bom';
 }
