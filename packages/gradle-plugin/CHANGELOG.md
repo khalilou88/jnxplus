@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.1](https://github.com/khalilou88/jnxplus/compare/gradle-plugin-0.1.0...gradle-plugin-0.1.1) (2023-05-26)
+
+
+### Bug Fixes
+
+* write version in build gradle ([2f12986](https://github.com/khalilou88/jnxplus/commit/2f129867d6fdd6f7984e895337cde7a121e462ca))
+
+
+
 # 0.1.0 (2023-05-26)
 
 
