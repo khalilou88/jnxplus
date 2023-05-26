@@ -209,7 +209,6 @@ export default async function (
           dependsOn: [
             {
               target: 'build',
-              projects: 'self',
             },
           ],
         },
@@ -224,7 +223,6 @@ export default async function (
           dependsOn: [
             {
               target: 'build',
-              projects: 'self',
             },
           ],
         },
@@ -233,7 +231,6 @@ export default async function (
           dependsOn: [
             {
               target: 'build',
-              projects: 'self',
             },
           ],
         },
@@ -258,7 +255,6 @@ export default async function (
           dependsOn: [
             {
               target: 'build',
-              projects: 'self',
             },
           ],
         },
@@ -273,7 +269,6 @@ export default async function (
           dependsOn: [
             {
               target: 'build',
-              projects: 'self',
             },
           ],
         },
@@ -282,7 +277,6 @@ export default async function (
           dependsOn: [
             {
               target: 'build',
-              projects: 'self',
             },
           ],
         },
