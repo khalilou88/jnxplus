@@ -88,7 +88,7 @@ function addProjects(
   }
 
   const parentProjectArtifactId = getParentProjectName(pomXmlContent);
-  const dependencies = getDependenciesFromPom(pomXmlContent);
+  const dependencies = getDependencyArtifactIds(pomXmlContent);
   projects.push({
     name: projectName,
     artifactId: artifactId,
@@ -165,7 +165,7 @@ function addDependencies(
       );
     }
 
-    const dependencies = getDependencies(project, projects);
+    const dependencies = getDependencyProjects(project, projects);
     for (const dependency of dependencies) {
       builder.addStaticDependency(
         project.name ?? project.artifactId,
@@ -186,7 +186,7 @@ function getProject(projects: MavenProjectType[], artifactId: string) {
   return project;
 }
 
-function getDependenciesFromPom(pomXml: XmlDocument) {
+function getDependencyArtifactIds(pomXml: XmlDocument) {
   const dependenciesXml = pomXml.childNamed('dependencies');
   if (dependenciesXml === undefined) {
     return [];
@@ -199,7 +199,7 @@ function getDependenciesFromPom(pomXml: XmlDocument) {
     });
 }
 
-function getDependencies(
+function getDependencyProjects(
   project: MavenProjectType,
   projects: MavenProjectType[]
 ) {
