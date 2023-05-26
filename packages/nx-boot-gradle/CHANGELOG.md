@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [6.5.0](https://github.com/khalilou88/jnxplus/compare/nx-boot-gradle-6.4.1...nx-boot-gradle-6.5.0) (2023-05-26)
+
+### Dependency Updates
+
+* `gradle` updated to version `0.4.0`
+* `common` updated to version `0.3.1`
+
+### Features
+
+* **generators:** update gradle wrapper version ([b9953ae](https://github.com/khalilou88/jnxplus/commit/b9953ae7607d8b9ca01542627711b79b131d629d))
+
+
+
 ## [6.4.1](https://github.com/khalilou88/jnxplus/compare/nx-boot-gradle-6.4.0...nx-boot-gradle-6.4.1) (2023-05-22)
 
 ### Dependency Updates
