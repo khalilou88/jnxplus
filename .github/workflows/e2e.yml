@@ -4,7 +4,7 @@ on:
   # Trigger manually or on schedule
   workflow_dispatch:
   schedule:
-    - cron: '0 6 * * *'
+    - cron: '0 4 * * *'
 
 jobs:
   Run_checks:
