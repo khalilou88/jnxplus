@@ -1,7 +1,6 @@
 import { getProjectRoot } from '@jnxplus/common';
 import { ExecutorContext, workspaceRoot } from '@nx/devkit';
 import { execSync } from 'child_process';
-import { join } from 'path';
 import { SetVersionExecutorSchema } from './schema';
 
 import * as fs from 'fs';
@@ -18,32 +17,23 @@ export default async function runExecutor(
   //change file
   updateFile(options.version, projectRoot);
 
-  //commit
-  const commit = `git commit -m ${options.commitMessageFormat}`;
+  const commitMessage = `release: write version ${options.version} in gradle.build`;
+
+  const commit = `git commit -m "${commitMessage}" packages/gradle-plugin/build.gradle`;
   execSync(commit, {
-    cwd: join(workspaceRoot, projectRoot),
+    cwd: workspaceRoot,
     stdio: 'inherit',
     env: process.env,
     encoding: 'utf-8',
   });
 
-  // push tag
-  const push = `git push origin ${options.tag}`;
+  const push = `git push`;
   execSync(push, {
-    cwd: join(workspaceRoot, projectRoot),
+    cwd: workspaceRoot,
     stdio: 'inherit',
     env: process.env,
     encoding: 'utf-8',
   });
-
-  for (const task in options.postTargets) {
-    execSync(`nx run ${task}`, {
-      cwd: workspaceRoot,
-      stdio: 'inherit',
-      env: process.env,
-      encoding: 'utf-8',
-    });
-  }
 
   return { success: true };
 }

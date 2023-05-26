@@ -15,18 +15,17 @@
       "executor": "@jscutlery/semver:version",
       "options": {
         "preset": "angular",
-        "push": false,
-        "skipCommit": true,
-        "postTargets": ["gradle-plugin:set-version"]
-      }
+        "push": true,
+        "noVerify": true,
+        "postTargets": ["gradle-plugin:set-version", "gradle-plugin:publish"],
+        "commitMessageFormat": "release: cut release ${version} for ${projectName} [skip ci]"
+      },
+      "dependsOn": [{ "target": "build" }]
     },
     "set-version": {
       "executor": "@jnxplus/gradle:set-version",
       "options": {
-        "tag": "${tag}",
-        "version": "${version}",
-        "commitMessageFormat": "release: cut release ${version} for ${projectName} [skip ci]",
-        "postTargets": ["gradle-plugin:publish"]
+        "version": "${version}"
       }
     },
     "publish": {

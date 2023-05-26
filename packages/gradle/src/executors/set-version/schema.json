@@ -5,23 +5,8 @@
   "description": "",
   "type": "object",
   "properties": {
-    "tag": {
-      "type": "string"
-    },
     "version": {
       "type": "string"
-    },
-    "commitMessageFormat": {
-      "type": "string"
-    },
-    "postTargets": {
-      "description": "Specify the targets to run after a new version was successfully created.",
-      "type": "array",
-      "default": [],
-      "items": {
-        "type": "string",
-        "description": "The target to run."
-      }
     }
   },
   "required": []
