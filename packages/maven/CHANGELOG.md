@@ -2,6 +2,23 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.2.0](https://github.com/khalilou88/jnxplus/compare/maven-0.1.8...maven-0.2.0) (2023-05-26)
+
+### Dependency Updates
+
+* `common` updated to version `0.3.1`
+
+### Bug Fixes
+
+* **graph:** fix graph calculation in complex situation ([#226](https://github.com/khalilou88/jnxplus/issues/226)) ([40d5df2](https://github.com/khalilou88/jnxplus/commit/40d5df2909dacc973253c59878da945bb1ad0c58))
+
+
+### Features
+
+* **generators:** distinguish aggregator from parent project [skip ci] ([#225](https://github.com/khalilou88/jnxplus/issues/225)) ([3facb36](https://github.com/khalilou88/jnxplus/commit/3facb3692216bc875297be9690fdf8fe9a3ebe9e))
+
+
+
 ## [0.1.8](https://github.com/khalilou88/jnxplus/compare/maven-0.1.7...maven-0.1.8) (2023-05-19)
 
 ### Dependency Updates
