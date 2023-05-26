@@ -2,6 +2,24 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.8.0](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-gradle-0.7.1...nx-quarkus-gradle-0.8.0) (2023-05-26)
+
+### Dependency Updates
+
+* `gradle` updated to version `0.4.0`
+* `common` updated to version `0.3.1`
+
+### Bug Fixes
+
+* **generators:** add messing quarkusPluginVersion property [skip ci] ([f6ac1b4](https://github.com/khalilou88/jnxplus/commit/f6ac1b44ada971d36c15d357810fd8ee4ce5ee0e))
+
+
+### Features
+
+* **generators:** update gradle wrapper version ([b9953ae](https://github.com/khalilou88/jnxplus/commit/b9953ae7607d8b9ca01542627711b79b131d629d))
+
+
+
 ## [0.7.1](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-gradle-0.7.0...nx-quarkus-gradle-0.7.1) (2023-05-22)
 
 ### Dependency Updates
