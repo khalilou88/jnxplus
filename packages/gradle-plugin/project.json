@@ -31,7 +31,7 @@
     "publish": {
       "executor": "@jnxplus/gradle:run-commands",
       "options": {
-        "command": "publishPlugins --validate-only",
+        "command": "publishPlugins",
         "cwd": "packages/gradle-plugin"
       }
     }

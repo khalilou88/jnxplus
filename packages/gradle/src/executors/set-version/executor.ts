@@ -19,7 +19,7 @@ export default async function runExecutor(
 
   const commitMessage = `release: write version ${options.version} in gradle.build`;
 
-  const commit = `git commit -m "${commitMessage}" packages/gradle-plugin/build.gradle`;
+  const commit = `git commit --no-verify -m "${commitMessage}" packages/gradle-plugin/build.gradle [skip ci]`;
   execSync(commit, {
     cwd: workspaceRoot,
     stdio: 'inherit',
