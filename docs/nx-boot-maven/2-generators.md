@@ -30,7 +30,7 @@ Default: `17`
 
 Type: `string`
 
-Possible values: `17`, `19`
+Possible values: `17`, `20`
 
 The java version for Spring Boot apps and libs. The same java version is used inside the Nx workspace.
 

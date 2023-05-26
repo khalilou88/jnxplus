@@ -1,7 +1,7 @@
 //Spring boot
-export const springBootVersion = '3.0.6';
+export const springBootVersion = '3.1.0';
 export const dependencyManagementVersion = '1.1.0';
-export const springKotlinVersion = '1.7.22';
+export const springKotlinVersion = '1.8.21';
 
 //Quarkus
 export const quarkusPlatformVersion = '3.0.3.Final';
