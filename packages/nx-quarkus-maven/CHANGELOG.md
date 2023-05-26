@@ -2,6 +2,14 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.6.2](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-maven-0.6.1...nx-quarkus-maven-0.6.2) (2023-05-26)
+
+### Dependency Updates
+
+* `maven` updated to version `0.2.0`
+* `common` updated to version `0.3.1`
+
+
 ## [0.6.1](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-maven-0.6.0...nx-quarkus-maven-0.6.1) (2023-05-21)
 
 
