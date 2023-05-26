@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
   "version": 2,
+  "outputCapture": "pipe",
   "title": "SetVersion executor",
   "description": "",
   "type": "object",
