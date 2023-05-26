@@ -11,10 +11,28 @@
         "cwd": "packages/gradle-plugin"
       }
     },
+    "release": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular",
+        "push": false,
+        "skipCommit": true,
+        "postTargets": ["gradle-plugin:set-version"]
+      }
+    },
+    "set-version": {
+      "executor": "@jnxplus/gradle:set-version",
+      "options": {
+        "tag": "${tag}",
+        "version": "${version}",
+        "commitMessageFormat": "release: cut release ${version} for ${projectName} [skip ci]",
+        "postTargets": ["gradle-plugin:publish"]
+      }
+    },
     "publish": {
       "executor": "@jnxplus/gradle:run-commands",
       "options": {
-        "command": "publishToMavenLocal",
+        "command": "publishPlugins --validate-only",
         "cwd": "packages/gradle-plugin"
       }
     }

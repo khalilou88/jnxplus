@@ -17,6 +17,6 @@ class GradlePluginTest extends Specification {
     project.plugins.apply("io.github.jnxplus")
 
     then:
-    project.tasks.findByName("projectDependencyReport") != null
+    project.tasks.findByName("projectDependencyTask") != null
   }
 }

@@ -34,11 +34,11 @@ plugins {
     def runner = GradleRunner.create()
     runner.forwardOutput()
     runner.withPluginClasspath()
-    runner.withArguments("projectDependencyReport", "--outputFile", "./build/example.json")
+    runner.withArguments("projectDependencyTask", "--outputFile", "./build/example.json")
     runner.withProjectDir(projectDir)
     def result = runner.build()
 
     then:
-    result.output.contains("Task ran for projectDependencyReport")
+    result.output.contains("Task ran for projectDependencyTask")
   }
 }

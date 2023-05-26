@@ -16,7 +16,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
 
   @TaskAction
   void runTask() {
-    println("Task ran for projectDependencyReport")
+    println("Task ran for projectDependencyTask")
     def projects = []
 
     addProjects(projects, '', project)

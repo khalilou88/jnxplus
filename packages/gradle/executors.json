@@ -4,6 +4,11 @@
       "implementation": "./src/executors/run-commands/executor",
       "schema": "./src/executors/run-commands/schema.json",
       "description": "run-commands executor"
+    },
+    "set-version": {
+      "implementation": "./src/executors/set-version/executor",
+      "schema": "./src/executors/set-version/schema.json",
+      "description": "set-version executor"
     }
   }
 }

@@ -14,7 +14,7 @@ class GradlePlugin implements Plugin<Project> {
 
   void apply(Project project) {
     // Register a task
-    project.tasks.register("projectDependencyReport", ProjectDependencyTask)
+    project.tasks.register("projectDependencyTask", ProjectDependencyTask)
   }
 
 }
