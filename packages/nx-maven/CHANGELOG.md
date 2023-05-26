@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.2.0](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.1.4...nx-maven-0.2.0) (2023-05-26)
+
+### Dependency Updates
+
+* `maven` updated to version `0.2.0`
+* `common` updated to version `0.3.1`
+
+### Features
+
+* **generators:** distinguish aggregator from parent project [skip ci] ([#225](https://github.com/khalilou88/jnxplus/issues/225)) ([3facb36](https://github.com/khalilou88/jnxplus/commit/3facb3692216bc875297be9690fdf8fe9a3ebe9e))
+
+
+
 ## [0.1.4](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.1.3...nx-maven-0.1.4) (2023-05-21)
 
 
