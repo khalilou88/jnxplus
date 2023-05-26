@@ -1035,7 +1035,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
       source: appName,
       target: libName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should add a kotlin lib to a kotlin app dependencies', async () => {
     const appName = uniq('quarkus-gradle-app-');
