@@ -197,7 +197,6 @@ export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
           dependsOn: [
             {
               target: 'build',
-              projects: 'self',
             },
           ],
         },
@@ -212,7 +211,6 @@ export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
           dependsOn: [
             {
               target: 'build',
-              projects: 'self',
             },
           ],
         },
@@ -237,7 +235,6 @@ export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
           dependsOn: [
             {
               target: 'build',
-              projects: 'self',
             },
           ],
         },
@@ -252,7 +249,6 @@ export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
           dependsOn: [
             {
               target: 'build',
-              projects: 'self',
             },
           ],
         },
