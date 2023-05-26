@@ -1,6 +1,5 @@
 import { getProjectGraphNodeType } from '@jnxplus/common';
 import {
-  Hasher,
   ProjectGraphBuilder,
   joinPathFragments,
   workspaceRoot,
@@ -75,12 +74,6 @@ function addProjects(
             executor: `${pluginName}:run-task`,
           },
         },
-        // files: [
-        //   {
-        //     file: joinPathFragments(projectRoot, 'pom.xml'),
-        //     hash: hasher.hashFile(joinPathFragments(projectRoot, 'pom.xml')),
-        //   },
-        // ],
       },
     });
   }

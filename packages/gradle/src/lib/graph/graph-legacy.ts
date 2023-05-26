@@ -64,9 +64,6 @@ function addProjects(
   const projectJsonPath = path.join(projectDirPath, 'project.json');
   const isProjectJsonExists = fileExists(projectJsonPath);
 
-  const gradlePropertiesPath = path.join(projectDirPath, 'gradle.properties');
-  const isGradlePropertiesExists = fileExists(gradlePropertiesPath);
-
   let sourceFile = '';
   let dependencies: string[] = [];
   if (isBuildGradleExists) {
@@ -106,48 +103,6 @@ function addProjects(
   }
 
   if (!isProjectJsonExists) {
-    // const files = [];
-
-    // if (isSettingsGradleExists) {
-    //   const file = joinPathFragments(projectRoot, 'settings.gradle');
-    //   files.push({
-    //     file: file,
-    //     hash: hasher.hashFile(file),
-    //   });
-    // }
-
-    // if (isSettingsGradleKtsExists) {
-    //   const file = joinPathFragments(projectRoot, 'settings.gradle.kts');
-    //   files.push({
-    //     file: file,
-    //     hash: hasher.hashFile(file),
-    //   });
-    // }
-
-    // if (isBuildGradleExists) {
-    //   const file = joinPathFragments(projectRoot, 'build.gradle');
-    //   files.push({
-    //     file: file,
-    //     hash: hasher.hashFile(file),
-    //   });
-    // }
-
-    // if (isBuildGradleKtsExists) {
-    //   const file = joinPathFragments(projectRoot, 'build.gradle.kts');
-    //   files.push({
-    //     file: file,
-    //     hash: hasher.hashFile(file),
-    //   });
-    // }
-
-    // if (isGradlePropertiesExists) {
-    //   const file = joinPathFragments(projectRoot, 'gradle.properties');
-    //   files.push({
-    //     file: file,
-    //     hash: hasher.hashFile(file),
-    //   });
-    // }
-
     const projectGraphNodeType = getProjectGraphNodeType(projectRoot);
 
     builder.addNode({
@@ -161,7 +116,6 @@ function addProjects(
             executor: 'nx:noop',
           },
         },
-        // files: files,
       },
     });
   }
