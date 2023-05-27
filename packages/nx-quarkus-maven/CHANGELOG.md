@@ -2,6 +2,27 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.7.0](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-maven-0.6.2...nx-quarkus-maven-0.7.0) (2023-05-27)
+
+### Dependency Updates
+
+* `maven` updated to version `0.2.1`
+* `common` updated to version `0.4.0`
+
+### Bug Fixes
+
+* **executors:** use pipe output capture ([#233](https://github.com/khalilou88/jnxplus/issues/233)) ([1d295b4](https://github.com/khalilou88/jnxplus/commit/1d295b4548a2b2cbdeb4c7fbb5ceb4fb73a830d8))
+* **generators:** disable unit tests ([a08d0f2](https://github.com/khalilou88/jnxplus/commit/a08d0f2cd396f6f7dddbb41e0bcd532a8a800778))
+* **generators:** remove old syntax ([#232](https://github.com/khalilou88/jnxplus/issues/232)) ([a390029](https://github.com/khalilou88/jnxplus/commit/a39002963b2c66a1295fa42925b76994a24748c3))
+
+
+### Features
+
+* **generators:** update maven wrapper to version 3.9.2 ([b5486de](https://github.com/khalilou88/jnxplus/commit/b5486ded2f418a606d2f4ca957cbd97ed4956596))
+* **generators:** update spring boot version to 3.1.0 ([#231](https://github.com/khalilou88/jnxplus/issues/231)) ([b050516](https://github.com/khalilou88/jnxplus/commit/b0505163fde06fbcf355a97a75e675c0c5fe8bc3))
+
+
+
 ## [0.6.2](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-maven-0.6.1...nx-quarkus-maven-0.6.2) (2023-05-26)
 
 ### Dependency Updates
