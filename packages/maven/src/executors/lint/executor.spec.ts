@@ -1,7 +1,7 @@
 import { ExecutorContext } from '@nx/devkit';
 import { runCommand } from '@jnxplus/common';
 import executor from './executor';
-import { LintExecutorSchema } from './schema';
+import { LintExecutorSchema } from '@jnxplus/common';
 jest.mock('@jnxplus/common');
 
 const options: LintExecutorSchema = {

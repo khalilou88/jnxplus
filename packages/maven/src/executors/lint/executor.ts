@@ -1,12 +1,12 @@
 import {
+  LintExecutorSchema,
   getCheckstylePath,
   getKtlintPath,
-  getPmdExecutable,
-  getProjectSourceRoot,
-  runCommand,
+  runKtlintExecutor,
+  runPmdLintExecutor,
+  runCheckstyleLintExecutor,
 } from '@jnxplus/common';
 import { ExecutorContext, logger } from '@nx/devkit';
-import { LintExecutorSchema } from './schema';
 import { getCheckstyleVersion, getKtlintVersion } from '../../lib/utils';
 
 export default async function runExecutor(
@@ -14,22 +14,19 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   logger.info(`Executor ran for Lint: ${JSON.stringify(options)}`);
-  let command = '';
-  const projectSourceRoot = getProjectSourceRoot(context);
-
   if (options.linter === 'checkstyle') {
     const checkstylePath = await getCheckstylePath(getCheckstyleVersion);
-    command = `java -jar ${checkstylePath} -c ./tools/linters/checkstyle.xml ${projectSourceRoot}`;
+    return runCheckstyleLintExecutor(options, context, checkstylePath);
   }
 
   if (options.linter === 'pmd') {
-    command = `${getPmdExecutable()} check -f text -R ./tools/linters/pmd.xml -d ${projectSourceRoot}`;
+    return runPmdLintExecutor(options, context);
   }
 
   if (options.linter === 'ktlint') {
     const ktlintPath = await getKtlintPath(getKtlintVersion);
-    command = `java --add-opens java.base/java.lang=ALL-UNNAMED -jar ${ktlintPath} "${projectSourceRoot}/**/*.kt"`;
+    return runKtlintExecutor(options, context, ktlintPath);
   }
 
-  return runCommand(command);
+  throw new Error(`Unknown option ${options.linter}`);
 }

@@ -1,7 +1,7 @@
 import { ExecutorContext } from '@nx/devkit';
 import { runCommand } from '@jnxplus/common';
 import executor from './executor';
-import { KotlinFormatExecutorSchema } from './schema';
+import { KotlinFormatExecutorSchema } from '@jnxplus/common';
 jest.mock('@jnxplus/common');
 
 const options: KotlinFormatExecutorSchema = {};

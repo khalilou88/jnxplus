@@ -1,5 +1,5 @@
 import { ExecutorContext } from '@nx/devkit';
-import { runCommand } from '@jnxplus/common';
+import { runCommand } from '../../.';
 import executor from './executor';
 import { KotlinFormatExecutorSchema } from './schema';
 jest.mock('@jnxplus/common');
@@ -30,7 +30,7 @@ describe('Kotlin Format Executor', () => {
   });
 
   xit('can run', async () => {
-    const output = await executor(options, context);
+    const output = await executor(options, context, '');
     expect(output.success).toBe(true);
   });
 });
