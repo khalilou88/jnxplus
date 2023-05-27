@@ -11,7 +11,7 @@
 	<groupId><%= groupId %></groupId>
 	<artifactId><%= projectName %></artifactId>
 	<version><%= projectVersion %></version>
-  <packaging>pom</packaging>
+    <packaging>pom</packaging>
 	<name><%= projectName %></name>
 	<description>This project was generated with nx-quarkus-maven</description>
   
