@@ -41,7 +41,7 @@ jobs:
           java-version: ${{ matrix.java }}
 
       - name: Install dependencies
-        run: npm i --legacy-peer-deps
+        run: npm ci
 
       - name: Lint
         run: npm run nx affected -- --target=lint --parallel=3

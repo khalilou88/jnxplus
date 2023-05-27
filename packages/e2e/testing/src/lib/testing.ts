@@ -188,7 +188,7 @@ export function patchPackageJson(
  * @param silent silent output from the install
  */
 export function runPackageManagerInstallLinks(silent = true) {
-  const install = execSync('npm i --legacy-peer-deps --install-links', {
+  const install = execSync('npm i --install-links', {
     cwd: tmpProjPath(),
     ...(silent ? { stdio: ['ignore', 'ignore', 'ignore'] } : {}),
   });
