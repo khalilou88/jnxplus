@@ -34,10 +34,43 @@
     <sourceDirectory>src/main/kotlin</sourceDirectory>
     <testSourceDirectory>src/test/kotlin</testSourceDirectory>
     <plugins>
-    <plugin>
-      <groupId>org.jetbrains.kotlin</groupId>
-      <artifactId>kotlin-maven-plugin</artifactId>
-    </plugin>
+      <plugin>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-maven-plugin</artifactId>
+        <version>${kotlin.version}</version>
+        <executions>
+          <execution>
+            <id>compile</id>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>test-compile</id>
+            <goals>
+              <goal>test-compile</goal>
+            </goals>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-maven-allopen</artifactId>
+            <version>${kotlin.version}</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <javaParameters>true</javaParameters>
+          <jvmTarget>${java.version}</jvmTarget>
+          <compilerPlugins>
+            <plugin>all-open</plugin>
+          </compilerPlugins>
+          <pluginOptions>
+            <option>all-open:annotation=jakarta.enterprise.context.ApplicationScoped</option>
+            <option>all-open:annotation=io.quarkus.test.junit.QuarkusTest</option>
+          </pluginOptions>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>

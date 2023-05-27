@@ -13,6 +13,11 @@
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
     <quarkus.platform.version><%= quarkusVersion %></quarkus.platform.version>
+    <maven.compiler.release>${java.version}</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <compiler-plugin.version>3.11.0</compiler-plugin.version>
+    <surefire-plugin.version>3.0.0</surefire-plugin.version>
     <checkstyle.version><%= checkstyleVersion %></checkstyle.version>
     <ktlint.version><%= ktlintVersion %></ktlint.version>
   </properties>
