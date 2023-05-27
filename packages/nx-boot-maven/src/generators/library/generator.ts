@@ -191,6 +191,11 @@ export default async function (
         },
         test: {
           executor: '@jnxplus/nx-boot-maven:test',
+          dependsOn: [
+            {
+              target: 'build',
+            },
+          ],
         },
       },
       tags: normalizedOptions.parsedTags,
@@ -213,6 +218,11 @@ export default async function (
         },
         test: {
           executor: '@jnxplus/nx-boot-maven:test',
+          dependsOn: [
+            {
+              target: 'build',
+            },
+          ],
         },
         ktformat: {
           executor: '@jnxplus/nx-boot-maven:ktformat',
