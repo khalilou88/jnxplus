@@ -2,6 +2,24 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.9.0](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-gradle-0.8.0...nx-quarkus-gradle-0.9.0) (2023-05-27)
+
+### Dependency Updates
+
+* `gradle` updated to version `0.5.0`
+* `common` updated to version `0.4.0`
+
+### Bug Fixes
+
+* **executors:** use pipe output capture ([#233](https://github.com/khalilou88/jnxplus/issues/233)) ([1d295b4](https://github.com/khalilou88/jnxplus/commit/1d295b4548a2b2cbdeb4c7fbb5ceb4fb73a830d8))
+
+
+### Features
+
+* **generators:** update spring boot version to 3.1.0 ([#231](https://github.com/khalilou88/jnxplus/issues/231)) ([b050516](https://github.com/khalilou88/jnxplus/commit/b0505163fde06fbcf355a97a75e675c0c5fe8bc3))
+
+
+
 # [0.8.0](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-gradle-0.7.1...nx-quarkus-gradle-0.8.0) (2023-05-26)
 
 ### Dependency Updates
