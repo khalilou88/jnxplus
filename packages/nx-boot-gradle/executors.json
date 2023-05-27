@@ -18,7 +18,7 @@
     },
     "lint": {
       "implementation": "@jnxplus/gradle/src/executors/lint/executor",
-      "schema": "@jnxplus/gradle/src/executors/lint/schema.json",
+      "schema": "@jnxplus/common/src/executors/lint/schema.json",
       "description": "lint executor"
     },
     "test": {
@@ -28,12 +28,12 @@
     },
     "ktformat": {
       "implementation": "@jnxplus/gradle/src/executors/ktformat/executor",
-      "schema": "@jnxplus/gradle/src/executors/ktformat/schema.json",
+      "schema": "@jnxplus/common/src/executors/ktformat/schema.json",
       "description": "kotlin format executor"
     },
     "kformat": {
-      "implementation": "@jnxplus/gradle/src/executors/kformat/executor",
-      "schema": "@jnxplus/gradle/src/executors/kformat/schema.json",
+      "implementation": "@jnxplus/gradle/src/executors/ktformat/executor",
+      "schema": "@jnxplus/common/src/executors/ktformat/schema.json",
       "description": "(Deprecated) kotlin format executor"
     },
     "run-task": {

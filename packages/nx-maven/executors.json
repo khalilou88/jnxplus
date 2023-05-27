@@ -18,7 +18,7 @@
     },
     "lint": {
       "implementation": "@jnxplus/maven/src/executors/lint/executor",
-      "schema": "@jnxplus/maven/src/executors/lint/schema.json",
+      "schema": "@jnxplus/common/src/executors/lint/schema.json",
       "description": "lint executor"
     },
     "test": {
@@ -28,7 +28,7 @@
     },
     "ktformat": {
       "implementation": "@jnxplus/maven/src/executors/ktformat/executor",
-      "schema": "@jnxplus/maven/src/executors/ktformat/schema.json",
+      "schema": "@jnxplus/common/src/executors/ktformat/schema.json",
       "description": "kotlin format executor"
     },
     "run-task": {
