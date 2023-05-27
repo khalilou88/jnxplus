@@ -1,5 +1,5 @@
 import { ExecutorContext, logger, workspaceRoot } from '@nx/devkit';
-import { getProjectRoot, runCommand } from '@jnxplus/common';
+import { getProjectRoot, runCommand } from '../../../.';
 import { BuildImageExecutorSchema } from './schema';
 import { join } from 'path';
 
