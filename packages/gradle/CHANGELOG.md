@@ -2,6 +2,26 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.5.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.4.0...gradle-0.5.0) (2023-05-27)
+
+### Dependency Updates
+
+* `common` updated to version `0.4.0`
+
+### Bug Fixes
+
+* **executors:** use pipe output capture ([#233](https://github.com/khalilou88/jnxplus/issues/233)) ([1d295b4](https://github.com/khalilou88/jnxplus/commit/1d295b4548a2b2cbdeb4c7fbb5ceb4fb73a830d8))
+* fix commit [skip ci] ([a98cba6](https://github.com/khalilou88/jnxplus/commit/a98cba678d5b11ca3f74dc27eeb4ead818211768))
+* remove --validate-only option [skip ci] ([e07b36f](https://github.com/khalilou88/jnxplus/commit/e07b36f2635f7842534ff6598ba1b4e56343930e))
+* write version in build gradle ([2f12986](https://github.com/khalilou88/jnxplus/commit/2f129867d6fdd6f7984e895337cde7a121e462ca))
+
+
+### Features
+
+* gradle plugin [skip ci] ([711156d](https://github.com/khalilou88/jnxplus/commit/711156df4d51838da39ccfe5181398048c3d5b4b))
+
+
+
 # [0.4.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.3.1...gradle-0.4.0) (2023-05-26)
 
 ### Dependency Updates
