@@ -168,6 +168,9 @@ describe('nx-boot-maven e2e', () => {
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
     expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
@@ -179,9 +182,6 @@ describe('nx-boot-maven e2e', () => {
     expect(() => checkFilesExist(`apps/${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
-
-    const testResult = await runNxCommandAsync(`test ${appName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -293,13 +293,13 @@ describe('nx-boot-maven e2e', () => {
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
     const buildResult = await runNxCommandAsync(
       `build ${appName} --mvnArgs='--no-transfer-progress'`
     );
     expect(buildResult.stdout).toContain('Executor ran for Build');
-
-    const testResult = await runNxCommandAsync(`test ${appName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -374,6 +374,9 @@ describe('nx-boot-maven e2e', () => {
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
     const buildResult = await runNxCommandAsync(
       `build ${appName} --mvnArgs="--no-transfer-progress"`
     );
@@ -386,9 +389,6 @@ describe('nx-boot-maven e2e', () => {
     expect(() => checkFilesExist(`apps/${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
-
-    const testResult = await runNxCommandAsync(`test ${appName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
     expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -483,11 +483,11 @@ describe('nx-boot-maven e2e', () => {
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -572,11 +572,11 @@ describe('nx-boot-maven e2e', () => {
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -685,6 +685,9 @@ describe('nx-boot-maven e2e', () => {
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
@@ -695,9 +698,6 @@ describe('nx-boot-maven e2e', () => {
     expect(() => checkFilesExist(`libs/${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`libs/${libName}/target`)).not.toThrow();
-
-    const testResult = await runNxCommandAsync(`test ${libName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const lintResult = await runNxCommandAsync(`lint ${libName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -749,6 +749,9 @@ describe('nx-boot-maven e2e', () => {
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
@@ -759,9 +762,6 @@ describe('nx-boot-maven e2e', () => {
     expect(() => checkFilesExist(`libs/${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`libs/${libName}/target`)).not.toThrow();
-
-    const testResult = await runNxCommandAsync(`test ${libName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
     expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -817,11 +817,11 @@ describe('nx-boot-maven e2e', () => {
     const projectJson = readJson(`libs/${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${libName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const lintResult = await runNxCommandAsync(`lint ${libName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -879,11 +879,11 @@ describe('nx-boot-maven e2e', () => {
     const projectJson = readJson(`libs/${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${libName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const lintResult = await runNxCommandAsync(`lint ${libName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -941,11 +941,11 @@ describe('nx-boot-maven e2e', () => {
     const projectJson = readJson(`libs/${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${libName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const lintResult = await runNxCommandAsync(`lint ${libName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -1009,11 +1009,11 @@ describe('nx-boot-maven e2e', () => {
 
     updateFile(helloControllerPath, newHelloControllerContent);
 
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`
@@ -1094,11 +1094,11 @@ describe('nx-boot-maven e2e', () => {
 
     updateFile(helloControllerPath, newHelloControllerContent);
 
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
     expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -1570,13 +1570,13 @@ describe('nx-boot-maven e2e', () => {
     const projectJson = readJson(`apps/${appDir}/${appName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
     const buildResult = await runNxCommandAsync(
       `build ${appName} --mvnArgs='--no-transfer-progress'`
     );
     expect(buildResult.stdout).toContain('Executor ran for Build');
-
-    const testResult = await runNxCommandAsync(`test ${appName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -1650,11 +1650,11 @@ describe('nx-boot-maven e2e', () => {
     const projectJson = readJson(`libs/${libDir}/${libName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${libName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const lintResult = await runNxCommandAsync(`lint ${libName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
