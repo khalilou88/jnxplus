@@ -1,7 +1,7 @@
 import { ExecutorContext, logger } from '@nx/devkit';
 import { runCommand } from '@jnxplus/common';
 import { IntegrationTestExecutorSchema } from './schema';
-import { getExecutable } from '../../lib/utils/index';
+import { getExecutable } from '../../lib/utils';
 
 export default async function runExecutor(
   options: IntegrationTestExecutorSchema,

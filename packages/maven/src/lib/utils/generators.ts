@@ -1,4 +1,4 @@
-import { readXmlTree, xmlToString } from '../xml/index';
+import { readXmlTree, xmlToString } from '../xml';
 import {
   Tree,
   readProjectConfiguration,
