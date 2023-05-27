@@ -2,43 +2,43 @@
   "$schema": "http://json-schema.org/schema",
   "executors": {
     "build": {
-      "implementation": "./src/executors/build/executor",
-      "schema": "./src/executors/build/schema.json",
+      "implementation": "@jnxplus/gradle/src/executors/build/boot/executor",
+      "schema": "@jnxplus/gradle/src/executors/build/boot/schema.json",
       "description": "build executor"
     },
     "build-image": {
-      "implementation": "./src/executors/build-image/executor",
-      "schema": "./src/executors/build-image/schema.json",
+      "implementation": "@jnxplus/gradle/src/executors/build-image/boot/executor",
+      "schema": "@jnxplus/gradle/src/executors/build-image/boot/schema.json",
       "description": "build-image executor"
     },
     "serve": {
-      "implementation": "./src/executors/serve/executor",
-      "schema": "./src/executors/serve/schema.json",
+      "implementation": "@jnxplus/gradle/src/executors/serve/boot/executor",
+      "schema": "@jnxplus/gradle/src/executors/serve/boot/schema.json",
       "description": "serve executor"
     },
     "lint": {
-      "implementation": "./src/executors/lint/executor",
-      "schema": "./src/executors/lint/schema.json",
+      "implementation": "@jnxplus/gradle/src/executors/lint/executor",
+      "schema": "@jnxplus/gradle/src/executors/lint/schema.json",
       "description": "lint executor"
     },
     "test": {
-      "implementation": "./src/executors/test/executor",
-      "schema": "./src/executors/test/schema.json",
+      "implementation": "@jnxplus/gradle/src/executors/test/executor",
+      "schema": "@jnxplus/gradle/src/executors/test/schema.json",
       "description": "test executor"
     },
     "ktformat": {
-      "implementation": "./src/executors/ktformat/executor",
-      "schema": "./src/executors/ktformat/schema.json",
+      "implementation": "@jnxplus/gradle/src/executors/ktformat/executor",
+      "schema": "@jnxplus/gradle/src/executors/ktformat/schema.json",
       "description": "kotlin format executor"
     },
     "kformat": {
-      "implementation": "./src/executors/kformat/executor",
-      "schema": "./src/executors/kformat/schema.json",
+      "implementation": "@jnxplus/gradle/src/executors/kformat/executor",
+      "schema": "@jnxplus/gradle/src/executors/kformat/schema.json",
       "description": "(Deprecated) kotlin format executor"
     },
     "run-task": {
-      "implementation": "./src/executors/run-task/executor",
-      "schema": "./src/executors/run-task/schema.json",
+      "implementation": "@jnxplus/gradle/src/executors/run-task/executor",
+      "schema": "@jnxplus/gradle/src/executors/run-task/schema.json",
       "description": "run-task executor"
     }
   }
