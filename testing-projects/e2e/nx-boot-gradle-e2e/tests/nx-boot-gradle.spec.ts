@@ -173,6 +173,9 @@ describe('nx-boot-gradle e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'build');
@@ -180,9 +183,6 @@ describe('nx-boot-gradle e2e', () => {
     expect(() => checkFilesExist(`apps/${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
-
-    const testResult = await runNxCommandAsync(`test ${appName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -298,11 +298,11 @@ describe('nx-boot-gradle e2e', () => {
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -391,11 +391,11 @@ describe('nx-boot-gradle e2e', () => {
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -474,6 +474,9 @@ describe('nx-boot-gradle e2e', () => {
     expect(buildGradle.includes('com.example')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
@@ -484,9 +487,6 @@ describe('nx-boot-gradle e2e', () => {
     expect(() => checkFilesExist(`apps/${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
-
-    const testResult = await runNxCommandAsync(`test ${appName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
     expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -585,11 +585,11 @@ describe('nx-boot-gradle e2e', () => {
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -698,6 +698,9 @@ describe('nx-boot-gradle e2e', () => {
     expect(buildGradle.includes('com.example')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
@@ -708,9 +711,6 @@ describe('nx-boot-gradle e2e', () => {
     expect(() => checkFilesExist(`libs/${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`libs/${libName}/build`)).not.toThrow();
-
-    const testResult = await runNxCommandAsync(`test ${libName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const lintResult = await runNxCommandAsync(`lint ${libName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -762,6 +762,9 @@ describe('nx-boot-gradle e2e', () => {
     expect(buildGradle.includes('com.example')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
@@ -772,9 +775,6 @@ describe('nx-boot-gradle e2e', () => {
     expect(() => checkFilesExist(`libs/${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`libs/${libName}/build`)).not.toThrow();
-
-    const testResult = await runNxCommandAsync(`test ${libName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
     expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -830,11 +830,11 @@ describe('nx-boot-gradle e2e', () => {
     const projectJson = readJson(`libs/${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${libName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const lintResult = await runNxCommandAsync(`lint ${libName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -892,11 +892,11 @@ describe('nx-boot-gradle e2e', () => {
     const projectJson = readJson(`libs/${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${libName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const lintResult = await runNxCommandAsync(`lint ${libName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -954,11 +954,11 @@ describe('nx-boot-gradle e2e', () => {
     const projectJson = readJson(`libs/${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${libName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const lintResult = await runNxCommandAsync(`lint ${libName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -1022,11 +1022,11 @@ describe('nx-boot-gradle e2e', () => {
 
     updateFile(helloControllerPath, newHelloControllerContent);
 
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`
@@ -1108,11 +1108,11 @@ describe('nx-boot-gradle e2e', () => {
 
     updateFile(helloControllerPath, newHelloControllerContent);
 
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
     expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -1189,11 +1189,11 @@ describe('nx-boot-gradle e2e', () => {
     const projectJson = readJson(`apps/${appDir}/${appName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -1267,11 +1267,11 @@ describe('nx-boot-gradle e2e', () => {
     const projectJson = readJson(`libs/${libDir}/${libName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${libName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const lintResult = await runNxCommandAsync(`lint ${libName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
