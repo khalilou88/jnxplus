@@ -14,7 +14,25 @@
         "tsConfig": "packages/maven/tsconfig.lib.json",
         "updateBuildableProjectDepsInPackageJson": true,
         "buildableProjectDepsInPackageJsonType": "dependencies",
-        "assets": ["packages/maven/*.md"]
+        "assets": [
+          "packages/maven/*.md",
+
+          {
+            "input": "./packages/maven/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/maven/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/maven",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
       }
     },
     "lint": {
