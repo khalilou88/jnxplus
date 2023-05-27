@@ -1,5 +1,5 @@
 import { ExecutorContext } from '@nx/devkit';
-import { runCommand } from '@jnxplus/common';
+import { runCommand } from '../../../.';
 import executor from './executor';
 import { BuildImageExecutorSchema } from './schema';
 jest.mock('@jnxplus/common');

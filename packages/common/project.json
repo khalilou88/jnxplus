@@ -14,7 +14,19 @@
         "tsConfig": "packages/common/tsconfig.lib.json",
         "updateBuildableProjectDepsInPackageJson": true,
         "buildableProjectDepsInPackageJsonType": "dependencies",
-        "assets": ["packages/common/*.md"]
+        "assets": [
+          "packages/common/*.md",
+          {
+            "input": "./packages/common/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/common/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          }
+        ]
       }
     },
     "lint": {

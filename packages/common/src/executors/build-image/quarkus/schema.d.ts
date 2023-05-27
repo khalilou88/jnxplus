@@ -1,4 +1,4 @@
-import { ImageType } from '@jnxplus/common';
+import { ImageType } from '../../../.';
 
 export interface BuildImageExecutorSchema {
   imageType: ImageType;

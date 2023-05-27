@@ -16,7 +16,6 @@
         "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": [
           "packages/maven/*.md",
-
           {
             "input": "./packages/maven/src",
             "glob": "**/!(*.ts)",
@@ -26,11 +25,6 @@
             "input": "./packages/maven/src",
             "glob": "**/*.d.ts",
             "output": "./src"
-          },
-          {
-            "input": "./packages/maven",
-            "glob": "executors.json",
-            "output": "."
           }
         ]
       }
