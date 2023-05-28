@@ -197,6 +197,7 @@ export default async function (
         },
         serve: {
           executor: '@jnxplus/nx-boot-maven:serve',
+          dependsOn: ['build'],
         },
         lint: {
           executor: '@jnxplus/nx-boot-maven:lint',
@@ -206,6 +207,7 @@ export default async function (
         },
         test: {
           executor: '@jnxplus/nx-boot-maven:test',
+          dependsOn: ['build'],
         },
       },
       tags: normalizedOptions.parsedTags,
@@ -225,6 +227,7 @@ export default async function (
         },
         serve: {
           executor: '@jnxplus/nx-boot-maven:serve',
+          dependsOn: ['build'],
         },
         lint: {
           executor: '@jnxplus/nx-boot-maven:lint',
@@ -234,6 +237,7 @@ export default async function (
         },
         test: {
           executor: '@jnxplus/nx-boot-maven:test',
+          dependsOn: ['build'],
         },
         ktformat: {
           executor: '@jnxplus/nx-boot-maven:ktformat',

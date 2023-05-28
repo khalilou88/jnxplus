@@ -215,6 +215,7 @@ export default async function (
         },
         test: {
           executor: '@jnxplus/nx-quarkus-maven:test',
+          dependsOn: ['build'],
         },
         'integration-test': {
           executor: '@jnxplus/nx-quarkus-maven:integration-test',
@@ -246,6 +247,7 @@ export default async function (
         },
         test: {
           executor: '@jnxplus/nx-quarkus-maven:test',
+          dependsOn: ['build'],
         },
         'integration-test': {
           executor: '@jnxplus/nx-quarkus-maven:integration-test',

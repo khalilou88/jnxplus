@@ -194,6 +194,7 @@ export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
         },
         serve: {
           executor: '@jnxplus/nx-maven:serve',
+          dependsOn: ['build'],
         },
         lint: {
           executor: '@jnxplus/nx-maven:lint',
@@ -203,6 +204,7 @@ export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
         },
         test: {
           executor: '@jnxplus/nx-maven:test',
+          dependsOn: ['build'],
         },
       },
       tags: normalizedOptions.parsedTags,
@@ -222,6 +224,7 @@ export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
         },
         serve: {
           executor: '@jnxplus/nx-maven:serve',
+          dependsOn: ['build'],
         },
         lint: {
           executor: '@jnxplus/nx-maven:lint',
@@ -231,6 +234,7 @@ export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
         },
         test: {
           executor: '@jnxplus/nx-maven:test',
+          dependsOn: ['build'],
         },
         ktformat: {
           executor: '@jnxplus/nx-maven:ktformat',
