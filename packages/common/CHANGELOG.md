@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.5.0](https://github.com/khalilou88/jnxplus/compare/common-0.4.0...common-0.5.0) (2023-05-28)
+
+
+### Features
+
+* **executors:** move quarkus build-image executor to common lib ([#236](https://github.com/khalilou88/jnxplus/issues/236)) ([0400100](https://github.com/khalilou88/jnxplus/commit/04001009afb1f2d4e3f195a877a9d1123304f90e))
+
+
+
 # [0.4.0](https://github.com/khalilou88/jnxplus/compare/common-0.3.1...common-0.4.0) (2023-05-27)
 
 
