@@ -2,6 +2,20 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.10.0](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-gradle-0.9.0...nx-quarkus-gradle-0.10.0) (2023-05-28)
+
+### Dependency Updates
+
+* `gradle` updated to version `0.6.0`
+* `common` updated to version `0.5.0`
+
+### Features
+
+* **executors:** move all gradle executors to gradle lib ([#235](https://github.com/khalilou88/jnxplus/issues/235)) ([86d6740](https://github.com/khalilou88/jnxplus/commit/86d67402517fd92cf505226c31c6af6fa0929b9d))
+* **executors:** move quarkus build-image executor to common lib ([#236](https://github.com/khalilou88/jnxplus/issues/236)) ([0400100](https://github.com/khalilou88/jnxplus/commit/04001009afb1f2d4e3f195a877a9d1123304f90e))
+
+
+
 # [0.9.0](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-gradle-0.8.0...nx-quarkus-gradle-0.9.0) (2023-05-27)
 
 ### Dependency Updates
