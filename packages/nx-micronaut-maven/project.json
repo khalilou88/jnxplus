@@ -50,6 +50,21 @@
             "input": "./packages/nx-micronaut-maven",
             "glob": "executors.json",
             "output": "."
+          },
+          {
+            "input": "./packages/maven-wrapper/.mvn",
+            "glob": "wrapper/**",
+            "output": "./src/generators/init/files/maven/wrapper/__dot__mvn"
+          },
+          {
+            "input": "./packages/maven-wrapper",
+            "glob": "mvnw",
+            "output": "./src/generators/init/files/maven/wrapper"
+          },
+          {
+            "input": "./packages/maven-wrapper",
+            "glob": "mvnw.cmd",
+            "output": "./src/generators/init/files/maven/wrapper"
           }
         ]
       }
