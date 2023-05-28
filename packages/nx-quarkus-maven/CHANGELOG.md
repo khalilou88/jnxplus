@@ -2,6 +2,25 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.8.0](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-maven-0.7.0...nx-quarkus-maven-0.8.0) (2023-05-28)
+
+### Dependency Updates
+
+* `maven` updated to version `0.3.0`
+* `common` updated to version `0.5.0`
+
+### Bug Fixes
+
+* **generators:** make dependencies optional in libs ([2cdfc33](https://github.com/khalilou88/jnxplus/commit/2cdfc330e1b3b0b81c136a98857e149a8d82ed2d))
+
+
+### Features
+
+* **executors:** move all maven executors to maven lib ([#234](https://github.com/khalilou88/jnxplus/issues/234)) ([00f7f88](https://github.com/khalilou88/jnxplus/commit/00f7f88008637fd98d48402343ccb95878bc1182))
+* **executors:** move quarkus build-image executor to common lib ([#236](https://github.com/khalilou88/jnxplus/issues/236)) ([0400100](https://github.com/khalilou88/jnxplus/commit/04001009afb1f2d4e3f195a877a9d1123304f90e))
+
+
+
 # [0.7.0](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-maven-0.6.2...nx-quarkus-maven-0.7.0) (2023-05-27)
 
 ### Dependency Updates
