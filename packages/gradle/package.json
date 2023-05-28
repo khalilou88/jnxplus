@@ -1,6 +1,6 @@
 {
   "name": "@jnxplus/gradle",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "type": "commonjs",
   "main": "src/index.js",
   "private": false,
