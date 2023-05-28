@@ -280,6 +280,23 @@ describe('nx-quarkus-maven e2e', () => {
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
+    const process = await runNxCommandUntil(
+      `serve ${appName} --args="-Dquarkus-profile=prod"`,
+      (output) => output.includes(`Listening on: http://localhost:${port}`)
+    );
+
+    const dataResult = await getData(port, '/hello');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(port);
+    } catch (err) {
+      // ignore err
+    }
+
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
@@ -309,23 +326,6 @@ describe('nx-quarkus-maven e2e', () => {
       source: appName,
       target: parentProjectName,
     });
-
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args="-Dquarkus-profile=prod"`,
-      (output) => output.includes(`Listening on: http://localhost:${port}`)
-    );
-
-    const dataResult = await getData(port, '/hello');
-    expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
-
-    // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
   }, 120000);
 
   it('should create a kotlin application', async () => {
@@ -353,6 +353,22 @@ describe('nx-quarkus-maven e2e', () => {
     const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes('org.acme')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
+
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Listening on: http://localhost:${port}`)
+    );
+
+    const dataResult = await getData(port, '/hello');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(port);
+    } catch (err) {
+      // ignore err
+    }
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
@@ -389,22 +405,6 @@ describe('nx-quarkus-maven e2e', () => {
       source: appName,
       target: parentProjectName,
     });
-
-    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Listening on: http://localhost:${port}`)
-    );
-
-    const dataResult = await getData(port, '/hello');
-    expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
-
-    // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
   }, 240000);
 
   it('should build-image a kotlin app', async () => {
@@ -763,12 +763,12 @@ describe('nx-quarkus-maven e2e', () => {
     expect(pomXml.includes('org.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
-    const testResult = await runNxCommandAsync(`test ${libName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
-
     //should add tags to project.json
     const projectJson = readJson(`libs/${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
+
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');

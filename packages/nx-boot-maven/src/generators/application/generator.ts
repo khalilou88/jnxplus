@@ -197,11 +197,7 @@ export default async function (
         },
         serve: {
           executor: '@jnxplus/nx-boot-maven:serve',
-          dependsOn: [
-            {
-              target: 'build',
-            },
-          ],
+          dependsOn: ['build'],
         },
         lint: {
           executor: '@jnxplus/nx-boot-maven:lint',
@@ -211,11 +207,7 @@ export default async function (
         },
         test: {
           executor: '@jnxplus/nx-boot-maven:test',
-          dependsOn: [
-            {
-              target: 'build',
-            },
-          ],
+          dependsOn: ['build'],
         },
       },
       tags: normalizedOptions.parsedTags,
@@ -235,11 +227,7 @@ export default async function (
         },
         serve: {
           executor: '@jnxplus/nx-boot-maven:serve',
-          dependsOn: [
-            {
-              target: 'build',
-            },
-          ],
+          dependsOn: ['build'],
         },
         lint: {
           executor: '@jnxplus/nx-boot-maven:lint',
@@ -249,11 +237,7 @@ export default async function (
         },
         test: {
           executor: '@jnxplus/nx-boot-maven:test',
-          dependsOn: [
-            {
-              target: 'build',
-            },
-          ],
+          dependsOn: ['build'],
         },
         ktformat: {
           executor: '@jnxplus/nx-boot-maven:ktformat',

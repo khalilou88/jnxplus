@@ -194,11 +194,7 @@ export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
         },
         serve: {
           executor: '@jnxplus/nx-maven:serve',
-          dependsOn: [
-            {
-              target: 'build',
-            },
-          ],
+          dependsOn: ['build'],
         },
         lint: {
           executor: '@jnxplus/nx-maven:lint',
@@ -208,11 +204,7 @@ export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
         },
         test: {
           executor: '@jnxplus/nx-maven:test',
-          dependsOn: [
-            {
-              target: 'build',
-            },
-          ],
+          dependsOn: ['build'],
         },
       },
       tags: normalizedOptions.parsedTags,
@@ -232,11 +224,7 @@ export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
         },
         serve: {
           executor: '@jnxplus/nx-maven:serve',
-          dependsOn: [
-            {
-              target: 'build',
-            },
-          ],
+          dependsOn: ['build'],
         },
         lint: {
           executor: '@jnxplus/nx-maven:lint',
@@ -246,11 +234,7 @@ export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
         },
         test: {
           executor: '@jnxplus/nx-maven:test',
-          dependsOn: [
-            {
-              target: 'build',
-            },
-          ],
+          dependsOn: ['build'],
         },
         ktformat: {
           executor: '@jnxplus/nx-maven:ktformat',

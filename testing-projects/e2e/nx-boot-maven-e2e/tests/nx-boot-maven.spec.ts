@@ -374,6 +374,22 @@ describe('nx-boot-maven e2e', () => {
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Tomcat started on port(s): ${port}`)
+    );
+
+    const dataResult = await getData(port);
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(port);
+    } catch (err) {
+      // ignore err
+    }
+
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
@@ -409,22 +425,6 @@ describe('nx-boot-maven e2e', () => {
       source: appName,
       target: parentProjectName,
     });
-
-    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`)
-    );
-
-    const dataResult = await getData(port);
-    expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
-
-    // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
   }, 120000);
 
   it('should build-image a kotlin application', async () => {
@@ -483,6 +483,23 @@ describe('nx-boot-maven e2e', () => {
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
+    const process = await runNxCommandUntil(
+      `serve ${appName} --args="-Dspring-boot.run.profiles=test"`,
+      (output) => output.includes(`Tomcat started on port(s): ${port}`)
+    );
+
+    const dataResult = await getData(port);
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(port);
+    } catch (err) {
+      // ignore err
+    }
+
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
@@ -510,23 +527,6 @@ describe('nx-boot-maven e2e', () => {
       source: appName,
       target: parentProjectName,
     });
-
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args="-Dspring-boot.run.profiles=test"`,
-      (output) => output.includes(`Tomcat started on port(s): ${port}`)
-    );
-
-    const dataResult = await getData(port);
-    expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
-
-    // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
   }, 120000);
 
   it('should generate an app with a simple package name', async () => {
@@ -971,11 +971,12 @@ describe('nx-boot-maven e2e', () => {
   }, 120000);
 
   it('should add a lib to an app dependencies', async () => {
+    const port = 9090;
     const appName = uniq('boot-maven-app-');
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-boot-maven:application ${appName}`
+      `generate @jnxplus/nx-boot-maven:application ${appName} --port ${port}`
     );
 
     await runNxCommandAsync(
@@ -1008,6 +1009,22 @@ describe('nx-boot-maven e2e', () => {
       .replace(regex3, 'this.helloService.message()');
 
     updateFile(helloControllerPath, newHelloControllerContent);
+
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Tomcat started on port(s): ${port}`)
+    );
+
+    const dataResult = await getData(port);
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(port);
+    } catch (err) {
+      // ignore err
+    }
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
@@ -1045,6 +1062,51 @@ describe('nx-boot-maven e2e', () => {
       source: appName,
       target: libName,
     });
+  }, 120000);
+
+  it('should test an app with a lib', async () => {
+    const appName = uniq('boot-maven-app-');
+    const libName = uniq('boot-maven-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:application ${appName}`
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:library ${libName} --projects ${appName}`
+    );
+
+    const helloControllerPath = `apps/${appName}/src/main/java/com/example/${names(
+      appName
+    ).className.toLocaleLowerCase()}/HelloController.java`;
+    const helloControllerContent = readFile(helloControllerPath);
+
+    const regex1 = /package\s*com\.example\..*\s*;/;
+
+    const regex2 = /public\s*class\s*HelloController\s*{/;
+
+    const regex3 = /"Hello World!"/;
+
+    const newHelloControllerContent = helloControllerContent
+      .replace(
+        regex1,
+        `$&\nimport org.springframework.beans.factory.annotation.Autowired;\nimport com.example.${names(
+          libName
+        ).className.toLocaleLowerCase()}.HelloService;`
+      )
+      .replace(regex2, '$&\n@Autowired\nprivate HelloService helloService;')
+      .replace(regex3, 'this.helloService.message()');
+
+    updateFile(helloControllerPath, newHelloControllerContent);
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult2 = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult2.stdout).toContain('Executor ran for Test');
   }, 120000);
 
   it('should add a kotlin lib to a kotlin app dependencies', async () => {

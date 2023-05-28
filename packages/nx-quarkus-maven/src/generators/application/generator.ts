@@ -206,11 +206,6 @@ export default async function (
         },
         serve: {
           executor: '@jnxplus/nx-quarkus-maven:serve',
-          dependsOn: [
-            {
-              target: 'build',
-            },
-          ],
         },
         lint: {
           executor: '@jnxplus/nx-quarkus-maven:lint',
@@ -220,19 +215,10 @@ export default async function (
         },
         test: {
           executor: '@jnxplus/nx-quarkus-maven:test',
-          dependsOn: [
-            {
-              target: 'build',
-            },
-          ],
+          dependsOn: ['build'],
         },
         'integration-test': {
           executor: '@jnxplus/nx-quarkus-maven:integration-test',
-          dependsOn: [
-            {
-              target: 'build',
-            },
-          ],
         },
       },
       tags: normalizedOptions.parsedTags,
@@ -252,11 +238,6 @@ export default async function (
         },
         serve: {
           executor: '@jnxplus/nx-quarkus-maven:serve',
-          dependsOn: [
-            {
-              target: 'build',
-            },
-          ],
         },
         lint: {
           executor: '@jnxplus/nx-quarkus-maven:lint',
@@ -266,19 +247,10 @@ export default async function (
         },
         test: {
           executor: '@jnxplus/nx-quarkus-maven:test',
-          dependsOn: [
-            {
-              target: 'build',
-            },
-          ],
+          dependsOn: ['build'],
         },
         'integration-test': {
           executor: '@jnxplus/nx-quarkus-maven:integration-test',
-          dependsOn: [
-            {
-              target: 'build',
-            },
-          ],
         },
         ktformat: {
           executor: '@jnxplus/nx-quarkus-maven:ktformat',
