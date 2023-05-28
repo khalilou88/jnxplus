@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [6.7.0](https://github.com/khalilou88/jnxplus/compare/nx-boot-gradle-6.6.0...nx-boot-gradle-6.7.0) (2023-05-28)
+
+### Dependency Updates
+
+* `gradle` updated to version `0.6.0`
+* `common` updated to version `0.5.0`
+
+### Features
+
+* **executors:** move all gradle executors to gradle lib ([#235](https://github.com/khalilou88/jnxplus/issues/235)) ([86d6740](https://github.com/khalilou88/jnxplus/commit/86d67402517fd92cf505226c31c6af6fa0929b9d))
+
+
+
 # [6.6.0](https://github.com/khalilou88/jnxplus/compare/nx-boot-gradle-6.5.0...nx-boot-gradle-6.6.0) (2023-05-27)
 
 ### Dependency Updates
