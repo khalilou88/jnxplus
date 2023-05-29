@@ -20,6 +20,14 @@ java {
     sourceCompatibility = JavaVersion.toVersion("${javaVersion}")
     targetCompatibility = JavaVersion.toVersion("${javaVersion}")
 }
+
+micronaut {
+  testRuntime("junit5")
+  processing {
+    incremental(true)
+    annotations("<%= packageName %>.*")
+  }
+}
 <% } -%>
 <% if(dsl === 'kotlin') { -%>
 val javaVersion: String by project
@@ -44,5 +52,13 @@ dependencies {
 java {
     sourceCompatibility = JavaVersion.toVersion(javaVersion)
     targetCompatibility = JavaVersion.toVersion(javaVersion)
+}
+
+micronaut {
+  testRuntime("junit5")
+  processing {
+    incremental(true)
+    annotations("<%= packageName %>.*")
+  }
 }
 <% } -%>
