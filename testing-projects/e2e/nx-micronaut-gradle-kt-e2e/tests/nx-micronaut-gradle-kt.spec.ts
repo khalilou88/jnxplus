@@ -156,9 +156,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/java/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
+        ).className.toLocaleLowerCase()}/Application.java`,
         `apps/${appName}/src/main/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.java`,
@@ -166,7 +164,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
         `apps/${appName}/src/test/resources/application.properties`,
         `apps/${appName}/src/test/java/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`
       )
     ).not.toThrow();
 

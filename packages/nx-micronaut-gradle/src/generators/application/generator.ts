@@ -111,18 +111,8 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     templateOptions
   );
 
-  const fileExtension = options.language === 'java' ? 'java' : 'kt';
-
-  if (options.packaging === 'jar') {
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/main/${options.language}/${options.packageDirectory}/ServletInitializer.${fileExtension}`
-      )
-    );
-  }
-
   if (options.minimal) {
+    const fileExtension = options.language === 'java' ? 'java' : 'kt';
     tree.delete(
       joinPathFragments(
         options.projectRoot,
@@ -133,25 +123,23 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/test/${options.language}/${options.packageDirectory}/HelloControllerTests.${fileExtension}`
+        `/src/test/${options.language}/${options.packageDirectory}/HelloControllerTest.${fileExtension}`
+      )
+    );
+  } else {
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/.gitkeep`
       )
     );
 
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/test/resources/application${options.configFormat}`
+        `/src/test/${options.language}/.gitkeep`
       )
     );
-
-    if (options.language === 'kotlin') {
-      tree.delete(
-        joinPathFragments(
-          options.projectRoot,
-          '/src/test/resources/junit-platform.properties'
-        )
-      );
-    }
   }
 }
 
