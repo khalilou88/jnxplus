@@ -297,7 +297,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     expect(buildGradle.includes('war')).toBeTruthy();
     expect(
       buildGradle.includes(
-        'org.springframework.micronaut:spring-boot-starter-tomcat'
+        'org.springframework.boot:spring-boot-starter-tomcat'
       )
     ).toBeTruthy();
 
@@ -392,7 +392,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     expect(buildGradle.includes('war')).toBeTruthy();
     expect(
       buildGradle.includes(
-        'org.springframework.micronaut:spring-boot-starter-tomcat'
+        'org.springframework.boot:spring-boot-starter-tomcat'
       )
     ).toBeTruthy();
 
@@ -588,7 +588,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     expect(buildGradle.includes('war')).toBeTruthy();
     expect(
       buildGradle.includes(
-        'org.springframework.micronaut:spring-boot-starter-tomcat'
+        'org.springframework.boot:spring-boot-starter-tomcat'
       )
     ).toBeTruthy();
 
@@ -1198,7 +1198,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     expect(buildGradle.includes('war')).toBeTruthy();
     expect(
       buildGradle.includes(
-        'org.springframework.micronaut:spring-boot-starter-tomcat'
+        'org.springframework.boot:spring-boot-starter-tomcat'
       )
     ).toBeTruthy();
 
