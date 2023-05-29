@@ -62,6 +62,8 @@ micronaut {
 }
 <% } -%>
 <% if(dsl === 'kotlin') { -%>
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 val javaVersion: String by project
 val kotlinVersion: String by project
 
@@ -105,12 +107,12 @@ java {
 tasks {
     compileKotlin {
         compilerOptions {
-            jvmTarget.set(javaVersion)
+            jvmTarget.set(JvmTarget.valueOf("JVM_${javaVersion}"))
         }
     }
     compileTestKotlin {
         compilerOptions {
-            jvmTarget.set(javaVersion)
+            jvmTarget.set(JvmTarget.valueOf("JVM_${javaVersion}"))
         }
     }
 }

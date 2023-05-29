@@ -445,7 +445,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     }
   }, 120000);
 
-  xit('should create a kotlin application', async () => {
+  it('should create a kotlin application', async () => {
     const appName = uniq('micronaut-gradle-app-');
     const port = 8383;
 
@@ -459,21 +459,17 @@ describe('nx-micronaut-gradle kt e2e', () => {
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.kt`,
+        ).className.toLocaleLowerCase()}/Application.kt`,
         `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.kt`,
         `apps/${appName}/src/test/resources/application.properties`,
         `apps/${appName}/src/test/kotlin/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }ApplicationTests.kt`,
+        ).className.toLocaleLowerCase()}/${names(appName).className}Test.kt`,
         `apps/${appName}/src/test/kotlin/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.kt`
+        ).className.toLocaleLowerCase()}/HelloControllerTest.kt`
       )
     ).not.toThrow();
 
