@@ -1,0 +1,37 @@
+{
+  "name": "@jnxplus/nx-micronaut-gradle",
+  "version": "6.7.0",
+  "type": "commonjs",
+  "main": "src/index.js",
+  "generators": "./generators.json",
+  "executors": "./executors.json",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "author": "Khalil LAGRIDA",
+  "homepage": "https://github.com/khalilou88/jnxplus/blob/main/packages/nx-micronaut-gradle/README.md",
+  "bugs": {
+    "url": "https://github.com/khalilou88/jnxplus/issues"
+  },
+  "keywords": [
+    "nx",
+    "nx-workspace",
+    "nx-plugin",
+    "java",
+    "spring",
+    "spring-micronaut",
+    "gradle",
+    "gradle multi-project build"
+  ],
+  "scripts": {
+    "postinstall": "node src/scripts/install-linters.js"
+  },
+  "dependencies": {
+    "prettier-plugin-java": "^2.1.0"
+  },
+  "peerDependencies": {
+    "@nx/devkit": ">=16.0.0"
+  }
+}

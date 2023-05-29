@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "NxMicronautGradleInit",
+  "title": "Init",
+  "type": "object",
+  "properties": {
+    "javaVersion": {
+      "description": "Java version",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "default": "17",
+      "x-prompt": {
+        "message": "Which version of Java would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "20",
+            "label": "20"
+          },
+          {
+            "value": "17",
+            "label": "17"
+          }
+        ]
+      }
+    },
+    "dsl": {
+      "description": "Build DSL",
+      "type": "string",
+      "default": "groovy",
+      "x-prompt": {
+        "message": "Which build DSL would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "groovy",
+            "label": "Groovy build DSL"
+          },
+          {
+            "value": "kotlin",
+            "label": "Kotlin build DSL"
+          }
+        ]
+      }
+    },
+    "rootProjectName": {
+      "type": "string",
+      "default": "spring-boot-root-project",
+      "x-prompt": "What rootProjectName would you like to use?",
+      "pattern": "^[a-zA-Z].*$"
+    }
+  },
+  "required": ["javaVersion", "dsl", "rootProjectName"]
+}

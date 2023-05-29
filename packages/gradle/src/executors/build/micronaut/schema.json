@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "outputCapture": "pipe",
+  "$schema": "http://json-schema.org/schema",
+  "title": "Build executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "packaging": {
+      "type": "string",
+      "default": "jar"
+    }
+  },
+  "required": []
+}
