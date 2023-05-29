@@ -33,7 +33,7 @@ dependencies {
 
 gradlePlugin {
   // Define the plugin
-  website = 'https://github.com/khalilou88/jnxplus/tree/main/packages/gradle-plugin'
+  website = 'https://khalilou88.github.io/jnxplus/#/io.github.jnxplus/plugin'
   vcsUrl = 'https://github.com/khalilou88/jnxplus/tree/main/packages/gradle-plugin'
   plugins {
     jnxplusPlugin {
