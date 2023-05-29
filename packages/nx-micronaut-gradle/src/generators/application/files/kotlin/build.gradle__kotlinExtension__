@@ -7,8 +7,8 @@ plugins {
     id("io.micronaut.application") version "4.0.0-M2"
 }
 
-version = "0.1"
-group = "com.example"
+version = "<%= projectVersion %>"
+group = "<%= groupId %>"
 
 repositories {
     mavenCentral()
@@ -26,21 +26,21 @@ dependencies {
 
 
 application {
-    mainClass.set("com.example.ApplicationKt")
+    mainClass.set("<%= packageName %>.ApplicationKt")
 }
 java {
-    sourceCompatibility = JavaVersion.toVersion("17")
+    sourceCompatibility = JavaVersion.toVersion("${javaVersion}")
 }
 
 tasks {
     compileKotlin {
         compilerOptions {
-           jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+           jvmTarget = "${javaVersion}"
         }
     }
     compileTestKotlin {
         compilerOptions {
-           jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+           jvmTarget = "${javaVersion}"
         }
     }
 }
@@ -50,11 +50,14 @@ micronaut {
     testRuntime("junit5")
     processing {
         incremental(true)
-        annotations("com.example.*")
+        annotations("<%= packageName %>.*")
     }
 }
 <% } -%>
 <% if(dsl === 'kotlin') { -%>
+val javaVersion: String by project
+val kotlinVersion=project.properties.get("kotlinVersion")
+
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.8.20"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.8.20"
@@ -63,10 +66,10 @@ plugins {
     id("io.micronaut.application") version "4.0.0-M2"
 }
 
-version = "0.1"
-group = "com.example"
+version = "<%= projectVersion %>"
+group = "<%= groupId %>"
 
-val kotlinVersion=project.properties.get("kotlinVersion")
+
 repositories {
     mavenCentral()
 }
@@ -83,21 +86,21 @@ dependencies {
 
 
 application {
-    mainClass.set("com.example.ApplicationKt")
+    mainClass.set("<%= packageName %>.ApplicationKt")
 }
 java {
-    sourceCompatibility = JavaVersion.toVersion("17")
+    sourceCompatibility = JavaVersion.toVersion(javaVersion)
 }
 
 tasks {
     compileKotlin {
         compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+            jvmTarget.set(javaVersion)
         }
     }
     compileTestKotlin {
         compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+            jvmTarget.set(javaVersion)
         }
     }
 }
@@ -107,7 +110,7 @@ micronaut {
     testRuntime("junit5")
     processing {
         incremental(true)
-        annotations("com.example.*")
+        annotations("<%= packageName %>.*")
     }
 }
 <% } -%>
