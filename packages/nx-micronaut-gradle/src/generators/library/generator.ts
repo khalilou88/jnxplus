@@ -123,25 +123,23 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/test/${options.language}/${options.packageDirectory}/HelloServiceTests.${fileExtension}`
+        `/src/test/${options.language}/${options.packageDirectory}/HelloServiceTest.${fileExtension}`
+      )
+    );
+  } else {
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/.gitkeep`
       )
     );
 
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/test/${options.language}/${options.packageDirectory}/TestConfiguration.${fileExtension}`
+        `/src/test/${options.language}/.gitkeep`
       )
     );
-
-    if (options.language === 'kotlin') {
-      tree.delete(
-        joinPathFragments(
-          options.projectRoot,
-          `/src/test/resources/junit-platform.properties`
-        )
-      );
-    }
   }
 }
 

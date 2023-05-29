@@ -665,7 +665,7 @@ describe('nx-micronaut-gradle e2e', () => {
     }
   }, 120000);
 
-  xit('should create a library', async () => {
+  it('should create a library', async () => {
     const libName = uniq('micronaut-gradle-lib-');
 
     await runNxCommandAsync(
@@ -680,10 +680,7 @@ describe('nx-micronaut-gradle e2e', () => {
         ).className.toLocaleLowerCase()}/HelloService.java`,
         `libs/${libName}/src/test/java/com/example/${names(
           libName
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libName}/src/test/java/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+        ).className.toLocaleLowerCase()}/HelloServiceTest.java`
       )
     ).not.toThrow();
 

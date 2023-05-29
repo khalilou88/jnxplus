@@ -1,11 +1,11 @@
 package <%= packageName %>
 
-import org.springframework.stereotype.Service
+import jakarta.inject.Singleton
 
-@Service
-class HelloService {
+@Singleton
+class HelloService  {
 
-    fun message():String {
-        return "Hello World!"
-    }
+  fun greeting():String {
+    return "Hello World"
+  }
 }

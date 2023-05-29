@@ -1,62 +1,81 @@
 <% if(dsl === 'groovy') { -%>
 plugins {
-	id 'java'
-	id 'org.springframework.boot' apply false
-	id 'io.spring.dependency-management'
+    id("com.github.johnrengelman.shadow")
+    id("io.micronaut.library")
 }
 
-group = '<%= groupId %>'
-version = '<%= projectVersion %>'
-sourceCompatibility = "${javaVersion}"
+version = "<%= projectVersion %>"
+group = "<%= groupId %>"
 
 repositories {
-	mavenCentral()
-}
-
-dependencyManagement {
-  imports {
-    mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
-  }
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation("io.micronaut:micronaut-jackson-databind")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    testImplementation("io.micronaut:micronaut-http-client")
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
+application {
+    mainClass.set("<%= packageName %>.Application")
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion("${javaVersion}")
+    targetCompatibility = JavaVersion.toVersion("${javaVersion}")
+}
+
+graalvmNative.toolchainDetection = false
+
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("<%= packageName %>.*")
+    }
 }
 <% } -%>
 <% if(dsl === 'kotlin') { -%>
 val javaVersion: String by project
 
 plugins {
-	java
-	id("org.springframework.boot") apply false
-	id("io.spring.dependency-management")
+    id("com.github.johnrengelman.shadow")
+    id("io.micronaut.library")
 }
 
-group = "<%= groupId %>"
 version = "<%= projectVersion %>"
-java.sourceCompatibility = JavaVersion.toVersion(javaVersion)
+group = "<%= groupId %>"
 
 repositories {
-	mavenCentral()
-}
-
-dependencyManagement {
-	imports {
-		mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
-	}
+    mavenCentral()
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("io.micronaut:micronaut-jackson-databind")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    testImplementation("io.micronaut:micronaut-http-client")
 }
 
-tasks.withType<Test> {
-  useJUnitPlatform()
+
+application {
+    mainClass.set("<%= packageName %>.Application")
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion(javaVersion)
+    targetCompatibility = JavaVersion.toVersion(javaVersion)
+}
+
+graalvmNative.toolchainDetection.set(false)
+
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("<%= packageName %>.*")
+    }
 }
 <% } -%>
