@@ -276,13 +276,10 @@ describe('nx-micronaut-gradle e2e', () => {
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/ServletInitializer.java`,
         `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`
       )
     ).not.toThrow();
 
@@ -369,13 +366,10 @@ describe('nx-micronaut-gradle e2e', () => {
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/ServletInitializer.java`,
         `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
           randomName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`
       )
     ).not.toThrow();
 
@@ -1061,14 +1055,6 @@ describe('nx-micronaut-gradle e2e', () => {
       `generate @jnxplus/nx-micronaut-gradle:library ${libName}  --language kotlin --projects ${appName}`
     );
 
-    expect(() =>
-      checkFilesExist(
-        `apps/${appName}/src/main/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/ServletInitializer.kt`
-      )
-    ).not.toThrow();
-
     // Making sure the app build.gradle file contains the lib
     const buildGradle = readFile(`apps/${appName}/build.gradle`);
     expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
@@ -1313,9 +1299,6 @@ describe('nx-micronaut-gradle e2e', () => {
       checkFilesExist(
         `apps/${appName}/src/main/java/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/ServletInitializer.java`,
-        `apps/${appName}/src/main/java/com/example/${names(
-          appName
         ).className.toLocaleLowerCase()}/HelloController.java`,
         `apps/${appName}/src/test/resources/application.properties`,
         `apps/${appName}/src/test/java/com/example/${names(
@@ -1364,9 +1347,6 @@ describe('nx-micronaut-gradle e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/src/main/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
         `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.kt`,
