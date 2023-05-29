@@ -155,9 +155,7 @@ describe('nx-micronaut-gradle e2e', () => {
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/java/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
+        ).className.toLocaleLowerCase()}/Application.java`,
         `apps/${appName}/src/main/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.java`,
@@ -165,7 +163,7 @@ describe('nx-micronaut-gradle e2e', () => {
         `apps/${appName}/src/test/resources/application.properties`,
         `apps/${appName}/src/test/java/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`
       )
     ).not.toThrow();
 
@@ -231,7 +229,7 @@ describe('nx-micronaut-gradle e2e', () => {
 
     const dataResult = await getData();
     expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult.message).toMatch('Hello World');
 
     // port and process cleanup
     try {

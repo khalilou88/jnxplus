@@ -53,7 +53,8 @@ function normalizeOptions(
     ? options.tags.split(',').map((s) => s.trim())
     : [];
 
-  const appClassName = `${names(projectName).className}Application`;
+  //TODO Change this property name
+  const appClassName = `${names(projectName).className}`;
 
   let packageName: string;
   if (options.simplePackageName) {

@@ -1,9 +1,8 @@
 import {
   checkstyleVersion,
-  dependencyManagementVersion,
   ktlintVersion,
-  springBootVersion,
-  springKotlinVersion,
+  micronautKotlinVersion,
+  micronautVersion,
   updateNxJson,
 } from '@jnxplus/common';
 import {
@@ -17,10 +16,8 @@ import { NxMicronautGradleGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxMicronautGradleGeneratorSchema {
   kotlinExtension: string;
-  springBootVersion: string;
-  dependencyManagementVersion: string;
-  kotlinJvmVersion: string;
-  kotlinSpringVersion: string;
+  micronautVersion: string;
+  kotlinVersion: string;
   checkstyleVersion: string;
   ktlintVersion: string;
 }
@@ -34,10 +31,8 @@ function normalizeOptions(
   return {
     ...options,
     kotlinExtension,
-    springBootVersion,
-    dependencyManagementVersion,
-    kotlinJvmVersion: springKotlinVersion,
-    kotlinSpringVersion: springKotlinVersion,
+    micronautVersion,
+    kotlinVersion: micronautKotlinVersion,
     checkstyleVersion,
     ktlintVersion,
   };

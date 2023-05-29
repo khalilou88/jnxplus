@@ -1,88 +1,113 @@
 <% if(dsl === 'groovy') { -%>
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
-<% if(packaging === 'war') { -%>
-  id 'war'
-<% } -%>
-  id 'org.springframework.boot'
-  id 'io.spring.dependency-management'
-  id 'org.jetbrains.kotlin.jvm'
-  id 'org.jetbrains.kotlin.plugin.spring'
+    id("org.jetbrains.kotlin.jvm") version "1.8.20"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.8.20"
+    id("com.google.devtools.ksp") version "1.8.20-1.0.10"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.micronaut.application") version "4.0.0-M2"
 }
 
-group = '<%= groupId %>'
-version = '<%= projectVersion %>'
-sourceCompatibility = "${javaVersion}"
+version = "0.1"
+group = "com.example"
 
 repositories {
-  mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-  implementation 'org.springframework.boot:spring-boot-starter-web'
-  implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
-  implementation 'org.jetbrains.kotlin:kotlin-reflect'
-  implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
-<% if(packaging === 'war') { -%>
-  providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
-<% } -%>
-  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
+    testImplementation("io.micronaut:micronaut-http-client")
 }
 
-tasks.withType(KotlinCompile) {
-  kotlinOptions {
-    freeCompilerArgs = ['-Xjsr305=strict']
-    jvmTarget = "${javaVersion}"
-  }
+
+application {
+    mainClass.set("com.example.ApplicationKt")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
 }
 
-tasks.named('test') {
-  useJUnitPlatform()
+tasks {
+    compileKotlin {
+        compilerOptions {
+           jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+        }
+    }
+    compileTestKotlin {
+        compilerOptions {
+           jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+        }
+    }
+}
+graalvmNative.toolchainDetection = false
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("com.example.*")
+    }
 }
 <% } -%>
 <% if(dsl === 'kotlin') { -%>
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-val javaVersion: String by project
-
 plugins {
-<% if(packaging === 'war') { -%>
-  war
-<% } -%>
-  id("org.springframework.boot")
-  id("io.spring.dependency-management")
-  kotlin("jvm")
-  kotlin("plugin.spring")
+    id("org.jetbrains.kotlin.jvm") version "1.8.20"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.8.20"
+    id("com.google.devtools.ksp") version "1.8.20-1.0.10"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.micronaut.application") version "4.0.0-M2"
 }
 
-group = "<%= groupId %>"
-version = "<%= projectVersion %>"
-java.sourceCompatibility = JavaVersion.toVersion(javaVersion)
+version = "0.1"
+group = "com.example"
 
+val kotlinVersion=project.properties.get("kotlinVersion")
 repositories {
-  mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-  implementation("org.springframework.boot:spring-boot-starter-web")
-  implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-  implementation("org.jetbrains.kotlin:kotlin-reflect")
-  implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-<% if(packaging === 'war') { -%>
-  providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
-<% } -%>
-  testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
+    testImplementation("io.micronaut:micronaut-http-client")
 }
 
-tasks.withType<KotlinCompile> {
-  kotlinOptions {
-    freeCompilerArgs = listOf("-Xjsr305=strict")
-    jvmTarget = javaVersion
-  }
+
+application {
+    mainClass.set("com.example.ApplicationKt")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
 }
 
-tasks.withType<Test> {
-  useJUnitPlatform()
+tasks {
+    compileKotlin {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        }
+    }
+    compileTestKotlin {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        }
+    }
+}
+graalvmNative.toolchainDetection.set(false)
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("com.example.*")
+    }
 }
 <% } -%>

@@ -4,9 +4,7 @@ import executor from './executor';
 import { BuildExecutorSchema } from './schema';
 jest.mock('@jnxplus/common');
 
-const options: BuildExecutorSchema = {
-  packaging: 'jar',
-};
+const options: BuildExecutorSchema = {};
 const context: ExecutorContext = {
   root: '/root',
   cwd: '/root',

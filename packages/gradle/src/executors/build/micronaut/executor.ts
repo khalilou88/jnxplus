@@ -1,6 +1,6 @@
-import { getProjectType, runCommand } from '@jnxplus/common';
-import { getExecutable, getProjectPath } from '../../../.';
+import { runCommand } from '@jnxplus/common';
 import { ExecutorContext, logger } from '@nx/devkit';
+import { getExecutable, getProjectPath } from '../../../.';
 import { BuildExecutorSchema } from './schema';
 
 export default async function runExecutor(
@@ -8,17 +8,7 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   logger.info(`Executor ran for Build: ${JSON.stringify(options)}`);
-  let target = '';
-  if (getProjectType(context) === 'library') {
-    target = 'jar';
-  } else {
-    if (options.packaging === 'jar') {
-      target = 'bootJar';
-    }
-    if (options.packaging === 'war') {
-      target = 'bootWar';
-    }
-  }
-
-  return runCommand(`${getExecutable()} ${getProjectPath(context)}:${target}`);
+  return runCommand(
+    `${getExecutable()} ${getProjectPath(context)}:build -x test`
+  );
 }

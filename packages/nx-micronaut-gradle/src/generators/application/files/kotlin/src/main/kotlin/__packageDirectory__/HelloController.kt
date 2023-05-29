@@ -1,12 +1,14 @@
 package <%= packageName %>
 
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
+import io.micronaut.http.MediaType
+import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Produces
 
-@RestController
+@Controller("/hello") 
 class HelloController {
 
-    @GetMapping("/")
-    fun greeting():String = "Hello World!"
-
+    @Get
+    @Produces(MediaType.TEXT_PLAIN) 
+    fun index() = "Hello World"
 }

@@ -5,11 +5,6 @@
   "title": "Build executor",
   "description": "",
   "type": "object",
-  "properties": {
-    "packaging": {
-      "type": "string",
-      "default": "jar"
-    }
-  },
+  "properties": {},
   "required": []
 }
