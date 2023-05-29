@@ -1,4 +1,4 @@
-# Why this plugin
+# Why this plugin?
 
 ## Installation
 
@@ -11,14 +11,19 @@
 Kotlin:
 
 `val jnxplusGradlePluginVersion: String by settings
+
 plugins {
+
 id("io.github.jnxplus") version jnxplusGradlePluginVersion
+
 }`
 
 Groovy:
 
-`plugins {    
+`plugins {
+
 id 'io.github.jnxplus' version "${jnxplusGradlePluginVersion}"
+
 }`
 
 ### build.gradle
@@ -26,13 +31,17 @@ id 'io.github.jnxplus' version "${jnxplusGradlePluginVersion}"
 Kotlin:
 
 `plugins {
+
 id("io.github.jnxplus")
+
 }`
 
 Groovy:
 
 `plugins {
+
 id "io.github.jnxplus"
+
 }`
 
 ## How to use it?
