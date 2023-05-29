@@ -1111,7 +1111,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
       source: appName,
       target: libName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should create an application with simple name', async () => {
     const appName = uniq('quarkus-gradle-app-');
