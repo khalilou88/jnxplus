@@ -17,10 +17,6 @@ dependencies {
     testImplementation("io.micronaut:micronaut-http-client")
 }
 
-application {
-    mainClass.set("<%= packageName %>.Application")
-}
-
 java {
     sourceCompatibility = JavaVersion.toVersion("${javaVersion}")
     targetCompatibility = JavaVersion.toVersion("${javaVersion}")
@@ -56,11 +52,6 @@ dependencies {
     implementation("io.micronaut:micronaut-jackson-databind")
     runtimeOnly("ch.qos.logback:logback-classic")
     testImplementation("io.micronaut:micronaut-http-client")
-}
-
-
-application {
-    mainClass.set("<%= packageName %>.Application")
 }
 
 java {

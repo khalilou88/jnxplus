@@ -26,10 +26,6 @@ dependencies {
     testImplementation("io.micronaut:micronaut-http-client")
 }
 
-application {
-    mainClass.set("<%= packageName %>.ApplicationKt")
-}
-
 java {
     sourceCompatibility = JavaVersion.toVersion("${javaVersion}")
 }
@@ -88,10 +84,6 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
     testImplementation("io.micronaut:micronaut-http-client")
-}
-
-application {
-    mainClass.set("<%= packageName %>.ApplicationKt")
 }
 
 java {
