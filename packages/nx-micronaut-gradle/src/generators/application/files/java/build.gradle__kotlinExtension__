@@ -1,7 +1,7 @@
 <% if(dsl === 'groovy') { -%>
 plugins {
-    id("com.github.johnrengelman.shadow")
-    id("io.micronaut.application")
+    id 'com.github.johnrengelman.shadow'
+    id 'io.micronaut.application'
 }
 
 version = "<%= projectVersion %>"
@@ -12,11 +12,11 @@ repositories {
 }
 
 dependencies {
-    implementation("io.micronaut:micronaut-jackson-databind")
-    runtimeOnly("ch.qos.logback:logback-classic")
-    testImplementation("io.micronaut:micronaut-http-client")
+    implementation 'io.micronaut:micronaut-jackson-databind'
+    runtimeOnly 'ch.qos.logback:logback-classic'
+    testImplementation 'io.micronaut:micronaut-http-client'
 <% if(configFormat === '.yml') { -%>
-    runtimeOnly("org.yaml:snakeyaml")
+    runtimeOnly 'org.yaml:snakeyaml'
 <% } -%>
 }
 

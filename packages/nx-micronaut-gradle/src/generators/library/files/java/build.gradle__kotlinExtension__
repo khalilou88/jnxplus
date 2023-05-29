@@ -1,7 +1,7 @@
 <% if(dsl === 'groovy') { -%>
 plugins {
-    id("com.github.johnrengelman.shadow")
-    id("io.micronaut.library")
+    id 'com.github.johnrengelman.shadow'
+    id 'io.micronaut.library'
 }
 
 version = "<%= projectVersion %>"
@@ -12,9 +12,9 @@ repositories {
 }
 
 dependencies {
-    implementation("io.micronaut:micronaut-jackson-databind")
-    runtimeOnly("ch.qos.logback:logback-classic")
-    testImplementation("io.micronaut:micronaut-http-client")
+    implementation 'io.micronaut:micronaut-jackson-databind'
+    runtimeOnly 'ch.qos.logback:logback-classic'
+    testImplementation 'io.micronaut:micronaut-http-client'
 }
 
 java {
