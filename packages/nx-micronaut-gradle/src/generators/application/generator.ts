@@ -167,25 +167,25 @@ export default async function (
       sourceRoot: `${normalizedOptions.projectRoot}/src`,
       targets: {
         build: {
-          executor: '@jnxplus/nx-boot-gradle:build',
+          executor: '@jnxplus/nx-micronaut-gradle:build',
           options: {
             packaging: `${normalizedOptions.packaging}`,
           },
         },
         'build-image': {
-          executor: '@jnxplus/nx-boot-gradle:build-image',
+          executor: '@jnxplus/nx-micronaut-gradle:build-image',
         },
         serve: {
-          executor: '@jnxplus/nx-boot-gradle:serve',
+          executor: '@jnxplus/nx-micronaut-gradle:serve',
         },
         lint: {
-          executor: '@jnxplus/nx-boot-gradle:lint',
+          executor: '@jnxplus/nx-micronaut-gradle:lint',
           options: {
             linter: `${normalizedOptions.linter}`,
           },
         },
         test: {
-          executor: '@jnxplus/nx-boot-gradle:test',
+          executor: '@jnxplus/nx-micronaut-gradle:test',
         },
       },
       tags: normalizedOptions.parsedTags,
@@ -197,28 +197,28 @@ export default async function (
       sourceRoot: `${normalizedOptions.projectRoot}/src`,
       targets: {
         build: {
-          executor: '@jnxplus/nx-boot-gradle:build',
+          executor: '@jnxplus/nx-micronaut-gradle:build',
           options: {
             packaging: `${normalizedOptions.packaging}`,
           },
         },
         'build-image': {
-          executor: '@jnxplus/nx-boot-gradle:build-image',
+          executor: '@jnxplus/nx-micronaut-gradle:build-image',
         },
         serve: {
-          executor: '@jnxplus/nx-boot-gradle:serve',
+          executor: '@jnxplus/nx-micronaut-gradle:serve',
         },
         lint: {
-          executor: '@jnxplus/nx-boot-gradle:lint',
+          executor: '@jnxplus/nx-micronaut-gradle:lint',
           options: {
             linter: `${normalizedOptions.linter}`,
           },
         },
         test: {
-          executor: '@jnxplus/nx-boot-gradle:test',
+          executor: '@jnxplus/nx-micronaut-gradle:test',
         },
         ktformat: {
-          executor: '@jnxplus/nx-boot-gradle:ktformat',
+          executor: '@jnxplus/nx-micronaut-gradle:ktformat',
         },
       },
       tags: normalizedOptions.parsedTags,

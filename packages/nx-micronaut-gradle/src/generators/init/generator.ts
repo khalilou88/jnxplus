@@ -75,7 +75,7 @@ export default async function (
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);
-  updateNxJson(tree, '@jnxplus/nx-boot-gradle');
+  updateNxJson(tree, '@jnxplus/nx-micronaut-gradle');
   updateGitIgnore(tree);
   addOrUpdatePrettierIgnore(tree);
   addOrUpdateGitattributes(tree);
