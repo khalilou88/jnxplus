@@ -1144,7 +1144,7 @@ describe('nx-micronaut-gradle e2e', () => {
         `apps/${appDir}/${appName}/src/test/resources/application.yml`,
         `apps/${appDir}/${appName}/src/test/java/com/jnxplus/deep/subdir/${names(
           appName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`
       )
     ).not.toThrow();
 
@@ -1303,7 +1303,7 @@ describe('nx-micronaut-gradle e2e', () => {
         `apps/${appName}/src/test/resources/application.properties`,
         `apps/${appName}/src/test/java/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`
       )
     ).toThrow();
 
@@ -1354,7 +1354,7 @@ describe('nx-micronaut-gradle e2e', () => {
 
         `apps/${appName}/src/test/kotlin/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.kt`
+        ).className.toLocaleLowerCase()}/HelloControllerTest.kt`
       )
     ).toThrow();
 
