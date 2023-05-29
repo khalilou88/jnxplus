@@ -41,6 +41,14 @@ tasks {
         }
     }
 }
+
+micronaut {
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("<%= packageName %>.*")
+    }
+}
 <% } -%>
 <% if(dsl === 'kotlin') { -%>
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -87,6 +95,15 @@ tasks {
         compilerOptions {
             jvmTarget.set(JvmTarget.valueOf("JVM_${javaVersion}"))
         }
+    }
+}
+
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("<%= packageName %>.*")
     }
 }
 <% } -%>
