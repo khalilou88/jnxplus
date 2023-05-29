@@ -1,7 +1,7 @@
 <% if(dsl === 'groovy') { -%>
 plugins {
-    id 'com.github.johnrengelman.shadow'
-    id 'io.micronaut.library'
+    id "com.github.johnrengelman.shadow"
+    id "io.micronaut.library"
 }
 
 version = "<%= projectVersion %>"
@@ -12,25 +12,13 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.micronaut:micronaut-jackson-databind'
-    runtimeOnly 'ch.qos.logback:logback-classic'
-    testImplementation 'io.micronaut:micronaut-http-client'
+    implementation "io.micronaut:micronaut-jackson-databind"
+    testImplementation "io.micronaut:micronaut-http-client"
 }
 
 java {
     sourceCompatibility = JavaVersion.toVersion("${javaVersion}")
     targetCompatibility = JavaVersion.toVersion("${javaVersion}")
-}
-
-graalvmNative.toolchainDetection = false
-
-micronaut {
-    runtime("netty")
-    testRuntime("junit5")
-    processing {
-        incremental(true)
-        annotations("<%= packageName %>.*")
-    }
 }
 <% } -%>
 <% if(dsl === 'kotlin') { -%>
@@ -50,23 +38,11 @@ repositories {
 
 dependencies {
     implementation("io.micronaut:micronaut-jackson-databind")
-    runtimeOnly("ch.qos.logback:logback-classic")
     testImplementation("io.micronaut:micronaut-http-client")
 }
 
 java {
     sourceCompatibility = JavaVersion.toVersion(javaVersion)
     targetCompatibility = JavaVersion.toVersion(javaVersion)
-}
-
-graalvmNative.toolchainDetection.set(false)
-
-micronaut {
-    runtime("netty")
-    testRuntime("junit5")
-    processing {
-        incremental(true)
-        annotations("<%= packageName %>.*")
-    }
 }
 <% } -%>
