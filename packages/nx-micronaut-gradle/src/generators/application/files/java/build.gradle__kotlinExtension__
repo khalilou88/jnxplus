@@ -1,7 +1,7 @@
 <% if(dsl === 'groovy') { -%>
 plugins {
-    id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "4.0.0-M2"
+    id("com.github.johnrengelman.shadow")
+    id("io.micronaut.application")
 }
 
 version = "<%= projectVersion %>"
@@ -20,16 +20,17 @@ dependencies {
 <% } -%>
 }
 
-
 application {
     mainClass.set("<%= packageName %>.Application")
 }
+
 java {
     sourceCompatibility = JavaVersion.toVersion("${javaVersion}")
     targetCompatibility = JavaVersion.toVersion("${javaVersion}")
 }
 
 graalvmNative.toolchainDetection = false
+
 micronaut {
     runtime("netty")
     testRuntime("junit5")
@@ -43,8 +44,8 @@ micronaut {
 val javaVersion: String by project
 
 plugins {
-    id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "4.0.0-M2"
+    id("com.github.johnrengelman.shadow")
+    id("io.micronaut.application")
 }
 
 version = "<%= projectVersion %>"
@@ -67,12 +68,14 @@ dependencies {
 application {
     mainClass.set("<%= packageName %>.Application")
 }
+
 java {
     sourceCompatibility = JavaVersion.toVersion(javaVersion)
     targetCompatibility = JavaVersion.toVersion(javaVersion)
 }
 
 graalvmNative.toolchainDetection.set(false)
+
 micronaut {
     runtime("netty")
     testRuntime("junit5")
