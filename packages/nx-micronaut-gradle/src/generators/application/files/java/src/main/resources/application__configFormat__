@@ -8,7 +8,7 @@ netty.default.allocator.max-order=3
 <% if(configFormat === '.yml') { -%>
 micronaut:
   application:
-    name: <%= projectName %>
+    name: <%= appClassName %>
 <% if(isCustomPort) { -%>
   server:
     port: <%= port %>

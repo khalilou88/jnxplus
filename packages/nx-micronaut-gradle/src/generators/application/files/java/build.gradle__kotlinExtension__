@@ -15,6 +15,9 @@ dependencies {
     implementation("io.micronaut:micronaut-jackson-databind")
     runtimeOnly("ch.qos.logback:logback-classic")
     testImplementation("io.micronaut:micronaut-http-client")
+<% if(configFormat === '.yml') { -%>
+    runtimeOnly("org.yaml:snakeyaml")
+<% } -%>
 }
 
 
@@ -55,6 +58,9 @@ dependencies {
     implementation("io.micronaut:micronaut-jackson-databind")
     runtimeOnly("ch.qos.logback:logback-classic")
     testImplementation("io.micronaut:micronaut-http-client")
+<% if(configFormat === '.yml') { -%>
+    runtimeOnly("org.yaml:snakeyaml")
+<% } -%>
 }
 
 

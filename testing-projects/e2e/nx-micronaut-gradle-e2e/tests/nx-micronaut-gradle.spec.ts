@@ -223,18 +223,19 @@ describe('nx-micronaut-gradle e2e', () => {
       target: rootProjectName,
     });
 
+    const port = 8080;
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`)
+      output.includes(`Server Running: http://localhost:${port}`)
     );
 
-    const dataResult = await getData();
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World');
 
     // port and process cleanup
     try {
       await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
+      await killPorts(port);
     } catch (err) {
       // ignore err
     }
@@ -330,10 +331,10 @@ describe('nx-micronaut-gradle e2e', () => {
 
     const process = await runNxCommandUntil(
       `serve ${appName} --args="--spring.profiles.active=test"`,
-      (output) => output.includes(`Tomcat started on port(s): ${port}`)
+      (output) => output.includes(`Server Running: http://localhost:${port}`)
     );
 
-    const dataResult = await getData(port);
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -423,10 +424,10 @@ describe('nx-micronaut-gradle e2e', () => {
 
     const process = await runNxCommandUntil(
       `serve ${appName} --args="--spring.profiles.active=test"`,
-      (output) => output.includes(`Tomcat started on port(s): ${port}`)
+      (output) => output.includes(`Server Running: http://localhost:${port}`)
     );
 
-    const dataResult = await getData(port);
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -507,10 +508,10 @@ describe('nx-micronaut-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`)
+      output.includes(`Server Running: http://localhost:${port}`)
     );
 
-    const dataResult = await getData(port);
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -536,7 +537,7 @@ describe('nx-micronaut-gradle e2e', () => {
     }
   }, 120000);
 
-  xit('--an app with aliases', async () => {
+  it('--an app with aliases', async () => {
     const randomName = uniq('micronaut-gradle-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
@@ -552,19 +553,14 @@ describe('nx-micronaut-gradle e2e', () => {
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
+        ).className.toLocaleLowerCase()}/Application.java`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/ServletInitializer.java`,
         `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`
       )
     ).not.toThrow();
 
@@ -572,12 +568,12 @@ describe('nx-micronaut-gradle e2e', () => {
     const buildGradle = readFile(`apps/${appDir}/${randomName}/build.gradle`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
-    expect(buildGradle.includes('war')).toBeTruthy();
-    expect(
-      buildGradle.includes(
-        'org.springframework.boot:spring-boot-starter-tomcat'
-      )
-    ).toBeTruthy();
+    // expect(buildGradle.includes('war')).toBeTruthy();
+    // expect(
+    //   buildGradle.includes(
+    //     'org.springframework.boot:spring-boot-starter-tomcat'
+    //   )
+    // ).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
@@ -613,10 +609,10 @@ describe('nx-micronaut-gradle e2e', () => {
 
     const process = await runNxCommandUntil(
       `serve ${appName} --args="--spring.profiles.active=test"`,
-      (output) => output.includes(`Tomcat started on port(s): ${port}`)
+      (output) => output.includes(`Server Running: http://localhost:${port}`)
     );
 
-    const dataResult = await getData(port);
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -653,10 +649,10 @@ describe('nx-micronaut-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`)
+      output.includes(`Server Running: http://localhost:${port}`)
     );
 
-    const dataResult = await getData(port);
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -1217,10 +1213,10 @@ describe('nx-micronaut-gradle e2e', () => {
 
     const process = await runNxCommandUntil(
       `serve ${appName} --args="--spring.profiles.active=test"`,
-      (output) => output.includes(`Tomcat started on port(s): ${port}`)
+      (output) => output.includes(`Server Running: http://localhost:${port}`)
     );
 
-    const dataResult = await getData(port);
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
     expect(dataResult.message).toMatch('Hello World!');
 
@@ -1335,7 +1331,7 @@ describe('nx-micronaut-gradle e2e', () => {
     ).toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`)
+      output.includes(`Server Running: http://localhost:${port}`)
     );
 
     // port and process cleanup
@@ -1389,7 +1385,7 @@ describe('nx-micronaut-gradle e2e', () => {
     ).toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`)
+      output.includes(`Server Running: http://localhost:${port}`)
     );
 
     // port and process cleanup
