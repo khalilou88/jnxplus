@@ -26,7 +26,8 @@ on:
           - windows-latest
 
 jobs:
-  Run_checks:
+  check_plugin:
+    name: Check nx-${{ github.event.inputs.framework }}-${{ github.event.inputs.buildTool }} from ${{ github.head_ref || github.ref_name }}
     strategy:
       matrix:
         node_version: ['18']
