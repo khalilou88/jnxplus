@@ -989,7 +989,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     });
   }, 120000);
 
-  xit('should add a lib to an app dependencies', async () => {
+  it('should add a lib to an app dependencies', async () => {
     const appName = uniq('micronaut-gradle-app-');
     const libName = uniq('micronaut-gradle-lib-');
 
@@ -1019,12 +1019,12 @@ describe('nx-micronaut-gradle kt e2e', () => {
     const newHelloControllerContent = helloControllerContent
       .replace(
         regex1,
-        `$&\nimport org.springframework.beans.factory.annotation.Autowired;\nimport com.example.${names(
+        `$&\nimport jakarta.inject.Inject;\nimport com.example.${names(
           libName
         ).className.toLocaleLowerCase()}.HelloService;`
       )
-      .replace(regex2, '$&\n@Autowired\nprivate HelloService helloService;')
-      .replace(regex3, 'this.helloService.message()');
+      .replace(regex2, '$&\n@Inject\nprivate HelloService helloService;')
+      .replace(regex3, 'this.helloService.greeting()');
 
     updateFile(helloControllerPath, newHelloControllerContent);
 
@@ -1067,7 +1067,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     });
   }, 120000);
 
-  xit('should add a kotlin lib to a kotlin app dependencies', async () => {
+  it('should add a kotlin lib to a kotlin app dependencies', async () => {
     const appName = uniq('micronaut-gradle-app-');
     const libName = uniq('micronaut-gradle-lib-');
 
@@ -1105,12 +1105,12 @@ describe('nx-micronaut-gradle kt e2e', () => {
     const newHelloControllerContent = helloControllerContent
       .replace(
         regex1,
-        `$&\nimport org.springframework.beans.factory.annotation.Autowired\nimport com.example.${names(
+        `$&\nimport jakarta.inject.Inject\nimport com.example.${names(
           libName
         ).className.toLocaleLowerCase()}.HelloService`
       )
-      .replace(regex2, '$&(@Autowired val helloService: HelloService)')
-      .replace(regex3, 'helloService.message()');
+      .replace(regex2, '$&(@Inject val helloService: HelloService)')
+      .replace(regex3, 'helloService.greeting()');
 
     updateFile(helloControllerPath, newHelloControllerContent);
 
