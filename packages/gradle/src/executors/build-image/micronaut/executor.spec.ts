@@ -4,7 +4,11 @@ import executor from './executor';
 import { BuildImageExecutorSchema } from './schema';
 jest.mock('@jnxplus/common');
 
-const options: BuildImageExecutorSchema = {};
+const options: BuildImageExecutorSchema = {
+  useDocker: true,
+  native: true,
+  optimized: true,
+};
 const context: ExecutorContext = {
   root: '/root',
   cwd: '/root',
