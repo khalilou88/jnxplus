@@ -5,6 +5,16 @@
   "title": "Build Image executor",
   "description": "",
   "type": "object",
-  "properties": {},
+  "properties": {
+    "useDocker": {
+      "type": "boolean"
+    },
+    "native": {
+      "type": "boolean"
+    },
+    "optimized": {
+      "type": "boolean"
+    }
+  },
   "required": []
 }

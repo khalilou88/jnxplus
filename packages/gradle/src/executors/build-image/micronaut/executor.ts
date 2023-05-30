@@ -8,7 +8,36 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   logger.info(`Executor ran for Build Image: ${JSON.stringify(options)}`);
-  return runCommand(
-    `${getExecutable()} ${getProjectPath(context)}:bootBuildImage`
-  );
+
+  if (options.useDocker && options.native && options.optimized) {
+    return runCommand(
+      `${getExecutable()} ${getProjectPath(context)}:optimizedDockerBuildNative`
+    );
+  }
+
+  if (options.useDocker && !options.native && options.optimized) {
+    return runCommand(
+      `${getExecutable()} ${getProjectPath(context)}:optimizedDockerBuild`
+    );
+  }
+
+  if (options.useDocker && options.native && !options.optimized) {
+    return runCommand(
+      `${getExecutable()} ${getProjectPath(context)}:dockerBuildNative`
+    );
+  }
+
+  if (options.useDocker && !options.native && !options.optimized) {
+    return runCommand(
+      `${getExecutable()} ${getProjectPath(context)}:dockerBuild`
+    );
+  }
+
+  if (!options.useDocker) {
+    return runCommand(
+      `${getExecutable()} ${getProjectPath(context)}:nativeCompile`
+    );
+  }
+
+  throw new Error(`Case not handled`);
 }
