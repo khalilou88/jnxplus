@@ -1,6 +1,5 @@
 import { addProjectsAndDependencies } from '@jnxplus/maven';
 import {
-  Hasher,
   ProjectGraph,
   ProjectGraphBuilder,
   ProjectGraphProcessorContext,
@@ -8,10 +7,10 @@ import {
 
 export function processProjectGraph(
   graph: ProjectGraph,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   context: ProjectGraphProcessorContext
 ): ProjectGraph {
   const builder = new ProjectGraphBuilder(graph);
-  const hasher = new Hasher(graph, context.nxJsonConfiguration, {});
-  addProjectsAndDependencies(builder, hasher, '@jnxplus/nx-boot-maven');
+  addProjectsAndDependencies(builder, '@jnxplus/nx-boot-maven');
   return builder.getUpdatedProjectGraph();
 }
