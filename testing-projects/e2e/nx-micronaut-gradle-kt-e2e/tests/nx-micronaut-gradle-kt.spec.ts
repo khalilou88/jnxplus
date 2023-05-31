@@ -799,7 +799,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
         ).className.toLocaleLowerCase()}/HelloService.java`,
         `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+        ).className.toLocaleLowerCase()}/HelloServiceTest.java`
       )
     ).not.toThrow();
 
@@ -860,7 +860,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
         ).className.toLocaleLowerCase()}/HelloService.java`,
         `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
           randomName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+        ).className.toLocaleLowerCase()}/HelloServiceTest.java`
       )
     ).not.toThrow();
 
@@ -921,7 +921,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
         ).className.toLocaleLowerCase()}/HelloService.java`,
         `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+        ).className.toLocaleLowerCase()}/HelloServiceTest.java`
       )
     ).not.toThrow();
 
@@ -1223,7 +1223,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
         ).className.toLocaleLowerCase()}/HelloService.java`,
         `libs/${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
           libName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+        ).className.toLocaleLowerCase()}/HelloServiceTest.java`
       )
     ).not.toThrow();
 
@@ -1382,7 +1382,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
         ).className.toLocaleLowerCase()}/HelloService.java`,
         `libs/${libName}/src/test/java/com/example/${names(
           libName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
+        ).className.toLocaleLowerCase()}/HelloServiceTest.java`
       )
     ).toThrow();
   }, 120000);
@@ -1406,7 +1406,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
         `apps/${libName}/src/test/resources/junit-platform.properties`,
         `libs/${libName}/src/test/kotlin/com/example/${names(
           libName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.kt`
+        ).className.toLocaleLowerCase()}/HelloServiceTest.kt`
       )
     ).toThrow();
   }, 120000);
