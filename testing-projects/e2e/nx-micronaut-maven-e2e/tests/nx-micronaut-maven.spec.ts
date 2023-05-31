@@ -235,15 +235,14 @@ describe('nx-micronaut-maven e2e', () => {
     }
   }, 120000);
 
-  //TODO: build-image
-  xit('should build-image a java application', async () => {
+  it('should build-image a java application', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('micronaut-maven-app-');
       await runNxCommandAsync(
         `generate @jnxplus/nx-micronaut-maven:application ${appName}`
       );
       const buildImageResult = await runNxCommandAsync(
-        `build-image ${appName}`
+        `build-image ${appName} --args="-Dpackaging=docker"`
       );
       expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
@@ -418,15 +417,14 @@ describe('nx-micronaut-maven e2e', () => {
     }
   }, 120000);
 
-  //TODO: build-image
-  xit('should build-image a kotlin application', async () => {
+  it('should build-image a kotlin application', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('micronaut-maven-app-');
       await runNxCommandAsync(
         `generate @jnxplus/nx-micronaut-maven:application ${appName} --language kotlin`
       );
       const buildImageResult = await runNxCommandAsync(
-        `build-image ${appName}`
+        `build-image ${appName} --args="-Dpackaging=docker"`
       );
       expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }

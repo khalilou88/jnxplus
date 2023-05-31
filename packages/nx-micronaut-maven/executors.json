@@ -2,13 +2,13 @@
   "$schema": "http://json-schema.org/schema",
   "executors": {
     "build": {
-      "implementation": "@jnxplus/maven/src/executors/build/quarkus/executor",
-      "schema": "@jnxplus/maven/src/executors/build/quarkus/schema.json",
+      "implementation": "@jnxplus/maven/src/executors/build/executor",
+      "schema": "@jnxplus/maven/src/executors/build/schema.json",
       "description": "build executor"
     },
     "build-image": {
-      "implementation": "@jnxplus/common/src/executors/build-image/quarkus/executor",
-      "schema": "@jnxplus/common/src/executors/build-image/quarkus/schema.json",
+      "implementation": "@jnxplus/common/src/executors/build-image/micronaut/executor",
+      "schema": "@jnxplus/common/src/executors/build-image/micronaut/schema.json",
       "description": "build-image executor"
     },
     "serve": {

@@ -1,3 +1,5 @@
+import { LinterType, normalizeName } from '@jnxplus/common';
+import { addProjectToAggregator, readXmlTree } from '@jnxplus/maven';
 import {
   addProjectConfiguration,
   formatFiles,
@@ -10,10 +12,6 @@ import {
   Tree,
 } from '@nx/devkit';
 import * as path from 'path';
-import { XmlDocument } from 'xmldoc';
-import { normalizeName } from '@jnxplus/common';
-import { LinterType } from '@jnxplus/common';
-import { readXmlTree, xmlToString } from '@jnxplus/maven';
 import { NxMicronautMavenAppGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxMicronautMavenAppGeneratorSchema {
@@ -29,7 +27,7 @@ interface NormalizedSchema extends NxMicronautMavenAppGeneratorSchema {
   parentProjectName: string;
   parentProjectVersion: string;
   relativePath: string;
-  quarkusVersion: string;
+  //quarkusVersion: string;
   parentProjectRoot: string;
   isCustomPort: boolean;
 }
@@ -99,11 +97,11 @@ function normalizeOptions(
   const parentProjectVersion =
     pomXmlContent?.childNamed('version')?.val || 'parentProjectVersion';
 
-  const rootPomXmlContent = readXmlTree(tree, 'pom.xml');
-  const quarkusVersion =
-    rootPomXmlContent
-      ?.childNamed('properties')
-      ?.childNamed('quarkus.platform.version')?.val || 'quarkusVersion';
+  // const rootPomXmlContent = readXmlTree(tree, 'pom.xml');
+  // const quarkusVersion =
+  //   rootPomXmlContent
+  //     ?.childNamed('properties')
+  //     ?.childNamed('quarkus.platform.version')?.val || 'quarkusVersion';
 
   const isCustomPort = !!options.port && +options.port !== 8080;
 
@@ -121,7 +119,7 @@ function normalizeOptions(
     parentProjectName,
     parentProjectVersion,
     relativePath,
-    quarkusVersion,
+    //quarkusVersion,
     parentProjectRoot,
     isCustomPort,
   };
@@ -194,12 +192,7 @@ export default async function (
         },
         serve: {
           executor: '@jnxplus/nx-micronaut-maven:serve',
-          dependsOn: [
-            {
-              target: 'build',
-              projects: 'self',
-            },
-          ],
+          dependsOn: ['build'],
         },
         lint: {
           executor: '@jnxplus/nx-micronaut-maven:lint',
@@ -209,21 +202,10 @@ export default async function (
         },
         test: {
           executor: '@jnxplus/nx-micronaut-maven:test',
-          dependsOn: [
-            {
-              target: 'build',
-              projects: 'self',
-            },
-          ],
+          dependsOn: ['build'],
         },
         'integration-test': {
           executor: '@jnxplus/nx-micronaut-maven:integration-test',
-          dependsOn: [
-            {
-              target: 'build',
-              projects: 'self',
-            },
-          ],
         },
       },
       tags: normalizedOptions.parsedTags,
@@ -243,12 +225,7 @@ export default async function (
         },
         serve: {
           executor: '@jnxplus/nx-micronaut-maven:serve',
-          dependsOn: [
-            {
-              target: 'build',
-              projects: 'self',
-            },
-          ],
+          dependsOn: ['build'],
         },
         lint: {
           executor: '@jnxplus/nx-micronaut-maven:lint',
@@ -258,21 +235,10 @@ export default async function (
         },
         test: {
           executor: '@jnxplus/nx-micronaut-maven:test',
-          dependsOn: [
-            {
-              target: 'build',
-              projects: 'self',
-            },
-          ],
+          dependsOn: ['build'],
         },
         'integration-test': {
           executor: '@jnxplus/nx-micronaut-maven:integration-test',
-          dependsOn: [
-            {
-              target: 'build',
-              projects: 'self',
-            },
-          ],
         },
         ktformat: {
           executor: '@jnxplus/nx-micronaut-maven:ktformat',
@@ -283,37 +249,9 @@ export default async function (
   }
 
   addFiles(tree, normalizedOptions);
-  addProjectToParentPomXml(tree, normalizedOptions);
+  addProjectToAggregator(tree, {
+    projectRoot: normalizedOptions.projectRoot,
+    aggregatorProject: normalizedOptions.parentProject,
+  });
   await formatFiles(tree);
-}
-
-function addProjectToParentPomXml(tree: Tree, options: NormalizedSchema) {
-  const parentProjectPomPath = path.join(options.parentProjectRoot, 'pom.xml');
-  const xmldoc = readXmlTree(tree, parentProjectPomPath);
-
-  const relativePath = path
-    .relative(options.parentProjectRoot, options.projectRoot)
-    .replace(new RegExp(/\\/, 'g'), '/');
-
-  const fragment = new XmlDocument(`<module>${relativePath}</module>`);
-
-  let modules = xmldoc.childNamed('modules');
-
-  if (modules === undefined) {
-    xmldoc.children.push(
-      new XmlDocument(`
-    <modules>
-    </modules>
-  `)
-    );
-    modules = xmldoc.childNamed('modules');
-  }
-
-  if (modules === undefined) {
-    throw new Error('Modules tag undefined');
-  }
-
-  modules.children.push(fragment);
-
-  tree.write(parentProjectPomPath, xmlToString(xmldoc));
 }
