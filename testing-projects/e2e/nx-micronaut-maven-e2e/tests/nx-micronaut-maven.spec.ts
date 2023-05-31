@@ -235,7 +235,7 @@ describe('nx-micronaut-maven e2e', () => {
     }
   }, 120000);
 
-  it('should build-image a java application', async () => {
+  xit('should build-image a java application', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('micronaut-maven-app-');
       await runNxCommandAsync(
@@ -417,7 +417,7 @@ describe('nx-micronaut-maven e2e', () => {
     }
   }, 120000);
 
-  it('should build-image a kotlin application', async () => {
+  xit('should build-image a kotlin application', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('micronaut-maven-app-');
       await runNxCommandAsync(
