@@ -1,0 +1,20 @@
+<% if(configFormat === '.properties') { -%>
+micronaut.application.name=<%= projectName %>
+<% if(isCustomPort) { -%>
+micronaut.server.port=<%= port %>
+<% } -%>
+netty.default.allocator.max-order=3
+<% } -%>
+<% if(configFormat === '.yml') { -%>
+micronaut:
+  application:
+    name: <%= projectName %>
+<% if(isCustomPort) { -%>
+  server:
+    port: <%= port %>
+<% } -%>
+netty:
+  default:
+    allocator:
+      max-order: 3
+<% } -%>

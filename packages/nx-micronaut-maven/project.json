@@ -1,0 +1,102 @@
+{
+  "name": "nx-micronaut-maven",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/nx-micronaut-maven/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/nx-micronaut-maven/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/packages/nx-micronaut-maven"],
+      "options": {
+        "jestConfig": "packages/nx-micronaut-maven/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/nx-micronaut-maven",
+        "main": "packages/nx-micronaut-maven/src/index.ts",
+        "packageJson": "packages/nx-micronaut-maven/package.json",
+        "tsConfig": "packages/nx-micronaut-maven/tsconfig.lib.json",
+        "updateBuildableProjectDepsInPackageJson": true,
+        "buildableProjectDepsInPackageJsonType": "dependencies",
+        "assets": [
+          "packages/nx-micronaut-maven/*.md",
+          {
+            "input": "./packages/nx-micronaut-maven/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-micronaut-maven/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-micronaut-maven",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./packages/nx-micronaut-maven",
+            "glob": "executors.json",
+            "output": "."
+          },
+          {
+            "input": "./packages/maven-wrapper/.mvn",
+            "glob": "wrapper/**",
+            "output": "./src/generators/init/files/maven/wrapper/__dot__mvn"
+          },
+          {
+            "input": "./packages/maven-wrapper",
+            "glob": "mvnw",
+            "output": "./src/generators/init/files/maven/wrapper"
+          },
+          {
+            "input": "./packages/maven-wrapper",
+            "glob": "mvnw.cmd",
+            "output": "./src/generators/init/files/maven/wrapper"
+          }
+        ]
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular",
+        "trackDeps": true,
+        "push": true,
+        "noVerify": true,
+        "postTargets": [
+          "nx-micronaut-maven:github",
+          "nx-micronaut-maven:publish"
+        ],
+        "commitMessageFormat": "release(${projectName}): cut release ${version} [skip ci]"
+      }
+    },
+    "github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "${tag}",
+        "notes": "${notes}"
+      }
+    },
+    "publish": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}

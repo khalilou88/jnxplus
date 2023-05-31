@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "executors": {
+    "build": {
+      "implementation": "@jnxplus/maven/src/executors/build/executor",
+      "schema": "@jnxplus/maven/src/executors/build/schema.json",
+      "description": "build executor"
+    },
+    "build-image": {
+      "implementation": "@jnxplus/common/src/executors/build-image/micronaut/executor",
+      "schema": "@jnxplus/common/src/executors/build-image/micronaut/schema.json",
+      "description": "build-image executor"
+    },
+    "serve": {
+      "implementation": "@jnxplus/maven/src/executors/serve/micronaut/executor",
+      "schema": "@jnxplus/maven/src/executors/serve/micronaut/schema.json",
+      "description": "serve executor"
+    },
+    "lint": {
+      "implementation": "@jnxplus/maven/src/executors/lint/executor",
+      "schema": "@jnxplus/common/src/executors/lint/schema.json",
+      "description": "lint executor"
+    },
+    "test": {
+      "implementation": "@jnxplus/maven/src/executors/test/executor",
+      "schema": "@jnxplus/maven/src/executors/test/schema.json",
+      "description": "test executor"
+    },
+    "integration-test": {
+      "implementation": "@jnxplus/maven/src/executors/integration-test/executor",
+      "schema": "@jnxplus/maven/src/executors/integration-test/schema.json",
+      "description": "integration-test executor"
+    },
+    "ktformat": {
+      "implementation": "@jnxplus/maven/src/executors/ktformat/executor",
+      "schema": "@jnxplus/common/src/executors/ktformat/schema.json",
+      "description": "kotlin format executor"
+    },
+    "run-task": {
+      "implementation": "@jnxplus/maven/src/executors/run-task/executor",
+      "schema": "@jnxplus/maven/src/executors/run-task/schema.json",
+      "description": "run-task executor"
+    },
+    "publish": {
+      "implementation": "@jnxplus/maven/src/executors/publish/executor",
+      "schema": "@jnxplus/maven/src/executors/publish/schema.json",
+      "description": "publish executor"
+    }
+  }
+}

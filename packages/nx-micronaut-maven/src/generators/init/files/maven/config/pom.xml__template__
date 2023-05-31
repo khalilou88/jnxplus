@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId><%= groupId %></groupId>
+    <artifactId><%= parentProjectName %></artifactId>
+    <version><%= parentProjectVersion %></version>
+    <packaging>pom</packaging>
+
+  <parent>
+    <groupId>io.micronaut.platform</groupId>
+    <artifactId>micronaut-parent</artifactId>
+    <version><%= micronautVersion %></version>
+  </parent>
+
+  <properties>
+    <jdk.version><%= javaVersion %></jdk.version>
+    <release.version><%= javaVersion %></release.version>
+    <micronaut.version><%= micronautVersion %></micronaut.version>
+    <java.version><%= javaVersion %></java.version>
+    <kotlinVersion><%= kotlinVersion %></kotlinVersion>
+    <kotlin.version><%= kotlinVersion %></kotlin.version>
+    <checkstyle.version><%= checkstyleVersion %></checkstyle.version>
+    <ktlint.version><%= ktlintVersion %></ktlint.version>
+  </properties>
+
+  <modules>
+  </modules>
+
+</project>
