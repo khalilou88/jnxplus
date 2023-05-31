@@ -1,6 +1,5 @@
 import { getProjectGraphNodeType } from '@jnxplus/common';
 import {
-  Hasher,
   ProjectGraphBuilder,
   joinPathFragments,
   workspaceRoot,
@@ -31,7 +30,6 @@ type GradleProjectType = GradleProject1Type & GradleProject2Type;
 
 export function addProjectsAndDependenciesFromTask(
   builder: ProjectGraphBuilder,
-  hasher: Hasher,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   pluginName: string
 ) {
@@ -58,14 +56,13 @@ export function addProjectsAndDependenciesFromTask(
     fs.readFileSync(outputFile, 'utf8')
   );
 
-  addProjects(builder, hasher, projects);
+  addProjects(builder, projects);
 
   addDependencies(builder, projects);
 }
 
 function addProjects(
   builder: ProjectGraphBuilder,
-  hasher: Hasher,
   projects: GradleProjectType[]
 ) {
   for (const project of projects) {
@@ -81,48 +78,6 @@ function addProjects(
           project.projectDirPath
         );
 
-        const files = [];
-
-        if (project.isBuildGradleExists) {
-          const file = joinPathFragments(projectRoot, 'build.gradle');
-          files.push({
-            file: file,
-            hash: hasher.hashFile(file),
-          });
-        }
-
-        if (project.isBuildGradleKtsExists) {
-          const file = joinPathFragments(projectRoot, 'build.gradle.kts');
-          files.push({
-            file: file,
-            hash: hasher.hashFile(file),
-          });
-        }
-
-        if (project.isSettingsGradleExists) {
-          const file = joinPathFragments(projectRoot, 'settings.gradle');
-          files.push({
-            file: file,
-            hash: hasher.hashFile(file),
-          });
-        }
-
-        if (project.isSettingsGradleKtsExists) {
-          const file = joinPathFragments(projectRoot, 'settings.gradle.kts');
-          files.push({
-            file: file,
-            hash: hasher.hashFile(file),
-          });
-        }
-
-        if (project.isGradlePropertiesExists) {
-          const file = joinPathFragments(projectRoot, 'gradle.properties');
-          files.push({
-            file: file,
-            hash: hasher.hashFile(file),
-          });
-        }
-
         const projectGraphNodeType = getProjectGraphNodeType(projectRoot);
 
         builder.addNode({
@@ -137,7 +92,6 @@ function addProjects(
                 executor: 'nx:noop',
               },
             },
-            files: files,
           },
         });
       }

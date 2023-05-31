@@ -1,6 +1,5 @@
 import { getProjectGraphNodeType } from '@jnxplus/common';
 import {
-  Hasher,
   ProjectGraphBuilder,
   joinPathFragments,
   workspaceRoot,
@@ -23,17 +22,15 @@ type MavenProjectType = {
 
 export function addProjectsAndDependencies(
   builder: ProjectGraphBuilder,
-  hasher: Hasher,
   pluginName: string
 ) {
   const projects: MavenProjectType[] = [];
-  addProjects(builder, hasher, projects, pluginName, '');
+  addProjects(builder, projects, pluginName, '');
   addDependencies(builder, projects);
 }
 
 function addProjects(
   builder: ProjectGraphBuilder,
-  hasher: Hasher,
   projects: MavenProjectType[],
   pluginName: string,
   projectRoot: string,
@@ -77,12 +74,6 @@ function addProjects(
             executor: `${pluginName}:run-task`,
           },
         },
-        files: [
-          {
-            file: joinPathFragments(projectRoot, 'pom.xml'),
-            hash: hasher.hashFile(joinPathFragments(projectRoot, 'pom.xml')),
-          },
-        ],
       },
     });
   }
@@ -110,7 +101,7 @@ function addProjects(
 
   for (const moduleXmlElement of moduleXmlElementArray) {
     const moduleRoot = joinPathFragments(projectRoot, moduleXmlElement.val);
-    addProjects(builder, hasher, projects, pluginName, moduleRoot, artifactId);
+    addProjects(builder, projects, pluginName, moduleRoot, artifactId);
   }
 }
 
