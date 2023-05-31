@@ -248,7 +248,7 @@ describe('nx-micronaut-gradle e2e', () => {
         `generate @jnxplus/nx-micronaut-gradle:application ${appName}`
       );
       const buildImageResult = await runNxCommandAsync(
-        `build-image ${appName}`
+        `build-image ${appName} --useDocker`
       );
       expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
@@ -521,7 +521,7 @@ describe('nx-micronaut-gradle e2e', () => {
         `generate @jnxplus/nx-micronaut-gradle:application ${appName} --language kotlin`
       );
       const buildImageResult = await runNxCommandAsync(
-        `build-image ${appName}`
+        `build-image ${appName} --useDocker`
       );
       expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
@@ -792,9 +792,6 @@ describe('nx-micronaut-gradle e2e', () => {
         ).className.toLocaleLowerCase()}/HelloService.java`,
         `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          randomName
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
     ).not.toThrow();
@@ -854,9 +851,6 @@ describe('nx-micronaut-gradle e2e', () => {
         ).className.toLocaleLowerCase()}/HelloService.java`,
         `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
           randomName
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
-          randomName
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
     ).not.toThrow();
@@ -914,9 +908,6 @@ describe('nx-micronaut-gradle e2e', () => {
         `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
         `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`
@@ -1219,9 +1210,6 @@ describe('nx-micronaut-gradle e2e', () => {
         ).className.toLocaleLowerCase()}/HelloService.java`,
         `libs/${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
           libName
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          libName
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
     ).not.toThrow();
@@ -1379,9 +1367,6 @@ describe('nx-micronaut-gradle e2e', () => {
         ).className.toLocaleLowerCase()}/HelloService.java`,
         `libs/${libName}/src/test/java/com/example/${names(
           libName
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libName}/src/test/java/com/example/${names(
-          libName
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
     ).toThrow();
@@ -1402,9 +1387,6 @@ describe('nx-micronaut-gradle e2e', () => {
           libName
         ).className.toLocaleLowerCase()}/HelloService.kt`,
         `apps/${libName}/src/test/resources/junit-platform.properties`,
-        `libs/${libName}/src/test/kotlin/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/TestConfiguration.kt`,
         `libs/${libName}/src/test/kotlin/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloServiceTests.kt`
