@@ -1292,7 +1292,6 @@ describe('nx-micronaut-gradle kt e2e', () => {
         `apps/${appName}/src/main/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `apps/${appName}/src/test/resources/application.properties`,
         `apps/${appName}/src/test/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTest.java`
@@ -1326,9 +1325,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.kt`,
+        ).className.toLocaleLowerCase()}/Application.kt`,
         `apps/${appName}/src/test/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/${names(appName).className}Test.kt`
@@ -1340,8 +1337,6 @@ describe('nx-micronaut-gradle kt e2e', () => {
         `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.kt`,
-        `apps/${appName}/src/test/resources/application.properties`,
-
         `apps/${appName}/src/test/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTest.kt`
