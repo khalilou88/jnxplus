@@ -139,7 +139,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     ).not.toThrow();
   }, 120000);
 
-  xit('should migrate', async () => {
+  it('should migrate', async () => {
     await runNxCommandAsync(`generate @jnxplus/nx-micronaut-gradle:migrate`);
   }, 120000);
 
@@ -242,7 +242,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     }
   }, 120000);
 
-  xit('should build-image a java application', async () => {
+  it('should build-image a java application', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('micronaut-gradle-app-');
       await runNxCommandAsync(
@@ -255,7 +255,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     }
   }, 120000);
 
-  xit('should use specified options to create an application', async () => {
+  it('should use specified options to create an application', async () => {
     const randomName = uniq('micronaut-gradle-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
@@ -271,9 +271,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
+        ).className.toLocaleLowerCase()}/Application.java`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloController.java`,
@@ -290,12 +288,12 @@ describe('nx-micronaut-gradle kt e2e', () => {
     );
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
-    expect(buildGradle.includes('war')).toBeTruthy();
-    expect(
-      buildGradle.includes(
-        'org.springframework.boot:spring-boot-starter-tomcat'
-      )
-    ).toBeTruthy();
+    // expect(buildGradle.includes('war')).toBeTruthy();
+    // expect(
+    //   buildGradle.includes(
+    //     'org.springframework.boot:spring-boot-starter-tomcat'
+    //   )
+    // ).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
@@ -347,7 +345,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     }
   }, 120000);
 
-  xit('should generate an app with a simple package name', async () => {
+  it('should generate an app with a simple package name', async () => {
     const randomName = uniq('micronaut-gradle-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
@@ -363,9 +361,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
+        ).className.toLocaleLowerCase()}/Application.java`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloController.java`,
@@ -382,12 +378,12 @@ describe('nx-micronaut-gradle kt e2e', () => {
     );
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
-    expect(buildGradle.includes('war')).toBeTruthy();
-    expect(
-      buildGradle.includes(
-        'org.springframework.boot:spring-boot-starter-tomcat'
-      )
-    ).toBeTruthy();
+    // expect(buildGradle.includes('war')).toBeTruthy();
+    // expect(
+    //   buildGradle.includes(
+    //     'org.springframework.boot:spring-boot-starter-tomcat'
+    //   )
+    // ).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
@@ -523,7 +519,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     }
   }, 120000);
 
-  xit('should build-image a kotlin application', async () => {
+  it('should build-image a kotlin application', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('micronaut-gradle-app-');
       await runNxCommandAsync(
@@ -536,7 +532,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     }
   }, 120000);
 
-  xit('--an app with aliases', async () => {
+  it('--an app with aliases', async () => {
     const randomName = uniq('micronaut-gradle-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
@@ -552,9 +548,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
+        ).className.toLocaleLowerCase()}/Application.java`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloController.java`,
@@ -571,12 +565,12 @@ describe('nx-micronaut-gradle kt e2e', () => {
     );
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
-    expect(buildGradle.includes('war')).toBeTruthy();
-    expect(
-      buildGradle.includes(
-        'org.springframework.boot:spring-boot-starter-tomcat'
-      )
-    ).toBeTruthy();
+    // expect(buildGradle.includes('war')).toBeTruthy();
+    // expect(
+    //   buildGradle.includes(
+    //     'org.springframework.boot:spring-boot-starter-tomcat'
+    //   )
+    // ).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
@@ -628,7 +622,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     }
   }, 120000);
 
-  xit('directory with dash', async () => {
+  it('directory with dash', async () => {
     const randomName = uniq('micronaut-gradle-app-');
     const appName = `deep-sub-dir-${randomName}`;
     const port = 8585;
@@ -788,7 +782,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     });
   }, 120000);
 
-  xit('should create a library with the specified properties', async () => {
+  it('should create a library with the specified properties', async () => {
     const randomName = uniq('micronaut-gradle-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
@@ -852,7 +846,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     });
   }, 120000);
 
-  xit('should generare a lib with a simple package name', async () => {
+  it('should generare a lib with a simple package name', async () => {
     const randomName = uniq('micronaut-gradle-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
@@ -916,7 +910,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     });
   }, 120000);
 
-  xit('--a lib with aliases', async () => {
+  it('--a lib with aliases', async () => {
     const randomName = uniq('micronaut-gradle-lib-');
     const libDir = 'subdir';
     const libName = `${libDir}-${randomName}`;
@@ -1134,7 +1128,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     });
   }, 120000);
 
-  xit('should create an application with a simple name', async () => {
+  it('should create an application with a simple name', async () => {
     const appName = uniq('micronaut-gradle-app-');
     const appDir = 'deep/subdir';
     const port = 8686;
@@ -1149,9 +1143,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
         `apps/${appDir}/${appName}/src/main/resources/application.yml`,
         `apps/${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
           appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
+        ).className.toLocaleLowerCase()}/Application.java`,
         `apps/${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.java`,
@@ -1167,12 +1159,12 @@ describe('nx-micronaut-gradle kt e2e', () => {
     const buildGradle = readFile(`apps/${appDir}/${appName}/build.gradle.kts`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
-    expect(buildGradle.includes('war')).toBeTruthy();
-    expect(
-      buildGradle.includes(
-        'org.springframework.boot:spring-boot-starter-tomcat'
-      )
-    ).toBeTruthy();
+    // expect(buildGradle.includes('war')).toBeTruthy();
+    // expect(
+    //   buildGradle.includes(
+    //     'org.springframework.boot:spring-boot-starter-tomcat'
+    //   )
+    // ).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`apps/${appDir}/${appName}/project.json`);
@@ -1224,7 +1216,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     }
   }, 120000);
 
-  xit('should create a library with a simple name', async () => {
+  it('should create a library with a simple name', async () => {
     const libName = uniq('micronaut-gradle-lib-');
     const libDir = 'deep/subdir';
 
@@ -1285,7 +1277,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     });
   }, 120000);
 
-  xit('should create a minimal java application', async () => {
+  it('should create a minimal java application', async () => {
     const appName = uniq('micronaut-gradle-app-');
     const port = 8787;
 
@@ -1298,9 +1290,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
         `apps/${appName}/build.gradle.kts`,
         `apps/${appName}/src/main/java/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
+        ).className.toLocaleLowerCase()}/Application.java`,
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/test/java/com/example/${names(
           appName
@@ -1335,7 +1325,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     }
   }, 120000);
 
-  xit('should create a minimal kotlin application', async () => {
+  it('should create a minimal kotlin application', async () => {
     const appName = uniq('micronaut-gradle-app-');
     const port = 8888;
 
@@ -1386,7 +1376,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     }
   }, 120000);
 
-  xit('should skip starter code when generating a java library with skipStarterCode option', async () => {
+  it('should skip starter code when generating a java library with skipStarterCode option', async () => {
     const libName = uniq('micronaut-gradle-lib-');
 
     await runNxCommandAsync(
@@ -1412,7 +1402,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     ).toThrow();
   }, 120000);
 
-  xit('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
+  it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
     const libName = uniq('micronaut-gradle-lib-');
 
     await runNxCommandAsync(
