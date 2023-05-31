@@ -1,0 +1,28 @@
+<% if(dsl === 'groovy') { -%>
+pluginManagement {
+  plugins {
+    id 'org.jetbrains.kotlin.jvm' version "${kotlinVersion}"
+    id 'org.jetbrains.kotlin.plugin.allopen' version "${kotlinVersion}"
+    id 'com.google.devtools.ksp' version "1.8.20-1.0.10"
+    id 'com.github.johnrengelman.shadow' version "8.1.1"
+    id 'io.micronaut.application' version "${micronautVersion}"
+    id 'io.micronaut.library' version "${micronautVersion}"
+  }
+}
+rootProject.name = '<%= rootProjectName %>'
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+pluginManagement {
+  val kotlinVersion: String by settings
+  val micronautVersion: String by settings
+  plugins {
+    id("org.jetbrains.kotlin.jvm") version kotlinVersion
+    id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
+    id("com.google.devtools.ksp") version "1.8.20-1.0.10"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.micronaut.application") version micronautVersion
+    id("io.micronaut.library") version micronautVersion
+  }
+}
+rootProject.name = "<%= rootProjectName %>"
+<% } -%>

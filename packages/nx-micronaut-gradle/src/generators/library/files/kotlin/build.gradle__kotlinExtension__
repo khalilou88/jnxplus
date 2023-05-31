@@ -1,0 +1,109 @@
+<% if(dsl === 'groovy') { -%>
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+plugins {
+    id "org.jetbrains.kotlin.jvm"
+    id "org.jetbrains.kotlin.plugin.allopen"
+    id "com.google.devtools.ksp"
+    id "com.github.johnrengelman.shadow"
+    id "io.micronaut.library"
+}
+
+version = "<%= projectVersion %>"
+group = "<%= groupId %>"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "io.micronaut:micronaut-jackson-databind"
+    implementation "io.micronaut.kotlin:micronaut-kotlin-runtime"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
+    runtimeOnly "com.fasterxml.jackson.module:jackson-module-kotlin"
+    testImplementation "io.micronaut:micronaut-http-client"
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion("${javaVersion}")
+}
+
+tasks {
+    compileKotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.valueOf("JVM_${javaVersion}")
+        }
+    }
+    compileTestKotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.valueOf("JVM_${javaVersion}")
+        }
+    }
+}
+
+micronaut {
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("<%= packageName %>.*")
+    }
+}
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+val javaVersion: String by project
+val kotlinVersion: String by project
+
+plugins {
+    id("org.jetbrains.kotlin.jvm")
+    id("org.jetbrains.kotlin.plugin.allopen")
+    id("com.google.devtools.ksp")
+    id("com.github.johnrengelman.shadow")
+    id("io.micronaut.library")
+}
+
+version = "<%= projectVersion %>"
+group = "<%= groupId %>"
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
+    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
+    testImplementation("io.micronaut:micronaut-http-client")
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion(javaVersion)
+}
+
+tasks {
+    compileKotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.valueOf("JVM_${javaVersion}"))
+        }
+    }
+    compileTestKotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.valueOf("JVM_${javaVersion}"))
+        }
+    }
+}
+
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("<%= packageName %>.*")
+    }
+}
+<% } -%>

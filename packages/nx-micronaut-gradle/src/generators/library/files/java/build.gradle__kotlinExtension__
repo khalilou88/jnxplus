@@ -1,0 +1,64 @@
+<% if(dsl === 'groovy') { -%>
+plugins {
+    id "com.github.johnrengelman.shadow"
+    id "io.micronaut.library"
+}
+
+version = "<%= projectVersion %>"
+group = "<%= groupId %>"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "io.micronaut:micronaut-jackson-databind"
+    testImplementation "io.micronaut:micronaut-http-client"
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion("${javaVersion}")
+    targetCompatibility = JavaVersion.toVersion("${javaVersion}")
+}
+
+micronaut {
+  testRuntime("junit5")
+  processing {
+    incremental(true)
+    annotations("<%= packageName %>.*")
+  }
+}
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+val javaVersion: String by project
+
+plugins {
+    id("com.github.johnrengelman.shadow")
+    id("io.micronaut.library")
+}
+
+version = "<%= projectVersion %>"
+group = "<%= groupId %>"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("io.micronaut:micronaut-jackson-databind")
+    testImplementation("io.micronaut:micronaut-http-client")
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion(javaVersion)
+    targetCompatibility = JavaVersion.toVersion(javaVersion)
+}
+
+micronaut {
+  testRuntime("junit5")
+  processing {
+    incremental(true)
+    annotations("<%= packageName %>.*")
+  }
+}
+<% } -%>

@@ -1,0 +1,87 @@
+<% if(dsl === 'groovy') { -%>
+plugins {
+    id "com.github.johnrengelman.shadow"
+    id "io.micronaut.application"
+}
+
+version = "<%= projectVersion %>"
+group = "<%= groupId %>"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "io.micronaut:micronaut-jackson-databind"
+    runtimeOnly "ch.qos.logback:logback-classic"
+    testImplementation "io.micronaut:micronaut-http-client"
+<% if(configFormat === '.yml') { -%>
+    runtimeOnly "org.yaml:snakeyaml"
+<% } -%>
+}
+
+application {
+    mainClass.set("<%= packageName %>.Application")
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion("${javaVersion}")
+    targetCompatibility = JavaVersion.toVersion("${javaVersion}")
+}
+
+graalvmNative.toolchainDetection = false
+
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("<%= packageName %>.*")
+    }
+}
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+val javaVersion: String by project
+
+plugins {
+    id("com.github.johnrengelman.shadow")
+    id("io.micronaut.application")
+}
+
+version = "<%= projectVersion %>"
+group = "<%= groupId %>"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("io.micronaut:micronaut-jackson-databind")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    testImplementation("io.micronaut:micronaut-http-client")
+<% if(configFormat === '.yml') { -%>
+    runtimeOnly("org.yaml:snakeyaml")
+<% } -%>
+}
+
+
+application {
+    mainClass.set("<%= packageName %>.Application")
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion(javaVersion)
+    targetCompatibility = JavaVersion.toVersion(javaVersion)
+}
+
+graalvmNative.toolchainDetection.set(false)
+
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("<%= packageName %>.*")
+    }
+}
+<% } -%>

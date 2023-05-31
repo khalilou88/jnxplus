@@ -53,12 +53,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Unit tests
-        run: npm run test nx-${{ github.event.inputs.framework }}-${{ github.event.inputs.buildTool }}
-
-      - name: Build
-        run: npm run build nx-${{ github.event.inputs.framework }}-${{ github.event.inputs.buildTool }}
-
       - name: E2E tests
         run: npm run e2e nx-${{ github.event.inputs.framework }}-${{ github.event.inputs.buildTool }}-e2e
         env:

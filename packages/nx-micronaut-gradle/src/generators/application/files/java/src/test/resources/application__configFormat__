@@ -1,0 +1,9 @@
+<% if(configFormat === '.properties') { -%>
+micronaut.server.port=-1
+<% } -%>
+<% if(configFormat === '.yml') { -%>
+micronaut:
+  server:
+    port: -1
+<% } -%>
+
