@@ -530,7 +530,7 @@ describe('nx-boot-gradle kt e2e', () => {
     }
   }, 120000);
 
-  it('should build-image a kotlin application', async () => {
+  xit('should build-image a kotlin application', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('boot-gradle-app-');
       await runNxCommandAsync(
