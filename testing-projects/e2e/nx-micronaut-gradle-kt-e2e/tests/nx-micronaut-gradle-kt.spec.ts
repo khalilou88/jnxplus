@@ -15,6 +15,7 @@ import * as path from 'path';
 import { checkstyleVersion, normalizeName } from '@jnxplus/common';
 import {
   addTmpToGitignore,
+  checkFilesDoNotExist,
   getData,
   killPorts,
   patchPackageJson,
@@ -1282,14 +1283,12 @@ describe('nx-micronaut-gradle kt e2e', () => {
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/test/java/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }ApplicationTests.java`
+        ).className.toLocaleLowerCase()}/${names(appName).className}Test.java`
       )
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `apps/${appName}/src/main/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.java`,
@@ -1298,7 +1297,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTest.java`
       )
-    ).toThrow();
+    ).not.toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
       output.includes(`Server Running: http://localhost:${port}`)
@@ -1332,14 +1331,12 @@ describe('nx-micronaut-gradle kt e2e', () => {
         }Application.kt`,
         `apps/${appName}/src/test/kotlin/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }ApplicationTests.kt`
+        ).className.toLocaleLowerCase()}/${names(appName).className}Test.kt`
       )
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.kt`,
@@ -1349,7 +1346,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTest.kt`
       )
-    ).toThrow();
+    ).not.toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
       output.includes(`Server Running: http://localhost:${port}`)
@@ -1376,7 +1373,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `libs/${libName}/src/main/java/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloService.java`,
@@ -1384,7 +1381,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
           libName
         ).className.toLocaleLowerCase()}/HelloServiceTest.java`
       )
-    ).toThrow();
+    ).not.toThrow();
   }, 120000);
 
   it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
@@ -1399,7 +1396,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `libs/${libName}/src/main/kotlin/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloService.kt`,
@@ -1408,6 +1405,6 @@ describe('nx-micronaut-gradle kt e2e', () => {
           libName
         ).className.toLocaleLowerCase()}/HelloServiceTest.kt`
       )
-    ).toThrow();
+    ).not.toThrow();
   }, 120000);
 });
