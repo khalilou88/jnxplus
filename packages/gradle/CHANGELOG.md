@@ -2,6 +2,18 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.7.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.6.0...gradle-0.7.0) (2023-06-01)
+
+### Dependency Updates
+
+* `common` updated to version `0.6.0`
+
+### Features
+
+* **plugins:** add nx-micronaut-gradle plugin ([#241](https://github.com/khalilou88/jnxplus/issues/241)) ([544a6a8](https://github.com/khalilou88/jnxplus/commit/544a6a83c0680c23bf5e7a47684b9dcf14965d13))
+
+
+
 # [0.6.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.5.0...gradle-0.6.0) (2023-05-28)
 
 ### Dependency Updates
