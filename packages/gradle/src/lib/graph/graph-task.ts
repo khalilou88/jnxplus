@@ -39,7 +39,7 @@ export function addProjectsAndDependenciesFromTask(
     `nx-gradle-deps.json`
   );
 
-  let command = `${getExecutable()} projectDependencyReport --outputFile=${outputFile}`;
+  let command = `${getExecutable()} :projectDependencyTask --outputFile=${outputFile}`;
 
   if (isVerbose) {
     command += ' --stacktrace';

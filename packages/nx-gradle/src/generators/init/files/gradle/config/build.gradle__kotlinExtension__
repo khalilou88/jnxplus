@@ -1,1 +1,8 @@
-
+plugins {
+<% if(dsl === 'groovy') { -%>
+  id 'io.github.jnxplus'
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+  id("io.github.jnxplus")
+<% } -%>
+}

@@ -5,6 +5,7 @@ import {
   springBootVersion,
   springKotlinVersion,
   updateNxJson,
+  jnxplusGradlePluginVersion,
 } from '@jnxplus/common';
 import {
   addOrUpdateGitattributes,
@@ -23,6 +24,8 @@ interface NormalizedSchema extends NxGradleGeneratorSchema {
   kotlinSpringVersion: string;
   checkstyleVersion: string;
   ktlintVersion: string;
+  jnxplusGradlePluginVersion: string;
+  generateRepositories: boolean;
 }
 
 function normalizeOptions(
@@ -30,6 +33,8 @@ function normalizeOptions(
   options: NxGradleGeneratorSchema
 ): NormalizedSchema {
   const kotlinExtension = options.dsl === 'kotlin' ? '.kts' : '';
+
+  const generateRepositories = process.env['NODE_ENV'] === 'test';
 
   return {
     ...options,
@@ -40,6 +45,8 @@ function normalizeOptions(
     kotlinSpringVersion: springKotlinVersion,
     checkstyleVersion,
     ktlintVersion,
+    jnxplusGradlePluginVersion,
+    generateRepositories,
   };
 }
 
