@@ -1,22 +1,22 @@
-name: Check plugin
+name: Run plugin e2e tests
 on:
   workflow_dispatch:
     inputs:
-      framework:
+      e2e_project:
         type: choice
-        description: Framework
+        description: e2e project
         options:
-          - boot
-          - quarkus
-          - micronaut
-      buildTool:
-        type: choice
-        description: Build Tool
-        options:
-          - maven
-          - maven-bom
-          - gradle
-          - gradle-kt
+          - nx-maven-e2e
+          - nx-boot-maven-e2e
+          - nx-quarkus-maven-e2e
+          - nx-micronaut-maven-e2e
+          - nx-gradle-e2e
+          - nx-boot-gradle-e2e
+          - nx-boot-gradle-kt-e2e
+          - nx-quarkus-gradle-e2e
+          - nx-quarkus-gradle-kt-e2e
+          - nx-micronaut-gradle-e2e
+          - nx-micronaut-gradle-kt-e2e
       os:
         type: choice
         description: Os
@@ -27,7 +27,7 @@ on:
 
 jobs:
   check_plugin:
-    name: Check nx-${{ github.event.inputs.framework }}-${{ github.event.inputs.buildTool }} from ${{ github.head_ref || github.ref_name }}
+    name: Running ${{ github.event.inputs.e2e_project }} tests from ${{ github.head_ref || github.ref_name }}
     strategy:
       matrix:
         node_version: ['18']
@@ -54,7 +54,7 @@ jobs:
         run: npm ci
 
       - name: E2E tests
-        run: npm run e2e nx-${{ github.event.inputs.framework }}-${{ github.event.inputs.buildTool }}-e2e
+        run: npm run e2e nx-${{ github.event.inputs.e2e_project }}
         env:
           NX_VERBOSE_LOGGING: 'true'
           GITHUB_ACTIONS: 'true'
