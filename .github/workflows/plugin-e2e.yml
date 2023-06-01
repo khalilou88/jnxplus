@@ -11,6 +11,7 @@ on:
           - nx-quarkus-maven-e2e
           - nx-micronaut-maven-e2e
           - nx-gradle-e2e
+          - nx-gradle-kt-e2e
           - nx-boot-gradle-e2e
           - nx-boot-gradle-kt-e2e
           - nx-quarkus-gradle-e2e
@@ -27,7 +28,7 @@ on:
 
 jobs:
   check_plugin:
-    name: Running ${{ github.event.inputs.e2e_project }} tests from ${{ github.head_ref || github.ref_name }}
+    name: Running ${{ github.event.inputs.e2e_project }} tests from ${{ github.head_ref || github.ref_name }} branch
     strategy:
       matrix:
         node_version: ['18']
@@ -54,7 +55,7 @@ jobs:
         run: npm ci
 
       - name: E2E tests
-        run: npm run e2e nx-${{ github.event.inputs.e2e_project }}
+        run: npm run e2e ${{ github.event.inputs.e2e_project }}
         env:
           NX_VERBOSE_LOGGING: 'true'
           GITHUB_ACTIONS: 'true'
