@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.4.1](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.4.0...nx-maven-0.4.1) (2023-06-01)
+
+### Dependency Updates
+
+* `maven` updated to version `0.4.0`
+* `common` updated to version `0.6.0`
+
+### Bug Fixes
+
+* **graph:** set minimum version of nx to 16.3.0 ([2f4fcde](https://github.com/khalilou88/jnxplus/commit/2f4fcdeb26886bc808e9ab72f49379e9096d7c23))
+
+
+
 # [0.4.0](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.3.0...nx-maven-0.4.0) (2023-05-28)
 
 ### Dependency Updates
