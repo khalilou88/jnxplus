@@ -1,4 +1,4 @@
-import { addProjectsAndDependencies } from '@jnxplus/gradle';
+import { addProjectsAndDependenciesFromTask } from '@jnxplus/gradle';
 import {
   ProjectGraph,
   ProjectGraphBuilder,
@@ -11,6 +11,6 @@ export function processProjectGraph(
   context: ProjectGraphProcessorContext
 ): ProjectGraph {
   const builder = new ProjectGraphBuilder(graph);
-  addProjectsAndDependencies(builder, '@jnxplus/nx-gradle');
+  addProjectsAndDependenciesFromTask(builder, '@jnxplus/nx-gradle');
   return builder.getUpdatedProjectGraph();
 }
