@@ -52,4 +52,4 @@ nx generate @jnxplus/nx-micronaut-gradle:init
 
 ## License
 
-MIT © 2021-2023 Khalil LAGRIDA
+MIT © 2023-2023 Khalil LAGRIDA
