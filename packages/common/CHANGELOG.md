@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.6.0](https://github.com/khalilou88/jnxplus/compare/common-0.5.0...common-0.6.0) (2023-06-01)
+
+
+### Features
+
+* **plugins:** add nx-micronaut-gradle plugin ([#241](https://github.com/khalilou88/jnxplus/issues/241)) ([544a6a8](https://github.com/khalilou88/jnxplus/commit/544a6a83c0680c23bf5e7a47684b9dcf14965d13))
+
+
+
 # [0.5.0](https://github.com/khalilou88/jnxplus/compare/common-0.4.0...common-0.5.0) (2023-05-28)
 
 

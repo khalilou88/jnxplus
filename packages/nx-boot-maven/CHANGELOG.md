@@ -2,6 +2,24 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [7.0.0](https://github.com/khalilou88/jnxplus/compare/nx-boot-maven-6.4.0...nx-boot-maven-7.0.0) (2023-06-01)
+
+### Dependency Updates
+
+* `maven` updated to version `0.4.0`
+* `common` updated to version `0.6.0`
+
+### Bug Fixes
+
+* **graph:** set minimum version of nx to 16.3.0 ([3559934](https://github.com/khalilou88/jnxplus/commit/355993462155a27ab620678b1fd358d2f4eed6de))
+
+
+### BREAKING CHANGES
+
+* **graph:** Nx version 16.3.0 move hashing to the daemon, that create a breaking change in the plugin
+
+
+
 # [6.4.0](https://github.com/khalilou88/jnxplus/compare/nx-boot-maven-6.3.0...nx-boot-maven-6.4.0) (2023-05-28)
 
 ### Dependency Updates
