@@ -1,0 +1,132 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "NxGradleApp",
+  "title": "Create an application",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use?",
+      "pattern": "^[a-zA-Z].*$"
+    },
+    "tags": {
+      "type": "string",
+      "description": "Add tags to the project (used for linting)",
+      "alias": "t"
+    },
+    "directory": {
+      "type": "string",
+      "description": "A directory where the project is placed",
+      "alias": "dir"
+    },
+    "simpleName": {
+      "description": "Don't include the directory in the app name",
+      "type": "boolean",
+      "default": false
+    },
+    "simplePackageName": {
+      "description": "Don't include the directory in the package name",
+      "type": "boolean",
+      "default": false
+    },
+    "language": {
+      "description": "Language of the project",
+      "type": "string",
+      "default": "java",
+      "x-prompt": {
+        "message": "Which language would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "java",
+            "label": "Java"
+          },
+          {
+            "value": "kotlin",
+            "label": "Kotlin"
+          }
+        ]
+      }
+    },
+    "groupId": {
+      "type": "string",
+      "default": "com.example",
+      "x-prompt": "What groupId would you like to use?"
+    },
+    "projectVersion": {
+      "type": "string",
+      "default": "0.0.1-SNAPSHOT",
+      "description": "Version of the project to generate",
+      "alias": "v",
+      "x-prompt": "What project version would you like to use?"
+    },
+    "packaging": {
+      "description": "Packaging of the project",
+      "type": "string",
+      "default": "jar",
+      "x-prompt": {
+        "message": "Which packaging would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "jar",
+            "label": "Jar"
+          },
+          {
+            "value": "war",
+            "label": "War"
+          }
+        ]
+      }
+    },
+    "configFormat": {
+      "description": "Configuration format of the project",
+      "type": "string",
+      "default": ".properties",
+      "x-prompt": {
+        "message": "Which configuration format would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": ".properties",
+            "label": "Properties"
+          },
+          {
+            "value": ".yml",
+            "label": "Yaml"
+          }
+        ]
+      }
+    },
+    "minimal": {
+      "description": "Generate an app with a minimal setup",
+      "type": "boolean",
+      "default": false
+    },
+    "port": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "default": 8080,
+      "description": "Port to start the server at. Default is 8080."
+    }
+  },
+  "required": [
+    "name",
+    "language",
+    "groupId",
+    "projectVersion",
+    "packaging",
+    "configFormat"
+  ]
+}

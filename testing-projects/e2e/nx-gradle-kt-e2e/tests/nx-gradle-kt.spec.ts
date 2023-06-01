@@ -82,6 +82,35 @@ describe('nx-gradle kt e2e', () => {
       gradleDistAbsolutePath
     );
 
+    const a = path.join(workspaceRoot, 'dist', 'packages', 'internal', 'boot');
+
+    const b = path.join(
+      workspaceRoot,
+      'dist',
+      'packages',
+      'internal',
+      'boot-gradle'
+    );
+
+    patchRootPackageJson('@jnxplus/internal-boot', a);
+    patchRootPackageJson('@jnxplus/internal-boot-gradle', b);
+
+    patchPackageJson(a, '@jnxplus/common', commonDistAbsolutePath);
+    patchPackageJson(a, '@jnxplus/gradle', gradleDistAbsolutePath);
+
+    patchPackageJson(b, '@jnxplus/common', commonDistAbsolutePath);
+    patchPackageJson(b, '@jnxplus/gradle', gradleDistAbsolutePath);
+
+    patchPackageJson(b, '@jnxplus/internal-boot', a);
+
+    patchPackageJson(nxGradleDistAbsolutePath, '@jnxplus/internal-boot', a);
+
+    patchPackageJson(
+      nxGradleDistAbsolutePath,
+      '@jnxplus/internal-boot-gradle',
+      b
+    );
+
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
