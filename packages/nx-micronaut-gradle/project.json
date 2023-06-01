@@ -80,7 +80,7 @@
           "nx-micronaut-gradle:github",
           "nx-micronaut-gradle:publish"
         ],
-        "commitMessageFormat": "release(${projectName}): cut release ${version} [skip ci]"
+        "commitMessageFormat": "release: cut release ${version} of ${projectName} [skip ci]"
       }
     },
     "github": {

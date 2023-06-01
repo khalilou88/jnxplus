@@ -77,7 +77,7 @@
         "push": true,
         "noVerify": true,
         "postTargets": ["nx-boot-maven:github", "nx-boot-maven:publish"],
-        "commitMessageFormat": "release(${projectName}): cut release ${version} [skip ci]"
+        "commitMessageFormat": "release: cut release ${version} of ${projectName} [skip ci]"
       }
     },
     "github": {
