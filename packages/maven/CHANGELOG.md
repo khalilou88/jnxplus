@@ -2,6 +2,18 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.4.0](https://github.com/khalilou88/jnxplus/compare/maven-0.3.0...maven-0.4.0) (2023-06-01)
+
+### Dependency Updates
+
+* `common` updated to version `0.6.0`
+
+### Features
+
+* **plugins:** add nx-micronaut-maven plugin ([#222](https://github.com/khalilou88/jnxplus/issues/222)) ([cf27791](https://github.com/khalilou88/jnxplus/commit/cf27791aa678d03306318cb4429616f0385611e2))
+
+
+
 # [0.3.0](https://github.com/khalilou88/jnxplus/compare/maven-0.2.1...maven-0.3.0) (2023-05-28)
 
 ### Dependency Updates
