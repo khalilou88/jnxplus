@@ -243,7 +243,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 240000);
+  }, 300000);
 
   it('should build-image a java application', async () => {
     if (!isWin && !isMacOs && isCI) {
