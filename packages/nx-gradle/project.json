@@ -1,0 +1,99 @@
+{
+  "name": "nx-gradle",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/nx-gradle/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/nx-gradle",
+        "main": "packages/nx-gradle/src/index.ts",
+        "packageJson": "packages/nx-gradle/package.json",
+        "tsConfig": "packages/nx-gradle/tsconfig.lib.json",
+        "updateBuildableProjectDepsInPackageJson": true,
+        "buildableProjectDepsInPackageJsonType": "dependencies",
+        "assets": [
+          "packages/nx-gradle/*.md",
+          {
+            "input": "./packages/nx-gradle/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-gradle/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-gradle",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./packages/nx-gradle",
+            "glob": "executors.json",
+            "output": "."
+          },
+          {
+            "input": "./packages/gradle-plugin",
+            "glob": "gradle/**",
+            "output": "./src/generators/init/files/gradle/wrapper"
+          },
+          {
+            "input": "./packages/gradle-plugin",
+            "glob": "gradlew",
+            "output": "./src/generators/init/files/gradle/wrapper"
+          },
+          {
+            "input": "./packages/gradle-plugin",
+            "glob": "gradlew.bat",
+            "output": "./src/generators/init/files/gradle/wrapper"
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/nx-gradle/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/packages/nx-gradle"],
+      "options": {
+        "jestConfig": "packages/nx-gradle/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular",
+        "trackDeps": true,
+        "push": true,
+        "noVerify": true,
+        "postTargets": ["nx-gradle:github", "nx-gradle:publish"],
+        "commitMessageFormat": "release: cut release ${version} of ${projectName} [skip ci]"
+      }
+    },
+    "github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "${tag}",
+        "notes": "${notes}"
+      }
+    },
+    "publish": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": []
+}
