@@ -50,4 +50,4 @@ nx generate @jnxplus/nx-gradle:init
 
 ## License
 
-MIT © 2021-2023 Khalil LAGRIDA
+MIT © 2023-2023 Khalil LAGRIDA
