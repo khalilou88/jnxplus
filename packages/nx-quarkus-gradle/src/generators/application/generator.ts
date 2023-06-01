@@ -11,7 +11,11 @@ import {
 } from '@nx/devkit';
 import * as path from 'path';
 import { DSLType, normalizeName } from '@jnxplus/common';
-import { getDsl, getQuarkusPlatformVersion } from '@jnxplus/gradle';
+import {
+  addProjectToGradleSetting,
+  getDsl,
+  getQuarkusPlatformVersion,
+} from '@jnxplus/gradle';
 import { LinterType } from '@jnxplus/common';
 import { NxQuarkusGradleAppGeneratorSchema } from './schema';
 import { quarkusPlatformVersion } from '@jnxplus/common';
@@ -252,34 +256,4 @@ export default async function (
   addFiles(tree, normalizedOptions);
   addProjectToGradleSetting(tree, normalizedOptions);
   await formatFiles(tree);
-}
-
-function addProjectToGradleSetting(tree: Tree, options: NormalizedSchema) {
-  const filePath = `settings.gradle`;
-  const ktsFilePath = `settings.gradle.kts`;
-  const regex = /.*rootProject\.name.*/;
-  const gradleProjectPath = options.projectRoot.replace(
-    new RegExp('/', 'g'),
-    ':'
-  );
-
-  if (tree.exists(filePath)) {
-    const settingsContent = tree.read(filePath, 'utf-8') || '';
-
-    const newSettingsContent = settingsContent.replace(
-      regex,
-      `$&\ninclude('${gradleProjectPath}')`
-    );
-    tree.write(filePath, newSettingsContent);
-  }
-
-  if (tree.exists(ktsFilePath)) {
-    const settingsContent = tree.read(ktsFilePath, 'utf-8') || '';
-
-    const newSettingsContent = settingsContent.replace(
-      regex,
-      `$&\ninclude("${gradleProjectPath}")`
-    );
-    tree.write(ktsFilePath, newSettingsContent);
-  }
 }

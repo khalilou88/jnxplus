@@ -12,7 +12,7 @@ import * as path from 'path';
 import { DSLType, normalizeName } from '@jnxplus/common';
 import { LinterType } from '@jnxplus/common';
 import { NxBootGradleAppGeneratorSchema } from './schema';
-import { getDsl } from '@jnxplus/gradle';
+import { addProjectToGradleSetting, getDsl } from '@jnxplus/gradle';
 
 interface NormalizedSchema extends NxBootGradleAppGeneratorSchema {
   projectName: string;
@@ -228,34 +228,4 @@ export default async function (
   addFiles(tree, normalizedOptions);
   addProjectToGradleSetting(tree, normalizedOptions);
   await formatFiles(tree);
-}
-
-function addProjectToGradleSetting(tree: Tree, options: NormalizedSchema) {
-  const filePath = `settings.gradle`;
-  const ktsFilePath = `settings.gradle.kts`;
-  const regex = /.*rootProject\.name.*/;
-  const gradleProjectPath = options.projectRoot.replace(
-    new RegExp('/', 'g'),
-    ':'
-  );
-
-  if (tree.exists(filePath)) {
-    const settingsContent = tree.read(filePath, 'utf-8') || '';
-
-    const newSettingsContent = settingsContent.replace(
-      regex,
-      `$&\ninclude('${gradleProjectPath}')`
-    );
-    tree.write(filePath, newSettingsContent);
-  }
-
-  if (tree.exists(ktsFilePath)) {
-    const settingsContent = tree.read(ktsFilePath, 'utf-8') || '';
-
-    const newSettingsContent = settingsContent.replace(
-      regex,
-      `$&\ninclude("${gradleProjectPath}")`
-    );
-    tree.write(ktsFilePath, newSettingsContent);
-  }
 }
