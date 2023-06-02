@@ -1,15 +1,15 @@
-- [_JNxPlus_](/)
+- [**JNxPlus**](/)
 
-- **@jnxplus/nx-boot-gradle**
+- [**@jnxplus/nx-boot-gradle**](nx-boot-gradle/1-getting-started)
   - [Getting started](nx-boot-gradle/1-getting-started)
   - [Generators](nx-boot-gradle/2-generators)
   - [Executors](nx-boot-gradle/3-executors)
   - [Project graph](nx-boot-gradle/4-dep-graph)
   - [Upgrading](nx-boot-gradle/5-upgrading)
-- **@jnxplus/nx-boot-maven**
+- [**@jnxplus/nx-boot-maven**](nx-boot-maven/1-getting-started)
   - [Getting started](nx-boot-maven/1-getting-started)
   - [Generators](nx-boot-maven/2-generators)
   - [Executors](nx-boot-maven/3-executors)
   - [Project graph](nx-boot-maven/4-dep-graph)
   - [Upgrading](nx-boot-maven/5-upgrading)
-- [Gradle plugin](io.github.jnxplus/plugin)
+- [**Gradle plugin**](io.github.jnxplus/plugin)
