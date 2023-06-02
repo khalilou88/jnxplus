@@ -1,6 +1,7 @@
 import { checkstyleVersion, normalizeName } from '@jnxplus/common';
 import {
   addTmpToGitignore,
+  checkFilesDoNotExist,
   getData,
   killPorts,
   patchPackageJson,
@@ -1718,7 +1719,7 @@ describe('nx-maven e2e', () => {
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `apps/${appName}/src/main/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.java`,
@@ -1727,7 +1728,7 @@ describe('nx-maven e2e', () => {
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTests.java`
       )
-    ).toThrow();
+    ).not.toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
       output.includes(`Tomcat started on port(s): ${port}`)
@@ -1768,7 +1769,7 @@ describe('nx-maven e2e', () => {
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
@@ -1781,7 +1782,7 @@ describe('nx-maven e2e', () => {
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTests.kt`
       )
-    ).toThrow();
+    ).not.toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
       output.includes(`Tomcat started on port(s): ${port}`)
@@ -1806,7 +1807,7 @@ describe('nx-maven e2e', () => {
     expect(() => checkFilesExist(`libs/${libName}/pom.xml`)).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `libs/${libName}/src/main/java/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloService.java`,
@@ -1817,7 +1818,7 @@ describe('nx-maven e2e', () => {
           libName
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
-    ).toThrow();
+    ).not.toThrow();
   }, 120000);
 
   xit('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
@@ -1830,7 +1831,7 @@ describe('nx-maven e2e', () => {
     expect(() => checkFilesExist(`libs/${libName}/pom.xml`)).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `libs/${libName}/src/main/kotlin/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloService.kt`,
@@ -1842,7 +1843,7 @@ describe('nx-maven e2e', () => {
           libName
         ).className.toLocaleLowerCase()}/HelloServiceTests.kt`
       )
-    ).toThrow();
+    ).not.toThrow();
   }, 120000);
 
   xit('should generate java app inside a parent project', async () => {

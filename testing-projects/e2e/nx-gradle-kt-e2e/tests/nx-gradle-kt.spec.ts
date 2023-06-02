@@ -15,6 +15,7 @@ import * as path from 'path';
 import { checkstyleVersion, normalizeName } from '@jnxplus/common';
 import {
   addTmpToGitignore,
+  checkFilesDoNotExist,
   getData,
   killPorts,
   patchPackageJson,
@@ -1333,7 +1334,7 @@ describe('nx-gradle kt e2e', () => {
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `apps/${appName}/src/main/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/ServletInitializer.java`,
@@ -1345,7 +1346,7 @@ describe('nx-gradle kt e2e', () => {
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTests.java`
       )
-    ).toThrow();
+    ).not.toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
       output.includes(`Tomcat started on port(s): ${port}`)
@@ -1386,7 +1387,7 @@ describe('nx-gradle kt e2e', () => {
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
@@ -1399,7 +1400,7 @@ describe('nx-gradle kt e2e', () => {
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTests.kt`
       )
-    ).toThrow();
+    ).not.toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
       output.includes(`Tomcat started on port(s): ${port}`)
@@ -1426,7 +1427,7 @@ describe('nx-gradle kt e2e', () => {
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `libs/${libName}/src/main/java/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloService.java`,
@@ -1437,7 +1438,7 @@ describe('nx-gradle kt e2e', () => {
           libName
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
-    ).toThrow();
+    ).not.toThrow();
   }, 120000);
 
   it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
@@ -1452,7 +1453,7 @@ describe('nx-gradle kt e2e', () => {
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `libs/${libName}/src/main/kotlin/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloService.kt`,
@@ -1464,6 +1465,6 @@ describe('nx-gradle kt e2e', () => {
           libName
         ).className.toLocaleLowerCase()}/HelloServiceTests.kt`
       )
-    ).toThrow();
+    ).not.toThrow();
   }, 120000);
 });

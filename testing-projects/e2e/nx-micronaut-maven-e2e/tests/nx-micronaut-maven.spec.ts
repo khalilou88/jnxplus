@@ -1,6 +1,7 @@
 import { checkstyleVersion, normalizeName } from '@jnxplus/common';
 import {
   addTmpToGitignore,
+  checkFilesDoNotExist,
   getData,
   killPorts,
   patchPackageJson,
@@ -1659,7 +1660,7 @@ describe('nx-micronaut-maven e2e', () => {
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `apps/${appName}/src/main/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.java`,
@@ -1668,7 +1669,7 @@ describe('nx-micronaut-maven e2e', () => {
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTest.java`
       )
-    ).toThrow();
+    ).not.toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
       output.includes(`Server Running: http://localhost:${port}`)
@@ -1707,7 +1708,7 @@ describe('nx-micronaut-maven e2e', () => {
     ).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.kt`,
@@ -1716,7 +1717,7 @@ describe('nx-micronaut-maven e2e', () => {
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTest.kt`
       )
-    ).toThrow();
+    ).not.toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
       output.includes(`Server Running: http://localhost:${port}`)
@@ -1741,7 +1742,7 @@ describe('nx-micronaut-maven e2e', () => {
     expect(() => checkFilesExist(`libs/${libName}/pom.xml`)).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `libs/${libName}/src/main/java/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloService.java`,
@@ -1750,7 +1751,7 @@ describe('nx-micronaut-maven e2e', () => {
           libName
         ).className.toLocaleLowerCase()}/HelloServiceTest.java`
       )
-    ).toThrow();
+    ).not.toThrow();
   }, 120000);
 
   it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
@@ -1763,7 +1764,7 @@ describe('nx-micronaut-maven e2e', () => {
     expect(() => checkFilesExist(`libs/${libName}/pom.xml`)).not.toThrow();
 
     expect(() =>
-      checkFilesExist(
+      checkFilesDoNotExist(
         `libs/${libName}/src/main/kotlin/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloService.kt`,
@@ -1773,7 +1774,7 @@ describe('nx-micronaut-maven e2e', () => {
           libName
         ).className.toLocaleLowerCase()}/HelloServiceTest.kt`
       )
-    ).toThrow();
+    ).not.toThrow();
   }, 120000);
 
   it('should generate java app inside a parent project', async () => {
