@@ -1,0 +1,16 @@
+{
+  "name": "nx-micronaut-maven-smoke",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "testing-projects/smoke/nx-micronaut-maven-smoke/src",
+  "targets": {
+    "smoke": {
+      "executor": "@nx/jest:jest",
+      "options": {
+        "jestConfig": "testing-projects/smoke/nx-micronaut-maven-smoke/jest.config.js"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["nx-micronaut-maven"]
+}
