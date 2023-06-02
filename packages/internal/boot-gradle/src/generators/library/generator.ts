@@ -1,10 +1,16 @@
-import { DSLType, LinterType, normalizeName } from '@jnxplus/common';
+import { normalizeName } from '@jnxplus/common';
 import {
   addLibraryToProjects,
   addProjectToGradleSetting,
   getDsl,
 } from '@jnxplus/gradle';
 import {
+  NormalizedLibSchema,
+  NxGradleLibGeneratorSchema,
+  addFiles2,
+} from '@jnxplus/internal-boot';
+import {
+  Tree,
   addProjectConfiguration,
   formatFiles,
   generateFiles,
@@ -12,28 +18,13 @@ import {
   joinPathFragments,
   names,
   offsetFromRoot,
-  Tree,
 } from '@nx/devkit';
 import { join } from 'path';
-import { NxGradleLibGeneratorSchema } from './schema';
-
-interface NormalizedSchema extends NxGradleLibGeneratorSchema {
-  projectName: string;
-  projectRoot: string;
-  projectDirectory: string;
-  parsedTags: string[];
-  packageName: string;
-  packageDirectory: string;
-  parsedProjects: string[];
-  linter?: LinterType;
-  dsl: DSLType;
-  kotlinExtension: string;
-}
 
 function normalizeOptions(
   tree: Tree,
   options: NxGradleLibGeneratorSchema
-): NormalizedSchema {
+): NormalizedLibSchema {
   const simpleProjectName = names(normalizeName(options.name)).fileName;
 
   let projectName: string;
@@ -97,7 +88,7 @@ function normalizeOptions(
   };
 }
 
-function addFiles(tree: Tree, options: NormalizedSchema) {
+function addFiles(tree: Tree, options: NormalizedLibSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -198,6 +189,7 @@ export default async function (
     });
   }
 
+  addFiles2(tree, normalizedOptions);
   addFiles(tree, normalizedOptions);
   addProjectToGradleSetting(tree, normalizedOptions);
   addLibraryToProjects(tree, normalizedOptions);

@@ -2,7 +2,7 @@ import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nx/devkit';
 
 import generator from './generator';
-import { NxGradleLibGeneratorSchema } from './schema';
+import { NxGradleLibGeneratorSchema } from '@jnxplus/internal-boot';
 
 describe('library generator', () => {
   let appTree: Tree;
