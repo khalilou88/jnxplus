@@ -226,14 +226,20 @@ export function semver(s: string): {
 }
 
 export function ifNextVersionExists() {
+  const objStr = execSync('npm view nx dist-tags').toString().trim();
+
+  const jsonStr = objStr
+    .replace(/'/g, '"')
+    .replace(/(\w+:)|(\w+ :)/g, function (matchedStr: string) {
+      return '"' + matchedStr.substring(0, matchedStr.length - 1) + '":';
+    });
+
   const {
     latest,
     next,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     previous,
-  }: { latest: string; next: string; previous: string } = JSON.parse(
-    execSync('npm view nx dist-tags').toString()
-  );
+  }: { latest: string; next: string; previous: string } = JSON.parse(jsonStr);
 
   const latestVersion: { major: number; minor: number; patch: number } =
     semver(latest);
