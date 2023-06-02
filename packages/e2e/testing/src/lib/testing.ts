@@ -208,3 +208,57 @@ export function addTmpToGitignore() {
   const updatedFileContent = fileContent.concat('\n/tmp');
   fs.writeFileSync(filePath, updatedFileContent);
 }
+
+export function semver(s: string): {
+  major: number;
+  minor: number;
+  patch: number;
+} {
+  const regexp = /(\d+).(\d+).(\d+)/;
+
+  const m = s.match(regexp);
+
+  if (!m) {
+    throw new Error(`Wrong version ${s}`);
+  }
+
+  return { major: +m[1], minor: +m[2], patch: +m[3] };
+}
+
+export function ifNextVersionExists() {
+  const {
+    latest,
+    next,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    previous,
+  }: { latest: string; next: string; previous: string } = JSON.parse(
+    execSync('npm view nx dist-tags').toString()
+  );
+
+  const latestVersion: { major: number; minor: number; patch: number } =
+    semver(latest);
+
+  const nextVersion: { major: number; minor: number; patch: number } =
+    semver(next);
+
+  if (nextVersion.major > latestVersion.major) {
+    return true;
+  }
+
+  if (
+    nextVersion.major === latestVersion.major &&
+    nextVersion.minor > latestVersion.minor
+  ) {
+    return true;
+  }
+
+  if (
+    nextVersion.major === latestVersion.major &&
+    nextVersion.minor === latestVersion.minor &&
+    nextVersion.patch > latestVersion.patch
+  ) {
+    return true;
+  }
+
+  return false;
+}

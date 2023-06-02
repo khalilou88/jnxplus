@@ -1,3 +1,4 @@
+import { ifNextVersionExists } from '@jnxplus/e2e/testing';
 import { uniq } from '@nx/plugin/testing';
 import { execSync, ExecSyncOptions } from 'child_process';
 import { readJson } from 'fs-extra';
@@ -108,17 +109,19 @@ describe('@jnxplus/nx-boot-gradle migrate', () => {
 
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
 
-    execSync('npx nx@next migrate next', execSyncOptions());
+    if (ifNextVersionExists()) {
+      execSync('npx nx@next migrate next', execSyncOptions());
 
-    execSync('npm i --legacy-peer-deps', execSyncOptions());
+      execSync('npm i --legacy-peer-deps', execSyncOptions());
 
-    execSync(
-      'npx nx@next migrate --run-migrations --ifExists',
-      execSyncOptions()
-    );
+      execSync(
+        'npx nx@next migrate --run-migrations --ifExists',
+        execSyncOptions()
+      );
 
-    execSync(`nx run-many --target=build --parallel`, execSyncOptions());
+      execSync(`nx run-many --target=build --parallel`, execSyncOptions());
 
-    execSync(`git commit -am "chore: nx migrate"`, execSyncOptions());
+      execSync(`git commit -am "chore: nx migrate"`, execSyncOptions());
+    }
   }, 1500000);
 });
