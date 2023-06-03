@@ -16,7 +16,6 @@
   <properties>
     <jdk.version><%= javaVersion %></jdk.version>
     <release.version><%= javaVersion %></release.version>
-    <micronaut.version><%= micronautVersion %></micronaut.version>
     <java.version><%= javaVersion %></java.version>
     <kotlinVersion><%= kotlinVersion %></kotlinVersion>
     <kotlin.version><%= kotlinVersion %></kotlin.version>
