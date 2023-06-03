@@ -8,10 +8,11 @@ Here is a quick overview of the plugin, to know more, please visit [the document
 
 ## Supported versions
 
-| @jnxplus/nx-boot-maven | Nx     | Spring Boot |
-| ---------------------- | ------ | ----------- |
-| 6.x.x                  | 16.x.x | 3.x.x       |
-| 5.x.x                  | 15.x.x | 3.x.x       |
+| @jnxplus/nx-boot-maven | Nx version range    | Spring Boot |
+| ---------------------- | ------------------- | ----------- |
+| 7.x.x                  | >=16.3.0            | 3.x.x       |
+| 6.x.x                  | >=16.0.0 && <16.3.0 | 3.x.x       |
+| 5.x.x                  | 15.x.x              | 3.x.x       |
 
 ## Getting Started
 
