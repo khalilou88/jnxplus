@@ -2,6 +2,10 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.4](https://github.com/khalilou88/jnxplus/compare/gradle-plugin-0.1.3...gradle-plugin-0.1.4) (2023-06-03)
+
+
+
 ## [0.1.3](https://github.com/khalilou88/jnxplus/compare/gradle-plugin-0.1.2...gradle-plugin-0.1.3) (2023-05-26)
 
 
