@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "outputCapture": "pipe",
+  "$schema": "http://json-schema.org/schema",
+  "title": "Publish executor",
+  "description": "",
+  "type": "object",
+  "properties": {},
+  "required": []
+}

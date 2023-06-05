@@ -40,6 +40,11 @@
       "implementation": "@jnxplus/gradle/src/executors/run-task/executor",
       "schema": "@jnxplus/gradle/src/executors/run-task/schema.json",
       "description": "run-task executor"
+    },
+    "publish": {
+      "implementation": "@jnxplus/gradle/src/executors/publish/executor",
+      "schema": "@jnxplus/gradle/src/executors/publish/schema.json",
+      "description": "publish executor"
     }
   }
 }
