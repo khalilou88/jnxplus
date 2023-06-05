@@ -1,4 +1,4 @@
-package io.github.jnxplus
+package io.github.khalilou88.jnxplus
 
 import groovy.json.JsonOutput
 import org.gradle.api.DefaultTask

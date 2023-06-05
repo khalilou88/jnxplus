@@ -1,4 +1,4 @@
-# io.github.jnxplus
+# io.github.khalilou88.jnxplus
 
 This repository contains Gradle plugin for managing gradle projects inside a nx workspace. Plugin registers task `projectDependencyTask` that generate project dependencies in a json file.
 
@@ -17,7 +17,7 @@ Kotlin:
 ```bash
 val jnxplusGradlePluginVersion: String by settings
 plugins {
-    id("io.github.jnxplus") version jnxplusGradlePluginVersion
+    id("io.github.khalilou88.jnxplus") version jnxplusGradlePluginVersion
 }
 ```
 
@@ -25,7 +25,7 @@ Groovy:
 
 ```bash
 plugins {
-    id 'io.github.jnxplus' version "${jnxplusGradlePluginVersion}"
+    id 'io.github.khalilou88.jnxplus' version "${jnxplusGradlePluginVersion}"
 }
 ```
 
@@ -35,7 +35,7 @@ Kotlin:
 
 ```bash
 plugins {
-    id("io.github.jnxplus")
+    id("io.github.khalilou88.jnxplus")
 }
 ```
 
@@ -43,7 +43,7 @@ Groovy:
 
 ```bash
 plugins {
-    id "io.github.jnxplus"
+    id "io.github.khalilou88.jnxplus"
 }
 ```
 

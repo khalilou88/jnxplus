@@ -12,4 +12,4 @@
   - [Executors](nx-boot-maven/3-executors)
   - [Project graph](nx-boot-maven/4-dep-graph)
   - [Upgrading](nx-boot-maven/5-upgrading)
-- [**Gradle plugin**](io.github.jnxplus/plugin)
+- [**Gradle plugin**](gradle-plugin)

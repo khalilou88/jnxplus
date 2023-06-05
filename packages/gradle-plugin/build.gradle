@@ -18,7 +18,7 @@ plugins {
   id 'com.gradle.plugin-publish' version '1.2.0'
 }
 
-group = 'io.github.jnxplus'
+group = 'io.github.khalilou88.jnxplus'
 version = '0.1.4'
 
 repositories {
@@ -33,15 +33,15 @@ dependencies {
 
 gradlePlugin {
   // Define the plugin
-  website = 'https://khalilou88.github.io/jnxplus/#/io.github.jnxplus/plugin'
-  vcsUrl = 'https://github.com/khalilou88/jnxplus/tree/main/packages/gradle-plugin'
+  website = 'https://khalilou88.github.io/jnxplus/#/gradle-plugin'
+  vcsUrl = 'https://github.com/khalilou88/jnxplus'
   plugins {
     jnxplusPlugin {
-      id = 'io.github.jnxplus'
+      id = 'io.github.khalilou88.jnxplus'
       displayName = 'jnxplus gradle plugin'
       description = 'jnxplus gradle plugin for depedency graph'
       tags.set(['nx', 'jnxplus'])
-      implementationClass = 'io.github.jnxplus.GradlePlugin'
+      implementationClass = 'io.github.khalilou88.jnxplus.GradlePlugin'
     }
   }
 }
