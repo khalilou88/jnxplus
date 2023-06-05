@@ -5,7 +5,7 @@ pluginManagement {
     id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
     id 'org.jetbrains.kotlin.jvm' version "${kotlinJvmVersion}"
     id 'org.jetbrains.kotlin.plugin.spring' version "${kotlinSpringVersion}"
-    id 'io.github.jnxplus' version "${jnxplusGradlePluginVersion}"
+    id 'io.github.khalilou88.jnxplus' version "${jnxplusGradlePluginVersion}"
   }
 <% if(generateRepositories) { -%>
   repositories {
@@ -29,7 +29,7 @@ pluginManagement {
     id("io.spring.dependency-management") version dependencyManagementVersion
     id("org.jetbrains.kotlin.jvm") version kotlinJvmVersion
     id("org.jetbrains.kotlin.plugin.spring") version kotlinSpringVersion
-    id("io.github.jnxplus") version jnxplusGradlePluginVersion
+    id("io.github.khalilou88.jnxplus") version jnxplusGradlePluginVersion
   }
 <% if(generateRepositories) { -%>
   repositories {

@@ -15,7 +15,7 @@ describe('regex work', () => {
       id 'com.gradle.plugin-publish' version '1.2.0'
     }
     
-    group = 'io.github.jnxplus'
+    group = 'io.github.khalilou88.jnxplus'
     version = '0.0.1-SNAPSHOT'
     
     repositories {
