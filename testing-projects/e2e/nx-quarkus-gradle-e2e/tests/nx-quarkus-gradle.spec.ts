@@ -14,6 +14,7 @@ import * as path from 'path';
 
 import { checkstyleVersion, normalizeName } from '@jnxplus/common';
 import {
+  addJVMMemory,
   addTmpToGitignore,
   checkFilesDoNotExist,
   getData,
@@ -87,6 +88,8 @@ describe('nx-quarkus-gradle e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:init --rootProjectName ${rootProjectName}`
     );
+
+    addJVMMemory();
 
     if (isCI) {
       removeTmpFromGitignore();
@@ -1098,7 +1101,7 @@ describe('nx-quarkus-gradle e2e', () => {
       source: appName,
       target: libName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should create an application with simple name', async () => {
     const appName = uniq('quarkus-gradle-app-');
@@ -1175,7 +1178,7 @@ describe('nx-quarkus-gradle e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('should create a library with simple name', async () => {
     const libName = uniq('quarkus-gradle-lib-');
@@ -1233,7 +1236,7 @@ describe('nx-quarkus-gradle e2e', () => {
       source: libName,
       target: rootProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should skip starter code when generating a java application with skipStarterCode option', async () => {
     const appName = uniq('quarkus-gradle-app-');

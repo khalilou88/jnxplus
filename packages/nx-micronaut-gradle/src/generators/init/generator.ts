@@ -4,6 +4,7 @@ import {
   micronautKotlinVersion,
   micronautVersion,
   updateNxJson,
+  jnxplusGradlePluginVersion,
 } from '@jnxplus/common';
 import {
   addOrUpdateGitattributes,
@@ -20,6 +21,8 @@ interface NormalizedSchema extends NxMicronautGradleGeneratorSchema {
   kotlinVersion: string;
   checkstyleVersion: string;
   ktlintVersion: string;
+  jnxplusGradlePluginVersion: string;
+  generateRepositories: boolean;
 }
 
 function normalizeOptions(
@@ -28,6 +31,8 @@ function normalizeOptions(
 ): NormalizedSchema {
   const kotlinExtension = options.dsl === 'kotlin' ? '.kts' : '';
 
+  const generateRepositories = process.env['NODE_ENV'] === 'test';
+
   return {
     ...options,
     kotlinExtension,
@@ -35,6 +40,8 @@ function normalizeOptions(
     kotlinVersion: micronautKotlinVersion,
     checkstyleVersion,
     ktlintVersion,
+    jnxplusGradlePluginVersion,
+    generateRepositories,
   };
 }
 
