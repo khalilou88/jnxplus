@@ -14,6 +14,7 @@ import * as path from 'path';
 
 import { checkstyleVersion, normalizeName } from '@jnxplus/common';
 import {
+  addJVMMemory,
   addTmpToGitignore,
   checkFilesDoNotExist,
   getData,
@@ -87,6 +88,8 @@ describe('nx-quarkus-gradle e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-gradle:init --rootProjectName ${rootProjectName}`
     );
+
+    addJVMMemory();
 
     if (isCI) {
       removeTmpFromGitignore();
