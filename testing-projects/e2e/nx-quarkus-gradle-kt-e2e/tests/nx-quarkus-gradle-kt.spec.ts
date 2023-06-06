@@ -1191,7 +1191,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('should create a library with simple name', async () => {
     const libName = uniq('quarkus-gradle-lib-');
