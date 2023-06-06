@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.5](https://github.com/khalilou88/jnxplus/compare/gradle-plugin-0.1.4...gradle-plugin-0.1.5) (2023-06-06)
+
+
+### Bug Fixes
+
+* **generators:** update gradle plugin for gradle validation ([#247](https://github.com/khalilou88/jnxplus/issues/247)) ([b908e93](https://github.com/khalilou88/jnxplus/commit/b908e93b58448f8a3ba71b4e2067e9e45f90b8fa))
+
+
+
 ## [0.1.4](https://github.com/khalilou88/jnxplus/compare/gradle-plugin-0.1.3...gradle-plugin-0.1.4) (2023-06-03)
 
 
