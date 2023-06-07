@@ -2,6 +2,21 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.11.0](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-gradle-0.10.1...nx-quarkus-gradle-0.11.0) (2023-06-07)
+
+### Dependency Updates
+
+* `gradle-plugin` updated to version `0.1.5`
+* `gradle` updated to version `0.8.0`
+* `common` updated to version `0.7.0`
+
+### Features
+
+* **executors:** add publish executor ([0a6a9fa](https://github.com/khalilou88/jnxplus/commit/0a6a9fa36e0f86dd35d93e04b1dfbca7fc8ff3a2))
+* **graph:** use projectDependencyTask to add deps to the graph ([#248](https://github.com/khalilou88/jnxplus/issues/248)) ([f174562](https://github.com/khalilou88/jnxplus/commit/f174562cd77ca1d68ae378927651001c46527579))
+
+
+
 ## [0.10.1](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-gradle-0.10.0...nx-quarkus-gradle-0.10.1) (2023-06-01)
 
 ### Dependency Updates
