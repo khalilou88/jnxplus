@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.7.0](https://github.com/khalilou88/jnxplus/compare/common-0.6.0...common-0.7.0) (2023-06-07)
+
+
+### Features
+
+* **graph:** use gradle task for nx-dep-graph ([#244](https://github.com/khalilou88/jnxplus/issues/244)) ([88146c2](https://github.com/khalilou88/jnxplus/commit/88146c2fcf344dfd381b60a92d872975b62286c2))
+
+
+
 # [0.6.0](https://github.com/khalilou88/jnxplus/compare/common-0.5.0...common-0.6.0) (2023-06-01)
 
 
