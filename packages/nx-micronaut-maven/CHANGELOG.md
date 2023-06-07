@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.1](https://github.com/khalilou88/jnxplus/compare/nx-micronaut-maven-0.1.0...nx-micronaut-maven-0.1.1) (2023-06-07)
+
+### Dependency Updates
+
+* `maven` updated to version `0.4.1`
+* `common` updated to version `0.7.0`
+
+### Bug Fixes
+
+* **generators:** remove micronaut.version tag from parent pom [skip ci] ([#246](https://github.com/khalilou88/jnxplus/issues/246)) ([017b230](https://github.com/khalilou88/jnxplus/commit/017b230013c981198ec5e2711ccbae031e67c26d))
+
+
+
 # 0.1.0 (2023-06-01)
 
 ### Dependency Updates
