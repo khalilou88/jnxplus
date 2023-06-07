@@ -107,6 +107,13 @@ function addDependencies(
     if (project.isBuildGradleExists || project.isBuildGradleKtsExists) {
       const projectName = getProjectName(project);
       const projectRoot = path.relative(workspaceRoot, project.projectDirPath);
+
+      if (projectRoot.startsWith('apps') || projectRoot.startsWith('libs')) {
+        throw new Error(
+          `ProjectRoot ${projectRoot} shoud starts with apps or libs`
+        );
+      }
+
       const projectSourceFile = project.isBuildGradleExists
         ? 'build.gradle'
         : 'build.gradle.kts';
