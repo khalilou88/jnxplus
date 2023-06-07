@@ -1941,8 +1941,7 @@ describe('nx-boot-maven e2e', () => {
     }
   }, 120000);
 
-  //TODO this test failed after nx 16.3.0 update
-  xit('should generate java nested sub-projects', async () => {
+  it('should generate java nested sub-projects', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-maven:parent-project ${appsParentProject}`
@@ -1981,15 +1980,15 @@ describe('nx-boot-maven e2e', () => {
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
 
     //graph
-    const localTmpDir = path.dirname(tmpProjPath());
-    const projectJson1 = path.join(
-      localTmpDir,
-      'proj',
-      'apps',
-      appsParentProject,
-      'project.json'
-    );
-    fse.removeSync(projectJson1);
+    // const localTmpDir = path.dirname(tmpProjPath());
+    // const projectJson1 = path.join(
+    //   localTmpDir,
+    //   'proj',
+    //   'apps',
+    //   appsParentProject,
+    //   'project.json'
+    // );
+    // fse.removeSync(projectJson1);
     const depGraphResult = await runNxCommandAsync(
       `dep-graph --file=dep-graph.json`
     );
