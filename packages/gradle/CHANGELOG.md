@@ -2,6 +2,24 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.8.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.7.0...gradle-0.8.0) (2023-06-07)
+
+### Dependency Updates
+
+* `common` updated to version `0.7.0`
+
+### Bug Fixes
+
+* **generators:** update gradle plugin for gradle validation ([#247](https://github.com/khalilou88/jnxplus/issues/247)) ([b908e93](https://github.com/khalilou88/jnxplus/commit/b908e93b58448f8a3ba71b4e2067e9e45f90b8fa))
+
+
+### Features
+
+* **executors:** add publish executor ([0a6a9fa](https://github.com/khalilou88/jnxplus/commit/0a6a9fa36e0f86dd35d93e04b1dfbca7fc8ff3a2))
+* **graph:** use gradle task for nx-dep-graph ([#244](https://github.com/khalilou88/jnxplus/issues/244)) ([88146c2](https://github.com/khalilou88/jnxplus/commit/88146c2fcf344dfd381b60a92d872975b62286c2))
+
+
+
 # [0.7.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.6.0...gradle-0.7.0) (2023-06-01)
 
 ### Dependency Updates
