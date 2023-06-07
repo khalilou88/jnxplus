@@ -110,7 +110,8 @@ function addDependencies(
 
       if (
         projectRoot &&
-        (!projectRoot.startsWith('apps') || !projectRoot.startsWith('libs'))
+        !projectRoot.startsWith('apps') &&
+        !projectRoot.startsWith('libs')
       ) {
         throw new Error(
           `ProjectRoot ${projectRoot} shoud starts with apps or libs`
