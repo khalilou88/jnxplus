@@ -76,10 +76,12 @@ function addProjects(
       project.isSettingsGradleKtsExists
     ) {
       if (!project.isProjectJsonExists) {
-        const projectRoot = path.relative(
-          workspaceRoot,
-          project.projectDirPath
-        );
+        let projectRoot;
+        if (project.relativePath) {
+          projectRoot = joinPathFragments(project.relativePath);
+        } else {
+          projectRoot = path.relative(workspaceRoot, project.projectDirPath);
+        }
 
         const projectGraphNodeType = getProjectGraphNodeType(projectRoot);
 
