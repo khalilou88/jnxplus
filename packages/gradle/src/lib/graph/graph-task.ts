@@ -13,6 +13,7 @@ import { getExecutable } from '../utils';
 
 type GradleProject1Type = {
   name: string;
+  //TODO: projectDirPath should be removed and use relativePath instead for better compatibility
   projectDirPath: string;
   isProjectJsonExists: boolean;
   isBuildGradleExists: boolean;
@@ -25,6 +26,7 @@ type GradleProject2Type = {
   isGradlePropertiesExists: boolean;
   parentProjectName: string;
   dependencies: GradleProject1Type[];
+  relativePath?: string;
 };
 
 type GradleProjectType = GradleProject1Type & GradleProject2Type;
@@ -74,10 +76,12 @@ function addProjects(
       project.isSettingsGradleKtsExists
     ) {
       if (!project.isProjectJsonExists) {
-        const projectRoot = path.relative(
-          workspaceRoot,
-          project.projectDirPath
-        );
+        let projectRoot;
+        if (project.relativePath) {
+          projectRoot = joinPathFragments(project.relativePath);
+        } else {
+          projectRoot = path.relative(workspaceRoot, project.projectDirPath);
+        }
 
         const projectGraphNodeType = getProjectGraphNodeType(projectRoot);
 
@@ -106,17 +110,30 @@ function addDependencies(
 ) {
   for (const project of projects) {
     if (project.isBuildGradleExists || project.isBuildGradleKtsExists) {
+      const projectName = getProjectName(project);
+
+      const buildFile = project.isBuildGradleExists
+        ? 'build.gradle'
+        : 'build.gradle.kts';
+
+      let projectSourceFile;
+      if (project.relativePath) {
+        projectSourceFile = joinPathFragments(project.relativePath, buildFile);
+      } else {
+        const projectRoot = path.relative(
+          workspaceRoot,
+          project.projectDirPath
+        );
+        projectSourceFile = joinPathFragments(projectRoot, buildFile);
+      }
+
       const isVerbose = process.env['NX_VERBOSE_LOGGING'] === 'true';
       if (isVerbose) {
         logger.debug(`workspaceRoot: ${workspaceRoot}`);
         logger.debug(`projectDirPath: ${project.projectDirPath}`);
+        logger.debug(`relativePath: ${project.relativePath}`);
+        logger.debug(`projectSourceFile: ${projectSourceFile}`);
       }
-
-      const projectName = getProjectName(project);
-      const projectRoot = path.relative(workspaceRoot, project.projectDirPath);
-      const projectSourceFile = project.isBuildGradleExists
-        ? 'build.gradle'
-        : 'build.gradle.kts';
 
       const parentProject = getParentProject(
         projects,
@@ -128,7 +145,7 @@ function addDependencies(
         builder.addStaticDependency(
           projectName,
           parentProjectName,
-          joinPathFragments(projectRoot, projectSourceFile)
+          projectSourceFile
         );
       }
 
@@ -138,7 +155,7 @@ function addDependencies(
         builder.addStaticDependency(
           projectName,
           dependencyName,
-          joinPathFragments(projectRoot, projectSourceFile)
+          projectSourceFile
         );
       }
     }

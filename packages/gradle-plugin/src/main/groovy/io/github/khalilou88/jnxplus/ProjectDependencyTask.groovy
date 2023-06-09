@@ -19,7 +19,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
     println("Task ran for projectDependencyTask")
     def projects = []
 
-    addProjects(projects, '', project)
+    addProjects(project, projects, '', project)
 
     def json_str = JsonOutput.toJson(projects)
     def json_pretty = JsonOutput.prettyPrint(json_str)
@@ -29,7 +29,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
     file.write(json_pretty)
   }
 
-  def addProjects(projects, parentProjectName, project) {
+  def addProjects(rootProject, projects, parentProjectName, project) {
 
     def dependencies = project.configurations
       .findAll { it.allDependencies }
@@ -38,6 +38,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
       .collect { element ->
         return [name               : element.name,
                 projectDirPath     : element.dependencyProject.projectDir.path,
+                relativePath       : rootProject.relativePath(element.dependencyProject.projectDir),
                 isProjectJsonExists: element.dependencyProject.file('project.json').exists(),
                 isBuildGradleExists: element.dependencyProject.file('build.gradle').exists()]
       }
@@ -50,12 +51,13 @@ abstract class ProjectDependencyTask extends DefaultTask {
                   isSettingsGradleKtsExists: project.file('settings.gradle.kts').exists(),
                   isGradlePropertiesExists : project.file('gradle.properties').exists(),
                   projectDirPath           : project.projectDir.path,
+                  relativePath             : rootProject.relativePath(project.projectDir),
                   parentProjectName        : parentProjectName,
                   dependencies             : dependencies]);
 
     project.childProjects.each { name, childProject ->
       {
-        addProjects(projects, project.name, childProject)
+        addProjects(rootProject, projects, project.name, childProject)
       }
     }
   }
