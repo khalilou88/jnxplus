@@ -2,6 +2,7 @@ import { getProjectGraphNodeType } from '@jnxplus/common';
 import {
   ProjectGraphBuilder,
   joinPathFragments,
+  logger,
   workspaceRoot,
 } from '@nx/devkit';
 import { execSync } from 'child_process';
@@ -105,6 +106,12 @@ function addDependencies(
 ) {
   for (const project of projects) {
     if (project.isBuildGradleExists || project.isBuildGradleKtsExists) {
+      const isVerbose = process.env['NX_VERBOSE_LOGGING'] === 'true';
+      if (isVerbose) {
+        logger.debug(`workspaceRoot: ${workspaceRoot}`);
+        logger.debug(`projectDirPath: ${project.projectDirPath}`);
+      }
+
       const projectName = getProjectName(project);
       const projectRoot = path.relative(workspaceRoot, project.projectDirPath);
       const projectSourceFile = project.isBuildGradleExists
