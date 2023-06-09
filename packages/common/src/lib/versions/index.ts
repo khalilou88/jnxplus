@@ -16,4 +16,4 @@ export const checkstyleVersion = '10.11.0';
 export const ktlintVersion = '0.49.1';
 
 //Jnxplus gradle plugin
-export const jnxplusGradlePluginVersion = '0.1.5';
+export const jnxplusGradlePluginVersion = '0.2.0-SNAPSHOT';

@@ -19,7 +19,7 @@ plugins {
 }
 
 group = 'io.github.khalilou88.jnxplus'
-version = '0.1.5'
+version = '0.2.0-SNAPSHOT'
 
 repositories {
   // Use Maven Central for resolving dependencies.
