@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.2.0](https://github.com/khalilou88/jnxplus/compare/gradle-plugin-0.1.5...gradle-plugin-0.2.0) (2023-06-09)
+
+
+### Features
+
+* **graph:** use relativePath to fix path in windows ([#250](https://github.com/khalilou88/jnxplus/issues/250)) ([caec9d6](https://github.com/khalilou88/jnxplus/commit/caec9d677f64a41d1b43008fb9e3e0f5cfc9690f))
+
+
+
 ## [0.1.5](https://github.com/khalilou88/jnxplus/compare/gradle-plugin-0.1.4...gradle-plugin-0.1.5) (2023-06-06)
 
 
