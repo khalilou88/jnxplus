@@ -29,7 +29,7 @@ const testLib2 = uniq('test-lib2');
 const testApp3 = uniq('test-app3');
 const testApp4 = uniq('test-app4');
 
-describe('@jnxplus/nx-quarkus-gradle smoke', () => {
+describe('@jnxplus/nx-gradle smoke', () => {
   beforeEach(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
       unsafeCleanup: true,
@@ -52,40 +52,37 @@ describe('@jnxplus/nx-quarkus-gradle smoke', () => {
 
     execSync('git init', execSyncOptions());
 
-    execSync('npm i --save-dev @jnxplus/nx-quarkus-gradle', execSyncOptions());
+    execSync('npm i --save-dev @jnxplus/nx-gradle', execSyncOptions());
+
+    execSync('npx nx generate @jnxplus/nx-gradle:init', execSyncOptions());
 
     execSync(
-      'npx nx generate @jnxplus/nx-quarkus-gradle:init',
+      `npx nx g @jnxplus/nx-gradle:application ${testApp}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-quarkus-gradle:application ${testApp}`,
+      `npx nx g @jnxplus/nx-gradle:lib ${testLib} --projects ${testApp}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-quarkus-gradle:lib ${testLib} --projects ${testApp}`,
+      `npx nx g @jnxplus/nx-gradle:application ${testApp2}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-quarkus-gradle:application ${testApp2}`,
+      `npx nx g @jnxplus/nx-gradle:application ${testApp3}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-quarkus-gradle:application ${testApp3}`,
+      `npx nx g @jnxplus/nx-gradle:application ${testApp4}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-quarkus-gradle:application ${testApp4}`,
-      execSyncOptions()
-    );
-
-    execSync(
-      `npx nx g @jnxplus/nx-quarkus-gradle:lib ${testLib2} --projects ${testApp2},${testApp3},${testApp4}`,
+      `npx nx g @jnxplus/nx-gradle:lib ${testLib2} --projects ${testApp2},${testApp3},${testApp4}`,
       execSyncOptions()
     );
 
