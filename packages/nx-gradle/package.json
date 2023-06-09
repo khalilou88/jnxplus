@@ -1,6 +1,6 @@
 {
   "name": "@jnxplus/nx-gradle",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "commonjs",
   "main": "src/index.js",
   "generators": "./generators.json",
