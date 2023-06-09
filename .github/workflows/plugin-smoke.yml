@@ -1,0 +1,58 @@
+name: Run plugin smoke tests
+on:
+  workflow_dispatch:
+    inputs:
+      smoke_project:
+        type: choice
+        description: smoke project
+        options:
+          - nx-maven-smoke
+          - nx-boot-maven-smoke
+          - nx-quarkus-maven-smoke
+          - nx-micronaut-maven-smoke
+          - nx-gradle-smoke
+          - nx-boot-gradle-smoke
+          - nx-quarkus-gradle-smoke
+          - nx-micronaut-gradle-smoke
+
+      os:
+        type: choice
+        description: Os
+        options:
+          - ubuntu-latest
+          - macOS-latest
+          - windows-latest
+
+jobs:
+  run_plugin_smoke_tests:
+    name: Running ${{ github.event.inputs.smoke_project }} tests
+    strategy:
+      matrix:
+        node_version: ['18']
+        java: ['17']
+      fail-fast: true
+    runs-on: ${{ github.event.inputs.os }}
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Set up node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node_version }}
+          cache: 'npm'
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.java }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: smoke tests
+        run: npm run smoke ${{ github.event.inputs.smoke_project }}
+        env:
+          NX_VERBOSE_LOGGING: 'true'
+          GITHUB_ACTIONS: 'true'
