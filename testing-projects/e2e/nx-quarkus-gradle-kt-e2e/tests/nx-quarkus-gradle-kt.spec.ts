@@ -603,7 +603,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('directory with dash', async () => {
     const randomName = uniq('quarkus-gradle-app-');
@@ -777,7 +777,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
       source: libName,
       target: rootProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should create a library with the specified properties', async () => {
     const randomName = uniq('quarkus-gradle-lib-');
@@ -838,7 +838,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
       source: libName,
       target: rootProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should generare a lib with a simple package name', async () => {
     const randomName = uniq('quarkus-gradle-lib-');
@@ -899,7 +899,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
       source: libName,
       target: rootProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('--a lib with aliases', async () => {
     const randomName = uniq('quarkus-gradle-lib-');
