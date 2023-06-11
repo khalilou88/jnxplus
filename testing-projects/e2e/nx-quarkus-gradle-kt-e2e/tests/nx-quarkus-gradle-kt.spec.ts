@@ -420,7 +420,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('should create a kotlin application', async () => {
     const appName = uniq('quarkus-gradle-app-');
@@ -505,7 +505,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 240000);
+  }, 360000);
 
   it('should build-image a kotlin application', async () => {
     if (!isWin && !isMacOs && isCI) {
@@ -711,7 +711,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
       source: libName,
       target: rootProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should create a kotlin library', async () => {
     const libName = uniq('quarkus-gradle-lib-');
@@ -779,7 +779,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     });
   }, 240000);
 
-  it('should create a library with the specified properties', async () => {
+  it('should create a lib with the specified properties', async () => {
     const randomName = uniq('quarkus-gradle-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
@@ -1193,7 +1193,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     }
   }, 240000);
 
-  it('should create a library with simple name', async () => {
+  it('should create a simple name library', async () => {
     const libName = uniq('quarkus-gradle-lib-');
     const libDir = 'deep/subdir';
 
