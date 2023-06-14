@@ -1,43 +1,7 @@
 {
   "name": "internal-generators-files",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/internal/generators-files/src",
   "projectType": "library",
-  "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/packages/internal/generators-files",
-        "main": "packages/internal/generators-files/src/index.ts",
-        "tsConfig": "packages/internal/generators-files/tsconfig.lib.json",
-        "assets": [
-          "packages/internal/generators-files/*.md",
-          "packages/internal/generators-files/files/**"
-        ]
-      }
-    },
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["packages/internal/generators-files/**/*.ts"]
-      }
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "packages/internal/generators-files/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
-      }
-    }
-  },
+  "targets": {},
   "tags": []
 }
