@@ -4,8 +4,6 @@
 
 This plugin adds Gradle multi-project builds capabilities to Nx workspace.
 
-Here is a quick overview of the plugin, to know more, please visit [the documentation](https://khalilou88.github.io/jnxplus/).
-
 ## Supported versions
 
 | @jnxplus/nx-gradle | Nx     | Spring Boot | Quarkus | Micronaut |
