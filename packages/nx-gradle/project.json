@@ -52,9 +52,14 @@
             "output": "./src/generators/init/files/gradle/wrapper"
           },
           {
-            "input": "./packages/internal/generators-files/files/boot/application/files",
+            "input": "./packages/internal/generators-files/boot/application/files",
             "glob": "**",
             "output": "./src/generators/application/files"
+          },
+          {
+            "input": "./packages/internal/generators-files/boot/library/files",
+            "glob": "**",
+            "output": "./src/generators/library/files"
           }
         ]
       }

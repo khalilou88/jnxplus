@@ -52,9 +52,14 @@
             "output": "./src/generators/init/files/gradle/wrapper"
           },
           {
-            "input": "./packages/internal/generators-files/files/quarkus/application/files",
+            "input": "./packages/internal/generators-files/quarkus/application/files",
             "glob": "**",
             "output": "./src/generators/application/files"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/library/files",
+            "glob": "**",
+            "output": "./src/generators/library/files"
           }
         ]
       }

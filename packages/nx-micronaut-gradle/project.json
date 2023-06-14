@@ -52,9 +52,14 @@
             "output": "./src/generators/init/files/gradle/wrapper"
           },
           {
-            "input": "./packages/internal/generators-files/files/micronaut/application/files",
+            "input": "./packages/internal/generators-files/micronaut/application/files",
             "glob": "**",
             "output": "./src/generators/application/files"
+          },
+          {
+            "input": "./packages/internal/generators-files/micronaut/library/files",
+            "glob": "**",
+            "output": "./src/generators/library/files"
           }
         ]
       }
