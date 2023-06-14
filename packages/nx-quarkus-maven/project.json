@@ -65,6 +65,26 @@
             "input": "./packages/maven-wrapper",
             "glob": "mvnw.cmd",
             "output": "./src/generators/init/files/maven/wrapper"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/application/shared",
+            "glob": "**",
+            "output": "./src/generators/application/files"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/application/maven",
+            "glob": "**",
+            "output": "./src/generators/application/files"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/library/shared",
+            "glob": "**",
+            "output": "./src/generators/library/files"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/library/maven",
+            "glob": "**",
+            "output": "./src/generators/library/files"
           }
         ]
       }

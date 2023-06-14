@@ -52,12 +52,22 @@
             "output": "./src/generators/init/files/gradle/wrapper"
           },
           {
-            "input": "./packages/internal/generators-files/quarkus/application/files",
+            "input": "./packages/internal/generators-files/quarkus/application/shared",
             "glob": "**",
             "output": "./src/generators/application/files"
           },
           {
-            "input": "./packages/internal/generators-files/quarkus/library/files",
+            "input": "./packages/internal/generators-files/quarkus/application/gradle",
+            "glob": "**",
+            "output": "./src/generators/application/files"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/library/shared",
+            "glob": "**",
+            "output": "./src/generators/library/files"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/library/gradle",
             "glob": "**",
             "output": "./src/generators/library/files"
           }
