@@ -18,7 +18,7 @@
       "@jnxplus/common": ["packages/common/src/index.ts"],
       "@jnxplus/e2e/testing": ["packages/e2e/testing/src/index.ts"],
       "@jnxplus/gradle": ["packages/gradle/src/index.ts"],
-      "@jnxplus/internal/generators-files": [
+      "@jnxplus/internal-generators-files": [
         "packages/internal/generators-files/src/index.ts"
       ],
       "@jnxplus/maven": ["packages/maven/src/index.ts"],
