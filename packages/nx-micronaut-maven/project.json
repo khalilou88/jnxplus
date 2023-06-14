@@ -118,5 +118,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": []
+  "implicitDependencies": ["internal-generators-files"]
 }
