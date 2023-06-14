@@ -52,12 +52,22 @@
             "output": "./src/generators/init/files/gradle/wrapper"
           },
           {
-            "input": "./packages/internal/generators-files/boot/application/files",
+            "input": "./packages/internal/generators-files/boot/application/shared",
             "glob": "**",
             "output": "./src/generators/application/files"
           },
           {
-            "input": "./packages/internal/generators-files/boot/library/files",
+            "input": "./packages/internal/generators-files/boot/application/gradle",
+            "glob": "**",
+            "output": "./src/generators/application/files"
+          },
+          {
+            "input": "./packages/internal/generators-files/boot/library/shared",
+            "glob": "**",
+            "output": "./src/generators/library/files"
+          },
+          {
+            "input": "./packages/internal/generators-files/boot/library/gradle",
             "glob": "**",
             "output": "./src/generators/library/files"
           }

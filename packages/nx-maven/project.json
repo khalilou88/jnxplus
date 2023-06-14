@@ -65,6 +65,26 @@
             "input": "./packages/maven-wrapper",
             "glob": "mvnw.cmd",
             "output": "./src/generators/init/files/maven/wrapper"
+          },
+          {
+            "input": "./packages/internal/generators-files/boot/application/shared",
+            "glob": "**",
+            "output": "./src/generators/application/files"
+          },
+          {
+            "input": "./packages/internal/generators-files/boot/application/maven",
+            "glob": "**",
+            "output": "./src/generators/application/files"
+          },
+          {
+            "input": "./packages/internal/generators-files/boot/library/shared",
+            "glob": "**",
+            "output": "./src/generators/library/files"
+          },
+          {
+            "input": "./packages/internal/generators-files/boot/library/maven",
+            "glob": "**",
+            "output": "./src/generators/library/files"
           }
         ]
       }
