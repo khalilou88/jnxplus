@@ -50,6 +50,11 @@
             "input": "./packages/gradle-plugin",
             "glob": "gradlew.bat",
             "output": "./src/generators/init/files/gradle/wrapper"
+          },
+          {
+            "input": "./packages/internal/generators-files/files/micronaut/application/files",
+            "glob": "**",
+            "output": "./src/generators/application/files"
           }
         ]
       }
@@ -98,5 +103,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["gradle-plugin"]
+  "implicitDependencies": ["gradle-plugin", "internal-generators-files"]
 }

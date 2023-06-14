@@ -1,9 +1,0 @@
-<% if(configFormat === '.properties' && isCustomPort) { -%>
-quarkus.http.port=<%= port %>
-<% } -%>
-<% if(configFormat === '.yml' && isCustomPort) { -%>
-quarkus:
-  http:
-    port: <%= port %>
-<% } -%>
-
