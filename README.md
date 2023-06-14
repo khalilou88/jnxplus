@@ -27,7 +27,8 @@
 This plugins wouldn't be possible without the great teams behind these projects:
 
 - [Nrwl](https://github.com/nrwl)
-- [Spring](https://github.com/spring-projects)
-- [Quarkus](https://github.com/quarkusio/quarkus)
 - [Gradle](https://github.com/gradle)
 - [Maven](https://github.com/apache/maven)
+- [Spring](https://github.com/spring-projects)
+- [Quarkus](https://github.com/quarkusio/quarkus)
+- [Micronaut](https://github.com/micronaut-projects)
