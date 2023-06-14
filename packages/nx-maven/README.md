@@ -2,15 +2,15 @@
 
 [![npm version](https://badge.fury.io/js/@jnxplus%2Fnx-maven.svg)](https://badge.fury.io/js/@jnxplus%2Fnx-maven)
 
-This plugin adds Spring Boot and Maven multi-module capabilities to Nx workspace.
+This plugin adds Maven multi-module capabilities to Nx workspace.
 
 Here is a quick overview of the plugin, to know more, please visit [the documentation](https://khalilou88.github.io/jnxplus/).
 
 ## Supported versions
 
-| @jnxplus/nx-maven | Nx     | Spring Boot |
-| ----------------- | ------ | ----------- |
-| 0.x.x             | 16.x.x | 3.x.x       |
+| @jnxplus/nx-maven | Nx     | Spring Boot | Quarkus | Micronaut |
+| ----------------- | ------ | ----------- | ------- | --------- |
+| 0.x.x             | 16.x.x | 3.x.x       | x.x.x   | x.x.x     |
 
 ## Getting Started
 
@@ -40,6 +40,7 @@ nx generate @jnxplus/nx-maven:init
 | ------------------------------------ | --------------------------------------------------------------------- |
 | Generate an application              | `nx generate @jnxplus/nx-maven:application my-app-name`               |
 | Generate a library                   | `nx generate @jnxplus/nx-maven:library my-lib-name`                   |
+| Generate a parent project            | `nx generate @jnxplus/nx-maven:parent-project my-parent-project`      |
 | Build a project                      | `nx build my-project-name`                                            |
 | Serve an application                 | `nx serve my-app-name`                                                |
 | Test a project                       | `nx test my-project-name`                                             |

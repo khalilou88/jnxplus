@@ -2,14 +2,15 @@
 
 [![npm version](https://badge.fury.io/js/@jnxplus%2Fnx-gradle.svg)](https://badge.fury.io/js/@jnxplus%2Fnx-gradle)
 
-This plugin adds Spring Boot and Gradle multi-project builds capabilities to Nx workspace.
+This plugin adds Gradle multi-project builds capabilities to Nx workspace.
 
 Here is a quick overview of the plugin, to know more, please visit [the documentation](https://khalilou88.github.io/jnxplus/).
 
 ## Supported versions
 
-| @jnxplus/nx-gradle | Nx  | Spring Boot |
-| ------------------ | --- | ----------- |
+| @jnxplus/nx-gradle | Nx     | Spring Boot | Quarkus | Micronaut |
+| ------------------ | ------ | ----------- | ------- | --------- |
+| 0.x.x              | 16.x.x | 3.x.x       | x.x.x   | x.x.x     |
 
 ## Getting Started
 

@@ -8,10 +8,9 @@ Here is a quick overview of the plugin, to know more, please visit [the document
 
 ## Supported versions
 
-| @jnxplus/nx-micronaut-maven | Nx     | micronaut    |
-| --------------------------- | ------ | ------------ |
-| 0.1.x                       | 16.x.x | 2.16.6.Final |
-| 0.0.x                       | 15.x.x | 2.16.6.Final |
+| @jnxplus/nx-micronaut-maven | Nx     | Micronaut |
+| --------------------------- | ------ | --------- |
+| 0.x.x                       | 16.x.x | 4.0.0-M2  |
 
 ## Getting Started
 
@@ -37,21 +36,22 @@ nx generate @jnxplus/nx-micronaut-maven:init
 
 ### 3. Usage
 
-| Action                               | Command                                                               |
-| ------------------------------------ | --------------------------------------------------------------------- |
-| Generate an application              | `nx generate @jnxplus/nx-micronaut-maven:application my-app-name`     |
-| Generate a library                   | `nx generate @jnxplus/nx-micronaut-maven:library my-lib-name`         |
-| Build a project                      | `nx build my-project-name`                                            |
-| Build an image                       | `nx build-image my-app-name`                                          |
-| Serve an application                 | `nx serve my-app-name`                                                |
-| Test a project                       | `nx test my-project-name`                                             |
-| Integration Test an application      | `nx integration-test my-app-name`                                     |
-| Lint a project                       | `nx lint my-project-name`                                             |
-| Format a java project                | `nx format --projects my-project-name`                                |
-| Format a kotlin project              | `nx ktformat my-project-name`                                         |
-| Run a custom task                    | `nx run-task my-project-name --task="clean install -DskipTests=true"` |
-| Publish a project                    | `nx publish my-project-name`                                          |
-| Visualize project's dependency graph | `nx dep-graph`                                                        |
+| Action                               | Command                                                                    |
+| ------------------------------------ | -------------------------------------------------------------------------- |
+| Generate an application              | `nx generate @jnxplus/nx-micronaut-maven:application my-app-name`          |
+| Generate a library                   | `nx generate @jnxplus/nx-micronaut-maven:library my-lib-name`              |
+| Generate a parent project            | `nx generate @jnxplus/nx-micronaut-maven:parent-project my-parent-project` |
+| Build a project                      | `nx build my-project-name`                                                 |
+| Build an image                       | `nx build-image my-app-name`                                               |
+| Serve an application                 | `nx serve my-app-name`                                                     |
+| Test a project                       | `nx test my-project-name`                                                  |
+| Integration Test an application      | `nx integration-test my-app-name`                                          |
+| Lint a project                       | `nx lint my-project-name`                                                  |
+| Format a java project                | `nx format --projects my-project-name`                                     |
+| Format a kotlin project              | `nx ktformat my-project-name`                                              |
+| Run a custom task                    | `nx run-task my-project-name --task="clean install -DskipTests=true"`      |
+| Publish a project                    | `nx publish my-project-name`                                               |
+| Visualize project's dependency graph | `nx dep-graph`                                                             |
 
 ## License
 

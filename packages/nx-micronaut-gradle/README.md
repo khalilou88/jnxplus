@@ -8,10 +8,9 @@ Here is a quick overview of the plugin, to know more, please visit [the document
 
 ## Supported versions
 
-| @jnxplus/nx-micronaut-gradle | Nx     | Spring micronaut |
-| ---------------------------- | ------ | ---------------- |
-| 6.x.x                        | 16.x.x | 3.x.x            |
-| 5.x.x                        | 15.x.x | 3.x.x            |
+| @jnxplus/nx-micronaut-gradle | Nx     | Micronaut |
+| ---------------------------- | ------ | --------- |
+| 0.x.x                        | 16.x.x | 4.0.0-M2  |
 
 ## Getting Started
 

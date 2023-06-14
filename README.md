@@ -16,6 +16,12 @@
 - [`@jnxplus/nx-quarkus-maven`](packages/nx-quarkus-maven)
   to add Quarkus and Maven multi-module capabilities to a Nx workspace.
 
+- [`@jnxplus/nx-micronaut-gradle`](packages/nx-micronaut-gradle)
+  to add Micronaut and Gradle multi-project builds capabilities to a Nx workspace.
+
+- [`@jnxplus/nx-micronaut-maven`](packages/nx-micronaut-maven)
+  to add Micronaut and Maven multi-module capabilities to a Nx workspace.
+
 ### Credits
 
 This plugins wouldn't be possible without the great teams behind these projects:
