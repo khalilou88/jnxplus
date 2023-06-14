@@ -65,6 +65,26 @@
             "input": "./packages/maven-wrapper",
             "glob": "mvnw.cmd",
             "output": "./src/generators/init/files/maven/wrapper"
+          },
+          {
+            "input": "./packages/internal/generators-files/micronaut/application/shared",
+            "glob": "**",
+            "output": "./src/generators/application/files"
+          },
+          {
+            "input": "./packages/internal/generators-files/micronaut/application/maven",
+            "glob": "**",
+            "output": "./src/generators/application/files"
+          },
+          {
+            "input": "./packages/internal/generators-files/micronaut/library/shared",
+            "glob": "**",
+            "output": "./src/generators/library/files"
+          },
+          {
+            "input": "./packages/internal/generators-files/micronaut/library/maven",
+            "glob": "**",
+            "output": "./src/generators/library/files"
           }
         ]
       }
@@ -98,5 +118,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": []
+  "implicitDependencies": ["internal-generators-files"]
 }

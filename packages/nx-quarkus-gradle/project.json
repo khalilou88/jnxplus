@@ -50,6 +50,41 @@
             "input": "./packages/gradle-plugin",
             "glob": "gradlew.bat",
             "output": "./src/generators/init/files/gradle/wrapper"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/application/shared",
+            "glob": "**",
+            "output": "./src/generators/application/files"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/application/gradle/java",
+            "glob": "**",
+            "output": "./src/generators/application/files/java"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/application/gradle",
+            "glob": "docker/**",
+            "output": "./src/generators/application/files/java/src/main"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/application/gradle/kotlin",
+            "glob": "**",
+            "output": "./src/generators/application/files/kotlin"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/application/gradle",
+            "glob": "docker/**",
+            "output": "./src/generators/application/files/kotlin/src/main"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/library/shared",
+            "glob": "**",
+            "output": "./src/generators/library/files"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/library/gradle",
+            "glob": "**",
+            "output": "./src/generators/library/files"
           }
         ]
       }
@@ -98,5 +133,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["gradle-plugin"]
+  "implicitDependencies": ["gradle-plugin", "internal-generators-files"]
 }
