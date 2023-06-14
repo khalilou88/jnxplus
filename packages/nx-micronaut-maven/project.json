@@ -85,6 +85,11 @@
             "input": "./packages/internal/generators-files/micronaut/library/maven",
             "glob": "**",
             "output": "./src/generators/library/files"
+          },
+          {
+            "input": "./packages/internal/generators-files",
+            "glob": "linters/**",
+            "output": "./src/generators/init/files"
           }
         ]
       }
