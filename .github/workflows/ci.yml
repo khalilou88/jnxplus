@@ -6,11 +6,11 @@ on:
       - main
     paths-ignore:
       - '**.md'
-#  pull_request:
-#    branches:
-#      - main
-#    paths-ignore:
-#      - '**.md'
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
 jobs:
   Run_checks:
     strategy:
