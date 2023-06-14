@@ -3,7 +3,7 @@
 #
 # Before building the container image run:
 #
-# nx build quarkus-maven-app-3971513 --args="-Dquarkus.package.type=legacy-jar"
+# nx build <%= projectName %> --mvnBuildCommand="package" --mvnBuildArgs="-Dquarkus.package.type=legacy-jar"
 #
 # Then, build the image with:
 #
@@ -80,8 +80,8 @@ FROM registry.access.redhat.com/ubi8/openjdk-17:1.14
 ENV LANGUAGE='en_US:en'
 
 
-COPY build/lib/* /deployments/lib/
-COPY build/*-runner.jar /deployments/quarkus-run.jar
+COPY target/lib/* /deployments/lib/
+COPY target/*-runner.jar /deployments/quarkus-run.jar
 
 EXPOSE 8080
 USER 185

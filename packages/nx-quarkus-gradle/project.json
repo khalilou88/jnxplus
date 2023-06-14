@@ -57,9 +57,24 @@
             "output": "./src/generators/application/files"
           },
           {
-            "input": "./packages/internal/generators-files/quarkus/application/gradle",
+            "input": "./packages/internal/generators-files/quarkus/application/gradle/java",
             "glob": "**",
-            "output": "./src/generators/application/files"
+            "output": "./src/generators/application/files/java"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/application/gradle",
+            "glob": "docker/**",
+            "output": "./src/generators/application/files/java/src/main"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/application/gradle/kotlin",
+            "glob": "**",
+            "output": "./src/generators/application/files/kotlin"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/application/gradle",
+            "glob": "docker/**",
+            "output": "./src/generators/application/files/kotlin/src/main"
           },
           {
             "input": "./packages/internal/generators-files/quarkus/library/shared",
