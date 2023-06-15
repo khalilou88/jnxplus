@@ -24,7 +24,7 @@ import {
   runNxCommandUntil,
   runNxNewCommand,
   runPackageManagerInstallLinks,
-} from '@jnxplus/e2e/testing';
+} from '@jnxplus/internal/testing';
 
 describe('nx-gradle e2e', () => {
   const isCI =

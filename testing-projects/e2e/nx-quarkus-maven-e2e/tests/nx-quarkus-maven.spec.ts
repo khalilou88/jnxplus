@@ -11,7 +11,7 @@ import {
   runNxCommandUntil,
   runNxNewCommand,
   runPackageManagerInstallLinks,
-} from '@jnxplus/e2e/testing';
+} from '@jnxplus/internal/testing';
 import { names, workspaceRoot } from '@nx/devkit';
 import {
   checkFilesExist,
