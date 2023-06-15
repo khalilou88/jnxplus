@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/@jnxplus%2Fnx-micronaut-maven.svg)](https://badge.fury.io/js/@jnxplus%2Fnx-micronaut-maven)
 
-This plugin adds micronaut and Maven multi-module capabilities to Nx workspace.
+This plugin adds Micronaut and Maven multi-module capabilities to Nx workspace.
 
 ## Supported versions
 
@@ -24,9 +24,9 @@ In the Nx workspace root folder, run this command to install the plugin :
 npm install --save-dev @jnxplus/nx-micronaut-maven
 ```
 
-### 2. Add micronaut and Maven wrapper support
+### 2. Add Micronaut and Maven wrapper support
 
-The following command adds micronaut and Maven support (Maven wrapper and config files) to the workspace. This only needs to be performed once per workspace.
+The following command adds Micronaut and Maven support (Maven wrapper and config files) to the workspace. This only needs to be performed once per workspace.
 
 ```bash
 nx generate @jnxplus/nx-micronaut-maven:init

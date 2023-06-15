@@ -51,7 +51,7 @@
     },
     "rootProjectName": {
       "type": "string",
-      "default": "spring-boot-root-project",
+      "default": "micronaut-root-project",
       "x-prompt": "What rootProjectName would you like to use?",
       "pattern": "^[a-zA-Z].*$"
     }

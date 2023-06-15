@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/@jnxplus%2Fnx-micronaut-gradle.svg)](https://badge.fury.io/js/@jnxplus%2Fnx-micronaut-gradle)
 
-This plugin adds Spring micronaut and Gradle multi-project builds capabilities to Nx workspace.
+This plugin adds Micronaut and Gradle multi-project builds capabilities to Nx workspace.
 
 ## Supported versions
 
@@ -24,9 +24,9 @@ In the Nx workspace root folder, run this command to install the plugin :
 npm install --save-dev @jnxplus/nx-micronaut-gradle
 ```
 
-### 2. Add Spring micronaut and Gradle wrapper support
+### 2. Add Micronaut and Gradle wrapper support
 
-The following command adds Spring micronaut and Gradle support (Gradle wrapper and config files) to the workspace. This only needs to be performed once per workspace.
+The following command adds Micronaut and Gradle support (Gradle wrapper and config files) to the workspace. This only needs to be performed once per workspace.
 
 ```bash
 nx generate @jnxplus/nx-micronaut-gradle:init
