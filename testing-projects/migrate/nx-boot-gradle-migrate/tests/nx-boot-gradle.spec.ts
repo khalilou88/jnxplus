@@ -1,4 +1,4 @@
-import { ifNextVersionExists } from '@jnxplus/e2e/testing';
+import { ifNextVersionExists } from '@jnxplus/internal/testing';
 import { uniq } from '@nx/plugin/testing';
 import { execSync, ExecSyncOptions } from 'child_process';
 import { readJson } from 'fs-extra';
