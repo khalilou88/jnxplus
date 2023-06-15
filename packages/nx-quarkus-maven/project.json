@@ -52,17 +52,17 @@
             "output": "."
           },
           {
-            "input": "./packages/maven-wrapper/.mvn",
+            "input": "./packages/internal/maven-wrapper/.mvn",
             "glob": "wrapper/**",
             "output": "./src/generators/init/files/maven/wrapper/__dot__mvn"
           },
           {
-            "input": "./packages/maven-wrapper",
+            "input": "./packages/internal/maven-wrapper",
             "glob": "mvnw",
             "output": "./src/generators/init/files/maven/wrapper"
           },
           {
-            "input": "./packages/maven-wrapper",
+            "input": "./packages/internal/maven-wrapper",
             "glob": "mvnw.cmd",
             "output": "./src/generators/init/files/maven/wrapper"
           },
@@ -134,6 +134,9 @@
       }
     }
   },
-  "tags": [],
-  "implicitDependencies": ["internal-generators-files"]
+  "tags": ["maven", "quarkus"],
+  "implicitDependencies": [
+    "internal-generators-files",
+    "internal-maven-wrapper"
+  ]
 }
