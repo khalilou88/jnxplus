@@ -17,7 +17,7 @@ export default async function runExecutor(
   //change file
   updateFile(options.version, projectRoot);
 
-  const commitMessage = `release: write version ${options.version} in gradle.build [skip ci]`;
+  const commitMessage = `release: write version ${options.version} in gradle.build`;
 
   const commit = `git commit --no-verify -m "${commitMessage}" packages/gradle-plugin/build.gradle`;
   execSync(commit, {

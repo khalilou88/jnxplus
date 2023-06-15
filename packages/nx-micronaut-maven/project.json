@@ -105,7 +105,7 @@
           "nx-micronaut-maven:github",
           "nx-micronaut-maven:publish"
         ],
-        "commitMessageFormat": "release: cut release ${version} of ${projectName} [skip ci]"
+        "commitMessageFormat": "release: cut release ${version} of ${projectName}"
       }
     },
     "github": {

@@ -120,7 +120,7 @@
           "nx-quarkus-gradle:github",
           "nx-quarkus-gradle:publish"
         ],
-        "commitMessageFormat": "release: cut release ${version} of ${projectName} [skip ci]"
+        "commitMessageFormat": "release: cut release ${version} of ${projectName}"
       }
     },
     "github": {

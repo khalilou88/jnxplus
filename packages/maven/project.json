@@ -58,7 +58,7 @@
         "push": true,
         "noVerify": true,
         "postTargets": ["maven:github", "maven:publish"],
-        "commitMessageFormat": "release: cut release ${version} of ${projectName} [skip ci]"
+        "commitMessageFormat": "release: cut release ${version} of ${projectName}"
       }
     },
     "github": {

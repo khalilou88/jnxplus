@@ -18,7 +18,7 @@
         "push": true,
         "noVerify": true,
         "postTargets": ["gradle-plugin:set-version", "gradle-plugin:publish"],
-        "commitMessageFormat": "release: cut release ${version} for ${projectName} [skip ci]"
+        "commitMessageFormat": "release: cut release ${version} for ${projectName}"
       },
       "dependsOn": [{ "target": "build" }]
     },
