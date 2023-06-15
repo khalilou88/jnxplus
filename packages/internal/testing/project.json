@@ -4,16 +4,6 @@
   "sourceRoot": "packages/internal/testing/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/packages/internal/testing",
-        "main": "packages/internal/testing/src/index.ts",
-        "tsConfig": "packages/internal/testing/tsconfig.lib.json",
-        "assets": ["packages/internal/testing/*.md"]
-      }
-    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
