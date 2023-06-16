@@ -7,10 +7,9 @@ import {
 
 export function processProjectGraph(
   graph: ProjectGraph,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   context: ProjectGraphProcessorContext
 ): ProjectGraph {
   const builder = new ProjectGraphBuilder(graph);
-  addProjectsAndDependencies(builder, '@jnxplus/nx-micronaut-maven');
+  addProjectsAndDependencies(builder, context, '@jnxplus/nx-micronaut-maven');
   return builder.getUpdatedProjectGraph();
 }
