@@ -1,6 +1,8 @@
 import { getProjectGraphNodeType } from '@jnxplus/common';
 import {
+  FileData,
   ProjectGraphBuilder,
+  ProjectGraphProcessorContext,
   joinPathFragments,
   workspaceRoot,
 } from '@nx/devkit';
@@ -22,15 +24,17 @@ type MavenProjectType = {
 
 export function addProjectsAndDependencies(
   builder: ProjectGraphBuilder,
+  context: ProjectGraphProcessorContext,
   pluginName: string
 ) {
   const projects: MavenProjectType[] = [];
-  addProjects(builder, projects, pluginName, '');
+  addProjects(builder, context, projects, pluginName, '');
   addDependencies(builder, projects);
 }
 
 function addProjects(
   builder: ProjectGraphBuilder,
+  context: ProjectGraphProcessorContext,
   projects: MavenProjectType[],
   pluginName: string,
   projectRoot: string,
@@ -76,6 +80,11 @@ function addProjects(
         },
       },
     });
+
+    const projectSourceFile = joinPathFragments(projectRoot, 'pom.xml');
+    //TODO fix hash
+    const fileData: FileData[] = [{ file: projectSourceFile, hash: 'abc' }];
+    context.fileMap[artifactId] = fileData;
   }
 
   const parentProjectArtifactId = getParentProjectName(pomXmlContent);
@@ -101,7 +110,7 @@ function addProjects(
 
   for (const moduleXmlElement of moduleXmlElementArray) {
     const moduleRoot = joinPathFragments(projectRoot, moduleXmlElement.val);
-    addProjects(builder, projects, pluginName, moduleRoot, artifactId);
+    addProjects(builder, context, projects, pluginName, moduleRoot, artifactId);
   }
 }
 

@@ -1862,15 +1862,15 @@ describe('nx-micronaut-maven e2e', () => {
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
 
     //graph
-    // const localTmpDir = path.dirname(tmpProjPath());
-    // const projectJson1 = path.join(
-    //   localTmpDir,
-    //   'proj',
-    //   'apps',
-    //   appsParentProject,
-    //   'project.json'
-    // );
-    // fse.removeSync(projectJson1);
+    const localTmpDir = path.dirname(tmpProjPath());
+    const projectJson1 = path.join(
+      localTmpDir,
+      'proj',
+      'apps',
+      appsParentProject,
+      'project.json'
+    );
+    fse.removeSync(projectJson1);
     const depGraphResult = await runNxCommandAsync(
       `dep-graph --file=dep-graph.json`
     );

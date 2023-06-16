@@ -1980,15 +1980,15 @@ describe('nx-boot-maven e2e', () => {
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
 
     //graph
-    // const localTmpDir = path.dirname(tmpProjPath());
-    // const projectJson1 = path.join(
-    //   localTmpDir,
-    //   'proj',
-    //   'apps',
-    //   appsParentProject,
-    //   'project.json'
-    // );
-    // fse.removeSync(projectJson1);
+    const localTmpDir = path.dirname(tmpProjPath());
+    const projectJson1 = path.join(
+      localTmpDir,
+      'proj',
+      'apps',
+      appsParentProject,
+      'project.json'
+    );
+    fse.removeSync(projectJson1);
     const depGraphResult = await runNxCommandAsync(
       `dep-graph --file=dep-graph.json`
     );
@@ -2033,5 +2033,29 @@ describe('nx-boot-maven e2e', () => {
       source: thirdAppName,
       target: thirdParentProject,
     });
+  }, 120000);
+
+  it('optional project.json', async () => {
+    const appsParentProject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-maven:parent-project ${appsParentProject}`
+    );
+
+    //graph
+    const localTmpDir = path.dirname(tmpProjPath());
+    const projectJson1 = path.join(
+      localTmpDir,
+      'proj',
+      'apps',
+      appsParentProject,
+      'project.json'
+    );
+    fse.removeSync(projectJson1);
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
   }, 120000);
 });
