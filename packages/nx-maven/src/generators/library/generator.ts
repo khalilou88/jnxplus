@@ -120,7 +120,7 @@ function normalizeOptions(
   };
 }
 
-function addBootFiles(tree: Tree, options: NormalizedSchema) {
+function addFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -129,7 +129,7 @@ function addBootFiles(tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(__dirname, 'files', 'boot', options.language),
+    path.join(__dirname, 'files', options.language),
     options.projectRoot,
     templateOptions
   );
@@ -168,112 +168,6 @@ function addBootFiles(tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addQuarkusFiles(tree: Tree, options: NormalizedSchema) {
-  const templateOptions = {
-    ...options,
-    ...names(options.name),
-    offsetFromRoot: offsetFromRoot(options.projectRoot),
-    template: '',
-  };
-  generateFiles(
-    tree,
-    path.join(__dirname, 'files', 'quarkus', options.language),
-    options.projectRoot,
-    templateOptions
-  );
-
-  if (options.skipStarterCode) {
-    const fileExtension = options.language === 'java' ? 'java' : 'kt';
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/main/${options.language}/${options.packageDirectory}/GreetingService.${fileExtension}`
-      )
-    );
-
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/test/${options.language}/${options.packageDirectory}/GreetingServiceTest.${fileExtension}`
-      )
-    );
-  } else {
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/main/${options.language}/.gitkeep`
-      )
-    );
-
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/test/${options.language}/.gitkeep`
-      )
-    );
-  }
-}
-
-function addMicronautFiles(tree: Tree, options: NormalizedSchema) {
-  const templateOptions = {
-    ...options,
-    ...names(options.name),
-    offsetFromRoot: offsetFromRoot(options.projectRoot),
-    template: '',
-  };
-  generateFiles(
-    tree,
-    path.join(__dirname, 'files', 'micronaut', options.language),
-    options.projectRoot,
-    templateOptions
-  );
-
-  if (options.skipStarterCode) {
-    const fileExtension = options.language === 'java' ? 'java' : 'kt';
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/main/${options.language}/${options.packageDirectory}/HelloService.${fileExtension}`
-      )
-    );
-
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/test/${options.language}/${options.packageDirectory}/HelloServiceTest.${fileExtension}`
-      )
-    );
-  } else {
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/main/${options.language}/.gitkeep`
-      )
-    );
-
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/test/${options.language}/.gitkeep`
-      )
-    );
-  }
-}
-
-function addFiles(tree: Tree, options: NormalizedSchema) {
-  if (options.framework === 'spring-boot') {
-    addBootFiles(tree, options);
-  }
-
-  if (options.framework === 'quarkus') {
-    addQuarkusFiles(tree, options);
-  }
-
-  if (options.framework === 'micronaut') {
-    addMicronautFiles(tree, options);
-  }
-}
-
 export default async function (tree: Tree, options: NxMavenLibGeneratorSchema) {
   const normalizedOptions = normalizeOptions(tree, options);
 
@@ -300,6 +194,10 @@ export default async function (tree: Tree, options: NxMavenLibGeneratorSchema) {
   };
 
   const targets = projectConfiguration.targets ?? {};
+
+  if (options.framework !== 'none') {
+    targets['build'].options.framework = options.framework;
+  }
 
   if (options.language === 'kotlin') {
     targets['ktformat'] = {

@@ -30,8 +30,6 @@ interface NormalizedSchema extends NxMavenAppGeneratorSchema {
   relativePath: string;
   parentProjectRoot: string;
   isCustomPort: boolean;
-  quarkusVersion: string;
-  plugin: '@jnxplus/nx-maven' | '@jnxplus/nx-micronaut-maven';
 }
 
 function normalizeOptions(
@@ -102,11 +100,6 @@ function normalizeOptions(
 
   const isCustomPort = !!options.port && +options.port !== 8080;
 
-  const rootPomXmlContent = readXmlTree(tree, 'pom.xml');
-  const quarkusVersion =
-    rootPomXmlContent?.childNamed('properties')?.childNamed('quarkus.version')
-      ?.val || 'quarkusVersion';
-
   return {
     ...options,
     projectName,
@@ -123,12 +116,10 @@ function normalizeOptions(
     relativePath,
     parentProjectRoot,
     isCustomPort,
-    quarkusVersion,
-    plugin: '@jnxplus/nx-maven',
   };
 }
 
-function addBootFiles(tree: Tree, options: NormalizedSchema) {
+function addFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -137,7 +128,7 @@ function addBootFiles(tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(__dirname, 'files', 'boot', options.language),
+    path.join(__dirname, 'files', options.language),
     options.projectRoot,
     templateOptions
   );
@@ -186,126 +177,6 @@ function addBootFiles(tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addQuarkusFiles(tree: Tree, options: NormalizedSchema) {
-  const templateOptions = {
-    ...options,
-    ...names(options.name),
-    offsetFromRoot: offsetFromRoot(options.projectRoot),
-    template: '',
-  };
-  generateFiles(
-    tree,
-    path.join(__dirname, 'files', 'quarkus', options.language),
-    options.projectRoot,
-    templateOptions
-  );
-
-  if (options.minimal) {
-    const fileExtension = options.language === 'java' ? 'java' : 'kt';
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/main/${options.language}/${options.packageDirectory}/GreetingResource.${fileExtension}`
-      )
-    );
-
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/test/${options.language}/${options.packageDirectory}/GreetingResourceTest.${fileExtension}`
-      )
-    );
-
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/native-test/${options.language}/${options.packageDirectory}/GreetingResourceIT.${fileExtension}`
-      )
-    );
-
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/main/resources/META-INF/resources/index.html`
-      )
-    );
-  } else {
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/main/${options.language}/.gitkeep`
-      )
-    );
-
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/test/${options.language}/.gitkeep`
-      )
-    );
-  }
-}
-
-function addMicronautFiles(tree: Tree, options: NormalizedSchema) {
-  const templateOptions = {
-    ...options,
-    ...names(options.name),
-    offsetFromRoot: offsetFromRoot(options.projectRoot),
-    template: '',
-  };
-  generateFiles(
-    tree,
-    path.join(__dirname, 'files', 'micronaut', options.language),
-    options.projectRoot,
-    templateOptions
-  );
-
-  if (options.minimal) {
-    const fileExtension = options.language === 'java' ? 'java' : 'kt';
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/main/${options.language}/${options.packageDirectory}/HelloController.${fileExtension}`
-      )
-    );
-
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/test/${options.language}/${options.packageDirectory}/HelloControllerTest.${fileExtension}`
-      )
-    );
-  } else {
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/main/${options.language}/.gitkeep`
-      )
-    );
-
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/test/${options.language}/.gitkeep`
-      )
-    );
-  }
-}
-
-function addFiles(tree: Tree, options: NormalizedSchema) {
-  if (options.framework === 'spring-boot') {
-    addBootFiles(tree, options);
-  }
-
-  if (options.framework === 'quarkus') {
-    addQuarkusFiles(tree, options);
-  }
-
-  if (options.framework === 'micronaut') {
-    addMicronautFiles(tree, options);
-  }
-}
-
 export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
   const normalizedOptions = normalizeOptions(tree, options);
 
@@ -315,24 +186,24 @@ export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
     sourceRoot: `${normalizedOptions.projectRoot}/src`,
     targets: {
       build: {
-        executor: `${normalizedOptions.plugin}:build`,
+        executor: '@jnxplus/nx-maven:build',
         outputs: [`${normalizedOptions.projectRoot}/target`],
       },
       'build-image': {
-        executor: `${normalizedOptions.plugin}:build-image`,
+        executor: '@jnxplus/nx-maven:build-image',
       },
       serve: {
-        executor: `${normalizedOptions.plugin}:serve`,
+        executor: '@jnxplus/nx-maven:serve',
         dependsOn: ['build'],
       },
       lint: {
-        executor: `${normalizedOptions.plugin}:lint`,
+        executor: '@jnxplus/nx-maven:lint',
         options: {
           linter: `${normalizedOptions.linter}`,
         },
       },
       test: {
-        executor: `${normalizedOptions.plugin}:test`,
+        executor: '@jnxplus/nx-maven:test',
         dependsOn: ['build'],
       },
     },
@@ -343,25 +214,14 @@ export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
 
   if (options.language === 'kotlin') {
     targets['ktformat'] = {
-      executor: `${normalizedOptions.plugin}:ktformat`,
+      executor: '@jnxplus/nx-maven:ktformat',
     };
   }
 
   if (options.framework !== 'none') {
-    targets['build'].options = {
-      ...targets['build'].options,
-      framework: options.framework,
-    };
-
-    targets['build-image'].options = {
-      ...targets['build-image'].options,
-      framework: options.framework,
-    };
-
-    targets['serve'].options = {
-      ...targets['serve'].options,
-      framework: options.framework,
-    };
+    targets['build'].options.framework = options.framework;
+    targets['build-image'].options.framework = options.framework;
+    targets['serve'].options.framework = options.framework;
   }
 
   addProjectConfiguration(

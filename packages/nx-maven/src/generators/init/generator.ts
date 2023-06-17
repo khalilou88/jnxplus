@@ -5,7 +5,6 @@ import {
   springKotlinVersion,
   updateNxJson,
   quarkusPlatformVersion,
-  micronautVersion,
 } from '@jnxplus/common';
 import {
   addOrUpdateGitattributes,
@@ -22,7 +21,6 @@ interface NormalizedSchema extends NxMavenGeneratorSchema {
   kotlinVersion: string;
   springBootVersion: string;
   quarkusVersion: string;
-  micronautVersion: string;
   checkstyleVersion: string;
   ktlintVersion: string;
 }
@@ -39,7 +37,6 @@ function normalizeOptions(
     kotlinVersion: springKotlinVersion,
     springBootVersion: springBootVersion,
     quarkusVersion: quarkusPlatformVersion,
-    micronautVersion,
     checkstyleVersion,
     ktlintVersion,
   };

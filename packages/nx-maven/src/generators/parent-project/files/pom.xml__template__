@@ -33,8 +33,8 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>io.quarkus.platform</groupId>
-        <artifactId>quarkus-bom</artifactId>
+        <groupId>quarkus-bom</groupId>
+        <artifactId>io.quarkus.platform</artifactId>
         <version>${quarkus.version}</version>
         <type>pom</type>
         <scope>import</scope>
@@ -43,18 +43,5 @@
   </dependencyManagement>
 <% } -%>
 
-<% if(framework === 'micronaut') { -%>
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>io.micronaut.platform</groupId>
-        <artifactId>micronaut-platform</artifactId>
-        <version>${micronaut.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-<% } -%>
 
 </project>
