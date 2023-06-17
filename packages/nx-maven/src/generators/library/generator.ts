@@ -121,6 +121,12 @@ function normalizeOptions(
 }
 
 function addFiles(tree: Tree, options: NormalizedSchema) {
+  if (options.framework === 'spring-boot') {
+    addBootFiles(tree, options);
+  }
+}
+
+function addBootFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -129,7 +135,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(__dirname, 'files', options.language),
+    path.join(__dirname, 'files', 'boot', options.language),
     options.projectRoot,
     templateOptions
   );
