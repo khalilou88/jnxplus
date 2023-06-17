@@ -2,6 +2,27 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.9.0](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-maven-0.8.3...nx-quarkus-maven-0.9.0) (2023-06-17)
+
+### Dependency Updates
+
+* `internal-generators-files` updated to version `0.1.0`
+* `internal-maven-wrapper` updated to version `0.0.1`
+* `maven` updated to version `0.4.3`
+* `common` updated to version `0.8.1`
+
+### Bug Fixes
+
+* **graph:** fix optional project.json ([#256](https://github.com/khalilou88/jnxplus/issues/256)) ([0db8e12](https://github.com/khalilou88/jnxplus/commit/0db8e12a1d7056d6423ae664ae70725099ad33bd))
+
+
+### Features
+
+* **generators:** reduce code duplication ([#251](https://github.com/khalilou88/jnxplus/issues/251)) ([dfdad1d](https://github.com/khalilou88/jnxplus/commit/dfdad1dfd2ef13303e1c12a4d824261d5bf407be))
+* **generators:** reduce linters files ([#252](https://github.com/khalilou88/jnxplus/issues/252)) ([75c0e76](https://github.com/khalilou88/jnxplus/commit/75c0e769e7917ef91584b4f5dcb5efbff80da6c2))
+
+
+
 ## [0.8.3](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-maven-0.8.2...nx-quarkus-maven-0.8.3) (2023-06-09)
 
 ### Dependency Updates
