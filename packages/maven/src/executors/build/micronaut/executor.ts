@@ -1,5 +1,5 @@
 import { getProjectType, isRootProject, runCommand } from '@jnxplus/common';
-import { getExecutable, isPomPackaging } from '../../lib/utils';
+import { getExecutable, isPomPackaging } from '../../../lib/utils';
 import { ExecutorContext, logger } from '@nx/devkit';
 import { BuildExecutorSchema } from './schema';
 
