@@ -67,6 +67,12 @@
     "aggregatorProject": {
       "type": "string",
       "description": "ArtifactId of the aggregator project (that manages a group of submodules) or leave it blank for the root project"
+    },
+    "framework": {
+      "description": "Which framework to use, or 'none' to skip.",
+      "type": "string",
+      "default": "spring-boot",
+      "enum": ["spring-boot", "quarkus", "micronaut", "none"]
     }
   },
   "required": ["name", "projectType", "groupId", "projectVersion"]

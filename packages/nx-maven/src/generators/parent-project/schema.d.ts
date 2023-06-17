@@ -10,4 +10,5 @@ export interface NxMavenParentProjectGeneratorSchema {
   projectVersion?: string;
   parentProject?: string;
   aggregatorProject?: string;
+  framework?: 'spring-boot' | 'quarkus' | 'micronaut' | 'none';
 }

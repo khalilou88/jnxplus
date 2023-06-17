@@ -13,4 +13,5 @@ export interface NxMavenLibGeneratorSchema {
   aggregatorProject?: string;
   projects?: string;
   skipStarterCode?: boolean;
+  framework?: 'spring-boot' | 'quarkus' | 'micronaut' | 'none';
 }
