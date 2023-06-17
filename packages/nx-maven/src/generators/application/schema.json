@@ -127,6 +127,12 @@
       ],
       "default": 8080,
       "description": "Port to start the server at. Default is 8080."
+    },
+    "framework": {
+      "description": "Which framework to use, or 'none' to skip.",
+      "type": "string",
+      "default": "spring-boot",
+      "enum": ["spring-boot", "quarkus", "micronaut", "none"]
     }
   },
   "required": [

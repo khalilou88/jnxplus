@@ -15,4 +15,5 @@ export interface NxMavenAppGeneratorSchema {
   aggregatorProject?: string;
   minimal?: boolean;
   port?: string | number;
+  framework?: 'spring-boot' | 'quarkus' | 'micronaut' | 'none';
 }
