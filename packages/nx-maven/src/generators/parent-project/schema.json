@@ -60,20 +60,9 @@
       "alias": "v",
       "x-prompt": "What project version would you like to use?"
     },
-    "parentProjectStrategy": {
-      "description": "Which parent project to use, or 'none' to skip.",
-      "type": "string",
-      "default": "root-project",
-      "enum": [
-        "spring-boot-starter-parent",
-        "root-project",
-        "artifact-id",
-        "none"
-      ]
-    },
     "parentProject": {
       "type": "string",
-      "description": "ArtifactId of the parent project (only required if last answer is 'artifact-id')"
+      "description": "ArtifactId of the parent project, or leave it blank for the root project"
     },
     "aggregatorProject": {
       "type": "string",
