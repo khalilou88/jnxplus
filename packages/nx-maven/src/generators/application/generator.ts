@@ -119,7 +119,7 @@ function normalizeOptions(
   };
 }
 
-function addFiles(tree: Tree, options: NormalizedSchema) {
+function addBootFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -128,7 +128,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(__dirname, 'files', options.language),
+    path.join(__dirname, 'files', 'boot', options.language),
     options.projectRoot,
     templateOptions
   );
@@ -174,6 +174,76 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
         )
       );
     }
+  }
+}
+
+function addQuarkusFiles(tree: Tree, options: NormalizedSchema) {
+  const templateOptions = {
+    ...options,
+    ...names(options.name),
+    offsetFromRoot: offsetFromRoot(options.projectRoot),
+    template: '',
+  };
+  generateFiles(
+    tree,
+    path.join(__dirname, 'files', 'quarkus', options.language),
+    options.projectRoot,
+    templateOptions
+  );
+
+  if (options.minimal) {
+    const fileExtension = options.language === 'java' ? 'java' : 'kt';
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/${options.packageDirectory}/GreetingResource.${fileExtension}`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/${options.packageDirectory}/GreetingResourceTest.${fileExtension}`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/native-test/${options.language}/${options.packageDirectory}/GreetingResourceIT.${fileExtension}`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/resources/META-INF/resources/index.html`
+      )
+    );
+  } else {
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/.gitkeep`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/.gitkeep`
+      )
+    );
+  }
+}
+
+function addFiles(tree: Tree, options: NormalizedSchema) {
+  if (options.framework === 'spring-boot') {
+    addBootFiles(tree, options);
+  }
+
+  if (options.framework === 'quarkus') {
+    addQuarkusFiles(tree, options);
   }
 }
 
