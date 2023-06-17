@@ -219,9 +219,20 @@ export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
   }
 
   if (options.framework !== 'none') {
-    targets['build'].options.framework = options.framework;
-    targets['build-image'].options.framework = options.framework;
-    targets['serve'].options.framework = options.framework;
+    targets['build'].options = {
+      ...targets['build'].options,
+      framework: options.framework,
+    };
+
+    targets['build-image'].options = {
+      ...targets['build-image'].options,
+      framework: options.framework,
+    };
+
+    targets['serve'].options = {
+      ...targets['serve'].options,
+      framework: options.framework,
+    };
   }
 
   addProjectConfiguration(
