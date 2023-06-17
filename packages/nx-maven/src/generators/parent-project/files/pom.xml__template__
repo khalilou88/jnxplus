@@ -29,4 +29,19 @@
 	</dependencyManagement>
 <% } -%>
 
+<% if(framework === 'quarkus') { -%>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>quarkus-bom</groupId>
+        <artifactId>io.quarkus.platform</artifactId>
+        <version>${quarkus.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+<% } -%>
+
+
 </project>

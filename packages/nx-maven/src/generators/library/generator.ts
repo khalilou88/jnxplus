@@ -5,6 +5,7 @@ import {
   readXmlTree,
 } from '@jnxplus/maven';
 import {
+  ProjectConfiguration,
   Tree,
   addProjectConfiguration,
   formatFiles,
@@ -170,54 +171,45 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
 export default async function (tree: Tree, options: NxMavenLibGeneratorSchema) {
   const normalizedOptions = normalizeOptions(tree, options);
 
-  if (options.language === 'java') {
-    addProjectConfiguration(tree, normalizedOptions.projectName, {
-      root: normalizedOptions.projectRoot,
-      projectType: 'library',
-      sourceRoot: `${normalizedOptions.projectRoot}/src`,
-      targets: {
-        build: {
-          executor: '@jnxplus/nx-maven:build',
-          outputs: [`${normalizedOptions.projectRoot}/target`],
-        },
-        lint: {
-          executor: '@jnxplus/nx-maven:lint',
-          options: {
-            linter: `${normalizedOptions.linter}`,
-          },
-        },
-        test: {
-          executor: '@jnxplus/nx-maven:test',
+  const projectConfiguration: ProjectConfiguration = {
+    root: normalizedOptions.projectRoot,
+    projectType: 'library',
+    sourceRoot: `${normalizedOptions.projectRoot}/src`,
+    targets: {
+      build: {
+        executor: '@jnxplus/nx-maven:build',
+        outputs: [`${normalizedOptions.projectRoot}/target`],
+      },
+      lint: {
+        executor: '@jnxplus/nx-maven:lint',
+        options: {
+          linter: `${normalizedOptions.linter}`,
         },
       },
-      tags: normalizedOptions.parsedTags,
-    });
-  } else {
-    addProjectConfiguration(tree, normalizedOptions.projectName, {
-      root: normalizedOptions.projectRoot,
-      projectType: 'library',
-      sourceRoot: `${normalizedOptions.projectRoot}/src`,
-      targets: {
-        build: {
-          executor: '@jnxplus/nx-maven:build',
-          outputs: [`${normalizedOptions.projectRoot}/target`],
-        },
-        lint: {
-          executor: '@jnxplus/nx-maven:lint',
-          options: {
-            linter: `${normalizedOptions.linter}`,
-          },
-        },
-        test: {
-          executor: '@jnxplus/nx-maven:test',
-        },
-        ktformat: {
-          executor: '@jnxplus/nx-maven:ktformat',
-        },
+      test: {
+        executor: '@jnxplus/nx-maven:test',
       },
-      tags: normalizedOptions.parsedTags,
-    });
+    },
+    tags: normalizedOptions.parsedTags,
+  };
+
+  const targets = projectConfiguration.targets ?? {};
+
+  if (options.framework !== 'none') {
+    targets['build'].options.framework = options.framework;
   }
+
+  if (options.language === 'kotlin') {
+    targets['ktformat'] = {
+      executor: '@jnxplus/nx-maven:ktformat',
+    };
+  }
+
+  addProjectConfiguration(
+    tree,
+    normalizedOptions.projectName,
+    projectConfiguration
+  );
 
   addFiles(tree, normalizedOptions);
   addProjectToAggregator(tree, {
