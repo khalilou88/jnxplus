@@ -2,6 +2,22 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [7.2.0](https://github.com/khalilou88/jnxplus/compare/nx-boot-gradle-7.1.2...nx-boot-gradle-7.2.0) (2023-06-17)
+
+### Dependency Updates
+
+* `gradle-plugin` updated to version `0.2.0`
+* `internal-generators-files` updated to version `0.1.0`
+* `gradle` updated to version `0.9.1`
+* `common` updated to version `0.8.1`
+
+### Features
+
+* **generators:** reduce code duplication ([#251](https://github.com/khalilou88/jnxplus/issues/251)) ([dfdad1d](https://github.com/khalilou88/jnxplus/commit/dfdad1dfd2ef13303e1c12a4d824261d5bf407be))
+* **generators:** reduce linters files ([#252](https://github.com/khalilou88/jnxplus/issues/252)) ([75c0e76](https://github.com/khalilou88/jnxplus/commit/75c0e769e7917ef91584b4f5dcb5efbff80da6c2))
+
+
+
 ## [7.1.2](https://github.com/khalilou88/jnxplus/compare/nx-boot-gradle-7.1.1...nx-boot-gradle-7.1.2) (2023-06-09)
 
 ### Dependency Updates
