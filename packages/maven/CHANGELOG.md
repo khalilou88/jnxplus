@@ -2,6 +2,18 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.4.3](https://github.com/khalilou88/jnxplus/compare/maven-0.4.2...maven-0.4.3) (2023-06-17)
+
+### Dependency Updates
+
+* `common` updated to version `0.8.1`
+
+### Bug Fixes
+
+* **graph:** fix optional project.json ([#256](https://github.com/khalilou88/jnxplus/issues/256)) ([0db8e12](https://github.com/khalilou88/jnxplus/commit/0db8e12a1d7056d6423ae664ae70725099ad33bd))
+
+
+
 ## [0.4.2](https://github.com/khalilou88/jnxplus/compare/maven-0.4.1...maven-0.4.2) (2023-06-09)
 
 ### Dependency Updates
