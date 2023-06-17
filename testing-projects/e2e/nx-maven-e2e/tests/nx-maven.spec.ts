@@ -140,7 +140,7 @@ describe('nx-maven e2e', () => {
   it('should create a java application', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProjectStrategy spring-boot-starter-parent`
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`
     );
 
     const appName = uniq('boot-maven-app-');
@@ -978,7 +978,7 @@ describe('nx-maven e2e', () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library  --parentProjectStrategy spring-boot-starter-parent`
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`
     );
 
     const appsParentProject = uniq('apps-parent-project-');

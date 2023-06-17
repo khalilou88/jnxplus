@@ -60,8 +60,7 @@ function normalizeOptions(
     : [];
 
   let parentProjectRoot = '';
-  if (options.parentProject !== undefined) {
-    options.parentProjectStrategy = 'artifact-id';
+  if (options.parentProject) {
     parentProjectRoot = readProjectConfiguration(
       tree,
       options.parentProject
@@ -72,24 +71,19 @@ function normalizeOptions(
   let parentGroupId = '';
   let parentProjectName = '';
   let parentProjectVersion = '';
-  if (
-    options.parentProjectStrategy === 'artifact-id' ||
-    options.parentProjectStrategy === 'root-project'
-  ) {
-    const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
 
-    const pomXmlContent = readXmlTree(tree, parentProjectPomPath);
-    relativePath = path
-      .relative(projectRoot, parentProjectRoot)
-      .replace(new RegExp(/\\/, 'g'), '/');
+  const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
 
-    parentGroupId =
-      pomXmlContent?.childNamed('groupId')?.val || 'parentGroupId';
-    parentProjectName =
-      pomXmlContent?.childNamed('artifactId')?.val || 'parentProjectName';
-    parentProjectVersion =
-      pomXmlContent?.childNamed('version')?.val || 'parentProjectVersion';
-  }
+  const pomXmlContent = readXmlTree(tree, parentProjectPomPath);
+  relativePath = path
+    .relative(projectRoot, parentProjectRoot)
+    .replace(new RegExp(/\\/, 'g'), '/');
+
+  parentGroupId = pomXmlContent?.childNamed('groupId')?.val || 'parentGroupId';
+  parentProjectName =
+    pomXmlContent?.childNamed('artifactId')?.val || 'parentProjectName';
+  parentProjectVersion =
+    pomXmlContent?.childNamed('version')?.val || 'parentProjectVersion';
 
   return {
     ...options,
