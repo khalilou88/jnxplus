@@ -201,13 +201,6 @@ export default async function (tree: Tree, options: NxMavenLibGeneratorSchema) {
 
   const targets = projectConfiguration.targets ?? {};
 
-  if (options.framework !== 'none') {
-    targets['build'].options = {
-      ...targets['build'].options,
-      framework: options.framework,
-    };
-  }
-
   if (options.language === 'kotlin') {
     targets['ktformat'] = {
       executor: '@jnxplus/nx-maven:ktformat',

@@ -521,4 +521,69 @@ describe('nx-maven e2e', () => {
       target: parentProjectName,
     });
   }, 120000);
+
+  it('should create a quarkus kotlin library', async () => {
+    const libsParentProject = uniq('libs-parent-project-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework quarkus`
+    );
+
+    const libName = uniq('quarkus-maven-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:library ${libName} --language kotlin  --framework quarkus --parentProject ${libsParentProject}`
+    );
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/pom.xml`,
+        `libs/${libName}/src/main/kotlin/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/GreetingService.kt`,
+        `libs/${libName}/src/test/kotlin/org/acme/${names(
+          libName
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`
+      )
+    ).not.toThrow();
+
+    // Making sure the pom.xml file contains the good informations
+    const pomXml = readFile(`libs/${libName}/pom.xml`);
+    expect(pomXml.includes('org.acme')).toBeTruthy();
+    expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
+
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    //should recreate target folder
+    const localTmpDir = path.dirname(tmpProjPath());
+    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'target');
+    fse.removeSync(targetDir);
+    expect(() => checkFilesExist(`libs/${libName}/target`)).toThrow();
+    await runNxCommandAsync(`build ${libName}`);
+    expect(() => checkFilesExist(`libs/${libName}/target`)).not.toThrow();
+
+    const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
+    expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
+
+    const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: parentProjectName,
+    });
+  }, 120000);
 });
