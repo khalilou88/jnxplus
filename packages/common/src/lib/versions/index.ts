@@ -8,8 +8,8 @@ export const quarkusPlatformVersion = '3.1.2.Final';
 export const quarkusKotlinVersion = '1.8.10';
 
 //Micronaut
-export const micronautVersion = '4.0.0-M2';
-export const micronautKotlinVersion = '1.8.20';
+export const micronautVersion = '4.0.0-M4';
+export const micronautKotlinVersion = '1.8.21';
 
 //Linters
 export const checkstyleVersion = '10.11.0';
