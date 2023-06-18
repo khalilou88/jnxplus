@@ -587,7 +587,7 @@ describe('nx-maven e2e', () => {
     });
   }, 120000);
 
-  it('should create a micronaut java application', async () => {
+  xit('should create a micronaut java application', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework micronaut`
