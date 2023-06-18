@@ -21,6 +21,9 @@
     <packaging>jar</packaging>
     <micronaut.runtime>netty</micronaut.runtime>
     <exec.mainClass><%= packageName %>.Application</exec.mainClass>
+<% if(plugin === '@jnxplus/nx-maven') { -%>
+    <micronaut.test.resources.version>2.0.0-M10</micronaut.test.resources.version>
+<% } -%>
   </properties>
 
   <repositories>
