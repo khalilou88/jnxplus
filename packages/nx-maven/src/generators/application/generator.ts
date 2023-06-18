@@ -5,5 +5,5 @@ import {
 } from '@jnxplus/maven';
 
 export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
-  await applicationGenerator(tree, options);
+  await applicationGenerator(__dirname, '@jnxplus/nx-maven', tree, options);
 }

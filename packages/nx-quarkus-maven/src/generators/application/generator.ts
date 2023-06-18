@@ -5,5 +5,10 @@ import {
 import { Tree } from '@nx/devkit';
 
 export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
-  await applicationGenerator(tree, options);
+  await applicationGenerator(
+    __dirname,
+    '@jnxplus/nx-quarkus-maven',
+    tree,
+    options
+  );
 }

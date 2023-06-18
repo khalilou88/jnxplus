@@ -2,5 +2,5 @@ import { Tree } from '@nx/devkit';
 import { NxMavenLibGeneratorSchema, libraryGenerator } from '@jnxplus/maven';
 
 export default async function (tree: Tree, options: NxMavenLibGeneratorSchema) {
-  await libraryGenerator(tree, options);
+  await libraryGenerator(__dirname, '@jnxplus/nx-quarkus-maven', tree, options);
 }

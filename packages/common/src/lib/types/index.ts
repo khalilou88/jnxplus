@@ -6,3 +6,9 @@ export type ProjectType = 'application' | 'library';
 export type MvnBuildCommandType = 'compile' | 'package' | 'install';
 export type ImageType = 'jvm' | 'legacy-jar' | 'native' | 'native-micro';
 export type GetVersionFunction = (dir: string) => string;
+
+export type MavenPluginType =
+  | '@jnxplus/nx-maven'
+  | '@jnxplus/nx-boot-maven'
+  | '@jnxplus/nx-quarkus-maven'
+  | '@jnxplus/nx-micronaut-maven';

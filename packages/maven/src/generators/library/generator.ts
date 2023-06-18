@@ -1,5 +1,8 @@
-import { LinterType, normalizeName } from '@jnxplus/common';
-import { addLibraryToProjects, addProjectToAggregator } from '../../lib/utils/generators';
+import { LinterType, MavenPluginType, normalizeName } from '@jnxplus/common';
+import {
+  addLibraryToProjects,
+  addProjectToAggregator,
+} from '../../lib/utils/generators';
 import { readXmlTree } from '../../lib/xml/index';
 import {
   ProjectConfiguration,
@@ -30,9 +33,11 @@ interface NormalizedSchema extends NxMavenLibGeneratorSchema {
   parentProjectVersion: string;
   relativePath: string;
   parentProjectRoot: string;
+  plugin: MavenPluginType;
 }
 
 function normalizeOptions(
+  plugin: MavenPluginType,
   tree: Tree,
   options: NxMavenLibGeneratorSchema
 ): NormalizedSchema {
@@ -114,10 +119,11 @@ function normalizeOptions(
     parentProjectVersion,
     relativePath,
     parentProjectRoot,
+    plugin,
   };
 }
 
-function addBootFiles(tree: Tree, options: NormalizedSchema) {
+function addBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -126,7 +132,7 @@ function addBootFiles(tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(__dirname, 'files', 'boot', options.language),
+    path.join(d, 'files', 'boot', options.language),
     options.projectRoot,
     templateOptions
   );
@@ -165,7 +171,7 @@ function addBootFiles(tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addQuarkusFiles(tree: Tree, options: NormalizedSchema) {
+function addQuarkusFiles(d: string, tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -174,7 +180,7 @@ function addQuarkusFiles(tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(__dirname, 'files', 'quarkus', options.language),
+    path.join(d, 'files', 'quarkus', options.language),
     options.projectRoot,
     templateOptions
   );
@@ -211,7 +217,7 @@ function addQuarkusFiles(tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addMicronautFiles(tree: Tree, options: NormalizedSchema) {
+function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -220,7 +226,7 @@ function addMicronautFiles(tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(__dirname, 'files', 'micronaut', options.language),
+    path.join(d, 'files', 'micronaut', options.language),
     options.projectRoot,
     templateOptions
   );
@@ -257,22 +263,27 @@ function addMicronautFiles(tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addFiles(tree: Tree, options: NormalizedSchema) {
+function addFiles(d: string, tree: Tree, options: NormalizedSchema) {
   if (options.framework === 'spring-boot') {
-    addBootFiles(tree, options);
+    addBootFiles(d, tree, options);
   }
 
   if (options.framework === 'quarkus') {
-    addQuarkusFiles(tree, options);
+    addQuarkusFiles(d, tree, options);
   }
 
   if (options.framework === 'micronaut') {
-    addMicronautFiles(tree, options);
+    addMicronautFiles(d, tree, options);
   }
 }
 
-export default async function (tree: Tree, options: NxMavenLibGeneratorSchema) {
-  const normalizedOptions = normalizeOptions(tree, options);
+export default async function (
+  d: string,
+  plugin: MavenPluginType,
+  tree: Tree,
+  options: NxMavenLibGeneratorSchema
+) {
+  const normalizedOptions = normalizeOptions(plugin, tree, options);
 
   const projectConfiguration: ProjectConfiguration = {
     root: normalizedOptions.projectRoot,
@@ -280,17 +291,17 @@ export default async function (tree: Tree, options: NxMavenLibGeneratorSchema) {
     sourceRoot: `${normalizedOptions.projectRoot}/src`,
     targets: {
       build: {
-        executor: '@jnxplus/nx-maven:build',
+        executor: `${plugin}:build`,
         outputs: [`${normalizedOptions.projectRoot}/target`],
       },
       lint: {
-        executor: '@jnxplus/nx-maven:lint',
+        executor: `${plugin}:lint`,
         options: {
           linter: `${normalizedOptions.linter}`,
         },
       },
       test: {
-        executor: '@jnxplus/nx-maven:test',
+        executor: `${plugin}:test`,
       },
     },
     tags: normalizedOptions.parsedTags,
@@ -300,7 +311,7 @@ export default async function (tree: Tree, options: NxMavenLibGeneratorSchema) {
 
   if (options.language === 'kotlin') {
     targets['ktformat'] = {
-      executor: '@jnxplus/nx-maven:ktformat',
+      executor: `${plugin}:ktformat`,
     };
   }
 
@@ -310,7 +321,7 @@ export default async function (tree: Tree, options: NxMavenLibGeneratorSchema) {
     projectConfiguration
   );
 
-  addFiles(tree, normalizedOptions);
+  addFiles(d, tree, normalizedOptions);
   addProjectToAggregator(tree, {
     projectRoot: normalizedOptions.projectRoot,
     aggregatorProject: normalizedOptions.aggregatorProject,
