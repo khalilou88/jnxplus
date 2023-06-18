@@ -31,13 +31,13 @@
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-reflect</artifactId>
-      <version>${kotlinVersion}</version>
+      <version>${kotlin.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib-jdk8</artifactId>
-      <version>${kotlinVersion}</version>
+      <version>${kotlin.version}</version>
       <scope>compile</scope>
     </dependency>
 
@@ -65,7 +65,7 @@
       <plugin>
         <artifactId>kotlin-maven-plugin</artifactId>
         <groupId>org.jetbrains.kotlin</groupId>
-        <version>${kotlinVersion}</version>
+        <version>${kotlin.version}</version>
         <configuration>
           <jvmTarget>${java.version}</jvmTarget>
           <compilerPlugins>
@@ -160,7 +160,7 @@
           <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-maven-allopen</artifactId>
-            <version>${kotlinVersion}</version>
+            <version>${kotlin.version}</version>
           </dependency>
         </dependencies>
       </plugin>
