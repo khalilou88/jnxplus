@@ -104,10 +104,16 @@ function normalizeOptions(
 
   const isCustomPort = !!options.port && +options.port !== 8080;
 
-  const rootPomXmlContent = readXmlTree(tree, 'pom.xml');
-  const quarkusVersion =
-    rootPomXmlContent?.childNamed('properties')?.childNamed('quarkus.version')
-      ?.val || 'quarkusVersion';
+  let quarkusVersion = '';
+  if (
+    plugin === '@jnxplus/nx-quarkus-maven' ||
+    options.framework === 'quarkus'
+  ) {
+    const rootPomXmlContent = readXmlTree(tree, 'pom.xml');
+    quarkusVersion =
+      rootPomXmlContent?.childNamed('properties')?.childNamed('quarkus.version')
+        ?.val || 'quarkusVersion';
+  }
 
   return {
     ...options,
