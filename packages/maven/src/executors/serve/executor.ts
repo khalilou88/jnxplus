@@ -12,15 +12,15 @@ export default async function runExecutor(
   let command = getExecutable();
 
   if (options.framework === 'spring-boot') {
-    command += ' spring-boot:run';
+    command = ' spring-boot:run';
   }
 
   if (options.framework === 'quarkus') {
-    command += ' quarkus:dev';
+    command = ' quarkus:dev';
   }
 
   if (options.framework === 'micronaut') {
-    command += ' mn:run';
+    command = ' mn:run';
   }
 
   command += ` -pl :${context.projectName}`;
