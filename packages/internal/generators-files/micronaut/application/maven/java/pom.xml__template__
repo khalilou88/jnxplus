@@ -31,6 +31,12 @@
   </repositories>
 
   <dependencies>
+<% if(plugin === '@jnxplus/nx-maven') { -%>
+    <dependency>
+      <groupId>io.micronaut</groupId>
+      <artifactId>micronaut-inject-java</artifactId>
+    </dependency>
+<% } -%>
     <dependency>
       <groupId>io.micronaut</groupId>
       <artifactId>micronaut-http-server-netty</artifactId>
@@ -100,6 +106,7 @@
           <!-- Uncomment to enable incremental compilation -->
           <!-- <useIncrementalCompilation>false</useIncrementalCompilation> -->
 
+        <!--
           <annotationProcessorPaths combine.children="append">
             <path>
               <groupId>io.micronaut.serde</groupId>
@@ -113,10 +120,15 @@
               </exclusions>
             </path>
           </annotationProcessorPaths>
+          -->
           <compilerArgs>
             <arg>-Amicronaut.processing.group=<%= groupId %></arg>
             <arg>-Amicronaut.processing.module=<%= projectName %></arg>
           </compilerArgs>
+<% if(plugin === '@jnxplus/nx-maven') { -%>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+<% } -%>
         </configuration>
       </plugin>
 

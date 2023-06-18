@@ -30,6 +30,7 @@ interface NormalizedSchema extends NxMicronautMavenAppGeneratorSchema {
   //quarkusVersion: string;
   parentProjectRoot: string;
   isCustomPort: boolean;
+  plugin: '@jnxplus/nx-maven' | '@jnxplus/nx-micronaut-maven';
 }
 
 function normalizeOptions(
@@ -116,6 +117,7 @@ function normalizeOptions(
     //quarkusVersion,
     parentProjectRoot,
     isCustomPort,
+    plugin: '@jnxplus/nx-micronaut-maven',
   };
 }
 
