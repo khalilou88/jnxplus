@@ -532,7 +532,7 @@ describe('nx-maven e2e', () => {
     const libName = uniq('quarkus-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --language kotlin  --framework quarkus --parentProject ${libsParentProject}`
+      `generate @jnxplus/nx-maven:library ${libName} --language kotlin --groupId org.acme --framework quarkus --parentProject ${libsParentProject}`
     );
 
     expect(() =>
