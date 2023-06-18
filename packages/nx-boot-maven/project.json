@@ -69,22 +69,22 @@
           {
             "input": "./packages/internal/generators-files/boot/application/shared",
             "glob": "**",
-            "output": "./src/generators/application/files"
+            "output": "./src/generators/application/files/boot"
           },
           {
             "input": "./packages/internal/generators-files/boot/application/maven",
             "glob": "**",
-            "output": "./src/generators/application/files"
+            "output": "./src/generators/application/files/boot"
           },
           {
             "input": "./packages/internal/generators-files/boot/library/shared",
             "glob": "**",
-            "output": "./src/generators/library/files"
+            "output": "./src/generators/library/files/boot"
           },
           {
             "input": "./packages/internal/generators-files/boot/library/maven",
             "glob": "**",
-            "output": "./src/generators/library/files"
+            "output": "./src/generators/library/files/boot"
           },
           {
             "input": "./packages/internal/generators-files",
