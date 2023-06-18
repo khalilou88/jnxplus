@@ -300,16 +300,30 @@ function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addFiles(d: string, tree: Tree, options: NormalizedSchema) {
-  if (options.framework === 'spring-boot') {
+function addFiles(
+  d: string,
+  plugin: MavenPluginType,
+  tree: Tree,
+  options: NormalizedSchema
+) {
+  if (
+    plugin === '@jnxplus/nx-boot-maven' ||
+    options.framework === 'spring-boot'
+  ) {
     addBootFiles(d, tree, options);
   }
 
-  if (options.framework === 'quarkus') {
+  if (
+    plugin === '@jnxplus/nx-quarkus-maven' ||
+    options.framework === 'quarkus'
+  ) {
     addQuarkusFiles(d, tree, options);
   }
 
-  if (options.framework === 'micronaut') {
+  if (
+    plugin === '@jnxplus/nx-micronaut-maven' ||
+    options.framework === 'micronaut'
+  ) {
     addMicronautFiles(d, tree, options);
   }
 }
@@ -383,7 +397,7 @@ export default async function (
     projectConfiguration
   );
 
-  addFiles(d, tree, normalizedOptions);
+  addFiles(d, plugin, tree, normalizedOptions);
   addProjectToAggregator(tree, {
     projectRoot: normalizedOptions.projectRoot,
     aggregatorProject: normalizedOptions.aggregatorProject,
