@@ -108,7 +108,7 @@
         <groupId>org.jetbrains.kotlin</groupId>
         <version>${kotlinVersion}</version>
         <configuration>
-          <jvmTarget>${jdk.version}</jvmTarget>
+          <jvmTarget>${java.version}</jvmTarget>
           <compilerPlugins>
             <plugin>all-open</plugin>
           </compilerPlugins>
@@ -204,8 +204,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <proc>none</proc>
-          <source>${jdk.version}</source>
-          <target>${jdk.version}</target>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
         </configuration>
         <executions>
           <execution>
