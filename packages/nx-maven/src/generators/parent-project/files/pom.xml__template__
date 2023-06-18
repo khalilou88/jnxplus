@@ -47,8 +47,8 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>io.micronaut</groupId>
-        <artifactId>micronaut-bom</artifactId>
+        <groupId>io.micronaut.platform</groupId>
+        <artifactId>micronaut-platform</artifactId>
         <version>${micronaut.version}</version>
         <type>pom</type>
         <scope>import</scope>
