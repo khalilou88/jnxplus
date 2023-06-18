@@ -37,7 +37,11 @@ export default async function runExecutor(
     command += ` ${options.mvnBuildCommand}`;
   } else {
     if (getProjectType(context) === 'application') {
-      command += ' compile';
+      if (options.framework === 'spring-boot') {
+        command += ' package spring-boot:repackage';
+      } else {
+        command += ' compile';
+      }
     }
 
     if (getProjectType(context) === 'library') {

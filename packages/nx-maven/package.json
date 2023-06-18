@@ -22,14 +22,11 @@
     "java",
     "spring",
     "spring-boot",
+    "quarkus",
+    "micronaut",
     "maven",
     "maven multi-module project"
   ],
-  "exports": {
-    ".": "./src/index.js",
-    "./generators": "./generators.js",
-    "./package.json": "./package.json"
-  },
   "scripts": {
     "postinstall": "node src/scripts/install-linters.js"
   },
