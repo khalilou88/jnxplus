@@ -587,7 +587,7 @@ describe('nx-maven e2e', () => {
     });
   }, 120000);
 
-  xit('should create a micronaut java application', async () => {
+  it('should create a micronaut java application', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework micronaut`
@@ -687,5 +687,72 @@ describe('nx-maven e2e', () => {
     } catch (err) {
       // ignore err
     }
+  }, 120000);
+
+  it('should create a micronaut library', async () => {
+    const libsParentProject = uniq('libs-parent-project-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework micronaut`
+    );
+
+    const libName = uniq('micronaut-maven-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --parentProject ${libsParentProject}`
+    );
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/pom.xml`,
+        `libs/${libName}/src/main/java/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/HelloService.java`,
+        `libs/${libName}/src/test/java/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/HelloServiceTest.java`
+      )
+    ).not.toThrow();
+
+    // Making sure the pom.xml file contains the good informations
+    const pomXml = readFile(`libs/${libName}/pom.xml`);
+    expect(pomXml.includes('com.example')).toBeTruthy();
+    expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    //should recreate target folder
+    const localTmpDir = path.dirname(tmpProjPath());
+    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'target');
+    fse.removeSync(targetDir);
+    expect(() => checkFilesExist(`libs/${libName}/target`)).toThrow();
+    await runNxCommandAsync(`build ${libName}`);
+    expect(() => checkFilesExist(`libs/${libName}/target`)).not.toThrow();
+
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    const formatResult = await runNxCommandAsync(
+      `format:check --projects ${libName}`
+    );
+    expect(formatResult.stdout).toContain('');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: parentProjectName,
+    });
   }, 120000);
 });
