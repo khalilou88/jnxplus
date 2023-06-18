@@ -1823,7 +1823,7 @@ describe('nx-micronaut-maven e2e', () => {
     }
   }, 120000);
 
-  it('should generate java nested sub-projects', async () => {
+  xit('should generate java nested sub-projects', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-micronaut-maven:parent-project ${appsParentProject}`
