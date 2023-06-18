@@ -125,6 +125,26 @@
             "input": "./packages/internal/generators-files/quarkus/library/maven",
             "glob": "**",
             "output": "./src/generators/library/files/quarkus"
+          },
+          {
+            "input": "./packages/internal/generators-files/micronaut/application/shared",
+            "glob": "**",
+            "output": "./src/generators/application/files/micronaut"
+          },
+          {
+            "input": "./packages/internal/generators-files/micronaut/application/maven",
+            "glob": "**",
+            "output": "./src/generators/application/files/micronaut"
+          },
+          {
+            "input": "./packages/internal/generators-files/micronaut/library/shared",
+            "glob": "**",
+            "output": "./src/generators/library/files/micronaut"
+          },
+          {
+            "input": "./packages/internal/generators-files/micronaut/library/maven",
+            "glob": "**",
+            "output": "./src/generators/library/files/micronaut"
           }
         ]
       }
@@ -154,7 +174,7 @@
       }
     }
   },
-  "tags": ["maven", "boot", "quarkus", "micronault"],
+  "tags": ["maven", "boot", "quarkus", "micronaut"],
   "implicitDependencies": [
     "internal-generators-files",
     "internal-maven-wrapper"
