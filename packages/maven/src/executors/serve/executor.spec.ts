@@ -5,6 +5,7 @@ import { ServeExecutorSchema } from './schema';
 jest.mock('@jnxplus/common');
 
 const options: ServeExecutorSchema = {
+  framework: 'spring-boot',
   args: 'args',
 };
 const context: ExecutorContext = {
