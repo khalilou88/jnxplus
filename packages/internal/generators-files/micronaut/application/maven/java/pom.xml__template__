@@ -91,8 +91,8 @@
           <annotationProcessorPaths combine.children="append">
           </annotationProcessorPaths>
           <compilerArgs>
-            <arg>-Amicronaut.processing.group=com.example</arg>
-            <arg>-Amicronaut.processing.module=demo</arg>
+            <arg>-Amicronaut.processing.group=<%= groupId %></arg>
+            <arg>-Amicronaut.processing.module=<%= projectName %></arg>
           </compilerArgs>
         </configuration>
       </plugin>
