@@ -21,8 +21,8 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>quarkus-bom</groupId>
-        <artifactId>io.quarkus.platform</artifactId>
+        <groupId>io.quarkus.platform</groupId>
+        <artifactId>quarkus-bom</artifactId>
         <version>${quarkus.version}</version>
         <type>pom</type>
         <scope>import</scope>
