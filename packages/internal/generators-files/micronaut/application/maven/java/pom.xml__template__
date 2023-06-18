@@ -17,9 +17,13 @@
 	</parent>
 
   <properties>
+    <release.version>${java.version}</release.version>
     <packaging>jar</packaging>
     <micronaut.runtime>netty</micronaut.runtime>
     <exec.mainClass><%= packageName %>.Application</exec.mainClass>
+<% if(plugin === '@jnxplus/nx-maven') { -%>
+    <micronaut.test.resources.version>2.0.0-M10</micronaut.test.resources.version>
+<% } -%>
   </properties>
 
   <repositories>
@@ -30,6 +34,12 @@
   </repositories>
 
   <dependencies>
+<% if(plugin === '@jnxplus/nx-maven') { -%>
+    <dependency>
+      <groupId>io.micronaut</groupId>
+      <artifactId>micronaut-inject-java</artifactId>
+    </dependency>
+<% } -%>
     <dependency>
       <groupId>io.micronaut</groupId>
       <artifactId>micronaut-http-server-netty</artifactId>
@@ -37,7 +47,18 @@
     </dependency>
     <dependency>
       <groupId>io.micronaut</groupId>
-      <artifactId>micronaut-jackson-databind</artifactId>
+      <artifactId>micronaut-runtime</artifactId>
+      <scope>compile</scope>
+      <exclusions>
+          <exclusion>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-jackson-databind</artifactId>
+          </exclusion>
+        </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>io.micronaut.serde</groupId>
+      <artifactId>micronaut-serde-jackson</artifactId>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -88,14 +109,32 @@
           <!-- Uncomment to enable incremental compilation -->
           <!-- <useIncrementalCompilation>false</useIncrementalCompilation> -->
 
+        <!--
           <annotationProcessorPaths combine.children="append">
+            <path>
+              <groupId>io.micronaut.serde</groupId>
+              <artifactId>micronaut-serde-processor</artifactId>
+              <version>${micronaut.serialization.version}</version>
+              <exclusions>
+                <exclusion>
+                  <groupId>io.micronaut</groupId>
+                  <artifactId>micronaut-inject</artifactId>
+                </exclusion>
+              </exclusions>
+            </path>
           </annotationProcessorPaths>
+          -->
           <compilerArgs>
-            <arg>-Amicronaut.processing.group=com.example</arg>
-            <arg>-Amicronaut.processing.module=demo</arg>
+            <arg>-Amicronaut.processing.group=<%= groupId %></arg>
+            <arg>-Amicronaut.processing.module=<%= projectName %></arg>
           </compilerArgs>
+<% if(plugin === '@jnxplus/nx-maven') { -%>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+<% } -%>
         </configuration>
       </plugin>
+
     </plugins>
   </build>
 

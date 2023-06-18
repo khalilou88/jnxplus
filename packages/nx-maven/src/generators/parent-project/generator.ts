@@ -12,7 +12,6 @@ import {
 } from '@nx/devkit';
 import * as path from 'path';
 import { NxMavenParentProjectGeneratorSchema } from './schema';
-import { springBootVersion } from '@jnxplus/common';
 
 interface NormalizedSchema extends NxMavenParentProjectGeneratorSchema {
   projectName: string;
@@ -24,7 +23,6 @@ interface NormalizedSchema extends NxMavenParentProjectGeneratorSchema {
   parentProjectVersion: string;
   relativePath: string;
   parentProjectRoot: string;
-  springBootVersion: string;
 }
 
 function normalizeOptions(
@@ -96,7 +94,6 @@ function normalizeOptions(
     parentProjectVersion,
     relativePath,
     parentProjectRoot,
-    springBootVersion,
   };
 }
 

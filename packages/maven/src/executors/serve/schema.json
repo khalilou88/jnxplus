@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "outputCapture": "pipe",
+  "$schema": "http://json-schema.org/schema",
+  "title": "Serve executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "framework": {
+      "type": "string",
+      "enum": ["spring-boot", "quarkus", "micronaut"]
+    },
+    "args": {
+      "type": "string"
+    }
+  },
+  "required": []
+}

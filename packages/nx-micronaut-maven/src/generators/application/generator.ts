@@ -30,6 +30,7 @@ interface NormalizedSchema extends NxMicronautMavenAppGeneratorSchema {
   //quarkusVersion: string;
   parentProjectRoot: string;
   isCustomPort: boolean;
+  plugin: '@jnxplus/nx-maven' | '@jnxplus/nx-micronaut-maven';
 }
 
 function normalizeOptions(
@@ -97,12 +98,6 @@ function normalizeOptions(
   const parentProjectVersion =
     pomXmlContent?.childNamed('version')?.val || 'parentProjectVersion';
 
-  // const rootPomXmlContent = readXmlTree(tree, 'pom.xml');
-  // const quarkusVersion =
-  //   rootPomXmlContent
-  //     ?.childNamed('properties')
-  //     ?.childNamed('quarkus.platform.version')?.val || 'quarkusVersion';
-
   const isCustomPort = !!options.port && +options.port !== 8080;
 
   return {
@@ -122,6 +117,7 @@ function normalizeOptions(
     //quarkusVersion,
     parentProjectRoot,
     isCustomPort,
+    plugin: '@jnxplus/nx-micronaut-maven',
   };
 }
 

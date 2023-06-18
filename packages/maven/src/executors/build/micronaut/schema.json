@@ -6,10 +6,6 @@
   "description": "",
   "type": "object",
   "properties": {
-    "framework": {
-      "type": "string",
-      "enum": ["spring-boot", "quarkus", "micronaut"]
-    },
     "mvnArgs": {
       "type": "string",
       "description": "Arguments to pass to the maven cli"

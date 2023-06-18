@@ -1,5 +1,5 @@
 import { getProjectType, isRootProject, runCommand } from '@jnxplus/common';
-import { getExecutable, isPomPackaging } from '../../lib/utils';
+import { getExecutable, isPomPackaging } from '../../../lib/utils';
 import { ExecutorContext, logger } from '@nx/devkit';
 import { BuildExecutorSchema } from './schema';
 
@@ -37,11 +37,7 @@ export default async function runExecutor(
     command += ` ${options.mvnBuildCommand}`;
   } else {
     if (getProjectType(context) === 'application') {
-      if (options.framework === 'spring-boot') {
-        command += ' package spring-boot:repackage';
-      } else {
-        command += ' compile';
-      }
+      command += ' compile';
     }
 
     if (getProjectType(context) === 'library') {

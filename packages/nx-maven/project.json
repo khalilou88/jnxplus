@@ -69,27 +69,82 @@
           {
             "input": "./packages/internal/generators-files/boot/application/shared",
             "glob": "**",
-            "output": "./src/generators/application/files"
+            "output": "./src/generators/application/files/boot"
           },
           {
             "input": "./packages/internal/generators-files/boot/application/maven",
             "glob": "**",
-            "output": "./src/generators/application/files"
+            "output": "./src/generators/application/files/boot"
           },
           {
             "input": "./packages/internal/generators-files/boot/library/shared",
             "glob": "**",
-            "output": "./src/generators/library/files"
+            "output": "./src/generators/library/files/boot"
           },
           {
             "input": "./packages/internal/generators-files/boot/library/maven",
             "glob": "**",
-            "output": "./src/generators/library/files"
+            "output": "./src/generators/library/files/boot"
           },
           {
             "input": "./packages/internal/generators-files",
             "glob": "linters/**",
             "output": "./src/generators/init/files"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/application/shared",
+            "glob": "**",
+            "output": "./src/generators/application/files/quarkus"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/application/maven/java",
+            "glob": "**",
+            "output": "./src/generators/application/files/quarkus/java"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/application/maven",
+            "glob": "docker/**",
+            "output": "./src/generators/application/files/quarkus/java/src/main"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/application/maven",
+            "glob": "docker/**",
+            "output": "./src/generators/application/files/quarkus/kotlin/src/main"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/application/maven/kotlin",
+            "glob": "**",
+            "output": "./src/generators/application/files/quarkus/kotlin"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/library/shared",
+            "glob": "**",
+            "output": "./src/generators/library/files/quarkus"
+          },
+          {
+            "input": "./packages/internal/generators-files/quarkus/library/maven",
+            "glob": "**",
+            "output": "./src/generators/library/files/quarkus"
+          },
+          {
+            "input": "./packages/internal/generators-files/micronaut/application/shared",
+            "glob": "**",
+            "output": "./src/generators/application/files/micronaut"
+          },
+          {
+            "input": "./packages/internal/generators-files/micronaut/application/maven",
+            "glob": "**",
+            "output": "./src/generators/application/files/micronaut"
+          },
+          {
+            "input": "./packages/internal/generators-files/micronaut/library/shared",
+            "glob": "**",
+            "output": "./src/generators/library/files/micronaut"
+          },
+          {
+            "input": "./packages/internal/generators-files/micronaut/library/maven",
+            "glob": "**",
+            "output": "./src/generators/library/files/micronaut"
           }
         ]
       }
@@ -119,7 +174,7 @@
       }
     }
   },
-  "tags": ["maven", "boot", "quarkus", "micronault"],
+  "tags": ["maven", "boot", "quarkus", "micronaut"],
   "implicitDependencies": [
     "internal-generators-files",
     "internal-maven-wrapper"

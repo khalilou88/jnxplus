@@ -11,16 +11,16 @@ import org.junit.jupiter.api.Test;
 
 import jakarta.inject.Inject;
 
-@MicronautTest // <1>
+@MicronautTest 
 public class HelloControllerTest {
 
     @Inject
-    @Client("/")  // <2>
+    @Client("/")  
     HttpClient client;
 
     @Test
     public void testHello() {
-        HttpRequest<String> request = HttpRequest.GET("/hello");  // <3>
+        HttpRequest<String> request = HttpRequest.GET("/hello");  
         String body = client.toBlocking().retrieve(request);
 
         assertNotNull(body);

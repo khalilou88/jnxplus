@@ -5,6 +5,7 @@ import {
   readXmlTree,
 } from '@jnxplus/maven';
 import {
+  ProjectConfiguration,
   Tree,
   addProjectConfiguration,
   formatFiles,
@@ -119,7 +120,7 @@ function normalizeOptions(
   };
 }
 
-function addFiles(tree: Tree, options: NormalizedSchema) {
+function addBootFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -128,7 +129,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(__dirname, 'files', options.language),
+    path.join(__dirname, 'files', 'boot', options.language),
     options.projectRoot,
     templateOptions
   );
@@ -167,57 +168,150 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   }
 }
 
+function addQuarkusFiles(tree: Tree, options: NormalizedSchema) {
+  const templateOptions = {
+    ...options,
+    ...names(options.name),
+    offsetFromRoot: offsetFromRoot(options.projectRoot),
+    template: '',
+  };
+  generateFiles(
+    tree,
+    path.join(__dirname, 'files', 'quarkus', options.language),
+    options.projectRoot,
+    templateOptions
+  );
+
+  if (options.skipStarterCode) {
+    const fileExtension = options.language === 'java' ? 'java' : 'kt';
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/${options.packageDirectory}/GreetingService.${fileExtension}`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/${options.packageDirectory}/GreetingServiceTest.${fileExtension}`
+      )
+    );
+  } else {
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/.gitkeep`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/.gitkeep`
+      )
+    );
+  }
+}
+
+function addMicronautFiles(tree: Tree, options: NormalizedSchema) {
+  const templateOptions = {
+    ...options,
+    ...names(options.name),
+    offsetFromRoot: offsetFromRoot(options.projectRoot),
+    template: '',
+  };
+  generateFiles(
+    tree,
+    path.join(__dirname, 'files', 'micronaut', options.language),
+    options.projectRoot,
+    templateOptions
+  );
+
+  if (options.skipStarterCode) {
+    const fileExtension = options.language === 'java' ? 'java' : 'kt';
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/${options.packageDirectory}/HelloService.${fileExtension}`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/${options.packageDirectory}/HelloServiceTest.${fileExtension}`
+      )
+    );
+  } else {
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/.gitkeep`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/.gitkeep`
+      )
+    );
+  }
+}
+
+function addFiles(tree: Tree, options: NormalizedSchema) {
+  if (options.framework === 'spring-boot') {
+    addBootFiles(tree, options);
+  }
+
+  if (options.framework === 'quarkus') {
+    addQuarkusFiles(tree, options);
+  }
+
+  if (options.framework === 'micronaut') {
+    addMicronautFiles(tree, options);
+  }
+}
+
 export default async function (tree: Tree, options: NxMavenLibGeneratorSchema) {
   const normalizedOptions = normalizeOptions(tree, options);
 
-  if (options.language === 'java') {
-    addProjectConfiguration(tree, normalizedOptions.projectName, {
-      root: normalizedOptions.projectRoot,
-      projectType: 'library',
-      sourceRoot: `${normalizedOptions.projectRoot}/src`,
-      targets: {
-        build: {
-          executor: '@jnxplus/nx-maven:build',
-          outputs: [`${normalizedOptions.projectRoot}/target`],
-        },
-        lint: {
-          executor: '@jnxplus/nx-maven:lint',
-          options: {
-            linter: `${normalizedOptions.linter}`,
-          },
-        },
-        test: {
-          executor: '@jnxplus/nx-maven:test',
+  const projectConfiguration: ProjectConfiguration = {
+    root: normalizedOptions.projectRoot,
+    projectType: 'library',
+    sourceRoot: `${normalizedOptions.projectRoot}/src`,
+    targets: {
+      build: {
+        executor: '@jnxplus/nx-maven:build',
+        outputs: [`${normalizedOptions.projectRoot}/target`],
+      },
+      lint: {
+        executor: '@jnxplus/nx-maven:lint',
+        options: {
+          linter: `${normalizedOptions.linter}`,
         },
       },
-      tags: normalizedOptions.parsedTags,
-    });
-  } else {
-    addProjectConfiguration(tree, normalizedOptions.projectName, {
-      root: normalizedOptions.projectRoot,
-      projectType: 'library',
-      sourceRoot: `${normalizedOptions.projectRoot}/src`,
-      targets: {
-        build: {
-          executor: '@jnxplus/nx-maven:build',
-          outputs: [`${normalizedOptions.projectRoot}/target`],
-        },
-        lint: {
-          executor: '@jnxplus/nx-maven:lint',
-          options: {
-            linter: `${normalizedOptions.linter}`,
-          },
-        },
-        test: {
-          executor: '@jnxplus/nx-maven:test',
-        },
-        ktformat: {
-          executor: '@jnxplus/nx-maven:ktformat',
-        },
+      test: {
+        executor: '@jnxplus/nx-maven:test',
       },
-      tags: normalizedOptions.parsedTags,
-    });
+    },
+    tags: normalizedOptions.parsedTags,
+  };
+
+  const targets = projectConfiguration.targets ?? {};
+
+  if (options.language === 'kotlin') {
+    targets['ktformat'] = {
+      executor: '@jnxplus/nx-maven:ktformat',
+    };
   }
+
+  addProjectConfiguration(
+    tree,
+    normalizedOptions.projectName,
+    projectConfiguration
+  );
 
   addFiles(tree, normalizedOptions);
   addProjectToAggregator(tree, {

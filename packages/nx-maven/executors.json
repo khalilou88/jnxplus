@@ -2,18 +2,18 @@
   "$schema": "http://json-schema.org/schema",
   "executors": {
     "build": {
-      "implementation": "@jnxplus/maven/src/executors/build/boot/executor",
-      "schema": "@jnxplus/maven/src/executors/build/boot/schema.json",
+      "implementation": "@jnxplus/maven/src/executors/build/executor",
+      "schema": "@jnxplus/maven/src/executors/build/schema.json",
       "description": "build executor"
     },
     "build-image": {
-      "implementation": "@jnxplus/maven/src/executors/build-image/boot/executor",
-      "schema": "@jnxplus/maven/src/executors/build-image/boot/schema.json",
+      "implementation": "@jnxplus/maven/src/executors/build-image/executor",
+      "schema": "@jnxplus/maven/src/executors/build-image/schema.json",
       "description": "build-image executor"
     },
     "serve": {
-      "implementation": "@jnxplus/maven/src/executors/serve/boot/executor",
-      "schema": "@jnxplus/maven/src/executors/serve/boot/schema.json",
+      "implementation": "@jnxplus/maven/src/executors/serve/executor",
+      "schema": "@jnxplus/maven/src/executors/serve/schema.json",
       "description": "serve executor"
     },
     "lint": {

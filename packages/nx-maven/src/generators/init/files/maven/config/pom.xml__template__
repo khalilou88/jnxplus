@@ -11,6 +11,8 @@
         <java.version><%= javaVersion %></java.version>
         <kotlin.version><%= kotlinVersion %></kotlin.version>
         <spring.boot.version><%= springBootVersion %></spring.boot.version>
+        <quarkus.version><%= quarkusVersion %></quarkus.version>
+        <micronaut.version><%= micronautVersion %></micronaut.version>
         <checkstyle.version><%= checkstyleVersion %></checkstyle.version>
         <ktlint.version><%= ktlintVersion %></ktlint.version>
     </properties>
