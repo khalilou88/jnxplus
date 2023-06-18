@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "NxQuarkusMavenApp",
-  "title": "Create an application",
+  "$id": "NxMavenLib",
+  "title": "Create a library",
   "type": "object",
   "properties": {
     "name": {
@@ -25,7 +25,7 @@
       "alias": "dir"
     },
     "simpleName": {
-      "description": "Don't include the directory in the app name",
+      "description": "Don't include the directory in the lib name",
       "type": "boolean",
       "default": false
     },
@@ -55,7 +55,7 @@
     },
     "groupId": {
       "type": "string",
-      "default": "org.acme",
+      "default": "com.example",
       "x-prompt": "What groupId would you like to use?"
     },
     "projectVersion": {
@@ -65,46 +65,29 @@
       "alias": "v",
       "x-prompt": "What project version would you like to use?"
     },
-    "configFormat": {
-      "description": "Configuration format of the project",
-      "type": "string",
-      "default": ".properties",
-      "x-prompt": {
-        "message": "Which configuration format would you like to use?",
-        "type": "list",
-        "items": [
-          {
-            "value": ".properties",
-            "label": "Properties"
-          },
-          {
-            "value": ".yml",
-            "label": "Yaml"
-          }
-        ]
-      }
-    },
     "parentProject": {
       "type": "string",
-      "description": "ArtifactId of the parent project or leave it blank for the root project"
+      "description": "ArtifactId of the parent project or leave it blank to skip"
     },
-    "minimal": {
-      "description": "Generate an app with a minimal setup",
+    "aggregatorProject": {
+      "type": "string",
+      "description": "ArtifactId of the aggregator project (that manages a group of submodules) or leave it blank for the root project"
+    },
+    "projects": {
+      "type": "string",
+      "description": "Projects where the library should be added (comma delimited)"
+    },
+    "skipStarterCode": {
+      "description": "Skip starter code",
       "type": "boolean",
       "default": false
     },
-    "port": {
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "number"
-        }
-      ],
-      "default": 8080,
-      "description": "Port to start the server at. Default is 8080."
+    "framework": {
+      "description": "Which framework to use, or 'none' to skip.",
+      "type": "string",
+      "default": "spring-boot",
+      "enum": ["spring-boot", "quarkus", "micronaut", "none"]
     }
   },
-  "required": ["name", "language", "groupId", "projectVersion", "configFormat"]
+  "required": ["name", "language", "groupId", "projectVersion"]
 }

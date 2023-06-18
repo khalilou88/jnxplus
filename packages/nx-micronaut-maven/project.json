@@ -69,22 +69,22 @@
           {
             "input": "./packages/internal/generators-files/micronaut/application/shared",
             "glob": "**",
-            "output": "./src/generators/application/files"
+            "output": "./src/generators/application/files/micronaut"
           },
           {
             "input": "./packages/internal/generators-files/micronaut/application/maven",
             "glob": "**",
-            "output": "./src/generators/application/files"
+            "output": "./src/generators/application/files/micronaut"
           },
           {
             "input": "./packages/internal/generators-files/micronaut/library/shared",
             "glob": "**",
-            "output": "./src/generators/library/files"
+            "output": "./src/generators/library/files/micronaut"
           },
           {
             "input": "./packages/internal/generators-files/micronaut/library/maven",
             "glob": "**",
-            "output": "./src/generators/library/files"
+            "output": "./src/generators/library/files/micronaut"
           },
           {
             "input": "./packages/internal/generators-files",
