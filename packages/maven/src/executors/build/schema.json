@@ -7,8 +7,10 @@
   "type": "object",
   "properties": {
     "framework": {
+      "description": "Which framework to use, or 'none' to skip.",
       "type": "string",
-      "enum": ["spring-boot", "quarkus", "micronaut"]
+      "default": "spring-boot",
+      "enum": ["spring-boot", "quarkus", "micronaut", "none"]
     },
     "mvnArgs": {
       "type": "string",
