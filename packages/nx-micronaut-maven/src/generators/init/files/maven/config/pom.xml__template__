@@ -14,7 +14,9 @@
   </parent>
 
   <properties>
+    <release.version><%= javaVersion %></release.version>
     <java.version><%= javaVersion %></java.version>
+    <kotlinVersion><%= kotlinVersion %></kotlinVersion>
     <kotlin.version><%= kotlinVersion %></kotlin.version>
     <checkstyle.version><%= checkstyleVersion %></checkstyle.version>
     <ktlint.version><%= ktlintVersion %></ktlint.version>
