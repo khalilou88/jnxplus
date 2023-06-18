@@ -97,12 +97,6 @@ function normalizeOptions(
   const parentProjectVersion =
     pomXmlContent?.childNamed('version')?.val || 'parentProjectVersion';
 
-  // const rootPomXmlContent = readXmlTree(tree, 'pom.xml');
-  // const quarkusVersion =
-  //   rootPomXmlContent
-  //     ?.childNamed('properties')
-  //     ?.childNamed('quarkus.platform.version')?.val || 'quarkusVersion';
-
   const isCustomPort = !!options.port && +options.port !== 8080;
 
   return {
