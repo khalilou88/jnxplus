@@ -244,6 +244,52 @@ function addQuarkusFiles(tree: Tree, options: NormalizedSchema) {
   }
 }
 
+function addMicronautFiles(tree: Tree, options: NormalizedSchema) {
+  const templateOptions = {
+    ...options,
+    ...names(options.name),
+    offsetFromRoot: offsetFromRoot(options.projectRoot),
+    template: '',
+  };
+  generateFiles(
+    tree,
+    path.join(__dirname, 'files', 'micronaut', options.language),
+    options.projectRoot,
+    templateOptions
+  );
+
+  if (options.minimal) {
+    const fileExtension = options.language === 'java' ? 'java' : 'kt';
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/${options.packageDirectory}/HelloController.${fileExtension}`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/${options.packageDirectory}/HelloControllerTest.${fileExtension}`
+      )
+    );
+  } else {
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/.gitkeep`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/.gitkeep`
+      )
+    );
+  }
+}
+
 function addFiles(tree: Tree, options: NormalizedSchema) {
   if (options.framework === 'spring-boot') {
     addBootFiles(tree, options);
@@ -251,6 +297,10 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
 
   if (options.framework === 'quarkus') {
     addQuarkusFiles(tree, options);
+  }
+
+  if (options.framework === 'micronaut') {
+    addMicronautFiles(tree, options);
   }
 }
 
