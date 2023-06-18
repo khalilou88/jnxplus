@@ -31,6 +31,7 @@ interface NormalizedSchema extends NxMavenAppGeneratorSchema {
   parentProjectRoot: string;
   isCustomPort: boolean;
   quarkusVersion: string;
+  plugin: '@jnxplus/nx-maven' | '@jnxplus/nx-micronaut-maven';
 }
 
 function normalizeOptions(
@@ -123,6 +124,7 @@ function normalizeOptions(
     parentProjectRoot,
     isCustomPort,
     quarkusVersion,
+    plugin: '@jnxplus/nx-maven',
   };
 }
 
@@ -313,24 +315,24 @@ export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
     sourceRoot: `${normalizedOptions.projectRoot}/src`,
     targets: {
       build: {
-        executor: '@jnxplus/nx-maven:build',
+        executor: `${normalizedOptions.plugin}:build`,
         outputs: [`${normalizedOptions.projectRoot}/target`],
       },
       'build-image': {
-        executor: '@jnxplus/nx-maven:build-image',
+        executor: `${normalizedOptions.plugin}:build-image`,
       },
       serve: {
-        executor: '@jnxplus/nx-maven:serve',
+        executor: `${normalizedOptions.plugin}:serve`,
         dependsOn: ['build'],
       },
       lint: {
-        executor: '@jnxplus/nx-maven:lint',
+        executor: `${normalizedOptions.plugin}:lint`,
         options: {
           linter: `${normalizedOptions.linter}`,
         },
       },
       test: {
-        executor: '@jnxplus/nx-maven:test',
+        executor: `${normalizedOptions.plugin}:test`,
         dependsOn: ['build'],
       },
     },
@@ -341,7 +343,7 @@ export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
 
   if (options.language === 'kotlin') {
     targets['ktformat'] = {
-      executor: '@jnxplus/nx-maven:ktformat',
+      executor: `${normalizedOptions.plugin}:ktformat`,
     };
   }
 
