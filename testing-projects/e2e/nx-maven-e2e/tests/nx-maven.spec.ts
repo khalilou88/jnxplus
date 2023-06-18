@@ -239,6 +239,91 @@ describe('nx-maven e2e', () => {
     }
   }, 120000);
 
+  it('should use specified options to create a quarkus application', async () => {
+    const appsParentProject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework quarkus`
+    );
+
+    const randomName = uniq('quarkus-maven-app-');
+    const appDir = 'deep/subdir';
+    const appName = `${normalizeName(appDir)}-${randomName}`;
+    const port = 8181;
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:application ${randomName}  --parentProject ${appsParentProject} --tags e2etag,e2ePackage --directory ${appDir} --groupId org.jnxplus --projectVersion 1.2.3 --configFormat .yml --port ${port}  --framework quarkus`
+    );
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appDir}/${randomName}/pom.xml`,
+        `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
+        `apps/${appDir}/${randomName}/src/main/java/org/jnxplus/deep/subdir/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/GreetingResource.java`,
+        `apps/${appDir}/${randomName}/src/test/java/org/jnxplus/deep/subdir/${names(
+          randomName
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
+      )
+    ).not.toThrow();
+
+    // Making sure the pom.xml file contains the good informations
+    const pomXml = readFile(`apps/${appDir}/${randomName}/pom.xml`);
+    expect(pomXml.includes('org.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('1.2.3')).toBeTruthy();
+
+    //should add tags to project.json
+    const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
+    expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
+
+    const process = await runNxCommandUntil(
+      `serve ${appName} --args="-Dquarkus-profile=prod"`,
+      (output) => output.includes(`Listening on: http://localhost:${port}`)
+    );
+
+    const dataResult = await getData(port, '/hello');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(port);
+    } catch (err) {
+      // ignore err
+    }
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(
+      `build ${appName} --mvnArgs='--no-transfer-progress'`
+    );
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    const formatResult = await runNxCommandAsync(
+      `format:check --projects ${appName}`
+    );
+    expect(formatResult.stdout).toContain('');
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: parentProjectName,
+    });
+  }, 120000);
+
   it('should add a lib to an app dependencies', async () => {
     const libsParentProject = uniq('libs-parent-project-');
 
