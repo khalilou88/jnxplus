@@ -140,7 +140,7 @@ function addBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    join(d, 'files', options.language),
+    join(d, 'files', 'boot', options.language),
     options.projectRoot,
     templateOptions
   );
@@ -188,7 +188,7 @@ function addQuarkusFiles(d: string, tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    join(d, 'files', options.language),
+    join(d, 'files', 'quarkus', options.language),
     options.projectRoot,
     templateOptions
   );
@@ -234,7 +234,7 @@ function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    join(d, 'files', options.language),
+    join(d, 'files', 'micronaut', options.language),
     options.projectRoot,
     templateOptions
   );
