@@ -4,7 +4,7 @@ pluginManagement {
         id "${quarkusPluginId}" version "${quarkusPluginVersion}"
         id "org.jetbrains.kotlin.jvm" version "${kotlinJvmVersion}"
         id "org.jetbrains.kotlin.plugin.allopen" version "${kotlinPluginAllopenVersion}"
-        id 'io.github.khalilou88.jnxplus' version "${jnxplusGradlePluginVersion}"
+        id "io.github.khalilou88.jnxplus" version "${jnxplusGradlePluginVersion}"
     }
 <% if(generateRepositories) { -%>
     repositories {
