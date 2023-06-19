@@ -65,9 +65,38 @@
       "alias": "v",
       "x-prompt": "What project version would you like to use?"
     },
+    "framework": {
+      "description": "framework",
+      "type": "string",
+      "default": "spring-boot",
+      "enum": ["spring-boot", "quarkus", "micronaut", "none"],
+      "x-prompt": {
+        "message": "Which framework to use? or 'none' to skip.",
+        "type": "list",
+        "items": [
+          {
+            "value": "spring-boot",
+            "label": "spring-boot"
+          },
+          {
+            "value": "quarkus",
+            "label": "quarkus"
+          },
+          {
+            "value": "micronaut",
+            "label": "micronaut"
+          },
+          {
+            "value": "none",
+            "label": "none"
+          }
+        ]
+      }
+    },
     "parentProject": {
       "type": "string",
-      "description": "ArtifactId of the parent project or leave it blank for the root project"
+      "description": "ArtifactId of the parent project or leave it blank for the root project",
+      "x-prompt": "Which artifactId to use for parent project? or leave it blank for the root project"
     },
     "aggregatorProject": {
       "type": "string",
@@ -81,13 +110,14 @@
       "description": "Skip starter code",
       "type": "boolean",
       "default": false
-    },
-    "framework": {
-      "description": "Which framework to use, or 'none' to skip.",
-      "type": "string",
-      "default": "spring-boot",
-      "enum": ["spring-boot", "quarkus", "micronaut", "none"]
     }
   },
-  "required": ["name", "language", "groupId", "projectVersion", "parentProject"]
+  "required": [
+    "name",
+    "language",
+    "groupId",
+    "projectVersion",
+    "framework",
+    "parentProject"
+  ]
 }
