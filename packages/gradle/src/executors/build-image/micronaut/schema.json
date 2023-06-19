@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "outputCapture": "pipe",
+  "$schema": "http://json-schema.org/schema",
+  "title": "Build Image executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "useDocker": {
+      "type": "boolean"
+    },
+    "native": {
+      "type": "boolean"
+    },
+    "optimized": {
+      "type": "boolean"
+    }
+  },
+  "required": []
+}
