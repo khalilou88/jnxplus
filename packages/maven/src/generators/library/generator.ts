@@ -323,6 +323,13 @@ export default async function (
 
   const targets = projectConfiguration.targets ?? {};
 
+  if (options.framework && options.framework !== 'none') {
+    targets['build'].options = {
+      ...targets['build'].options,
+      framework: options.framework,
+    };
+  }
+
   if (options.language === 'kotlin') {
     targets['ktformat'] = {
       executor: `${plugin}:ktformat`,
