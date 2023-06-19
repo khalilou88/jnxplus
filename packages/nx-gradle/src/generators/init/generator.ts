@@ -6,6 +6,10 @@ import {
   springKotlinVersion,
   updateNxJson,
   jnxplusGradlePluginVersion,
+  quarkusPlatformVersion,
+  quarkusKotlinVersion,
+  micronautVersion,
+  micronautKotlinVersion,
 } from '@jnxplus/common';
 import {
   addOrUpdateGitattributes,
@@ -26,6 +30,13 @@ interface NormalizedSchema extends NxGradleGeneratorSchema {
   ktlintVersion: string;
   jnxplusGradlePluginVersion: string;
   generateRepositories: boolean;
+
+  //TODO
+  quarkusPluginVersion: string;
+  quarkusPlatformVersion: string;
+  kotlinPluginAllopenVersion: string;
+  micronautVersion: string;
+  kotlinVersion: string;
 }
 
 function normalizeOptions(
@@ -47,6 +58,12 @@ function normalizeOptions(
     ktlintVersion,
     jnxplusGradlePluginVersion,
     generateRepositories,
+
+    quarkusPluginVersion: quarkusPlatformVersion,
+    quarkusPlatformVersion,
+    kotlinPluginAllopenVersion: quarkusKotlinVersion,
+    micronautVersion,
+    kotlinVersion: micronautKotlinVersion,
   };
 }
 

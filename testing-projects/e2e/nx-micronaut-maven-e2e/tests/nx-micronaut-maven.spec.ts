@@ -1653,9 +1653,7 @@ describe('nx-micronaut-maven e2e', () => {
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/test/java/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }ApplicationTest.java`
+        ).className.toLocaleLowerCase()}/${names(appName).className}Test.java`
       )
     ).not.toThrow();
 
@@ -1701,9 +1699,7 @@ describe('nx-micronaut-maven e2e', () => {
         ).className.toLocaleLowerCase()}/Application.kt`,
         `apps/${appName}/src/test/kotlin/com/example/${names(
           appName
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }ApplicationTest.kt`
+        ).className.toLocaleLowerCase()}/${names(appName).className}Test.kt`
       )
     ).not.toThrow();
 
