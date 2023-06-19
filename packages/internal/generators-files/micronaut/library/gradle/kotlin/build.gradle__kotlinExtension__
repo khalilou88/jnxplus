@@ -3,9 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id "org.jetbrains.kotlin.jvm"
-    id "org.jetbrains.kotlin.plugin.allopen"
     id "com.google.devtools.ksp"
-    id "com.github.johnrengelman.shadow"
     id "io.micronaut.library"
 }
 
@@ -17,12 +15,11 @@ repositories {
 }
 
 dependencies {
-    implementation "io.micronaut:micronaut-jackson-databind"
     implementation "io.micronaut.kotlin:micronaut-kotlin-runtime"
     implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
-    runtimeOnly "com.fasterxml.jackson.module:jackson-module-kotlin"
-    testImplementation "io.micronaut:micronaut-http-client"
+    testImplementation "io.micronaut.test:micronaut-test-junit5"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
 }
 
 java {
@@ -58,9 +55,7 @@ val kotlinVersion: String by project
 
 plugins {
     id("org.jetbrains.kotlin.jvm")
-    id("org.jetbrains.kotlin.plugin.allopen")
     id("com.google.devtools.ksp")
-    id("com.github.johnrengelman.shadow")
     id("io.micronaut.library")
 }
 
@@ -73,12 +68,11 @@ repositories {
 }
 
 dependencies {
-    implementation("io.micronaut:micronaut-jackson-databind")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
-    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
-    testImplementation("io.micronaut:micronaut-http-client")
+    testImplementation("io.micronaut.test:micronaut-test-junit5")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
 java {

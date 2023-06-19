@@ -12,7 +12,8 @@ repositories {
 }
 
 dependencies {
-    implementation "io.micronaut:micronaut-jackson-databind"
+    annotationProcessor "io.micronaut.serde:micronaut-serde-processor"
+    implementation "io.micronaut.serde:micronaut-serde-jackson"
     runtimeOnly "ch.qos.logback:logback-classic"
     testImplementation "io.micronaut:micronaut-http-client"
 <% if(configFormat === '.yml') { -%>
@@ -56,7 +57,8 @@ repositories {
 }
 
 dependencies {
-    implementation("io.micronaut:micronaut-jackson-databind")
+    annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
     runtimeOnly("ch.qos.logback:logback-classic")
     testImplementation("io.micronaut:micronaut-http-client")
 <% if(configFormat === '.yml') { -%>
