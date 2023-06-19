@@ -98,34 +98,7 @@ function normalizeOptions(
   };
 }
 
-function addFiles(
-  d: string,
-  plugin: MavenPluginType,
-  tree: Tree,
-  options: NormalizedSchema
-) {
-  let folder = '';
-  if (
-    plugin === '@jnxplus/nx-boot-maven' ||
-    options.framework === 'spring-boot'
-  ) {
-    folder = 'boot';
-  }
-
-  if (
-    plugin === '@jnxplus/nx-quarkus-maven' ||
-    options.framework === 'quarkus'
-  ) {
-    folder = 'quarkus';
-  }
-
-  if (
-    plugin === '@jnxplus/nx-micronaut-maven' ||
-    options.framework === 'micronaut'
-  ) {
-    folder = 'micronaut';
-  }
-
+function addFiles(d: string, tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -134,7 +107,7 @@ function addFiles(
   };
   generateFiles(
     tree,
-    path.join(d, 'files', folder),
+    path.join(d, 'files'),
     options.projectRoot,
     templateOptions
   );
@@ -159,7 +132,7 @@ export default async function (
     tags: normalizedOptions.parsedTags,
   });
 
-  addFiles(d, plugin, tree, normalizedOptions);
+  addFiles(d, tree, normalizedOptions);
   addProjectToAggregator(tree, {
     projectRoot: normalizedOptions.projectRoot,
     aggregatorProject: normalizedOptions.aggregatorProject,
