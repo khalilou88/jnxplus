@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id "org.jetbrains.kotlin.jvm"
-    id "org.jetbrains.kotlin.plugin.allopen"
+    id "com.google.devtools.ksp"
     id "io.micronaut.library"
 }
 
@@ -55,7 +55,7 @@ val kotlinVersion: String by project
 
 plugins {
     id("org.jetbrains.kotlin.jvm")
-    id("org.jetbrains.kotlin.plugin.allopen")
+    id("com.google.devtools.ksp")
     id("io.micronaut.library")
 }
 
