@@ -13,4 +13,5 @@ export interface NxGradleAppGeneratorSchema {
   configFormat: '.properties' | '.yml';
   minimal?: boolean;
   port?: string | number;
+  framework?: 'spring-boot' | 'quarkus' | 'micronaut' | 'none';
 }
