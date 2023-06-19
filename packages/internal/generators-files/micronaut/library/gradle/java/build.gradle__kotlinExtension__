@@ -1,6 +1,5 @@
 <% if(dsl === 'groovy') { -%>
 plugins {
-    id "com.github.johnrengelman.shadow"
     id "io.micronaut.library"
 }
 
@@ -12,9 +11,8 @@ repositories {
 }
 
 dependencies {
-    annotationProcessor "io.micronaut.serde:micronaut-serde-processor"
-    implementation "io.micronaut.serde:micronaut-serde-jackson"
-    testImplementation "io.micronaut:micronaut-http-client"
+    testImplementation "io.micronaut.test:micronaut-test-junit5"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
 }
 
 java {
@@ -34,7 +32,6 @@ micronaut {
 val javaVersion: String by project
 
 plugins {
-    id("com.github.johnrengelman.shadow")
     id("io.micronaut.library")
 }
 
@@ -46,9 +43,8 @@ repositories {
 }
 
 dependencies {
-    annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
-    implementation("io.micronaut.serde:micronaut-serde-jackson")
-    testImplementation("io.micronaut:micronaut-http-client")
+    testImplementation("io.micronaut.test:micronaut-test-junit5")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
 java {
