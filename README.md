@@ -2,25 +2,24 @@
     <img alt="JNxPlus logo" src="https://raw.githubusercontent.com/khalilou88/jnxplus/main/images/jnxplus-logo.png" width="50%">
 </p>
 
-### Projects
+### Plugins
 
-- [`@jnxplus/nx-boot-gradle`](packages/nx-boot-gradle)
-  to add Spring Boot and Gradle multi-project builds capabilities to a Nx workspace.
+#### Maven Build Tool
 
-- [`@jnxplus/nx-boot-maven`](packages/nx-boot-maven)
-  to add Spring Boot and Maven multi-module capabilities to a Nx workspace.
+| Plugin                                                       | Languages   | Frameworks                    | Dependency management |
+| ------------------------------------------------------------ | ----------- | ----------------------------- | --------------------- |
+| [`@jnxplus/nx-maven`](packages/nx-maven)                     | Java/Kotlin | Spring-Boot,Quarkus,Micronaut | BOM                   |
+| [`@jnxplus/nx-boot-maven`](packages/nx-boot-maven)           | Java/Kotlin | Spring-Boot                   | Parent POM            |
+| [`@jnxplus/nx-quarkus-maven`](packages/nx-quarkus-maven)     | Java/Kotlin | Quarkus                       | BOM                   |
+| [`@jnxplus/nx-micronaut-maven`](packages/nx-micronaut-maven) | Java/Kotlin | Micronaut                     | Parent POM            |
 
-- [`@jnxplus/nx-quarkus-gradle`](packages/nx-quarkus-gradle)
-  to add Quarkus and Gradle multi-project builds capabilities to a Nx workspace.
+#### Gradle Build Tool
 
-- [`@jnxplus/nx-quarkus-maven`](packages/nx-quarkus-maven)
-  to add Quarkus and Maven multi-module capabilities to a Nx workspace.
-
-- [`@jnxplus/nx-micronaut-gradle`](packages/nx-micronaut-gradle)
-  to add Micronaut and Gradle multi-project builds capabilities to a Nx workspace.
-
-- [`@jnxplus/nx-micronaut-maven`](packages/nx-micronaut-maven)
-  to add Micronaut and Maven multi-module capabilities to a Nx workspace.
+| Plugin                                                         | Languages   | Frameworks  |
+| -------------------------------------------------------------- | ----------- | ----------- |
+| [`@jnxplus/nx-boot-gradle`](packages/nx-boot-gradle)           | Java/Kotlin | Spring-Boot |
+| [`@jnxplus/nx-quarkus-gradle`](packages/nx-quarkus-gradle)     | Java/Kotlin | Quarkus     |
+| [`@jnxplus/nx-micronaut-gradle`](packages/nx-micronaut-gradle) | Java/Kotlin | Micronaut   |
 
 ### Credits
 
