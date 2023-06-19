@@ -67,7 +67,15 @@ function normalizeOptions(
     ? options.tags.split(',').map((s) => s.trim())
     : [];
 
-  const appClassName = `${names(projectName).className}Application`;
+  let appClassName = '';
+  if (
+    plugin === '@jnxplus/nx-micronaut-gradle' ||
+    options.framework === 'micronaut'
+  ) {
+    appClassName = names(projectName).className;
+  } else {
+    appClassName = `${names(projectName).className}Application`;
+  }
 
   let packageName: string;
   if (options.simplePackageName) {
