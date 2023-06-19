@@ -54,22 +54,22 @@
           {
             "input": "./packages/internal/generators-files/boot/application/shared",
             "glob": "**",
-            "output": "./src/generators/application/files"
+            "output": "./src/generators/application/files/boot"
           },
           {
             "input": "./packages/internal/generators-files/boot/application/gradle",
             "glob": "**",
-            "output": "./src/generators/application/files"
+            "output": "./src/generators/application/files/boot"
           },
           {
             "input": "./packages/internal/generators-files/boot/library/shared",
             "glob": "**",
-            "output": "./src/generators/library/files"
+            "output": "./src/generators/library/files/boot"
           },
           {
             "input": "./packages/internal/generators-files/boot/library/gradle",
             "glob": "**",
-            "output": "./src/generators/library/files"
+            "output": "./src/generators/library/files/boot"
           },
           {
             "input": "./packages/internal/generators-files",

@@ -1,9 +1,9 @@
-import { LinterType, MavenPluginType, normalizeName } from '@jnxplus/common';
 import {
-  addLibraryToProjects,
-  addProjectToAggregator,
-} from '../../lib/utils/generators';
-import { readXmlTree } from '../../lib/xml/index';
+  DSLType,
+  GradlePluginType,
+  LinterType,
+  normalizeName,
+} from '@jnxplus/common';
 import {
   ProjectConfiguration,
   Tree,
@@ -14,12 +14,16 @@ import {
   joinPathFragments,
   names,
   offsetFromRoot,
-  readProjectConfiguration,
 } from '@nx/devkit';
-import * as path from 'path';
-import { NxMavenLibGeneratorSchema } from './schema';
+import { join } from 'path';
+import {
+  addLibraryToProjects,
+  addProjectToGradleSetting,
+  getDsl,
+} from '../../.';
+import { NxGradleLibGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends NxMavenLibGeneratorSchema {
+interface NormalizedSchema extends NxGradleLibGeneratorSchema {
   projectName: string;
   projectRoot: string;
   projectDirectory: string;
@@ -28,18 +32,13 @@ interface NormalizedSchema extends NxMavenLibGeneratorSchema {
   packageDirectory: string;
   parsedProjects: string[];
   linter?: LinterType;
-  parentGroupId: string;
-  parentProjectName: string;
-  parentProjectVersion: string;
-  relativePath: string;
-  parentProjectRoot: string;
-  plugin: MavenPluginType;
+  dsl: DSLType;
+  kotlinExtension: string;
 }
 
 function normalizeOptions(
-  plugin: MavenPluginType,
   tree: Tree,
-  options: NxMavenLibGeneratorSchema
+  options: NxGradleLibGeneratorSchema
 ): NormalizedSchema {
   const simpleProjectName = names(normalizeName(options.name)).fileName;
 
@@ -86,23 +85,8 @@ function normalizeOptions(
 
   const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
 
-  const parentProjectRoot = options.parentProject
-    ? readProjectConfiguration(tree, options.parentProject).root
-    : '';
-
-  const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
-
-  const pomXmlContent = readXmlTree(tree, parentProjectPomPath);
-  const relativePath = path
-    .relative(projectRoot, parentProjectRoot)
-    .replace(new RegExp(/\\/, 'g'), '/');
-
-  const parentGroupId =
-    pomXmlContent?.childNamed('groupId')?.val || 'parentGroupId';
-  const parentProjectName =
-    pomXmlContent?.childNamed('artifactId')?.val || 'parentProjectName';
-  const parentProjectVersion =
-    pomXmlContent?.childNamed('version')?.val || 'parentProjectVersion';
+  const dsl = getDsl(tree);
+  const kotlinExtension = dsl === 'kotlin' ? '.kts' : '';
 
   return {
     ...options,
@@ -114,13 +98,37 @@ function normalizeOptions(
     packageDirectory,
     parsedProjects,
     linter,
-    parentGroupId,
-    parentProjectName,
-    parentProjectVersion,
-    relativePath,
-    parentProjectRoot,
-    plugin,
+    dsl,
+    kotlinExtension,
   };
+}
+
+function addFiles(
+  d: string,
+  plugin: GradlePluginType,
+  tree: Tree,
+  options: NormalizedSchema
+) {
+  if (
+    plugin === '@jnxplus/nx-boot-gradle' ||
+    options.framework === 'spring-boot'
+  ) {
+    addBootFiles(d, tree, options);
+  }
+
+  if (
+    plugin === '@jnxplus/nx-quarkus-gradle' ||
+    options.framework === 'quarkus'
+  ) {
+    addQuarkusFiles(d, tree, options);
+  }
+
+  if (
+    plugin === '@jnxplus/nx-micronaut-gradle' ||
+    options.framework === 'micronaut'
+  ) {
+    addMicronautFiles(d, tree, options);
+  }
 }
 
 function addBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
@@ -132,7 +140,7 @@ function addBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(d, 'files', 'boot', options.language),
+    join(d, 'files', 'boot', options.language),
     options.projectRoot,
     templateOptions
   );
@@ -180,7 +188,7 @@ function addQuarkusFiles(d: string, tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(d, 'files', 'quarkus', options.language),
+    join(d, 'files', 'quarkus', options.language),
     options.projectRoot,
     templateOptions
   );
@@ -226,7 +234,7 @@ function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(d, 'files', 'micronaut', options.language),
+    join(d, 'files', 'micronaut', options.language),
     options.projectRoot,
     templateOptions
   );
@@ -263,41 +271,13 @@ function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addFiles(
-  d: string,
-  plugin: MavenPluginType,
-  tree: Tree,
-  options: NormalizedSchema
-) {
-  if (
-    plugin === '@jnxplus/nx-boot-maven' ||
-    options.framework === 'spring-boot'
-  ) {
-    addBootFiles(d, tree, options);
-  }
-
-  if (
-    plugin === '@jnxplus/nx-quarkus-maven' ||
-    options.framework === 'quarkus'
-  ) {
-    addQuarkusFiles(d, tree, options);
-  }
-
-  if (
-    plugin === '@jnxplus/nx-micronaut-maven' ||
-    options.framework === 'micronaut'
-  ) {
-    addMicronautFiles(d, tree, options);
-  }
-}
-
 export default async function (
   d: string,
-  plugin: MavenPluginType,
+  plugin: GradlePluginType,
   tree: Tree,
-  options: NxMavenLibGeneratorSchema
+  options: NxGradleLibGeneratorSchema
 ) {
-  const normalizedOptions = normalizeOptions(plugin, tree, options);
+  const normalizedOptions = normalizeOptions(tree, options);
 
   const projectConfiguration: ProjectConfiguration = {
     root: normalizedOptions.projectRoot,
@@ -306,7 +286,6 @@ export default async function (
     targets: {
       build: {
         executor: `${plugin}:build`,
-        outputs: [`${normalizedOptions.projectRoot}/target`],
       },
       lint: {
         executor: `${plugin}:lint`,
@@ -341,12 +320,8 @@ export default async function (
     normalizedOptions.projectName,
     projectConfiguration
   );
-
   addFiles(d, plugin, tree, normalizedOptions);
-  addProjectToAggregator(tree, {
-    projectRoot: normalizedOptions.projectRoot,
-    aggregatorProject: normalizedOptions.aggregatorProject,
-  });
+  addProjectToGradleSetting(tree, normalizedOptions);
   addLibraryToProjects(tree, normalizedOptions);
   await formatFiles(tree);
 }

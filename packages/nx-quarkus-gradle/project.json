@@ -54,37 +54,37 @@
           {
             "input": "./packages/internal/generators-files/quarkus/application/shared",
             "glob": "**",
-            "output": "./src/generators/application/files"
+            "output": "./src/generators/application/files/quarkus"
           },
           {
             "input": "./packages/internal/generators-files/quarkus/application/gradle/java",
             "glob": "**",
-            "output": "./src/generators/application/files/java"
+            "output": "./src/generators/application/files/quarkus/java"
           },
           {
             "input": "./packages/internal/generators-files/quarkus/application/gradle",
             "glob": "docker/**",
-            "output": "./src/generators/application/files/java/src/main"
+            "output": "./src/generators/application/files/quarkus/java/src/main"
           },
           {
             "input": "./packages/internal/generators-files/quarkus/application/gradle/kotlin",
             "glob": "**",
-            "output": "./src/generators/application/files/kotlin"
+            "output": "./src/generators/application/files/quarkus/kotlin"
           },
           {
             "input": "./packages/internal/generators-files/quarkus/application/gradle",
             "glob": "docker/**",
-            "output": "./src/generators/application/files/kotlin/src/main"
+            "output": "./src/generators/application/files/quarkus/kotlin/src/main"
           },
           {
             "input": "./packages/internal/generators-files/quarkus/library/shared",
             "glob": "**",
-            "output": "./src/generators/library/files"
+            "output": "./src/generators/library/files/quarkus"
           },
           {
             "input": "./packages/internal/generators-files/quarkus/library/gradle",
             "glob": "**",
-            "output": "./src/generators/library/files"
+            "output": "./src/generators/library/files/quarkus"
           },
           {
             "input": "./packages/internal/generators-files",

@@ -84,7 +84,7 @@
         ]
       }
     },
-    "skipStarterCode": {
+    "minimal": {
       "description": "Skip starter code",
       "type": "boolean",
       "default": false

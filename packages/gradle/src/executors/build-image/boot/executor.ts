@@ -1,13 +1,12 @@
-import { ExecutorContext, logger } from '@nx/devkit';
+import { ExecutorContext } from '@nx/devkit';
 import { getExecutable, getProjectPath } from '../../../.';
 import { runCommand } from '@jnxplus/common';
 import { BuildImageExecutorSchema } from './schema';
 
-export default async function runExecutor(
+export default async function run1Executor(
   options: BuildImageExecutorSchema,
   context: ExecutorContext
 ) {
-  logger.info(`Executor ran for Build Image: ${JSON.stringify(options)}`);
   return runCommand(
     `${getExecutable()} ${getProjectPath(context)}:bootBuildImage`
   );

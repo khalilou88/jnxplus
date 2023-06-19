@@ -1,4 +1,4 @@
-import { LanguageType } from '@jnxplus/common';
+import { LanguageType, PackagingType } from '@jnxplus/common';
 
 export interface NxQuarkusGradleAppGeneratorSchema {
   name: string;
@@ -10,6 +10,7 @@ export interface NxQuarkusGradleAppGeneratorSchema {
   groupId: string;
   projectVersion: string;
   configFormat: '.properties' | '.yml';
-  skipStarterCode?: boolean;
+  minimal?: boolean;
   port?: string | number;
+  packaging: PackagingType;
 }

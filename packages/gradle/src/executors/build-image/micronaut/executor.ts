@@ -1,14 +1,12 @@
-import { ExecutorContext, logger } from '@nx/devkit';
+import { ExecutorContext } from '@nx/devkit';
 import { getExecutable, getProjectPath } from '../../../.';
 import { runCommand } from '@jnxplus/common';
-import { BuildImageExecutorSchema } from './schema';
+import { BuildImage2ExecutorSchema } from './schema';
 
-export default async function runExecutor(
-  options: BuildImageExecutorSchema,
+export default async function run2Executor(
+  options: BuildImage2ExecutorSchema,
   context: ExecutorContext
 ) {
-  logger.info(`Executor ran for Build Image: ${JSON.stringify(options)}`);
-
   if (options.useDocker && options.native && options.optimized) {
     return runCommand(
       `${getExecutable()} ${getProjectPath(context)}:optimizedDockerBuildNative`

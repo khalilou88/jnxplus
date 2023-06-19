@@ -1,6 +1,3 @@
-import { LinterType, MavenPluginType, normalizeName } from '@jnxplus/common';
-import { addProjectToAggregator } from '../../lib/utils/generators';
-import { readXmlTree } from '../../lib/xml/index';
 import {
   addProjectConfiguration,
   formatFiles,
@@ -10,13 +7,26 @@ import {
   names,
   offsetFromRoot,
   ProjectConfiguration,
-  readProjectConfiguration,
   Tree,
+  workspaceRoot,
 } from '@nx/devkit';
 import * as path from 'path';
-import { NxMavenAppGeneratorSchema } from './schema';
+import {
+  DSLType,
+  GradlePluginType,
+  normalizeName,
+  quarkusPlatformVersion,
+} from '@jnxplus/common';
+import { LinterType } from '@jnxplus/common';
+import { NxGradleAppGeneratorSchema } from './schema';
+import {
+  addProjectToGradleSetting,
+  getDsl,
+  getQuarkusPlatformVersion,
+} from '../../.';
+import * as fs from 'fs';
 
-interface NormalizedSchema extends NxMavenAppGeneratorSchema {
+interface NormalizedSchema extends NxGradleAppGeneratorSchema {
   projectName: string;
   projectRoot: string;
   projectDirectory: string;
@@ -24,21 +34,17 @@ interface NormalizedSchema extends NxMavenAppGeneratorSchema {
   appClassName: string;
   packageName: string;
   packageDirectory: string;
-  linter: LinterType;
-  parentGroupId: string;
-  parentProjectName: string;
-  parentProjectVersion: string;
-  relativePath: string;
-  parentProjectRoot: string;
+  linter?: LinterType;
   isCustomPort: boolean;
+  dsl: DSLType;
+  kotlinExtension: string;
   quarkusVersion: string;
-  plugin: MavenPluginType;
 }
 
 function normalizeOptions(
-  plugin: MavenPluginType,
+  plugin: GradlePluginType,
   tree: Tree,
-  options: NxMavenAppGeneratorSchema
+  options: NxGradleAppGeneratorSchema
 ): NormalizedSchema {
   const simpleProjectName = names(normalizeName(options.name)).fileName;
 
@@ -56,7 +62,6 @@ function normalizeOptions(
   const projectDirectory = options.directory
     ? `${names(options.directory).fileName}/${simpleProjectName}`
     : simpleProjectName;
-
   const projectRoot = `${getWorkspaceLayout(tree).appsDir}/${projectDirectory}`;
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
@@ -64,7 +69,7 @@ function normalizeOptions(
 
   let appClassName = '';
   if (
-    plugin === '@jnxplus/nx-micronaut-maven' ||
+    plugin === '@jnxplus/nx-micronaut-gradle' ||
     options.framework === 'micronaut'
   ) {
     appClassName = names(projectName).className;
@@ -92,35 +97,25 @@ function normalizeOptions(
 
   const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
 
-  const parentProjectRoot = options.parentProject
-    ? readProjectConfiguration(tree, options.parentProject).root
-    : '';
-
-  const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
-
-  const pomXmlContent = readXmlTree(tree, parentProjectPomPath);
-  const relativePath = path
-    .relative(projectRoot, parentProjectRoot)
-    .replace(new RegExp(/\\/, 'g'), '/');
-
-  const parentGroupId =
-    pomXmlContent?.childNamed('groupId')?.val || 'parentGroupId';
-  const parentProjectName =
-    pomXmlContent?.childNamed('artifactId')?.val || 'parentProjectName';
-  const parentProjectVersion =
-    pomXmlContent?.childNamed('version')?.val || 'parentProjectVersion';
-
   const isCustomPort = !!options.port && +options.port !== 8080;
+
+  const dsl = getDsl(tree);
+  const kotlinExtension = dsl === 'kotlin' ? '.kts' : '';
 
   let quarkusVersion = '';
   if (
-    plugin === '@jnxplus/nx-quarkus-maven' ||
+    plugin === '@jnxplus/nx-quarkus-gradle' ||
     options.framework === 'quarkus'
   ) {
-    const rootPomXmlContent = readXmlTree(tree, 'pom.xml');
-    quarkusVersion =
-      rootPomXmlContent?.childNamed('properties')?.childNamed('quarkus.version')
-        ?.val || 'quarkusVersion';
+    const gradlePropertiesPath = path.join(workspaceRoot, 'gradle.properties');
+    const gradlePropertiesContent = fs.readFileSync(
+      gradlePropertiesPath,
+      'utf-8'
+    );
+    quarkusVersion = getQuarkusPlatformVersion(gradlePropertiesContent);
+    if (quarkusVersion === undefined) {
+      quarkusVersion = quarkusPlatformVersion;
+    }
   }
 
   return {
@@ -133,15 +128,39 @@ function normalizeOptions(
     packageName,
     packageDirectory,
     linter,
-    parentGroupId,
-    parentProjectName,
-    parentProjectVersion,
-    relativePath,
-    parentProjectRoot,
     isCustomPort,
+    dsl,
+    kotlinExtension,
     quarkusVersion,
-    plugin,
   };
+}
+
+function addFiles(
+  d: string,
+  plugin: GradlePluginType,
+  tree: Tree,
+  options: NormalizedSchema
+) {
+  if (
+    plugin === '@jnxplus/nx-boot-gradle' ||
+    options.framework === 'spring-boot'
+  ) {
+    addBootFiles(d, tree, options);
+  }
+
+  if (
+    plugin === '@jnxplus/nx-quarkus-gradle' ||
+    options.framework === 'quarkus'
+  ) {
+    addQuarkusFiles(d, tree, options);
+  }
+
+  if (
+    plugin === '@jnxplus/nx-micronaut-gradle' ||
+    options.framework === 'micronaut'
+  ) {
+    addMicronautFiles(d, tree, options);
+  }
 }
 
 function addBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
@@ -259,6 +278,13 @@ function addQuarkusFiles(d: string, tree: Tree, options: NormalizedSchema) {
         `/src/test/${options.language}/.gitkeep`
       )
     );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/native-test/${options.language}/.gitkeep`
+      )
+    );
   }
 }
 
@@ -308,39 +334,11 @@ function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addFiles(
-  d: string,
-  plugin: MavenPluginType,
-  tree: Tree,
-  options: NormalizedSchema
-) {
-  if (
-    plugin === '@jnxplus/nx-boot-maven' ||
-    options.framework === 'spring-boot'
-  ) {
-    addBootFiles(d, tree, options);
-  }
-
-  if (
-    plugin === '@jnxplus/nx-quarkus-maven' ||
-    options.framework === 'quarkus'
-  ) {
-    addQuarkusFiles(d, tree, options);
-  }
-
-  if (
-    plugin === '@jnxplus/nx-micronaut-maven' ||
-    options.framework === 'micronaut'
-  ) {
-    addMicronautFiles(d, tree, options);
-  }
-}
-
 export default async function (
   d: string,
-  plugin: MavenPluginType,
+  plugin: GradlePluginType,
   tree: Tree,
-  options: NxMavenAppGeneratorSchema
+  options: NxGradleAppGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(plugin, tree, options);
 
@@ -351,14 +349,12 @@ export default async function (
     targets: {
       build: {
         executor: `${plugin}:build`,
-        outputs: [`${normalizedOptions.projectRoot}/target`],
       },
       'build-image': {
         executor: `${plugin}:build-image`,
       },
       serve: {
         executor: `${plugin}:serve`,
-        dependsOn: ['build'],
       },
       lint: {
         executor: `${plugin}:lint`,
@@ -368,13 +364,22 @@ export default async function (
       },
       test: {
         executor: `${plugin}:test`,
-        dependsOn: ['build'],
       },
     },
     tags: normalizedOptions.parsedTags,
   };
 
   const targets = projectConfiguration.targets ?? {};
+
+  if (
+    plugin === '@jnxplus/nx-boot-gradle' ||
+    options.framework === 'spring-boot'
+  ) {
+    targets['build'].options = {
+      ...targets['build'].options,
+      packaging: `${normalizedOptions.packaging}`,
+    };
+  }
 
   if (options.framework && options.framework !== 'none') {
     targets['build'].options = {
@@ -406,9 +411,6 @@ export default async function (
   );
 
   addFiles(d, plugin, tree, normalizedOptions);
-  addProjectToAggregator(tree, {
-    projectRoot: normalizedOptions.projectRoot,
-    aggregatorProject: normalizedOptions.aggregatorProject,
-  });
+  addProjectToGradleSetting(tree, normalizedOptions);
   await formatFiles(tree);
 }

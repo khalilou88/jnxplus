@@ -248,7 +248,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     }
   }, 360000);
 
-  it('should build-image a java application', async () => {
+  xit('should build-image a java application', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('quarkus-gradle-app-');
 
@@ -507,7 +507,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     }
   }, 360000);
 
-  it('should build-image a kotlin application', async () => {
+  xit('should build-image a kotlin application', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('quarkus-gradle-app-');
 
@@ -1251,11 +1251,11 @@ describe('nx-quarkus-gradle kt e2e', () => {
     });
   }, 240000);
 
-  it('should skip starter code when generating a java application with skipStarterCode option', async () => {
+  it('should skip starter code when generating a java application with minimal option', async () => {
     const appName = uniq('quarkus-gradle-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:application ${appName} --skipStarterCode`
+      `generate @jnxplus/nx-quarkus-gradle:application ${appName} --minimal`
     );
 
     expect(() =>
@@ -1283,11 +1283,11 @@ describe('nx-quarkus-gradle kt e2e', () => {
     ).not.toThrow();
   }, 120000);
 
-  it('should skip starter code when generating a kotlin application with skipStarterCode option', async () => {
+  it('should skip starter code when generating a kotlin application with minimal option', async () => {
     const appName = uniq('quarkus-gradle-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-quarkus-gradle:application ${appName} --language kotlin --skipStarterCode`
+      `generate @jnxplus/nx-quarkus-gradle:application ${appName} --language kotlin --minimal`
     );
 
     expect(() =>

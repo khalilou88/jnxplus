@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "NxGradleLib",
-  "title": "Create a library",
+  "$id": "NxGradleApp",
+  "title": "Create an application",
   "type": "object",
   "properties": {
     "name": {
@@ -25,7 +25,7 @@
       "alias": "dir"
     },
     "simpleName": {
-      "description": "Don't include the directory in the lib name",
+      "description": "Don't include the directory in the app name",
       "type": "boolean",
       "default": false
     },
@@ -65,43 +65,68 @@
       "alias": "v",
       "x-prompt": "What project version would you like to use?"
     },
-    "framework": {
-      "description": "framework",
+    "packaging": {
+      "description": "Packaging of the project",
       "type": "string",
-      "default": "spring-boot",
-      "enum": ["spring-boot", "quarkus", "micronaut", "none"],
+      "default": "jar",
       "x-prompt": {
-        "message": "Which framework to use? or 'none' to skip.",
+        "message": "Which packaging would you like to use?",
         "type": "list",
         "items": [
           {
-            "value": "spring-boot",
-            "label": "spring-boot"
+            "value": "jar",
+            "label": "Jar"
           },
           {
-            "value": "quarkus",
-            "label": "quarkus"
-          },
-          {
-            "value": "micronaut",
-            "label": "micronaut"
-          },
-          {
-            "value": "none",
-            "label": "none"
+            "value": "war",
+            "label": "War"
           }
         ]
       }
     },
-    "projects": {
+    "configFormat": {
+      "description": "Configuration format of the project",
       "type": "string",
-      "description": "Projects where the library should be added (comma delimited)"
+      "default": ".properties",
+      "x-prompt": {
+        "message": "Which configuration format would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": ".properties",
+            "label": "Properties"
+          },
+          {
+            "value": ".yml",
+            "label": "Yaml"
+          }
+        ]
+      }
     },
-    "skipStarterCode": {
-      "description": "Skip starter code",
+    "minimal": {
+      "description": "Generate an app with a minimal setup",
       "type": "boolean",
       "default": false
+    },
+    "port": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "default": 8080,
+      "description": "Port to start the server at. Default is 8080."
     }
   },
-  "required": ["name", "language", "groupId", "projectVersion"]
+  "required": [
+    "name",
+    "language",
+    "groupId",
+    "projectVersion",
+    "packaging",
+    "configFormat"
+  ]
 }

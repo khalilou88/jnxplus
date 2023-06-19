@@ -2,18 +2,18 @@
   "$schema": "http://json-schema.org/schema",
   "executors": {
     "build": {
-      "implementation": "@jnxplus/gradle/src/executors/build/quarkus/executor",
-      "schema": "@jnxplus/gradle/src/executors/build/quarkus/schema.json",
+      "implementation": "@jnxplus/gradle/src/executors/build/executor",
+      "schema": "@jnxplus/gradle/src/executors/build/schema.json",
       "description": "build executor"
     },
     "build-image": {
-      "implementation": "@jnxplus/common/src/executors/build-image/quarkus/executor",
-      "schema": "@jnxplus/common/src/executors/build-image/quarkus/schema.json",
+      "implementation": "@jnxplus/common/src/executors/build-image/executor",
+      "schema": "@jnxplus/common/src/executors/build-image/schema.json",
       "description": "build-image executor"
     },
     "serve": {
-      "implementation": "@jnxplus/gradle/src/executors/serve/quarkus/executor",
-      "schema": "@jnxplus/gradle/src/executors/serve/quarkus/schema.json",
+      "implementation": "@jnxplus/gradle/src/executors/serve/executor",
+      "schema": "@jnxplus/gradle/src/executors/serve/schema.json",
       "description": "serve executor"
     },
     "lint": {
