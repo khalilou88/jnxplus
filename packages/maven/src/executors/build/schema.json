@@ -8,7 +8,8 @@
   "properties": {
     "framework": {
       "type": "string",
-      "enum": ["spring-boot", "quarkus", "micronaut"]
+      "enum": ["spring-boot", "quarkus", "micronaut"],
+      "description": "Only required with nx-maven plugin"
     },
     "mvnArgs": {
       "type": "string",

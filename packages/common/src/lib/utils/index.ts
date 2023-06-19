@@ -199,3 +199,7 @@ export function getProjectGraphNodeType(
 
   return 'lib';
 }
+
+export function getPluginName(context: ExecutorContext) {
+  return context.target?.executor?.split(':')[0];
+}
