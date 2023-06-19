@@ -315,7 +315,7 @@ describe('nx-gradle kt e2e', () => {
     );
 
     // Making sure the app build.gradle file contains the lib
-    const buildGradle = readFile(`apps/${appName}/build.gradle`);
+    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
     expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
 
     const greetingResourcePath = `apps/${appName}/src/main/java/org/acme/${names(
@@ -393,7 +393,7 @@ describe('nx-gradle kt e2e', () => {
     );
 
     // Making sure the app build.gradle file contains the lib
-    const buildGradle = readFile(`apps/${appName}/build.gradle`);
+    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
     expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
 
     const greetingResourcePath = `apps/${appName}/src/main/kotlin/org/acme/${names(
@@ -469,7 +469,7 @@ describe('nx-gradle kt e2e', () => {
     );
 
     // Making sure the app build.gradle file contains the lib
-    const buildGradle = readFile(`apps/${appName}/build.gradle`);
+    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
     expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
 
     const helloControllerPath = `apps/${appName}/src/main/java/com/example/${names(
@@ -547,7 +547,7 @@ describe('nx-gradle kt e2e', () => {
     );
 
     // Making sure the app build.gradle file contains the lib
-    const buildGradle = readFile(`apps/${appName}/build.gradle`);
+    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
     expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
 
     const helloControllerPath = `apps/${appName}/src/main/kotlin/com/example/${names(
