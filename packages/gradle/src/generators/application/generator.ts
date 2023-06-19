@@ -8,12 +8,23 @@ import {
   offsetFromRoot,
   ProjectConfiguration,
   Tree,
+  workspaceRoot,
 } from '@nx/devkit';
 import * as path from 'path';
-import { DSLType, GradlePluginType, normalizeName } from '@jnxplus/common';
+import {
+  DSLType,
+  GradlePluginType,
+  normalizeName,
+  quarkusPlatformVersion,
+} from '@jnxplus/common';
 import { LinterType } from '@jnxplus/common';
 import { NxGradleAppGeneratorSchema } from './schema';
-import { addProjectToGradleSetting, getDsl } from '../../.';
+import {
+  addProjectToGradleSetting,
+  getDsl,
+  getQuarkusPlatformVersion,
+} from '../../.';
+import * as fs from 'fs';
 
 interface NormalizedSchema extends NxGradleAppGeneratorSchema {
   projectName: string;
@@ -27,9 +38,11 @@ interface NormalizedSchema extends NxGradleAppGeneratorSchema {
   isCustomPort: boolean;
   dsl: DSLType;
   kotlinExtension: string;
+  quarkusVersion: string;
 }
 
 function normalizeOptions(
+  plugin: GradlePluginType,
   tree: Tree,
   options: NxGradleAppGeneratorSchema
 ): NormalizedSchema {
@@ -81,6 +94,22 @@ function normalizeOptions(
   const dsl = getDsl(tree);
   const kotlinExtension = dsl === 'kotlin' ? '.kts' : '';
 
+  let quarkusVersion = '';
+  if (
+    plugin === '@jnxplus/nx-quarkus-gradle' ||
+    options.framework === 'quarkus'
+  ) {
+    const gradlePropertiesPath = path.join(workspaceRoot, 'gradle.properties');
+    const gradlePropertiesContent = fs.readFileSync(
+      gradlePropertiesPath,
+      'utf-8'
+    );
+    quarkusVersion = getQuarkusPlatformVersion(gradlePropertiesContent);
+    if (quarkusVersion === undefined) {
+      quarkusVersion = quarkusPlatformVersion;
+    }
+  }
+
   return {
     ...options,
     projectName,
@@ -94,6 +123,7 @@ function normalizeOptions(
     isCustomPort,
     dsl,
     kotlinExtension,
+    quarkusVersion,
   };
 }
 
@@ -302,7 +332,7 @@ export default async function (
   tree: Tree,
   options: NxGradleAppGeneratorSchema
 ) {
-  const normalizedOptions = normalizeOptions(tree, options);
+  const normalizedOptions = normalizeOptions(plugin, tree, options);
 
   const projectConfiguration: ProjectConfiguration = {
     root: normalizedOptions.projectRoot,
