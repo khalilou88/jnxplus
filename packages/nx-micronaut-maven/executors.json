@@ -7,13 +7,13 @@
       "description": "build executor"
     },
     "build-image": {
-      "implementation": "@jnxplus/common/src/executors/build-image/micronaut/executor",
-      "schema": "@jnxplus/common/src/executors/build-image/micronaut/schema.json",
+      "implementation": "@jnxplus/common/src/executors/build-image/executor",
+      "schema": "@jnxplus/common/src/executors/build-image/schema.json",
       "description": "build-image executor"
     },
     "serve": {
-      "implementation": "@jnxplus/maven/src/executors/serve/micronaut/executor",
-      "schema": "@jnxplus/maven/src/executors/serve/micronaut/schema.json",
+      "implementation": "@jnxplus/maven/src/executors/serve/executor",
+      "schema": "@jnxplus/maven/src/executors/serve/schema.json",
       "description": "serve executor"
     },
     "lint": {

@@ -1,14 +1,12 @@
-import { ExecutorContext, logger, workspaceRoot } from '@nx/devkit';
-import { getProjectRoot, runCommand } from '../../../.';
-import { BuildImageExecutorSchema } from './schema';
+import { ExecutorContext, workspaceRoot } from '@nx/devkit';
 import { join } from 'path';
+import { getProjectRoot, runCommand } from '../../../.';
+import { QuarkusBuildImageExecutorSchema } from './schema';
 
 export default async function runExecutor(
-  options: BuildImageExecutorSchema,
+  options: QuarkusBuildImageExecutorSchema,
   context: ExecutorContext
 ) {
-  logger.info(`Executor ran for Build Image: ${JSON.stringify(options)}`);
-
   let imageNameSuffix = '';
 
   if (options.imageNameSuffix) {

@@ -1,5 +1,5 @@
 import { ExecutorContext, logger } from '@nx/devkit';
-import { runCommand, waitForever } from '@jnxplus/common';
+import { getPluginName, runCommand, waitForever } from '@jnxplus/common';
 import { ServeExecutorSchema } from './schema';
 import { getExecutable } from '../../lib/utils';
 
@@ -11,15 +11,24 @@ export default async function runExecutor(
 
   let command = getExecutable();
 
-  if (options.framework === 'spring-boot') {
+  if (
+    getPluginName(context) === '@jnxplus/nx-boot-maven' ||
+    options.framework === 'spring-boot'
+  ) {
     command += ' spring-boot:run';
   }
 
-  if (options.framework === 'quarkus') {
+  if (
+    getPluginName(context) === '@jnxplus/nx-quarkus-maven' ||
+    options.framework === 'quarkus'
+  ) {
     command += ' quarkus:dev';
   }
 
-  if (options.framework === 'micronaut') {
+  if (
+    getPluginName(context) === '@jnxplus/nx-micronaut-maven' ||
+    options.framework === 'micronaut'
+  ) {
     command += ' mn:run';
   }
 
