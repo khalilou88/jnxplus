@@ -103,7 +103,35 @@ function normalizeOptions(
   };
 }
 
-function addFiles(d: string, tree: Tree, options: NormalizedSchema) {
+function addFiles(
+  d: string,
+  plugin: GradlePluginType,
+  tree: Tree,
+  options: NormalizedSchema
+) {
+  if (
+    plugin === '@jnxplus/nx-boot-gradle' ||
+    options.framework === 'spring-boot'
+  ) {
+    addBootFiles(d, tree, options);
+  }
+
+  if (
+    plugin === '@jnxplus/nx-quarkus-gradle' ||
+    options.framework === 'quarkus'
+  ) {
+    addQuarkusFiles(d, tree, options);
+  }
+
+  if (
+    plugin === '@jnxplus/nx-micronaut-gradle' ||
+    options.framework === 'micronaut'
+  ) {
+    addMicronautFiles(d, tree, options);
+  }
+}
+
+function addBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -148,6 +176,98 @@ function addFiles(d: string, tree: Tree, options: NormalizedSchema) {
         )
       );
     }
+  }
+}
+
+function addQuarkusFiles(d: string, tree: Tree, options: NormalizedSchema) {
+  const templateOptions = {
+    ...options,
+    ...names(options.name),
+    offsetFromRoot: offsetFromRoot(options.projectRoot),
+    template: '',
+  };
+  generateFiles(
+    tree,
+    join(d, 'files', options.language),
+    options.projectRoot,
+    templateOptions
+  );
+
+  if (options.skipStarterCode) {
+    const fileExtension = options.language === 'java' ? 'java' : 'kt';
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/${options.packageDirectory}/GreetingService.${fileExtension}`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/${options.packageDirectory}/GreetingServiceTest.${fileExtension}`
+      )
+    );
+  } else {
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/.gitkeep`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/.gitkeep`
+      )
+    );
+  }
+}
+
+function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
+  const templateOptions = {
+    ...options,
+    ...names(options.name),
+    offsetFromRoot: offsetFromRoot(options.projectRoot),
+    template: '',
+  };
+  generateFiles(
+    tree,
+    join(d, 'files', options.language),
+    options.projectRoot,
+    templateOptions
+  );
+
+  if (options.skipStarterCode) {
+    const fileExtension = options.language === 'java' ? 'java' : 'kt';
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/${options.packageDirectory}/HelloService.${fileExtension}`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/${options.packageDirectory}/HelloServiceTest.${fileExtension}`
+      )
+    );
+  } else {
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/.gitkeep`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/.gitkeep`
+      )
+    );
   }
 }
 
@@ -200,7 +320,7 @@ export default async function (
     normalizedOptions.projectName,
     projectConfiguration
   );
-  addFiles(d, tree, normalizedOptions);
+  addFiles(d, plugin, tree, normalizedOptions);
   addProjectToGradleSetting(tree, normalizedOptions);
   addLibraryToProjects(tree, normalizedOptions);
   await formatFiles(tree);
