@@ -2,8 +2,8 @@
   "$schema": "http://json-schema.org/schema",
   "executors": {
     "build": {
-      "implementation": "@jnxplus/maven/src/executors/build/micronaut/executor",
-      "schema": "@jnxplus/maven/src/executors/build/micronaut/schema.json",
+      "implementation": "@jnxplus/maven/src/executors/build/executor",
+      "schema": "@jnxplus/maven/src/executors/build/schema.json",
       "description": "build executor"
     },
     "build-image": {
