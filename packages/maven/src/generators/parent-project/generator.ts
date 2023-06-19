@@ -134,7 +134,7 @@ function addFiles(
   };
   generateFiles(
     tree,
-    path.join(d, folder, 'files'),
+    path.join(d, 'files', folder),
     options.projectRoot,
     templateOptions
   );
