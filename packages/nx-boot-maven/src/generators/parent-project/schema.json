@@ -63,6 +63,10 @@
     "parentProject": {
       "type": "string",
       "description": "ArtifactId of the parent project or leave it blank for the root project"
+    },
+    "aggregatorProject": {
+      "type": "string",
+      "description": "ArtifactId of the aggregator project (that manages a group of submodules) or leave it blank for the root project"
     }
   },
   "required": ["name", "projectType", "groupId", "projectVersion"]

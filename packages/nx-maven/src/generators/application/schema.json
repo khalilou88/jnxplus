@@ -105,7 +105,7 @@
     },
     "parentProject": {
       "type": "string",
-      "description": "ArtifactId of the parent project or leave it blank to skip"
+      "description": "ArtifactId of the parent project or leave it blank for the root project"
     },
     "aggregatorProject": {
       "type": "string",
@@ -140,7 +140,8 @@
     "language",
     "groupId",
     "projectVersion",
-    "packaging",
-    "configFormat"
+    "framework",
+    "configFormat",
+    "parentProject"
   ]
 }
