@@ -12,7 +12,8 @@ repositories {
 }
 
 dependencies {
-    implementation "io.micronaut:micronaut-jackson-databind"
+    annotationProcessor "io.micronaut.serde:micronaut-serde-processor"
+    implementation "io.micronaut.serde:micronaut-serde-jackson"
     testImplementation "io.micronaut:micronaut-http-client"
 }
 
@@ -45,7 +46,8 @@ repositories {
 }
 
 dependencies {
-    implementation("io.micronaut:micronaut-jackson-databind")
+    annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
     testImplementation("io.micronaut:micronaut-http-client")
 }
 
