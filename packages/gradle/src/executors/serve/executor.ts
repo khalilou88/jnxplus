@@ -16,25 +16,25 @@ export default async function runExecutor(
     getPluginName(context) === '@jnxplus/nx-boot-gradle' ||
     options.framework === 'spring-boot'
   ) {
-    command += ' bootRun';
+    command += 'bootRun';
+
+    if (options.args) {
+      command += ` --args='${options.args}'`;
+    }
   }
 
   if (
     getPluginName(context) === '@jnxplus/nx-quarkus-gradle' ||
     options.framework === 'quarkus'
   ) {
-    command += ' quarkusDev';
+    command += 'quarkusDev';
   }
 
   if (
     getPluginName(context) === '@jnxplus/nx-micronaut-gradle' ||
     options.framework === 'micronaut'
   ) {
-    command += ' run';
-  }
-
-  if (options.args) {
-    command += ` --args='${options.args}'`;
+    command += 'run';
   }
 
   const result = runCommand(command);
