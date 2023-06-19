@@ -60,6 +60,34 @@
       "alias": "v",
       "x-prompt": "What project version would you like to use?"
     },
+    "framework": {
+      "description": "framework",
+      "type": "string",
+      "default": "spring-boot",
+      "enum": ["spring-boot", "quarkus", "micronaut", "none"],
+      "x-prompt": {
+        "message": "Which framework to use? or 'none' to skip.",
+        "type": "list",
+        "items": [
+          {
+            "value": "spring-boot",
+            "label": "spring-boot"
+          },
+          {
+            "value": "quarkus",
+            "label": "quarkus"
+          },
+          {
+            "value": "micronaut",
+            "label": "micronaut"
+          },
+          {
+            "value": "none",
+            "label": "none"
+          }
+        ]
+      }
+    },
     "parentProject": {
       "type": "string",
       "description": "ArtifactId of the parent project, or leave it blank for the root project"
@@ -67,13 +95,7 @@
     "aggregatorProject": {
       "type": "string",
       "description": "ArtifactId of the aggregator project (that manages a group of submodules) or leave it blank for the root project"
-    },
-    "framework": {
-      "description": "Which framework to use, or 'none' to skip.",
-      "type": "string",
-      "default": "spring-boot",
-      "enum": ["spring-boot", "quarkus", "micronaut", "none"]
     }
   },
-  "required": ["name", "projectType", "groupId", "projectVersion"]
+  "required": ["name", "projectType", "groupId", "projectVersion", "framework"]
 }

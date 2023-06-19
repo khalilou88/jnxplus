@@ -84,6 +84,34 @@
         ]
       }
     },
+    "framework": {
+      "description": "framework",
+      "type": "string",
+      "default": "spring-boot",
+      "enum": ["spring-boot", "quarkus", "micronaut", "none"],
+      "x-prompt": {
+        "message": "Which framework to use? or 'none' to skip.",
+        "type": "list",
+        "items": [
+          {
+            "value": "spring-boot",
+            "label": "spring-boot"
+          },
+          {
+            "value": "quarkus",
+            "label": "quarkus"
+          },
+          {
+            "value": "micronaut",
+            "label": "micronaut"
+          },
+          {
+            "value": "none",
+            "label": "none"
+          }
+        ]
+      }
+    },
     "configFormat": {
       "description": "Configuration format of the project",
       "type": "string",
@@ -105,7 +133,8 @@
     },
     "parentProject": {
       "type": "string",
-      "description": "ArtifactId of the parent project or leave it blank to skip"
+      "description": "ArtifactId of the parent project or leave it blank for the root project",
+      "x-prompt": "Which artifactId to use for parent project? or leave it blank for the root project"
     },
     "aggregatorProject": {
       "type": "string",
@@ -127,12 +156,6 @@
       ],
       "default": 8080,
       "description": "Port to start the server at. Default is 8080."
-    },
-    "framework": {
-      "description": "Which framework to use, or 'none' to skip.",
-      "type": "string",
-      "default": "spring-boot",
-      "enum": ["spring-boot", "quarkus", "micronaut", "none"]
     }
   },
   "required": [
@@ -140,7 +163,8 @@
     "language",
     "groupId",
     "projectVersion",
-    "packaging",
-    "configFormat"
+    "framework",
+    "configFormat",
+    "parentProject"
   ]
 }

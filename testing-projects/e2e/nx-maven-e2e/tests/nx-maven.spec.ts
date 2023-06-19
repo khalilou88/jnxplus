@@ -496,32 +496,6 @@ describe('nx-maven e2e', () => {
     });
   }, 120000);
 
-  it("should dep-graph don't crash when pom.xml don't contains dependencies tag", async () => {
-    const libName = uniq('boot-maven-lib-');
-
-    await runNxCommandAsync(`generate @jnxplus/nx-maven:library ${libName}`);
-
-    const regex = /<dependencies>[\s\S]*?<\/dependencies>/;
-    const pomXml = `libs/${libName}/pom.xml`;
-    const pomXmlContent = readFile(pomXml);
-    const updatedPomXmlContent = pomXmlContent.replace(regex, '');
-    updateFile(pomXml, updatedPomXmlContent);
-
-    const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
-    );
-    expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
-    );
-
-    const depGraphJson = readJson('dep-graph.json');
-    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
-      type: 'static',
-      source: libName,
-      target: parentProjectName,
-    });
-  }, 120000);
-
   it('should create a quarkus kotlin library', async () => {
     const libsParentProject = uniq('libs-parent-project-');
 

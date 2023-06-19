@@ -12,7 +12,7 @@
 	<artifactId><%= projectName %></artifactId>
 	<version><%= projectVersion %></version>
 	<name><%= projectName %></name>
-	<description>This project was generated with nx-boot-maven</description>
+	<description>This project was generated with <%= plugin %></description>
 
   <dependencies>
     <dependency>

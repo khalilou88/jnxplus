@@ -9,4 +9,5 @@ export interface NxQuarkusMavenParentProjectGeneratorSchema {
   groupId: string;
   projectVersion: string;
   parentProject?: string;
+  aggregatorProject?: string;
 }
