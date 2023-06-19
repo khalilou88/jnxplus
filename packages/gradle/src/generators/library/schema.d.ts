@@ -11,4 +11,5 @@ export interface NxGradleLibGeneratorSchema {
   projectVersion: string;
   projects?: string;
   skipStarterCode?: boolean;
+  framework?: 'spring-boot' | 'quarkus' | 'micronaut' | 'none';
 }

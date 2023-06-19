@@ -182,6 +182,23 @@ export default async function (
 
   const targets = projectConfiguration.targets ?? {};
 
+  if (options.framework && options.framework !== 'none') {
+    targets['build'].options = {
+      ...targets['build'].options,
+      framework: options.framework,
+    };
+
+    targets['build-image'].options = {
+      ...targets['build-image'].options,
+      framework: options.framework,
+    };
+
+    targets['serve'].options = {
+      ...targets['serve'].options,
+      framework: options.framework,
+    };
+  }
+
   if (options.language === 'kotlin') {
     targets['ktformat'] = {
       executor: `${plugin}:ktformat`,
