@@ -133,6 +133,22 @@ describe('nx-maven e2e', () => {
     ).not.toThrow();
   }, 120000);
 
+  it('none lib', async () => {
+    const libName = uniq('maven-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:library ${libName} --framework none`
+    );
+  }, 120000);
+
+  it('none lib kt', async () => {
+    const libName = uniq('maven-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:library ${libName} --framework none --language kotlin`
+    );
+  }, 120000);
+
   it('should create a java application', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(

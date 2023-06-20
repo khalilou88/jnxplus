@@ -130,6 +130,26 @@
             "input": "./packages/internal/generators-files",
             "glob": "linters/**",
             "output": "./src/generators/init/files"
+          },
+          {
+            "input": "./packages/internal/generators-files/none/application/shared",
+            "glob": "**",
+            "output": "./src/generators/application/files/none"
+          },
+          {
+            "input": "./packages/internal/generators-files/none/application/gradle",
+            "glob": "**",
+            "output": "./src/generators/application/files/none"
+          },
+          {
+            "input": "./packages/internal/generators-files/none/library/shared",
+            "glob": "**",
+            "output": "./src/generators/library/files/none"
+          },
+          {
+            "input": "./packages/internal/generators-files/none/library/gradle",
+            "glob": "**",
+            "output": "./src/generators/library/files/none"
           }
         ]
       }

@@ -145,6 +145,26 @@
             "input": "./packages/internal/generators-files/micronaut/library/maven",
             "glob": "**",
             "output": "./src/generators/library/files/micronaut"
+          },
+          {
+            "input": "./packages/internal/generators-files/none/application/shared",
+            "glob": "**",
+            "output": "./src/generators/application/files/none"
+          },
+          {
+            "input": "./packages/internal/generators-files/none/application/maven",
+            "glob": "**",
+            "output": "./src/generators/application/files/none"
+          },
+          {
+            "input": "./packages/internal/generators-files/none/library/shared",
+            "glob": "**",
+            "output": "./src/generators/library/files/none"
+          },
+          {
+            "input": "./packages/internal/generators-files/none/library/maven",
+            "glob": "**",
+            "output": "./src/generators/library/files/none"
           }
         ]
       }

@@ -139,6 +139,30 @@ describe('nx-gradle e2e', () => {
     await runNxCommandAsync(`generate @jnxplus/nx-gradle:migrate`);
   }, 120000);
 
+  it('none app', async () => {
+    const appName = uniq('gradle-app-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-gradle:application ${appName} --framework none`
+    );
+  }, 120000);
+
+  it('none lib', async () => {
+    const libName = uniq('gradle-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-gradle:library ${libName} --framework none`
+    );
+  }, 120000);
+
+  it('none lib kt', async () => {
+    const libName = uniq('gradle-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-gradle:library ${libName} --framework none --language kotlin`
+    );
+  }, 120000);
+
   it('boot - should add a lib to an app dependencies', async () => {
     const appName = uniq('boot-gradle-app-');
     const libName = uniq('boot-gradle-lib-');
