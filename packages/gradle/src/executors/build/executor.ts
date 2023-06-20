@@ -41,6 +41,11 @@ export default async function runExecutor(
     target = 'build -x test';
   }
 
+  //default build task
+  if (!target) {
+    target = 'build -x test';
+  }
+
   let args = '';
 
   if (options.args) {
