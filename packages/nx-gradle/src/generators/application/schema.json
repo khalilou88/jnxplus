@@ -68,21 +68,7 @@
     "packaging": {
       "description": "Packaging of the project",
       "type": "string",
-      "default": "jar",
-      "x-prompt": {
-        "message": "Which packaging would you like to use?",
-        "type": "list",
-        "items": [
-          {
-            "value": "jar",
-            "label": "Jar"
-          },
-          {
-            "value": "war",
-            "label": "War"
-          }
-        ]
-      }
+      "default": "jar"
     },
     "framework": {
       "description": "framework",
@@ -149,12 +135,5 @@
       "description": "Port to start the server at. Default is 8080."
     }
   },
-  "required": [
-    "name",
-    "language",
-    "groupId",
-    "projectVersion",
-    "packaging",
-    "configFormat"
-  ]
+  "required": ["name", "language", "groupId", "projectVersion", "configFormat"]
 }

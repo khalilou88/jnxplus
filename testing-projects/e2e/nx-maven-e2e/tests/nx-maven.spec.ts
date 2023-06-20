@@ -142,7 +142,7 @@ describe('nx-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/build.gradle`,
+        `apps/${appName}/pom.xml`,
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/java/com/example/${names(
           appName
@@ -178,7 +178,7 @@ describe('nx-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/build.gradle`,
+        `apps/${appName}/pom.xml`,
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/kotlin/com/example/${names(
           appName
@@ -212,7 +212,7 @@ describe('nx-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/build.gradle`,
+        `libs/${libName}/pom.xml`,
         `libs/${libName}/src/main/java/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/Library.java`,
@@ -246,7 +246,7 @@ describe('nx-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/build.gradle`,
+        `libs/${libName}/pom.xml`,
         `libs/${libName}/src/main/kotlin/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/Library.kt`,
