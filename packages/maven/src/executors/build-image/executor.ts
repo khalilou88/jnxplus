@@ -38,13 +38,13 @@ export default async function runExecutor(
     options.framework === 'micronaut'
   ) {
     command += ' package';
+
+    if (options.args) {
+      command += ` ${options.args}`;
+    }
   }
 
   command += ` -DskipTests=true -pl :${context.projectName}`;
-
-  if (options.args) {
-    command += ` ${options.args}`;
-  }
 
   return runCommand(command);
 }
