@@ -6,21 +6,21 @@
 
 #### Maven Build Tool
 
-| Plugin                                                       | Languages   | Frameworks                    | Dependency management |
-| ------------------------------------------------------------ | ----------- | ----------------------------- | --------------------- |
-| [`@jnxplus/nx-maven`](packages/nx-maven)                     | Java/Kotlin | Spring-Boot,Quarkus,Micronaut | BOM                   |
-| [`@jnxplus/nx-boot-maven`](packages/nx-boot-maven)           | Java/Kotlin | Spring-Boot                   | Parent POM            |
-| [`@jnxplus/nx-quarkus-maven`](packages/nx-quarkus-maven)     | Java/Kotlin | Quarkus                       | BOM                   |
-| [`@jnxplus/nx-micronaut-maven`](packages/nx-micronaut-maven) | Java/Kotlin | Micronaut                     | Parent POM            |
+| Plugin                                                       | Languages   | Frameworks                                  | Dependency management |
+| ------------------------------------------------------------ | ----------- | ------------------------------------------- | --------------------- |
+| [`@jnxplus/nx-maven`](packages/nx-maven)                     | Java/Kotlin | Spring-Boot,Quarkus,Micronaut, (or without) | BOM                   |
+| [`@jnxplus/nx-boot-maven`](packages/nx-boot-maven)           | Java/Kotlin | Spring-Boot                                 | Parent POM            |
+| [`@jnxplus/nx-quarkus-maven`](packages/nx-quarkus-maven)     | Java/Kotlin | Quarkus                                     | BOM                   |
+| [`@jnxplus/nx-micronaut-maven`](packages/nx-micronaut-maven) | Java/Kotlin | Micronaut                                   | Parent POM            |
 
 #### Gradle Build Tool
 
-| Plugin                                                         | Languages   | Frameworks                    |
-| -------------------------------------------------------------- | ----------- | ----------------------------- |
-| [`@jnxplus/nx-gradle`](packages/nx-gradle)                     | Java/Kotlin | Spring-Boot,Quarkus,Micronaut |
-| [`@jnxplus/nx-boot-gradle`](packages/nx-boot-gradle)           | Java/Kotlin | Spring-Boot                   |
-| [`@jnxplus/nx-quarkus-gradle`](packages/nx-quarkus-gradle)     | Java/Kotlin | Quarkus                       |
-| [`@jnxplus/nx-micronaut-gradle`](packages/nx-micronaut-gradle) | Java/Kotlin | Micronaut                     |
+| Plugin                                                         | Languages   | Frameworks                                  |
+| -------------------------------------------------------------- | ----------- | ------------------------------------------- |
+| [`@jnxplus/nx-gradle`](packages/nx-gradle)                     | Java/Kotlin | Spring-Boot,Quarkus,Micronaut, (or without) |
+| [`@jnxplus/nx-boot-gradle`](packages/nx-boot-gradle)           | Java/Kotlin | Spring-Boot                                 |
+| [`@jnxplus/nx-quarkus-gradle`](packages/nx-quarkus-gradle)     | Java/Kotlin | Quarkus                                     |
+| [`@jnxplus/nx-micronaut-gradle`](packages/nx-micronaut-gradle) | Java/Kotlin | Micronaut                                   |
 
 ### Credits
 
