@@ -263,6 +263,38 @@ function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
   }
 }
 
+function addNoneFiles(d: string, tree: Tree, options: NormalizedSchema) {
+  const templateOptions = {
+    ...options,
+    ...names(options.name),
+    offsetFromRoot: offsetFromRoot(options.projectRoot),
+    template: '',
+  };
+  generateFiles(
+    tree,
+    path.join(d, 'files', 'none', options.language),
+    options.projectRoot,
+    templateOptions
+  );
+
+  if (options.skipStarterCode) {
+    const fileExtension = options.language === 'java' ? 'java' : 'kt';
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/main/${options.language}/${options.packageDirectory}/Library.${fileExtension}`
+      )
+    );
+
+    tree.delete(
+      joinPathFragments(
+        options.projectRoot,
+        `/src/test/${options.language}/${options.packageDirectory}/LibraryTest.${fileExtension}`
+      )
+    );
+  }
+}
+
 function addFiles(
   d: string,
   plugin: MavenPluginType,
@@ -288,6 +320,10 @@ function addFiles(
     options.framework === 'micronaut'
   ) {
     addMicronautFiles(d, tree, options);
+  }
+
+  if (options.framework === 'none') {
+    addNoneFiles(d, tree, options);
   }
 }
 

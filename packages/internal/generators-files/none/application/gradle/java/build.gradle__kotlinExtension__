@@ -1,0 +1,52 @@
+<% if(dsl === 'groovy') { -%>
+plugins {
+	id 'application'
+}
+
+group = '<%= groupId %>'
+version = '<%= projectVersion %>'
+sourceCompatibility = "${javaVersion}"
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+  testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
+}
+
+application {
+    mainClass = '<%= packageName %>.App'
+}
+
+tasks.named('test') {
+  useJUnitPlatform()
+}
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+val javaVersion: String by project
+
+plugins {
+	application
+}
+
+group = "<%= groupId %>"
+version = "<%= projectVersion %>"
+java.sourceCompatibility = JavaVersion.toVersion(javaVersion)
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+  	testImplementation("org.junit.jupiter:junit-jupiter:5.9.1")
+}
+
+application {
+    mainClass.set("<%= packageName %>.App")
+}
+
+tasks.named<Test>("test") {
+    useJUnitPlatform()
+}
+<% } -%>

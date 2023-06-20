@@ -1719,7 +1719,7 @@ describe('nx-quarkus-maven e2e', () => {
     ).not.toThrow();
   }, 120000);
 
-  xit('should generate java nested sub-projects', async () => {
+  it('should generate java nested sub-projects', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-quarkus-maven:parent-project ${appsParentProject}`

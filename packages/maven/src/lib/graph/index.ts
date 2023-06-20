@@ -109,7 +109,10 @@ function addProjects(
   }
 
   for (const moduleXmlElement of moduleXmlElementArray) {
-    const moduleRoot = joinPathFragments(projectRoot, moduleXmlElement.val);
+    const moduleRoot = joinPathFragments(
+      projectRoot,
+      moduleXmlElement.val.trim()
+    );
     addProjects(builder, context, projects, pluginName, moduleRoot, artifactId);
   }
 }
