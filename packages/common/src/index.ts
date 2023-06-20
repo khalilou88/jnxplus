@@ -12,13 +12,12 @@ import runCheckstyleLintExecutor from './executors/lint/checkstyle-lint';
 import runKtlintExecutor from './executors/lint/ktlint';
 import runPmdLintExecutor from './executors/lint/pmd-lint';
 
-export * from './executors/build-image/quarkus/schema';
-import runBuildImageExecutor from './executors/build-image/quarkus/executor';
+import runQuarkusBuildImageExecutor from './executors/build-image/quarkus/executor';
 
 export {
   runKtFormatExecutor,
   runCheckstyleLintExecutor,
   runKtlintExecutor,
   runPmdLintExecutor,
-  runBuildImageExecutor,
+  runQuarkusBuildImageExecutor,
 };

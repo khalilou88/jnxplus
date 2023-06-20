@@ -1,7 +1,7 @@
 import { ExecutorContext, logger } from '@nx/devkit';
 import {
   getPluginName,
-  runBuildImageExecutor,
+  runQuarkusBuildImageExecutor,
   runCommand,
 } from '@jnxplus/common';
 import { BuildImageExecutorSchema } from './schema';
@@ -17,7 +17,7 @@ export default async function runExecutor(
     getPluginName(context) === '@jnxplus/nx-quarkus-maven' ||
     options.framework === 'quarkus'
   ) {
-    return await runBuildImageExecutor(options, context);
+    return await runQuarkusBuildImageExecutor(options, context);
   }
 
   let command = getExecutable();
@@ -38,13 +38,13 @@ export default async function runExecutor(
     options.framework === 'micronaut'
   ) {
     command += ' package';
+
+    if (options.args) {
+      command += ` ${options.args}`;
+    }
   }
 
   command += ` -DskipTests=true -pl :${context.projectName}`;
-
-  if (options.args) {
-    command += ` ${options.args}`;
-  }
 
   return runCommand(command);
 }

@@ -234,7 +234,7 @@ describe('nx-quarkus-maven e2e', () => {
     }
   }, 240000);
 
-  xit('should build-image a java app', async () => {
+  it('should build-image a java app', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('quarkus-maven-app-');
       await runNxCommandAsync(
@@ -407,7 +407,7 @@ describe('nx-quarkus-maven e2e', () => {
     });
   }, 240000);
 
-  xit('should build-image a kotlin app', async () => {
+  it('should build-image a kotlin app', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('quarkus-maven-app-');
       await runNxCommandAsync(
