@@ -8,6 +8,8 @@ import {
   jnxplusGradlePluginVersion,
   quarkusVersion,
   micronautVersion,
+  kspVersion,
+  shadowVersion,
 } from '@jnxplus/common';
 import {
   addOrUpdateGitattributes,
@@ -24,6 +26,8 @@ interface NormalizedSchema extends NxGradleGeneratorSchema {
   springDependencyManagementVersion: string;
   quarkusVersion: string;
   micronautVersion: string;
+  kspVersion: string;
+  shadowVersion: string;
   kotlinVersion: string;
   checkstyleVersion: string;
   ktlintVersion: string;
@@ -46,6 +50,8 @@ function normalizeOptions(
     springDependencyManagementVersion,
     quarkusVersion,
     micronautVersion,
+    kspVersion,
+    shadowVersion,
     kotlinVersion,
     checkstyleVersion,
     ktlintVersion,
