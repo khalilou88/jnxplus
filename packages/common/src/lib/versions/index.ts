@@ -1,15 +1,15 @@
+//Kotlin
+export const kotlinVersion = '1.8.21';
+
 //Spring boot
 export const springBootVersion = '3.1.0';
-export const dependencyManagementVersion = '1.1.0';
-export const springKotlinVersion = '1.8.21';
+export const springDependencyManagementVersion = '1.1.0';
 
 //Quarkus
-export const quarkusPlatformVersion = '3.1.2.Final';
-export const quarkusKotlinVersion = '1.8.10';
+export const quarkusVersion = '3.1.2.Final';
 
 //Micronaut
 export const micronautVersion = '4.0.0-M4';
-export const micronautKotlinVersion = '1.8.21';
 
 //Linters
 export const checkstyleVersion = '10.11.0';

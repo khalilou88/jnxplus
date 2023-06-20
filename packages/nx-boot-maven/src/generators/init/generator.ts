@@ -2,7 +2,7 @@ import {
   checkstyleVersion,
   ktlintVersion,
   springBootVersion,
-  springKotlinVersion,
+  kotlinVersion,
   updateNxJson,
 } from '@jnxplus/common';
 import {
@@ -32,7 +32,7 @@ function normalizeOptions(
   return {
     ...options,
     dot,
-    kotlinVersion: springKotlinVersion,
+    kotlinVersion: kotlinVersion,
     springBootStarterParentVersion: springBootVersion,
     checkstyleVersion,
     ktlintVersion,

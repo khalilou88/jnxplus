@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+    implementation enforcedPlatform("io.quarkus.platform:quarkus-bom:${quarkusVersion}")
     implementation 'io.quarkus:quarkus-kotlin'
     implementation 'io.quarkus:quarkus-arc'
     implementation 'io.quarkus:quarkus-resteasy-reactive'
@@ -51,9 +51,7 @@ compileTestKotlin {
 <% } -%>
 <% if(dsl === 'kotlin') { -%>
 val javaVersion: String by project
-val quarkusPlatformGroupId: String by project
-val quarkusPlatformArtifactId: String by project
-val quarkusPlatformVersion: String by project
+val quarkusVersion: String by project
 
 plugins {
     kotlin("jvm")
@@ -67,7 +65,7 @@ repositories {
 }
 
 dependencies {
-    implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
+    implementation(enforcedPlatform("io.quarkus.platform:quarkus-bom:${quarkusVersion}"))
     implementation("io.quarkus:quarkus-kotlin")
     implementation("io.quarkus:quarkus-arc")
     implementation("io.quarkus:quarkus-resteasy-reactive")

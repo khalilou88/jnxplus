@@ -1,15 +1,13 @@
 import {
   checkstyleVersion,
-  dependencyManagementVersion,
+  springDependencyManagementVersion,
   ktlintVersion,
   springBootVersion,
-  springKotlinVersion,
+  kotlinVersion,
   updateNxJson,
   jnxplusGradlePluginVersion,
-  quarkusPlatformVersion,
-  quarkusKotlinVersion,
+  quarkusVersion,
   micronautVersion,
-  micronautKotlinVersion,
 } from '@jnxplus/common';
 import {
   addOrUpdateGitattributes,
@@ -23,20 +21,14 @@ import { NxGradleGeneratorSchema } from './schema';
 interface NormalizedSchema extends NxGradleGeneratorSchema {
   kotlinExtension: string;
   springBootVersion: string;
-  dependencyManagementVersion: string;
-  kotlinJvmVersion: string;
-  kotlinSpringVersion: string;
+  springDependencyManagementVersion: string;
+  quarkusVersion: string;
+  micronautVersion: string;
+  kotlinVersion: string;
   checkstyleVersion: string;
   ktlintVersion: string;
   jnxplusGradlePluginVersion: string;
   generateRepositories: boolean;
-
-  //TODO
-  quarkusPluginVersion: string;
-  quarkusPlatformVersion: string;
-  kotlinPluginAllopenVersion: string;
-  micronautVersion: string;
-  kotlinVersion: string;
 }
 
 function normalizeOptions(
@@ -51,19 +43,14 @@ function normalizeOptions(
     ...options,
     kotlinExtension,
     springBootVersion,
-    dependencyManagementVersion,
-    kotlinJvmVersion: springKotlinVersion,
-    kotlinSpringVersion: springKotlinVersion,
+    springDependencyManagementVersion,
+    quarkusVersion,
+    micronautVersion,
+    kotlinVersion,
     checkstyleVersion,
     ktlintVersion,
     jnxplusGradlePluginVersion,
     generateRepositories,
-
-    quarkusPluginVersion: quarkusPlatformVersion,
-    quarkusPlatformVersion,
-    kotlinPluginAllopenVersion: quarkusKotlinVersion,
-    micronautVersion,
-    kotlinVersion: micronautKotlinVersion,
   };
 }
 

@@ -1,7 +1,7 @@
 import {
   checkstyleVersion,
   ktlintVersion,
-  micronautKotlinVersion,
+  kotlinVersion,
   micronautVersion,
   updateNxJson,
   jnxplusGradlePluginVersion,
@@ -37,7 +37,7 @@ function normalizeOptions(
     ...options,
     kotlinExtension,
     micronautVersion,
-    kotlinVersion: micronautKotlinVersion,
+    kotlinVersion,
     checkstyleVersion,
     ktlintVersion,
     jnxplusGradlePluginVersion,

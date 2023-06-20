@@ -1,8 +1,8 @@
 import {
   checkstyleVersion,
   ktlintVersion,
-  quarkusKotlinVersion,
-  quarkusPlatformVersion,
+  kotlinVersion,
+  quarkusVersion,
   updateNxJson,
 } from '@jnxplus/common';
 import {
@@ -32,8 +32,8 @@ function normalizeOptions(
   return {
     ...options,
     dot,
-    kotlinVersion: quarkusKotlinVersion,
-    quarkusVersion: quarkusPlatformVersion,
+    kotlinVersion,
+    quarkusVersion: quarkusVersion,
     checkstyleVersion,
     ktlintVersion,
   };

@@ -1,9 +1,9 @@
 <% if(dsl === 'groovy') { -%>
 pluginManagement {
     plugins {
-        id "${quarkusPluginId}" version "${quarkusPluginVersion}"
-        id "org.jetbrains.kotlin.jvm" version "${kotlinJvmVersion}"
-        id "org.jetbrains.kotlin.plugin.allopen" version "${kotlinPluginAllopenVersion}"
+        id "io.quarkus" version "${quarkusVersion}"
+        id "org.jetbrains.kotlin.jvm" version "${kotlinVersion}"
+        id "org.jetbrains.kotlin.plugin.allopen" version "${kotlinVersion}"
         id "io.github.khalilou88.jnxplus" version "${jnxplusGradlePluginVersion}"
     }
 <% if(generateRepositories) { -%>
@@ -18,15 +18,13 @@ rootProject.name = '<%= rootProjectName %>'
 <% } -%>
 <% if(dsl === 'kotlin') { -%>
 pluginManagement {
-    val quarkusPluginVersion: String by settings
-    val quarkusPluginId: String by settings
-    val kotlinJvmVersion: String by settings
-    val kotlinPluginAllopenVersion: String by settings
+    val quarkusVersion: String by settings
+    val kotlinVersion: String by settings
     val jnxplusGradlePluginVersion: String by settings
     plugins {
-        id(quarkusPluginId) version quarkusPluginVersion
-        kotlin("jvm") version kotlinJvmVersion
-        kotlin("plugin.allopen") version kotlinPluginAllopenVersion
+        id("io.quarkus") version quarkusVersion
+        kotlin("jvm") version kotlinVersion
+        kotlin("plugin.allopen") version kotlinVersion
         id("io.github.khalilou88.jnxplus") version jnxplusGradlePluginVersion
     }
 <% if(generateRepositories) { -%>

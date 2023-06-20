@@ -1,7 +1,7 @@
 import {
   checkstyleVersion,
   ktlintVersion,
-  micronautKotlinVersion,
+  kotlinVersion,
   micronautVersion,
   updateNxJson,
 } from '@jnxplus/common';
@@ -32,7 +32,7 @@ function normalizeOptions(
   return {
     ...options,
     dot,
-    kotlinVersion: micronautKotlinVersion,
+    kotlinVersion,
     micronautVersion,
     checkstyleVersion,
     ktlintVersion,

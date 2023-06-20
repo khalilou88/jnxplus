@@ -29,8 +29,8 @@ export function getProjectRootFromProjectPath(projectPath: string) {
   return projectPath.replace(/:/g, '/');
 }
 
-export function getQuarkusPlatformVersion(gradlePropertiesContent: string) {
-  const regexp = /quarkusPlatformVersion=(.*)/g;
+export function getQuarkusVersion(gradlePropertiesContent: string) {
+  const regexp = /quarkusVersion=(.*)/g;
   const matches = (gradlePropertiesContent.match(regexp) || []).map((e) =>
     e.replace(regexp, '$1')
   );

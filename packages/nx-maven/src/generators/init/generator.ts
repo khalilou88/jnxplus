@@ -2,9 +2,9 @@ import {
   checkstyleVersion,
   ktlintVersion,
   springBootVersion,
-  springKotlinVersion,
+  kotlinVersion,
   updateNxJson,
-  quarkusPlatformVersion,
+  quarkusVersion,
   micronautVersion,
 } from '@jnxplus/common';
 import {
@@ -36,9 +36,9 @@ function normalizeOptions(
   return {
     ...options,
     dot,
-    kotlinVersion: springKotlinVersion,
+    kotlinVersion: kotlinVersion,
     springBootVersion: springBootVersion,
-    quarkusVersion: quarkusPlatformVersion,
+    quarkusVersion: quarkusVersion,
     micronautVersion,
     checkstyleVersion,
     ktlintVersion,

@@ -2,17 +2,16 @@
 pluginManagement {
   plugins {
     id 'org.springframework.boot' version "${springBootVersion}"
-    id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
-    id 'org.jetbrains.kotlin.plugin.spring' version "${kotlinSpringVersion}"
+    id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
+    id 'org.jetbrains.kotlin.plugin.spring' version "${kotlinVersion}"
     id 'io.github.khalilou88.jnxplus' version "${jnxplusGradlePluginVersion}"
-    id "${quarkusPluginId}" version "${quarkusPluginVersion}"
+    id "io.quarkus" version "${quarkusVersion}"
     id 'org.jetbrains.kotlin.jvm' version "${kotlinVersion}"
     id 'org.jetbrains.kotlin.plugin.allopen' version "${kotlinVersion}"
     id 'com.google.devtools.ksp' version "${kspVersion}"
     id 'com.github.johnrengelman.shadow' version "${shadowVersion}"
     id 'io.micronaut.application' version "${micronautVersion}"
     id 'io.micronaut.library' version "${micronautVersion}"
-
   }
 <% if(generateRepositories) { -%>
   repositories {
@@ -26,31 +25,26 @@ rootProject.name = '<%= rootProjectName %>'
 <% } -%>
 <% if(dsl === 'kotlin') { -%>
 pluginManagement {
-  val quarkusPluginVersion: String by settings
-  val quarkusPluginId: String by settings
+  val quarkusVersion: String by settings
   val springBootVersion: String by settings
-  val dependencyManagementVersion: String by settings
-  val kotlinJvmVersion: String by settings
-  val kotlinSpringVersion: String by settings
+  val springDependencyManagementVersion: String by settings
   val kotlinVersion: String by settings
   val micronautVersion: String by settings
   val kspVersion: String by settings
   val shadowVersion: String by settings
   val jnxplusGradlePluginVersion: String by settings
   plugins {
-    id(quarkusPluginId) version quarkusPluginVersion
+    id("io.quarkus") version quarkusVersion
     id("org.springframework.boot") version springBootVersion
-    id("io.spring.dependency-management") version dependencyManagementVersion
-    id("org.jetbrains.kotlin.plugin.spring") version kotlinSpringVersion
+    id("io.spring.dependency-management") version springDependencyManagementVersion
+    id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
     id("io.github.khalilou88.jnxplus") version jnxplusGradlePluginVersion
-
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
     id("com.google.devtools.ksp") version kspVersion
     id("com.github.johnrengelman.shadow") version shadowVersion
     id("io.micronaut.application") version micronautVersion
     id("io.micronaut.library") version micronautVersion
- 
   }
 <% if(generateRepositories) { -%>
   repositories {
