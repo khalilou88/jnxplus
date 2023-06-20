@@ -32,7 +32,7 @@ function normalizeOptions(
   return {
     ...options,
     dot,
-    kotlinVersion: kotlinVersion,
+    kotlinVersion,
     springBootStarterParentVersion: springBootVersion,
     checkstyleVersion,
     ktlintVersion,

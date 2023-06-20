@@ -36,7 +36,7 @@ function normalizeOptions(
   return {
     ...options,
     dot,
-    kotlinVersion: kotlinVersion,
+    kotlinVersion,
     springBootVersion: springBootVersion,
     quarkusVersion: quarkusVersion,
     micronautVersion,
