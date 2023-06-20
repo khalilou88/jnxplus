@@ -12,7 +12,6 @@ import runCheckstyleLintExecutor from './executors/lint/checkstyle-lint';
 import runKtlintExecutor from './executors/lint/ktlint';
 import runPmdLintExecutor from './executors/lint/pmd-lint';
 
-export * from './executors/build-image/quarkus/schema';
 import runQuarkusBuildImageExecutor from './executors/build-image/quarkus/executor';
 
 export {
