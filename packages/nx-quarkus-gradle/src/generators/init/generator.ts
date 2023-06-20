@@ -1,8 +1,8 @@
 import {
   checkstyleVersion,
   ktlintVersion,
-  quarkusKotlinVersion,
-  quarkusPlatformVersion,
+  kotlinVersion,
+  quarkusVersion,
   updateNxJson,
   jnxplusGradlePluginVersion,
 } from '@jnxplus/common';
@@ -16,11 +16,9 @@ import * as path from 'path';
 import { NxQuarkusGradleGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxQuarkusGradleGeneratorSchema {
-  quarkusPluginVersion: string;
-  quarkusPlatformVersion: string;
-  kotlinJvmVersion: string;
-  kotlinPluginAllopenVersion: string;
   kotlinExtension: string;
+  quarkusVersion: string;
+  kotlinVersion: string;
   checkstyleVersion: string;
   ktlintVersion: string;
   jnxplusGradlePluginVersion: string;
@@ -38,10 +36,8 @@ function normalizeOptions(
   return {
     ...options,
     kotlinExtension,
-    quarkusPluginVersion: quarkusPlatformVersion,
-    quarkusPlatformVersion,
-    kotlinJvmVersion: quarkusKotlinVersion,
-    kotlinPluginAllopenVersion: quarkusKotlinVersion,
+    quarkusVersion,
+    kotlinVersion,
     checkstyleVersion,
     ktlintVersion,
     jnxplusGradlePluginVersion,

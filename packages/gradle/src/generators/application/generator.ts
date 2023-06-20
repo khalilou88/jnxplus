@@ -15,15 +15,11 @@ import {
   DSLType,
   GradlePluginType,
   normalizeName,
-  quarkusPlatformVersion,
+  quarkusVersion,
 } from '@jnxplus/common';
 import { LinterType } from '@jnxplus/common';
 import { NxGradleAppGeneratorSchema } from './schema';
-import {
-  addProjectToGradleSetting,
-  getDsl,
-  getQuarkusPlatformVersion,
-} from '../../.';
+import { addProjectToGradleSetting, getDsl, getQuarkusVersion } from '../../.';
 import * as fs from 'fs';
 
 interface NormalizedSchema extends NxGradleAppGeneratorSchema {
@@ -102,7 +98,7 @@ function normalizeOptions(
   const dsl = getDsl(tree);
   const kotlinExtension = dsl === 'kotlin' ? '.kts' : '';
 
-  let quarkusVersion = '';
+  let qVersion = '';
   if (
     plugin === '@jnxplus/nx-quarkus-gradle' ||
     options.framework === 'quarkus'
@@ -112,9 +108,9 @@ function normalizeOptions(
       gradlePropertiesPath,
       'utf-8'
     );
-    quarkusVersion = getQuarkusPlatformVersion(gradlePropertiesContent);
+    qVersion = getQuarkusVersion(gradlePropertiesContent);
     if (quarkusVersion === undefined) {
-      quarkusVersion = quarkusPlatformVersion;
+      qVersion = quarkusVersion;
     }
   }
 
@@ -131,7 +127,7 @@ function normalizeOptions(
     isCustomPort,
     dsl,
     kotlinExtension,
-    quarkusVersion,
+    quarkusVersion: qVersion,
   };
 }
 

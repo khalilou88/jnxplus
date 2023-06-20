@@ -1,10 +1,12 @@
 import {
   checkstyleVersion,
   ktlintVersion,
-  micronautKotlinVersion,
+  kotlinVersion,
   micronautVersion,
   updateNxJson,
   jnxplusGradlePluginVersion,
+  kspVersion,
+  shadowVersion,
 } from '@jnxplus/common';
 import {
   addOrUpdateGitattributes,
@@ -18,6 +20,8 @@ import { NxMicronautGradleGeneratorSchema } from './schema';
 interface NormalizedSchema extends NxMicronautGradleGeneratorSchema {
   kotlinExtension: string;
   micronautVersion: string;
+  kspVersion: string;
+  shadowVersion: string;
   kotlinVersion: string;
   checkstyleVersion: string;
   ktlintVersion: string;
@@ -37,7 +41,9 @@ function normalizeOptions(
     ...options,
     kotlinExtension,
     micronautVersion,
-    kotlinVersion: micronautKotlinVersion,
+    kspVersion,
+    shadowVersion,
+    kotlinVersion,
     checkstyleVersion,
     ktlintVersion,
     jnxplusGradlePluginVersion,
