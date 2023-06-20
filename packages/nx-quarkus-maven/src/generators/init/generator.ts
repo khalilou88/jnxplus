@@ -33,7 +33,7 @@ function normalizeOptions(
     ...options,
     dot,
     kotlinVersion,
-    quarkusVersion: quarkusVersion,
+    quarkusVersion,
     checkstyleVersion,
     ktlintVersion,
   };
