@@ -133,36 +133,140 @@ describe('nx-maven e2e', () => {
     ).not.toThrow();
   }, 120000);
 
-  it('none app', async () => {
+  it('1 none app', async () => {
     const appName = uniq('maven-app-');
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:application ${appName} --framework none`
     );
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/build.gradle`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/java/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/App.java`,
+        `apps/${appName}/src/test/resources/application.properties`,
+        `apps/${appName}/src/test/java/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/AppTest.java`
+      )
+    ).not.toThrow();
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const formatResult = await runNxCommandAsync(
+      `format:check --projects ${appName}`
+    );
+    expect(formatResult.stdout).toContain('');
+
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
   }, 120000);
 
-  it('none app kt', async () => {
+  it('2 none app kt', async () => {
     const appName = uniq('maven-app-');
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:application ${appName} --framework none --language kotlin`
     );
+
+    expect(() =>
+      checkFilesExist(
+        `apps/${appName}/build.gradle`,
+        `apps/${appName}/src/main/resources/application.properties`,
+        `apps/${appName}/src/main/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/App.kt`,
+        `apps/${appName}/src/test/resources/application.properties`,
+        `apps/${appName}/src/test/kotlin/com/example/${names(
+          appName
+        ).className.toLocaleLowerCase()}/AppTest.kt`
+      )
+    ).not.toThrow();
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
+    expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
+
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
   }, 120000);
 
-  it('none lib', async () => {
+  it('1 none lib', async () => {
     const libName = uniq('maven-lib-');
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:library ${libName} --framework none`
     );
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/build.gradle`,
+        `libs/${libName}/src/main/java/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/Library.java`,
+        `libs/${libName}/src/test/java/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/LibraryTest.java`
+      )
+    ).not.toThrow();
+
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const formatResult = await runNxCommandAsync(
+      `format:check --projects ${libName}`
+    );
+    expect(formatResult.stdout).toContain('');
+
+    const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
   }, 120000);
 
-  it('none lib kt', async () => {
+  it('2 none lib kt', async () => {
     const libName = uniq('maven-lib-');
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:library ${libName} --framework none --language kotlin`
     );
+
+    expect(() =>
+      checkFilesExist(
+        `libs/${libName}/build.gradle`,
+        `libs/${libName}/src/main/kotlin/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/Library.kt`,
+        `libs/${libName}/src/test/kotlin/com/example/${names(
+          libName
+        ).className.toLocaleLowerCase()}/LibraryTest.kt`
+      )
+    ).not.toThrow();
+
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
+    expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
+
+    const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
   }, 120000);
 
   it('should create a java application', async () => {

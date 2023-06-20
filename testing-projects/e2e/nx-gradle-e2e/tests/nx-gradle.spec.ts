@@ -166,13 +166,13 @@ describe('nx-gradle e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
-
     const formatResult = await runNxCommandAsync(
       `format:check --projects ${appName}`
     );
     expect(formatResult.stdout).toContain('');
+
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
   }, 120000);
 
   it('2 none app kt', async () => {
@@ -234,13 +234,13 @@ describe('nx-gradle e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const lintResult = await runNxCommandAsync(`lint ${libName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
-
     const formatResult = await runNxCommandAsync(
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain('');
+
+    const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
   }, 120000);
 
   it('2 none lib kt', async () => {
