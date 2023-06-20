@@ -248,7 +248,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     }
   }, 360000);
 
-  xit('should build-image a java application', async () => {
+  it('should build-image a java application', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('quarkus-gradle-app-');
 
@@ -507,7 +507,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     }
   }, 360000);
 
-  xit('should build-image a kotlin application', async () => {
+  it('should build-image a kotlin application', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('quarkus-gradle-app-');
 

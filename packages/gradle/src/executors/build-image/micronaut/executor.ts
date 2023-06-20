@@ -1,10 +1,10 @@
 import { ExecutorContext } from '@nx/devkit';
 import { getExecutable, getProjectPath } from '../../../.';
 import { runCommand } from '@jnxplus/common';
-import { BuildImage2ExecutorSchema } from './schema';
+import { MicronautBuildImageExecutorSchema } from './schema';
 
-export default async function run2Executor(
-  options: BuildImage2ExecutorSchema,
+export default async function runMicronautBuildImageExecutor(
+  options: MicronautBuildImageExecutorSchema,
   context: ExecutorContext
 ) {
   if (options.useDocker && options.native && options.optimized) {

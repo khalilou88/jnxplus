@@ -1,1 +1,1 @@
-export interface BuildImageExecutorSchema {} // eslint-disable-line
+export interface BootBuildImageExecutorSchema {} // eslint-disable-line
