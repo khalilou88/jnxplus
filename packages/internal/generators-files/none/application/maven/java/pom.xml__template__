@@ -6,43 +6,26 @@
 		<groupId><%= parentGroupId %></groupId>
 		<artifactId><%= parentProjectName %></artifactId>
 		<version><%= parentProjectVersion %></version>
-    <relativePath><%= relativePath %></relativePath>
+        <relativePath><%= relativePath %></relativePath> 
 	</parent>
 	<groupId><%= groupId %></groupId>
 	<artifactId><%= projectName %></artifactId>
 	<version><%= projectVersion %></version>
-<% if(packaging === 'war') { -%>
-  <packaging>war</packaging>
-<% } -%>
 	<name><%= projectName %></name>
 	<description>This project was generated with <%= plugin %></description>
 
+  <properties>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+  </properties>
+
   <dependencies>
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-<% if(packaging === 'war') { -%>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-tomcat</artifactId>
-      <scope>provided</scope>
-    </dependency>
-<% } -%>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>5.10.0-M1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
 
 </project>
