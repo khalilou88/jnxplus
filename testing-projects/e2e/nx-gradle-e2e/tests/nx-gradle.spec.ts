@@ -147,6 +147,14 @@ describe('nx-gradle e2e', () => {
     );
   }, 120000);
 
+  it('none app kt', async () => {
+    const appName = uniq('gradle-app-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-gradle:application ${appName} --framework none --language kotlin`
+    );
+  }, 120000);
+
   it('none lib', async () => {
     const libName = uniq('gradle-lib-');
 
