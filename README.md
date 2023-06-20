@@ -15,11 +15,12 @@
 
 #### Gradle Build Tool
 
-| Plugin                                                         | Languages   | Frameworks  |
-| -------------------------------------------------------------- | ----------- | ----------- |
-| [`@jnxplus/nx-boot-gradle`](packages/nx-boot-gradle)           | Java/Kotlin | Spring-Boot |
-| [`@jnxplus/nx-quarkus-gradle`](packages/nx-quarkus-gradle)     | Java/Kotlin | Quarkus     |
-| [`@jnxplus/nx-micronaut-gradle`](packages/nx-micronaut-gradle) | Java/Kotlin | Micronaut   |
+| Plugin                                                         | Languages   | Frameworks                    |
+| -------------------------------------------------------------- | ----------- | ----------------------------- |
+| [`@jnxplus/nx-gradle`](packages/nx-gradle)                     | Java/Kotlin | Spring-Boot,Quarkus,Micronaut |
+| [`@jnxplus/nx-boot-gradle`](packages/nx-boot-gradle)           | Java/Kotlin | Spring-Boot                   |
+| [`@jnxplus/nx-quarkus-gradle`](packages/nx-quarkus-gradle)     | Java/Kotlin | Quarkus                       |
+| [`@jnxplus/nx-micronaut-gradle`](packages/nx-micronaut-gradle) | Java/Kotlin | Micronaut                     |
 
 ### Credits
 
