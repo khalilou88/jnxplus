@@ -2,6 +2,27 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.3.0](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.2.0...nx-gradle-0.3.0) (2023-06-21)
+
+### Dependency Updates
+
+* `internal-generators-files` updated to version `0.1.0`
+* `gradle` updated to version `0.10.0`
+* `common` updated to version `0.9.0`
+
+### Bug Fixes
+
+* fix e2e tests ([#266](https://github.com/khalilou88/jnxplus/issues/266)) ([0e12db4](https://github.com/khalilou88/jnxplus/commit/0e12db4cb10b15142da482f3a63f9e7841f3ef88))
+* fix optional project.json ([#271](https://github.com/khalilou88/jnxplus/issues/271)) ([92e7064](https://github.com/khalilou88/jnxplus/commit/92e70640576a5943bc5be201f8c9885a51f49693))
+
+
+### Features
+
+* add code for none framework option ([#269](https://github.com/khalilou88/jnxplus/issues/269)) ([780952b](https://github.com/khalilou88/jnxplus/commit/780952bafb653c62f25d66ea89578ffb999e0aaa))
+* **generators:** add framework to nx-gradle ([#265](https://github.com/khalilou88/jnxplus/issues/265)) ([2148db4](https://github.com/khalilou88/jnxplus/commit/2148db46ba63acc5d292543142e47c20061a967e))
+
+
+
 # [0.2.0](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.1.3...nx-gradle-0.2.0) (2023-06-17)
 
 ### Dependency Updates
