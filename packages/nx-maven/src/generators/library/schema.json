@@ -112,12 +112,5 @@
       "default": false
     }
   },
-  "required": [
-    "name",
-    "language",
-    "groupId",
-    "projectVersion",
-    "framework",
-    "parentProject"
-  ]
+  "required": ["name", "language", "groupId", "projectVersion"]
 }
