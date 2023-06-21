@@ -2,6 +2,17 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.9.0](https://github.com/khalilou88/jnxplus/compare/common-0.8.1...common-0.9.0) (2023-06-21)
+
+
+### Features
+
+* **generators:** add framework generation to nx-maven plugin ([#259](https://github.com/khalilou88/jnxplus/issues/259)) ([7eeded8](https://github.com/khalilou88/jnxplus/commit/7eeded89e41c1feac148bf3cc119da30b42bc3df))
+* **generators:** add framework to nx-gradle ([#265](https://github.com/khalilou88/jnxplus/issues/265)) ([2148db4](https://github.com/khalilou88/jnxplus/commit/2148db46ba63acc5d292543142e47c20061a967e))
+* **generators:** remove generators code duplication ([#260](https://github.com/khalilou88/jnxplus/issues/260)) ([a4d495e](https://github.com/khalilou88/jnxplus/commit/a4d495ed73a23dc2e146f798b29ac37383dbe923))
+
+
+
 ## [0.8.1](https://github.com/khalilou88/jnxplus/compare/common-0.8.0...common-0.8.1) (2023-06-17)
 
 
