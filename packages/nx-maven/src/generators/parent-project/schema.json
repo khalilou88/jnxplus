@@ -97,5 +97,5 @@
       "description": "ArtifactId of the aggregator project (that manages a group of submodules) or leave it blank for the root project"
     }
   },
-  "required": ["name", "projectType", "groupId", "projectVersion", "framework"]
+  "required": ["name", "projectType", "groupId", "projectVersion"]
 }

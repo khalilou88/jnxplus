@@ -469,7 +469,7 @@ describe('nx-maven e2e', () => {
 
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject}`
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject} --framework none`
     );
 
     const appName = uniq('boot-maven-app-');
@@ -549,16 +549,27 @@ describe('nx-maven e2e', () => {
     });
   }, 120000);
 
-  xit('should add a kotlin lib to a kotlin app dependencies', async () => {
+  it('should add a kotlin lib to a kotlin app dependencies', async () => {
+    const libsParentProject = uniq('libs-parent-project-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`
+    );
+
+    const appsParentProject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject} --framework none`
+    );
+
     const appName = uniq('boot-maven-app-');
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --language kotlin --packaging war`
+      `generate @jnxplus/nx-maven:application ${appName} --language kotlin --packaging war --parentProject ${appsParentProject}`
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --language kotlin --projects ${appName}`
+      `generate @jnxplus/nx-maven:library ${libName} --language kotlin --projects ${appName} --parentProject ${libsParentProject}`
     );
 
     expect(() =>
