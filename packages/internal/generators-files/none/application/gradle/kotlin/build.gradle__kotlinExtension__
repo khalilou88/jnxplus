@@ -26,8 +26,6 @@ tasks.named('test') {
 }
 <% } -%>
 <% if(dsl === 'kotlin') { -%>
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 val javaVersion: String by project
 
 plugins {
