@@ -2,6 +2,24 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.6.0](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.5.0...nx-maven-0.6.0) (2023-06-21)
+
+### Dependency Updates
+
+* `internal-generators-files` updated to version `0.1.0`
+* `maven` updated to version `0.5.0`
+* `common` updated to version `0.9.0`
+
+### Features
+
+* add code for none framework option ([#269](https://github.com/khalilou88/jnxplus/issues/269)) ([780952b](https://github.com/khalilou88/jnxplus/commit/780952bafb653c62f25d66ea89578ffb999e0aaa))
+* **generators:** add framework generation to nx-maven plugin ([#259](https://github.com/khalilou88/jnxplus/issues/259)) ([7eeded8](https://github.com/khalilou88/jnxplus/commit/7eeded89e41c1feac148bf3cc119da30b42bc3df))
+* **generators:** add framework option ([#258](https://github.com/khalilou88/jnxplus/issues/258)) ([9cf38c0](https://github.com/khalilou88/jnxplus/commit/9cf38c067692be78357fed520be62981de9d26a6))
+* **generators:** remove generators code duplication ([#260](https://github.com/khalilou88/jnxplus/issues/260)) ([a4d495e](https://github.com/khalilou88/jnxplus/commit/a4d495ed73a23dc2e146f798b29ac37383dbe923))
+* **generators:** remove use of spring-boot-starter-parent ([#257](https://github.com/khalilou88/jnxplus/issues/257)) ([5085c2c](https://github.com/khalilou88/jnxplus/commit/5085c2ce8b15b504d4b4c0360823d235ac164325))
+
+
+
 # [0.5.0](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.4.3...nx-maven-0.5.0) (2023-06-17)
 
 ### Dependency Updates
