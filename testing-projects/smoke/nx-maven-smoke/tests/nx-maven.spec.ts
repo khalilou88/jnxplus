@@ -60,12 +60,12 @@ describe('@jnxplus/nx-maven smoke', () => {
     execSync('npx nx generate @jnxplus/nx-maven:init', execSyncOptions());
 
     execSync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`,
+      `npx nx generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`,
       execSyncOptions()
     );
 
     execSync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject} --framework none`,
+      `npx nx generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject} --framework none`,
       execSyncOptions()
     );
 
