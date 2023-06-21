@@ -125,7 +125,7 @@ function addProjects(
       },
     });
 
-    const files = [];
+    const files: FileData[] = [];
 
     if (isSettingsGradleExists) {
       const file = joinPathFragments(projectRoot, 'settings.gradle');
