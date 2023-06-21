@@ -6,10 +6,9 @@ This plugin adds Quarkus and Gradle multi-project builds capabilities to Nx work
 
 ## Supported versions
 
-| @jnxplus/nx-quarkus-gradle | Nx     | Quarkus      |
-| -------------------------- | ------ | ------------ |
-| 0.1.x                      | 16.x.x | 2.16.6.Final |
-| 0.0.x                      | 15.x.x | 2.16.6.Final |
+| @jnxplus/nx-quarkus-gradle | Nx     | Quarkus     |
+| -------------------------- | ------ | ----------- |
+| 0.x.x                      | 16.x.x | 3.x.x.Final |
 
 ## Getting Started
 

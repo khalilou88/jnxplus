@@ -8,7 +8,7 @@ This plugin adds Micronaut and Gradle multi-project builds capabilities to Nx wo
 
 | @jnxplus/nx-micronaut-gradle | Nx     | Micronaut |
 | ---------------------------- | ------ | --------- |
-| 0.x.x                        | 16.x.x | 4.0.0-M2  |
+| 0.x.x                        | 16.x.x | 4.x.x     |
 
 ## Getting Started
 
