@@ -2,6 +2,21 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [7.2.0](https://github.com/khalilou88/jnxplus/compare/nx-boot-maven-7.1.0...nx-boot-maven-7.2.0) (2023-06-21)
+
+### Dependency Updates
+
+* `internal-generators-files` updated to version `0.1.0`
+* `maven` updated to version `0.5.0`
+* `common` updated to version `0.9.0`
+
+### Features
+
+* **generators:** add framework generation to nx-maven plugin ([#259](https://github.com/khalilou88/jnxplus/issues/259)) ([7eeded8](https://github.com/khalilou88/jnxplus/commit/7eeded89e41c1feac148bf3cc119da30b42bc3df))
+* **generators:** remove generators code duplication ([#260](https://github.com/khalilou88/jnxplus/issues/260)) ([a4d495e](https://github.com/khalilou88/jnxplus/commit/a4d495ed73a23dc2e146f798b29ac37383dbe923))
+
+
+
 # [7.1.0](https://github.com/khalilou88/jnxplus/compare/nx-boot-maven-7.0.2...nx-boot-maven-7.1.0) (2023-06-17)
 
 ### Dependency Updates
