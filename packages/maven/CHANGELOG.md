@@ -2,6 +2,21 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.5.0](https://github.com/khalilou88/jnxplus/compare/maven-0.4.3...maven-0.5.0) (2023-06-21)
+
+### Dependency Updates
+
+* `common` updated to version `0.9.0`
+
+### Features
+
+* add code for none framework option ([#269](https://github.com/khalilou88/jnxplus/issues/269)) ([780952b](https://github.com/khalilou88/jnxplus/commit/780952bafb653c62f25d66ea89578ffb999e0aaa))
+* **generators:** add framework generation to nx-maven plugin ([#259](https://github.com/khalilou88/jnxplus/issues/259)) ([7eeded8](https://github.com/khalilou88/jnxplus/commit/7eeded89e41c1feac148bf3cc119da30b42bc3df))
+* **generators:** add framework to nx-gradle ([#265](https://github.com/khalilou88/jnxplus/issues/265)) ([2148db4](https://github.com/khalilou88/jnxplus/commit/2148db46ba63acc5d292543142e47c20061a967e))
+* **generators:** remove generators code duplication ([#260](https://github.com/khalilou88/jnxplus/issues/260)) ([a4d495e](https://github.com/khalilou88/jnxplus/commit/a4d495ed73a23dc2e146f798b29ac37383dbe923))
+
+
+
 ## [0.4.3](https://github.com/khalilou88/jnxplus/compare/maven-0.4.2...maven-0.4.3) (2023-06-17)
 
 ### Dependency Updates
