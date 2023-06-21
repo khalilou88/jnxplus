@@ -20,6 +20,7 @@ import {
   patchPackageJson,
   patchRootPackageJson,
   promisifiedTreeKill,
+  removeGradlePluginGroovyDsl,
   removeTmpFromGitignore,
   runNxCommandUntil,
   runNxNewCommand,
@@ -86,6 +87,8 @@ describe('nx-boot-gradle e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:init --rootProjectName ${rootProjectName}`
     );
+
+    removeGradlePluginGroovyDsl();
 
     if (isCI) {
       removeTmpFromGitignore();
@@ -1451,5 +1454,30 @@ describe('nx-boot-gradle e2e', () => {
         ).className.toLocaleLowerCase()}/HelloServiceTests.kt`
       )
     ).not.toThrow();
+  }, 120000);
+
+  it('optional project.json', async () => {
+    const libName = uniq('boot-gradle-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:library ${libName}`
+    );
+
+    //graph
+    const localTmpDir = path.dirname(tmpProjPath());
+    const projectJson = path.join(
+      localTmpDir,
+      'proj',
+      'libs',
+      libName,
+      'project.json'
+    );
+    fse.removeSync(projectJson);
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
   }, 120000);
 });

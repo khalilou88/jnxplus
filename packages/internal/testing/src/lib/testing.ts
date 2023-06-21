@@ -271,12 +271,44 @@ export function ifNextVersionExists() {
 
 export function addJVMMemory() {
   const gradlePropertiesPath = path.join(tmpProjPath(), 'gradle.properties');
-  const gradlePropertiesPathContent = fs.readFileSync(
+  const gradlePropertiesContent = fs.readFileSync(
     gradlePropertiesPath,
     'utf-8'
   );
-  const updatedFileContent = gradlePropertiesPathContent.concat(
+  const updatedFileContent = gradlePropertiesContent.concat(
     '\norg.gradle.jvmargs=-Xmx4096m'
   );
   fs.writeFileSync(gradlePropertiesPath, updatedFileContent);
+}
+
+export function removeGradlePluginGroovyDsl() {
+  //1
+  const gradlePropertiesPath = path.join(tmpProjPath(), 'gradle.properties');
+  const gradlePropertiesContent = fs.readFileSync(
+    gradlePropertiesPath,
+    'utf-8'
+  );
+  const updatedFileContent = gradlePropertiesContent.replace(
+    /jnxplusGradlePluginVersion=.*/,
+    ''
+  );
+  fs.writeFileSync(gradlePropertiesPath, updatedFileContent);
+
+  //2
+  const buildGradlePath = path.join(tmpProjPath(), 'build.gradle');
+  const buildGradleContent = fs.readFileSync(buildGradlePath, 'utf-8');
+  const updatedFileContent2 = buildGradleContent.replace(
+    /.*io.github.khalilou88.jnxplus.*/,
+    ''
+  );
+  fs.writeFileSync(buildGradlePath, updatedFileContent2);
+
+  //3
+  const settingsGradlePath = path.join(tmpProjPath(), 'settings.gradle');
+  const settingsGradleContent = fs.readFileSync(settingsGradlePath, 'utf-8');
+  const updatedFileContent3 = settingsGradleContent.replace(
+    /.*io.github.khalilou88.jnxplus.*/,
+    ''
+  );
+  fs.writeFileSync(settingsGradlePath, updatedFileContent3);
 }
