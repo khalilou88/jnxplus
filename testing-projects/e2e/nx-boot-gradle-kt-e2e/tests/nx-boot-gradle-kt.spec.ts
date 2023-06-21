@@ -1469,4 +1469,29 @@ describe('nx-boot-gradle kt e2e', () => {
       )
     ).not.toThrow();
   }, 120000);
+
+  it('optional project.json', async () => {
+    const libName = uniq('boot-gradle-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-boot-gradle:library ${libName}`
+    );
+
+    //graph
+    const localTmpDir = path.dirname(tmpProjPath());
+    const projectJson = path.join(
+      localTmpDir,
+      'proj',
+      'libs',
+      libName,
+      'project.json'
+    );
+    fse.removeSync(projectJson);
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+  }, 120000);
 });

@@ -7,10 +7,9 @@ import {
 
 export function processProjectGraph(
   graph: ProjectGraph,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   context: ProjectGraphProcessorContext
 ): ProjectGraph {
   const builder = new ProjectGraphBuilder(graph);
-  addProjectsAndDependencies(builder, '@jnxplus/nx-boot-gradle');
+  addProjectsAndDependencies(builder, context, '@jnxplus/nx-boot-gradle');
   return builder.getUpdatedProjectGraph();
 }

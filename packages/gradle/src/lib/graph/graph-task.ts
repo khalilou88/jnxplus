@@ -1,6 +1,8 @@
 import { getProjectGraphNodeType } from '@jnxplus/common';
 import {
+  FileData,
   ProjectGraphBuilder,
+  ProjectGraphProcessorContext,
   joinPathFragments,
   logger,
   workspaceRoot,
@@ -33,6 +35,7 @@ type GradleProjectType = GradleProject1Type & GradleProject2Type;
 
 export function addProjectsAndDependenciesFromTask(
   builder: ProjectGraphBuilder,
+  context: ProjectGraphProcessorContext,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   pluginName: string
 ) {
@@ -59,13 +62,14 @@ export function addProjectsAndDependenciesFromTask(
     fs.readFileSync(outputFile, 'utf8')
   );
 
-  addProjects(builder, projects);
+  addProjects(builder, context, projects);
 
   addDependencies(builder, projects);
 }
 
 function addProjects(
   builder: ProjectGraphBuilder,
+  context: ProjectGraphProcessorContext,
   projects: GradleProjectType[]
 ) {
   for (const project of projects) {
@@ -99,6 +103,50 @@ function addProjects(
             },
           },
         });
+
+        const files: FileData[] = [];
+
+        if (project.isSettingsGradleExists) {
+          const file = joinPathFragments(projectRoot, 'settings.gradle');
+          files.push({
+            file: file,
+            hash: 'abc',
+          });
+        }
+
+        if (project.isSettingsGradleKtsExists) {
+          const file = joinPathFragments(projectRoot, 'settings.gradle.kts');
+          files.push({
+            file: file,
+            hash: 'abc',
+          });
+        }
+
+        if (project.isBuildGradleExists) {
+          const file = joinPathFragments(projectRoot, 'build.gradle');
+          files.push({
+            file: file,
+            hash: 'abc',
+          });
+        }
+
+        if (project.isBuildGradleKtsExists) {
+          const file = joinPathFragments(projectRoot, 'build.gradle.kts');
+          files.push({
+            file: file,
+            hash: 'abc',
+          });
+        }
+
+        if (project.isGradlePropertiesExists) {
+          const file = joinPathFragments(projectRoot, 'gradle.properties');
+          files.push({
+            file: file,
+            hash: 'abc',
+          });
+        }
+
+        context.fileMap[project.name] = files;
       }
     }
   }

@@ -1,6 +1,8 @@
 import { getProjectGraphNodeType } from '@jnxplus/common';
 import {
+  FileData,
   ProjectGraphBuilder,
+  ProjectGraphProcessorContext,
   joinPathFragments,
   workspaceRoot,
 } from '@nx/devkit';
@@ -20,15 +22,17 @@ type GradleProjectType = {
 
 export function addProjectsAndDependenciesLegacy(
   builder: ProjectGraphBuilder,
+  context: ProjectGraphProcessorContext,
   pluginName: string
 ) {
   const projects: GradleProjectType[] = [];
-  addProjects(builder, projects, pluginName, '');
+  addProjects(builder, context, projects, pluginName, '');
   addDependencies(builder, projects);
 }
 
 function addProjects(
   builder: ProjectGraphBuilder,
+  context: ProjectGraphProcessorContext,
   projects: GradleProjectType[],
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   pluginName: string,
@@ -105,8 +109,10 @@ function addProjects(
   if (!isProjectJsonExists) {
     const projectGraphNodeType = getProjectGraphNodeType(projectRoot);
 
+    const projectName = rootProjectName || createProjectName(projectPath);
+
     builder.addNode({
-      name: rootProjectName || createProjectName(projectPath),
+      name: projectName,
       type: projectGraphNodeType,
       data: {
         root: projectRoot,
@@ -118,6 +124,52 @@ function addProjects(
         },
       },
     });
+
+    const files = [];
+
+    if (isSettingsGradleExists) {
+      const file = joinPathFragments(projectRoot, 'settings.gradle');
+      files.push({
+        file: file,
+        hash: 'abc',
+      });
+    }
+
+    if (isSettingsGradleKtsExists) {
+      const file = joinPathFragments(projectRoot, 'settings.gradle.kts');
+      files.push({
+        file: file,
+        hash: 'abc',
+      });
+    }
+
+    if (isBuildGradleExists) {
+      const file = joinPathFragments(projectRoot, 'build.gradle');
+      files.push({
+        file: file,
+        hash: 'abc',
+      });
+    }
+
+    if (isBuildGradleKtsExists) {
+      const file = joinPathFragments(projectRoot, 'build.gradle.kts');
+      files.push({
+        file: file,
+        hash: 'abc',
+      });
+    }
+
+    const gradlePropertiesPath = path.join(projectDirPath, 'gradle.properties');
+    const isGradlePropertiesExists = fileExists(gradlePropertiesPath);
+    if (isGradlePropertiesExists) {
+      const file = joinPathFragments(projectRoot, 'gradle.properties');
+      files.push({
+        file: file,
+        hash: 'abc',
+      });
+    }
+
+    context.fileMap[projectName] = files;
   }
 
   projects.push({
@@ -134,7 +186,7 @@ function addProjects(
   }
 
   for (const subprojectPath of subprojects) {
-    addProjects(builder, projects, pluginName, subprojectPath);
+    addProjects(builder, context, projects, pluginName, subprojectPath);
   }
 }
 
