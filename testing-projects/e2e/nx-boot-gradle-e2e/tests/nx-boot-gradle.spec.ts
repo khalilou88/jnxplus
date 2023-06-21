@@ -20,6 +20,7 @@ import {
   patchPackageJson,
   patchRootPackageJson,
   promisifiedTreeKill,
+  removeGradlePluginGroovyDsl,
   removeTmpFromGitignore,
   runNxCommandUntil,
   runNxNewCommand,
@@ -86,6 +87,8 @@ describe('nx-boot-gradle e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-boot-gradle:init --rootProjectName ${rootProjectName}`
     );
+
+    removeGradlePluginGroovyDsl();
 
     if (isCI) {
       removeTmpFromGitignore();
