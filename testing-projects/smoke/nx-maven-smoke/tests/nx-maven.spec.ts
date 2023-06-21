@@ -21,13 +21,16 @@ const execSyncOptions: () => ExecSyncOptions = () => ({
   stdio: 'inherit',
 });
 
-const testApp = uniq('test-app');
+const libsParentProject = uniq('libs-parent-project-');
+const appsParentProject = uniq('apps-parent-project-');
+
+const testApp = uniq('test-app-');
 const testLib = uniq('test-lib');
 
-const testApp2 = uniq('test-app2');
-const testLib2 = uniq('test-lib2');
-const testApp3 = uniq('test-app3');
-const testApp4 = uniq('test-app4');
+const testApp2 = uniq('test-app2-');
+const testLib2 = uniq('test-lib2-');
+const testApp3 = uniq('test-app3-');
+const testApp4 = uniq('test-app4-');
 
 describe('@jnxplus/nx-maven smoke', () => {
   beforeEach(async () => {
@@ -40,8 +43,7 @@ describe('@jnxplus/nx-maven smoke', () => {
     cleanup();
   });
 
-  //TODO add spring boot parent pom
-  xit('should work', async () => {
+  it('should work', async () => {
     execSync(
       'npx create-nx-workspace@latest test --preset empty --nxCloud false',
       {
@@ -58,32 +60,42 @@ describe('@jnxplus/nx-maven smoke', () => {
     execSync('npx nx generate @jnxplus/nx-maven:init', execSyncOptions());
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp}`,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:lib ${testLib} --projects ${testApp}`,
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject} --framework none`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp2}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp} --parentProject ${appsParentProject}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp3}`,
+      `npx nx g @jnxplus/nx-maven:lib ${testLib} --parentProject ${libsParentProject} --projects ${testApp}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp4}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp2} --parentProject ${appsParentProject}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:lib ${testLib2} --projects ${testApp2},${testApp3},${testApp4}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp3} --parentProject ${appsParentProject}`,
+      execSyncOptions()
+    );
+
+    execSync(
+      `npx nx g @jnxplus/nx-maven:application ${testApp4} --parentProject ${appsParentProject}`,
+      execSyncOptions()
+    );
+
+    execSync(
+      `npx nx g @jnxplus/nx-maven:lib ${testLib2} --parentProject ${libsParentProject} --projects ${testApp2},${testApp3},${testApp4}`,
       execSyncOptions()
     );
 
