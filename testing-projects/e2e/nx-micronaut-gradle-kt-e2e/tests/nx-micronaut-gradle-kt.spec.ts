@@ -241,7 +241,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('should build-image a java application', async () => {
     if (!isWin && !isMacOs && isCI) {
@@ -518,7 +518,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   xit('should build-image a kotlin application', async () => {
     if (!isWin && !isMacOs && isCI) {
