@@ -338,6 +338,7 @@ export default async function (
 
   const targets = projectConfiguration.targets ?? {};
 
+  //this is important because in case of spring boot we use jar task to build libraries
   if (options.framework && options.framework !== 'none') {
     targets['build'].options = {
       ...targets['build'].options,
