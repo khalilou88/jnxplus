@@ -173,6 +173,28 @@ describe('nx-maven e2e', () => {
     expect(lintResult.stdout).toContain('Executor ran for Lint');
   }, 120000);
 
+  it('should test an app with none option', async () => {
+    const appName = uniq('maven-app-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:application ${appName} --framework none`
+    );
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+  }, 120000);
+
+  it('should serve an app with none option', async () => {
+    const appName = uniq('maven-app-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:application ${appName} --framework none`
+    );
+    const serveResult = await runNxCommandAsync(`serve ${appName}`);
+    expect(serveResult.stdout).toContain('Executor ran for Run Task');
+    expect(serveResult.stdout).toContain('Hello World!');
+  }, 120000);
+
   it('2 none app kt', async () => {
     const appName = uniq('maven-app-');
 
