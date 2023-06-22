@@ -137,7 +137,7 @@ describe('nx-maven e2e', () => {
     const appName = uniq('maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework none`
+      `generate @jnxplus/nx-maven:application ${appName} --framework none --parentProject ${parentProjectName}`
     );
 
     expect(() =>
@@ -199,7 +199,7 @@ describe('nx-maven e2e', () => {
     const appName = uniq('maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework none --language kotlin`
+      `generate @jnxplus/nx-maven:application ${appName} --framework none --language kotlin --parentProject ${parentProjectName}`
     );
 
     expect(() =>
@@ -237,7 +237,7 @@ describe('nx-maven e2e', () => {
     const libName = uniq('maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework none`
+      `generate @jnxplus/nx-maven:library ${libName} --framework none --parentProject ${parentProjectName}`
     );
 
     expect(() =>
@@ -271,7 +271,7 @@ describe('nx-maven e2e', () => {
     const libName = uniq('maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework none --language kotlin`
+      `generate @jnxplus/nx-maven:library ${libName} --framework none --language kotlin --parentProject ${parentProjectName}`
     );
 
     expect(() =>
