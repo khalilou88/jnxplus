@@ -6,7 +6,7 @@
 		<groupId><%= parentGroupId %></groupId>
 		<artifactId><%= parentProjectName %></artifactId>
 		<version><%= parentProjectVersion %></version>
-    <relativePath><%= relativePath %></relativePath> 
+    <relativePath><%= relativePath %></relativePath>
 	</parent>
 	<groupId><%= groupId %></groupId>
 	<artifactId><%= projectName %></artifactId>
@@ -58,6 +58,14 @@
                     </goals>
                 </execution>
             </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>3.1.0</version>
+          <configuration>
+              <mainClass><%= packageName %>.AppKt</mainClass>
+          </configuration>
         </plugin>
     </plugins>
   </build>
