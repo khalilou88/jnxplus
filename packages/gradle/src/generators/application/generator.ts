@@ -390,12 +390,7 @@ export default async function (
       build: {
         executor: `${plugin}:build`,
       },
-      'build-image': {
-        executor: `${plugin}:build-image`,
-      },
-      serve: {
-        executor: `${plugin}:serve`,
-      },
+      serve: {},
       lint: {
         executor: `${plugin}:lint`,
         options: {
@@ -418,6 +413,25 @@ export default async function (
     targets['build'].options = {
       ...targets['build'].options,
       packaging: `${normalizedOptions.packaging}`,
+    };
+  }
+
+  if (options.framework === 'none') {
+    targets['serve'] = {
+      executor: `${plugin}:run-task`,
+      options: {
+        task: 'run',
+      },
+    };
+  }
+
+  if (options.framework !== 'none') {
+    targets['build-image'] = {
+      executor: `${plugin}:build-image`,
+    };
+
+    targets['serve'] = {
+      executor: `${plugin}:serve`,
     };
   }
 
