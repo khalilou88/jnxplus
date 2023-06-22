@@ -397,13 +397,7 @@ export default async function (
         executor: `${plugin}:build`,
         outputs: [`${normalizedOptions.projectRoot}/target`],
       },
-      'build-image': {
-        executor: `${plugin}:build-image`,
-      },
-      serve: {
-        executor: `${plugin}:serve`,
-        dependsOn: ['build'],
-      },
+      serve: {},
       lint: {
         executor: `${plugin}:lint`,
         options: {
@@ -419,6 +413,25 @@ export default async function (
   };
 
   const targets = projectConfiguration.targets ?? {};
+
+  if (options.framework === 'none') {
+    targets['serve'] = {
+      executor: `${plugin}:run-task`,
+      options: {
+        task: 'exec:java',
+      },
+    };
+  }
+
+  if (options.framework !== 'none') {
+    targets['build-image'] = {
+      executor: `${plugin}:build-image`,
+    };
+
+    targets['serve'] = {
+      executor: `${plugin}:serve`,
+    };
+  }
 
   if (options.framework && options.framework !== 'none') {
     targets['build'].options = {
