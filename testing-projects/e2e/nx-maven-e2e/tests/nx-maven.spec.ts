@@ -157,6 +157,10 @@ describe('nx-maven e2e', () => {
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
+    const serveResult = await runNxCommandAsync(`serve ${appName}`);
+    expect(serveResult.stdout).toContain('Executor ran for Run Task');
+    expect(serveResult.stdout).toContain('Hello World!');
+
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
@@ -167,10 +171,6 @@ describe('nx-maven e2e', () => {
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
-
-    const serveResult = await runNxCommandAsync(`serve ${appName}`);
-    expect(serveResult.stdout).toContain('Executor ran for Run Task');
-    expect(serveResult.stdout).toContain('Hello World!');
   }, 120000);
 
   it('2 none app kt', async () => {
