@@ -420,6 +420,7 @@ export default async function (
       options: {
         task: 'exec:java',
       },
+      dependsOn: ['build'],
     };
   }
 
@@ -430,6 +431,7 @@ export default async function (
 
     targets['serve'] = {
       executor: `${plugin}:serve`,
+      dependsOn: ['build'],
     };
   }
 
