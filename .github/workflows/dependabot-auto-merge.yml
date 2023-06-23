@@ -1,0 +1,54 @@
+name: Dependabot auto-merge
+on: pull_request
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  dependabot:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node_version: ['18']
+        java: ['17']
+    runs-on: ${{ matrix.os }}
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v1
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Set up node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node_version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.java }}
+
+      - name: E2E tests
+        id: e2e
+        run: npm run nx run-many -- --target=e2e --projects=nx-boot-gradle-e2e,nx-boot-maven-e2e
+        env:
+          NX_VERBOSE_LOGGING: 'true'
+          GITHUB_ACTIONS: 'true'
+
+      - name: Enable auto-merge for Dependabot PRs
+        if: steps.e2e.outcome == 'success'
+        run: gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
