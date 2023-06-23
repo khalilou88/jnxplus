@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.5.1](https://github.com/khalilou88/jnxplus/compare/maven-0.5.0...maven-0.5.1) (2023-06-23)
+
+
+### Bug Fixes
+
+* **generators:** fix serve executor for simple app ([#274](https://github.com/khalilou88/jnxplus/issues/274)) ([823f1a0](https://github.com/khalilou88/jnxplus/commit/823f1a02e2bee847c8e3ff95c76c5ace79ca374a))
+
+
+
 # [0.5.0](https://github.com/khalilou88/jnxplus/compare/maven-0.4.3...maven-0.5.0) (2023-06-21)
 
 ### Dependency Updates
