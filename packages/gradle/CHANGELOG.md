@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.10.1](https://github.com/khalilou88/jnxplus/compare/gradle-0.10.0...gradle-0.10.1) (2023-06-23)
+
+
+### Bug Fixes
+
+* **generators:** fix serve executor for simple app ([#273](https://github.com/khalilou88/jnxplus/issues/273)) ([a4bf09a](https://github.com/khalilou88/jnxplus/commit/a4bf09a7ed63a244e9525d0eee2ab21c3071f615))
+
+
+
 # [0.10.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.9.1...gradle-0.10.0) (2023-06-21)
 
 ### Dependency Updates
