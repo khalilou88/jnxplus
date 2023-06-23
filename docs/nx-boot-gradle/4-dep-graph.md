@@ -6,7 +6,7 @@ Nx allows [extending the project graph](https://nx.dev/latest/angular/structure/
 ## Usage
 
 ```bash
-nx dep-graph
+nx graph
 ```
 
 More information could be found on the [Nx documentation](https://nx.dev/latest/angular/cli/dep-graph#dep-graph).

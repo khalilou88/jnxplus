@@ -49,7 +49,7 @@ nx generate @jnxplus/nx-quarkus-maven:init
 | Format a kotlin project              | `nx ktformat my-project-name`                                            |
 | Run a custom task                    | `nx run-task my-project-name --task="clean install -DskipTests=true"`    |
 | Publish a project                    | `nx publish my-project-name`                                             |
-| Visualize project's dependency graph | `nx dep-graph`                                                           |
+| Visualize project's dependency graph | `nx graph`                                                               |
 
 ## License
 
