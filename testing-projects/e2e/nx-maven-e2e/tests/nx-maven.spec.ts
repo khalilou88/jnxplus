@@ -671,7 +671,7 @@ describe('nx-maven e2e', () => {
       source: appName,
       target: libName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should create a quarkus kotlin library', async () => {
     const libsParentProject = uniq('libs-parent-project-');
