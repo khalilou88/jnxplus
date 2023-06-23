@@ -2,6 +2,14 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.3.2](https://github.com/khalilou88/jnxplus/compare/nx-micronaut-maven-0.3.1...nx-micronaut-maven-0.3.2) (2023-06-23)
+
+### Dependency Updates
+
+* `internal-generators-files` updated to version `0.1.0`
+* `maven` updated to version `0.5.1`
+
+
 ## [0.3.1](https://github.com/khalilou88/jnxplus/compare/nx-micronaut-maven-0.3.0...nx-micronaut-maven-0.3.1) (2023-06-21)
 
 
