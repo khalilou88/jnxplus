@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.4.0](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.3.1...nx-gradle-0.4.0) (2023-06-23)
+
+### Dependency Updates
+
+* `internal-generators-files` updated to version `0.1.0`
+* `gradle` updated to version `0.10.1`
+
+### Features
+
+* **generators:** export generators ([0cb4584](https://github.com/khalilou88/jnxplus/commit/0cb4584613b4ee14d2a7aa9529a708e41a0aa49d))
+
+
+
 ## [0.3.1](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.3.0...nx-gradle-0.3.1) (2023-06-21)
 
 
