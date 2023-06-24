@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.4.1](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.4.0...nx-gradle-0.4.1) (2023-06-24)
+
+### Dependency Updates
+
+* `gradle` updated to version `0.11.0`
+
+
 # [0.4.0](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.3.1...nx-gradle-0.4.0) (2023-06-23)
 
 ### Dependency Updates
