@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.11.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.10.1...gradle-0.11.0) (2023-06-24)
+
+
+### Features
+
+* **executors:** add keepItRunning to run-task ([#277](https://github.com/khalilou88/jnxplus/issues/277)) ([390213b](https://github.com/khalilou88/jnxplus/commit/390213b12ac87c796130faef23517fe799291963))
+
+
+
 ## [0.10.1](https://github.com/khalilou88/jnxplus/compare/gradle-0.10.0...gradle-0.10.1) (2023-06-23)
 
 
