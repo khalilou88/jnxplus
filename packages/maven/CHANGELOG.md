@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.6.0](https://github.com/khalilou88/jnxplus/compare/maven-0.5.1...maven-0.6.0) (2023-06-24)
+
+
+### Features
+
+* **executors:** add keepItRunning to run-task ([#277](https://github.com/khalilou88/jnxplus/issues/277)) ([390213b](https://github.com/khalilou88/jnxplus/commit/390213b12ac87c796130faef23517fe799291963))
+
+
+
 ## [0.5.1](https://github.com/khalilou88/jnxplus/compare/maven-0.5.0...maven-0.5.1) (2023-06-23)
 
 
