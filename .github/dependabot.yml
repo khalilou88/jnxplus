@@ -9,5 +9,6 @@ updates:
       # Ignore updates to packages that start with '@nx'
       # Wildcards match zero or more arbitrary characters
       - dependency-name: "@nx*"
+      - dependency-name: "nx"
       # For chalk, ignore all updates
       - dependency-name: "chalk"
