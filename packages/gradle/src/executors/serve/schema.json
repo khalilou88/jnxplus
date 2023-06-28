@@ -8,6 +8,9 @@
   "properties": {
     "args": {
       "type": "string"
+    },
+    "projectPath": {
+      "type": "string"
     }
   },
   "required": []

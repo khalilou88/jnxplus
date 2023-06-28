@@ -9,9 +9,14 @@ export default async function runExecutor(
 ) {
   logger.info(`Executor ran for Run Task: ${JSON.stringify(options)}`);
 
-  const command = `${getExecutable()} ${getProjectPath(context)}:${
-    options.task
-  }`;
+  let projectPath = '';
+  if (options.projectPath) {
+    projectPath = options.projectPath;
+  } else {
+    projectPath = getProjectPath(context);
+  }
+
+  const command = `${getExecutable()} ${projectPath}:${options.task}`;
 
   const result = runCommand(command);
 

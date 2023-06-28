@@ -8,6 +8,14 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   logger.info(`Executor ran for Build: ${JSON.stringify(options)}`);
+
+  let projectPath = '';
+  if (options.projectPath) {
+    projectPath = options.projectPath;
+  } else {
+    projectPath = getProjectPath(context);
+  }
+
   let target = '';
 
   if (
@@ -52,7 +60,5 @@ export default async function runExecutor(
     args = options.args;
   }
 
-  return runCommand(
-    `${getExecutable()} ${getProjectPath(context)}:${target} ${args}`
-  );
+  return runCommand(`${getExecutable()} ${projectPath}:${target} ${args}`);
 }
