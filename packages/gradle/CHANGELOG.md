@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.12.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.11.0...gradle-0.12.0) (2023-06-28)
+
+
+### Features
+
+* **executors:** add projectPath option ([#297](https://github.com/khalilou88/jnxplus/issues/297)) ([c78d78f](https://github.com/khalilou88/jnxplus/commit/c78d78ff3a030c87a062e1c027dcb1372317499c))
+
+
+
 # [0.11.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.10.1...gradle-0.11.0) (2023-06-24)
 
 
