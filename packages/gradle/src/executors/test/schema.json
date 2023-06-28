@@ -5,6 +5,10 @@
   "title": "Test executor",
   "description": "",
   "type": "object",
-  "properties": {},
+  "properties": {
+    "projectPath": {
+      "type": "string"
+    }
+  },
   "required": []
 }

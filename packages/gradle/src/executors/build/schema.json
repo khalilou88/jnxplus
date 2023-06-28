@@ -9,6 +9,9 @@
     "packaging": {
       "type": "string",
       "default": "jar"
+    },
+    "projectPath": {
+      "type": "string"
     }
   },
   "required": []

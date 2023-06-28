@@ -10,7 +10,14 @@ export default async function runExecutor(
 ) {
   logger.info(`Executor ran for serve: ${JSON.stringify(options)}`);
 
-  let command = `${getExecutable()} ${getProjectPath(context)}:`;
+  let projectPath = '';
+  if (options.projectPath) {
+    projectPath = options.projectPath;
+  } else {
+    projectPath = getProjectPath(context);
+  }
+
+  let command = `${getExecutable()} ${projectPath}:`;
 
   if (
     getPluginName(context) === '@jnxplus/nx-boot-gradle' ||

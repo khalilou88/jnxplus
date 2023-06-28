@@ -1,1 +1,3 @@
-export interface TestExecutorSchema {} // eslint-disable-line
+export interface TestExecutorSchema {
+  projectPath?: string;
+}

@@ -8,5 +8,13 @@ export default async function runExecutor(
   context: ExecutorContext
 ) {
   logger.info(`Executor ran for Test: ${JSON.stringify(options)}`);
-  return runCommand(`${getExecutable()} ${getProjectPath(context)}:test`);
+
+  let projectPath = '';
+  if (options.projectPath) {
+    projectPath = options.projectPath;
+  } else {
+    projectPath = getProjectPath(context);
+  }
+
+  return runCommand(`${getExecutable()} ${projectPath}:test`);
 }
