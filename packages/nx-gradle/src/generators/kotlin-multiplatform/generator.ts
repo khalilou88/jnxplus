@@ -10,10 +10,10 @@ import {
   names,
   offsetFromRoot,
 } from '@nx/devkit';
-import { NxGradleAppGeneratorSchema } from './schema';
+import { NxGradleKotlinMultiplatformGeneratorSchema } from './schema';
 import * as path from 'path';
 
-interface NormalizedSchema extends NxGradleAppGeneratorSchema {
+interface NormalizedSchema extends NxGradleKotlinMultiplatformGeneratorSchema {
   androidAppName: string;
   iosAppName: string;
   desktopAppName: string;
@@ -34,15 +34,11 @@ interface NormalizedSchema extends NxGradleAppGeneratorSchema {
   appClassName: string;
   packageName: string;
   packageDirectory: string;
-  linter?: LinterType;
-  isCustomPort: boolean;
-  dsl: DSLType;
-  kotlinExtension: string;
 }
 
 function normalizeOptions(
   tree: Tree,
-  options: NxGradleAppGeneratorSchema
+  options: NxGradleKotlinMultiplatformGeneratorSchema
 ): NormalizedSchema {
   const simpleProjectName = names(normalizeName(options.name)).fileName;
 
@@ -121,13 +117,6 @@ function normalizeOptions(
 
   const packageDirectory = packageName.replace(new RegExp(/\./, 'g'), '/');
 
-  const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
-
-  const isCustomPort = !!options.port && +options.port !== 8080;
-
-  const dsl = getDsl(tree);
-  const kotlinExtension = dsl === 'kotlin' ? '.kts' : '';
-
   return {
     ...options,
     androidAppName,
@@ -146,10 +135,6 @@ function normalizeOptions(
     appClassName,
     packageName,
     packageDirectory,
-    linter,
-    isCustomPort,
-    dsl,
-    kotlinExtension,
   };
 }
 
@@ -222,7 +207,7 @@ function generateAndroidApp(normalizedOptions: NormalizedSchema, tree: Tree) {
       lint: {
         executor: `@jnxplus/nx-gradle:lint`,
         options: {
-          linter: `${normalizedOptions.linter}`,
+          linter: 'ktlint',
         },
       },
       test: {
@@ -279,7 +264,7 @@ function generateDesktopApp(normalizedOptions: NormalizedSchema, tree: Tree) {
       lint: {
         executor: `@jnxplus/nx-gradle:lint`,
         options: {
-          linter: `${normalizedOptions.linter}`,
+          linter: 'ktlint',
         },
       },
       test: {
@@ -316,7 +301,7 @@ function generateSharedLib(normalizedOptions: NormalizedSchema, tree: Tree) {
       lint: {
         executor: `@jnxplus/nx-gradle:lint`,
         options: {
-          linter: `${normalizedOptions.linter}`,
+          linter: 'ktlint',
         },
       },
       test: {
@@ -342,7 +327,7 @@ function generateSharedLib(normalizedOptions: NormalizedSchema, tree: Tree) {
 
 export default async function (
   tree: Tree,
-  options: NxGradleAppGeneratorSchema
+  options: NxGradleKotlinMultiplatformGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
   generateAndroidApp(normalizedOptions, tree);
