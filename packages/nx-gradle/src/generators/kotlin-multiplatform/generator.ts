@@ -48,55 +48,35 @@ function normalizeOptions(
   tree: Tree,
   options: NxGradleKotlinMultiplatformGeneratorSchema
 ): NormalizedSchema {
-  const simpleProjectName = names(normalizeName(options.name)).fileName;
+  const prefix = names(normalizeName(options.name)).fileName;
 
-  let androidAppName: string;
-  let iosAppName: string;
-  let desktopAppName: string;
-  let sharedLibName: string;
-
-  if (options.simpleName || !options.directory) {
-    androidAppName = `${simpleProjectName}-android`;
-    iosAppName = `${simpleProjectName}-ios`;
-    desktopAppName = `${simpleProjectName}-desktop`;
-    sharedLibName = `${simpleProjectName}-shared`;
-  } else {
-    androidAppName = `${normalizeName(
-      names(options.directory).fileName
-    )}-${simpleProjectName}-android`;
-    iosAppName = `${normalizeName(
-      names(options.directory).fileName
-    )}-${simpleProjectName}-ios`;
-    desktopAppName = `${normalizeName(
-      names(options.directory).fileName
-    )}-${simpleProjectName}-desktop`;
-    sharedLibName = `${normalizeName(
-      names(options.directory).fileName
-    )}-${simpleProjectName}-shared`;
-  }
+  const androidAppName = `${prefix}-android`;
+  const iosAppName = `${prefix}-ios`;
+  const desktopAppName = `${prefix}-desktop`;
+  const sharedLibName = `${prefix}-shared`;
 
   const androidAppDirectory = options.directory
-    ? `${names(options.directory).fileName}/${simpleProjectName}-android`
-    : `${simpleProjectName}-android`;
+    ? `${names(options.directory).fileName}/${androidAppName}`
+    : `${androidAppName}`;
   const androidAppRoot = `${
     getWorkspaceLayout(tree).appsDir
   }/${androidAppDirectory}`;
 
   const iosAppDirectory = options.directory
-    ? `${names(options.directory).fileName}/${simpleProjectName}-ios`
-    : `${simpleProjectName}-ios`;
+    ? `${names(options.directory).fileName}/${iosAppName}`
+    : `${iosAppName}`;
   const iosAppRoot = `${getWorkspaceLayout(tree).appsDir}/${iosAppDirectory}`;
 
   const desktopAppDirectory = options.directory
-    ? `${names(options.directory).fileName}/${simpleProjectName}-desktop`
-    : `${simpleProjectName}-desktop`;
+    ? `${names(options.directory).fileName}/${desktopAppName}`
+    : `${desktopAppName}`;
   const desktopAppRoot = `${
     getWorkspaceLayout(tree).appsDir
   }/${desktopAppDirectory}`;
 
   const sharedLibDirectory = options.directory
-    ? `${names(options.directory).fileName}/${simpleProjectName}-shared`
-    : `${simpleProjectName}-shared`;
+    ? `${names(options.directory).fileName}/${sharedLibName}`
+    : `${sharedLibName}`;
   const sharedLibRoot = `${
     getWorkspaceLayout(tree).libsDir
   }/${sharedLibDirectory}`;
@@ -225,11 +205,12 @@ function generateAndroidApp(normalizedOptions: NormalizedSchema, tree: Tree) {
       test: {
         executor: `@jnxplus/nx-gradle:test`,
       },
+      ktformat: {
+        executor: `@jnxplus/nx-gradle:ktformat`,
+      },
     },
     tags: normalizedOptions.parsedTags,
   };
-
-  const targets = projectConfiguration.targets ?? {};
 
   addProjectConfiguration(
     tree,
@@ -255,8 +236,6 @@ function generateIosApp(normalizedOptions: NormalizedSchema, tree: Tree) {
       //TODO normalizedOptions.rootProjectName,
     ],
   };
-
-  const targets = projectConfiguration.targets ?? {};
 
   addProjectConfiguration(
     tree,
@@ -286,11 +265,12 @@ function generateDesktopApp(normalizedOptions: NormalizedSchema, tree: Tree) {
       test: {
         executor: `@jnxplus/nx-gradle:test`,
       },
+      ktformat: {
+        executor: `@jnxplus/nx-gradle:ktformat`,
+      },
     },
     tags: normalizedOptions.parsedTags,
   };
-
-  const targets = projectConfiguration.targets ?? {};
 
   addProjectConfiguration(
     tree,
@@ -313,7 +293,6 @@ function generateSharedLib(normalizedOptions: NormalizedSchema, tree: Tree) {
       build: {
         executor: `@jnxplus/nx-gradle:build`,
       },
-      serve: {},
       lint: {
         executor: `@jnxplus/nx-gradle:lint`,
         options: {
@@ -323,11 +302,12 @@ function generateSharedLib(normalizedOptions: NormalizedSchema, tree: Tree) {
       test: {
         executor: `@jnxplus/nx-gradle:test`,
       },
+      ktformat: {
+        executor: `@jnxplus/nx-gradle:ktformat`,
+      },
     },
     tags: normalizedOptions.parsedTags,
   };
-
-  const targets = projectConfiguration.targets ?? {};
 
   addProjectConfiguration(
     tree,
@@ -346,9 +326,9 @@ export default async function (
   options: NxGradleKotlinMultiplatformGeneratorSchema
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
-  generateAndroidApp(normalizedOptions, tree);
-  generateIosApp(normalizedOptions, tree);
-  generateDesktopApp(normalizedOptions, tree);
   generateSharedLib(normalizedOptions, tree);
+  generateDesktopApp(normalizedOptions, tree);
+  generateIosApp(normalizedOptions, tree);
+  generateAndroidApp(normalizedOptions, tree);
   await formatFiles(tree);
 }
