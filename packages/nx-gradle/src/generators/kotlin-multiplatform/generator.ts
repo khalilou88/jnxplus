@@ -42,6 +42,7 @@ interface NormalizedSchema extends NxGradleKotlinMultiplatformGeneratorSchema {
   packageName: string;
   packageDirectory: string;
   androidAppId: string;
+  relativePathToSharedLib: string;
 }
 
 function normalizeOptions(
@@ -107,6 +108,13 @@ function normalizeOptions(
 
   const androidAppId = `${packageName}.${names(androidAppName).className}App`;
 
+  const relativePathToSharedLib = path
+    .relative(
+      path.join(workspaceRoot, iosAppRoot),
+      path.join(workspaceRoot, sharedLibRoot)
+    )
+    .replace(new RegExp(/\\/, 'g'), '/');
+
   return {
     ...options,
     androidAppName,
@@ -127,6 +135,7 @@ function normalizeOptions(
     packageName,
     packageDirectory,
     androidAppId,
+    relativePathToSharedLib,
   };
 }
 
