@@ -54,7 +54,45 @@
       "default": "spring-boot-root-project",
       "x-prompt": "What rootProjectName would you like to use?",
       "pattern": "^[a-zA-Z].*$"
+    },
+    "preset": {
+      "description": "preset",
+      "type": "string",
+      "default": "spring-boot",
+      "enum": [
+        "spring-boot",
+        "quarkus",
+        "micronaut",
+        "kotlin-multiplatform",
+        "none"
+      ],
+      "x-prompt": {
+        "message": "Which preset to use? or 'none' to skip.",
+        "type": "list",
+        "items": [
+          {
+            "value": "spring-boot",
+            "label": "spring-boot"
+          },
+          {
+            "value": "quarkus",
+            "label": "quarkus"
+          },
+          {
+            "value": "micronaut",
+            "label": "micronaut"
+          },
+          {
+            "value": "kotlin-multiplatform",
+            "label": "kotlin-multiplatform"
+          },
+          {
+            "value": "none",
+            "label": "none"
+          }
+        ]
+      }
     }
   },
-  "required": ["javaVersion", "dsl", "rootProjectName"]
+  "required": ["javaVersion", "dsl", "rootProjectName", "preset"]
 }

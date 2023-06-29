@@ -1,17 +1,25 @@
 <% if(dsl === 'groovy') { -%>
 pluginManagement {
   plugins {
+<% if(preset === 'spring-boot') { -%>
     id 'org.springframework.boot' version "${springBootVersion}"
     id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
     id 'org.jetbrains.kotlin.plugin.spring' version "${kotlinVersion}"
-    id 'io.github.khalilou88.jnxplus' version "${jnxplusGradlePluginVersion}"
-    id "io.quarkus" version "${quarkusVersion}"
-    id 'org.jetbrains.kotlin.jvm' version "${kotlinVersion}"
-    id 'org.jetbrains.kotlin.plugin.allopen' version "${kotlinVersion}"
-    id 'com.google.devtools.ksp' version "${kspVersion}"
-    id 'com.github.johnrengelman.shadow' version "${shadowVersion}"
+<% } -%>  
+<% if(preset === 'quarkus') { -%>
+    id 'io.quarkus' version "${quarkusVersion}"
+<% } -%>  
+<% if(preset === 'micronaut') { -%>
     id 'io.micronaut.application' version "${micronautVersion}"
     id 'io.micronaut.library' version "${micronautVersion}"
+    id 'com.google.devtools.ksp' version "${kspVersion}"
+    id 'com.github.johnrengelman.shadow' version "${shadowVersion}"
+<% } -%> 
+    id 'org.jetbrains.kotlin.jvm' version "${kotlinVersion}"
+<% if(preset !== 'spring-boot') { -%>
+    id 'org.jetbrains.kotlin.plugin.allopen' version "${kotlinVersion}"
+<% } -%> 
+    id 'io.github.khalilou88.jnxplus' version "${jnxplusGradlePluginVersion}"
   }
 <% if(generateRepositories) { -%>
   repositories {
@@ -25,26 +33,40 @@ rootProject.name = '<%= rootProjectName %>'
 <% } -%>
 <% if(dsl === 'kotlin') { -%>
 pluginManagement {
-  val quarkusVersion: String by settings
+<% if(preset === 'spring-boot') { -%>
   val springBootVersion: String by settings
   val springDependencyManagementVersion: String by settings
-  val kotlinVersion: String by settings
+<% } -%>  
+<% if(preset === 'quarkus') { -%>
+  val quarkusVersion: String by settings
+<% } -%>  
+<% if(preset === 'micronaut') { -%>
   val micronautVersion: String by settings
   val kspVersion: String by settings
   val shadowVersion: String by settings
+<% } -%>  
+  val kotlinVersion: String by settings
   val jnxplusGradlePluginVersion: String by settings
   plugins {
-    id("io.quarkus") version quarkusVersion
+  <% if(preset === 'spring-boot') { -%>
     id("org.springframework.boot") version springBootVersion
     id("io.spring.dependency-management") version springDependencyManagementVersion
     id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
-    id("io.github.khalilou88.jnxplus") version jnxplusGradlePluginVersion
-    id("org.jetbrains.kotlin.jvm") version kotlinVersion
-    id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
-    id("com.google.devtools.ksp") version kspVersion
-    id("com.github.johnrengelman.shadow") version shadowVersion
+  <% } -%>  
+<% if(preset === 'quarkus') { -%>
+    id("io.quarkus") version quarkusVersion
+<% } -%>  
+<% if(preset === 'micronaut') { -%>
     id("io.micronaut.application") version micronautVersion
     id("io.micronaut.library") version micronautVersion
+    id("com.google.devtools.ksp") version kspVersion
+    id("com.github.johnrengelman.shadow") version shadowVersion
+<% } -%>  
+    id("org.jetbrains.kotlin.jvm") version kotlinVersion
+<% if(preset !== 'spring-boot') { -%>
+    id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
+<% } -%> 
+    id("io.github.khalilou88.jnxplus") version jnxplusGradlePluginVersion
   }
 <% if(generateRepositories) { -%>
   repositories {
