@@ -1,4 +1,4 @@
-package com.myapplication
+package <%= packageName %>
 
 import MainView
 import android.os.Bundle
