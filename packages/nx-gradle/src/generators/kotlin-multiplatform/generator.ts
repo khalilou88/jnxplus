@@ -122,8 +122,6 @@ function normalizeOptions(
     ? options.tags.split(',').map((s) => s.trim())
     : [];
 
-  const appClassName = `${names(androidAppName).className}Application`;
-
   let packageName: string;
   if (options.simplePackageName) {
     packageName = `${options.groupId}.${names(
@@ -141,6 +139,8 @@ function normalizeOptions(
   }
 
   const packageDirectory = packageName.replace(new RegExp(/\./, 'g'), '/');
+
+  const appClassName = `${names(androidAppName).className}Application`;
 
   return {
     ...options,
