@@ -35,6 +35,6 @@ android {
         targetCompatibility = JavaVersion.toVersion(javaVersion)
     }
     kotlin {
-        jvmToolchain(javaVersion)
+        jvmToolchain(javaVersion.toInt())
     }
 }
