@@ -1,7 +1,6 @@
-import { DSLType, LinterType, normalizeName } from '@jnxplus/common';
+import { normalizeName } from '@jnxplus/common';
 import {
   addProjectToGradleSetting,
-  getDsl,
   getProjectPathFromProjectRoot,
 } from '@jnxplus/gradle';
 import {
@@ -13,9 +12,13 @@ import {
   getWorkspaceLayout,
   names,
   offsetFromRoot,
+  workspaceRoot,
 } from '@nx/devkit';
-import { NxGradleKotlinMultiplatformGeneratorSchema } from './schema';
+import * as fs from 'fs';
+import { fileExists } from 'nx/src/utils/fileutils';
+import { getRootProjectName } from '@jnxplus/gradle';
 import * as path from 'path';
+import { NxGradleKotlinMultiplatformGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxGradleKotlinMultiplatformGeneratorSchema {
   androidAppName: string;
@@ -33,6 +36,7 @@ interface NormalizedSchema extends NxGradleKotlinMultiplatformGeneratorSchema {
   desktopAppDirectory: string;
   sharedLibDirectory: string;
   sharedLibProjectPath: string;
+  rootProjectName: string;
 
   //TODO
   parsedTags: string[];
@@ -102,6 +106,18 @@ function normalizeOptions(
     sharedLibRoot
   )}`;
 
+  const settingsGradleKtsPath = path.join(workspaceRoot, 'settings.gradle.kts');
+  const isSettingsGradleKtsExists = fileExists(settingsGradleKtsPath);
+
+  let rootProjectName = '';
+  if (isSettingsGradleKtsExists) {
+    const settingsGradleKtsContent = fs.readFileSync(
+      settingsGradleKtsPath,
+      'utf-8'
+    );
+    rootProjectName = getRootProjectName(settingsGradleKtsContent);
+  }
+
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
@@ -141,6 +157,7 @@ function normalizeOptions(
     desktopAppDirectory,
     sharedLibDirectory,
     sharedLibProjectPath,
+    rootProjectName,
     parsedTags,
     appClassName,
     packageName,
@@ -248,6 +265,10 @@ function generateIosApp(normalizedOptions: NormalizedSchema, tree: Tree) {
     sourceRoot: `${normalizedOptions.iosAppRoot}/src`,
     targets: {},
     tags: normalizedOptions.parsedTags,
+    implicitDependencies: [
+      normalizedOptions.sharedLibName,
+      //TODO normalizedOptions.rootProjectName,
+    ],
   };
 
   const targets = projectConfiguration.targets ?? {};
