@@ -2,6 +2,7 @@ import { normalizeName } from '@jnxplus/common';
 import {
   addProjectToGradleSetting,
   getProjectPathFromProjectRoot,
+  getRootProjectName,
 } from '@jnxplus/gradle';
 import {
   ProjectConfiguration,
@@ -16,7 +17,6 @@ import {
 } from '@nx/devkit';
 import * as fs from 'fs';
 import { fileExists } from 'nx/src/utils/fileutils';
-import { getRootProjectName } from '@jnxplus/gradle';
 import * as path from 'path';
 import { NxGradleKotlinMultiplatformGeneratorSchema } from './schema';
 
@@ -38,11 +38,10 @@ interface NormalizedSchema extends NxGradleKotlinMultiplatformGeneratorSchema {
   sharedLibProjectPath: string;
   rootProjectName: string;
 
-  //TODO
   parsedTags: string[];
-  appClassName: string;
   packageName: string;
   packageDirectory: string;
+  androidAppId: string;
 }
 
 function normalizeOptions(
@@ -122,25 +121,11 @@ function normalizeOptions(
     ? options.tags.split(',').map((s) => s.trim())
     : [];
 
-  let packageName: string;
-  if (options.simplePackageName) {
-    packageName = `${options.groupId}.${names(
-      simpleProjectName
-    ).className.toLocaleLowerCase()}`.replace(new RegExp(/-/, 'g'), '');
-  } else {
-    packageName = `${options.groupId}.${
-      options.directory
-        ? `${names(options.directory).fileName.replace(
-            new RegExp(/\//, 'g'),
-            '.'
-          )}.${names(simpleProjectName).className.toLocaleLowerCase()}`
-        : names(simpleProjectName).className.toLocaleLowerCase()
-    }`.replace(new RegExp(/-/, 'g'), '');
-  }
+  const packageName = options.groupId;
 
   const packageDirectory = packageName.replace(new RegExp(/\./, 'g'), '/');
 
-  const appClassName = `${names(androidAppName).className}Application`;
+  const androidAppId = `${packageName}.${names(androidAppName).className}App`;
 
   return {
     ...options,
@@ -159,9 +144,9 @@ function normalizeOptions(
     sharedLibProjectPath,
     rootProjectName,
     parsedTags,
-    appClassName,
     packageName,
     packageDirectory,
+    androidAppId,
   };
 }
 
