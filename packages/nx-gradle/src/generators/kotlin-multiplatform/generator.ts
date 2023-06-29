@@ -1,5 +1,9 @@
 import { DSLType, LinterType, normalizeName } from '@jnxplus/common';
-import { addProjectToGradleSetting, getDsl } from '@jnxplus/gradle';
+import {
+  addProjectToGradleSetting,
+  getDsl,
+  getProjectPathFromProjectRoot,
+} from '@jnxplus/gradle';
 import {
   ProjectConfiguration,
   Tree,
@@ -28,6 +32,7 @@ interface NormalizedSchema extends NxGradleKotlinMultiplatformGeneratorSchema {
   iosAppDirectory: string;
   desktopAppDirectory: string;
   sharedLibDirectory: string;
+  sharedLibProjectPath: string;
 
   //TODO
   parsedTags: string[];
@@ -93,6 +98,10 @@ function normalizeOptions(
     getWorkspaceLayout(tree).libsDir
   }/${sharedLibDirectory}`;
 
+  const sharedLibProjectPath = `:${getProjectPathFromProjectRoot(
+    sharedLibRoot
+  )}`;
+
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
@@ -131,6 +140,7 @@ function normalizeOptions(
     iosAppDirectory,
     desktopAppDirectory,
     sharedLibDirectory,
+    sharedLibProjectPath,
     parsedTags,
     appClassName,
     packageName,
