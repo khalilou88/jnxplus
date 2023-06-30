@@ -23,7 +23,7 @@ kotlin {
         ios.deploymentTarget = "14.1"
         podfile = project.file("<%= relativePathToPodfile %>/Podfile")
         framework {
-            baseName = "shared"
+            baseName = "<%= sharedLibName %>"
             isStatic = true
         }
         extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
