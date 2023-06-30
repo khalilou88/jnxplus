@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "NxGradleKotlinMultiplatform",
+  "title": "Scaffold kotlin multiplatform projects",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use?",
+      "pattern": "^[a-zA-Z].*$"
+    },
+    "tags": {
+      "type": "string",
+      "description": "Add tags to the project (used for linting)",
+      "alias": "t"
+    },
+    "directory": {
+      "type": "string",
+      "description": "A directory where the project is placed",
+      "alias": "dir"
+    },
+    "groupId": {
+      "type": "string",
+      "default": "com.example",
+      "x-prompt": "What groupId would you like to use?"
+    },
+    "projectVersion": {
+      "type": "string",
+      "default": "0.0.1-SNAPSHOT",
+      "description": "Version of the project to generate",
+      "alias": "v"
+    },
+    "simpleName": {
+      "description": "Don't include the directory in the app name",
+      "type": "boolean",
+      "default": true
+    },
+    "simplePackageName": {
+      "description": "Don't include the directory in the package name",
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": ["name", "groupId"]
+}

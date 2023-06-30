@@ -26,6 +26,11 @@
       "aliases": ["lib"],
       "x-type": "library",
       "description": "library generator"
+    },
+    "kotlin-multiplatform": {
+      "factory": "./src/generators/kotlin-multiplatform/generator",
+      "schema": "./src/generators/kotlin-multiplatform/schema.json",
+      "description": "kotlin-multiplatform generator"
     }
   }
 }
