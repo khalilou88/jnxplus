@@ -25,23 +25,19 @@ interface NormalizedSchema extends NxGradleKotlinMultiplatformGeneratorSchema {
   iosAppName: string;
   desktopAppName: string;
   sharedLibName: string;
-
   androidAppRoot: string;
   iosAppRoot: string;
   desktopAppRoot: string;
   sharedLibRoot: string;
-
   androidAppDirectory: string;
   iosAppDirectory: string;
   desktopAppDirectory: string;
   sharedLibDirectory: string;
   sharedLibProjectPath: string;
   rootProjectName: string;
-
   parsedTags: string[];
   packageName: string;
   packageDirectory: string;
-  androidAppId: string;
   relativePathToSharedLib: string;
 }
 
@@ -51,36 +47,54 @@ function normalizeOptions(
 ): NormalizedSchema {
   const prefix = names(normalizeName(options.name)).fileName;
 
-  const androidAppName = `${prefix}-android`;
-  const iosAppName = `${prefix}-ios`;
-  const desktopAppName = `${prefix}-desktop`;
-  const sharedLibName = `${prefix}-shared`;
+  let androidAppName: string;
+  let iosAppName: string;
+  let desktopAppName: string;
+  let sharedLibName: string;
+
+  if (options.simpleName || !options.directory) {
+    androidAppName = `${prefix}-android`;
+    iosAppName = `${prefix}-ios`;
+    desktopAppName = `${prefix}-desktop`;
+    sharedLibName = `${prefix}-shared`;
+  } else {
+    androidAppName = `${normalizeName(
+      names(options.directory).fileName
+    )}-${prefix}-android`;
+    iosAppName = `${normalizeName(
+      names(options.directory).fileName
+    )}-${prefix}-ios`;
+    desktopAppName = `${normalizeName(
+      names(options.directory).fileName
+    )}-${prefix}-desktop`;
+    sharedLibName = `${normalizeName(
+      names(options.directory).fileName
+    )}-${prefix}-shared`;
+  }
+
+  const appsDir = getWorkspaceLayout(tree).appsDir;
+  const libsDir = getWorkspaceLayout(tree).libsDir;
 
   const androidAppDirectory = options.directory
     ? `${names(options.directory).fileName}/${androidAppName}`
     : `${androidAppName}`;
-  const androidAppRoot = `${
-    getWorkspaceLayout(tree).appsDir
-  }/${androidAppDirectory}`;
+  const androidAppRoot = `${appsDir}/${androidAppDirectory}`;
 
   const iosAppDirectory = options.directory
     ? `${names(options.directory).fileName}/${iosAppName}`
     : `${iosAppName}`;
-  const iosAppRoot = `${getWorkspaceLayout(tree).appsDir}/${iosAppDirectory}`;
+
+  const iosAppRoot = `${appsDir}/${iosAppDirectory}`;
 
   const desktopAppDirectory = options.directory
     ? `${names(options.directory).fileName}/${desktopAppName}`
     : `${desktopAppName}`;
-  const desktopAppRoot = `${
-    getWorkspaceLayout(tree).appsDir
-  }/${desktopAppDirectory}`;
+  const desktopAppRoot = `${appsDir}/${desktopAppDirectory}`;
 
   const sharedLibDirectory = options.directory
     ? `${names(options.directory).fileName}/${sharedLibName}`
     : `${sharedLibName}`;
-  const sharedLibRoot = `${
-    getWorkspaceLayout(tree).libsDir
-  }/${sharedLibDirectory}`;
+  const sharedLibRoot = `${libsDir}/${sharedLibDirectory}`;
 
   const sharedLibProjectPath = `:${getProjectPathFromProjectRoot(
     sharedLibRoot
@@ -102,11 +116,20 @@ function normalizeOptions(
     ? options.tags.split(',').map((s) => s.trim())
     : [];
 
-  const packageName = options.groupId;
+  let packageName: string;
+  if (options.simplePackageName || !options.directory) {
+    packageName = `${options.groupId}.${names(
+      prefix
+    ).className.toLocaleLowerCase()}`.replace(new RegExp(/-/, 'g'), '');
+  } else {
+    packageName = `${options.groupId}.${`${names(
+      options.directory
+    ).fileName.replace(new RegExp(/\//, 'g'), '.')}.${names(
+      prefix
+    ).className.toLocaleLowerCase()}`}`.replace(new RegExp(/-/, 'g'), '');
+  }
 
   const packageDirectory = packageName.replace(new RegExp(/\./, 'g'), '/');
-
-  const androidAppId = `${packageName}.${names(androidAppName).className}App`;
 
   const relativePathToSharedLib = path
     .relative(
@@ -134,7 +157,6 @@ function normalizeOptions(
     parsedTags,
     packageName,
     packageDirectory,
-    androidAppId,
     relativePathToSharedLib,
   };
 }

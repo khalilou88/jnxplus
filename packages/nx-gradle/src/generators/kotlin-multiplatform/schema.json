@@ -35,6 +35,16 @@
       "description": "Version of the project to generate",
       "alias": "v",
       "x-prompt": "What project version would you like to use?"
+    },
+    "simpleName": {
+      "description": "Don't include the directory in the app name",
+      "type": "boolean",
+      "default": true
+    },
+    "simplePackageName": {
+      "description": "Don't include the directory in the package name",
+      "type": "boolean",
+      "default": true
     }
   },
   "required": ["name", "groupId", "projectVersion"]

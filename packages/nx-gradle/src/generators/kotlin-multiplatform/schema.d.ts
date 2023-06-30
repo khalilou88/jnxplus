@@ -4,4 +4,6 @@ export interface NxGradleKotlinMultiplatformGeneratorSchema {
   directory?: string;
   groupId: string;
   projectVersion: string;
+  simpleName?: boolean;
+  simplePackageName?: boolean;
 }
