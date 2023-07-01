@@ -22,7 +22,7 @@ import {
   runPackageManagerInstallLinks,
 } from '@jnxplus/internal/testing';
 
-describe('nx-gradle kt e2e', () => {
+describe('nx-gradle kotlin dsl quarkus preset e2e', () => {
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';

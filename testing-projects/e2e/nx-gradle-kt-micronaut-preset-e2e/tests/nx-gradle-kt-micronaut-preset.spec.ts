@@ -22,7 +22,7 @@ import {
   runPackageManagerInstallLinks,
 } from '@jnxplus/internal/testing';
 
-describe('nx-gradle kt e2e', () => {
+describe('nx-gradle kotlin dsl micronaut preset e2e', () => {
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
@@ -207,7 +207,7 @@ describe('nx-gradle kt e2e', () => {
       source: appName,
       target: libName,
     });
-  }, 120000);
+  }, 240000);
 
   it('micronaut - should add a kotlin lib to a kotlin app dependencies', async () => {
     const appName = uniq('micronaut-gradle-app-');

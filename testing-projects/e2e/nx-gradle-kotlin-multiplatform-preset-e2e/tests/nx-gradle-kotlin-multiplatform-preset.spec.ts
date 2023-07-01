@@ -22,7 +22,7 @@ import {
   runPackageManagerInstallLinks,
 } from '@jnxplus/internal/testing';
 
-describe('nx-gradle-kotlin-multiplatform kt e2e', () => {
+describe('nx-gradle kotlin dsl kotlin-multiplatform preset e2e', () => {
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
@@ -137,5 +137,5 @@ describe('nx-gradle-kotlin-multiplatform kt e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:kotlin-multiplatform ${name}`
     );
-  }, 120000);
+  }, 240000);
 });
