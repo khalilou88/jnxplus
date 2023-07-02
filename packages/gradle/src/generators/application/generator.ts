@@ -389,6 +389,7 @@ export default async function (
     targets: {
       build: {
         executor: `${plugin}:build`,
+        outputs: [`${normalizedOptions.projectRoot}/build`],
       },
       serve: {},
       lint: {
