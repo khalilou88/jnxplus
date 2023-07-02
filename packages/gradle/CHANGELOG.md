@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.13.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.12.0...gradle-0.13.0) (2023-07-02)
+
+
+### Features
+
+* **generators:** add kotlin-multiplatform generator ([#302](https://github.com/khalilou88/jnxplus/issues/302)) ([0cdd7dc](https://github.com/khalilou88/jnxplus/commit/0cdd7dcc3a78d5d026c950afe5e7761479eeb8cd))
+
+
+
 # [0.12.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.11.0...gradle-0.12.0) (2023-06-28)
 
 
