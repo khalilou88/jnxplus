@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.5.0](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.4.2...nx-gradle-0.5.0) (2023-07-02)
+
+### Dependency Updates
+
+* `gradle` updated to version `0.13.0`
+
+### Features
+
+* **generators:** add kotlin-multiplatform generator ([#302](https://github.com/khalilou88/jnxplus/issues/302)) ([0cdd7dc](https://github.com/khalilou88/jnxplus/commit/0cdd7dcc3a78d5d026c950afe5e7761479eeb8cd))
+* **generators:** add preset option ([#300](https://github.com/khalilou88/jnxplus/issues/300)) ([03c842f](https://github.com/khalilou88/jnxplus/commit/03c842f100cc5108e1ecb949ab71731cb90ca78a))
+
+
+
 ## [0.4.2](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.4.1...nx-gradle-0.4.2) (2023-06-28)
 
 ### Dependency Updates
