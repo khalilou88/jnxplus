@@ -1,0 +1,47 @@
+<% if(dsl === 'groovy') { -%>
+pluginManagement {
+  plugins {
+    id 'io.micronaut.application' version "${micronautVersion}"
+    id 'io.micronaut.library' version "${micronautVersion}"
+    id 'com.google.devtools.ksp' version "${kspVersion}"
+    id 'com.github.johnrengelman.shadow' version "${shadowVersion}"
+    id 'org.jetbrains.kotlin.jvm' version "${kotlinVersion}"
+    id 'org.jetbrains.kotlin.plugin.allopen' version "${kotlinVersion}"
+    id 'io.github.khalilou88.jnxplus' version "${jnxplusGradlePluginVersion}"
+  }
+<% if(generateRepositories) { -%>
+  repositories {
+    mavenCentral()
+    gradlePluginPortal()
+    mavenLocal()
+  }
+<% } -%>
+}
+rootProject.name = '<%= rootProjectName %>'
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+pluginManagement {
+  val micronautVersion: String by settings
+  val kspVersion: String by settings
+  val shadowVersion: String by settings
+  val kotlinVersion: String by settings
+  val jnxplusGradlePluginVersion: String by settings
+  plugins {
+    id("io.micronaut.application") version micronautVersion
+    id("io.micronaut.library") version micronautVersion
+    id("com.google.devtools.ksp") version kspVersion
+    id("com.github.johnrengelman.shadow") version shadowVersion
+    id("org.jetbrains.kotlin.jvm") version kotlinVersion
+    id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
+    id("io.github.khalilou88.jnxplus") version jnxplusGradlePluginVersion
+  }
+<% if(generateRepositories) { -%>
+  repositories {
+    mavenCentral()
+    gradlePluginPortal()
+    mavenLocal()
+  }
+<% } -%>
+}
+rootProject.name = "<%= rootProjectName %>"
+<% } -%>
