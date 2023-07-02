@@ -24,29 +24,31 @@ In the Nx workspace root folder, run this command to install the plugin :
 npm install --save-dev @jnxplus/nx-maven
 ```
 
-### 2. Add Spring boot and Maven wrapper support
+### 2. Add Maven wrapper support
 
-The following command adds Spring boot and Maven support (Maven wrapper and config files) to the workspace. This only needs to be performed once per workspace.
+The following command adds Maven support (Maven wrapper and config files) to the workspace. This only needs to be performed once per workspace.
 
 ```bash
 nx generate @jnxplus/nx-maven:init
 ```
 
+Generate a parent project to add Spring Boot, Quarkus, or Micronaut frameworks.
+
 ### 3. Usage
 
-| Action                               | Command                                                               |
-| ------------------------------------ | --------------------------------------------------------------------- |
-| Generate an application              | `nx generate @jnxplus/nx-maven:application my-app-name`               |
-| Generate a library                   | `nx generate @jnxplus/nx-maven:library my-lib-name`                   |
-| Generate a parent project            | `nx generate @jnxplus/nx-maven:parent-project my-parent-project`      |
-| Build a project                      | `nx build my-project-name`                                            |
-| Serve an application                 | `nx serve my-app-name`                                                |
-| Test a project                       | `nx test my-project-name`                                             |
-| Lint a project                       | `nx lint my-project-name`                                             |
-| Format a java project                | `nx format --projects my-project-name`                                |
-| Format a kotlin project              | `nx ktformat my-project-name`                                         |
-| Run a custom task                    | `nx run-task my-project-name --task="clean install -DskipTests=true"` |
-| Visualize project's dependency graph | `nx graph`                                                            |
+| Action                               | Command                                                          |
+| ------------------------------------ | ---------------------------------------------------------------- |
+| Generate a parent project            | `nx generate @jnxplus/nx-maven:parent-project my-parent-project` |
+| Generate an application              | `nx generate @jnxplus/nx-maven:application my-app-name`          |
+| Generate a library                   | `nx generate @jnxplus/nx-maven:library my-lib-name`              |
+| Build a project                      | `nx build my-project-name`                                       |
+| Serve an application                 | `nx serve my-app-name`                                           |
+| Test a project                       | `nx test my-project-name`                                        |
+| Lint a project                       | `nx lint my-project-name`                                        |
+| Format a java project                | `nx format --projects my-project-name`                           |
+| Format a kotlin project              | `nx ktformat my-project-name`                                    |
+| Run a custom task                    | `nx run-task my-project-name --task="MY_CUSTOM_TASK"`            |
+| Visualize project's dependency graph | `nx graph`                                                       |
 
 ## License
 
