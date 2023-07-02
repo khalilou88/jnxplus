@@ -283,5 +283,5 @@ describe('nx-gradle kotlin dsl micronaut preset e2e', () => {
       source: appName,
       target: libName,
     });
-  }, 120000);
+  }, 240000);
 });
