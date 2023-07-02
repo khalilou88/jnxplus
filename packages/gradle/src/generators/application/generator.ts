@@ -12,6 +12,7 @@ import {
 } from '@nx/devkit';
 import * as path from 'path';
 import {
+  clearEmpties,
   DSLType,
   GradlePluginType,
   normalizeName,
@@ -391,6 +392,7 @@ export default async function (
         executor: `${plugin}:build`,
         outputs: [`${normalizedOptions.projectRoot}/build`],
       },
+      'build-image': {},
       serve: {},
       lint: {
         executor: `${plugin}:lint`,
@@ -401,6 +403,7 @@ export default async function (
       test: {
         executor: `${plugin}:test`,
       },
+      ktformat: {},
     },
     tags: normalizedOptions.parsedTags,
   };
@@ -458,6 +461,8 @@ export default async function (
       executor: `${plugin}:ktformat`,
     };
   }
+
+  clearEmpties(targets);
 
   addProjectConfiguration(
     tree,

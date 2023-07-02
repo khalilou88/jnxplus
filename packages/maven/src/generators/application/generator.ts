@@ -1,4 +1,9 @@
-import { LinterType, MavenPluginType, normalizeName } from '@jnxplus/common';
+import {
+  LinterType,
+  MavenPluginType,
+  clearEmpties,
+  normalizeName,
+} from '@jnxplus/common';
 import { addProjectToAggregator } from '../../lib/utils/generators';
 import { readXmlTree } from '../../lib/xml/index';
 import {
@@ -397,6 +402,7 @@ export default async function (
         executor: `${plugin}:build`,
         outputs: [`${normalizedOptions.projectRoot}/target`],
       },
+      'build-image': {},
       serve: {},
       lint: {
         executor: `${plugin}:lint`,
@@ -408,6 +414,7 @@ export default async function (
         executor: `${plugin}:test`,
         dependsOn: ['build'],
       },
+      ktformat: {},
     },
     tags: normalizedOptions.parsedTags,
   };
@@ -457,6 +464,8 @@ export default async function (
       executor: `${plugin}:ktformat`,
     };
   }
+
+  clearEmpties(targets);
 
   addProjectConfiguration(
     tree,
