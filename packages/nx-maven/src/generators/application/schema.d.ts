@@ -11,7 +11,7 @@ export interface NxMavenAppGeneratorSchema {
   projectVersion: string;
   packaging: PackagingType;
   configFormat: '.properties' | '.yml';
-  parentProject?: string;
+  parentProject: string;
   aggregatorProject?: string;
   minimal?: boolean;
   port?: string | number;

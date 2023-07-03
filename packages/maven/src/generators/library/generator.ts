@@ -86,9 +86,14 @@ function normalizeOptions(
 
   const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
 
-  const parentProjectRoot = options.parentProject
-    ? readProjectConfiguration(tree, options.parentProject).root
-    : '';
+  const rootPomXmlContent = readXmlTree(tree, 'pom.xml');
+  const rootParentProjectName =
+    rootPomXmlContent?.childNamed('artifactId')?.val;
+
+  const parentProjectRoot =
+    options.parentProject && options.parentProject !== rootParentProjectName
+      ? readProjectConfiguration(tree, options.parentProject).root
+      : '';
 
   const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
 

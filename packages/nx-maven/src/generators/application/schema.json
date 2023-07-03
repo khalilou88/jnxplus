@@ -119,8 +119,8 @@
     },
     "parentProject": {
       "type": "string",
-      "description": "ArtifactId of the parent project or leave it blank for the root project",
-      "x-prompt": "Which artifactId to use for parent project? or leave it blank for the root project"
+      "description": "ArtifactId of the parent project",
+      "x-prompt": "Which artifactId to use for parent project?"
     },
     "aggregatorProject": {
       "type": "string",
@@ -144,5 +144,12 @@
       "description": "Port to start the server at. Default is 8080."
     }
   },
-  "required": ["name", "language", "groupId", "projectVersion", "configFormat"]
+  "required": [
+    "name",
+    "language",
+    "groupId",
+    "projectVersion",
+    "configFormat",
+    "parentProject"
+  ]
 }
