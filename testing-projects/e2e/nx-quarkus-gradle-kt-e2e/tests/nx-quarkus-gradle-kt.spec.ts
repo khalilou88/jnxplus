@@ -104,7 +104,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     // `nx reset` kills the daemon, and performs
     // some work which can help clean up e2e leftovers
     await runNxCommandAsync('reset');
-  });
+  }, 120000);
 
   it('should set NX_VERBOSE_LOGGING to true', async () => {
     expect(process.env['NX_VERBOSE_LOGGING']).toBe('true');
