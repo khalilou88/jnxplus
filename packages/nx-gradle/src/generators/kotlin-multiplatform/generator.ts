@@ -301,7 +301,13 @@ function generateDesktopApp(normalizedOptions: NormalizedSchema, tree: Tree) {
         executor: `@jnxplus/nx-gradle:build`,
         outputs: [`${normalizedOptions.desktopAppRoot}/build`],
       },
-      serve: {},
+      serve: {
+        executor: `@jnxplus/nx-gradle:run-task`,
+        options: {
+          task: 'run',
+          keepItRunning: true,
+        },
+      },
       lint: {
         executor: `@jnxplus/nx-gradle:lint`,
         options: {
