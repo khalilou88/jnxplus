@@ -184,13 +184,13 @@ describe('nx-boot-maven e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
-
     const formatResult = await runNxCommandAsync(
       `format:check --projects ${appName}`
     );
     expect(formatResult.stdout).toContain('');
+
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //test run-task
     const projectJson = readJson(`apps/${appName}/project.json`);
@@ -302,13 +302,13 @@ describe('nx-boot-maven e2e', () => {
     );
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
-
     const formatResult = await runNxCommandAsync(
       `format:check --projects ${appName}`
     );
     expect(formatResult.stdout).toContain('');
+
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -507,13 +507,13 @@ describe('nx-boot-maven e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
-
     const formatResult = await runNxCommandAsync(
       `format:check --projects ${appName}`
     );
     expect(formatResult.stdout).toContain('');
+
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -579,13 +579,13 @@ describe('nx-boot-maven e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
-
     const formatResult = await runNxCommandAsync(
       `format:check --projects ${appName}`
     );
     expect(formatResult.stdout).toContain('');
+
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -700,13 +700,13 @@ describe('nx-boot-maven e2e', () => {
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`libs/${libName}/target`)).not.toThrow();
 
-    const lintResult = await runNxCommandAsync(`lint ${libName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
-
     const formatResult = await runNxCommandAsync(
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain('');
+
+    const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -824,13 +824,13 @@ describe('nx-boot-maven e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const lintResult = await runNxCommandAsync(`lint ${libName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
-
     const formatResult = await runNxCommandAsync(
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain('');
+
+    const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -886,13 +886,13 @@ describe('nx-boot-maven e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const lintResult = await runNxCommandAsync(`lint ${libName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
-
     const formatResult = await runNxCommandAsync(
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain('');
+
+    const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -948,13 +948,13 @@ describe('nx-boot-maven e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const lintResult = await runNxCommandAsync(`lint ${libName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
-
     const formatResult = await runNxCommandAsync(
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain('');
+
+    const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -1641,13 +1641,13 @@ describe('nx-boot-maven e2e', () => {
     );
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
-
     const formatResult = await runNxCommandAsync(
       `format:check --projects ${appName}`
     );
     expect(formatResult.stdout).toContain('');
+
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -1719,13 +1719,13 @@ describe('nx-boot-maven e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const lintResult = await runNxCommandAsync(`lint ${libName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
-
     const formatResult = await runNxCommandAsync(
       `format:check --projects ${libName}`
     );
     expect(formatResult.stdout).toContain('');
+
+    const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
