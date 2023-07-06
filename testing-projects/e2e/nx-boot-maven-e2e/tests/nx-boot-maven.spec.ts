@@ -185,7 +185,7 @@ describe('nx-boot-maven e2e', () => {
     expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(
-      `format:check --projects ${appName}`
+      `format:write --projects ${appName}`
     );
     expect(formatResult.stdout).toContain('');
 
@@ -303,7 +303,7 @@ describe('nx-boot-maven e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:check --projects ${appName}`
+      `format:write --projects ${appName}`
     );
     expect(formatResult.stdout).toContain('');
 
@@ -508,7 +508,7 @@ describe('nx-boot-maven e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:check --projects ${appName}`
+      `format:write --projects ${appName}`
     );
     expect(formatResult.stdout).toContain('');
 
@@ -580,7 +580,7 @@ describe('nx-boot-maven e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:check --projects ${appName}`
+      `format:write --projects ${appName}`
     );
     expect(formatResult.stdout).toContain('');
 
@@ -701,7 +701,7 @@ describe('nx-boot-maven e2e', () => {
     expect(() => checkFilesExist(`libs/${libName}/target`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(
-      `format:check --projects ${libName}`
+      `format:write --projects ${libName}`
     );
     expect(formatResult.stdout).toContain('');
 
@@ -825,7 +825,7 @@ describe('nx-boot-maven e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:check --projects ${libName}`
+      `format:write --projects ${libName}`
     );
     expect(formatResult.stdout).toContain('');
 
@@ -887,7 +887,7 @@ describe('nx-boot-maven e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:check --projects ${libName}`
+      `format:write --projects ${libName}`
     );
     expect(formatResult.stdout).toContain('');
 
@@ -949,7 +949,7 @@ describe('nx-boot-maven e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:check --projects ${libName}`
+      `format:write --projects ${libName}`
     );
     expect(formatResult.stdout).toContain('');
 
@@ -1642,7 +1642,7 @@ describe('nx-boot-maven e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:check --projects ${appName}`
+      `format:write --projects ${appName}`
     );
     expect(formatResult.stdout).toContain('');
 
@@ -1720,7 +1720,7 @@ describe('nx-boot-maven e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:check --projects ${libName}`
+      `format:write --projects ${libName}`
     );
     expect(formatResult.stdout).toContain('');
 
