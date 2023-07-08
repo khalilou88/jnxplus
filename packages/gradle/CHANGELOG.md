@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.13.1](https://github.com/khalilou88/jnxplus/compare/gradle-0.13.0...gradle-0.13.1) (2023-07-08)
+
+### Dependency Updates
+
+* `common` updated to version `0.9.1`
+
+### Bug Fixes
+
+* **generators:** add outputs to build target ([a87db93](https://github.com/khalilou88/jnxplus/commit/a87db93c7cc4945ee831b027dc4780b34b7f8391))
+* **generators:** remove empty objects from targets ([8703f77](https://github.com/khalilou88/jnxplus/commit/8703f77502fcd52f307f5ff1610f793a91bbb62c))
+
+
+
 # [0.13.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.12.0...gradle-0.13.0) (2023-07-02)
 
 
