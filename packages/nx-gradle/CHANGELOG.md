@@ -2,6 +2,26 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.6.0](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.5.0...nx-gradle-0.6.0) (2023-07-08)
+
+### Dependency Updates
+
+* `gradle` updated to version `0.13.1`
+* `common` updated to version `0.9.1`
+
+### Bug Fixes
+
+* **generators:** add outputs to build target ([a87db93](https://github.com/khalilou88/jnxplus/commit/a87db93c7cc4945ee831b027dc4780b34b7f8391))
+* **generators:** update default root project name ([45588b9](https://github.com/khalilou88/jnxplus/commit/45588b916b8ab3322f37dfeb844aa079327cec33))
+* **generators:** use kotlin dsl for kotlin multiplatform preset ([65e38a1](https://github.com/khalilou88/jnxplus/commit/65e38a1c3c939822b092b380e2b9d32ce3174eb9))
+
+
+### Features
+
+* **generators:** add serve command ([ce060a7](https://github.com/khalilou88/jnxplus/commit/ce060a7cf212049c0919ed9369ecd5b556deaa19))
+
+
+
 # [0.5.0](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.4.2...nx-gradle-0.5.0) (2023-07-02)
 
 ### Dependency Updates
