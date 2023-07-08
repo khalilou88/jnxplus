@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.9.1](https://github.com/khalilou88/jnxplus/compare/common-0.9.0...common-0.9.1) (2023-07-08)
+
+
+### Bug Fixes
+
+* **generators:** remove empty objects from targets ([8703f77](https://github.com/khalilou88/jnxplus/commit/8703f77502fcd52f307f5ff1610f793a91bbb62c))
+
+
+
 # [0.9.0](https://github.com/khalilou88/jnxplus/compare/common-0.8.1...common-0.9.0) (2023-06-21)
 
 
