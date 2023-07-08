@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.6.4](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.6.3...nx-maven-0.6.4) (2023-07-08)
+
+### Dependency Updates
+
+* `maven` updated to version `0.6.1`
+* `common` updated to version `0.9.1`
+
+### Bug Fixes
+
+* **generators:** make parentProject mandatory for nx-maven plugin ([#275](https://github.com/khalilou88/jnxplus/issues/275)) ([44e28be](https://github.com/khalilou88/jnxplus/commit/44e28beb0bafeb23ba996827f0d5b2408b68e7c6))
+
+
+
 ## [0.6.3](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.6.2...nx-maven-0.6.3) (2023-06-24)
 
 ### Dependency Updates
