@@ -3,7 +3,7 @@ import {
   getProjectRoot,
   ktlintVersion,
 } from '@jnxplus/common';
-import { ExecutorContext, workspaceRoot } from '@nx/devkit';
+import { ExecutorContext } from '@nx/devkit';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -79,23 +79,10 @@ export function getCheckstyleVersion(dir: string) {
   return version === undefined ? checkstyleVersion : version;
 }
 
-export function canUseGradleTask() {
-  const gradlePropertiesPath = path.join(workspaceRoot, 'gradle.properties');
-
-  if (!fs.existsSync(gradlePropertiesPath)) {
-    return false;
-  }
-
-  const gradlePropertiesContent = fs.readFileSync(
-    gradlePropertiesPath,
-    'utf-8'
+export function getRootProjectName(settingsGradleContent: string) {
+  const regexp = /rootProject.name\s*=\s*['"](.*)['"]/g;
+  const matches = (settingsGradleContent.match(regexp) || []).map((e) =>
+    e.replace(regexp, '$1')
   );
-
-  return jnxplusGradlePluginExists(gradlePropertiesContent);
-}
-
-export function jnxplusGradlePluginExists(gradlePropertiesContent: string) {
-  const regexp = /jnxplusGradlePluginVersion=(.*)/g;
-  const matches = gradlePropertiesContent.match(regexp) || [];
-  return matches.length > 0;
+  return matches[0];
 }
