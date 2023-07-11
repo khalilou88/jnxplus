@@ -13,7 +13,7 @@ jobs:
         node_version: ['18']
         java: ['17']
     runs-on: ${{ matrix.os }}
-    if: ${{ github.actor == 'dependabot[bot]' }}
+    if: ${{ github.actor == 'dependabot[bot]' || (github.event.pull_request.user.login == 'dependabot[bot]' && github.actor == '@khalilou88') }}
     steps:
       - name: Dependabot metadata
         id: metadata
