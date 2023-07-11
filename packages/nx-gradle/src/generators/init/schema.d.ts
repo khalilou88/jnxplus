@@ -7,4 +7,5 @@ export interface NxGradleInitGeneratorSchema {
   gradleRootDirectory: string;
   preset: PresetType;
   skipWrapper?: boolean;
+  versionManagement: 'properties' | 'version-catalog';
 }

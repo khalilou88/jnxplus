@@ -97,6 +97,25 @@
       "description": "Don't generate Gradle Wrapper",
       "type": "boolean",
       "default": false
+    },
+    "versionManagement": {
+      "description": "Version management",
+      "type": "string",
+      "default": "properties",
+      "x-prompt": {
+        "message": "Which version management would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "properties",
+            "label": "use gradle properties"
+          },
+          {
+            "value": "version-catalog",
+            "label": "use version catalog"
+          }
+        ]
+      }
     }
   },
   "required": [
@@ -104,6 +123,7 @@
     "dsl",
     "rootProjectName",
     "gradleRootDirectory",
-    "preset"
+    "preset",
+    "versionManagement"
   ]
 }
