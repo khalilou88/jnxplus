@@ -84,6 +84,15 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     options.gradleRootDirectory,
     templateOptions,
   );
+
+    if (options.versionManagement === 'version-catalog') {
+      generateFiles(
+        tree,
+        path.join(__dirname, 'files', 'gradle', 'catalog', options.preset),
+        'gradle',
+        templateOptions
+      );
+    }
 }
 
 export default initGenerator;
