@@ -1,4 +1,4 @@
-import { ExecutorContext, workspaceRoot } from '@nx/devkit';
+import { ExecutorContext, logger, workspaceRoot } from '@nx/devkit';
 import { join } from 'path';
 import { getProjectRoot, runCommand } from '../../../.';
 import { QuarkusBuildImageExecutorSchema } from './schema';
@@ -7,6 +7,8 @@ export default async function runExecutor(
   options: QuarkusBuildImageExecutorSchema,
   context: ExecutorContext
 ) {
+  logger.info(`Executor ran for Build Image: ${JSON.stringify(options)}`);
+
   let imageNameSuffix = '';
 
   if (options.imageNameSuffix) {

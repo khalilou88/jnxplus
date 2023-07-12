@@ -7,9 +7,19 @@
       "description": "build executor"
     },
     "build-image": {
-      "implementation": "@jnxplus/gradle/src/executors/build-image/executor",
-      "schema": "@jnxplus/gradle/src/executors/build-image/schema.json",
-      "description": "build-image executor"
+      "implementation": "@jnxplus/gradle/src/executors/build-image/boot/executor",
+      "schema": "@jnxplus/gradle/src/executors/build-image/boot/schema.json",
+      "description": "boot build-image executor"
+    },
+    "quarkus-build-image": {
+      "implementation": "@jnxplus/common/src/executors/build-image/quarkus/executor",
+      "schema": "@jnxplus/common/src/executors/build-image/quarkus/schema.json",
+      "description": "quarkus build-image executor"
+    },
+    "micronaut-build-image": {
+      "implementation": "@jnxplus/gradle/src/executors/build-image/micronaut/executor",
+      "schema": "@jnxplus/gradle/src/executors/build-image/micronaut/schema.json",
+      "description": "micronaut build-image executor"
     },
     "serve": {
       "implementation": "@jnxplus/gradle/src/executors/serve/executor",

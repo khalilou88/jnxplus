@@ -6,15 +6,6 @@
   "description": "",
   "type": "object",
   "properties": {
-    "useDocker": {
-      "type": "boolean"
-    },
-    "native": {
-      "type": "boolean"
-    },
-    "optimized": {
-      "type": "boolean"
-    },
     "imageType": {
       "type": "string",
       "description": "Image type to build",
@@ -28,10 +19,6 @@
     "imageNameSuffix": {
       "type": "string",
       "description": "Image name suffix"
-    },
-    "framework": {
-      "type": "string",
-      "enum": ["spring-boot", "quarkus", "micronaut"]
     }
   },
   "required": []

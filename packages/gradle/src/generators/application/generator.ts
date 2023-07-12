@@ -431,6 +431,10 @@ export default async function (
       ...targets['serve'].options,
       command: 'bootRun',
     };
+
+    targets['build-image'] = {
+      executor: `${plugin}:build-image`,
+    };
   }
 
   if (
@@ -446,14 +450,18 @@ export default async function (
       ...targets['serve'].options,
       command: 'quarkusDev',
     };
+
+    targets['build-image'] = {
+      executor: `${plugin}:quarkus-build-image`,
+    };
   }
 
-  if (options.framework && options.framework !== 'none') {
+  if (
+    plugin === '@jnxplus/nx-micronaut-gradle' ||
+    options.framework === 'micronaut'
+  ) {
     targets['build-image'] = {
-      executor: `${plugin}:build-image`,
-      options: {
-        framework: options.framework,
-      },
+      executor: `${plugin}:micronaut-build-image`,
     };
   }
 
