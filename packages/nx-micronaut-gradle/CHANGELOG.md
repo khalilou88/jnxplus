@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.5.5](https://github.com/khalilou88/jnxplus/compare/nx-micronaut-gradle-0.5.4...nx-micronaut-gradle-0.5.5) (2023-07-12)
+
+### Dependency Updates
+
+* `gradle` updated to version `0.13.2`
+
+
 ## [0.5.4](https://github.com/khalilou88/jnxplus/compare/nx-micronaut-gradle-0.5.3...nx-micronaut-gradle-0.5.4) (2023-07-08)
 
 ### Dependency Updates
