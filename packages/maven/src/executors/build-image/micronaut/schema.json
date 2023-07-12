@@ -2,7 +2,7 @@
   "version": 2,
   "outputCapture": "pipe",
   "$schema": "http://json-schema.org/schema",
-  "title": "Serve executor",
+  "title": "Build Image executor",
   "description": "",
   "type": "object",
   "properties": {

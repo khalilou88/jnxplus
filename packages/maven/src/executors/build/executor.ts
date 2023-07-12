@@ -38,27 +38,17 @@ export default async function runExecutor(
     return runCommand(`${command} -pl :${context.projectName}`);
   }
 
-  if (options.mvnBuildCommand) {
-    command += ` ${options.mvnBuildCommand}`;
+  if (options.command) {
+    command += ` ${options.command}`;
   } else {
-    if (getProjectType(context) === 'application') {
-      if (
-        getPluginName(context) === '@jnxplus/nx-boot-maven' ||
-        options.framework === 'spring-boot'
-      ) {
+    if (getPluginName(context) === '@jnxplus/nx-boot-maven') {
+      if (getProjectType(context) === 'application') {
         command += ' package spring-boot:repackage';
-      } else {
-        command += ' compile';
+      }
+      if (getProjectType(context) === 'library') {
+        command += ' install';
       }
     }
-
-    if (getProjectType(context) === 'library') {
-      command += ' install';
-    }
-  }
-
-  if (options.mvnBuildArgs) {
-    command += ` ${options.mvnBuildArgs}`;
   }
 
   return runCommand(`${command} -DskipTests=true -pl :${context.projectName}`);

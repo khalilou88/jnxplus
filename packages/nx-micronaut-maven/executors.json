@@ -7,8 +7,8 @@
       "description": "build executor"
     },
     "build-image": {
-      "implementation": "@jnxplus/maven/src/executors/build-image/executor",
-      "schema": "@jnxplus/maven/src/executors/build-image/schema.json",
+      "implementation": "@jnxplus/maven/src/executors/build-image/micronaut/executor",
+      "schema": "@jnxplus/maven/src/executors/build-image/micronaut/schema.json",
       "description": "build-image executor"
     },
     "serve": {

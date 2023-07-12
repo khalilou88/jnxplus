@@ -11,24 +11,15 @@ export default async function runExecutor(
 
   let command = getExecutable();
 
-  if (
-    getPluginName(context) === '@jnxplus/nx-boot-maven' ||
-    options.framework === 'spring-boot'
-  ) {
+  if (getPluginName(context) === '@jnxplus/nx-boot-maven') {
     command += ' spring-boot:run';
   }
 
-  if (
-    getPluginName(context) === '@jnxplus/nx-quarkus-maven' ||
-    options.framework === 'quarkus'
-  ) {
+  if (getPluginName(context) === '@jnxplus/nx-quarkus-maven') {
     command += ' quarkus:dev';
   }
 
-  if (
-    getPluginName(context) === '@jnxplus/nx-micronaut-maven' ||
-    options.framework === 'micronaut'
-  ) {
+  if (getPluginName(context) === '@jnxplus/nx-micronaut-maven') {
     command += ' mn:run';
   }
 

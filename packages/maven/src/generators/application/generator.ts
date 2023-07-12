@@ -404,10 +404,19 @@ export default async function (
     targets: {
       build: {
         executor: `${plugin}:build`,
+        options: {
+          command: 'compile',
+        },
         outputs: [`${normalizedOptions.projectRoot}/target`],
       },
       'build-image': {},
-      serve: {},
+      serve: {
+        executor: `${plugin}:serve`,
+        options: {
+          command: 'exec:java',
+        },
+        dependsOn: ['build'],
+      },
       lint: {
         executor: `${plugin}:lint`,
         options: {
@@ -425,41 +434,60 @@ export default async function (
 
   const targets = projectConfiguration.targets ?? {};
 
-  if (options.framework === 'none') {
-    targets['serve'] = {
-      executor: `${plugin}:run-task`,
-      options: {
-        task: 'exec:java',
-      },
-      dependsOn: ['build'],
+  if (
+    plugin === '@jnxplus/nx-boot-maven' ||
+    options.framework === 'spring-boot'
+  ) {
+    targets['build'].options = {
+      ...targets['build'].options,
+      command: 'package spring-boot:repackage',
     };
-  }
 
-  if (options.framework !== 'none') {
     targets['build-image'] = {
       executor: `${plugin}:build-image`,
     };
 
-    targets['serve'] = {
-      executor: `${plugin}:serve`,
-      dependsOn: ['build'],
+    targets['serve'].options = {
+      ...targets['serve'].options,
+      command: 'spring-boot:run',
     };
   }
 
-  if (options.framework && options.framework !== 'none') {
+  if (
+    plugin === '@jnxplus/nx-quarkus-maven' ||
+    options.framework === 'quarkus'
+  ) {
     targets['build'].options = {
       ...targets['build'].options,
-      framework: options.framework,
+      command: 'compile',
     };
 
-    targets['build-image'].options = {
-      ...targets['build-image'].options,
-      framework: options.framework,
+    targets['build-image'] = {
+      executor: `${plugin}:quarkus-build-image`,
     };
 
     targets['serve'].options = {
       ...targets['serve'].options,
-      framework: options.framework,
+      command: 'quarkus:dev',
+    };
+  }
+
+  if (
+    plugin === '@jnxplus/nx-micronaut-maven' ||
+    options.framework === 'micronaut'
+  ) {
+    targets['build'].options = {
+      ...targets['build'].options,
+      command: 'compile',
+    };
+
+    targets['build-image'] = {
+      executor: `${plugin}:micronaut-build-image`,
+    };
+
+    targets['serve'].options = {
+      ...targets['serve'].options,
+      command: 'mn:run',
     };
   }
 

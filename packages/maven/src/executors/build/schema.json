@@ -6,26 +6,17 @@
   "description": "",
   "type": "object",
   "properties": {
-    "framework": {
-      "type": "string",
-      "enum": ["spring-boot", "quarkus", "micronaut"],
-      "description": "Only required with nx-maven plugin"
-    },
     "mvnArgs": {
       "type": "string",
       "description": "Arguments to pass to the maven cli"
     },
-    "mvnBuildCommand": {
-      "type": "string",
-      "description": "Maven build command to use : compile, package or install"
-    },
-    "mvnBuildArgs": {
-      "type": "string",
-      "description": "Arguments to pass to the maven build command"
-    },
     "skipClean": {
       "type": "boolean",
       "default": true
+    },
+    "command": {
+      "type": "string",
+      "description": "build command"
     }
   },
   "required": []

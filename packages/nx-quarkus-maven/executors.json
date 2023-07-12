@@ -7,8 +7,8 @@
       "description": "build executor"
     },
     "build-image": {
-      "implementation": "@jnxplus/maven/src/executors/build-image/executor",
-      "schema": "@jnxplus/maven/src/executors/build-image/schema.json",
+      "implementation": "@jnxplus/common/src/executors/build-image/quarkus/executor",
+      "schema": "@jnxplus/common/src/executors/build-image/quarkus/schema.json",
       "description": "build-image executor"
     },
     "serve": {
