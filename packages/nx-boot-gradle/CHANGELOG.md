@@ -2,6 +2,23 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [8.0.0](https://github.com/khalilou88/jnxplus/compare/nx-boot-gradle-7.3.5...nx-boot-gradle-8.0.0) (2023-07-12)
+
+### Dependency Updates
+
+* `gradle` updated to version `0.13.2`
+
+### Features
+
+* **graph:** use gradle task for dep-graph ([a339be5](https://github.com/khalilou88/jnxplus/commit/a339be502cf1447c27c52c7fbe89f1e7d2072268))
+
+
+### BREAKING CHANGES
+
+* **graph:** the graph will not work until you add jnxplus gradle plugin to the root project
+
+
+
 ## [7.3.5](https://github.com/khalilou88/jnxplus/compare/nx-boot-gradle-7.3.4...nx-boot-gradle-7.3.5) (2023-07-08)
 
 ### Dependency Updates
