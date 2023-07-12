@@ -11,16 +11,10 @@ export default async function runExecutor(
 
   let command = getExecutable();
 
-  if (getPluginName(context) === '@jnxplus/nx-boot-maven') {
+  if (options.command) {
+    command += ` ${options.command}`;
+  } else if (getPluginName(context) === '@jnxplus/nx-boot-maven') {
     command += ' spring-boot:run';
-  }
-
-  if (getPluginName(context) === '@jnxplus/nx-quarkus-maven') {
-    command += ' quarkus:dev';
-  }
-
-  if (getPluginName(context) === '@jnxplus/nx-micronaut-maven') {
-    command += ' mn:run';
   }
 
   command += ` -pl :${context.projectName}`;

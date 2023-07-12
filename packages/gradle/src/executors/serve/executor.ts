@@ -19,7 +19,9 @@ export default async function runExecutor(
 
   let command = `${getExecutable()} ${projectPath}:`;
 
-  if (getPluginName(context) === '@jnxplus/nx-boot-gradle') {
+  if (options.command) {
+    command += ` ${options.command}`;
+  } else if (getPluginName(context) === '@jnxplus/nx-boot-gradle') {
     command += 'bootRun';
 
     if (options.args) {

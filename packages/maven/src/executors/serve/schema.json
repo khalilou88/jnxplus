@@ -6,6 +6,9 @@
   "description": "",
   "type": "object",
   "properties": {
+    "command": {
+      "type": "string"
+    },
     "args": {
       "type": "string"
     }
