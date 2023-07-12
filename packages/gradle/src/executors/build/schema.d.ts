@@ -1,8 +1,11 @@
 import { PackagingType } from '@jnxplus/common';
 
 export interface BuildExecutorSchema {
-  packaging?: PackagingType;
-  framework?: 'spring-boot' | 'quarkus' | 'micronaut';
-  args: string;
   projectPath?: string;
+  //TODO: make command mandatory
+  command?: string;
+  args?: string;
+  //TODO: remove packaging option and make command mandatory
+  //deprecated, use command to define your build command
+  packaging?: PackagingType;
 }

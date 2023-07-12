@@ -6,10 +6,13 @@
   "description": "",
   "type": "object",
   "properties": {
-    "args": {
+    "projectPath": {
       "type": "string"
     },
-    "projectPath": {
+    "command": {
+      "type": "string"
+    },
+    "args": {
       "type": "string"
     }
   },

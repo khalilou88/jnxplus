@@ -19,29 +19,12 @@ export default async function runExecutor(
 
   let command = `${getExecutable()} ${projectPath}:`;
 
-  if (
-    getPluginName(context) === '@jnxplus/nx-boot-gradle' ||
-    options.framework === 'spring-boot'
-  ) {
+  if (getPluginName(context) === '@jnxplus/nx-boot-gradle') {
     command += 'bootRun';
 
     if (options.args) {
       command += ` --args='${options.args}'`;
     }
-  }
-
-  if (
-    getPluginName(context) === '@jnxplus/nx-quarkus-gradle' ||
-    options.framework === 'quarkus'
-  ) {
-    command += 'quarkusDev';
-  }
-
-  if (
-    getPluginName(context) === '@jnxplus/nx-micronaut-gradle' ||
-    options.framework === 'micronaut'
-  ) {
-    command += 'run';
   }
 
   const result = runCommand(command);

@@ -322,6 +322,9 @@ export default async function (
     targets: {
       build: {
         executor: `${plugin}:build`,
+        options: {
+          command: 'build -x test',
+        },
         outputs: [`${normalizedOptions.projectRoot}/build`],
       },
       lint: {
@@ -339,11 +342,13 @@ export default async function (
 
   const targets = projectConfiguration.targets ?? {};
 
-  //this is important because in case of spring boot we use jar task to build libraries
-  if (options.framework && options.framework !== 'none') {
+  if (
+    plugin === '@jnxplus/nx-boot-gradle' ||
+    options.framework === 'spring-boot'
+  ) {
     targets['build'].options = {
       ...targets['build'].options,
-      framework: options.framework,
+      command: 'jar',
     };
   }
 

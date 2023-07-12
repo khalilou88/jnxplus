@@ -6,12 +6,19 @@
   "description": "",
   "type": "object",
   "properties": {
-    "packaging": {
-      "type": "string",
-      "default": "jar"
-    },
     "projectPath": {
       "type": "string"
+    },
+    "command": {
+      "type": "string"
+    },
+    "args": {
+      "type": "string"
+    },
+    "packaging": {
+      "type": "string",
+      "description": "deprecated, use command to define your build command",
+      "default": "jar"
     }
   },
   "required": []

@@ -390,10 +390,18 @@ export default async function (
     targets: {
       build: {
         executor: `${plugin}:build`,
+        options: {
+          command: 'build -x test',
+        },
         outputs: [`${normalizedOptions.projectRoot}/build`],
       },
       'build-image': {},
-      serve: {},
+      serve: {
+        executor: `${plugin}:serve`,
+        options: {
+          command: 'run',
+        },
+      },
       lint: {
         executor: `${plugin}:lint`,
         options: {
@@ -416,43 +424,36 @@ export default async function (
   ) {
     targets['build'].options = {
       ...targets['build'].options,
-      packaging: `${normalizedOptions.packaging}`,
-    };
-  }
-
-  if (options.framework === 'none') {
-    targets['serve'] = {
-      executor: `${plugin}:run-task`,
-      options: {
-        task: 'run',
-      },
-    };
-  }
-
-  if (options.framework !== 'none') {
-    targets['build-image'] = {
-      executor: `${plugin}:build-image`,
-    };
-
-    targets['serve'] = {
-      executor: `${plugin}:serve`,
-    };
-  }
-
-  if (options.framework && options.framework !== 'none') {
-    targets['build'].options = {
-      ...targets['build'].options,
-      framework: options.framework,
-    };
-
-    targets['build-image'].options = {
-      ...targets['build-image'].options,
-      framework: options.framework,
+      command: normalizedOptions.packaging === 'war' ? 'bootWar' : 'bootJar',
     };
 
     targets['serve'].options = {
       ...targets['serve'].options,
-      framework: options.framework,
+      command: 'bootRun',
+    };
+  }
+
+  if (
+    plugin === '@jnxplus/nx-quarkus-gradle' ||
+    options.framework === 'quarkus'
+  ) {
+    targets['build'].options = {
+      ...targets['build'].options,
+      command: 'quarkusBuild',
+    };
+
+    targets['serve'].options = {
+      ...targets['serve'].options,
+      command: 'quarkusDev',
+    };
+  }
+
+  if (options.framework && options.framework !== 'none') {
+    targets['build-image'] = {
+      executor: `${plugin}:build-image`,
+      options: {
+        framework: options.framework,
+      },
     };
   }
 

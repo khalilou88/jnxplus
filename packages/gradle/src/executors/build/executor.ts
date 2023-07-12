@@ -18,10 +18,9 @@ export default async function runExecutor(
 
   let target = '';
 
-  if (
-    getPluginName(context) === '@jnxplus/nx-boot-gradle' ||
-    options.framework === 'spring-boot'
-  ) {
+  if (options.command) {
+    target = options.command;
+  } else if (getPluginName(context) === '@jnxplus/nx-boot-gradle') {
     if (getProjectType(context) === 'library') {
       target = 'jar';
     } else {
@@ -32,21 +31,6 @@ export default async function runExecutor(
         target = 'bootWar';
       }
     }
-  }
-
-  if (
-    getPluginName(context) === '@jnxplus/nx-quarkus-gradle' ||
-    options.framework === 'quarkus'
-  ) {
-    //use quarkusBuild (instead of build task) to not trigger test
-    target = 'quarkusBuild';
-  }
-
-  if (
-    getPluginName(context) === '@jnxplus/nx-micronaut-gradle' ||
-    options.framework === 'micronaut'
-  ) {
-    target = 'build -x test';
   }
 
   //default build task
