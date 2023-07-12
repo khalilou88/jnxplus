@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.13.2](https://github.com/khalilou88/jnxplus/compare/gradle-0.13.1...gradle-0.13.2) (2023-07-12)
+
+
+### Bug Fixes
+
+* **graph:** remove graph legacy code for deps ([433b275](https://github.com/khalilou88/jnxplus/commit/433b27508b4ae1e91cf5dec6a33f3869611160aa))
+
+
+
 ## [0.13.1](https://github.com/khalilou88/jnxplus/compare/gradle-0.13.0...gradle-0.13.1) (2023-07-08)
 
 ### Dependency Updates
