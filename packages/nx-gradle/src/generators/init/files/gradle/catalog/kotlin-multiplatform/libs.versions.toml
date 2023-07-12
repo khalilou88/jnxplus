@@ -1,5 +1,18 @@
 [versions]
+java = "<%= javaVersion %>"
+kotlin = "<%= kotlinVersion %>"
+agp = "<%= agpVersion %>"
+compose = "<%= composeVersion %>"
+ktlint = "<%= ktlintVersion %>"
 
 [libraries]
 
 [plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "compose" }
+github-khalilou88-jnxplus = { id = "io.github.khalilou88.jnxplus", version.ref = "<%= jnxplusGradlePluginVersion %>" }
+
