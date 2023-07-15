@@ -14,14 +14,6 @@ export default async function runExecutor(
 ) {
   logger.info(`Executor ran for Build: ${JSON.stringify(options)}`);
 
-  if (process.env['NX_MAVEN_CLI_OPTS']) {
-    if (options.mvnArgs) {
-      options.mvnArgs += ` ${process.env['NX_MAVEN_CLI_OPTS']}`;
-    } else {
-      options.mvnArgs = `${process.env['NX_MAVEN_CLI_OPTS']}`;
-    }
-  }
-
   let command = getExecutable();
 
   if (options.mvnArgs) {

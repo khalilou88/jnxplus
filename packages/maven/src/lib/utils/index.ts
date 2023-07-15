@@ -10,7 +10,13 @@ import { readXml } from '../xml';
 
 export function getExecutable() {
   const isWin = process.platform === 'win32';
-  return isWin ? 'mvnw.cmd' : './mvnw';
+  let executable = isWin ? 'mvnw.cmd' : './mvnw';
+
+  if (process.env['NX_MAVEN_CLI_OPTS']) {
+    executable += ` ${process.env['NX_MAVEN_CLI_OPTS']}`;
+  }
+
+  return executable;
 }
 
 export function isPomPackaging(context: ExecutorContext): boolean {

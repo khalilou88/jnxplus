@@ -11,10 +11,6 @@ export default async function runExecutor(
 
   let command = getExecutable();
 
-  if (process.env['NX_MAVEN_CLI_OPTS']) {
-    command += ` ${process.env['NX_MAVEN_CLI_OPTS']}`;
-  }
-
   command += ' package';
 
   if (options.args) {
