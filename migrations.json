@@ -1,0 +1,12 @@
+{
+  "migrations": [
+    {
+      "cli": "nx",
+      "version": "16.5.4-beta.0",
+      "description": "Update outdated non-standard globs to unix standard",
+      "implementation": "./src/migrations/update-16-5-4/update-output-globs",
+      "package": "nx",
+      "name": "16.5.4-update-output-globs"
+    }
+  ]
+}

@@ -20,7 +20,11 @@
         "postTargets": ["gradle-plugin:set-version", "gradle-plugin:publish"],
         "commitMessageFormat": "release: cut release ${version} for ${projectName}"
       },
-      "dependsOn": [{ "target": "build" }]
+      "dependsOn": [
+        {
+          "target": "build"
+        }
+      ]
     },
     "set-version": {
       "executor": "@jnxplus/gradle:set-version",
