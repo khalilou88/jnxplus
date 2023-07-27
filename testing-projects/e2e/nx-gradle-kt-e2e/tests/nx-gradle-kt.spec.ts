@@ -171,7 +171,7 @@ describe('nx-gradle kotlin dsl e2e', () => {
     expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     const serveResult = await runNxCommandAsync(`serve ${appName}`);
-    expect(serveResult.stdout).toContain('Executor ran for Run Task');
+    expect(serveResult.stdout).toContain('Executor ran for Serve');
     expect(serveResult.stdout).toContain('Hello World!');
   }, 120000);
 
@@ -209,7 +209,7 @@ describe('nx-gradle kotlin dsl e2e', () => {
     expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     const serveResult = await runNxCommandAsync(`serve ${appName}`);
-    expect(serveResult.stdout).toContain('Executor ran for Run Task');
+    expect(serveResult.stdout).toContain('Executor ran for Serve');
     expect(serveResult.stdout).toContain('Hello World!');
   }, 120000);
 
