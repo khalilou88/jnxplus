@@ -403,11 +403,21 @@ export default async function (
     sourceRoot: `${normalizedOptions.projectRoot}/src`,
     targets: {
       build: {
-        executor: `${plugin}:build`,
+        executor: `${plugin}:run-task`,
         outputs: [`${normalizedOptions.projectRoot}/target`],
+        options: {
+          task: 'compile',
+        },
       },
       'build-image': {},
-      serve: {},
+      serve: {
+        executor: `${plugin}:run-task`,
+        options: {
+          task: 'exec:java',
+          keepItRunning: true,
+        },
+        dependsOn: ['build'],
+      },
       lint: {
         executor: `${plugin}:lint`,
         options: {
@@ -415,7 +425,10 @@ export default async function (
         },
       },
       test: {
-        executor: `${plugin}:test`,
+        executor: `${plugin}:run-task`,
+        options: {
+          task: 'test',
+        },
         dependsOn: ['build'],
       },
       ktformat: {},
@@ -425,41 +438,56 @@ export default async function (
 
   const targets = projectConfiguration.targets ?? {};
 
-  if (options.framework === 'none') {
-    targets['serve'] = {
-      executor: `${plugin}:run-task`,
-      options: {
-        task: 'exec:java',
-      },
-      dependsOn: ['build'],
-    };
-  }
-
-  if (options.framework !== 'none') {
-    targets['build-image'] = {
-      executor: `${plugin}:build-image`,
-    };
-
-    targets['serve'] = {
-      executor: `${plugin}:serve`,
-      dependsOn: ['build'],
-    };
-  }
-
-  if (options.framework && options.framework !== 'none') {
+  if (
+    plugin === '@jnxplus/nx-boot-maven' ||
+    options.framework === 'spring-boot'
+  ) {
     targets['build'].options = {
       ...targets['build'].options,
-      framework: options.framework,
+      task: 'package spring-boot:repackage',
     };
 
-    targets['build-image'].options = {
-      ...targets['build-image'].options,
-      framework: options.framework,
+    targets['build-image'] = {
+      executor: `${plugin}:run-task`,
+      options: {
+        task: 'spring-boot:build-image',
+      },
     };
 
     targets['serve'].options = {
       ...targets['serve'].options,
-      framework: options.framework,
+      task: 'spring-boot:run',
+    };
+  }
+
+  if (
+    plugin === '@jnxplus/nx-quarkus-maven' ||
+    options.framework === 'quarkus'
+  ) {
+    targets['build-image'] = {
+      executor: `${plugin}:quarkus-build-image`,
+    };
+
+    targets['serve'].options = {
+      ...targets['serve'].options,
+      task: 'quarkus:dev',
+    };
+  }
+
+  if (
+    plugin === '@jnxplus/nx-micronaut-maven' ||
+    options.framework === 'micronaut'
+  ) {
+    targets['build-image'] = {
+      executor: `${plugin}:run-task`,
+      options: {
+        task: 'package -Dpackaging=docker',
+      },
+    };
+
+    targets['serve'].options = {
+      ...targets['serve'].options,
+      task: 'mn:run',
     };
   }
 

@@ -72,7 +72,10 @@ function addProjects(
         projectType: projectGraphNodeType === 'app' ? 'application' : 'library',
         targets: {
           build: {
-            executor: `${pluginName}:build`,
+            executor: `${pluginName}:run-task`,
+            options: {
+              task: getTask(projectRoot, projectGraphNodeType),
+            },
           },
           'run-task': {
             executor: `${pluginName}:run-task`,
@@ -207,4 +210,19 @@ function getDependencyProjects(
   projects: MavenProjectType[]
 ) {
   return projects.filter((p) => project.dependencies.includes(p.artifactId));
+}
+
+function getTask(
+  projectRoot: string,
+  projectGraphNodeType: 'app' | 'e2e' | 'lib'
+) {
+  if (!projectRoot) {
+    return 'install -N';
+  }
+
+  if (projectGraphNodeType === 'app') {
+    return 'compile';
+  }
+
+  return 'install';
 }

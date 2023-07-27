@@ -237,8 +237,11 @@ function generateAndroidApp(normalizedOptions: NormalizedSchema, tree: Tree) {
     sourceRoot: `${normalizedOptions.androidAppRoot}/src`,
     targets: {
       build: {
-        executor: `@jnxplus/nx-gradle:build`,
+        executor: `@jnxplus/nx-gradle:run-task`,
         outputs: [`${normalizedOptions.androidAppRoot}/build`],
+        options: {
+          task: 'build',
+        },
       },
       serve: {},
       lint: {
@@ -248,7 +251,10 @@ function generateAndroidApp(normalizedOptions: NormalizedSchema, tree: Tree) {
         },
       },
       test: {
-        executor: `@jnxplus/nx-gradle:test`,
+        executor: `@jnxplus/nx-gradle:run-task`,
+        options: {
+          task: 'test',
+        },
       },
       ktformat: {
         executor: `@jnxplus/nx-gradle:ktformat`,
@@ -298,8 +304,11 @@ function generateDesktopApp(normalizedOptions: NormalizedSchema, tree: Tree) {
     sourceRoot: `${normalizedOptions.desktopAppRoot}/src`,
     targets: {
       build: {
-        executor: `@jnxplus/nx-gradle:build`,
+        executor: `@jnxplus/nx-gradle:run-task`,
         outputs: [`${normalizedOptions.desktopAppRoot}/build`],
+        options: {
+          task: 'build',
+        },
       },
       serve: {
         executor: `@jnxplus/nx-gradle:run-task`,
@@ -315,7 +324,10 @@ function generateDesktopApp(normalizedOptions: NormalizedSchema, tree: Tree) {
         },
       },
       test: {
-        executor: `@jnxplus/nx-gradle:test`,
+        executor: `@jnxplus/nx-gradle:run-task`,
+        options: {
+          task: 'test',
+        },
       },
       ktformat: {
         executor: `@jnxplus/nx-gradle:ktformat`,
@@ -343,8 +355,11 @@ function generateSharedLib(normalizedOptions: NormalizedSchema, tree: Tree) {
     sourceRoot: `${normalizedOptions.sharedLibRoot}/src`,
     targets: {
       build: {
-        executor: `@jnxplus/nx-gradle:build`,
+        executor: `@jnxplus/nx-gradle:run-task`,
         outputs: [`${normalizedOptions.sharedLibRoot}/build`],
+        options: {
+          task: 'build',
+        },
       },
       lint: {
         executor: `@jnxplus/nx-gradle:lint`,
@@ -353,7 +368,10 @@ function generateSharedLib(normalizedOptions: NormalizedSchema, tree: Tree) {
         },
       },
       test: {
-        executor: `@jnxplus/nx-gradle:test`,
+        executor: `@jnxplus/nx-gradle:run-task`,
+        options: {
+          task: 'test',
+        },
       },
       ktformat: {
         executor: `@jnxplus/nx-gradle:ktformat`,
