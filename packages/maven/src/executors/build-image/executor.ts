@@ -22,10 +22,6 @@ export default async function runExecutor(
 
   let command = getExecutable();
 
-  if (process.env['NX_MAVEN_CLI_OPTS']) {
-    command += ` ${process.env['NX_MAVEN_CLI_OPTS']}`;
-  }
-
   if (
     getPluginName(context) === '@jnxplus/nx-boot-maven' ||
     options.framework === 'spring-boot'
