@@ -15,13 +15,13 @@ export default async function runExecutor(
     command += ` ${options.command}`;
   } else if (getPluginName(context) === '@jnxplus/nx-boot-maven') {
     command += ' spring-boot:run';
+
+    if (options.args) {
+      command += ` ${options.args}`;
+    }
   }
 
   command += ` -pl :${context.projectName}`;
-
-  if (options.args) {
-    command += ` ${options.args}`;
-  }
 
   const result = runCommand(command);
 
