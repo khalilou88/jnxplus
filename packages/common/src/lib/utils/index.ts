@@ -203,3 +203,20 @@ export function getProjectGraphNodeType(
 export function getPluginName(context: ExecutorContext) {
   return context.target?.executor?.split(':')[0];
 }
+
+function titleCase(str: string) {
+  return str
+    .toLowerCase()
+    .split(' ')
+    .map(function (word) {
+      return word.replace(word[0], word[0].toUpperCase());
+    })
+    .join(' ');
+}
+
+export function getTargetName(context: ExecutorContext) {
+  if (!context.targetName) {
+    throw new Error('targetName must set');
+  }
+  return titleCase(context.targetName.replace(/-/g, ' '));
+}

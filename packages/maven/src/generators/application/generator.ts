@@ -406,7 +406,7 @@ export default async function (
         executor: `${plugin}:run-task`,
         outputs: [`${normalizedOptions.projectRoot}/target`],
         options: {
-          task: 'compile',
+          task: 'compile -DskipTests=true',
         },
       },
       'build-image': {},
@@ -444,7 +444,7 @@ export default async function (
   ) {
     targets['build'].options = {
       ...targets['build'].options,
-      task: 'package spring-boot:repackage',
+      task: 'package spring-boot:repackage -DskipTests=true',
     };
 
     targets['build-image'] = {

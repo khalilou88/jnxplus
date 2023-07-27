@@ -323,7 +323,7 @@ export default async function (
       build: {
         executor: `${plugin}:run-task`,
         options: {
-          command: 'build',
+          task: 'build',
         },
         outputs: [`${normalizedOptions.projectRoot}/build`],
       },

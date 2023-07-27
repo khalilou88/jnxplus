@@ -349,7 +349,7 @@ export default async function (
         executor: `${plugin}:run-task`,
         outputs: [`${normalizedOptions.projectRoot}/target`],
         options: {
-          command: 'install',
+          task: 'install -DskipTests=true',
         },
       },
       lint: {
