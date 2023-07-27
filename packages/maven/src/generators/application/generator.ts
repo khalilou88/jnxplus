@@ -414,7 +414,6 @@ export default async function (
         executor: `${plugin}:run-task`,
         options: {
           task: 'exec:java',
-          keepItRunning: true,
         },
         dependsOn: ['build'],
       },
@@ -457,6 +456,7 @@ export default async function (
     targets['serve'].options = {
       ...targets['serve'].options,
       task: 'spring-boot:run',
+      keepItRunning: true,
     };
   }
 
@@ -471,6 +471,7 @@ export default async function (
     targets['serve'].options = {
       ...targets['serve'].options,
       task: 'quarkus:dev',
+      keepItRunning: true,
     };
   }
 
@@ -488,6 +489,7 @@ export default async function (
     targets['serve'].options = {
       ...targets['serve'].options,
       task: 'mn:run',
+      keepItRunning: true,
     };
   }
 

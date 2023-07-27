@@ -400,7 +400,6 @@ export default async function (
         executor: `${plugin}:run-task`,
         options: {
           task: 'run',
-          keepItRunning: true,
         },
       },
       lint: {
@@ -434,6 +433,7 @@ export default async function (
     targets['serve'].options = {
       ...targets['serve'].options,
       task: 'bootRun',
+      keepItRunning: true,
     };
 
     targets['build-image'] = {
@@ -456,6 +456,7 @@ export default async function (
     targets['serve'].options = {
       ...targets['serve'].options,
       task: 'quarkusDev',
+      keepItRunning: true,
     };
 
     targets['build-image'] = {
@@ -472,6 +473,11 @@ export default async function (
       options: {
         task: 'dockerBuild',
       },
+    };
+
+    targets['serve'].options = {
+      ...targets['serve'].options,
+      keepItRunning: true,
     };
   }
 
