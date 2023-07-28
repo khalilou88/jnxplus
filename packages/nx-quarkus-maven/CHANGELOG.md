@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.11.0](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-maven-0.10.4...nx-quarkus-maven-0.11.0) (2023-07-28)
+
+### Dependency Updates
+
+* `maven` updated to version `0.7.0`
+* `common` updated to version `0.10.0`
+
+### Features
+
+* **executors:** use run-task instead of others executors ([#344](https://github.com/khalilou88/jnxplus/issues/344)) ([3b40dc6](https://github.com/khalilou88/jnxplus/commit/3b40dc668b69d8dcd6f934bd894d46768d574e8c))
+
+
+
 ## [0.10.4](https://github.com/khalilou88/jnxplus/compare/nx-quarkus-maven-0.10.3...nx-quarkus-maven-0.10.4) (2023-07-08)
 
 ### Dependency Updates
