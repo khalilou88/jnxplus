@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "outputCapture": "pipe",
+  "$schema": "http://json-schema.org/schema",
+  "title": "Build Image executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "imageType": {
+      "type": "string",
+      "description": "Image type to build",
+      "default": "jvm"
+    },
+    "imageNamePrefix": {
+      "type": "string",
+      "description": "Image name prefix",
+      "default": "quarkus"
+    },
+    "imageNameSuffix": {
+      "type": "string",
+      "description": "Image name suffix"
+    }
+  },
+  "required": []
+}
