@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [7.3.0](https://github.com/khalilou88/jnxplus/compare/nx-boot-maven-7.2.3...nx-boot-maven-7.3.0) (2023-07-28)
+
+### Dependency Updates
+
+* `maven` updated to version `0.7.0`
+* `common` updated to version `0.10.0`
+
+### Features
+
+* **executors:** deprecate executors ([8afa24b](https://github.com/khalilou88/jnxplus/commit/8afa24b512993e56a012224ec81f07893a6cbce5))
+
+
+
 ## [7.2.3](https://github.com/khalilou88/jnxplus/compare/nx-boot-maven-7.2.2...nx-boot-maven-7.2.3) (2023-07-08)
 
 ### Dependency Updates
