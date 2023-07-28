@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.7.0](https://github.com/khalilou88/jnxplus/compare/maven-0.6.1...maven-0.7.0) (2023-07-28)
+
+### Dependency Updates
+
+* `common` updated to version `0.10.0`
+
+### Features
+
+* **executors:** always set NX_MAVEN_CLI_OPTS ([#343](https://github.com/khalilou88/jnxplus/issues/343)) ([85a1f5d](https://github.com/khalilou88/jnxplus/commit/85a1f5d42cace5f763a8082435f317e4108ab8d9))
+* **executors:** use run-task instead of others executors ([#344](https://github.com/khalilou88/jnxplus/issues/344)) ([3b40dc6](https://github.com/khalilou88/jnxplus/commit/3b40dc668b69d8dcd6f934bd894d46768d574e8c))
+
+
+
 ## [0.6.1](https://github.com/khalilou88/jnxplus/compare/maven-0.6.0...maven-0.6.1) (2023-07-08)
 
 ### Dependency Updates
