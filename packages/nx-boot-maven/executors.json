@@ -1,50 +1,50 @@
 {
   "$schema": "http://json-schema.org/schema",
   "executors": {
-    "build": {
-      "implementation": "@jnxplus/maven/src/executors/build/executor",
-      "schema": "@jnxplus/maven/src/executors/build/schema.json",
-      "description": "build executor"
-    },
-    "build-image": {
-      "implementation": "@jnxplus/maven/src/executors/build-image/executor",
-      "schema": "@jnxplus/maven/src/executors/build-image/schema.json",
-      "description": "build-image executor"
-    },
-    "serve": {
-      "implementation": "@jnxplus/maven/src/executors/serve/executor",
-      "schema": "@jnxplus/maven/src/executors/serve/schema.json",
-      "description": "serve executor"
+    "run-task": {
+      "implementation": "@jnxplus/maven/src/executors/run-task/executor",
+      "schema": "@jnxplus/maven/src/executors/run-task/schema.json",
+      "description": "run-task executor"
     },
     "lint": {
       "implementation": "@jnxplus/maven/src/executors/lint/executor",
       "schema": "@jnxplus/common/src/executors/lint/schema.json",
       "description": "lint executor"
     },
-    "test": {
-      "implementation": "@jnxplus/maven/src/executors/test/executor",
-      "schema": "@jnxplus/maven/src/executors/test/schema.json",
-      "description": "test executor"
-    },
     "ktformat": {
       "implementation": "@jnxplus/maven/src/executors/ktformat/executor",
       "schema": "@jnxplus/common/src/executors/ktformat/schema.json",
       "description": "kotlin format executor"
     },
+    "build": {
+      "implementation": "@jnxplus/maven/src/executors/build/executor",
+      "schema": "@jnxplus/maven/src/executors/build/schema.json",
+      "description": "Deprecated - build executor"
+    },
+    "build-image": {
+      "implementation": "@jnxplus/maven/src/executors/build-image/executor",
+      "schema": "@jnxplus/maven/src/executors/build-image/schema.json",
+      "description": "Deprecated - build-image executor"
+    },
+    "serve": {
+      "implementation": "@jnxplus/maven/src/executors/serve/executor",
+      "schema": "@jnxplus/maven/src/executors/serve/schema.json",
+      "description": "Deprecated - serve executor"
+    },
+    "test": {
+      "implementation": "@jnxplus/maven/src/executors/test/executor",
+      "schema": "@jnxplus/maven/src/executors/test/schema.json",
+      "description": "Deprecated - test executor"
+    },
     "kformat": {
       "implementation": "@jnxplus/maven/src/executors/ktformat/executor",
       "schema": "@jnxplus/common/src/executors/ktformat/schema.json",
-      "description": "(Deprecated) kotlin format executor"
-    },
-    "run-task": {
-      "implementation": "@jnxplus/maven/src/executors/run-task/executor",
-      "schema": "@jnxplus/maven/src/executors/run-task/schema.json",
-      "description": "run-task executor"
+      "description": "Deprecated - kotlin format executor"
     },
     "publish": {
       "implementation": "@jnxplus/maven/src/executors/publish/executor",
       "schema": "@jnxplus/maven/src/executors/publish/schema.json",
-      "description": "publish executor"
+      "description": "Deprecated - publish executor"
     }
   }
 }
