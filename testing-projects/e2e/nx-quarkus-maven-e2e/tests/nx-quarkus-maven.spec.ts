@@ -240,7 +240,22 @@ describe('nx-quarkus-maven e2e', () => {
       await runNxCommandAsync(
         `generate @jnxplus/nx-quarkus-maven:application ${appName}`
       );
-      await runNxCommandAsync(`build ${appName} --mvnBuildCommand="package"`);
+
+      //test run-task
+      const projectJson = readJson(`apps/${appName}/project.json`);
+      projectJson.targets = {
+        ...projectJson.targets,
+        build: {
+          executor: '@jnxplus/nx-quarkus-maven:run-task',
+          options: {
+            task: 'package',
+          },
+        },
+      };
+      updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
+      //end test run-task
+
+      await runNxCommandAsync(`build ${appName}`);
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
       );
@@ -413,7 +428,22 @@ describe('nx-quarkus-maven e2e', () => {
       await runNxCommandAsync(
         `generate @jnxplus/nx-quarkus-maven:application ${appName} --language kotlin`
       );
-      await runNxCommandAsync(`build ${appName} --mvnBuildCommand="package"`);
+
+      //test run-task
+      const projectJson = readJson(`apps/${appName}/project.json`);
+      projectJson.targets = {
+        ...projectJson.targets,
+        build: {
+          executor: '@jnxplus/nx-quarkus-maven:run-task',
+          options: {
+            task: 'package',
+          },
+        },
+      };
+      updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
+      //end test run-task
+
+      await runNxCommandAsync(`build ${appName}`);
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`
       );

@@ -346,8 +346,11 @@ export default async function (
     sourceRoot: `${normalizedOptions.projectRoot}/src`,
     targets: {
       build: {
-        executor: `${plugin}:build`,
+        executor: `${plugin}:run-task`,
         outputs: [`${normalizedOptions.projectRoot}/target`],
+        options: {
+          task: 'install -DskipTests=true',
+        },
       },
       lint: {
         executor: `${plugin}:lint`,
@@ -356,20 +359,16 @@ export default async function (
         },
       },
       test: {
-        executor: `${plugin}:test`,
+        executor: `${plugin}:run-task`,
+        options: {
+          task: 'test',
+        },
       },
     },
     tags: normalizedOptions.parsedTags,
   };
 
   const targets = projectConfiguration.targets ?? {};
-
-  if (options.framework && options.framework !== 'none') {
-    targets['build'].options = {
-      ...targets['build'].options,
-      framework: options.framework,
-    };
-  }
 
   if (options.language === 'kotlin') {
     targets['ktformat'] = {

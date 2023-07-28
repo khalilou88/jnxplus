@@ -1,50 +1,25 @@
 {
   "$schema": "http://json-schema.org/schema",
   "executors": {
-    "build": {
-      "implementation": "@jnxplus/gradle/src/executors/build/executor",
-      "schema": "@jnxplus/gradle/src/executors/build/schema.json",
-      "description": "build executor"
-    },
-    "build-image": {
-      "implementation": "@jnxplus/gradle/src/executors/build-image/executor",
-      "schema": "@jnxplus/gradle/src/executors/build-image/schema.json",
-      "description": "build-image executor"
-    },
-    "serve": {
-      "implementation": "@jnxplus/gradle/src/executors/serve/executor",
-      "schema": "@jnxplus/gradle/src/executors/serve/schema.json",
-      "description": "serve executor"
+    "run-task": {
+      "implementation": "@jnxplus/gradle/src/executors/run-task/executor",
+      "schema": "@jnxplus/gradle/src/executors/run-task/schema.json",
+      "description": "run-task executor"
     },
     "lint": {
       "implementation": "@jnxplus/gradle/src/executors/lint/executor",
       "schema": "@jnxplus/common/src/executors/lint/schema.json",
       "description": "lint executor"
     },
-    "test": {
-      "implementation": "@jnxplus/gradle/src/executors/test/executor",
-      "schema": "@jnxplus/gradle/src/executors/test/schema.json",
-      "description": "test executor"
-    },
     "ktformat": {
       "implementation": "@jnxplus/gradle/src/executors/ktformat/executor",
       "schema": "@jnxplus/common/src/executors/ktformat/schema.json",
       "description": "kotlin format executor"
     },
-    "kformat": {
-      "implementation": "@jnxplus/gradle/src/executors/ktformat/executor",
-      "schema": "@jnxplus/common/src/executors/ktformat/schema.json",
-      "description": "(Deprecated) kotlin format executor"
-    },
-    "run-task": {
-      "implementation": "@jnxplus/gradle/src/executors/run-task/executor",
-      "schema": "@jnxplus/gradle/src/executors/run-task/schema.json",
-      "description": "run-task executor"
-    },
-    "publish": {
-      "implementation": "@jnxplus/gradle/src/executors/publish/executor",
-      "schema": "@jnxplus/gradle/src/executors/publish/schema.json",
-      "description": "publish executor"
+    "quarkus-build-image": {
+      "implementation": "@jnxplus/common/src/executors/build-image/quarkus/executor",
+      "schema": "@jnxplus/common/src/executors/build-image/quarkus/schema.json",
+      "description": "quarkus build-image executor"
     }
   }
 }

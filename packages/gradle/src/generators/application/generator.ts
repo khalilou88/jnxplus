@@ -389,11 +389,19 @@ export default async function (
     sourceRoot: `${normalizedOptions.projectRoot}/src`,
     targets: {
       build: {
-        executor: `${plugin}:build`,
+        executor: `${plugin}:run-task`,
         outputs: [`${normalizedOptions.projectRoot}/build`],
+        options: {
+          task: 'build',
+        },
       },
       'build-image': {},
-      serve: {},
+      serve: {
+        executor: `${plugin}:run-task`,
+        options: {
+          task: 'run',
+        },
+      },
       lint: {
         executor: `${plugin}:lint`,
         options: {
@@ -401,7 +409,10 @@ export default async function (
         },
       },
       test: {
-        executor: `${plugin}:test`,
+        executor: `${plugin}:run-task`,
+        options: {
+          task: 'test',
+        },
       },
       ktformat: {},
     },
@@ -416,43 +427,57 @@ export default async function (
   ) {
     targets['build'].options = {
       ...targets['build'].options,
-      packaging: `${normalizedOptions.packaging}`,
-    };
-  }
-
-  if (options.framework === 'none') {
-    targets['serve'] = {
-      executor: `${plugin}:run-task`,
-      options: {
-        task: 'run',
-      },
-    };
-  }
-
-  if (options.framework !== 'none') {
-    targets['build-image'] = {
-      executor: `${plugin}:build-image`,
-    };
-
-    targets['serve'] = {
-      executor: `${plugin}:serve`,
-    };
-  }
-
-  if (options.framework && options.framework !== 'none') {
-    targets['build'].options = {
-      ...targets['build'].options,
-      framework: options.framework,
-    };
-
-    targets['build-image'].options = {
-      ...targets['build-image'].options,
-      framework: options.framework,
+      task: normalizedOptions.packaging === 'war' ? 'bootWar' : 'bootJar',
     };
 
     targets['serve'].options = {
       ...targets['serve'].options,
-      framework: options.framework,
+      task: 'bootRun',
+      keepItRunning: true,
+    };
+
+    targets['build-image'] = {
+      executor: `${plugin}:run-task`,
+      options: {
+        task: 'bootBuildImage',
+      },
+    };
+  }
+
+  if (
+    plugin === '@jnxplus/nx-quarkus-gradle' ||
+    options.framework === 'quarkus'
+  ) {
+    targets['build'].options = {
+      ...targets['build'].options,
+      task: 'quarkusBuild',
+    };
+
+    targets['serve'].options = {
+      ...targets['serve'].options,
+      task: 'quarkusDev',
+      keepItRunning: true,
+    };
+
+    targets['build-image'] = {
+      executor: `${plugin}:quarkus-build-image`,
+    };
+  }
+
+  if (
+    plugin === '@jnxplus/nx-micronaut-gradle' ||
+    options.framework === 'micronaut'
+  ) {
+    targets['build-image'] = {
+      executor: `${plugin}:run-task`,
+      options: {
+        task: 'dockerBuild',
+      },
+    };
+
+    targets['serve'].options = {
+      ...targets['serve'].options,
+      keepItRunning: true,
     };
   }
 
