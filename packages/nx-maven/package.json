@@ -1,6 +1,6 @@
 {
   "name": "@jnxplus/nx-maven",
-  "version": "0.6.4",
+  "version": "0.7.0",
   "type": "commonjs",
   "main": "src/index.js",
   "generators": "./generators.json",
