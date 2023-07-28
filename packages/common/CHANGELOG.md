@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.10.0](https://github.com/khalilou88/jnxplus/compare/common-0.9.1...common-0.10.0) (2023-07-28)
+
+
+### Features
+
+* **executors:** use run-task instead of others executors ([#344](https://github.com/khalilou88/jnxplus/issues/344)) ([3b40dc6](https://github.com/khalilou88/jnxplus/commit/3b40dc668b69d8dcd6f934bd894d46768d574e8c))
+
+
+
 ## [0.9.1](https://github.com/khalilou88/jnxplus/compare/common-0.9.0...common-0.9.1) (2023-07-08)
 
 
