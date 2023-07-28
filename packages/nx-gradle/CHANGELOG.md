@@ -2,6 +2,20 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.7.0](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.6.1...nx-gradle-0.7.0) (2023-07-28)
+
+### Dependency Updates
+
+* `gradle-plugin` updated to version `0.2.0`
+* `gradle` updated to version `0.14.0`
+* `common` updated to version `0.10.0`
+
+### Features
+
+* **executors:** use run-task instead of others executors ([#344](https://github.com/khalilou88/jnxplus/issues/344)) ([3b40dc6](https://github.com/khalilou88/jnxplus/commit/3b40dc668b69d8dcd6f934bd894d46768d574e8c))
+
+
+
 ## [0.6.1](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.6.0...nx-gradle-0.6.1) (2023-07-12)
 
 ### Dependency Updates
