@@ -414,6 +414,7 @@ export default async function (
           task: 'test',
         },
       },
+      'integration-test': {},
       ktformat: {},
     },
     tags: normalizedOptions.parsedTags,
@@ -461,6 +462,13 @@ export default async function (
 
     targets['build-image'] = {
       executor: `${plugin}:quarkus-build-image`,
+    };
+
+    targets['integration-test'] = {
+      executor: `${plugin}:run-task`,
+      options: {
+        task: 'quarkusIntTest',
+      },
     };
   }
 

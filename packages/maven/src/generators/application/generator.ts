@@ -430,6 +430,7 @@ export default async function (
         },
         dependsOn: ['build'],
       },
+      'integration-test': {},
       ktformat: {},
     },
     tags: normalizedOptions.parsedTags,
@@ -472,6 +473,13 @@ export default async function (
       ...targets['serve'].options,
       task: 'quarkus:dev',
       keepItRunning: true,
+    };
+
+    targets['integration-test'] = {
+      executor: `${plugin}:run-task`,
+      options: {
+        task: 'integration-test',
+      },
     };
   }
 
