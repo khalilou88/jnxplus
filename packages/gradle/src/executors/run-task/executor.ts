@@ -17,7 +17,14 @@ export default async function runExecutor(
     projectPath = getProjectPath(context);
   }
 
-  const command = `${getExecutable()} ${projectPath}:${options.task}`;
+  let task = '';
+  if (Array.isArray(options.task)) {
+    task = options.task.join(' ');
+  } else {
+    task = options.task;
+  }
+
+  const command = `${getExecutable()} ${projectPath}:${task}`;
 
   const result = runCommand(command);
 

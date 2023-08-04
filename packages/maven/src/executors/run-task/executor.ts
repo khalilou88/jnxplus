@@ -10,9 +10,14 @@ export default async function runExecutor(
   const targetName = getTargetName(context);
   logger.info(`Executor ran for ${targetName}: ${JSON.stringify(options)}`);
 
-  const command = `${getExecutable()} ${options.task} -pl :${
-    context.projectName
-  }`;
+  let task = '';
+  if (Array.isArray(options.task)) {
+    task = options.task.join(' ');
+  } else {
+    task = options.task;
+  }
+
+  const command = `${getExecutable()} ${task} -pl :${context.projectName}`;
 
   const result = runCommand(command);
 
