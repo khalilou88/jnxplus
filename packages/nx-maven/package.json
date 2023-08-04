@@ -38,5 +38,10 @@
   },
   "peerDependencies": {
     "@nx/devkit": ">=16.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khalilou88/jnxplus.git",
+    "directory": "packages/nx-maven"
   }
 }
