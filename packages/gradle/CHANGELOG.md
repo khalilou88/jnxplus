@@ -2,6 +2,17 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.15.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.14.0...gradle-0.15.0) (2023-08-05)
+
+
+### Features
+
+* **executors:** add NX_GRADLE_CLI_OPTS env variable ([8294cc8](https://github.com/khalilou88/jnxplus/commit/8294cc8238261b2b3b5f65baf4df0838db4b9a08))
+* **executors:** remove deprecated executors ([#351](https://github.com/khalilou88/jnxplus/issues/351)) ([11cc1d7](https://github.com/khalilou88/jnxplus/commit/11cc1d772e495370d679146b1565833b03aa492a))
+* **generators:** add integration-test target for quarkus app generator ([872a546](https://github.com/khalilou88/jnxplus/commit/872a54644ba55433721cf25050ba5431083a8635))
+
+
+
 # [0.14.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.13.2...gradle-0.14.0) (2023-07-28)
 
 ### Dependency Updates
