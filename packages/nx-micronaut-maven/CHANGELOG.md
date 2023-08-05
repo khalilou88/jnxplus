@@ -2,6 +2,18 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.5.0](https://github.com/khalilou88/jnxplus/compare/nx-micronaut-maven-0.4.0...nx-micronaut-maven-0.5.0) (2023-08-05)
+
+### Dependency Updates
+
+* `maven` updated to version `0.8.0`
+
+### Features
+
+* add repository to package.json ([f08724a](https://github.com/khalilou88/jnxplus/commit/f08724ac736499548c7dff23ad125f59ed257f73))
+
+
+
 # [0.4.0](https://github.com/khalilou88/jnxplus/compare/nx-micronaut-maven-0.3.4...nx-micronaut-maven-0.4.0) (2023-07-28)
 
 ### Dependency Updates
