@@ -1,3 +1,7 @@
+# Plugin deprecated
+
+Plugin deprecated, use @jnxplus/nx-gradle instead.
+
 # @jnxplus/nx-boot-gradle
 
 [![npm version](https://badge.fury.io/js/@jnxplus%2Fnx-boot-gradle.svg)](https://badge.fury.io/js/@jnxplus%2Fnx-boot-gradle)

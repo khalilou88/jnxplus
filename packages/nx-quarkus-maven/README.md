@@ -1,3 +1,7 @@
+# Plugin deprecated
+
+Plugin deprecated, use @jnxplus/nx-maven instead.
+
 # @jnxplus/nx-quarkus-maven
 
 [![npm version](https://badge.fury.io/js/@jnxplus%2Fnx-quarkus-maven.svg)](https://badge.fury.io/js/@jnxplus%2Fnx-quarkus-maven)

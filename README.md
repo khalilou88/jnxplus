@@ -4,6 +4,12 @@
 
 ### Plugins
 
+#### Gradle Build Tool
+
+| Plugin                                     | Frameworks                                                |
+| ------------------------------------------ | --------------------------------------------------------- |
+| [`@jnxplus/nx-gradle`](packages/nx-gradle) | Spring-Boot, Quarkus, Micronaut, Kotlin Multiplatform,... |
+
 #### Maven Build Tool
 
 | Plugin                                                       | Frameworks                          | Dependency management |
@@ -11,13 +17,6 @@
 | [`@jnxplus/nx-maven`](packages/nx-maven)                     | Spring-Boot, Quarkus, Micronaut,... | BOM                   |
 | [`@jnxplus/nx-boot-maven`](packages/nx-boot-maven)           | Spring-Boot                         | Parent POM            |
 | [`@jnxplus/nx-micronaut-maven`](packages/nx-micronaut-maven) | Micronaut                           | Parent POM            |
-
-#### Gradle Build Tool
-
-| Plugin                                               | Frameworks                                                |
-| ---------------------------------------------------- | --------------------------------------------------------- |
-| [`@jnxplus/nx-gradle`](packages/nx-gradle)           | Spring-Boot, Quarkus, Micronaut, Kotlin Multiplatform,... |
-| [`@jnxplus/nx-boot-gradle`](packages/nx-boot-gradle) | Spring-Boot                                               |
 
 ### Credits
 
