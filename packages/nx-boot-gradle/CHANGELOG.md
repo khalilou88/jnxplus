@@ -2,6 +2,24 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [9.0.0](https://github.com/khalilou88/jnxplus/compare/nx-boot-gradle-8.1.0...nx-boot-gradle-9.0.0) (2023-08-05)
+
+### Dependency Updates
+
+* `gradle` updated to version `0.15.0`
+
+### Features
+
+* add repository to package.json ([f08724a](https://github.com/khalilou88/jnxplus/commit/f08724ac736499548c7dff23ad125f59ed257f73))
+* **executors:** remove deprecated executors from nx-boot plugins ([27ebe79](https://github.com/khalilou88/jnxplus/commit/27ebe793c2dcdf9afbcbc870d68fc6177b7dd086))
+
+
+### BREAKING CHANGES
+
+* **executors:** from now we need to change old executors by run-task executor
+
+
+
 # [8.1.0](https://github.com/khalilou88/jnxplus/compare/nx-boot-gradle-8.0.0...nx-boot-gradle-8.1.0) (2023-07-28)
 
 ### Dependency Updates
