@@ -2,6 +2,16 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.8.0](https://github.com/khalilou88/jnxplus/compare/maven-0.7.0...maven-0.8.0) (2023-08-05)
+
+
+### Features
+
+* **executors:** remove deprecated executors ([#351](https://github.com/khalilou88/jnxplus/issues/351)) ([11cc1d7](https://github.com/khalilou88/jnxplus/commit/11cc1d772e495370d679146b1565833b03aa492a))
+* **generators:** add integration-test target for quarkus app generator ([872a546](https://github.com/khalilou88/jnxplus/commit/872a54644ba55433721cf25050ba5431083a8635))
+
+
+
 # [0.7.0](https://github.com/khalilou88/jnxplus/compare/maven-0.6.1...maven-0.7.0) (2023-07-28)
 
 ### Dependency Updates
