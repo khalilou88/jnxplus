@@ -1,4 +1,4 @@
 export interface RunTaskExecutorSchema {
-  task: string;
+  task: string | string[];
   keepItRunning: boolean;
 }
