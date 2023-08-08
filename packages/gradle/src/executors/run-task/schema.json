@@ -7,7 +7,16 @@
   "type": "object",
   "properties": {
     "task": {
-      "type": "string"
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      ],
+      "description": "Task to be executed"
     },
     "projectPath": {
       "type": "string"
