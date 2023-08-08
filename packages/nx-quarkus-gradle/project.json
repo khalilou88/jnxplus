@@ -12,8 +12,6 @@
         "main": "packages/nx-quarkus-gradle/src/index.ts",
         "packageJson": "packages/nx-quarkus-gradle/package.json",
         "tsConfig": "packages/nx-quarkus-gradle/tsconfig.lib.json",
-        "updateBuildableProjectDepsInPackageJson": true,
-        "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": [
           "packages/nx-quarkus-gradle/*.md",
           {
@@ -98,7 +96,11 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/nx-quarkus-gradle/**/*.ts"]
+        "lintFilePatterns": [
+          "packages/nx-quarkus-gradle/**/*.ts",
+          "packages/nx-quarkus-gradle/executors.json",
+          "packages/nx-quarkus-gradle/package.json"
+        ]
       }
     },
     "test": {

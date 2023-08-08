@@ -8,7 +8,11 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/nx-maven/**/*.ts"]
+        "lintFilePatterns": [
+          "packages/nx-maven/**/*.ts",
+          "packages/nx-maven/executors.json",
+          "packages/nx-maven/package.json"
+        ]
       }
     },
     "test": {
@@ -27,8 +31,6 @@
         "main": "packages/nx-maven/src/index.ts",
         "packageJson": "packages/nx-maven/package.json",
         "tsConfig": "packages/nx-maven/tsconfig.lib.json",
-        "updateBuildableProjectDepsInPackageJson": true,
-        "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": [
           "packages/nx-maven/*.md",
           {

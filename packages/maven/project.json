@@ -12,8 +12,6 @@
         "main": "packages/maven/src/index.ts",
         "packageJson": "packages/maven/package.json",
         "tsConfig": "packages/maven/tsconfig.lib.json",
-        "updateBuildableProjectDepsInPackageJson": true,
-        "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": [
           "packages/maven/*.md",
           {
@@ -33,7 +31,10 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/maven/**/*.ts"]
+        "lintFilePatterns": [
+          "packages/maven/**/*.ts",
+          "packages/maven/package.json"
+        ]
       }
     },
     "test": {

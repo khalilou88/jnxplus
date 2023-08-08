@@ -12,8 +12,6 @@
         "main": "packages/nx-micronaut-gradle/src/index.ts",
         "packageJson": "packages/nx-micronaut-gradle/package.json",
         "tsConfig": "packages/nx-micronaut-gradle/tsconfig.lib.json",
-        "updateBuildableProjectDepsInPackageJson": true,
-        "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": [
           "packages/nx-micronaut-gradle/*.md",
           {
@@ -83,7 +81,11 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/nx-micronaut-gradle/**/*.ts"]
+        "lintFilePatterns": [
+          "packages/nx-micronaut-gradle/**/*.ts",
+          "packages/nx-micronaut-gradle/executors.json",
+          "packages/nx-micronaut-gradle/package.json"
+        ]
       }
     },
     "test": {

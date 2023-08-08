@@ -15,10 +15,10 @@
       "rules": {}
     },
     {
-      "files": ["./package.json", "./executors.json"],
+      "files": ["*.json"],
       "parser": "jsonc-eslint-parser",
       "rules": {
-        "@nx/nx-plugin-checks": "error"
+        "@nx/dependency-checks": "error"
       }
     }
   ]
