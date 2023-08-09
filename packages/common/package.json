@@ -19,6 +19,9 @@
     "nx-plugin"
   ],
   "peerDependencies": {
-    "@nx/devkit": ">=16.0.0"
+    "@nx/devkit": ">=16.0.0",
+    "axios": "^1.3.6",
+    "nx": "16.6.0",
+    "tslib": "^2.5.0"
   }
 }

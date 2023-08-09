@@ -21,7 +21,10 @@
     "gradle"
   ],
   "peerDependencies": {
-    "@nx/devkit": ">=16.0.0"
+    "@nx/devkit": ">=16.0.0",
+    "@jnxplus/common": "*",
+    "nx": "16.6.0",
+    "tslib": "^2.5.0"
   },
   "executors": "./executors.json"
 }
