@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.9.0](https://github.com/khalilou88/jnxplus/compare/maven-0.8.0...maven-0.9.0) (2023-08-09)
+
+
+### Features
+
+* **executors:** make task accept array value ([#364](https://github.com/khalilou88/jnxplus/issues/364)) ([9dbb195](https://github.com/khalilou88/jnxplus/commit/9dbb1954ab4d2d6743cbef9c4a89ee59903be077))
+
+
+
 # [0.8.0](https://github.com/khalilou88/jnxplus/compare/maven-0.7.0...maven-0.8.0) (2023-08-05)
 
 
