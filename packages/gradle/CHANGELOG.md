@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.16.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.15.0...gradle-0.16.0) (2023-08-09)
+
+
+### Features
+
+* **executors:** make task accept array value ([#364](https://github.com/khalilou88/jnxplus/issues/364)) ([9dbb195](https://github.com/khalilou88/jnxplus/commit/9dbb1954ab4d2d6743cbef9c4a89ee59903be077))
+
+
+
 # [0.15.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.14.0...gradle-0.15.0) (2023-08-05)
 
 
