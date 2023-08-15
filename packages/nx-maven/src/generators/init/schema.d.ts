@@ -3,4 +3,8 @@ export interface NxMavenGeneratorSchema {
   groupId: string;
   parentProjectName: string;
   parentProjectVersion: string;
+  dependencyManagement:
+    | 'bom'
+    | 'spring-boot-parent-pom'
+    | 'micronaut-parent-pom';
 }

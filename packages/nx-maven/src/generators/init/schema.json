@@ -47,12 +47,36 @@
       "description": "Version of the project to generate",
       "alias": "v",
       "x-prompt": "What project version would you like to use?"
+    },
+    "dependencyManagement": {
+      "description": "Dependency Management",
+      "type": "string",
+      "default": "bom",
+      "x-prompt": {
+        "message": "How to handle dependency management?",
+        "type": "list",
+        "items": [
+          {
+            "value": "bom",
+            "label": "use bom"
+          },
+          {
+            "value": "spring-boot-parent-pom",
+            "label": "use spring boot parent pom"
+          },
+          {
+            "value": "micronaut-parent-pom",
+            "label": "use micronaut parent pom"
+          }
+        ]
+      }
     }
   },
   "required": [
     "javaVersion",
     "groupId",
     "parentProjectName",
-    "parentProjectVersion"
+    "parentProjectVersion",
+    "dependencyManagement"
   ]
 }
