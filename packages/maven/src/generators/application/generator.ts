@@ -3,8 +3,14 @@ import {
   MavenPluginType,
   clearEmpties,
   normalizeName,
+  springBootVersion,
+  quarkusVersion,
+  micronautVersion,
 } from '@jnxplus/common';
-import { addProjectToAggregator } from '../../lib/utils/generators';
+import {
+  addMissedProperties,
+  addProjectToAggregator,
+} from '../../lib/utils/generators';
 import { readXmlTree } from '../../lib/xml/index';
 import {
   addProjectConfiguration,
@@ -36,7 +42,9 @@ interface NormalizedSchema extends NxMavenAppGeneratorSchema {
   relativePath: string;
   parentProjectRoot: string;
   isCustomPort: boolean;
+  springBootVersion: string;
   quarkusVersion: string;
+  micronautVersion: string;
   plugin: MavenPluginType;
 }
 
@@ -148,7 +156,9 @@ function normalizeOptions(
     relativePath,
     parentProjectRoot,
     isCustomPort,
+    springBootVersion,
     quarkusVersion,
+    micronautVersion,
     plugin,
   };
 }
@@ -395,6 +405,13 @@ export default async function (
   tree: Tree,
   options: NxMavenAppGeneratorSchema
 ) {
+  addMissedProperties(plugin, tree, {
+    framework: options.framework,
+    springBootVersion: springBootVersion,
+    quarkusVersion: quarkusVersion,
+    micronautVersion: micronautVersion,
+  });
+
   const normalizedOptions = normalizeOptions(plugin, tree, options);
 
   const projectConfiguration: ProjectConfiguration = {

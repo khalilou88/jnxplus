@@ -1,5 +1,14 @@
-import { MavenPluginType, normalizeName } from '@jnxplus/common';
-import { addProjectToAggregator } from '../../lib/utils/generators';
+import {
+  MavenPluginType,
+  normalizeName,
+  springBootVersion,
+  quarkusVersion,
+  micronautVersion,
+} from '@jnxplus/common';
+import {
+  addMissedProperties,
+  addProjectToAggregator,
+} from '../../lib/utils/generators';
 import { readXmlTree } from '../../lib/xml/index';
 import {
   addProjectConfiguration,
@@ -24,6 +33,9 @@ interface NormalizedSchema extends NxMavenParentProjectGeneratorSchema {
   parentProjectVersion: string;
   relativePath: string;
   parentProjectRoot: string;
+  springBootVersion: string;
+  quarkusVersion: string;
+  micronautVersion: string;
 }
 
 function normalizeOptions(
@@ -95,6 +107,9 @@ function normalizeOptions(
     parentProjectVersion,
     relativePath,
     parentProjectRoot,
+    springBootVersion,
+    quarkusVersion,
+    micronautVersion,
   };
 }
 
@@ -119,6 +134,13 @@ export default async function (
   tree: Tree,
   options: NxMavenParentProjectGeneratorSchema
 ) {
+  addMissedProperties(plugin, tree, {
+    framework: options.framework,
+    springBootVersion: springBootVersion,
+    quarkusVersion: quarkusVersion,
+    micronautVersion: micronautVersion,
+  });
+
   const normalizedOptions = normalizeOptions(tree, options);
 
   addProjectConfiguration(tree, normalizedOptions.projectName, {

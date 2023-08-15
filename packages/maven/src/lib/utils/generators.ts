@@ -1,3 +1,4 @@
+import { MavenPluginType } from '@jnxplus/common';
 import { readXmlTree, xmlToString } from '../xml';
 import {
   Tree,
@@ -146,4 +147,77 @@ export function addOrUpdateGitattributes(tree: Tree) {
   } else {
     tree.write(gitattributesPath, mavenWrapperGitattributes);
   }
+}
+
+export function addMissedProperties(
+  plugin: MavenPluginType,
+  tree: Tree,
+  options: {
+    framework: 'spring-boot' | 'quarkus' | 'micronaut' | 'none' | undefined;
+    springBootVersion: string;
+    quarkusVersion: string;
+    micronautVersion: string;
+  }
+) {
+  const xmldoc = readXmlTree(tree, 'pom.xml');
+
+  //properties
+  let properties = xmldoc.childNamed('properties');
+
+  if (properties === undefined) {
+    xmldoc.children.push(
+      new XmlDocument(`
+    <properties>
+    </properties>
+  `)
+    );
+    properties = xmldoc.childNamed('properties');
+  }
+
+  if (properties === undefined) {
+    throw new Error('Dependencies tag undefined');
+  }
+
+  if (
+    plugin === '@jnxplus/nx-boot-maven' ||
+    options.framework === 'spring-boot'
+  ) {
+    const springBootVersion = xmldoc.childNamed('spring.boot.version');
+    if (springBootVersion === undefined) {
+      properties.children.push(
+        new XmlDocument(`
+    <spring.boot.version>${options.springBootVersion}</spring.boot.version>
+  `)
+      );
+    }
+  }
+
+  if (
+    plugin === '@jnxplus/nx-quarkus-maven' ||
+    options.framework === 'quarkus'
+  ) {
+    const quarkusVersion = xmldoc.childNamed('quarkus.version');
+    if (quarkusVersion === undefined) {
+      properties.children.push(
+        new XmlDocument(`
+      <quarkus.version>${options.quarkusVersion}</quarkus.version>
+    `)
+      );
+    }
+  }
+
+  if (
+    plugin === '@jnxplus/nx-micronaut-maven' ||
+    options.framework === 'micronaut'
+  ) {
+    const micronautVersion = xmldoc.childNamed('micronaut.version');
+    if (micronautVersion === undefined) {
+      properties.children.push(
+        new XmlDocument(`
+    <micronaut.version>${options.micronautVersion}</micronaut.version>
+  `)
+      );
+    }
+  }
+  tree.write('pom.xml', xmlToString(xmldoc));
 }
