@@ -7,6 +7,22 @@
     <version><%= parentProjectVersion %></version>
     <packaging>pom</packaging>
 
+<% if(dependencyManagement === 'spring-boot-parent-pom') { -%>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version><%= springBootVersion %></version>
+        <relativePath/> 
+    </parent>
+<% } -%>
+<% if(dependencyManagement === 'micronaut-parent-pom') { -%>
+    <parent>
+        <groupId>io.micronaut.platform</groupId>
+        <artifactId>micronaut-parent</artifactId>
+        <version><%= micronautVersion %></version>
+    </parent>
+<% } -%>
+
     <properties>
         <java.version><%= javaVersion %></java.version>
         <kotlin.version><%= kotlinVersion %></kotlin.version>
@@ -16,5 +32,8 @@
         <checkstyle.version><%= checkstyleVersion %></checkstyle.version>
         <ktlint.version><%= ktlintVersion %></ktlint.version>
     </properties>
+
+
+
 
 </project>
