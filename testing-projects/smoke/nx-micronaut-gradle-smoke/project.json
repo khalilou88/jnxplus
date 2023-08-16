@@ -12,5 +12,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["nx-micronaut-gradle"]
+  "implicitDependencies": ["nx-gradle"]
 }
