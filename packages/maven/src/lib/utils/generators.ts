@@ -159,6 +159,8 @@ export function addMissedProperties(
     micronautVersion: string;
   }
 ) {
+  let modified = false;
+
   const xmldoc = readXmlTree(tree, 'pom.xml');
 
   //properties
@@ -172,6 +174,7 @@ export function addMissedProperties(
   `)
     );
     properties = xmldoc.childNamed('properties');
+    modified = true;
   }
 
   if (properties === undefined) {
@@ -189,6 +192,7 @@ export function addMissedProperties(
     <spring.boot.version>${options.springBootVersion}</spring.boot.version>
   `)
       );
+      modified = true;
     }
   }
 
@@ -203,6 +207,7 @@ export function addMissedProperties(
       <quarkus.version>${options.quarkusVersion}</quarkus.version>
     `)
       );
+      modified = true;
     }
   }
 
@@ -217,7 +222,11 @@ export function addMissedProperties(
     <micronaut.version>${options.micronautVersion}</micronaut.version>
   `)
       );
+      modified = true;
     }
   }
-  tree.write('pom.xml', xmlToString(xmldoc));
+
+  if (modified) {
+    tree.write('pom.xml', xmlToString(xmldoc));
+  }
 }
