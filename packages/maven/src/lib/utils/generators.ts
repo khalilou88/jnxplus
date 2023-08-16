@@ -175,14 +175,14 @@ export function addMissedProperties(
   }
 
   if (properties === undefined) {
-    throw new Error('Dependencies tag undefined');
+    throw new Error('Properties tag undefined');
   }
 
   if (
     plugin === '@jnxplus/nx-boot-maven' ||
     options.framework === 'spring-boot'
   ) {
-    const springBootVersion = xmldoc.childNamed('spring.boot.version');
+    const springBootVersion = properties.childNamed('spring.boot.version');
     if (springBootVersion === undefined) {
       properties.children.push(
         new XmlDocument(`
@@ -196,7 +196,7 @@ export function addMissedProperties(
     plugin === '@jnxplus/nx-quarkus-maven' ||
     options.framework === 'quarkus'
   ) {
-    const quarkusVersion = xmldoc.childNamed('quarkus.version');
+    const quarkusVersion = properties.childNamed('quarkus.version');
     if (quarkusVersion === undefined) {
       properties.children.push(
         new XmlDocument(`
@@ -210,7 +210,7 @@ export function addMissedProperties(
     plugin === '@jnxplus/nx-micronaut-maven' ||
     options.framework === 'micronaut'
   ) {
-    const micronautVersion = xmldoc.childNamed('micronaut.version');
+    const micronautVersion = properties.childNamed('micronaut.version');
     if (micronautVersion === undefined) {
       properties.children.push(
         new XmlDocument(`
