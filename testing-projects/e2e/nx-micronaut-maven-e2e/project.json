@@ -10,9 +10,9 @@
         "jestConfig": "testing-projects/e2e/nx-micronaut-maven-e2e/jest.config.js",
         "runInBand": true
       },
-      "dependsOn": ["nx-micronaut-maven:build"]
+      "dependsOn": ["nx-maven:build"]
     }
   },
   "tags": [],
-  "implicitDependencies": ["nx-micronaut-maven"]
+  "implicitDependencies": ["nx-maven"]
 }
