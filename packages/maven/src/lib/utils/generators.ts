@@ -159,8 +159,6 @@ export function addMissedProperties(
     micronautVersion: string;
   }
 ) {
-  let modified = false;
-
   const xmldoc = readXmlTree(tree, 'pom.xml');
 
   //properties
@@ -174,7 +172,6 @@ export function addMissedProperties(
   `)
     );
     properties = xmldoc.childNamed('properties');
-    modified = true;
   }
 
   if (properties === undefined) {
@@ -185,14 +182,19 @@ export function addMissedProperties(
     plugin === '@jnxplus/nx-boot-maven' ||
     options.framework === 'spring-boot'
   ) {
-    const springBootVersion = properties.childNamed('spring.boot.version');
-    if (springBootVersion === undefined) {
-      properties.children.push(
-        new XmlDocument(`
+    const b = ifParentPomExits(xmldoc, 'spring-boot-starter-parent');
+    if (!b) {
+      const springBootVersion = properties.childNamed('spring.boot.version');
+      if (springBootVersion === undefined) {
+        properties.children.push(
+          new XmlDocument(`
     <spring.boot.version>${options.springBootVersion}</spring.boot.version>
   `)
-      );
-      modified = true;
+        );
+
+        tree.write('pom.xml', xmlToString(xmldoc));
+        return;
+      }
     }
   }
 
@@ -207,7 +209,8 @@ export function addMissedProperties(
       <quarkus.version>${options.quarkusVersion}</quarkus.version>
     `)
       );
-      modified = true;
+      tree.write('pom.xml', xmlToString(xmldoc));
+      return;
     }
   }
 
@@ -215,18 +218,33 @@ export function addMissedProperties(
     plugin === '@jnxplus/nx-micronaut-maven' ||
     options.framework === 'micronaut'
   ) {
-    const micronautVersion = properties.childNamed('micronaut.version');
-    if (micronautVersion === undefined) {
-      properties.children.push(
-        new XmlDocument(`
+    const b = ifParentPomExits(xmldoc, 'micronaut-parent');
+    if (!b) {
+      const micronautVersion = properties.childNamed('micronaut.version');
+      if (micronautVersion === undefined) {
+        properties.children.push(
+          new XmlDocument(`
     <micronaut.version>${options.micronautVersion}</micronaut.version>
   `)
-      );
-      modified = true;
+        );
+        tree.write('pom.xml', xmlToString(xmldoc));
+        return;
+      }
     }
   }
+}
 
-  if (modified) {
-    tree.write('pom.xml', xmlToString(xmldoc));
+export function ifParentPomExits(
+  xmldoc: XmlDocument,
+  parentPom: 'spring-boot-starter-parent' | 'micronaut-parent'
+) {
+  const parent = xmldoc.childNamed('parent');
+
+  if (parent === undefined) {
+    return false;
   }
+
+  const artifactId = parent.childNamed('artifactId');
+
+  return parentPom === artifactId?.val;
 }

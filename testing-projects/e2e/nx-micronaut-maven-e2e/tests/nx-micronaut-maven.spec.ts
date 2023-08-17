@@ -165,6 +165,10 @@ describe('nx-micronaut-maven e2e', () => {
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
+    expect(pomXml).not.toContain('<spring.boot.version>');
+    expect(pomXml).not.toContain('<quarkus.version>');
+    expect(pomXml).not.toContain('<micronaut.version>');
+
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
     expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
