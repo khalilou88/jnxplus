@@ -95,8 +95,9 @@
     },
     "parentProject": {
       "type": "string",
-      "description": "ArtifactId of the parent project",
-      "x-prompt": "Which artifactId to use for parent project? "
+      "default": "",
+      "description": "ArtifactId of the parent project or leave it blank for the root project",
+      "x-prompt": "Which artifactId to use for parent project? or leave it blank for the root project"
     },
     "aggregatorProject": {
       "type": "string",
