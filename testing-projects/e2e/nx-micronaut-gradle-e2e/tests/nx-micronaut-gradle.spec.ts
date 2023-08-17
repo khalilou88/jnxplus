@@ -143,7 +143,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const appName = uniq('micronaut-gradle-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName}`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut`
     );
 
     expect(() =>
@@ -242,7 +242,7 @@ describe('nx-micronaut-gradle e2e', () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('micronaut-gradle-app-');
       await runNxCommandAsync(
-        `generate @jnxplus/nx-gradle:application ${appName}`
+        `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut`
       );
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName} --useDocker`
@@ -258,7 +258,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const port = 8181;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${randomName} --framework micronaut --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`
     );
 
     expect(() =>
@@ -346,7 +346,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const port = 8282;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${randomName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${randomName} --framework micronaut --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`
     );
 
     expect(() =>
@@ -432,7 +432,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const port = 8383;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --language kotlin --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut --language kotlin --port ${port}`
     );
 
     expect(() =>
@@ -515,7 +515,7 @@ describe('nx-micronaut-gradle e2e', () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('micronaut-gradle-app-');
       await runNxCommandAsync(
-        `generate @jnxplus/nx-gradle:application ${appName} --language kotlin`
+        `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut --language kotlin`
       );
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName} --useDocker`
@@ -531,7 +531,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const port = 8484;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-gradle:app ${randomName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml --port ${port}`
+      `g @jnxplus/nx-gradle:app ${randomName} --framework micronaut --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml --port ${port}`
     );
 
     expect(() =>
@@ -618,7 +618,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const port = 8585;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${randomName} --directory deep/sub-dir --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${randomName} --framework micronaut --directory deep/sub-dir --port ${port}`
     );
 
     //graph
@@ -655,7 +655,9 @@ describe('nx-micronaut-gradle e2e', () => {
   it('should create a library', async () => {
     const libName = uniq('micronaut-gradle-lib-');
 
-    await runNxCommandAsync(`generate @jnxplus/nx-gradle:library ${libName}`);
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut`
+    );
 
     expect(() =>
       checkFilesExist(
@@ -715,7 +717,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const libName = uniq('micronaut-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --language kotlin`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --language kotlin`
     );
 
     expect(() =>
@@ -776,7 +778,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
+      `generate @jnxplus/nx-gradle:library ${randomName} --framework micronaut --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
     );
 
     expect(() =>
@@ -835,7 +837,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${randomName} --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3`
+      `generate @jnxplus/nx-gradle:library ${randomName} --framework micronaut --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3`
     );
 
     expect(() =>
@@ -894,7 +896,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const libName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-gradle:lib ${randomName} --dir ${libDir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`
+      `g @jnxplus/nx-gradle:lib ${randomName} --framework micronaut --dir ${libDir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`
     );
 
     expect(() =>
@@ -952,11 +954,11 @@ describe('nx-micronaut-gradle e2e', () => {
     const libName = uniq('micronaut-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName}`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut`
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --projects ${appName}`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --projects ${appName}`
     );
 
     // Making sure the app build.gradle file contains the lib
@@ -1030,11 +1032,11 @@ describe('nx-micronaut-gradle e2e', () => {
     const libName = uniq('micronaut-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --language kotlin --packaging war`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut --language kotlin --packaging war`
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName}  --language kotlin --projects ${appName}`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --language kotlin --projects ${appName}`
     );
 
     // Making sure the app build.gradle file contains the lib
@@ -1107,7 +1109,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const port = 8686;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`
     );
 
     expect(() =>
@@ -1194,7 +1196,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const libDir = 'deep/subdir';
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
     );
 
     expect(() =>
@@ -1252,7 +1254,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const port = 8787;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --minimal --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut --minimal --port ${port}`
     );
 
     expect(() =>
@@ -1297,7 +1299,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const port = 8888;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --language kotlin --minimal --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut --language kotlin --minimal --port ${port}`
     );
 
     expect(() =>
@@ -1341,7 +1343,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const libName = uniq('micronaut-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --skipStarterCode`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --skipStarterCode`
     );
 
     expect(() => checkFilesExist(`libs/${libName}/build.gradle`)).not.toThrow();
@@ -1362,7 +1364,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const libName = uniq('micronaut-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --language kotlin --skipStarterCode`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --language kotlin --skipStarterCode`
     );
 
     expect(() => checkFilesExist(`libs/${libName}/build.gradle`)).not.toThrow();
