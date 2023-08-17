@@ -10,9 +10,9 @@
         "jestConfig": "testing-projects/e2e/nx-micronaut-gradle-kt-e2e/jest.config.js",
         "runInBand": true
       },
-      "dependsOn": ["nx-micronaut-gradle:build"]
+      "dependsOn": ["nx-gradle:build"]
     }
   },
   "tags": [],
-  "implicitDependencies": ["nx-micronaut-gradle"]
+  "implicitDependencies": ["nx-gradle"]
 }

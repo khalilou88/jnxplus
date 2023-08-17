@@ -12,5 +12,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["nx-micronaut-maven"]
+  "implicitDependencies": ["nx-maven"]
 }

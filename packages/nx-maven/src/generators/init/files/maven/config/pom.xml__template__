@@ -12,7 +12,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version><%= springBootVersion %></version>
-        <relativePath/> 
+        <relativePath/>
     </parent>
 <% } -%>
 <% if(dependencyManagement === 'micronaut-parent-pom') { -%>
@@ -26,12 +26,12 @@
     <properties>
         <java.version><%= javaVersion %></java.version>
         <kotlin.version><%= kotlinVersion %></kotlin.version>
+<% if(dependencyManagement === 'bom') { -%>
         <spring.boot.version><%= springBootVersion %></spring.boot.version>
+<% } -%>
         <checkstyle.version><%= checkstyleVersion %></checkstyle.version>
         <ktlint.version><%= ktlintVersion %></ktlint.version>
     </properties>
-
-
 
 
 </project>

@@ -12,11 +12,9 @@
 
 #### Maven Build Tool
 
-| Plugin                                                       | Frameworks                          | Dependency management |
-| ------------------------------------------------------------ | ----------------------------------- | --------------------- |
-| [`@jnxplus/nx-maven`](packages/nx-maven)                     | Spring-Boot, Quarkus, Micronaut,... | BOM                   |
-| [`@jnxplus/nx-boot-maven`](packages/nx-boot-maven)           | Spring-Boot                         | Parent POM            |
-| [`@jnxplus/nx-micronaut-maven`](packages/nx-micronaut-maven) | Micronaut                           | Parent POM            |
+| Plugin                                   | Frameworks                          |
+| ---------------------------------------- | ----------------------------------- |
+| [`@jnxplus/nx-maven`](packages/nx-maven) | Spring-Boot, Quarkus, Micronaut,... |
 
 ### Credits
 
