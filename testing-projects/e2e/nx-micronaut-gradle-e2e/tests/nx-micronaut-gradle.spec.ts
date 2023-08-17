@@ -84,7 +84,7 @@ describe('nx-micronaut-gradle e2e', () => {
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName}`
+      `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --preset micronaut`
     );
 
     if (isCI) {
