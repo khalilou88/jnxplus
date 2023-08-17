@@ -1308,7 +1308,7 @@ describe('nx-micronaut-maven e2e', () => {
     const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --framework micronaut --framework micronaut --parent-project ${libsParentProject}`
+      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --parent-project ${libsParentProject}`
     );
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
