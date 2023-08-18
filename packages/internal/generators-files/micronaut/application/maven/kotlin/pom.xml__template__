@@ -19,6 +19,8 @@
  <properties>
     <packaging>jar</packaging>
     <micronaut.runtime>netty</micronaut.runtime>
+    <micronaut.aot.enabled>false</micronaut.aot.enabled>
+    <micronaut.aot.packageName><%= packageName %>.aot.generated</micronaut.aot.packageName>
     <exec.mainClass><%= packageName %>.ApplicationKt</exec.mainClass>
   </properties>
 
@@ -36,13 +38,13 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>io.micronaut</groupId>
-      <artifactId>micronaut-jackson-databind</artifactId>
+      <groupId>io.micronaut.kotlin</groupId>
+      <artifactId>micronaut-kotlin-runtime</artifactId>
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>io.micronaut.kotlin</groupId>
-      <artifactId>micronaut-kotlin-runtime</artifactId>
+      <groupId>io.micronaut.serde</groupId>
+      <artifactId>micronaut-serde-jackson</artifactId>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -62,18 +64,18 @@
       <artifactId>logback-classic</artifactId>
       <scope>runtime</scope>
     </dependency>
- <% if(configFormat === '.yml') { -%>
-    <dependency>
-      <groupId>org.yaml</groupId>
-      <artifactId>snakeyaml</artifactId>
-      <scope>runtime</scope>
-    </dependency>
- <% } -%>
     <dependency>
       <groupId>com.fasterxml.jackson.module</groupId>
       <artifactId>jackson-module-kotlin</artifactId>
       <scope>runtime</scope>
     </dependency>
+<% if(configFormat === '.yml') { -%>
+        <dependency>
+          <groupId>org.yaml</groupId>
+          <artifactId>snakeyaml</artifactId>
+          <scope>runtime</scope>
+        </dependency>
+<% } -%>
     <dependency>
       <groupId>io.micronaut</groupId>
       <artifactId>micronaut-http-client</artifactId>
@@ -101,8 +103,14 @@
       <plugin>
         <groupId>io.micronaut.maven</groupId>
         <artifactId>micronaut-maven-plugin</artifactId>
+          <configuration>
+            <configFile>aot-${packaging}.properties</configFile>
+          </configuration>
       </plugin>
-
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+      </plugin>
       <plugin>
         <artifactId>kotlin-maven-plugin</artifactId>
         <groupId>org.jetbrains.kotlin</groupId>
@@ -136,6 +144,11 @@
                  <groupId>io.micronaut</groupId>
                  <artifactId>micronaut-graal</artifactId>
                  <version>${micronaut.core.version}</version>
+               </annotationProcessorPath>
+               <annotationProcessorPath>
+                 <groupId>io.micronaut.serde</groupId>
+                 <artifactId>micronaut-serde-processor</artifactId>
+                 <version>${micronaut.serialization.version}</version>
                </annotationProcessorPath>
               </annotationProcessorPaths>
               <annotationProcessorArgs>
