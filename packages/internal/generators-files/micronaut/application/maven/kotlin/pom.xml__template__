@@ -138,12 +138,12 @@
                <annotationProcessorPath>
                  <groupId>io.micronaut</groupId>
                  <artifactId>micronaut-inject-java</artifactId>
-                 <version>${micronaut.core.version}</version>
+                 <version>${micronaut.version}</version>
                </annotationProcessorPath>
                <annotationProcessorPath>
                  <groupId>io.micronaut</groupId>
                  <artifactId>micronaut-graal</artifactId>
-                 <version>${micronaut.core.version}</version>
+                 <version>${micronaut.version}</version>
                </annotationProcessorPath>
                <annotationProcessorPath>
                  <groupId>io.micronaut.serde</groupId>
@@ -181,12 +181,12 @@
                <annotationProcessorPath>
                  <groupId>io.micronaut</groupId>
                  <artifactId>micronaut-inject-java</artifactId>
-                 <version>${micronaut.core.version}</version>
+                 <version>${micronaut.version}</version>
                </annotationProcessorPath>
                <annotationProcessorPath>
                  <groupId>io.micronaut</groupId>
                  <artifactId>micronaut-graal</artifactId>
-                 <version>${micronaut.core.version}</version>
+                 <version>${micronaut.version}</version>
                </annotationProcessorPath>
               </annotationProcessorPaths>
             </configuration>

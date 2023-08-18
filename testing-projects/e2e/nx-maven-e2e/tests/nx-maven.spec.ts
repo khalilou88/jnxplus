@@ -906,4 +906,90 @@ describe('nx-maven e2e', () => {
       target: parentProjectName,
     });
   }, 120000);
+
+  it('should create a micronaut kotlin application', async () => {
+    const appsParentProject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework micronaut`
+    );
+
+    const appName = uniq('micronaut-maven-app-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin --parentProject ${appsParentProject}`
+    );
+
+    // Making sure the pom.xml file contains the good informations
+    const pomXml = readFile(`apps/${appName}/pom.xml`);
+    expect(pomXml.includes('com.example')).toBeTruthy();
+    expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
+
+    //should recreate target folder
+    const localTmpDir = path.dirname(tmpProjPath());
+    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'target');
+    fse.removeSync(targetDir);
+    expect(() => checkFilesExist(`apps/${appName}/target`)).toThrow();
+    await runNxCommandAsync(`build ${appName}`);
+    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const formatResult = await runNxCommandAsync(
+      `format:write --projects ${appName}`
+    );
+    expect(formatResult.stdout).toContain('');
+
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    //test run-task
+    const projectJson = readJson(`apps/${appName}/project.json`);
+    projectJson.targets = {
+      ...projectJson.targets,
+      'run-task': {
+        executor: '@jnxplus/nx-maven:run-task',
+      },
+    };
+    updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
+    const runTaskResult = await runNxCommandAsync(
+      `run-task ${appName} --task="clean install -DskipTests=true"`
+    );
+    expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
+    //end test run-task
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph'
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: parentProjectName,
+    });
+
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Server Running: http://localhost:8080`)
+    );
+
+    const dataResult = await getData(8080, '/hello');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World');
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(8080);
+    } catch (err) {
+      // ignore err
+    }
+  }, 120000);
 });
