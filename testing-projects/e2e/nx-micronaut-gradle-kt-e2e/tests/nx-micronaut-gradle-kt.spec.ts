@@ -369,7 +369,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the build.gradle.kts file contains the good informations
+    // Making sure the build.gradle.kts file contains the correct information
     const buildGradle = readFile(
       `apps/${appDir}/${randomName}/build.gradle.kts`
     );
@@ -861,7 +861,7 @@ describe('nx-micronaut-gradle kt e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the build.gradle.kts file contains the good informations
+    // Making sure the build.gradle.kts file contains the correct information
     const buildGradle = readFile(
       `libs/${libDir}/${randomName}/build.gradle.kts`
     );

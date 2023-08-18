@@ -160,7 +160,7 @@ describe('nx-micronaut-maven e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the pom.xml file contains the good informations
+    // Making sure the pom.xml file contains the correct information
     const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
@@ -278,7 +278,7 @@ describe('nx-micronaut-maven e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the pom.xml file contains the good informations
+    // Making sure the pom.xml file contains the correct information
     const pomXml = readFile(`apps/${appDir}/${randomName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
@@ -362,7 +362,7 @@ describe('nx-micronaut-maven e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the pom.xml file contains the good informations
+    // Making sure the pom.xml file contains the correct information
     const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
@@ -545,7 +545,7 @@ describe('nx-micronaut-maven e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the pom.xml file contains the good informations
+    // Making sure the pom.xml file contains the correct information
     const buildmaven = readFile(`apps/${appDir}/${randomName}/pom.xml`);
     expect(buildmaven.includes('com.jnxplus')).toBeTruthy();
     expect(buildmaven.includes('1.2.3')).toBeTruthy();
@@ -661,7 +661,7 @@ describe('nx-micronaut-maven e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the pom.xml file contains the good informations
+    // Making sure the pom.xml file contains the correct information
     const pomXml = readFile(`libs/${libName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
@@ -722,7 +722,7 @@ describe('nx-micronaut-maven e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the pom.xml file contains the good informations
+    // Making sure the pom.xml file contains the correct information
     const pomXml = readFile(`libs/${libName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
@@ -844,7 +844,7 @@ describe('nx-micronaut-maven e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the pom.xml file contains the good informations
+    // Making sure the pom.xml file contains the correct information
     const pomXml = readFile(`libs/${libDir}/${randomName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
@@ -1520,7 +1520,7 @@ describe('nx-micronaut-maven e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the pom.xml file contains the good informations
+    // Making sure the pom.xml file contains the correct information
     const pomXml = readFile(`apps/${appDir}/${appName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();

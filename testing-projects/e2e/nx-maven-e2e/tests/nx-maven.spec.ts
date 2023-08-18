@@ -331,7 +331,7 @@ describe('nx-maven e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the pom.xml file contains the good informations
+    // Making sure the pom.xml file contains the correct information
     const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
@@ -433,7 +433,7 @@ describe('nx-maven e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the pom.xml file contains the good informations
+    // Making sure the pom.xml file contains the correct information
     const pomXml = readFile(`apps/${appDir}/${randomName}/pom.xml`);
     expect(pomXml.includes('org.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
@@ -698,7 +698,7 @@ describe('nx-maven e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the pom.xml file contains the good informations
+    // Making sure the pom.xml file contains the correct information
     const pomXml = readFile(`libs/${libName}/pom.xml`);
     expect(pomXml.includes('org.acme')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
@@ -766,7 +766,7 @@ describe('nx-maven e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the pom.xml file contains the good informations
+    // Making sure the pom.xml file contains the correct information
     const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
@@ -865,7 +865,7 @@ describe('nx-maven e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the pom.xml file contains the good informations
+    // Making sure the pom.xml file contains the correct information
     const pomXml = readFile(`libs/${libName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
@@ -919,7 +919,7 @@ describe('nx-maven e2e', () => {
       `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin --parentProject ${appsParentProject}`
     );
 
-    // Making sure the pom.xml file contains the good informations
+    // Making sure the pom.xml file contains the correct information
     const pomXml = readFile(`apps/${appName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
@@ -939,10 +939,8 @@ describe('nx-maven e2e', () => {
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
-    const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
-    );
-    expect(formatResult.stdout).toContain('');
+    const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
+    expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
 
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
