@@ -10,11 +10,9 @@ export type GetVersionFunction = (dir: string) => string;
 export type MavenPluginType =
   | '@jnxplus/nx-maven'
   | '@jnxplus/nx-boot-maven'
-  | '@jnxplus/nx-quarkus-maven'
-  | '@jnxplus/nx-micronaut-maven';
+  | '@jnxplus/nx-quarkus-maven';
 
 export type GradlePluginType =
   | '@jnxplus/nx-gradle'
   | '@jnxplus/nx-boot-gradle'
-  | '@jnxplus/nx-quarkus-gradle'
-  | '@jnxplus/nx-micronaut-gradle';
+  | '@jnxplus/nx-quarkus-gradle';

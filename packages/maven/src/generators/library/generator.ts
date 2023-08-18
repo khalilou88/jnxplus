@@ -334,10 +334,7 @@ function addFiles(
     addQuarkusFiles(d, tree, options);
   }
 
-  if (
-    plugin === '@jnxplus/nx-micronaut-maven' ||
-    options.framework === 'micronaut'
-  ) {
+  if (options.framework === 'micronaut') {
     addMicronautFiles(d, tree, options);
   }
 

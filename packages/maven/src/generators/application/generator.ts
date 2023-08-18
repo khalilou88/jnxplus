@@ -76,10 +76,7 @@ function normalizeOptions(
     : [];
 
   let appClassName = '';
-  if (
-    plugin === '@jnxplus/nx-micronaut-maven' ||
-    options.framework === 'micronaut'
-  ) {
+  if (options.framework === 'micronaut') {
     appClassName = names(projectName).className;
   } else {
     appClassName = `${names(projectName).className}Application`;
@@ -387,10 +384,7 @@ function addFiles(
     addQuarkusFiles(d, tree, options);
   }
 
-  if (
-    plugin === '@jnxplus/nx-micronaut-maven' ||
-    options.framework === 'micronaut'
-  ) {
+  if (options.framework === 'micronaut') {
     addMicronautFiles(d, tree, options);
   }
 
@@ -500,10 +494,7 @@ export default async function (
     };
   }
 
-  if (
-    plugin === '@jnxplus/nx-micronaut-maven' ||
-    options.framework === 'micronaut'
-  ) {
+  if (options.framework === 'micronaut') {
     targets['build-image'] = {
       executor: `${plugin}:run-task`,
       options: {

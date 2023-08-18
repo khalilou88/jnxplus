@@ -214,10 +214,7 @@ export function addMissedProperties(
     }
   }
 
-  if (
-    plugin === '@jnxplus/nx-micronaut-maven' ||
-    options.framework === 'micronaut'
-  ) {
+  if (options.framework === 'micronaut') {
     const b = ifParentPomExits(xmldoc, 'micronaut-parent');
     if (!b) {
       const micronautVersion = properties.childNamed('micronaut.version');
