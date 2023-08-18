@@ -48,6 +48,13 @@
       <artifactId>logback-classic</artifactId>
       <scope>runtime</scope>
     </dependency>
+<% if(configFormat === '.yml') { -%>
+         <dependency>
+           <groupId>org.yaml</groupId>
+           <artifactId>snakeyaml</artifactId>
+           <scope>runtime</scope>
+         </dependency>
+<% } -%>
     <dependency>
       <groupId>io.micronaut</groupId>
       <artifactId>micronaut-http-client</artifactId>
@@ -68,13 +75,6 @@
       <artifactId>junit-jupiter-engine</artifactId>
       <scope>test</scope>
     </dependency>
-    <% if(configFormat === '.yml') { -%>
-         <dependency>
-           <groupId>org.yaml</groupId>
-           <artifactId>snakeyaml</artifactId>
-           <scope>runtime</scope>
-         </dependency>
-    <% } -%>
   </dependencies>
 
   <build>
@@ -82,7 +82,9 @@
       <plugin>
         <groupId>io.micronaut.maven</groupId>
         <artifactId>micronaut-maven-plugin</artifactId>
+<% if(dependencyManagement === 'bom') { -%>
         <version>${micronaut.version}</version>
+<% } -%>
           <configuration>
             <configFile>aot-${packaging}.properties</configFile>
           </configuration>
@@ -90,22 +92,28 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
+<% if(dependencyManagement === 'bom') { -%>
         <version>${maven-enforcer-plugin.version}</version>
+<% } -%>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+<% if(dependencyManagement === 'bom') { -%>
         <version>${maven-compiler-plugin.version}</version>
+<% } -%>
         <configuration>
           <!-- Uncomment to enable incremental compilation -->
           <!-- <useIncrementalCompilation>false</useIncrementalCompilation> -->
 
           <annotationProcessorPaths combine.children="append">
+<% if(dependencyManagement === 'bom') { -%>
            <path>
                 <groupId>io.micronaut</groupId>
                 <artifactId>micronaut-inject-java</artifactId>
                 <version>${micronaut.version}</version>
             </path>
+<% } -%>
             <path>
               <groupId>io.micronaut.serde</groupId>
               <artifactId>micronaut-serde-processor</artifactId>
