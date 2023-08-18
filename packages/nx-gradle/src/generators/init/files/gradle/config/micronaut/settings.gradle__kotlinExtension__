@@ -1,9 +1,9 @@
 <% if(dsl === 'groovy') { -%>
 pluginManagement {
   plugins {
-    id 'io.micronaut.application' version "${micronautVersion}"
-    id 'io.micronaut.library' version "${micronautVersion}"
-    id 'io.micronaut.aot' version "${micronautVersion}"
+    id 'io.micronaut.application' version "4.0.2"
+    id 'io.micronaut.library' version "4.0.2"
+    id 'io.micronaut.aot' version "4.0.2"
     id 'com.google.devtools.ksp' version "${kspVersion}"
     id 'com.github.johnrengelman.shadow' version "${shadowVersion}"
     id 'org.jetbrains.kotlin.jvm' version "${kotlinVersion}"
@@ -28,9 +28,9 @@ pluginManagement {
   val kotlinVersion: String by settings
   val jnxplusGradlePluginVersion: String by settings
   plugins {
-    id("io.micronaut.application") version micronautVersion
-    id("io.micronaut.library") version micronautVersion
-    id("io.micronaut.aot") version micronautVersion
+    id("io.micronaut.application") version "4.0.2"
+    id("io.micronaut.library") version "4.0.2"
+    id("io.micronaut.aot") version "4.0.2"
     id("com.google.devtools.ksp") version kspVersion
     id("com.github.johnrengelman.shadow") version shadowVersion
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
