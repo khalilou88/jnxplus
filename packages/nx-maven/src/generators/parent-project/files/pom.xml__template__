@@ -45,19 +45,20 @@
 
 <% if(framework === 'micronaut') { -%>
   <properties>
-   <maven.compiler.source>${java.version}</maven.compiler.source>
-   <maven.compiler.target>${java.version}</maven.compiler.target>
-    <maven.compiler.release>${java.version}</maven.compiler.release>
-	  <micronaut.serialization.version>2.0.2</micronaut.serialization.version>
+      <maven.compiler.source>${java.version}</maven.compiler.source>
+      <maven.compiler.target>${java.version}</maven.compiler.target>
+      <maven.compiler.release>${java.version}</maven.compiler.release>
+      <micronaut.serialization.version>2.0.2</micronaut.serialization.version>
+      <micronaut.test.resources.version>2.0.0</micronaut.test.resources.version>
       <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
-        <maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
-        <maven-enforcer-plugin.version>3.3.0</maven-enforcer-plugin.version>
-        <maven-failsafe-plugin.version>3.1.2</maven-failsafe-plugin.version>
-        <maven-install-plugin.version>3.1.1</maven-install-plugin.version>
-        <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
-        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
-        <maven-shade-plugin.version>3.5.0</maven-shade-plugin.version>
-        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
+      <maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
+      <maven-enforcer-plugin.version>3.3.0</maven-enforcer-plugin.version>
+      <maven-failsafe-plugin.version>3.1.2</maven-failsafe-plugin.version>
+      <maven-install-plugin.version>3.1.1</maven-install-plugin.version>
+      <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
+      <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+      <maven-shade-plugin.version>3.5.0</maven-shade-plugin.version>
+      <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
   </properties>
 
   <dependencyManagement>
