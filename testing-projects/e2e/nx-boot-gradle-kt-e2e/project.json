@@ -10,9 +10,9 @@
         "jestConfig": "testing-projects/e2e/nx-boot-gradle-kt-e2e/jest.config.js",
         "runInBand": true
       },
-      "dependsOn": ["nx-boot-gradle:build"]
+      "dependsOn": ["nx-gradle:build"]
     }
   },
   "tags": [],
-  "implicitDependencies": ["nx-boot-gradle"]
+  "implicitDependencies": ["nx-gradle"]
 }
