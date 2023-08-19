@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.11.0](https://github.com/khalilou88/jnxplus/compare/common-0.10.0...common-0.11.0) (2023-08-19)
+
+
+### Features
+
+* **generators:** update micronaut versions and generated code ([#391](https://github.com/khalilou88/jnxplus/issues/391)) ([fdd88d3](https://github.com/khalilou88/jnxplus/commit/fdd88d3aa11f20a8beb6902abe086ff0935a0c96))
+
+
+
 # [0.10.0](https://github.com/khalilou88/jnxplus/compare/common-0.9.1...common-0.10.0) (2023-07-28)
 
 
