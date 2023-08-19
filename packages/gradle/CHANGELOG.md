@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.16.1](https://github.com/khalilou88/jnxplus/compare/gradle-0.16.0...gradle-0.16.1) (2023-08-19)
+
+### Dependency Updates
+
+* `common` updated to version `0.11.0`
+
+
 # [0.16.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.15.0...gradle-0.16.0) (2023-08-09)
 
 
