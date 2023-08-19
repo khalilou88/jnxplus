@@ -1,40 +1,46 @@
 # Executors
 
-# @jnxplus/nx-boot-gradle:build
+## NX_MAVEN_CLI_OPTS env var
+
+To pass Arguments to the maven cli in a global mode, you can use the env var NX_MAVEN_CLI_OPTS.
+
+### Usage
+
+```bash
+$env:NX_MAVEN_CLI_OPTS='--batch-mode'
+```
+
+## @jnxplus/nx-maven:build
 
 Build a Spring Boot project:
 
 - Build an application:
-  Depending on the packaging option, under the hood, we use the Spring Boot `bootJar` or `bootWar` tasks to build the application.
+  We use the Spring Boot `spring-boot:repackage` goal to build the application.
 
 - Build a library:
-  For libraries we use always the `jar` task for build.
+  For libraries we use `install` goal for build.
 
 In both cases, the build command will not execute tests, and you need to run the test command instead.
 
-Options can be configured in `workspace.json` when defining the executor, or when invoking it.
-Read more about how to use executors and the CLI here: https://nx.dev/getting-started/nx-cli#common-commands.
-
-## Usage
+### Usage
 
 ```bash
 nx build my-project-name
 ```
 
-## Options
+### Options
 
-### packaging
-
-Default: `jar`
+#### mvnArgs
 
 Type: `string`
 
-Possible values: `jar`, `war`
+Arguments to pass to the maven cli.
 
-The application packaging. This option is only needed for an application.
-The packaging of a lib is always a jar.
+```bash
+nx build my-app-name --mvnArgs="--no-transfer-progress"
+```
 
-## @jnxplus/nx-boot-gradle:build-image
+## @jnxplus/nx-maven:build-image
 
 Build a Spring Boot image
 
@@ -44,10 +50,10 @@ Build a Spring Boot image
 nx build-image my-app-name
 ```
 
-## @jnxplus/nx-boot-gradle:serve
+## @jnxplus/nx-maven:serve
 
 Starts server for application.
-Under the hood, we use the Spring Boot `bootRun` task to run the application.
+Under the hood, we use the Spring Boot `spring-boot:run` goal to run the application.
 
 ### Usage
 
@@ -61,13 +67,13 @@ nx serve my-app-name
 
 Type: `string`
 
-Add more arguments when serving an app.
+Add more arguments to Maven when serving an app.
 
 ```bash
-nx serve my-app-name --args='--spring.profiles.active=dev'
+nx serve my-app-name --args="-Dspring-boot.run.profiles=dev"
 ```
 
-## @jnxplus/nx-boot-gradle:test
+## @jnxplus/nx-maven:test
 
 Test a project.
 
@@ -77,7 +83,19 @@ Test a project.
 nx test my-project-name
 ```
 
-## @jnxplus/nx-boot-gradle:lint
+### Options
+
+#### mvnArgs
+
+Type: `string`
+
+Arguments to pass to the maven cli.
+
+```bash
+nx test my-app-name --mvnArgs="Your Args"
+```
+
+## @jnxplus/nx-maven:lint
 
 Lint a project.
 
@@ -106,7 +124,7 @@ To override rules, please use the files `checkstyle.xml` and `pmd.xml` located u
 
 ## Format
 
-`@jnxplus/nx-boot-gradle` support out of the box `format` command for java projects to check for or overwrite un-formatted files.
+`@jnxplus/nx-maven` support out of the box `format` command for java projects to check for or overwrite un-formatted files.
 Under the hood we use [prettier-plugin-java](https://www.npmjs.com/package/prettier-plugin-java)
 
 ### Usage
@@ -145,12 +163,12 @@ For Kotlin projects please use kformat executor that uses ktlint.
 nx kformat my-project-name
 ```
 
-## @jnxplus/nx-boot-gradle:run-task
+## @jnxplus/nx-maven:run-task
 
-Run a custom gradle task
+Run a custom maven task
 
 ### Usage
 
 ```bash
-nx run-task my-app-name --task="test"
+nx run-task my-app-name --task="clean install -DskipTests=true"
 ```

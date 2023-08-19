@@ -1,25 +1,25 @@
 # Generators
 
-## @jnxplus/nx-boot-maven:init
+## @jnxplus/nx-maven:init
 
 Add Spring Boot and Maven support. This only needs to be performed once per workspace.
 
 ### Usage
 
 ```bash
-nx generate @jnxplus/nx-boot-maven:init
+nx generate @jnxplus/nx-maven:init
 ```
 
 Or
 
 ```bash
-nx g @jnxplus/nx-boot-maven:init
+nx g @jnxplus/nx-maven:init
 ```
 
 Show what will be generated without writing to disk:
 
 ```bash
-nx g @jnxplus/nx-boot-maven:init --dry-run
+nx g @jnxplus/nx-maven:init --dry-run
 ```
 
 ### Options
@@ -58,20 +58,20 @@ Type: `string`
 
 The parent project version.
 
-## @jnxplus/nx-boot-maven:application
+## @jnxplus/nx-maven:application
 
 Create a Spring Boot application.
 
 ### Usage
 
 ```bash
-nx generate @jnxplus/nx-boot-maven:application my-app-name
+nx generate @jnxplus/nx-maven:application my-app-name
 ```
 
 Or
 
 ```bash
-nx g @jnxplus/nx-boot-maven:app my-app-name
+nx g @jnxplus/nx-maven:app my-app-name
 ```
 
 Show what will be generated without writing to disk:
@@ -188,20 +188,20 @@ Type: `string`
 
 ArtifactId of the parent project or leave it blank for the root project
 
-## @jnxplus/nx-boot-maven:library
+## @jnxplus/nx-maven:library
 
 Create a Spring Boot library.
 
 ### Usage
 
 ```bash
-nx generate @jnxplus/nx-boot-maven:library my-lib-name
+nx generate @jnxplus/nx-maven:library my-lib-name
 ```
 
 Or
 
 ```bash
-nx g @jnxplus/nx-boot-maven:lib my-lib-name
+nx g @jnxplus/nx-maven:lib my-lib-name
 ```
 
 Show what will be generated without writing to disk:
@@ -215,7 +215,7 @@ nx g ... --dry-run
 Generate libs/myapp/mylib:
 
 ```bash
-nx g @jnxplus/nx-boot-maven:lib mylib --directory=myapp
+nx g @jnxplus/nx-maven:lib mylib --directory=myapp
 ```
 
 ### Options
@@ -304,14 +304,14 @@ Type: `string`
 
 ArtifactId of the parent project or leave it blank for the root project
 
-## @jnxplus/nx-boot-maven:parent-project
+## @jnxplus/nx-maven:parent-project
 
 Create a parent project.
 
 ### Usage
 
 ```bash
-nx generate @jnxplus/nx-boot-maven:parent-project my-parent-project
+nx generate @jnxplus/nx-maven:parent-project my-parent-project
 ```
 
 ### Options
@@ -368,24 +368,24 @@ Type: `string`
 
 ArtifactId of the parent project or leave it blank for the root project
 
-## @jnxplus/nx-boot-maven:migrate
+## @jnxplus/nx-maven:migrate
 
 Update Maven wrapper.
 
 ### Usage
 
 ```bash
-nx generate @jnxplus/nx-boot-maven:migrate
+nx generate @jnxplus/nx-maven:migrate
 ```
 
 Or
 
 ```bash
-nx g @jnxplus/nx-boot-maven:migrate
+nx g @jnxplus/nx-maven:migrate
 ```
 
 Show what will be generated without writing to disk:
 
 ```bash
-nx g @jnxplus/nx-boot-maven:migrate --dry-run
+nx g @jnxplus/nx-maven:migrate --dry-run
 ```

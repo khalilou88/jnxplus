@@ -1,25 +1,25 @@
 # Generators
 
-## @jnxplus/nx-boot-gradle:init
+## @jnxplus/nx-gradle:init
 
 Add Spring Boot and Gradle support. This only needs to be performed once per workspace.
 
 ### Usage
 
 ```bash
-nx generate @jnxplus/nx-boot-gradle:init
+nx generate @jnxplus/nx-gradle:init
 ```
 
 Or
 
 ```bash
-nx g @jnxplus/nx-boot-gradle:init
+nx g @jnxplus/nx-gradle:init
 ```
 
 Show what will be generated without writing to disk:
 
 ```bash
-nx g @jnxplus/nx-boot-gradle:init --dry-run
+nx g @jnxplus/nx-gradle:init --dry-run
 ```
 
 ### Options
@@ -52,20 +52,20 @@ Type: `string`
 
 The root project name.
 
-## @jnxplus/nx-boot-gradle:application
+## @jnxplus/nx-gradle:application
 
 Create a Spring Boot application.
 
 ### Usage
 
 ```bash
-nx generate @jnxplus/nx-boot-gradle:application my-app-name
+nx generate @jnxplus/nx-gradle:application my-app-name
 ```
 
 Or
 
 ```bash
-nx g @jnxplus/nx-boot-gradle:app my-app-name
+nx g @jnxplus/nx-gradle:app my-app-name
 ```
 
 Show what will be generated without writing to disk:
@@ -174,20 +174,20 @@ Type: `number`
 
 Port to start the server at. Default is 8080.
 
-## @jnxplus/nx-boot-gradle:library
+## @jnxplus/nx-gradle:library
 
 Create a Spring Boot library.
 
 ### Usage
 
 ```bash
-nx generate @jnxplus/nx-boot-gradle:library my-lib-name
+nx generate @jnxplus/nx-gradle:library my-lib-name
 ```
 
 Or
 
 ```bash
-nx g @jnxplus/nx-boot-gradle:lib my-lib-name
+nx g @jnxplus/nx-gradle:lib my-lib-name
 ```
 
 Show what will be generated without writing to disk:
@@ -201,7 +201,7 @@ nx g ... --dry-run
 Generate libs/myapp/mylib:
 
 ```bash
-nx g @jnxplus/nx-boot-gradle:lib mylib --directory=myapp
+nx g @jnxplus/nx-gradle:lib mylib --directory=myapp
 ```
 
 ### Options
@@ -282,24 +282,24 @@ Type: `boolean`
 
 Skip starter code
 
-## @jnxplus/nx-boot-gradle:migrate
+## @jnxplus/nx-gradle:migrate
 
 Update Gradle wrapper.
 
 ### Usage
 
 ```bash
-nx generate @jnxplus/nx-boot-gradle:migrate
+nx generate @jnxplus/nx-gradle:migrate
 ```
 
 Or
 
 ```bash
-nx g @jnxplus/nx-boot-gradle:migrate
+nx g @jnxplus/nx-gradle:migrate
 ```
 
 Show what will be generated without writing to disk:
 
 ```bash
-nx g @jnxplus/nx-boot-gradle:migrate --dry-run
+nx g @jnxplus/nx-gradle:migrate --dry-run
 ```
