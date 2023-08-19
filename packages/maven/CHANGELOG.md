@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.10.0](https://github.com/khalilou88/jnxplus/compare/maven-0.9.0...maven-0.10.0) (2023-08-19)
+
+### Dependency Updates
+
+* `common` updated to version `0.11.0`
+
+### Features
+
+* **generators:** add missing properties when generating projects ([#383](https://github.com/khalilou88/jnxplus/issues/383)) ([9d31d12](https://github.com/khalilou88/jnxplus/commit/9d31d129a80627c878a878ae337993faeb31dd6b))
+* **generators:** update micronaut versions and generated code ([#391](https://github.com/khalilou88/jnxplus/issues/391)) ([fdd88d3](https://github.com/khalilou88/jnxplus/commit/fdd88d3aa11f20a8beb6902abe086ff0935a0c96))
+
+
+
 # [0.9.0](https://github.com/khalilou88/jnxplus/compare/maven-0.8.0...maven-0.9.0) (2023-08-09)
 
 
