@@ -31,6 +31,10 @@
 <% } -%>
         <checkstyle.version><%= checkstyleVersion %></checkstyle.version>
         <ktlint.version><%= ktlintVersion %></ktlint.version>
+<% if(dependencyManagement === 'micronaut-parent-pom') { -%>
+        <jdk.version>${java.version}</jdk.version>
+        <release.version>${java.version}</release.version>
+<% } -%>
     </properties>
 
 

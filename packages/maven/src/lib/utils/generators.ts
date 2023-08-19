@@ -182,7 +182,7 @@ export function addMissedProperties(
     plugin === '@jnxplus/nx-boot-maven' ||
     options.framework === 'spring-boot'
   ) {
-    const b = ifParentPomExits(xmldoc, 'spring-boot-starter-parent');
+    const b = isParentPomExits(xmldoc, 'spring-boot-starter-parent');
     if (!b) {
       const springBootVersion = properties.childNamed('spring.boot.version');
       if (springBootVersion === undefined) {
@@ -215,7 +215,7 @@ export function addMissedProperties(
   }
 
   if (options.framework === 'micronaut') {
-    const b = ifParentPomExits(xmldoc, 'micronaut-parent');
+    const b = isParentPomExits(xmldoc, 'micronaut-parent');
     if (!b) {
       const micronautVersion = properties.childNamed('micronaut.version');
       if (micronautVersion === undefined) {
@@ -231,7 +231,7 @@ export function addMissedProperties(
   }
 }
 
-export function ifParentPomExits(
+function isParentPomExits(
   xmldoc: XmlDocument,
   parentPom: 'spring-boot-starter-parent' | 'micronaut-parent'
 ) {
@@ -244,4 +244,18 @@ export function ifParentPomExits(
   const artifactId = parent.childNamed('artifactId');
 
   return parentPom === artifactId?.val;
+}
+
+export function getDependencyManagement(
+  xmldoc: XmlDocument
+): 'bom' | 'spring-boot-parent-pom' | 'micronaut-parent-pom' {
+  if (isParentPomExits(xmldoc, 'spring-boot-starter-parent')) {
+    return 'spring-boot-parent-pom';
+  }
+
+  if (isParentPomExits(xmldoc, 'micronaut-parent')) {
+    return 'micronaut-parent-pom';
+  }
+
+  return 'bom';
 }

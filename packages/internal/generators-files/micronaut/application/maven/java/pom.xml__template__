@@ -17,13 +17,11 @@
 	</parent>
 
   <properties>
-    <release.version>${java.version}</release.version>
     <packaging>jar</packaging>
+    <micronaut.aot.enabled>false</micronaut.aot.enabled>
+    <micronaut.aot.packageName><%= packageName %>.aot.generated</micronaut.aot.packageName>
     <micronaut.runtime>netty</micronaut.runtime>
     <exec.mainClass><%= packageName %>.Application</exec.mainClass>
-<% if(plugin === '@jnxplus/nx-maven') { -%>
-    <micronaut.test.resources.version>2.0.0-M10</micronaut.test.resources.version>
-<% } -%>
   </properties>
 
   <repositories>
@@ -33,28 +31,12 @@
     </repository>
   </repositories>
 
+
   <dependencies>
-<% if(plugin === '@jnxplus/nx-maven') { -%>
-    <dependency>
-      <groupId>io.micronaut</groupId>
-      <artifactId>micronaut-inject-java</artifactId>
-    </dependency>
-<% } -%>
     <dependency>
       <groupId>io.micronaut</groupId>
       <artifactId>micronaut-http-server-netty</artifactId>
       <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.micronaut</groupId>
-      <artifactId>micronaut-runtime</artifactId>
-      <scope>compile</scope>
-      <exclusions>
-          <exclusion>
-            <groupId>io.micronaut</groupId>
-            <artifactId>micronaut-jackson-databind</artifactId>
-          </exclusion>
-        </exclusions>
     </dependency>
     <dependency>
       <groupId>io.micronaut.serde</groupId>
@@ -67,11 +49,11 @@
       <scope>runtime</scope>
     </dependency>
 <% if(configFormat === '.yml') { -%>
-     <dependency>
-       <groupId>org.yaml</groupId>
-       <artifactId>snakeyaml</artifactId>
-       <scope>runtime</scope>
-     </dependency>
+         <dependency>
+           <groupId>org.yaml</groupId>
+           <artifactId>snakeyaml</artifactId>
+           <scope>runtime</scope>
+         </dependency>
 <% } -%>
     <dependency>
       <groupId>io.micronaut</groupId>
@@ -100,17 +82,38 @@
       <plugin>
         <groupId>io.micronaut.maven</groupId>
         <artifactId>micronaut-maven-plugin</artifactId>
+<% if(dependencyManagement === 'bom') { -%>
+        <version>${micronaut.version}</version>
+<% } -%>
+          <configuration>
+            <configFile>aot-${packaging}.properties</configFile>
+          </configuration>
       </plugin>
-
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+<% if(dependencyManagement === 'bom') { -%>
+        <version>${maven-enforcer-plugin.version}</version>
+<% } -%>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+<% if(dependencyManagement === 'bom') { -%>
+        <version>${maven-compiler-plugin.version}</version>
+<% } -%>
         <configuration>
           <!-- Uncomment to enable incremental compilation -->
           <!-- <useIncrementalCompilation>false</useIncrementalCompilation> -->
 
-        <!--
           <annotationProcessorPaths combine.children="append">
+<% if(dependencyManagement === 'bom') { -%>
+           <path>
+                <groupId>io.micronaut</groupId>
+                <artifactId>micronaut-inject-java</artifactId>
+                <version>${micronaut.version}</version>
+            </path>
+<% } -%>
             <path>
               <groupId>io.micronaut.serde</groupId>
               <artifactId>micronaut-serde-processor</artifactId>
@@ -123,18 +126,12 @@
               </exclusions>
             </path>
           </annotationProcessorPaths>
-          -->
           <compilerArgs>
             <arg>-Amicronaut.processing.group=<%= groupId %></arg>
             <arg>-Amicronaut.processing.module=<%= projectName %></arg>
           </compilerArgs>
-<% if(plugin === '@jnxplus/nx-maven') { -%>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
-<% } -%>
         </configuration>
       </plugin>
-
     </plugins>
   </build>
 

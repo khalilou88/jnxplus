@@ -20,6 +20,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <compiler-plugin.version>3.11.0</compiler-plugin.version>
     <surefire-plugin.version>3.0.0</surefire-plugin.version>
+    <failsafe-plugin.version>3.0.0</failsafe-plugin.version>
     <skipITs>true</skipITs>
   </properties>
 
@@ -84,7 +85,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>${surefire-plugin.version}</version>
+        <version>${failsafe-plugin.version}</version>
         <executions>
           <execution>
             <goals>

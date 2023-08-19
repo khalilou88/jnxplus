@@ -377,7 +377,7 @@ describe('nx-boot-gradle e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the build.gradle file contains the good informations
+    // Making sure the build.gradle file contains the correct information
     const buildGradle = readFile(`apps/${appDir}/${randomName}/build.gradle`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
@@ -884,7 +884,7 @@ describe('nx-boot-gradle e2e', () => {
       )
     ).not.toThrow();
 
-    // Making sure the build.gradle file contains the good informations
+    // Making sure the build.gradle file contains the correct information
     const buildGradle = readFile(`libs/${libDir}/${randomName}/build.gradle`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();

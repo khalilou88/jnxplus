@@ -10,6 +10,7 @@ import {
 import {
   addMissedProperties,
   addProjectToAggregator,
+  getDependencyManagement,
 } from '../../lib/utils/generators';
 import { readXmlTree } from '../../lib/xml/index';
 import {
@@ -46,6 +47,10 @@ interface NormalizedSchema extends NxMavenAppGeneratorSchema {
   quarkusVersion: string;
   micronautVersion: string;
   plugin: MavenPluginType;
+  dependencyManagement:
+    | 'bom'
+    | 'spring-boot-parent-pom'
+    | 'micronaut-parent-pom';
 }
 
 function normalizeOptions(
@@ -137,6 +142,8 @@ function normalizeOptions(
         ?.val || 'quarkusVersion';
   }
 
+  const dependencyManagement = getDependencyManagement(rootPomXmlContent);
+
   return {
     ...options,
     projectName,
@@ -157,6 +164,7 @@ function normalizeOptions(
     quarkusVersion,
     micronautVersion,
     plugin,
+    dependencyManagement,
   };
 }
 
