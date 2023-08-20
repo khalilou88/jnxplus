@@ -969,7 +969,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --projects ${appName}`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --projects ${appName} --groupId org.acme`
     );
 
     // Making sure the app build.gradle.kts file contains the lib
@@ -1047,7 +1047,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --language kotlin --projects ${appName}`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --language kotlin --projects ${appName} --groupId org.acme`
     );
 
     // Making sure the app build.gradle.kts file contains the lib
