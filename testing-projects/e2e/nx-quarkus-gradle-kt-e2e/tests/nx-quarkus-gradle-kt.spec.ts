@@ -147,7 +147,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const appName = uniq('quarkus-gradle-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --groupId org.acme`
     );
 
     expect(() =>
@@ -425,7 +425,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const port = 8383;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --language kotlin --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --language kotlin --port ${port} --groupId org.acme`
     );
 
     expect(() =>
@@ -647,7 +647,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --groupId org.acme`
     );
 
     expect(() =>
@@ -715,7 +715,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --language kotlin`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --language kotlin --groupId org.acme`
     );
 
     expect(() =>
@@ -965,7 +965,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --groupId org.acme`
     );
 
     await runNxCommandAsync(
@@ -1043,7 +1043,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --language kotlin`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --language kotlin --groupId org.acme`
     );
 
     await runNxCommandAsync(
