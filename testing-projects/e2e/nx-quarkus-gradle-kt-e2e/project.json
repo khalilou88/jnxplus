@@ -10,9 +10,9 @@
         "jestConfig": "testing-projects/e2e/nx-quarkus-gradle-kt-e2e/jest.config.js",
         "runInBand": true
       },
-      "dependsOn": ["nx-quarkus-gradle:build"]
+      "dependsOn": ["nx-gradle:build"]
     }
   },
   "tags": [],
-  "implicitDependencies": ["nx-quarkus-gradle"]
+  "implicitDependencies": ["nx-gradle"]
 }
