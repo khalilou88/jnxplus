@@ -1224,7 +1224,7 @@ describe('nx-boot-maven e2e', () => {
   it('should generate java apps that use a parent project', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework none`
     );
 
     const randomName = uniq('boot-maven-app-');
@@ -1238,7 +1238,7 @@ describe('nx-boot-maven e2e', () => {
 
     const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject}`
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject} --framework none`
     );
 
     const secondAppName = uniq('boot-maven-app-');
@@ -1254,7 +1254,7 @@ describe('nx-boot-maven e2e', () => {
       parentProjectDir
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
+      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject}  --directory ${parentProjectDir} --framework none`
     );
 
     const thirdAppName = uniq('boot-maven-app-');
@@ -1314,7 +1314,7 @@ describe('nx-boot-maven e2e', () => {
   it('should generate kotlin apps that use a parent project', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework none`
     );
 
     const randomName = uniq('boot-maven-app-');
@@ -1328,7 +1328,7 @@ describe('nx-boot-maven e2e', () => {
 
     const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject}`
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject} --framework none`
     );
 
     const secondAppName = uniq('boot-maven-app-');
@@ -1344,7 +1344,7 @@ describe('nx-boot-maven e2e', () => {
       parentProjectDir
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
+      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject}  --directory ${parentProjectDir} --framework none`
     );
 
     const thirdAppName = uniq('boot-maven-app-');
@@ -1405,7 +1405,7 @@ describe('nx-boot-maven e2e', () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework none`
     );
 
     const libName = uniq('boot-maven-lib-');
@@ -1420,7 +1420,7 @@ describe('nx-boot-maven e2e', () => {
     const secondParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject}`
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject} --framework none`
     );
 
     const randomName = uniq('boot-maven-lib-');
@@ -1440,7 +1440,7 @@ describe('nx-boot-maven e2e', () => {
       parentProjectDir
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
+      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject} --directory ${parentProjectDir} --framework none`
     );
 
     const thirdLibName = uniq('boot-maven-lib-');
@@ -1501,7 +1501,7 @@ describe('nx-boot-maven e2e', () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework none`
     );
 
     const libName = uniq('boot-maven-lib-');
@@ -1516,7 +1516,7 @@ describe('nx-boot-maven e2e', () => {
     const secondParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject}`
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject} --framework none`
     );
 
     const randomName = uniq('boot-maven-lib-');
@@ -1536,7 +1536,7 @@ describe('nx-boot-maven e2e', () => {
       parentProjectDir
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
+      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject}  --directory ${parentProjectDir} --framework none`
     );
 
     const thirdLibName = uniq('boot-maven-lib-');
@@ -1898,7 +1898,7 @@ describe('nx-boot-maven e2e', () => {
   it('should generate java app inside a parent project', async () => {
     const parentProject = uniq('parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${parentProject}`
+      `generate @jnxplus/nx-maven:parent-project ${parentProject} --framework none`
     );
 
     const randomName = uniq('boot-maven-app-');
@@ -1944,7 +1944,7 @@ describe('nx-boot-maven e2e', () => {
   it('should generate java nested sub-projects', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework none`
     );
 
     const appName = uniq('boot-maven-app-');
@@ -1956,7 +1956,7 @@ describe('nx-boot-maven e2e', () => {
 
     const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject}`
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject} --framework none`
     );
 
     const secondAppName = uniq('boot-maven-app-');
@@ -1969,7 +1969,7 @@ describe('nx-boot-maven e2e', () => {
     const thirdParentProject = uniq('apps-parent-project-');
     const parentProjectDir = `${appsParentProject}/${secondParentProject}/deep/subdir`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${thirdParentProject} --simpleName --parent-project ${secondParentProject}  --directory ${parentProjectDir}`
+      `generate @jnxplus/nx-maven:parent-project ${thirdParentProject} --simpleName --parent-project ${secondParentProject}  --directory ${parentProjectDir} --framework none`
     );
 
     const thirdAppName = uniq('boot-maven-app-');
@@ -2038,7 +2038,7 @@ describe('nx-boot-maven e2e', () => {
   it('optional project.json', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework none`
     );
 
     //graph
