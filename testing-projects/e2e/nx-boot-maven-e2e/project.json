@@ -10,9 +10,9 @@
         "jestConfig": "testing-projects/e2e/nx-boot-maven-e2e/jest.config.js",
         "runInBand": true
       },
-      "dependsOn": ["nx-boot-maven:build"]
+      "dependsOn": ["nx-maven:build"]
     }
   },
   "tags": [],
-  "implicitDependencies": ["nx-boot-maven"]
+  "implicitDependencies": ["nx-maven"]
 }
