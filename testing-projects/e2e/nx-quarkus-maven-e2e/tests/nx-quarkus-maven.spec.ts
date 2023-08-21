@@ -1242,7 +1242,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     const secondAppName = uniq('quarkus-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${secondAppName} --parent-project ${secondParentProject}`
+      `generate @jnxplus/nx-maven:application ${secondAppName} --framework quarkus --parent-project ${secondParentProject}`
     );
     const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
     expect(secondBuildResult.stdout).toContain('Executor ran for Build');
