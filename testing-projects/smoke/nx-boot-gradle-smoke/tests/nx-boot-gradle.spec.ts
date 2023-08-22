@@ -30,7 +30,7 @@ const testLib2 = uniq('test-lib2');
 const testApp3 = uniq('test-app3');
 const testApp4 = uniq('test-app4');
 
-describe('@jnxplus/nx-boot-gradle smoke', () => {
+describe('@jnxplus/nx-gradle spring-boot smoke', () => {
   beforeEach(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
       unsafeCleanup: true,
@@ -53,37 +53,40 @@ describe('@jnxplus/nx-boot-gradle smoke', () => {
 
     execSync('git init', execSyncOptions());
 
-    execSync('npm i --save-dev @jnxplus/nx-boot-gradle', execSyncOptions());
-
-    execSync('npx nx generate @jnxplus/nx-boot-gradle:init', execSyncOptions());
+    execSync('npm i --save-dev @jnxplus/nx-gradle', execSyncOptions());
 
     execSync(
-      `npx nx g @jnxplus/nx-boot-gradle:application ${testApp}`,
+      'npx nx generate @jnxplus/nx-gradle:init --preset spring-boot',
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-boot-gradle:lib ${testLib} --projects ${testApp}`,
+      `npx nx g @jnxplus/nx-gradle:application ${testApp} --framework spring-boot`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-boot-gradle:application ${testApp2}`,
+      `npx nx g @jnxplus/nx-gradle:lib ${testLib} --framework spring-boot --projects ${testApp}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-boot-gradle:application ${testApp3}`,
+      `npx nx g @jnxplus/nx-gradle:application ${testApp2} --framework spring-boot`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-boot-gradle:application ${testApp4}`,
+      `npx nx g @jnxplus/nx-gradle:application ${testApp3} --framework spring-boot`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-boot-gradle:lib ${testLib2} --projects ${testApp2},${testApp3},${testApp4}`,
+      `npx nx g @jnxplus/nx-gradle:application ${testApp4} --framework spring-boot`,
+      execSyncOptions()
+    );
+
+    execSync(
+      `npx nx g @jnxplus/nx-gradle:lib ${testLib2} --framework spring-boot --projects ${testApp2},${testApp3},${testApp4}`,
       execSyncOptions()
     );
 

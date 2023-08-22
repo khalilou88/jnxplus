@@ -21,6 +21,9 @@ const execSyncOptions: () => ExecSyncOptions = () => ({
   stdio: 'inherit',
 });
 
+const libsParentProject = uniq('libs-parent-project-');
+const appsParentProject = uniq('apps-parent-project-');
+
 const testApp = uniq('test-app');
 const testLib = uniq('test-lib');
 
@@ -29,7 +32,7 @@ const testLib2 = uniq('test-lib2');
 const testApp3 = uniq('test-app3');
 const testApp4 = uniq('test-app4');
 
-describe('@jnxplus/nx-quarkus-maven smoke', () => {
+describe('@jnxplus/nx-maven quarkus smoke', () => {
   beforeEach(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
       unsafeCleanup: true,
@@ -52,40 +55,47 @@ describe('@jnxplus/nx-quarkus-maven smoke', () => {
 
     execSync('git init', execSyncOptions());
 
-    execSync('npm i --save-dev @jnxplus/nx-quarkus-maven', execSyncOptions());
+    execSync('npm i --save-dev @jnxplus/nx-maven', execSyncOptions());
+
+    execSync('npx nx generate @jnxplus/nx-maven:init', execSyncOptions());
 
     execSync(
-      'npx nx generate @jnxplus/nx-quarkus-maven:init',
+      `npx nx generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework quarkus`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-quarkus-maven:application ${testApp}`,
+      `npx nx generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject} --framework none`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-quarkus-maven:lib ${testLib} --projects ${testApp}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp} --framework quarkus --parentProject ${appsParentProject}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-quarkus-maven:application ${testApp2}`,
+      `npx nx g @jnxplus/nx-maven:lib ${testLib} --framework quarkus --parentProject ${libsParentProject} --projects ${testApp}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-quarkus-maven:application ${testApp3}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp2} --framework quarkus --parentProject ${appsParentProject}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-quarkus-maven:application ${testApp4}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp3} --framework quarkus --parentProject ${appsParentProject}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-quarkus-maven:lib ${testLib2} --projects ${testApp2},${testApp3},${testApp4}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp4} --framework quarkus --parentProject ${appsParentProject}`,
+      execSyncOptions()
+    );
+
+    execSync(
+      `npx nx g @jnxplus/nx-maven:lib ${testLib2} --framework quarkus --parentProject ${libsParentProject} --projects ${testApp2},${testApp3},${testApp4}`,
       execSyncOptions()
     );
 

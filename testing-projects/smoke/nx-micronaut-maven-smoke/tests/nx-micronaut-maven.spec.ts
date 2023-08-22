@@ -29,7 +29,7 @@ const testLib2 = uniq('test-lib2');
 const testApp3 = uniq('test-app3');
 const testApp4 = uniq('test-app4');
 
-describe('@jnxplus/nx-micronaut-maven smoke', () => {
+describe('@jnxplus/nx-maven micronaut smoke', () => {
   beforeEach(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
       unsafeCleanup: true,
@@ -52,40 +52,40 @@ describe('@jnxplus/nx-micronaut-maven smoke', () => {
 
     execSync('git init', execSyncOptions());
 
-    execSync('npm i --save-dev @jnxplus/nx-micronaut-maven', execSyncOptions());
+    execSync('npm i --save-dev @jnxplus/nx-maven', execSyncOptions());
 
     execSync(
-      'npx nx generate @jnxplus/nx-micronaut-maven:init',
+      'npx nx generate @jnxplus/nx-maven:init --dependencyManagement micronaut-parent-pom',
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-micronaut-maven:application ${testApp}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp} --framework micronaut`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-micronaut-maven:lib ${testLib} --projects ${testApp}`,
+      `npx nx g @jnxplus/nx-maven:lib ${testLib} --framework micronaut --projects ${testApp}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-micronaut-maven:application ${testApp2}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp2} --framework micronaut`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-micronaut-maven:application ${testApp3}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp3} --framework micronaut`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-micronaut-maven:application ${testApp4}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp4} --framework micronaut`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-micronaut-maven:lib ${testLib2} --projects ${testApp2},${testApp3},${testApp4}`,
+      `npx nx g @jnxplus/nx-maven:lib ${testLib2} --framework micronaut --projects ${testApp2},${testApp3},${testApp4}`,
       execSyncOptions()
     );
 

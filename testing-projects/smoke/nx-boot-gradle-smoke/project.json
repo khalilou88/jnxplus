@@ -12,5 +12,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["nx-boot-gradle"]
+  "implicitDependencies": ["nx-gradle"]
 }

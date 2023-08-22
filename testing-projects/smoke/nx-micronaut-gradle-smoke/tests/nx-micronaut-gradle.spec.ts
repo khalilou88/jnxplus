@@ -29,7 +29,7 @@ const testLib2 = uniq('test-lib2');
 const testApp3 = uniq('test-app3');
 const testApp4 = uniq('test-app4');
 
-describe('@jnxplus/nx-micronaut-gradle smoke', () => {
+describe('@jnxplus/nx-gradle micronaut smoke', () => {
   beforeEach(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
       unsafeCleanup: true,
@@ -52,43 +52,40 @@ describe('@jnxplus/nx-micronaut-gradle smoke', () => {
 
     execSync('git init', execSyncOptions());
 
+    execSync('npm i --save-dev @jnxplus/nx-gradle', execSyncOptions());
+
     execSync(
-      'npm i --save-dev @jnxplus/nx-micronaut-gradle',
+      'npx nx generate @jnxplus/nx-gradle:init --preset micronaut',
       execSyncOptions()
     );
 
     execSync(
-      'npx nx generate @jnxplus/nx-micronaut-gradle:init',
+      `npx nx g @jnxplus/nx-gradle:application ${testApp} --framework micronaut`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-micronaut-gradle:application ${testApp}`,
+      `npx nx g @jnxplus/nx-gradle:lib ${testLib} --framework micronaut --projects ${testApp}`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-micronaut-gradle:lib ${testLib} --projects ${testApp}`,
+      `npx nx g @jnxplus/nx-gradle:application ${testApp2} --framework micronaut`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-micronaut-gradle:application ${testApp2}`,
+      `npx nx g @jnxplus/nx-gradle:application ${testApp3} --framework micronaut`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-micronaut-gradle:application ${testApp3}`,
+      `npx nx g @jnxplus/nx-gradle:application ${testApp4} --framework micronaut`,
       execSyncOptions()
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-micronaut-gradle:application ${testApp4}`,
-      execSyncOptions()
-    );
-
-    execSync(
-      `npx nx g @jnxplus/nx-micronaut-gradle:lib ${testLib2} --projects ${testApp2},${testApp3},${testApp4}`,
+      `npx nx g @jnxplus/nx-gradle:lib ${testLib2} --framework micronaut --projects ${testApp2},${testApp3},${testApp4}`,
       execSyncOptions()
     );
 
