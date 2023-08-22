@@ -324,9 +324,8 @@ describe('nx-micronaut-gradle kt e2e', () => {
       target: rootProjectName,
     });
 
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args="--spring.profiles.active=test"`,
-      (output) => output.includes(`Server Running: http://localhost:${port}`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Server Running: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');
@@ -414,9 +413,8 @@ describe('nx-micronaut-gradle kt e2e', () => {
       target: rootProjectName,
     });
 
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args="--spring.profiles.active=test"`,
-      (output) => output.includes(`Server Running: http://localhost:${port}`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Server Running: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');
@@ -601,9 +599,8 @@ describe('nx-micronaut-gradle kt e2e', () => {
       target: rootProjectName,
     });
 
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args="--spring.profiles.active=test"`,
-      (output) => output.includes(`Server Running: http://localhost:${port}`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Server Running: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');
@@ -1186,9 +1183,8 @@ describe('nx-micronaut-gradle kt e2e', () => {
       target: rootProjectName,
     });
 
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args="--spring.profiles.active=test"`,
-      (output) => output.includes(`Server Running: http://localhost:${port}`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Server Running: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');

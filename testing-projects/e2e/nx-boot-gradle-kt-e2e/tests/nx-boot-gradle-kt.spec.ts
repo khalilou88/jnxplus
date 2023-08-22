@@ -330,9 +330,8 @@ describe('nx-boot-gradle kt e2e', () => {
       target: rootProjectName,
     });
 
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args="--spring.profiles.active=test"`,
-      (output) => output.includes(`Tomcat started on port(s): ${port}`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Tomcat started on port(s): ${port}`)
     );
 
     const dataResult = await getData(port);
@@ -425,9 +424,8 @@ describe('nx-boot-gradle kt e2e', () => {
       target: rootProjectName,
     });
 
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args="--spring.profiles.active=test"`,
-      (output) => output.includes(`Tomcat started on port(s): ${port}`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Tomcat started on port(s): ${port}`)
     );
 
     const dataResult = await getData(port);
@@ -621,9 +619,8 @@ describe('nx-boot-gradle kt e2e', () => {
       target: rootProjectName,
     });
 
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args="--spring.profiles.active=test"`,
-      (output) => output.includes(`Tomcat started on port(s): ${port}`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Tomcat started on port(s): ${port}`)
     );
 
     const dataResult = await getData(port);
@@ -1231,9 +1228,8 @@ describe('nx-boot-gradle kt e2e', () => {
       target: rootProjectName,
     });
 
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args="--spring.profiles.active=test"`,
-      (output) => output.includes(`Tomcat started on port(s): ${port}`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Tomcat started on port(s): ${port}`)
     );
 
     const dataResult = await getData(port);

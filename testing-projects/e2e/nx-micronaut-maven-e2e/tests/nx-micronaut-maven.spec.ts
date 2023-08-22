@@ -245,7 +245,7 @@ describe('nx-micronaut-maven e2e', () => {
         `generate @jnxplus/nx-maven:application ${appName} --framework micronaut`
       );
       const buildImageResult = await runNxCommandAsync(
-        `build-image ${appName} --args="-Dpackaging=docker"`
+        `build-image ${appName}`
       );
       expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
@@ -289,9 +289,7 @@ describe('nx-micronaut-maven e2e', () => {
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(
-      `build ${appName} --mvnArgs='--no-transfer-progress'`
-    );
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -319,9 +317,8 @@ describe('nx-micronaut-maven e2e', () => {
       target: parentProjectName,
     });
 
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args=""`,
-      (output) => output.includes(`Server Running: http://localhost:${port}`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Server Running: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');
@@ -367,9 +364,7 @@ describe('nx-micronaut-maven e2e', () => {
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
-    const buildResult = await runNxCommandAsync(
-      `build ${appName} --mvnArgs="--no-transfer-progress"`
-    );
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     //should recreate target folder
@@ -427,7 +422,7 @@ describe('nx-micronaut-maven e2e', () => {
         `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin`
       );
       const buildImageResult = await runNxCommandAsync(
-        `build-image ${appName} --args="-Dpackaging=docker"`
+        `build-image ${appName}`
       );
       expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
@@ -499,9 +494,8 @@ describe('nx-micronaut-maven e2e', () => {
       target: parentProjectName,
     });
 
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args=""`,
-      (output) => output.includes(`Server Running: http://localhost:${port}`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Server Running: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');
@@ -584,9 +578,8 @@ describe('nx-micronaut-maven e2e', () => {
       target: parentProjectName,
     });
 
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args=""`,
-      (output) => output.includes(`Server Running: http://localhost:${port}`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Server Running: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');
@@ -1531,9 +1524,7 @@ describe('nx-micronaut-maven e2e', () => {
     const projectJson = readJson(`apps/${appDir}/${appName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(
-      `build ${appName} --mvnArgs='--no-transfer-progress'`
-    );
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -1561,9 +1552,8 @@ describe('nx-micronaut-maven e2e', () => {
       target: parentProjectName,
     });
 
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args=""`,
-      (output) => output.includes(`Server Running: http://localhost:${port}`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Server Running: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');
