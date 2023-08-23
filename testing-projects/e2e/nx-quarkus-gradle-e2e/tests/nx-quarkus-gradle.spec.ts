@@ -323,9 +323,8 @@ describe('nx-quarkus-gradle e2e', () => {
       target: rootProjectName,
     });
 
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args="-Dquarkus-profile=prod"`,
-      (output) => output.includes(`Listening on: http://localhost:${port}`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Listening on: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');
@@ -401,9 +400,8 @@ describe('nx-quarkus-gradle e2e', () => {
       target: rootProjectName,
     });
 
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args="-Dquarkus-profile=prod"`,
-      (output) => output.includes(`Listening on: http://localhost:${port}`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Listening on: http://localhost:${port}`)
     );
 
     // port and process cleanup
@@ -578,9 +576,8 @@ describe('nx-quarkus-gradle e2e', () => {
       target: rootProjectName,
     });
 
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args="-Dquarkus-profile=prod"`,
-      (output) => output.includes(`Listening on: http://localhost:${port}`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Listening on: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');
@@ -1160,9 +1157,8 @@ describe('nx-quarkus-gradle e2e', () => {
       target: rootProjectName,
     });
 
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args="-Dquarkus-profile=prod"`,
-      (output) => output.includes(`Listening on: http://localhost:${port}`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Listening on: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');

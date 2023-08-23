@@ -308,9 +308,8 @@ describe('nx-quarkus-maven e2e', () => {
     const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args="-Dquarkus-profile=prod"`,
-      (output) => output.includes(`Listening on: http://localhost:${port}`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Listening on: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');
@@ -328,9 +327,7 @@ describe('nx-quarkus-maven e2e', () => {
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
-    const buildResult = await runNxCommandAsync(
-      `build ${appName} --mvnArgs='--no-transfer-progress'`
-    );
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
@@ -406,9 +403,7 @@ describe('nx-quarkus-maven e2e', () => {
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
-    const buildResult = await runNxCommandAsync(
-      `build ${appName} --mvnArgs="--no-transfer-progress"`
-    );
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     //should recreate target folder
@@ -539,9 +534,8 @@ describe('nx-quarkus-maven e2e', () => {
       target: parentProjectName,
     });
 
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args="-Dquarkus-profile=prod"`,
-      (output) => output.includes(`Listening on: http://localhost:${port}`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Listening on: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');
@@ -622,9 +616,8 @@ describe('nx-quarkus-maven e2e', () => {
       target: parentProjectName,
     });
 
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args="-Dquarkus-profile=prod"`,
-      (output) => output.includes(`Listening on: http://localhost:${port}`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Listening on: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');
@@ -1631,9 +1624,7 @@ describe('nx-quarkus-maven e2e', () => {
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
-    const buildResult = await runNxCommandAsync(
-      `build ${appName} --mvnArgs='--no-transfer-progress'`
-    );
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
@@ -1658,9 +1649,8 @@ describe('nx-quarkus-maven e2e', () => {
       target: parentProjectName,
     });
 
-    const process = await runNxCommandUntil(
-      `serve ${appName} --args="-Dquarkus-profile=prod"`,
-      (output) => output.includes(`Listening on: http://localhost:${port}`)
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Listening on: http://localhost:${port}`)
     );
 
     const dataResult = await getData(port, '/hello');
