@@ -28,8 +28,8 @@
     "postinstall": "node src/scripts/install-linters.js"
   },
   "dependencies": {
-    "prettier": "^2.8.7",
-    "prettier-plugin-java": "^2.1.0"
+    "prettier": "^3.0.2",
+    "prettier-plugin-java": "^2.3.0"
   },
   "peerDependencies": {
     "@nx/devkit": ">=16.3.0"
