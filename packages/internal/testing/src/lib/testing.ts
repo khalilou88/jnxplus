@@ -280,3 +280,14 @@ export function addJVMMemory() {
   );
   fs.writeFileSync(gradlePropertiesPath, updatedFileContent);
 }
+
+export function updateNx() {
+  const nxJsonPath = path.join(tmpProjPath(), 'nx.json');
+  const json = readJsonFile(nxJsonPath);
+  json.workspaceLayout = {
+    projectNameAndRootFormat: 'derived',
+    appsDir: 'apps',
+    libsDir: 'libs',
+  };
+  writeJsonFile(nxJsonPath, json);
+}

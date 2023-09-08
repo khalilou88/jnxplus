@@ -11,6 +11,7 @@ import {
   runNxCommandUntil,
   runNxNewCommand,
   runPackageManagerInstallLinks,
+  updateNx,
 } from '@jnxplus/internal/testing';
 import { names, workspaceRoot } from '@nx/devkit';
 import {
@@ -84,6 +85,7 @@ describe('nx-micronaut-maven e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --dependencyManagement micronaut-parent-pom`
     );
+    updateNx();
 
     if (isCI) {
       removeTmpFromGitignore();

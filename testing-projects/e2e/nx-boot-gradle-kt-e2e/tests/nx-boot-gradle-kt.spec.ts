@@ -25,6 +25,7 @@ import {
   runNxCommandUntil,
   runNxNewCommand,
   runPackageManagerInstallLinks,
+  updateNx,
 } from '@jnxplus/internal/testing';
 
 describe('nx-boot-gradle kt e2e', () => {
@@ -87,6 +88,7 @@ describe('nx-boot-gradle kt e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset spring-boot`
     );
+    updateNx();
 
     if (isCI) {
       removeTmpFromGitignore();
