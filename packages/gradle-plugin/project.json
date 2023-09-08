@@ -5,6 +5,9 @@
   "projectType": "library",
   "targets": {
     "build": {
+      "executor": "nx:noop"
+    },
+    "old-build": {
       "executor": "@jnxplus/gradle:run-commands",
       "options": {
         "command": "build publishToMavenLocal",
