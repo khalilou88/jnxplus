@@ -120,5 +120,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["gradle-plugin", "internal-generators-files"]
+  "implicitDependencies": ["internal-generators-files"]
 }
