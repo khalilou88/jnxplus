@@ -26,6 +26,7 @@ import {
   runNxCommandUntil,
   runNxNewCommand,
   runPackageManagerInstallLinks,
+  updateNx,
 } from '@jnxplus/internal/testing';
 
 describe('nx-quarkus-gradle kt e2e', () => {
@@ -88,7 +89,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset quarkus`
     );
-
+    updateNx();
     addJVMMemory();
 
     if (isCI) {

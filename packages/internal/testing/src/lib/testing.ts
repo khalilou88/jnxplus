@@ -19,7 +19,7 @@ export function runNxNewCommand(args?: string, silent?: boolean) {
   return execSync(
     `node ${require.resolve(
       'nx'
-    )} new proj --nx-workspace-root=${localTmpDir} --no-interactive --skip-install --collection=@nx/workspace --npmScope=proj --preset=empty ${
+    )} new proj --nx-workspace-root=${localTmpDir} --no-interactive --skip-install --collection=@nx/workspace --npmScope=proj --preset=apps ${
       args || ''
     }`,
     {
@@ -279,4 +279,15 @@ export function addJVMMemory() {
     '\norg.gradle.jvmargs=-Xmx4096m'
   );
   fs.writeFileSync(gradlePropertiesPath, updatedFileContent);
+}
+
+export function updateNx() {
+  const nxJsonPath = path.join(tmpProjPath(), 'nx.json');
+  const json = readJsonFile(nxJsonPath);
+  json.workspaceLayout = {
+    projectNameAndRootFormat: 'derived',
+    appsDir: 'apps',
+    libsDir: 'libs',
+  };
+  writeJsonFile(nxJsonPath, json);
 }

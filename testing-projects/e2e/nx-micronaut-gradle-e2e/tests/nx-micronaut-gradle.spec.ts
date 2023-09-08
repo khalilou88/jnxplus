@@ -24,6 +24,7 @@ import {
   runNxCommandUntil,
   runNxNewCommand,
   runPackageManagerInstallLinks,
+  updateNx,
 } from '@jnxplus/internal/testing';
 
 describe('nx-micronaut-gradle e2e', () => {
@@ -86,6 +87,7 @@ describe('nx-micronaut-gradle e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --preset micronaut`
     );
+    updateNx();
 
     if (isCI) {
       removeTmpFromGitignore();

@@ -20,6 +20,7 @@ import {
   removeTmpFromGitignore,
   runNxNewCommand,
   runPackageManagerInstallLinks,
+  updateNx,
 } from '@jnxplus/internal/testing';
 
 describe('nx-gradle kotlin dsl kotlin-multiplatform preset e2e', () => {
@@ -82,6 +83,7 @@ describe('nx-gradle kotlin dsl kotlin-multiplatform preset e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset kotlin-multiplatform`
     );
+    updateNx();
 
     if (isCI) {
       removeTmpFromGitignore();
