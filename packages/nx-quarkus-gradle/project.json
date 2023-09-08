@@ -138,5 +138,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["internal-generators-files"]
+  "implicitDependencies": ["gradle-plugin", "internal-generators-files"]
 }
