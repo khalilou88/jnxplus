@@ -1,5 +1,10 @@
 import { DSLType } from '@jnxplus/common';
-import { Tree, readProjectConfiguration } from '@nx/devkit';
+import {
+  Tree,
+  readProjectConfiguration,
+  updateJson,
+  writeJson,
+} from '@nx/devkit';
 import { join } from 'path';
 import { getProjectPathFromProjectRoot } from '.';
 
@@ -20,7 +25,7 @@ export function addOrUpdateGitattributes(tree: Tree) {
     const gitattributesOldContent = tree.read(gitattributesPath, 'utf-8') || '';
     const gitattributesContent = gitattributesOldContent.concat(
       '\n',
-      gradleWrapperGitattributes
+      gradleWrapperGitattributes,
     );
     tree.write(gitattributesPath, gitattributesContent);
   } else {
@@ -30,7 +35,7 @@ export function addOrUpdateGitattributes(tree: Tree) {
 
 export function addProjectToGradleSetting(
   tree: Tree,
-  options: { projectRoot: string }
+  options: { projectRoot: string },
 ) {
   const filePath = 'settings.gradle';
   const ktsFilePath = 'settings.gradle.kts';
@@ -43,7 +48,7 @@ export function addProjectToGradleSetting(
 
     const newSettingsContent = settingsContent.replace(
       regex,
-      `$&\ninclude('${projectPath}')`
+      `$&\ninclude('${projectPath}')`,
     );
     tree.write(filePath, newSettingsContent);
   }
@@ -53,7 +58,7 @@ export function addProjectToGradleSetting(
 
     const newSettingsContent = settingsContent.replace(
       regex,
-      `$&\ninclude("${projectPath}")`
+      `$&\ninclude("${projectPath}")`,
     );
     tree.write(ktsFilePath, newSettingsContent);
   }
@@ -61,7 +66,7 @@ export function addProjectToGradleSetting(
 
 export function addLibraryToProjects(
   tree: Tree,
-  options: { projectRoot: string; parsedProjects: string[] }
+  options: { projectRoot: string; parsedProjects: string[] },
 ) {
   const regex = /dependencies\s*{/;
   const projectPath = getProjectPathFromProjectRoot(options.projectRoot);
@@ -75,7 +80,7 @@ export function addLibraryToProjects(
       const buildGradleContent = tree.read(filePath, 'utf-8') || '';
       const newBuildGradleContent = buildGradleContent.replace(
         regex,
-        `$&\n\timplementation project(':${projectPath}')`
+        `$&\n\timplementation project(':${projectPath}')`,
       );
       tree.write(filePath, newBuildGradleContent);
     }
@@ -85,7 +90,7 @@ export function addLibraryToProjects(
 
       const newBuildGradleContent = buildGradleContent.replace(
         regex,
-        `$&\n\timplementation(project(":${projectPath}"))`
+        `$&\n\timplementation(project(":${projectPath}"))`,
       );
       tree.write(ktsPath, newBuildGradleContent);
     }
@@ -110,10 +115,26 @@ export function addOrUpdatePrettierIgnore(tree: Tree) {
       tree.read(prettierIgnorePath, 'utf-8') || '';
     const prettierIgnoreContent = prettierIgnoreOldContent.concat(
       '\n',
-      gradlePrettierIgnore
+      gradlePrettierIgnore,
     );
     tree.write(prettierIgnorePath, prettierIgnoreContent);
   } else {
     tree.write(prettierIgnorePath, gradlePrettierIgnore);
+  }
+}
+
+export function addOrUpdatePrettierRc(tree: Tree) {
+  const prettierRcPath = `.prettierrc`;
+  if (tree.exists(prettierRcPath)) {
+    updateJson(tree, prettierRcPath, (prettierRcJson) => {
+      prettierRcJson.plugins = prettierRcJson.plugins ?? [];
+      prettierRcJson.plugins.push('prettier-plugin-java');
+      // return modified JSON object
+      return prettierRcJson;
+    });
+  } else {
+    writeJson(tree, prettierRcPath, {
+      plugins: ['prettier-plugin-java'],
+    });
   }
 }

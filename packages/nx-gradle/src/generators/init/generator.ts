@@ -14,6 +14,7 @@ import {
 import {
   addOrUpdateGitattributes,
   addOrUpdatePrettierIgnore,
+  addOrUpdatePrettierRc,
   updateGitIgnore,
 } from '@jnxplus/gradle';
 import { Tree, formatFiles, generateFiles, offsetFromRoot } from '@nx/devkit';
@@ -37,7 +38,7 @@ interface NormalizedSchema extends NxGradleGeneratorSchema {
 
 function normalizeOptions(
   tree: Tree,
-  options: NxGradleGeneratorSchema
+  options: NxGradleGeneratorSchema,
 ): NormalizedSchema {
   const kotlinExtension =
     options.dsl === 'kotlin' || options.preset === 'kotlin-multiplatform'
@@ -73,19 +74,19 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     tree,
     path.join(__dirname, 'files', 'gradle', 'wrapper'),
     '',
-    templateOptions
+    templateOptions,
   );
   generateFiles(
     tree,
     path.join(__dirname, 'files', 'gradle', 'config', options.preset),
     '',
-    templateOptions
+    templateOptions,
   );
   generateFiles(
     tree,
     path.join(__dirname, 'files', 'linters'),
     'tools/linters',
-    templateOptions
+    templateOptions,
   );
 }
 
@@ -94,6 +95,7 @@ export default async function (tree: Tree, options: NxGradleGeneratorSchema) {
   addFiles(tree, normalizedOptions);
   updateNxJson(tree, '@jnxplus/nx-gradle');
   updateGitIgnore(tree);
+  addOrUpdatePrettierRc(tree);
   addOrUpdatePrettierIgnore(tree);
   addOrUpdateGitattributes(tree);
   tree.changePermissions('gradlew', '755');
