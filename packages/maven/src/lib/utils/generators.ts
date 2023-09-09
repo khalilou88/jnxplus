@@ -11,7 +11,7 @@ import { XmlDocument } from 'xmldoc';
 
 export function addProjectToAggregator(
   tree: Tree,
-  options: { projectRoot: string; aggregatorProject: string | undefined }
+  options: { projectRoot: string; aggregatorProject: string | undefined },
 ) {
   const aggregatorProjectRoot = options.aggregatorProject
     ? readProjectConfiguration(tree, options.aggregatorProject).root
@@ -33,7 +33,7 @@ export function addProjectToAggregator(
       new XmlDocument(`
     <modules>
     </modules>
-  `)
+  `),
     );
     modules = xmldoc.childNamed('modules');
   }
@@ -54,7 +54,7 @@ export function addLibraryToProjects(
     groupId: string;
     projectName: string;
     projectVersion: string;
-  }
+  },
 ) {
   for (const projectName of options.parsedProjects) {
     const projectRoot = readProjectConfiguration(tree, projectName).root;
@@ -76,7 +76,7 @@ export function addLibraryToProjects(
         new XmlDocument(`
       <dependencies>
       </dependencies>
-    `)
+    `),
       );
       dependencies = xmldoc.childNamed('dependencies');
     }
@@ -107,12 +107,15 @@ export function addOrUpdatePrettierRc(tree: Tree) {
   if (tree.exists(prettierRcPath)) {
     updateJson(tree, prettierRcPath, (prettierRcJson) => {
       prettierRcJson.xmlWhitespaceSensitivity = 'ignore';
+      prettierRcJson.plugins = prettierRcJson.plugins ?? [];
+      prettierRcJson.plugins.push('prettier-plugin-java');
       // return modified JSON object
       return prettierRcJson;
     });
   } else {
     writeJson(tree, prettierRcPath, {
       xmlWhitespaceSensitivity: 'ignore',
+      plugins: ['prettier-plugin-java'],
     });
   }
 }
@@ -125,7 +128,7 @@ export function addOrUpdatePrettierIgnore(tree: Tree) {
       tree.read(prettierIgnorePath, 'utf-8') || '';
     const prettierIgnoreContent = prettierIgnoreOldContent.concat(
       '\n',
-      mavenPrettierIgnore
+      mavenPrettierIgnore,
     );
     tree.write(prettierIgnorePath, prettierIgnoreContent);
   } else {
@@ -141,7 +144,7 @@ export function addOrUpdateGitattributes(tree: Tree) {
     const gitattributesOldContent = tree.read(gitattributesPath, 'utf-8') || '';
     const gitattributesContent = gitattributesOldContent.concat(
       '\n',
-      mavenWrapperGitattributes
+      mavenWrapperGitattributes,
     );
     tree.write(gitattributesPath, gitattributesContent);
   } else {
@@ -157,7 +160,7 @@ export function addMissedProperties(
     springBootVersion: string;
     quarkusVersion: string;
     micronautVersion: string;
-  }
+  },
 ) {
   const xmldoc = readXmlTree(tree, 'pom.xml');
 
@@ -169,7 +172,7 @@ export function addMissedProperties(
       new XmlDocument(`
     <properties>
     </properties>
-  `)
+  `),
     );
     properties = xmldoc.childNamed('properties');
   }
@@ -189,7 +192,7 @@ export function addMissedProperties(
         properties.children.push(
           new XmlDocument(`
     <spring.boot.version>${options.springBootVersion}</spring.boot.version>
-  `)
+  `),
         );
 
         tree.write('pom.xml', xmlToString(xmldoc));
@@ -207,7 +210,7 @@ export function addMissedProperties(
       properties.children.push(
         new XmlDocument(`
       <quarkus.version>${options.quarkusVersion}</quarkus.version>
-    `)
+    `),
       );
       tree.write('pom.xml', xmlToString(xmldoc));
       return;
@@ -222,7 +225,7 @@ export function addMissedProperties(
         properties.children.push(
           new XmlDocument(`
     <micronaut.version>${options.micronautVersion}</micronaut.version>
-  `)
+  `),
         );
         tree.write('pom.xml', xmlToString(xmldoc));
         return;
@@ -233,7 +236,7 @@ export function addMissedProperties(
 
 function isParentPomExits(
   xmldoc: XmlDocument,
-  parentPom: 'spring-boot-starter-parent' | 'micronaut-parent'
+  parentPom: 'spring-boot-starter-parent' | 'micronaut-parent',
 ) {
   const parent = xmldoc.childNamed('parent');
 
@@ -247,7 +250,7 @@ function isParentPomExits(
 }
 
 export function getDependencyManagement(
-  xmldoc: XmlDocument
+  xmldoc: XmlDocument,
 ): 'bom' | 'spring-boot-parent-pom' | 'micronaut-parent-pom' {
   if (isParentPomExits(xmldoc, 'spring-boot-starter-parent')) {
     return 'spring-boot-parent-pom';
