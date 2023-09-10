@@ -423,7 +423,7 @@ export default async function (
     targets: {
       build: {
         executor: `${plugin}:run-task`,
-        outputs: [`${normalizedOptions.projectRoot}/target`],
+        outputs: [`{projectRoot}/target`],
         options: {
           task: 'compile -DskipTests=true',
         },

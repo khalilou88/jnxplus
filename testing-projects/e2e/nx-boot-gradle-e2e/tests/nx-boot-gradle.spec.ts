@@ -24,7 +24,6 @@ import {
   runNxCommandUntil,
   runNxNewCommand,
   runPackageManagerInstallLinks,
-  updateNx,
 } from '@jnxplus/internal/testing';
 
 describe('nx-boot-gradle e2e', () => {
@@ -44,21 +43,21 @@ describe('nx-boot-gradle e2e', () => {
       workspaceRoot,
       'dist',
       'packages',
-      'nx-gradle'
+      'nx-gradle',
     );
 
     const commonDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
-      'common'
+      'common',
     );
 
     const gradleDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
-      'gradle'
+      'gradle',
     );
 
     patchRootPackageJson(pluginName, nxBootGradleDistAbsolutePath);
@@ -68,26 +67,25 @@ describe('nx-boot-gradle e2e', () => {
     patchPackageJson(
       gradleDistAbsolutePath,
       '@jnxplus/common',
-      commonDistAbsolutePath
+      commonDistAbsolutePath,
     );
 
     patchPackageJson(
       nxBootGradleDistAbsolutePath,
       '@jnxplus/common',
-      commonDistAbsolutePath
+      commonDistAbsolutePath,
     );
     patchPackageJson(
       nxBootGradleDistAbsolutePath,
       '@jnxplus/gradle',
-      gradleDistAbsolutePath
+      gradleDistAbsolutePath,
     );
 
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --preset spring-boot`
+      `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --preset spring-boot`,
     );
-    updateNx();
 
     if (isCI) {
       removeTmpFromGitignore();
@@ -125,15 +123,15 @@ describe('nx-boot-gradle e2e', () => {
         'gradlew.bat',
         'gradle.properties',
         'settings.gradle',
-        'tools/linters/checkstyle.xml'
-      )
+        'tools/linters/checkstyle.xml',
+      ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesExist(
         `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-${checkstyleVersion}-all.jar`,
-        `node_modules/@jnxplus/tools/linters/ktlint/ktlint`
-      )
+        `node_modules/@jnxplus/tools/linters/ktlint/ktlint`,
+      ),
     ).not.toThrow();
   }, 120000);
 
@@ -145,31 +143,31 @@ describe('nx-boot-gradle e2e', () => {
     const appName = uniq('boot-gradle-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot`,
     );
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/build.gradle`,
-        `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/java/com/example/${names(
-          appName
+        `${appName}/build.gradle`,
+        `${appName}/src/main/resources/application.properties`,
+        `${appName}/src/main/java/com/example/${names(
+          appName,
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
-        `apps/${appName}/src/main/java/com/example/${names(
-          appName
+        `${appName}/src/main/java/com/example/${names(
+          appName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
 
-        `apps/${appName}/src/test/resources/application.properties`,
-        `apps/${appName}/src/test/java/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
-      )
+        `${appName}/src/test/resources/application.properties`,
+        `${appName}/src/test/java/com/example/${names(
+          appName,
+        ).className.toLocaleLowerCase()}/HelloControllerTests.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`apps/${appName}/build.gradle`);
+    const buildGradle = readFile(`${appName}/build.gradle`);
     expect(buildGradle.includes('com.example')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -181,14 +179,14 @@ describe('nx-boot-gradle e2e', () => {
 
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'build');
+    const targetDir = path.join(localTmpDir, 'proj', appName, 'build');
     fse.removeSync(targetDir);
-    expect(() => checkFilesExist(`apps/${appName}/build`)).toThrow();
+    expect(() => checkFilesExist(`${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
-    expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
+    expect(() => checkFilesExist(`${appName}/build`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -196,26 +194,26 @@ describe('nx-boot-gradle e2e', () => {
     expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //test run-task
-    const projectJson = readJson(`apps/${appName}/project.json`);
+    const projectJson = readJson(`${appName}/project.json`);
     projectJson.targets = {
       ...projectJson.targets,
       'run-task': {
         executor: '@jnxplus/nx-gradle:run-task',
       },
     };
-    updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
+    updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
     const runTaskResult = await runNxCommandAsync(
-      `run-task ${appName} --task="test"`
+      `run-task ${appName} --task="test"`,
     );
     expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
     //end test run-task
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -225,7 +223,7 @@ describe('nx-boot-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`)
+      output.includes(`Tomcat started on port(s): 8080`),
     );
 
     const dataResult = await getData();
@@ -245,10 +243,10 @@ describe('nx-boot-gradle e2e', () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('boot-gradle-app-');
       await runNxCommandAsync(
-        `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot`
+        `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot`,
       );
       const buildImageResult = await runNxCommandAsync(
-        `build-image ${appName}`
+        `build-image ${appName}`,
       );
       expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
@@ -261,44 +259,44 @@ describe('nx-boot-gradle e2e', () => {
     const port = 8181;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${randomName} --framework spring-boot --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${randomName} --framework spring-boot --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`,
     );
 
     expect(() =>
       checkFilesExist(
-        `apps/${appDir}/${randomName}/build.gradle`,
-        `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          randomName
+        `${appDir}/${randomName}/build.gradle`,
+        `${appDir}/${randomName}/src/main/resources/application.yml`,
+        `${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
+          randomName,
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          randomName
+        `${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
+          randomName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          randomName
+        `${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
+          randomName,
         ).className.toLocaleLowerCase()}/ServletInitializer.java`,
-        `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
-      )
+        `${appDir}/${randomName}/src/test/resources/application.yml`,
+        `${appDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
+          randomName,
+        ).className.toLocaleLowerCase()}/HelloControllerTests.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`apps/${appDir}/${randomName}/build.gradle`);
+    const buildGradle = readFile(`${appDir}/${randomName}/build.gradle`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
     expect(buildGradle.includes('war')).toBeTruthy();
     expect(
       buildGradle.includes(
-        'org.springframework.boot:spring-boot-starter-tomcat'
-      )
+        'org.springframework.boot:spring-boot-starter-tomcat',
+      ),
     ).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
+    const projectJson = readJson(`${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -308,7 +306,7 @@ describe('nx-boot-gradle e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -317,10 +315,10 @@ describe('nx-boot-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -330,7 +328,7 @@ describe('nx-boot-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`)
+      output.includes(`Tomcat started on port(s): ${port}`),
     );
 
     const dataResult = await getData(port);
@@ -353,44 +351,44 @@ describe('nx-boot-gradle e2e', () => {
     const port = 8282;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${randomName} --framework spring-boot --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${randomName} --framework spring-boot --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`,
     );
 
     expect(() =>
       checkFilesExist(
-        `apps/${appDir}/${randomName}/build.gradle`,
-        `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          randomName
+        `${appDir}/${randomName}/build.gradle`,
+        `${appDir}/${randomName}/src/main/resources/application.yml`,
+        `${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
+          randomName,
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          randomName
+        `${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
+          randomName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          randomName
+        `${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
+          randomName,
         ).className.toLocaleLowerCase()}/ServletInitializer.java`,
-        `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
-      )
+        `${appDir}/${randomName}/src/test/resources/application.yml`,
+        `${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
+          randomName,
+        ).className.toLocaleLowerCase()}/HelloControllerTests.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the correct information
-    const buildGradle = readFile(`apps/${appDir}/${randomName}/build.gradle`);
+    const buildGradle = readFile(`${appDir}/${randomName}/build.gradle`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
     expect(buildGradle.includes('war')).toBeTruthy();
     expect(
       buildGradle.includes(
-        'org.springframework.boot:spring-boot-starter-tomcat'
-      )
+        'org.springframework.boot:spring-boot-starter-tomcat',
+      ),
     ).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
+    const projectJson = readJson(`${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -400,7 +398,7 @@ describe('nx-boot-gradle e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -409,10 +407,10 @@ describe('nx-boot-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -422,7 +420,7 @@ describe('nx-boot-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`)
+      output.includes(`Tomcat started on port(s): ${port}`),
     );
 
     const dataResult = await getData(port);
@@ -443,35 +441,35 @@ describe('nx-boot-gradle e2e', () => {
     const port = 8383;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot --language kotlin --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot --language kotlin --port ${port}`,
     );
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/build.gradle`,
-        `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/kotlin/com/example/${names(
-          appName
+        `${appName}/build.gradle`,
+        `${appName}/src/main/resources/application.properties`,
+        `${appName}/src/main/kotlin/com/example/${names(
+          appName,
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.kt`,
-        `apps/${appName}/src/main/kotlin/com/example/${names(
-          appName
+        `${appName}/src/main/kotlin/com/example/${names(
+          appName,
         ).className.toLocaleLowerCase()}/HelloController.kt`,
-        `apps/${appName}/src/test/resources/application.properties`,
-        `apps/${appName}/src/test/kotlin/com/example/${names(
-          appName
+        `${appName}/src/test/resources/application.properties`,
+        `${appName}/src/test/kotlin/com/example/${names(
+          appName,
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }ApplicationTests.kt`,
-        `apps/${appName}/src/test/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.kt`
-      )
+        `${appName}/src/test/kotlin/com/example/${names(
+          appName,
+        ).className.toLocaleLowerCase()}/HelloControllerTests.kt`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`apps/${appName}/build.gradle`);
+    const buildGradle = readFile(`${appName}/build.gradle`);
     expect(buildGradle.includes('com.example')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -483,11 +481,11 @@ describe('nx-boot-gradle e2e', () => {
 
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'build');
+    const targetDir = path.join(localTmpDir, 'proj', appName, 'build');
     fse.removeSync(targetDir);
-    expect(() => checkFilesExist(`apps/${appName}/build`)).toThrow();
+    expect(() => checkFilesExist(`${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
-    expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
+    expect(() => checkFilesExist(`${appName}/build`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
     expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -497,10 +495,10 @@ describe('nx-boot-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -510,7 +508,7 @@ describe('nx-boot-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`)
+      output.includes(`Tomcat started on port(s): ${port}`),
     );
 
     const dataResult = await getData(port);
@@ -530,10 +528,10 @@ describe('nx-boot-gradle e2e', () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('boot-gradle-app-');
       await runNxCommandAsync(
-        `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot --language kotlin`
+        `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot --language kotlin`,
       );
       const buildImageResult = await runNxCommandAsync(
-        `build-image ${appName}`
+        `build-image ${appName}`,
       );
       expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
@@ -546,44 +544,44 @@ describe('nx-boot-gradle e2e', () => {
     const port = 8484;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-gradle:app ${randomName} --framework spring-boot --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml --port ${port}`
+      `g @jnxplus/nx-gradle:app ${randomName} --framework spring-boot --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml --port ${port}`,
     );
 
     expect(() =>
       checkFilesExist(
-        `apps/${appDir}/${randomName}/build.gradle`,
-        `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
-          randomName
+        `${appDir}/${randomName}/build.gradle`,
+        `${appDir}/${randomName}/src/main/resources/application.yml`,
+        `${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
+          randomName,
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
-          randomName
+        `${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
+          randomName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
-          randomName
+        `${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
+          randomName,
         ).className.toLocaleLowerCase()}/ServletInitializer.java`,
-        `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
-      )
+        `${appDir}/${randomName}/src/test/resources/application.yml`,
+        `${appDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
+          randomName,
+        ).className.toLocaleLowerCase()}/HelloControllerTests.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`apps/${appDir}/${randomName}/build.gradle`);
+    const buildGradle = readFile(`${appDir}/${randomName}/build.gradle`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
     expect(buildGradle.includes('war')).toBeTruthy();
     expect(
       buildGradle.includes(
-        'org.springframework.boot:spring-boot-starter-tomcat'
-      )
+        'org.springframework.boot:spring-boot-starter-tomcat',
+      ),
     ).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
+    const projectJson = readJson(`${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -593,7 +591,7 @@ describe('nx-boot-gradle e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -602,10 +600,10 @@ describe('nx-boot-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -615,7 +613,7 @@ describe('nx-boot-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`)
+      output.includes(`Tomcat started on port(s): ${port}`),
     );
 
     const dataResult = await getData(port);
@@ -637,15 +635,15 @@ describe('nx-boot-gradle e2e', () => {
     const port = 8585;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${randomName} --framework spring-boot --directory deep/sub-dir --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${randomName} --framework spring-boot --directory deep/sub-dir --port ${port}`,
     );
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -655,7 +653,7 @@ describe('nx-boot-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`)
+      output.includes(`Tomcat started on port(s): ${port}`),
     );
 
     const dataResult = await getData(port);
@@ -675,26 +673,26 @@ describe('nx-boot-gradle e2e', () => {
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot`,
     );
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/build.gradle`,
-        `libs/${libName}/src/main/java/com/example/${names(
-          libName
+        `${libName}/build.gradle`,
+        `${libName}/src/main/java/com/example/${names(
+          libName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/${libName}/src/test/java/com/example/${names(
-          libName
+        `${libName}/src/test/java/com/example/${names(
+          libName,
         ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libName}/src/test/java/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
-      )
+        `${libName}/src/test/java/com/example/${names(
+          libName,
+        ).className.toLocaleLowerCase()}/HelloServiceTests.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`libs/${libName}/build.gradle`);
+    const buildGradle = readFile(`${libName}/build.gradle`);
     expect(buildGradle.includes('com.example')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -706,14 +704,14 @@ describe('nx-boot-gradle e2e', () => {
 
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'build');
+    const targetDir = path.join(localTmpDir, 'proj', libName, 'build');
     fse.removeSync(targetDir);
-    expect(() => checkFilesExist(`libs/${libName}/build`)).toThrow();
+    expect(() => checkFilesExist(`${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
-    expect(() => checkFilesExist(`libs/${libName}/build`)).not.toThrow();
+    expect(() => checkFilesExist(`${libName}/build`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${libName}`
+      `format:write --projects ${libName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -722,10 +720,10 @@ describe('nx-boot-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -739,26 +737,26 @@ describe('nx-boot-gradle e2e', () => {
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot --language kotlin`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot --language kotlin`,
     );
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/build.gradle`,
-        `libs/${libName}/src/main/kotlin/com/example/${names(
-          libName
+        `${libName}/build.gradle`,
+        `${libName}/src/main/kotlin/com/example/${names(
+          libName,
         ).className.toLocaleLowerCase()}/HelloService.kt`,
-        `libs/${libName}/src/test/kotlin/com/example/${names(
-          libName
+        `${libName}/src/test/kotlin/com/example/${names(
+          libName,
         ).className.toLocaleLowerCase()}/TestConfiguration.kt`,
-        `libs/${libName}/src/test/kotlin/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.kt`
-      )
+        `${libName}/src/test/kotlin/com/example/${names(
+          libName,
+        ).className.toLocaleLowerCase()}/HelloServiceTests.kt`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`libs/${libName}/build.gradle`);
+    const buildGradle = readFile(`${libName}/build.gradle`);
     expect(buildGradle.includes('com.example')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -770,11 +768,11 @@ describe('nx-boot-gradle e2e', () => {
 
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'build');
+    const targetDir = path.join(localTmpDir, 'proj', libName, 'build');
     fse.removeSync(targetDir);
-    expect(() => checkFilesExist(`libs/${libName}/build`)).toThrow();
+    expect(() => checkFilesExist(`${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
-    expect(() => checkFilesExist(`libs/${libName}/build`)).not.toThrow();
+    expect(() => checkFilesExist(`${libName}/build`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
     expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -784,10 +782,10 @@ describe('nx-boot-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -803,31 +801,31 @@ describe('nx-boot-gradle e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${randomName} --framework spring-boot --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
+      `generate @jnxplus/nx-gradle:library ${randomName} --framework spring-boot --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`,
     );
 
     expect(() =>
       checkFilesExist(
-        `libs/${libDir}/${randomName}/build.gradle`,
-        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          randomName
+        `${libDir}/${randomName}/build.gradle`,
+        `${libDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
+          randomName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          randomName
+        `${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
+          randomName,
         ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
-      )
+        `${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
+          randomName,
+        ).className.toLocaleLowerCase()}/HelloServiceTests.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`libs/${libDir}/${randomName}/build.gradle`);
+    const buildGradle = readFile(`${libDir}/${randomName}/build.gradle`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`libs/${libDir}/${randomName}/project.json`);
+    const projectJson = readJson(`${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
@@ -837,7 +835,7 @@ describe('nx-boot-gradle e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${libName}`
+      `format:write --projects ${libName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -846,10 +844,10 @@ describe('nx-boot-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -865,31 +863,31 @@ describe('nx-boot-gradle e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${randomName} --framework spring-boot --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3`
+      `generate @jnxplus/nx-gradle:library ${randomName} --framework spring-boot --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3`,
     );
 
     expect(() =>
       checkFilesExist(
-        `libs/${libDir}/${randomName}/build.gradle`,
-        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          randomName
+        `${libDir}/${randomName}/build.gradle`,
+        `${libDir}/${randomName}/src/main/java/com/jnxplus/${names(
+          randomName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
-          randomName
+        `${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
+          randomName,
         ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
-      )
+        `${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
+          randomName,
+        ).className.toLocaleLowerCase()}/HelloServiceTests.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the correct information
-    const buildGradle = readFile(`libs/${libDir}/${randomName}/build.gradle`);
+    const buildGradle = readFile(`${libDir}/${randomName}/build.gradle`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`libs/${libDir}/${randomName}/project.json`);
+    const projectJson = readJson(`${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
@@ -899,7 +897,7 @@ describe('nx-boot-gradle e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${libName}`
+      `format:write --projects ${libName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -908,10 +906,10 @@ describe('nx-boot-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -927,31 +925,31 @@ describe('nx-boot-gradle e2e', () => {
     const libName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-gradle:lib ${randomName} --framework spring-boot --dir ${libDir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`
+      `g @jnxplus/nx-gradle:lib ${randomName} --framework spring-boot --dir ${libDir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`,
     );
 
     expect(() =>
       checkFilesExist(
-        `libs/${libDir}/${randomName}/build.gradle`,
-        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
-          randomName
+        `${libDir}/${randomName}/build.gradle`,
+        `${libDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
+          randomName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
-          randomName
+        `${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
+          randomName,
         ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
-      )
+        `${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
+          randomName,
+        ).className.toLocaleLowerCase()}/HelloServiceTests.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`libs/${libDir}/${randomName}/build.gradle`);
+    const buildGradle = readFile(`${libDir}/${randomName}/build.gradle`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`libs/${libDir}/${randomName}/project.json`);
+    const projectJson = readJson(`${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
@@ -961,7 +959,7 @@ describe('nx-boot-gradle e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${libName}`
+      `format:write --projects ${libName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -970,10 +968,10 @@ describe('nx-boot-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -988,19 +986,19 @@ describe('nx-boot-gradle e2e', () => {
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot --projects ${appName}`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot --projects ${appName}`,
     );
 
     // Making sure the app build.gradle file contains the lib
-    const buildGradle = readFile(`apps/${appName}/build.gradle`);
-    expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
+    const buildGradle = readFile(`${appName}/build.gradle`);
+    expect(buildGradle.includes(`:${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `apps/${appName}/src/main/java/com/example/${names(
-      appName
+    const helloControllerPath = `${appName}/src/main/java/com/example/${names(
+      appName,
     ).className.toLocaleLowerCase()}/HelloController.java`;
     const helloControllerContent = readFile(helloControllerPath);
 
@@ -1014,8 +1012,8 @@ describe('nx-boot-gradle e2e', () => {
       .replace(
         regex1,
         `$&\nimport org.springframework.beans.factory.annotation.Autowired;\nimport com.example.${names(
-          libName
-        ).className.toLocaleLowerCase()}.HelloService;`
+          libName,
+        ).className.toLocaleLowerCase()}.HelloService;`,
       )
       .replace(regex2, '$&\n@Autowired\nprivate HelloService helloService;')
       .replace(regex3, 'this.helloService.message()');
@@ -1029,7 +1027,7 @@ describe('nx-boot-gradle e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('HelloController.java');
 
@@ -1066,27 +1064,27 @@ describe('nx-boot-gradle e2e', () => {
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot --language kotlin --packaging war`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot --language kotlin --packaging war`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot --language kotlin --projects ${appName}`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot --language kotlin --projects ${appName}`,
     );
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/src/main/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/ServletInitializer.kt`
-      )
+        `${appName}/src/main/kotlin/com/example/${names(
+          appName,
+        ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
+      ),
     ).not.toThrow();
 
     // Making sure the app build.gradle file contains the lib
-    const buildGradle = readFile(`apps/${appName}/build.gradle`);
-    expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
+    const buildGradle = readFile(`${appName}/build.gradle`);
+    expect(buildGradle.includes(`:${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `apps/${appName}/src/main/kotlin/com/example/${names(
-      appName
+    const helloControllerPath = `${appName}/src/main/kotlin/com/example/${names(
+      appName,
     ).className.toLocaleLowerCase()}/HelloController.kt`;
     const helloControllerContent = readFile(helloControllerPath);
 
@@ -1100,8 +1098,8 @@ describe('nx-boot-gradle e2e', () => {
       .replace(
         regex1,
         `$&\nimport org.springframework.beans.factory.annotation.Autowired\nimport com.example.${names(
-          libName
-        ).className.toLocaleLowerCase()}.HelloService`
+          libName,
+        ).className.toLocaleLowerCase()}.HelloService`,
       )
       .replace(regex2, '$&(@Autowired val helloService: HelloService)')
       .replace(regex3, 'helloService.message()');
@@ -1151,42 +1149,42 @@ describe('nx-boot-gradle e2e', () => {
     const port = 8686;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`,
     );
 
     expect(() =>
       checkFilesExist(
-        `apps/${appDir}/${appName}/build.gradle`,
-        `apps/${appDir}/${appName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          appName
+        `${appDir}/${appName}/build.gradle`,
+        `${appDir}/${appName}/src/main/resources/application.yml`,
+        `${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
+          appName,
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
-        `apps/${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          appName
+        `${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
+          appName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
 
-        `apps/${appDir}/${appName}/src/test/resources/application.yml`,
-        `apps/${appDir}/${appName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          appName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
-      )
+        `${appDir}/${appName}/src/test/resources/application.yml`,
+        `${appDir}/${appName}/src/test/java/com/jnxplus/deep/subdir/${names(
+          appName,
+        ).className.toLocaleLowerCase()}/HelloControllerTests.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`apps/${appDir}/${appName}/build.gradle`);
+    const buildGradle = readFile(`${appDir}/${appName}/build.gradle`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
     expect(buildGradle.includes('war')).toBeTruthy();
     expect(
       buildGradle.includes(
-        'org.springframework.boot:spring-boot-starter-tomcat'
-      )
+        'org.springframework.boot:spring-boot-starter-tomcat',
+      ),
     ).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`apps/${appDir}/${appName}/project.json`);
+    const projectJson = readJson(`${appDir}/${appName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -1196,7 +1194,7 @@ describe('nx-boot-gradle e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -1205,10 +1203,10 @@ describe('nx-boot-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -1218,7 +1216,7 @@ describe('nx-boot-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`)
+      output.includes(`Tomcat started on port(s): ${port}`),
     );
 
     const dataResult = await getData(port);
@@ -1239,31 +1237,31 @@ describe('nx-boot-gradle e2e', () => {
     const libDir = 'deep/subdir';
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`,
     );
 
     expect(() =>
       checkFilesExist(
-        `libs/${libDir}/${libName}/build.gradle`,
-        `libs/${libDir}/${libName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          libName
+        `${libDir}/${libName}/build.gradle`,
+        `${libDir}/${libName}/src/main/java/com/jnxplus/deep/subdir/${names(
+          libName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          libName
+        `${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
+          libName,
         ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
-      )
+        `${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
+          libName,
+        ).className.toLocaleLowerCase()}/HelloServiceTests.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
-    const buildGradle = readFile(`libs/${libDir}/${libName}/build.gradle`);
+    const buildGradle = readFile(`${libDir}/${libName}/build.gradle`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`libs/${libDir}/${libName}/project.json`);
+    const projectJson = readJson(`${libDir}/${libName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
@@ -1273,7 +1271,7 @@ describe('nx-boot-gradle e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${libName}`
+      `format:write --projects ${libName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -1282,10 +1280,10 @@ describe('nx-boot-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -1300,43 +1298,43 @@ describe('nx-boot-gradle e2e', () => {
     const port = 8787;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot --minimal --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot --minimal --port ${port}`,
     );
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/build.gradle`,
-        `apps/${appName}/src/main/java/com/example/${names(
-          appName
+        `${appName}/build.gradle`,
+        `${appName}/src/main/java/com/example/${names(
+          appName,
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
-        `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/test/java/com/example/${names(
-          appName
+        `${appName}/src/main/resources/application.properties`,
+        `${appName}/src/test/java/com/example/${names(
+          appName,
         ).className.toLocaleLowerCase()}/${
           names(appName).className
-        }ApplicationTests.java`
-      )
+        }ApplicationTests.java`,
+      ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `apps/${appName}/src/main/java/com/example/${names(
-          appName
+        `${appName}/src/main/java/com/example/${names(
+          appName,
         ).className.toLocaleLowerCase()}/ServletInitializer.java`,
-        `apps/${appName}/src/main/java/com/example/${names(
-          appName
+        `${appName}/src/main/java/com/example/${names(
+          appName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `apps/${appName}/src/test/resources/application.properties`,
-        `apps/${appName}/src/test/java/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
-      )
+        `${appName}/src/test/resources/application.properties`,
+        `${appName}/src/test/java/com/example/${names(
+          appName,
+        ).className.toLocaleLowerCase()}/HelloControllerTests.java`,
+      ),
     ).not.toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`)
+      output.includes(`Tomcat started on port(s): ${port}`),
     );
 
     // port and process cleanup
@@ -1353,44 +1351,44 @@ describe('nx-boot-gradle e2e', () => {
     const port = 8888;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot --language kotlin --minimal --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework spring-boot --language kotlin --minimal --port ${port}`,
     );
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/build.gradle`,
-        `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/kotlin/com/example/${names(
-          appName
+        `${appName}/build.gradle`,
+        `${appName}/src/main/resources/application.properties`,
+        `${appName}/src/main/kotlin/com/example/${names(
+          appName,
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.kt`,
-        `apps/${appName}/src/test/kotlin/com/example/${names(
-          appName
+        `${appName}/src/test/kotlin/com/example/${names(
+          appName,
         ).className.toLocaleLowerCase()}/${
           names(appName).className
-        }ApplicationTests.kt`
-      )
+        }ApplicationTests.kt`,
+      ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `apps/${appName}/src/main/kotlin/com/example/${names(
-          appName
+        `${appName}/src/main/kotlin/com/example/${names(
+          appName,
         ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
-        `apps/${appName}/src/main/kotlin/com/example/${names(
-          appName
+        `${appName}/src/main/kotlin/com/example/${names(
+          appName,
         ).className.toLocaleLowerCase()}/HelloController.kt`,
-        `apps/${appName}/src/test/resources/application.properties`,
+        `${appName}/src/test/resources/application.properties`,
 
-        `apps/${appName}/src/test/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.kt`
-      )
+        `${appName}/src/test/kotlin/com/example/${names(
+          appName,
+        ).className.toLocaleLowerCase()}/HelloControllerTests.kt`,
+      ),
     ).not.toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`)
+      output.includes(`Tomcat started on port(s): ${port}`),
     );
 
     // port and process cleanup
@@ -1406,23 +1404,23 @@ describe('nx-boot-gradle e2e', () => {
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot --skipStarterCode`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot --skipStarterCode`,
     );
 
-    expect(() => checkFilesExist(`libs/${libName}/build.gradle`)).not.toThrow();
+    expect(() => checkFilesExist(`${libName}/build.gradle`)).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `libs/${libName}/src/main/java/com/example/${names(
-          libName
+        `${libName}/src/main/java/com/example/${names(
+          libName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/${libName}/src/test/java/com/example/${names(
-          libName
+        `${libName}/src/test/java/com/example/${names(
+          libName,
         ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libName}/src/test/java/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`
-      )
+        `${libName}/src/test/java/com/example/${names(
+          libName,
+        ).className.toLocaleLowerCase()}/HelloServiceTests.java`,
+      ),
     ).not.toThrow();
   }, 120000);
 
@@ -1430,24 +1428,24 @@ describe('nx-boot-gradle e2e', () => {
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot --language kotlin --skipStarterCode`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot --language kotlin --skipStarterCode`,
     );
 
-    expect(() => checkFilesExist(`libs/${libName}/build.gradle`)).not.toThrow();
+    expect(() => checkFilesExist(`${libName}/build.gradle`)).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `libs/${libName}/src/main/kotlin/com/example/${names(
-          libName
+        `${libName}/src/main/kotlin/com/example/${names(
+          libName,
         ).className.toLocaleLowerCase()}/HelloService.kt`,
-        `apps/${libName}/src/test/resources/junit-platform.properties`,
-        `libs/${libName}/src/test/kotlin/com/example/${names(
-          libName
+        `${libName}/src/test/resources/junit-platform.properties`,
+        `${libName}/src/test/kotlin/com/example/${names(
+          libName,
         ).className.toLocaleLowerCase()}/TestConfiguration.kt`,
-        `libs/${libName}/src/test/kotlin/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloServiceTests.kt`
-      )
+        `${libName}/src/test/kotlin/com/example/${names(
+          libName,
+        ).className.toLocaleLowerCase()}/HelloServiceTests.kt`,
+      ),
     ).not.toThrow();
   }, 120000);
 
@@ -1455,24 +1453,18 @@ describe('nx-boot-gradle e2e', () => {
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework spring-boot`,
     );
 
     //graph
     const localTmpDir = path.dirname(tmpProjPath());
-    const projectJson = path.join(
-      localTmpDir,
-      'proj',
-      'libs',
-      libName,
-      'project.json'
-    );
+    const projectJson = path.join(localTmpDir, 'proj', libName, 'project.json');
     fse.removeSync(projectJson);
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
   }, 120000);
 });

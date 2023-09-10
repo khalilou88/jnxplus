@@ -24,7 +24,9 @@ export function getProjectPath(context: ExecutorContext) {
 }
 
 export function getProjectPathFromProjectRoot(projectRoot: string) {
-  return projectRoot.replace(new RegExp('/', 'g'), ':');
+  return projectRoot
+    .replace(new RegExp('^\\.', 'g'), '')
+    .replace(new RegExp('/', 'g'), ':');
 }
 
 export function getProjectRootFromProjectPath(projectPath: string) {
@@ -38,7 +40,7 @@ export function getProjectRootFromProjectPath(projectPath: string) {
 export function getQuarkusVersion(gradlePropertiesContent: string) {
   const regexp = /quarkusVersion=(.*)/g;
   const matches = (gradlePropertiesContent.match(regexp) || []).map((e) =>
-    e.replace(regexp, '$1')
+    e.replace(regexp, '$1'),
   );
   return matches[0];
 }
@@ -46,7 +48,7 @@ export function getQuarkusVersion(gradlePropertiesContent: string) {
 function readKtlintVersion(gradlePropertiesContent: string) {
   const regexp = /ktlintVersion=(.*)/g;
   const matches = (gradlePropertiesContent.match(regexp) || []).map((e) =>
-    e.replace(regexp, '$1')
+    e.replace(regexp, '$1'),
   );
   return matches[0];
 }
@@ -57,7 +59,7 @@ export function getKtlintVersion(dir: string) {
   if (fs.existsSync(gradlePropertiesPath)) {
     const gradlePropertiesContent = fs.readFileSync(
       gradlePropertiesPath,
-      'utf-8'
+      'utf-8',
     );
     version = readKtlintVersion(gradlePropertiesContent);
   }
@@ -67,7 +69,7 @@ export function getKtlintVersion(dir: string) {
 function readCheckstyleVersion(gradlePropertiesContent: string) {
   const regexp = /checkstyleVersion=(.*)/g;
   const matches = (gradlePropertiesContent.match(regexp) || []).map((e) =>
-    e.replace(regexp, '$1')
+    e.replace(regexp, '$1'),
   );
   return matches[0];
 }
@@ -78,7 +80,7 @@ export function getCheckstyleVersion(dir: string) {
   if (fs.existsSync(gradlePropertiesPath)) {
     const gradlePropertiesContent = fs.readFileSync(
       gradlePropertiesPath,
-      'utf-8'
+      'utf-8',
     );
     version = readCheckstyleVersion(gradlePropertiesContent);
   }
@@ -88,7 +90,7 @@ export function getCheckstyleVersion(dir: string) {
 export function getRootProjectName(settingsGradleContent: string) {
   const regexp = /rootProject.name\s*=\s*['"](.*)['"]/g;
   const matches = (settingsGradleContent.match(regexp) || []).map((e) =>
-    e.replace(regexp, '$1')
+    e.replace(regexp, '$1'),
   );
   return matches[0];
 }
