@@ -2,6 +2,14 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [9.1.2](https://github.com/khalilou88/jnxplus/compare/nx-boot-gradle-9.1.1...nx-boot-gradle-9.1.2) (2023-09-10)
+
+### Dependency Updates
+
+* `gradle-plugin` updated to version `0.2.0`
+* `gradle` updated to version `0.17.0`
+
+
 ## [9.1.1](https://github.com/khalilou88/jnxplus/compare/nx-boot-gradle-9.1.0...nx-boot-gradle-9.1.1) (2023-08-19)
 
 ### Dependency Updates
