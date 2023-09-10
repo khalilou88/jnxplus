@@ -238,7 +238,7 @@ function generateAndroidApp(normalizedOptions: NormalizedSchema, tree: Tree) {
     targets: {
       build: {
         executor: `@jnxplus/nx-gradle:run-task`,
-        outputs: [`${normalizedOptions.androidAppRoot}/build`],
+        outputs: [`{projectRoot}/build`],
         options: {
           task: 'build',
         },
@@ -305,7 +305,7 @@ function generateDesktopApp(normalizedOptions: NormalizedSchema, tree: Tree) {
     targets: {
       build: {
         executor: `@jnxplus/nx-gradle:run-task`,
-        outputs: [`${normalizedOptions.desktopAppRoot}/build`],
+        outputs: [`{projectRoot}/build`],
         options: {
           task: 'build',
         },
@@ -356,7 +356,7 @@ function generateSharedLib(normalizedOptions: NormalizedSchema, tree: Tree) {
     targets: {
       build: {
         executor: `@jnxplus/nx-gradle:run-task`,
-        outputs: [`${normalizedOptions.sharedLibRoot}/build`],
+        outputs: [`{projectRoot}/build`],
         options: {
           task: 'build',
         },

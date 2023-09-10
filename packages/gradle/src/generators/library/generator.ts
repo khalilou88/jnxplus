@@ -322,7 +322,7 @@ export default async function (
         options: {
           task: 'build',
         },
-        outputs: [`${normalizedOptions.projectRoot}/build`],
+        outputs: [`{projectRoot}/build`],
       },
       lint: {
         executor: `${plugin}:lint`,
