@@ -2,6 +2,18 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.9.1](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.9.0...nx-maven-0.9.1) (2023-09-10)
+
+### Dependency Updates
+
+* `maven` updated to version `0.11.0`
+
+### Bug Fixes
+
+* add spring-boot-maven-plugin ([#420](https://github.com/khalilou88/jnxplus/issues/420)) ([fa36556](https://github.com/khalilou88/jnxplus/commit/fa36556511ae2fb7a137dbad1835700ebd5d68c2))
+
+
+
 # [0.9.0](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.8.1...nx-maven-0.9.0) (2023-08-19)
 
 ### Dependency Updates
