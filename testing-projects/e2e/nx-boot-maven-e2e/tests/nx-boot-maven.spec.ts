@@ -11,7 +11,6 @@ import {
   runNxCommandUntil,
   runNxNewCommand,
   runPackageManagerInstallLinks,
-  updateNx,
 } from '@jnxplus/internal/testing';
 import { names, workspaceRoot } from '@nx/devkit';
 import {
@@ -85,7 +84,6 @@ describe('nx-boot-maven e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --dependencyManagement spring-boot-parent-pom`
     );
-    updateNx();
 
     if (isCI) {
       removeTmpFromGitignore();
@@ -148,26 +146,26 @@ describe('nx-boot-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/pom.xml`,
-        `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/java/com/example/${names(
+        `${appName}/pom.xml`,
+        `${appName}/src/main/resources/application.properties`,
+        `${appName}/src/main/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
-        `apps/${appName}/src/main/java/com/example/${names(
+        `${appName}/src/main/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.java`,
 
-        `apps/${appName}/src/test/resources/application.properties`,
-        `apps/${appName}/src/test/java/com/example/${names(
+        `${appName}/src/test/resources/application.properties`,
+        `${appName}/src/test/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTests.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`apps/${appName}/pom.xml`);
+    const pomXml = readFile(`${appName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -176,15 +174,15 @@ describe('nx-boot-maven e2e', () => {
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
-    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
     fse.removeSync(targetDir);
-    expect(() => checkFilesExist(`apps/${appName}/target`)).toThrow();
+    expect(() => checkFilesExist(`${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
-    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`
@@ -195,14 +193,14 @@ describe('nx-boot-maven e2e', () => {
     expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //test run-task
-    const projectJson = readJson(`apps/${appName}/project.json`);
+    const projectJson = readJson(`${appName}/project.json`);
     projectJson.targets = {
       ...projectJson.targets,
       'run-task': {
         executor: '@jnxplus/nx-maven:run-task',
       },
     };
-    updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
+    updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
     const runTaskResult = await runNxCommandAsync(
       `run-task ${appName} --task="clean install -DskipTests=true"`
     );
@@ -265,35 +263,35 @@ describe('nx-boot-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appDir}/${randomName}/pom.xml`,
-        `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
+        `${appDir}/${randomName}/pom.xml`,
+        `${appDir}/${randomName}/src/main/resources/application.yml`,
+        `${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
+        `${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
+        `${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/ServletInitializer.java`,
-        `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
+        `${appDir}/${randomName}/src/test/resources/application.yml`,
+        `${appDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloControllerTests.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`apps/${appDir}/${randomName}/pom.xml`);
+    const pomXml = readFile(`${appDir}/${randomName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
     expect(pomXml.includes('war')).toBeTruthy();
     expect(pomXml.includes('spring-boot-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
+    const projectJson = readJson(`${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -351,26 +349,26 @@ describe('nx-boot-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/pom.xml`,
-        `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/kotlin/com/example/${names(
+        `${appName}/pom.xml`,
+        `${appName}/src/main/resources/application.properties`,
+        `${appName}/src/main/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.kt`,
-        `apps/${appName}/src/main/kotlin/com/example/${names(
+        `${appName}/src/main/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.kt`,
 
-        `apps/${appName}/src/test/resources/application.properties`,
-        `apps/${appName}/src/test/kotlin/com/example/${names(
+        `${appName}/src/test/resources/application.properties`,
+        `${appName}/src/test/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTests.kt`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`apps/${appName}/pom.xml`);
+    const pomXml = readFile(`${appName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -398,11 +396,11 @@ describe('nx-boot-maven e2e', () => {
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
     fse.removeSync(targetDir);
-    expect(() => checkFilesExist(`apps/${appName}/target`)).toThrow();
+    expect(() => checkFilesExist(`${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
-    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
     expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -450,35 +448,35 @@ describe('nx-boot-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appDir}/${randomName}/pom.xml`,
-        `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
+        `${appDir}/${randomName}/pom.xml`,
+        `${appDir}/${randomName}/src/main/resources/application.yml`,
+        `${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
+        `${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
+        `${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/ServletInitializer.java`,
-        `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
+        `${appDir}/${randomName}/src/test/resources/application.yml`,
+        `${appDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloControllerTests.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good information
-    const pomXml = readFile(`apps/${appDir}/${randomName}/pom.xml`);
+    const pomXml = readFile(`${appDir}/${randomName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
     expect(pomXml.includes('war')).toBeTruthy();
     expect(pomXml.includes('spring-boot-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
+    const projectJson = readJson(`${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
@@ -538,35 +536,35 @@ describe('nx-boot-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appDir}/${randomName}/pom.xml`,
-        `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
+        `${appDir}/${randomName}/pom.xml`,
+        `${appDir}/${randomName}/src/main/resources/application.yml`,
+        `${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
+        `${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
+        `${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName
         ).className.toLocaleLowerCase()}/ServletInitializer.java`,
-        `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
+        `${appDir}/${randomName}/src/test/resources/application.yml`,
+        `${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloControllerTests.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const buildmaven = readFile(`apps/${appDir}/${randomName}/pom.xml`);
+    const buildmaven = readFile(`${appDir}/${randomName}/pom.xml`);
     expect(buildmaven.includes('com.jnxplus')).toBeTruthy();
     expect(buildmaven.includes('1.2.3')).toBeTruthy();
     expect(buildmaven.includes('war')).toBeTruthy();
     expect(buildmaven.includes('spring-boot-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
+    const projectJson = readJson(`${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -663,21 +661,21 @@ describe('nx-boot-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/pom.xml`,
-        `libs/${libName}/src/main/java/com/example/${names(
+        `${libName}/pom.xml`,
+        `${libName}/src/main/java/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/${libName}/src/test/java/com/example/${names(
+        `${libName}/src/test/java/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libName}/src/test/java/com/example/${names(
+        `${libName}/src/test/java/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`libs/${libName}/pom.xml`);
+    const pomXml = readFile(`${libName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -689,11 +687,11 @@ describe('nx-boot-maven e2e', () => {
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
     fse.removeSync(targetDir);
-    expect(() => checkFilesExist(`libs/${libName}/target`)).toThrow();
+    expect(() => checkFilesExist(`${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
-    expect(() => checkFilesExist(`libs/${libName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${libName}`
@@ -727,21 +725,21 @@ describe('nx-boot-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/pom.xml`,
-        `libs/${libName}/src/main/kotlin/com/example/${names(
+        `${libName}/pom.xml`,
+        `${libName}/src/main/kotlin/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloService.kt`,
-        `libs/${libName}/src/test/kotlin/com/example/${names(
+        `${libName}/src/test/kotlin/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/TestConfiguration.kt`,
-        `libs/${libName}/src/test/kotlin/com/example/${names(
+        `${libName}/src/test/kotlin/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloServiceTests.kt`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`libs/${libName}/pom.xml`);
+    const pomXml = readFile(`${libName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -753,11 +751,11 @@ describe('nx-boot-maven e2e', () => {
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', '', libName, 'target');
     fse.removeSync(targetDir);
-    expect(() => checkFilesExist(`libs/${libName}/target`)).toThrow();
+    expect(() => checkFilesExist(`${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
-    expect(() => checkFilesExist(`libs/${libName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
     expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -791,26 +789,26 @@ describe('nx-boot-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libDir}/${randomName}/pom.xml`,
-        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
+        `${libDir}/${randomName}/pom.xml`,
+        `${libDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
+        `${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
+        `${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good information
-    const pomXml = readFile(`libs/${libDir}/${randomName}/pom.xml`);
+    const pomXml = readFile(`${libDir}/${randomName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`libs/${libDir}/${randomName}/project.json`);
+    const projectJson = readJson(`${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
@@ -853,26 +851,26 @@ describe('nx-boot-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libDir}/${randomName}/pom.xml`,
-        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/${names(
+        `${libDir}/${randomName}/pom.xml`,
+        `${libDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
+        `${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
           randomName
         ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
+        `${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`libs/${libDir}/${randomName}/pom.xml`);
+    const pomXml = readFile(`${libDir}/${randomName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`libs/${libDir}/${randomName}/project.json`);
+    const projectJson = readJson(`${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
@@ -915,26 +913,26 @@ describe('nx-boot-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libDir}/${randomName}/pom.xml`,
-        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
+        `${libDir}/${randomName}/pom.xml`,
+        `${libDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
+        `${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
+        `${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good information
-    const pomXml = readFile(`libs/${libDir}/${randomName}/pom.xml`);
+    const pomXml = readFile(`${libDir}/${randomName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`libs/${libDir}/${randomName}/project.json`);
+    const projectJson = readJson(`${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
@@ -980,10 +978,10 @@ describe('nx-boot-maven e2e', () => {
     );
 
     // Making sure the app pom.xml file contains the lib
-    const pomXml = readFile(`apps/${appName}/pom.xml`);
+    const pomXml = readFile(`${appName}/pom.xml`);
     expect(pomXml.includes(`${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `apps/${appName}/src/main/java/com/example/${names(
+    const helloControllerPath = `${appName}/src/main/java/com/example/${names(
       appName
     ).className.toLocaleLowerCase()}/HelloController.java`;
     const helloControllerContent = readFile(helloControllerPath);
@@ -1072,7 +1070,7 @@ describe('nx-boot-maven e2e', () => {
       `generate @jnxplus/nx-maven:library ${libName} --framework spring-boot --projects ${appName}`
     );
 
-    const helloControllerPath = `apps/${appName}/src/main/java/com/example/${names(
+    const helloControllerPath = `${appName}/src/main/java/com/example/${names(
       appName
     ).className.toLocaleLowerCase()}/HelloController.java`;
     const helloControllerContent = readFile(helloControllerPath);
@@ -1119,17 +1117,17 @@ describe('nx-boot-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/src/main/kotlin/com/example/${names(
+        `${appName}/src/main/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/ServletInitializer.kt`
       )
     ).not.toThrow();
 
     // Making sure the app pom.xml file contains the lib
-    const pomXml = readFile(`apps/${appName}/pom.xml`);
+    const pomXml = readFile(`${appName}/pom.xml`);
     expect(pomXml.includes(`${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `apps/${appName}/src/main/kotlin/com/example/${names(
+    const helloControllerPath = `${appName}/src/main/kotlin/com/example/${names(
       appName
     ).className.toLocaleLowerCase()}/HelloController.kt`;
     const helloControllerContent = readFile(helloControllerPath);
@@ -1196,7 +1194,7 @@ describe('nx-boot-maven e2e', () => {
     );
 
     const regex = /<dependencies>[\s\S]*?<\/dependencies>/;
-    const pomXml = `libs/${libName}/pom.xml`;
+    const pomXml = `${libName}/pom.xml`;
     const pomXmlContent = readFile(pomXml);
     const updatedPomXmlContent = pomXmlContent.replace(regex, '');
     updateFile(pomXml, updatedPomXmlContent);
@@ -1396,26 +1394,26 @@ describe('nx-boot-maven e2e', () => {
     });
   }, 120000);
 
-  it('should generate java libs that use a parent project', async () => {
-    const libsParentProject = uniq('libs-parent-project-');
+  it('should generate java  that use a parent project', async () => {
+    const ParentProject = uniq('-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework none`
+      `generate @jnxplus/nx-maven:parent-project ${ParentProject} --projectType library --framework none`
     );
 
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework spring-boot --parent-project ${libsParentProject}`
+      `generate @jnxplus/nx-maven:library ${libName} --framework spring-boot --parent-project ${ParentProject}`
     );
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const secondParentProject = uniq('libs-parent-project-');
+    const secondParentProject = uniq('-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject} --framework none`
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${ParentProject} --framework none`
     );
 
     const randomName = uniq('boot-maven-lib-');
@@ -1429,7 +1427,7 @@ describe('nx-boot-maven e2e', () => {
     const secondBuildResult = await runNxCommandAsync(`build ${secondLibName}`);
     expect(secondBuildResult.stdout).toContain('Executor ran for Build');
 
-    const randomParentproject = uniq('libs-parent-project-');
+    const randomParentproject = uniq('-parent-project-');
     const parentProjectDir = 'deep/subdir';
     const thirdParentProject = `${normalizeName(
       parentProjectDir
@@ -1453,23 +1451,23 @@ describe('nx-boot-maven e2e', () => {
       'Failed to process the project graph'
     );
     const depGraphJson = readJson('dep-graph.json');
-    expect(depGraphJson.graph.dependencies[libsParentProject]).toContainEqual({
+    expect(depGraphJson.graph.dependencies[ParentProject]).toContainEqual({
       type: 'static',
-      source: libsParentProject,
+      source: ParentProject,
       target: parentProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: libsParentProject,
+      target: ParentProject,
     });
 
     expect(depGraphJson.graph.dependencies[secondParentProject]).toContainEqual(
       {
         type: 'static',
         source: secondParentProject,
-        target: libsParentProject,
+        target: ParentProject,
       }
     );
 
@@ -1492,26 +1490,26 @@ describe('nx-boot-maven e2e', () => {
     });
   }, 120000);
 
-  it('should generate kotlin libs that use a parent project', async () => {
-    const libsParentProject = uniq('libs-parent-project-');
+  it('should generate kotlin  that use a parent project', async () => {
+    const ParentProject = uniq('-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework none`
+      `generate @jnxplus/nx-maven:parent-project ${ParentProject} --projectType library --framework none`
     );
 
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework spring-boot --parent-project ${libsParentProject} --language kotlin`
+      `generate @jnxplus/nx-maven:library ${libName} --framework spring-boot --parent-project ${ParentProject} --language kotlin`
     );
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const secondParentProject = uniq('libs-parent-project-');
+    const secondParentProject = uniq('-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject} --framework none`
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${ParentProject} --framework none`
     );
 
     const randomName = uniq('boot-maven-lib-');
@@ -1525,7 +1523,7 @@ describe('nx-boot-maven e2e', () => {
     const secondBuildResult = await runNxCommandAsync(`build ${secondLibName}`);
     expect(secondBuildResult.stdout).toContain('Executor ran for Build');
 
-    const randomParentproject = uniq('libs-parent-project-');
+    const randomParentproject = uniq('-parent-project-');
     const parentProjectDir = 'deep/subdir';
     const thirdParentProject = `${normalizeName(
       parentProjectDir
@@ -1549,23 +1547,23 @@ describe('nx-boot-maven e2e', () => {
       'Failed to process the project graph'
     );
     const depGraphJson = readJson('dep-graph.json');
-    expect(depGraphJson.graph.dependencies[libsParentProject]).toContainEqual({
+    expect(depGraphJson.graph.dependencies[ParentProject]).toContainEqual({
       type: 'static',
-      source: libsParentProject,
+      source: ParentProject,
       target: parentProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: libsParentProject,
+      target: ParentProject,
     });
 
     expect(depGraphJson.graph.dependencies[secondParentProject]).toContainEqual(
       {
         type: 'static',
         source: secondParentProject,
-        target: libsParentProject,
+        target: ParentProject,
       }
     );
 
@@ -1599,33 +1597,33 @@ describe('nx-boot-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appDir}/${appName}/pom.xml`,
-        `apps/${appDir}/${appName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
+        `${appDir}/${appName}/pom.xml`,
+        `${appDir}/${appName}/src/main/resources/application.yml`,
+        `${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
           appName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
-        `apps/${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
+        `${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.java`,
 
-        `apps/${appDir}/${appName}/src/test/resources/application.yml`,
-        `apps/${appDir}/${appName}/src/test/java/com/jnxplus/deep/subdir/${names(
+        `${appDir}/${appName}/src/test/resources/application.yml`,
+        `${appDir}/${appName}/src/test/java/com/jnxplus/deep/subdir/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTests.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`apps/${appDir}/${appName}/pom.xml`);
+    const pomXml = readFile(`${appDir}/${appName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
     expect(pomXml.includes('war')).toBeTruthy();
     expect(pomXml.includes('spring-boot-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`apps/${appDir}/${appName}/project.json`);
+    const projectJson = readJson(`${appDir}/${appName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -1683,26 +1681,26 @@ describe('nx-boot-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libDir}/${libName}/pom.xml`,
-        `libs/${libDir}/${libName}/src/main/java/com/jnxplus/deep/subdir/${names(
+        `${libDir}/${libName}/pom.xml`,
+        `${libDir}/${libName}/src/main/java/com/jnxplus/deep/subdir/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
+        `${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
           libName
         ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
+        `${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good information
-    const pomXml = readFile(`libs/${libDir}/${libName}/pom.xml`);
+    const pomXml = readFile(`${libDir}/${libName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`libs/${libDir}/${libName}/project.json`);
+    const projectJson = readJson(`${libDir}/${libName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
@@ -1744,14 +1742,14 @@ describe('nx-boot-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/pom.xml`,
-        `apps/${appName}/src/main/java/com/example/${names(
+        `${appName}/pom.xml`,
+        `${appName}/src/main/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
-        `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/test/java/com/example/${names(
+        `${appName}/src/main/resources/application.properties`,
+        `${appName}/src/test/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
@@ -1761,11 +1759,11 @@ describe('nx-boot-maven e2e', () => {
 
     expect(() =>
       checkFilesDoNotExist(
-        `apps/${appName}/src/main/java/com/example/${names(
+        `${appName}/src/main/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `apps/${appName}/src/test/resources/application.properties`,
-        `apps/${appName}/src/test/java/com/example/${names(
+        `${appName}/src/test/resources/application.properties`,
+        `${appName}/src/test/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTests.java`
       )
@@ -1794,14 +1792,14 @@ describe('nx-boot-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/pom.xml`,
-        `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/kotlin/com/example/${names(
+        `${appName}/pom.xml`,
+        `${appName}/src/main/resources/application.properties`,
+        `${appName}/src/main/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.kt`,
-        `apps/${appName}/src/test/kotlin/com/example/${names(
+        `${appName}/src/test/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
@@ -1811,15 +1809,15 @@ describe('nx-boot-maven e2e', () => {
 
     expect(() =>
       checkFilesDoNotExist(
-        `apps/${appName}/src/main/kotlin/com/example/${names(
+        `${appName}/src/main/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
-        `apps/${appName}/src/main/kotlin/com/example/${names(
+        `${appName}/src/main/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.kt`,
-        `apps/${appName}/src/test/resources/application.properties`,
+        `${appName}/src/test/resources/application.properties`,
 
-        `apps/${appName}/src/test/kotlin/com/example/${names(
+        `${appName}/src/test/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTests.kt`
       )
@@ -1845,17 +1843,17 @@ describe('nx-boot-maven e2e', () => {
       `generate @jnxplus/nx-maven:library ${libName} --framework spring-boot --skipStarterCode`
     );
 
-    expect(() => checkFilesExist(`libs/${libName}/pom.xml`)).not.toThrow();
+    expect(() => checkFilesExist(`${libName}/pom.xml`)).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `libs/${libName}/src/main/java/com/example/${names(
+        `${libName}/src/main/java/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/${libName}/src/test/java/com/example/${names(
+        `${libName}/src/test/java/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `libs/${libName}/src/test/java/com/example/${names(
+        `${libName}/src/test/java/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloServiceTests.java`
       )
@@ -1869,18 +1867,18 @@ describe('nx-boot-maven e2e', () => {
       `generate @jnxplus/nx-maven:library ${libName} --framework spring-boot --language kotlin --skipStarterCode`
     );
 
-    expect(() => checkFilesExist(`libs/${libName}/pom.xml`)).not.toThrow();
+    expect(() => checkFilesExist(`${libName}/pom.xml`)).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `libs/${libName}/src/main/kotlin/com/example/${names(
+        `${libName}/src/main/kotlin/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloService.kt`,
-        `apps/${libName}/src/test/resources/junit-platform.properties`,
-        `libs/${libName}/src/test/kotlin/com/example/${names(
+        `${libName}/src/test/resources/junit-platform.properties`,
+        `${libName}/src/test/kotlin/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/TestConfiguration.kt`,
-        `libs/${libName}/src/test/kotlin/com/example/${names(
+        `${libName}/src/test/kotlin/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloServiceTests.kt`
       )
