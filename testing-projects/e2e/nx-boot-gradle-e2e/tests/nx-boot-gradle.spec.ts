@@ -179,7 +179,7 @@ describe('nx-boot-gradle e2e', () => {
 
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'build');
+    const targetDir = path.join(localTmpDir, 'proj', appName, 'build');
     fse.removeSync(targetDir);
     expect(() => checkFilesExist(`${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
@@ -481,7 +481,7 @@ describe('nx-boot-gradle e2e', () => {
 
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'build');
+    const targetDir = path.join(localTmpDir, 'proj', appName, 'build');
     fse.removeSync(targetDir);
     expect(() => checkFilesExist(`${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
@@ -704,7 +704,7 @@ describe('nx-boot-gradle e2e', () => {
 
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'build');
+    const targetDir = path.join(localTmpDir, 'proj', libName, 'build');
     fse.removeSync(targetDir);
     expect(() => checkFilesExist(`${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
@@ -768,7 +768,7 @@ describe('nx-boot-gradle e2e', () => {
 
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'build');
+    const targetDir = path.join(localTmpDir, 'proj', libName, 'build');
     fse.removeSync(targetDir);
     expect(() => checkFilesExist(`${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
@@ -995,7 +995,7 @@ describe('nx-boot-gradle e2e', () => {
 
     // Making sure the app build.gradle file contains the lib
     const buildGradle = readFile(`${appName}/build.gradle`);
-    expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
+    expect(buildGradle.includes(`:${libName}`)).toBeTruthy();
 
     const helloControllerPath = `${appName}/src/main/java/com/example/${names(
       appName,
@@ -1081,7 +1081,7 @@ describe('nx-boot-gradle e2e', () => {
 
     // Making sure the app build.gradle file contains the lib
     const buildGradle = readFile(`${appName}/build.gradle`);
-    expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
+    expect(buildGradle.includes(`:${libName}`)).toBeTruthy();
 
     const helloControllerPath = `${appName}/src/main/kotlin/com/example/${names(
       appName,
@@ -1458,13 +1458,7 @@ describe('nx-boot-gradle e2e', () => {
 
     //graph
     const localTmpDir = path.dirname(tmpProjPath());
-    const projectJson = path.join(
-      localTmpDir,
-      'proj',
-      'libs',
-      libName,
-      'project.json',
-    );
+    const projectJson = path.join(localTmpDir, 'proj', libName, 'project.json');
     fse.removeSync(projectJson);
     const depGraphResult = await runNxCommandAsync(
       `dep-graph --file=dep-graph.json`,
