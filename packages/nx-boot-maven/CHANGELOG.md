@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [8.0.3](https://github.com/khalilou88/jnxplus/compare/nx-boot-maven-8.0.2...nx-boot-maven-8.0.3) (2023-09-10)
+
+### Dependency Updates
+
+* `maven` updated to version `0.11.0`
+
+
 ## [8.0.2](https://github.com/khalilou88/jnxplus/compare/nx-boot-maven-8.0.1...nx-boot-maven-8.0.2) (2023-08-19)
 
 ### Dependency Updates
