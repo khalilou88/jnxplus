@@ -11,7 +11,6 @@ import {
   runNxCommandUntil,
   runNxNewCommand,
   runPackageManagerInstallLinks,
-  updateNx,
 } from '@jnxplus/internal/testing';
 import { names, workspaceRoot } from '@nx/devkit';
 import {
@@ -85,7 +84,6 @@ describe('nx-maven e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName}`
     );
-    updateNx();
 
     if (isCI) {
       removeTmpFromGitignore();
@@ -144,13 +142,13 @@ describe('nx-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/pom.xml`,
-        `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/java/com/example/${names(
+        `${appName}/pom.xml`,
+        `${appName}/src/main/resources/application.properties`,
+        `${appName}/src/main/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/App.java`,
-        `apps/${appName}/src/test/resources/application.properties`,
-        `apps/${appName}/src/test/java/com/example/${names(
+        `${appName}/src/test/resources/application.properties`,
+        `${appName}/src/test/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/AppTest.java`
       )
@@ -206,13 +204,13 @@ describe('nx-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/pom.xml`,
-        `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/kotlin/com/example/${names(
+        `${appName}/pom.xml`,
+        `${appName}/src/main/resources/application.properties`,
+        `${appName}/src/main/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/App.kt`,
-        `apps/${appName}/src/test/resources/application.properties`,
-        `apps/${appName}/src/test/kotlin/com/example/${names(
+        `${appName}/src/test/resources/application.properties`,
+        `${appName}/src/test/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/AppTest.kt`
       )
@@ -244,11 +242,11 @@ describe('nx-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/pom.xml`,
-        `libs/${libName}/src/main/java/com/example/${names(
+        `${libName}/pom.xml`,
+        `${libName}/src/main/java/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/Library.java`,
-        `libs/${libName}/src/test/java/com/example/${names(
+        `${libName}/src/test/java/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/LibraryTest.java`
       )
@@ -278,11 +276,11 @@ describe('nx-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/pom.xml`,
-        `libs/${libName}/src/main/kotlin/com/example/${names(
+        `${libName}/pom.xml`,
+        `${libName}/src/main/kotlin/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/Library.kt`,
-        `libs/${libName}/src/test/kotlin/com/example/${names(
+        `${libName}/src/test/kotlin/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/LibraryTest.kt`
       )
@@ -315,40 +313,40 @@ describe('nx-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/pom.xml`,
-        `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/java/com/example/${names(
+        `${appName}/pom.xml`,
+        `${appName}/src/main/resources/application.properties`,
+        `${appName}/src/main/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
-        `apps/${appName}/src/main/java/com/example/${names(
+        `${appName}/src/main/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.java`,
 
-        `apps/${appName}/src/test/resources/application.properties`,
-        `apps/${appName}/src/test/java/com/example/${names(
+        `${appName}/src/test/resources/application.properties`,
+        `${appName}/src/test/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTests.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`apps/${appName}/pom.xml`);
+    const pomXml = readFile(`${appName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
-    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
     fse.removeSync(targetDir);
-    expect(() => checkFilesExist(`apps/${appName}/target`)).toThrow();
+    expect(() => checkFilesExist(`${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
-    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
@@ -362,14 +360,14 @@ describe('nx-maven e2e', () => {
     expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //test run-task
-    const projectJson = readJson(`apps/${appName}/project.json`);
+    const projectJson = readJson(`${appName}/project.json`);
     projectJson.targets = {
       ...projectJson.targets,
       'run-task': {
         executor: '@jnxplus/nx-maven:run-task',
       },
     };
-    updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
+    updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
     const runTaskResult = await runNxCommandAsync(
       `run-task ${appName} --task="clean install -DskipTests=true"`
     );
@@ -424,24 +422,24 @@ describe('nx-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appDir}/${randomName}/pom.xml`,
-        `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/main/java/org/jnxplus/deep/subdir/${names(
+        `${appDir}/${randomName}/pom.xml`,
+        `${appDir}/${randomName}/src/main/resources/application.yml`,
+        `${appDir}/${randomName}/src/main/java/org/jnxplus/deep/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `apps/${appDir}/${randomName}/src/test/java/org/jnxplus/deep/subdir/${names(
+        `${appDir}/${randomName}/src/test/java/org/jnxplus/deep/subdir/${names(
           randomName
         ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`apps/${appDir}/${randomName}/pom.xml`);
+    const pomXml = readFile(`${appDir}/${randomName}/pom.xml`);
     expect(pomXml.includes('org.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
+    const projectJson = readJson(`${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
@@ -514,10 +512,10 @@ describe('nx-maven e2e', () => {
     );
 
     // Making sure the app pom.xml file contains the lib
-    const pomXml = readFile(`apps/${appName}/pom.xml`);
+    const pomXml = readFile(`${appName}/pom.xml`);
     expect(pomXml.includes(`${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `apps/${appName}/src/main/java/com/example/${names(
+    const helloControllerPath = `${appName}/src/main/java/com/example/${names(
       appName
     ).className.toLocaleLowerCase()}/HelloController.java`;
     const helloControllerContent = readFile(helloControllerPath);
@@ -603,17 +601,17 @@ describe('nx-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/src/main/kotlin/com/example/${names(
+        `${appName}/src/main/kotlin/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/ServletInitializer.kt`
       )
     ).not.toThrow();
 
     // Making sure the app pom.xml file contains the lib
-    const pomXml = readFile(`apps/${appName}/pom.xml`);
+    const pomXml = readFile(`${appName}/pom.xml`);
     expect(pomXml.includes(`${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `apps/${appName}/src/main/kotlin/com/example/${names(
+    const helloControllerPath = `${appName}/src/main/kotlin/com/example/${names(
       appName
     ).className.toLocaleLowerCase()}/HelloController.kt`;
     const helloControllerContent = readFile(helloControllerPath);
@@ -687,18 +685,18 @@ describe('nx-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/pom.xml`,
-        `libs/${libName}/src/main/kotlin/org/acme/${names(
+        `${libName}/pom.xml`,
+        `${libName}/src/main/kotlin/org/acme/${names(
           libName
         ).className.toLocaleLowerCase()}/GreetingService.kt`,
-        `libs/${libName}/src/test/kotlin/org/acme/${names(
+        `${libName}/src/test/kotlin/org/acme/${names(
           libName
         ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`libs/${libName}/pom.xml`);
+    const pomXml = readFile(`${libName}/pom.xml`);
     expect(pomXml.includes('org.acme')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -710,11 +708,11 @@ describe('nx-maven e2e', () => {
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
     fse.removeSync(targetDir);
-    expect(() => checkFilesExist(`libs/${libName}/target`)).toThrow();
+    expect(() => checkFilesExist(`${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
-    expect(() => checkFilesExist(`libs/${libName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
     expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -751,36 +749,36 @@ describe('nx-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/pom.xml`,
-        `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/java/com/example/${names(
+        `${appName}/pom.xml`,
+        `${appName}/src/main/resources/application.properties`,
+        `${appName}/src/main/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/Application.java`,
-        `apps/${appName}/src/main/java/com/example/${names(
+        `${appName}/src/main/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `apps/${appName}/src/test/java/com/example/${names(
+        `${appName}/src/test/java/com/example/${names(
           appName
         ).className.toLocaleLowerCase()}/HelloControllerTest.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`apps/${appName}/pom.xml`);
+    const pomXml = readFile(`${appName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
-    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
     fse.removeSync(targetDir);
-    expect(() => checkFilesExist(`apps/${appName}/target`)).toThrow();
+    expect(() => checkFilesExist(`${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
-    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
@@ -794,14 +792,14 @@ describe('nx-maven e2e', () => {
     expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //test run-task
-    const projectJson = readJson(`apps/${appName}/project.json`);
+    const projectJson = readJson(`${appName}/project.json`);
     projectJson.targets = {
       ...projectJson.targets,
       'run-task': {
         executor: '@jnxplus/nx-maven:run-task',
       },
     };
-    updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
+    updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
     const runTaskResult = await runNxCommandAsync(
       `run-task ${appName} --task="clean install -DskipTests=true"`
     );
@@ -854,18 +852,18 @@ describe('nx-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/pom.xml`,
-        `libs/${libName}/src/main/java/com/example/${names(
+        `${libName}/pom.xml`,
+        `${libName}/src/main/java/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloService.java`,
-        `libs/${libName}/src/test/java/com/example/${names(
+        `${libName}/src/test/java/com/example/${names(
           libName
         ).className.toLocaleLowerCase()}/HelloServiceTest.java`
       )
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`libs/${libName}/pom.xml`);
+    const pomXml = readFile(`${libName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -874,11 +872,11 @@ describe('nx-maven e2e', () => {
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
     fse.removeSync(targetDir);
-    expect(() => checkFilesExist(`libs/${libName}/target`)).toThrow();
+    expect(() => checkFilesExist(`${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
-    expect(() => checkFilesExist(`libs/${libName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
@@ -919,21 +917,21 @@ describe('nx-maven e2e', () => {
     );
 
     // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`apps/${appName}/pom.xml`);
+    const pomXml = readFile(`${appName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
-    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
     fse.removeSync(targetDir);
-    expect(() => checkFilesExist(`apps/${appName}/target`)).toThrow();
+    expect(() => checkFilesExist(`${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
-    expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
@@ -945,14 +943,14 @@ describe('nx-maven e2e', () => {
     expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //test run-task
-    const projectJson = readJson(`apps/${appName}/project.json`);
+    const projectJson = readJson(`${appName}/project.json`);
     projectJson.targets = {
       ...projectJson.targets,
       'run-task': {
         executor: '@jnxplus/nx-maven:run-task',
       },
     };
-    updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
+    updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
     const runTaskResult = await runNxCommandAsync(
       `run-task ${appName} --task="clean install -DskipTests=true"`
     );
