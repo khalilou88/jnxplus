@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.17.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.16.1...gradle-0.17.0) (2023-09-10)
+
+
+### Features
+
+* **generators:** update generated code to match nx 16.8.x ([#430](https://github.com/khalilou88/jnxplus/issues/430)) ([6cc12c0](https://github.com/khalilou88/jnxplus/commit/6cc12c0b7cbda05b85581b3519800c92bdea9a43))
+
+
+
 ## [0.16.1](https://github.com/khalilou88/jnxplus/compare/gradle-0.16.0...gradle-0.16.1) (2023-08-19)
 
 ### Dependency Updates
