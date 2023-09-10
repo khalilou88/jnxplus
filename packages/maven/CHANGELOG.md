@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.11.0](https://github.com/khalilou88/jnxplus/compare/maven-0.10.0...maven-0.11.0) (2023-09-10)
+
+
+### Features
+
+* **generators:** update generated code to match nx 16.8.x ([#430](https://github.com/khalilou88/jnxplus/issues/430)) ([6cc12c0](https://github.com/khalilou88/jnxplus/commit/6cc12c0b7cbda05b85581b3519800c92bdea9a43))
+
+
+
 # [0.10.0](https://github.com/khalilou88/jnxplus/compare/maven-0.9.0...maven-0.10.0) (2023-08-19)
 
 ### Dependency Updates
