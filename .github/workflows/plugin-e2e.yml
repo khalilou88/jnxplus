@@ -52,7 +52,7 @@ jobs:
           java-version: ${{ matrix.java }}
 
       - name: Install dependencies
-        run: npm ci
+        run: npm i --legacy-peer-deps
 
       - name: E2E tests
         run: npm run e2e ${{ github.event.inputs.e2e_project }}
