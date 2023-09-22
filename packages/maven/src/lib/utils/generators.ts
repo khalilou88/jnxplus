@@ -178,10 +178,7 @@ export function addMissedProperties(
     throw new Error('Properties tag undefined');
   }
 
-  if (
-    plugin === '@jnxplus/nx-boot-maven' ||
-    options.framework === 'spring-boot'
-  ) {
+  if (options.framework === 'spring-boot') {
     const b = isParentPomExits(xmldoc, 'spring-boot-starter-parent');
     if (!b) {
       const springBootVersion = properties.childNamed('spring.boot.version');
@@ -198,10 +195,7 @@ export function addMissedProperties(
     }
   }
 
-  if (
-    plugin === '@jnxplus/nx-quarkus-maven' ||
-    options.framework === 'quarkus'
-  ) {
+  if (options.framework === 'quarkus') {
     const quarkusVersion = properties.childNamed('quarkus.version');
     if (quarkusVersion === undefined) {
       properties.children.push(

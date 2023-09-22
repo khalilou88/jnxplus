@@ -109,17 +109,11 @@ function addFiles(
   tree: Tree,
   options: NormalizedSchema
 ) {
-  if (
-    plugin === '@jnxplus/nx-boot-gradle' ||
-    options.framework === 'spring-boot'
-  ) {
+  if (options.framework === 'spring-boot') {
     addBootFiles(d, tree, options);
   }
 
-  if (
-    plugin === '@jnxplus/nx-quarkus-gradle' ||
-    options.framework === 'quarkus'
-  ) {
+  if (options.framework === 'quarkus') {
     addQuarkusFiles(d, tree, options);
   }
 
@@ -342,10 +336,7 @@ export default async function (
 
   const targets = projectConfiguration.targets ?? {};
 
-  if (
-    plugin === '@jnxplus/nx-boot-gradle' ||
-    options.framework === 'spring-boot'
-  ) {
+  if (options.framework === 'spring-boot') {
     targets['build'].options = {
       ...targets['build'].options,
       task: 'jar',
