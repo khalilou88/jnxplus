@@ -52,4 +52,4 @@ Use preset option to choose between Spring Boot, Quarkus, Micronaut, and Kotlin 
 
 ## License
 
-MIT © 2023-2023 Khalil LAGRIDA
+MIT © 2021-2023 Khalil LAGRIDA
