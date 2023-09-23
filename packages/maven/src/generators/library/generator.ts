@@ -320,17 +320,11 @@ function addFiles(
   tree: Tree,
   options: NormalizedSchema
 ) {
-  if (
-    plugin === '@jnxplus/nx-boot-maven' ||
-    options.framework === 'spring-boot'
-  ) {
+  if (options.framework === 'spring-boot') {
     addBootFiles(d, tree, options);
   }
 
-  if (
-    plugin === '@jnxplus/nx-quarkus-maven' ||
-    options.framework === 'quarkus'
-  ) {
+  if (options.framework === 'quarkus') {
     addQuarkusFiles(d, tree, options);
   }
 

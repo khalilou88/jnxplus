@@ -133,10 +133,7 @@ function normalizeOptions(
   const isCustomPort = !!options.port && +options.port !== 8080;
 
   let quarkusVersion = '';
-  if (
-    plugin === '@jnxplus/nx-quarkus-maven' ||
-    options.framework === 'quarkus'
-  ) {
+  if (options.framework === 'quarkus') {
     quarkusVersion =
       rootPomXmlContent?.childNamed('properties')?.childNamed('quarkus.version')
         ?.val || 'quarkusVersion';
@@ -378,17 +375,11 @@ function addFiles(
   tree: Tree,
   options: NormalizedSchema
 ) {
-  if (
-    plugin === '@jnxplus/nx-boot-maven' ||
-    options.framework === 'spring-boot'
-  ) {
+  if (options.framework === 'spring-boot') {
     addBootFiles(d, tree, options);
   }
 
-  if (
-    plugin === '@jnxplus/nx-quarkus-maven' ||
-    options.framework === 'quarkus'
-  ) {
+  if (options.framework === 'quarkus') {
     addQuarkusFiles(d, tree, options);
   }
 
@@ -457,10 +448,7 @@ export default async function (
 
   const targets = projectConfiguration.targets ?? {};
 
-  if (
-    plugin === '@jnxplus/nx-boot-maven' ||
-    options.framework === 'spring-boot'
-  ) {
+  if (options.framework === 'spring-boot') {
     targets['build'].options = {
       ...targets['build'].options,
       task: 'package spring-boot:repackage -DskipTests=true',
@@ -480,10 +468,7 @@ export default async function (
     };
   }
 
-  if (
-    plugin === '@jnxplus/nx-quarkus-maven' ||
-    options.framework === 'quarkus'
-  ) {
+  if (options.framework === 'quarkus') {
     targets['build-image'] = {
       executor: `${plugin}:quarkus-build-image`,
     };
