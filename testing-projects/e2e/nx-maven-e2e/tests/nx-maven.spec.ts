@@ -1,5 +1,6 @@
 import { checkstyleVersion, normalizeName } from '@jnxplus/common';
 import {
+  addSpringBootVersion,
   addTmpToGitignore,
   checkFilesDoNotExist,
   getData,
@@ -84,6 +85,8 @@ describe('nx-maven e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName}`,
     );
+
+    addSpringBootVersion();
 
     if (isCI) {
       removeTmpFromGitignore();

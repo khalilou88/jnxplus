@@ -1,6 +1,7 @@
 import {
   getPackageManagerCommand,
   readJsonFile,
+  workspaceRoot,
   writeJsonFile,
 } from '@nx/devkit';
 import { exists, tmpProjPath } from '@nx/plugin/testing';
@@ -13,6 +14,9 @@ import * as treeKill from 'tree-kill';
 import { promisify } from 'util';
 import kill = require('kill-port');
 import * as fs from 'fs';
+import { XmlDocument } from 'xmldoc';
+import { springBootVersion } from '@jnxplus/common';
+import { readXml, xmlToString } from '@jnxplus/maven';
 
 export function runNxNewCommand(args?: string, silent?: boolean) {
   const localTmpDir = path.dirname(tmpProjPath());
@@ -290,4 +294,36 @@ export function updateNx() {
     libsDir: 'libs',
   };
   writeJsonFile(nxJsonPath, json);
+}
+
+export function addSpringBootVersion() {
+  const pomXmlPath = path.join(workspaceRoot, 'pom.xml');
+  const xmldoc = readXml(pomXmlPath);
+
+  //properties
+  let properties = xmldoc.childNamed('properties');
+
+  if (properties === undefined) {
+    xmldoc.children.push(
+      new XmlDocument(`
+    <properties>
+    </properties>
+  `),
+    );
+    properties = xmldoc.childNamed('properties');
+  }
+
+  if (properties === undefined) {
+    throw new Error('Properties tag undefined');
+  }
+  const springBootVersionTag = properties.childNamed('spring.boot.version');
+  if (springBootVersionTag === undefined) {
+    properties.children.push(
+      new XmlDocument(`
+    <spring.boot.version>${springBootVersion}</spring.boot.version>
+  `),
+    );
+
+    fs.writeFileSync(pomXmlPath, xmlToString(xmldoc));
+  }
 }
