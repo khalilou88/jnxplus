@@ -8,7 +8,7 @@ import * as path from 'path';
 
 export default async function runExecutor(
   options: SetVersionExecutorSchema,
-  context: ExecutorContext
+  context: ExecutorContext,
 ) {
   console.log('Executor ran for SetVersion', options);
 
@@ -48,6 +48,6 @@ function updateFile(newVersion: string, projectRoot: string) {
 export function setVersion(buildGradleContent: string, newVersion: string) {
   return buildGradleContent.replace(
     /(version\s=\s')(.*)(')/,
-    `$1${newVersion}$3`
+    `$1${newVersion}$3`,
   );
 }

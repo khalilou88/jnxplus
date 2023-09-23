@@ -47,7 +47,7 @@ describe('@jnxplus/nx-gradle smoke', () => {
         cwd: smokeDirectory,
         env: process.env,
         stdio: 'inherit',
-      }
+      },
     );
 
     execSync('git init', execSyncOptions());
@@ -58,32 +58,32 @@ describe('@jnxplus/nx-gradle smoke', () => {
 
     execSync(
       `npx nx g @jnxplus/nx-gradle:application ${testApp}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-gradle:lib ${testLib} --projects ${testApp}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-gradle:application ${testApp2}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-gradle:application ${testApp3}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-gradle:application ${testApp4}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-gradle:lib ${testLib2} --projects ${testApp2},${testApp3},${testApp4}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(`npx nx run-many --target=build --parallel`, execSyncOptions());
@@ -91,7 +91,7 @@ describe('@jnxplus/nx-gradle smoke', () => {
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
 
     const depGraphJson = await readJson(
-      join(smokeDirectory, 'test', 'dep-graph.json')
+      join(smokeDirectory, 'test', 'dep-graph.json'),
     );
     expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
     expect(depGraphJson.graph.nodes[testLib]).toBeDefined();

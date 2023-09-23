@@ -43,21 +43,21 @@ describe('nx-maven e2e', () => {
       workspaceRoot,
       'dist',
       'packages',
-      'nx-maven'
+      'nx-maven',
     );
 
     const commonDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
-      'common'
+      'common',
     );
 
     const mavenDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
-      'maven'
+      'maven',
     );
 
     patchRootPackageJson(pluginName, nxBootMavenDistAbsolutePath);
@@ -66,23 +66,23 @@ describe('nx-maven e2e', () => {
     patchPackageJson(
       mavenDistAbsolutePath,
       '@jnxplus/common',
-      commonDistAbsolutePath
+      commonDistAbsolutePath,
     );
     patchPackageJson(
       nxBootMavenDistAbsolutePath,
       '@jnxplus/common',
-      commonDistAbsolutePath
+      commonDistAbsolutePath,
     );
     patchPackageJson(
       nxBootMavenDistAbsolutePath,
       '@jnxplus/maven',
-      mavenDistAbsolutePath
+      mavenDistAbsolutePath,
     );
 
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName}`
+      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName}`,
     );
 
     if (isCI) {
@@ -121,15 +121,15 @@ describe('nx-maven e2e', () => {
         'mvnw.cmd',
         'pom.xml',
         'tools/linters/checkstyle.xml',
-        'tools/linters/pmd.xml'
-      )
+        'tools/linters/pmd.xml',
+      ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesExist(
         `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-${checkstyleVersion}-all.jar`,
-        `node_modules/@jnxplus/tools/linters/ktlint/ktlint`
-      )
+        `node_modules/@jnxplus/tools/linters/ktlint/ktlint`,
+      ),
     ).not.toThrow();
   }, 120000);
 
@@ -137,7 +137,7 @@ describe('nx-maven e2e', () => {
     const appName = uniq('maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework none --parentProject ${parentProjectName}`
+      `generate @jnxplus/nx-maven:application ${appName} --framework none --parentProject ${parentProjectName}`,
     );
 
     expect(() =>
@@ -145,13 +145,13 @@ describe('nx-maven e2e', () => {
         `${appName}/pom.xml`,
         `${appName}/src/main/resources/application.properties`,
         `${appName}/src/main/java/com/example/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/App.java`,
         `${appName}/src/test/resources/application.properties`,
         `${appName}/src/test/java/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/AppTest.java`
-      )
+          appName,
+        ).className.toLocaleLowerCase()}/AppTest.java`,
+      ),
     ).not.toThrow();
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -165,7 +165,7 @@ describe('nx-maven e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -177,7 +177,7 @@ describe('nx-maven e2e', () => {
     const appName = uniq('maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework none --parentProject ${parentProjectName}`
+      `generate @jnxplus/nx-maven:application ${appName} --framework none --parentProject ${parentProjectName}`,
     );
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -188,7 +188,7 @@ describe('nx-maven e2e', () => {
     const appName = uniq('maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework none --parentProject ${parentProjectName}`
+      `generate @jnxplus/nx-maven:application ${appName} --framework none --parentProject ${parentProjectName}`,
     );
     const serveResult = await runNxCommandAsync(`serve ${appName}`);
     expect(serveResult.stdout).toContain('Executor ran for Serve');
@@ -199,7 +199,7 @@ describe('nx-maven e2e', () => {
     const appName = uniq('maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework none --language kotlin --parentProject ${parentProjectName}`
+      `generate @jnxplus/nx-maven:application ${appName} --framework none --language kotlin --parentProject ${parentProjectName}`,
     );
 
     expect(() =>
@@ -207,13 +207,13 @@ describe('nx-maven e2e', () => {
         `${appName}/pom.xml`,
         `${appName}/src/main/resources/application.properties`,
         `${appName}/src/main/kotlin/com/example/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/App.kt`,
         `${appName}/src/test/resources/application.properties`,
         `${appName}/src/test/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/AppTest.kt`
-      )
+          appName,
+        ).className.toLocaleLowerCase()}/AppTest.kt`,
+      ),
     ).not.toThrow();
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -237,19 +237,19 @@ describe('nx-maven e2e', () => {
     const libName = uniq('maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework none --parentProject ${parentProjectName}`
+      `generate @jnxplus/nx-maven:library ${libName} --framework none --parentProject ${parentProjectName}`,
     );
 
     expect(() =>
       checkFilesExist(
         `${libName}/pom.xml`,
         `${libName}/src/main/java/com/example/${names(
-          libName
+          libName,
         ).className.toLocaleLowerCase()}/Library.java`,
         `${libName}/src/test/java/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/LibraryTest.java`
-      )
+          libName,
+        ).className.toLocaleLowerCase()}/LibraryTest.java`,
+      ),
     ).not.toThrow();
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
@@ -259,7 +259,7 @@ describe('nx-maven e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${libName}`
+      `format:write --projects ${libName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -271,19 +271,19 @@ describe('nx-maven e2e', () => {
     const libName = uniq('maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework none --language kotlin --parentProject ${parentProjectName}`
+      `generate @jnxplus/nx-maven:library ${libName} --framework none --language kotlin --parentProject ${parentProjectName}`,
     );
 
     expect(() =>
       checkFilesExist(
         `${libName}/pom.xml`,
         `${libName}/src/main/kotlin/com/example/${names(
-          libName
+          libName,
         ).className.toLocaleLowerCase()}/Library.kt`,
         `${libName}/src/test/kotlin/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/LibraryTest.kt`
-      )
+          libName,
+        ).className.toLocaleLowerCase()}/LibraryTest.kt`,
+      ),
     ).not.toThrow();
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
@@ -302,13 +302,13 @@ describe('nx-maven e2e', () => {
   it('should create a java application', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`,
     );
 
     const appName = uniq('boot-maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${appsParentProject}`
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${appsParentProject}`,
     );
 
     expect(() =>
@@ -316,19 +316,19 @@ describe('nx-maven e2e', () => {
         `${appName}/pom.xml`,
         `${appName}/src/main/resources/application.properties`,
         `${appName}/src/main/java/com/example/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/${
           names(appName).className
         }Application.java`,
         `${appName}/src/main/java/com/example/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
 
         `${appName}/src/test/resources/application.properties`,
         `${appName}/src/test/java/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`
-      )
+          appName,
+        ).className.toLocaleLowerCase()}/HelloControllerTests.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
@@ -352,7 +352,7 @@ describe('nx-maven e2e', () => {
     expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -369,17 +369,17 @@ describe('nx-maven e2e', () => {
     };
     updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
     const runTaskResult = await runNxCommandAsync(
-      `run-task ${appName} --task="clean install -DskipTests=true"`
+      `run-task ${appName} --task="clean install -DskipTests=true"`,
     );
     expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
     //end test run-task
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -389,7 +389,7 @@ describe('nx-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`)
+      output.includes(`Tomcat started on port(s): 8080`),
     );
 
     const dataResult = await getData();
@@ -408,7 +408,7 @@ describe('nx-maven e2e', () => {
   it('should use specified options to create a quarkus application', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework quarkus`
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework quarkus`,
     );
 
     const randomName = uniq('quarkus-maven-app-');
@@ -417,7 +417,7 @@ describe('nx-maven e2e', () => {
     const port = 8181;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName}  --parentProject ${appsParentProject} --tags e2etag,e2ePackage --directory ${appDir} --groupId org.jnxplus --projectVersion 1.2.3 --configFormat .yml --port ${port}  --framework quarkus`
+      `generate @jnxplus/nx-maven:application ${randomName}  --parentProject ${appsParentProject} --tags e2etag,e2ePackage --directory ${appDir} --groupId org.jnxplus --projectVersion 1.2.3 --configFormat .yml --port ${port}  --framework quarkus`,
     );
 
     expect(() =>
@@ -425,12 +425,12 @@ describe('nx-maven e2e', () => {
         `${appDir}/${randomName}/pom.xml`,
         `${appDir}/${randomName}/src/main/resources/application.yml`,
         `${appDir}/${randomName}/src/main/java/org/jnxplus/deep/subdir/${names(
-          randomName
+          randomName,
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
         `${appDir}/${randomName}/src/test/java/org/jnxplus/deep/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
-      )
+          randomName,
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
@@ -443,7 +443,7 @@ describe('nx-maven e2e', () => {
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Listening on: http://localhost:${port}`)
+      output.includes(`Listening on: http://localhost:${port}`),
     );
 
     const dataResult = await getData(port, '/hello');
@@ -465,7 +465,7 @@ describe('nx-maven e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -474,10 +474,10 @@ describe('nx-maven e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -491,24 +491,24 @@ describe('nx-maven e2e', () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`,
     );
 
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject} --framework none`
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject} --framework none`,
     );
 
     const appName = uniq('boot-maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${appsParentProject}`
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${appsParentProject}`,
     );
 
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --projects ${appName} --parentProject ${libsParentProject}`
+      `generate @jnxplus/nx-maven:library ${libName} --projects ${appName} --parentProject ${libsParentProject}`,
     );
 
     // Making sure the app pom.xml file contains the lib
@@ -516,7 +516,7 @@ describe('nx-maven e2e', () => {
     expect(pomXml.includes(`${libName}`)).toBeTruthy();
 
     const helloControllerPath = `${appName}/src/main/java/com/example/${names(
-      appName
+      appName,
     ).className.toLocaleLowerCase()}/HelloController.java`;
     const helloControllerContent = readFile(helloControllerPath);
 
@@ -530,8 +530,8 @@ describe('nx-maven e2e', () => {
       .replace(
         regex1,
         `$&\nimport org.springframework.beans.factory.annotation.Autowired;\nimport com.example.${names(
-          libName
-        ).className.toLocaleLowerCase()}.HelloService;`
+          libName,
+        ).className.toLocaleLowerCase()}.HelloService;`,
       )
       .replace(regex2, '$&\n@Autowired\nprivate HelloService helloService;')
       .replace(regex3, 'this.helloService.message()');
@@ -545,7 +545,7 @@ describe('nx-maven e2e', () => {
     expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('HelloController.java');
 
@@ -580,31 +580,31 @@ describe('nx-maven e2e', () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`,
     );
 
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject} --framework none`
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject} --framework none`,
     );
 
     const appName = uniq('boot-maven-app-');
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --language kotlin --packaging war --parentProject ${appsParentProject}`
+      `generate @jnxplus/nx-maven:application ${appName} --language kotlin --packaging war --parentProject ${appsParentProject}`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --language kotlin --projects ${appName} --parentProject ${libsParentProject}`
+      `generate @jnxplus/nx-maven:library ${libName} --language kotlin --projects ${appName} --parentProject ${libsParentProject}`,
     );
 
     expect(() =>
       checkFilesExist(
         `${appName}/src/main/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/ServletInitializer.kt`
-      )
+          appName,
+        ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
+      ),
     ).not.toThrow();
 
     // Making sure the app pom.xml file contains the lib
@@ -612,7 +612,7 @@ describe('nx-maven e2e', () => {
     expect(pomXml.includes(`${libName}`)).toBeTruthy();
 
     const helloControllerPath = `${appName}/src/main/kotlin/com/example/${names(
-      appName
+      appName,
     ).className.toLocaleLowerCase()}/HelloController.kt`;
     const helloControllerContent = readFile(helloControllerPath);
 
@@ -626,8 +626,8 @@ describe('nx-maven e2e', () => {
       .replace(
         regex1,
         `$&\nimport org.springframework.beans.factory.annotation.Autowired\nimport com.example.${names(
-          libName
-        ).className.toLocaleLowerCase()}.HelloService`
+          libName,
+        ).className.toLocaleLowerCase()}.HelloService`,
       )
       .replace(regex2, '$&(@Autowired val helloService: HelloService)')
       .replace(regex3, 'helloService.message()');
@@ -674,25 +674,25 @@ describe('nx-maven e2e', () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework quarkus`
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework quarkus`,
     );
 
     const libName = uniq('quarkus-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --language kotlin --groupId org.acme --framework quarkus --parentProject ${libsParentProject}`
+      `generate @jnxplus/nx-maven:library ${libName} --language kotlin --groupId org.acme --framework quarkus --parentProject ${libsParentProject}`,
     );
 
     expect(() =>
       checkFilesExist(
         `${libName}/pom.xml`,
         `${libName}/src/main/kotlin/org/acme/${names(
-          libName
+          libName,
         ).className.toLocaleLowerCase()}/GreetingService.kt`,
         `${libName}/src/test/kotlin/org/acme/${names(
-          libName
-        ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`
-      )
+          libName,
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`,
+      ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
@@ -722,10 +722,10 @@ describe('nx-maven e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -738,13 +738,13 @@ describe('nx-maven e2e', () => {
   it('should create a micronaut java application', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework micronaut`
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework micronaut`,
     );
 
     const appName = uniq('micronaut-maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --parentProject ${appsParentProject}`
+      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --parentProject ${appsParentProject}`,
     );
 
     expect(() =>
@@ -752,15 +752,15 @@ describe('nx-maven e2e', () => {
         `${appName}/pom.xml`,
         `${appName}/src/main/resources/application.properties`,
         `${appName}/src/main/java/com/example/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/Application.java`,
         `${appName}/src/main/java/com/example/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
         `${appName}/src/test/java/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/HelloControllerTest.java`
-      )
+          appName,
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
@@ -784,7 +784,7 @@ describe('nx-maven e2e', () => {
     expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -801,17 +801,17 @@ describe('nx-maven e2e', () => {
     };
     updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
     const runTaskResult = await runNxCommandAsync(
-      `run-task ${appName} --task="clean install -DskipTests=true"`
+      `run-task ${appName} --task="clean install -DskipTests=true"`,
     );
     expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
     //end test run-task
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -821,7 +821,7 @@ describe('nx-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:8080`)
+      output.includes(`Server Running: http://localhost:8080`),
     );
 
     const dataResult = await getData(8080, '/hello');
@@ -841,25 +841,25 @@ describe('nx-maven e2e', () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework micronaut`
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework micronaut`,
     );
 
     const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --parentProject ${libsParentProject}`
+      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --parentProject ${libsParentProject}`,
     );
 
     expect(() =>
       checkFilesExist(
         `${libName}/pom.xml`,
         `${libName}/src/main/java/com/example/${names(
-          libName
+          libName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
         `${libName}/src/test/java/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloServiceTest.java`
-      )
+          libName,
+        ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
@@ -882,7 +882,7 @@ describe('nx-maven e2e', () => {
     expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${libName}`
+      `format:write --projects ${libName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -891,10 +891,10 @@ describe('nx-maven e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -907,13 +907,13 @@ describe('nx-maven e2e', () => {
   it('should create a micronaut kotlin application', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework micronaut`
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework micronaut`,
     );
 
     const appName = uniq('micronaut-maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin --parentProject ${appsParentProject}`
+      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin --parentProject ${appsParentProject}`,
     );
 
     // Making sure the pom.xml file contains the correct information
@@ -952,17 +952,17 @@ describe('nx-maven e2e', () => {
     };
     updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
     const runTaskResult = await runNxCommandAsync(
-      `run-task ${appName} --task="clean install -DskipTests=true"`
+      `run-task ${appName} --task="clean install -DskipTests=true"`,
     );
     expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
     //end test run-task
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -972,7 +972,7 @@ describe('nx-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:8080`)
+      output.includes(`Server Running: http://localhost:8080`),
     );
 
     const dataResult = await getData(8080, '/hello');

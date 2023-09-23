@@ -6,7 +6,7 @@ interface NormalizedSchema extends NxBootGradleMigrateGeneratorSchema {} // esli
 
 function normalizeOptions(
   tree: Tree,
-  options: NxBootGradleMigrateGeneratorSchema
+  options: NxBootGradleMigrateGeneratorSchema,
 ): NormalizedSchema {
   return {
     ...options,
@@ -23,13 +23,13 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     tree,
     path.join(__dirname, '..', 'init', 'files', 'gradle', 'wrapper'),
     '',
-    templateOptions
+    templateOptions,
   );
 }
 
 export default async function (
   tree: Tree,
-  options: NxBootGradleMigrateGeneratorSchema
+  options: NxBootGradleMigrateGeneratorSchema,
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);

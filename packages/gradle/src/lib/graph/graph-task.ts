@@ -37,12 +37,12 @@ export function addProjectsAndDependenciesFromTask(
   builder: ProjectGraphBuilder,
   context: ProjectGraphProcessorContext,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  pluginName: string
+  pluginName: string,
 ) {
   const isVerbose = process.env['NX_VERBOSE_LOGGING'] === 'true';
   const outputFile = path.join(
     projectGraphCacheDirectory,
-    `nx-gradle-deps.json`
+    `nx-gradle-deps.json`,
   );
 
   let command = `${getExecutable()} :projectDependencyTask --outputFile=${outputFile}`;
@@ -59,7 +59,7 @@ export function addProjectsAndDependenciesFromTask(
   });
 
   const projects: GradleProjectType[] = JSON.parse(
-    fs.readFileSync(outputFile, 'utf8')
+    fs.readFileSync(outputFile, 'utf8'),
   );
 
   addProjects(builder, context, projects);
@@ -70,7 +70,7 @@ export function addProjectsAndDependenciesFromTask(
 function addProjects(
   builder: ProjectGraphBuilder,
   context: ProjectGraphProcessorContext,
-  projects: GradleProjectType[]
+  projects: GradleProjectType[],
 ) {
   for (const project of projects) {
     if (
@@ -154,7 +154,7 @@ function addProjects(
 
 function addDependencies(
   builder: ProjectGraphBuilder,
-  projects: GradleProjectType[]
+  projects: GradleProjectType[],
 ) {
   for (const project of projects) {
     if (project.isBuildGradleExists || project.isBuildGradleKtsExists) {
@@ -170,7 +170,7 @@ function addDependencies(
       } else {
         const projectRoot = path.relative(
           workspaceRoot,
-          project.projectDirPath
+          project.projectDirPath,
         );
         projectSourceFile = joinPathFragments(projectRoot, buildFile);
       }
@@ -185,7 +185,7 @@ function addDependencies(
 
       const parentProject = getParentProject(
         projects,
-        project.parentProjectName
+        project.parentProjectName,
       );
       if (parentProject) {
         const parentProjectName = getProjectName(parentProject);
@@ -193,7 +193,7 @@ function addDependencies(
         builder.addStaticDependency(
           projectName,
           parentProjectName,
-          projectSourceFile
+          projectSourceFile,
         );
       }
 
@@ -203,7 +203,7 @@ function addDependencies(
         builder.addStaticDependency(
           projectName,
           dependencyName,
-          projectSourceFile
+          projectSourceFile,
         );
       }
     }
@@ -222,10 +222,10 @@ function getProjectName(project: GradleProject1Type) {
 
 function getParentProject(
   projects: GradleProjectType[],
-  parentProjectName: string
+  parentProjectName: string,
 ): GradleProjectType | undefined {
   const project = projects.find(
-    (element) => element.name === parentProjectName
+    (element) => element.name === parentProjectName,
   );
 
   if (!project) {

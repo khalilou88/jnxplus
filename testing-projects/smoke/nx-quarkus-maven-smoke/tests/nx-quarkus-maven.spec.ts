@@ -50,7 +50,7 @@ describe('@jnxplus/nx-maven quarkus smoke', () => {
         cwd: smokeDirectory,
         env: process.env,
         stdio: 'inherit',
-      }
+      },
     );
 
     execSync('git init', execSyncOptions());
@@ -61,42 +61,42 @@ describe('@jnxplus/nx-maven quarkus smoke', () => {
 
     execSync(
       `npx nx generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework quarkus`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject} --framework none`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:application ${testApp} --framework quarkus --parentProject ${appsParentProject}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:lib ${testLib} --framework quarkus --parentProject ${libsParentProject} --projects ${testApp}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:application ${testApp2} --framework quarkus --parentProject ${appsParentProject}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:application ${testApp3} --framework quarkus --parentProject ${appsParentProject}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:application ${testApp4} --framework quarkus --parentProject ${appsParentProject}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:lib ${testLib2} --framework quarkus --parentProject ${libsParentProject} --projects ${testApp2},${testApp3},${testApp4}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(`npx nx test ${testLib}`, execSyncOptions());
@@ -106,7 +106,7 @@ describe('@jnxplus/nx-maven quarkus smoke', () => {
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
 
     const depGraphJson = await readJson(
-      join(smokeDirectory, 'test', 'dep-graph.json')
+      join(smokeDirectory, 'test', 'dep-graph.json'),
     );
     expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
     expect(depGraphJson.graph.nodes[testLib]).toBeDefined();

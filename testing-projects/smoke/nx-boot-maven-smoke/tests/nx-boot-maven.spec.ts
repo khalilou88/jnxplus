@@ -48,7 +48,7 @@ describe('@jnxplus/nx-maven spring-boot smoke', () => {
         cwd: smokeDirectory,
         env: process.env,
         stdio: 'inherit',
-      }
+      },
     );
 
     execSync('git init', execSyncOptions());
@@ -57,37 +57,37 @@ describe('@jnxplus/nx-maven spring-boot smoke', () => {
 
     execSync(
       'npx nx generate @jnxplus/nx-maven:init --dependencyManagement spring-boot-parent-pom',
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:application ${testApp} --framework spring-boot`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:lib ${testLib} --framework spring-boot --projects ${testApp}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:application ${testApp2} --framework spring-boot`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:application ${testApp3} --framework spring-boot`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:application ${testApp4} --framework spring-boot`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:lib ${testLib2} --framework spring-boot --projects ${testApp2},${testApp3},${testApp4}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(`npx nx test ${testLib}`, execSyncOptions());
@@ -97,7 +97,7 @@ describe('@jnxplus/nx-maven spring-boot smoke', () => {
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
 
     const depGraphJson = await readJson(
-      join(smokeDirectory, 'test', 'dep-graph.json')
+      join(smokeDirectory, 'test', 'dep-graph.json'),
     );
     expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
     expect(depGraphJson.graph.nodes[testLib]).toBeDefined();
@@ -117,7 +117,7 @@ describe('@jnxplus/nx-maven spring-boot smoke', () => {
 
       execSync(
         'npx nx@next migrate --run-migrations --ifExists',
-        execSyncOptions()
+        execSyncOptions(),
       );
 
       execSync(`nx run-many --target=build --parallel=1`, execSyncOptions());
@@ -125,7 +125,7 @@ describe('@jnxplus/nx-maven spring-boot smoke', () => {
       execSync(`nx graph --file=dep-graph.json`, execSyncOptions());
 
       const depGraphJson = await readJson(
-        join(smokeDirectory, 'test', 'dep-graph.json')
+        join(smokeDirectory, 'test', 'dep-graph.json'),
       );
       expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
       expect(depGraphJson.graph.nodes[testLib]).toBeDefined();

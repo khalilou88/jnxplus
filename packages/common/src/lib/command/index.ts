@@ -9,7 +9,7 @@ export async function waitForever() {
 
 export function runCommand(
   command: string,
-  workDir: string = workspaceRoot
+  workDir: string = workspaceRoot,
 ): { success: boolean } {
   const isVerbose = process.env['NX_VERBOSE_LOGGING'] === 'true';
 

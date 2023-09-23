@@ -18,7 +18,7 @@ export function getProject(context: ExecutorContext) {
 
   if (!project) {
     throw new Error(
-      `No project found in project graph for ${context.projectName}`
+      `No project found in project graph for ${context.projectName}`,
     );
   }
   return project;
@@ -51,7 +51,7 @@ export function normalizeName(name: string) {
 const finished = promisify(stream.finished);
 export async function downloadFile(
   fileUrl: string,
-  outputLocationPath: string
+  outputLocationPath: string,
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
 ): Promise<any> {
   const writer = fs.createWriteStream(outputLocationPath);
@@ -67,7 +67,7 @@ export async function downloadFile(
 
 export async function getKtlintPath(
   getKtlintVersion: GetVersionFunction,
-  dir = workspaceRoot
+  dir = workspaceRoot,
 ) {
   const version = getKtlintVersion(dir);
 
@@ -84,7 +84,7 @@ export async function getKtlintPath(
       '@jnxplus',
       'tools',
       'linters',
-      'ktlint'
+      'ktlint',
     );
   } else {
     outputDirectory = path.join(
@@ -93,7 +93,7 @@ export async function getKtlintPath(
       '@jnxplus',
       'tools',
       'linters',
-      'ktlint'
+      'ktlint',
     );
   }
 
@@ -120,7 +120,7 @@ function isAnotherVersion(ktlintAbsolutePath: string, version: string) {
 
 export async function getCheckstylePath(
   getCheckstyleVersion: GetVersionFunction,
-  dir = workspaceRoot
+  dir = workspaceRoot,
 ) {
   const version = getCheckstyleVersion(dir);
 
@@ -138,7 +138,7 @@ export async function getCheckstylePath(
       '@jnxplus',
       'tools',
       'linters',
-      'checkstyle'
+      'checkstyle',
     );
   } else {
     outputDirectory = path.join(
@@ -147,7 +147,7 @@ export async function getCheckstylePath(
       '@jnxplus',
       'tools',
       'linters',
-      'checkstyle'
+      'checkstyle',
     );
   }
 
@@ -157,7 +157,7 @@ export async function getCheckstylePath(
 
   const checkstyleJarAbsolutePath = path.join(
     outputDirectory,
-    checkstyleJarName
+    checkstyleJarName,
   );
 
   if (!fs.existsSync(checkstyleJarAbsolutePath)) {
@@ -185,7 +185,7 @@ function isSameDir(path1: string, path2: string) {
 }
 
 export function getProjectGraphNodeType(
-  projectRoot: string
+  projectRoot: string,
 ): 'app' | 'e2e' | 'lib' {
   if (!projectRoot) {
     return 'lib';

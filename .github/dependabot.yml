@@ -1,14 +1,14 @@
 version: 2
 updates:
   # Configuration for npm
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "daily"
+      interval: 'daily'
     ignore:
       # Ignore updates to packages that start with '@nx'
       # Wildcards match zero or more arbitrary characters
-      - dependency-name: "@nx*"
-      - dependency-name: "nx"
+      - dependency-name: '@nx*'
+      - dependency-name: 'nx'
       # For chalk, ignore all updates
-      - dependency-name: "chalk"
+      - dependency-name: 'chalk'

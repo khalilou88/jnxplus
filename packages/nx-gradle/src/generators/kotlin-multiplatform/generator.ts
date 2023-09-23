@@ -45,7 +45,7 @@ interface NormalizedSchema extends NxGradleKotlinMultiplatformGeneratorSchema {
 
 function normalizeOptions(
   tree: Tree,
-  options: NxGradleKotlinMultiplatformGeneratorSchema
+  options: NxGradleKotlinMultiplatformGeneratorSchema,
 ): NormalizedSchema {
   const prefix = names(normalizeName(options.name)).fileName;
 
@@ -61,16 +61,16 @@ function normalizeOptions(
     sharedLibName = `${prefix}-shared`;
   } else {
     androidAppName = `${normalizeName(
-      names(options.directory).fileName
+      names(options.directory).fileName,
     )}-${prefix}-android`;
     iosAppName = `${normalizeName(
-      names(options.directory).fileName
+      names(options.directory).fileName,
     )}-${prefix}-ios`;
     desktopAppName = `${normalizeName(
-      names(options.directory).fileName
+      names(options.directory).fileName,
     )}-${prefix}-desktop`;
     sharedLibName = `${normalizeName(
-      names(options.directory).fileName
+      names(options.directory).fileName,
     )}-${prefix}-shared`;
   }
 
@@ -99,7 +99,7 @@ function normalizeOptions(
   const sharedLibRoot = `${libsDir}/${sharedLibDirectory}`;
 
   const sharedLibProjectPath = `:${getProjectPathFromProjectRoot(
-    sharedLibRoot
+    sharedLibRoot,
   )}`;
 
   const settingsGradleKtsPath = path.join(workspaceRoot, 'settings.gradle.kts');
@@ -109,7 +109,7 @@ function normalizeOptions(
   if (isSettingsGradleKtsExists) {
     const settingsGradleKtsContent = fs.readFileSync(
       settingsGradleKtsPath,
-      'utf-8'
+      'utf-8',
     );
     rootProjectName = getRootProjectName(settingsGradleKtsContent);
   }
@@ -121,13 +121,13 @@ function normalizeOptions(
   let packageName: string;
   if (options.simplePackageName || !options.directory) {
     packageName = `${options.groupId}.${names(
-      prefix
+      prefix,
     ).className.toLocaleLowerCase()}`.replace(new RegExp(/-/, 'g'), '');
   } else {
     packageName = `${options.groupId}.${`${names(
-      options.directory
+      options.directory,
     ).fileName.replace(new RegExp(/\//, 'g'), '.')}.${names(
-      prefix
+      prefix,
     ).className.toLocaleLowerCase()}`}`.replace(new RegExp(/-/, 'g'), '');
   }
 
@@ -136,14 +136,14 @@ function normalizeOptions(
   const relativePathToSharedLib = path
     .relative(
       path.join(workspaceRoot, iosAppRoot),
-      path.join(workspaceRoot, sharedLibRoot)
+      path.join(workspaceRoot, sharedLibRoot),
     )
     .replace(new RegExp(/\\/, 'g'), '/');
 
   const relativePathToPodfile = path
     .relative(
       path.join(workspaceRoot, sharedLibRoot),
-      path.join(workspaceRoot, iosAppRoot)
+      path.join(workspaceRoot, iosAppRoot),
     )
     .replace(new RegExp(/\\/, 'g'), '/');
 
@@ -184,7 +184,7 @@ function addAndroidFiles(tree: Tree, options: NormalizedSchema) {
     tree,
     path.join(__dirname, 'files', 'android-app'),
     options.androidAppRoot,
-    templateOptions
+    templateOptions,
   );
 }
 
@@ -198,7 +198,7 @@ function addIosFiles(tree: Tree, options: NormalizedSchema) {
     tree,
     path.join(__dirname, 'files', 'ios-app'),
     options.iosAppRoot,
-    templateOptions
+    templateOptions,
   );
 }
 
@@ -212,7 +212,7 @@ function addDesktopFiles(tree: Tree, options: NormalizedSchema) {
     tree,
     path.join(__dirname, 'files', 'desktop-app'),
     options.desktopAppRoot,
-    templateOptions
+    templateOptions,
   );
 }
 
@@ -226,7 +226,7 @@ function addSharedFiles(tree: Tree, options: NormalizedSchema) {
     tree,
     path.join(__dirname, 'files', 'shared-lib'),
     options.sharedLibRoot,
-    templateOptions
+    templateOptions,
   );
 }
 
@@ -266,7 +266,7 @@ function generateAndroidApp(normalizedOptions: NormalizedSchema, tree: Tree) {
   addProjectConfiguration(
     tree,
     normalizedOptions.androidAppName,
-    projectConfiguration
+    projectConfiguration,
   );
 
   addAndroidFiles(tree, normalizedOptions);
@@ -291,7 +291,7 @@ function generateIosApp(normalizedOptions: NormalizedSchema, tree: Tree) {
   addProjectConfiguration(
     tree,
     normalizedOptions.iosAppName,
-    projectConfiguration
+    projectConfiguration,
   );
 
   addIosFiles(tree, normalizedOptions);
@@ -339,7 +339,7 @@ function generateDesktopApp(normalizedOptions: NormalizedSchema, tree: Tree) {
   addProjectConfiguration(
     tree,
     normalizedOptions.desktopAppName,
-    projectConfiguration
+    projectConfiguration,
   );
 
   addDesktopFiles(tree, normalizedOptions);
@@ -383,7 +383,7 @@ function generateSharedLib(normalizedOptions: NormalizedSchema, tree: Tree) {
   addProjectConfiguration(
     tree,
     normalizedOptions.sharedLibName,
-    projectConfiguration
+    projectConfiguration,
   );
 
   addSharedFiles(tree, normalizedOptions);
@@ -394,7 +394,7 @@ function generateSharedLib(normalizedOptions: NormalizedSchema, tree: Tree) {
 
 export default async function (
   tree: Tree,
-  options: NxGradleKotlinMultiplatformGeneratorSchema
+  options: NxGradleKotlinMultiplatformGeneratorSchema,
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
   generateSharedLib(normalizedOptions, tree);

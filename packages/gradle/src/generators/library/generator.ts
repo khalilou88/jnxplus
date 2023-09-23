@@ -38,7 +38,7 @@ interface NormalizedSchema extends NxGradleLibGeneratorSchema {
 
 function normalizeOptions(
   tree: Tree,
-  options: NxGradleLibGeneratorSchema
+  options: NxGradleLibGeneratorSchema,
 ): NormalizedSchema {
   const simpleProjectName = names(normalizeName(options.name)).fileName;
 
@@ -48,7 +48,7 @@ function normalizeOptions(
   } else {
     projectName = options.directory
       ? `${normalizeName(
-          names(options.directory).fileName
+          names(options.directory).fileName,
         )}-${simpleProjectName}`
       : simpleProjectName;
   }
@@ -64,14 +64,14 @@ function normalizeOptions(
   let packageName: string;
   if (options.simplePackageName) {
     packageName = `${options.groupId}.${names(
-      simpleProjectName
+      simpleProjectName,
     ).className.toLocaleLowerCase()}`.replace(new RegExp(/-/, 'g'), '');
   } else {
     packageName = `${options.groupId}.${
       options.directory
         ? `${names(options.directory).fileName.replace(
             new RegExp(/\//, 'g'),
-            '.'
+            '.',
           )}.${names(simpleProjectName).className.toLocaleLowerCase()}`
         : names(simpleProjectName).className.toLocaleLowerCase()
     }`.replace(new RegExp(/-/, 'g'), '');
@@ -107,7 +107,7 @@ function addFiles(
   d: string,
   plugin: GradlePluginType,
   tree: Tree,
-  options: NormalizedSchema
+  options: NormalizedSchema,
 ) {
   if (options.framework === 'spring-boot') {
     addBootFiles(d, tree, options);
@@ -137,7 +137,7 @@ function addNoneFiles(d: string, tree: Tree, options: NormalizedSchema) {
     tree,
     join(d, 'files', 'none', options.language),
     options.projectRoot,
-    templateOptions
+    templateOptions,
   );
 
   if (options.skipStarterCode) {
@@ -145,15 +145,15 @@ function addNoneFiles(d: string, tree: Tree, options: NormalizedSchema) {
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/main/${options.language}/${options.packageDirectory}/Library.${fileExtension}`
-      )
+        `/src/main/${options.language}/${options.packageDirectory}/Library.${fileExtension}`,
+      ),
     );
 
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/test/${options.language}/${options.packageDirectory}/LibraryTest.${fileExtension}`
-      )
+        `/src/test/${options.language}/${options.packageDirectory}/LibraryTest.${fileExtension}`,
+      ),
     );
   }
 }
@@ -169,7 +169,7 @@ function addBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
     tree,
     join(d, 'files', 'boot', options.language),
     options.projectRoot,
-    templateOptions
+    templateOptions,
   );
 
   if (options.skipStarterCode) {
@@ -177,30 +177,30 @@ function addBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/main/${options.language}/${options.packageDirectory}/HelloService.${fileExtension}`
-      )
+        `/src/main/${options.language}/${options.packageDirectory}/HelloService.${fileExtension}`,
+      ),
     );
 
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/test/${options.language}/${options.packageDirectory}/HelloServiceTests.${fileExtension}`
-      )
+        `/src/test/${options.language}/${options.packageDirectory}/HelloServiceTests.${fileExtension}`,
+      ),
     );
 
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/test/${options.language}/${options.packageDirectory}/TestConfiguration.${fileExtension}`
-      )
+        `/src/test/${options.language}/${options.packageDirectory}/TestConfiguration.${fileExtension}`,
+      ),
     );
 
     if (options.language === 'kotlin') {
       tree.delete(
         joinPathFragments(
           options.projectRoot,
-          `/src/test/resources/junit-platform.properties`
-        )
+          `/src/test/resources/junit-platform.properties`,
+        ),
       );
     }
   }
@@ -217,7 +217,7 @@ function addQuarkusFiles(d: string, tree: Tree, options: NormalizedSchema) {
     tree,
     join(d, 'files', 'quarkus', options.language),
     options.projectRoot,
-    templateOptions
+    templateOptions,
   );
 
   if (options.skipStarterCode) {
@@ -225,29 +225,29 @@ function addQuarkusFiles(d: string, tree: Tree, options: NormalizedSchema) {
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/main/${options.language}/${options.packageDirectory}/GreetingService.${fileExtension}`
-      )
+        `/src/main/${options.language}/${options.packageDirectory}/GreetingService.${fileExtension}`,
+      ),
     );
 
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/test/${options.language}/${options.packageDirectory}/GreetingServiceTest.${fileExtension}`
-      )
+        `/src/test/${options.language}/${options.packageDirectory}/GreetingServiceTest.${fileExtension}`,
+      ),
     );
   } else {
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/main/${options.language}/.gitkeep`
-      )
+        `/src/main/${options.language}/.gitkeep`,
+      ),
     );
 
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/test/${options.language}/.gitkeep`
-      )
+        `/src/test/${options.language}/.gitkeep`,
+      ),
     );
   }
 }
@@ -263,7 +263,7 @@ function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
     tree,
     join(d, 'files', 'micronaut', options.language),
     options.projectRoot,
-    templateOptions
+    templateOptions,
   );
 
   if (options.skipStarterCode) {
@@ -271,29 +271,29 @@ function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/main/${options.language}/${options.packageDirectory}/HelloService.${fileExtension}`
-      )
+        `/src/main/${options.language}/${options.packageDirectory}/HelloService.${fileExtension}`,
+      ),
     );
 
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/test/${options.language}/${options.packageDirectory}/HelloServiceTest.${fileExtension}`
-      )
+        `/src/test/${options.language}/${options.packageDirectory}/HelloServiceTest.${fileExtension}`,
+      ),
     );
   } else {
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/main/${options.language}/.gitkeep`
-      )
+        `/src/main/${options.language}/.gitkeep`,
+      ),
     );
 
     tree.delete(
       joinPathFragments(
         options.projectRoot,
-        `/src/test/${options.language}/.gitkeep`
-      )
+        `/src/test/${options.language}/.gitkeep`,
+      ),
     );
   }
 }
@@ -302,7 +302,7 @@ export default async function (
   d: string,
   plugin: GradlePluginType,
   tree: Tree,
-  options: NxGradleLibGeneratorSchema
+  options: NxGradleLibGeneratorSchema,
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
 
@@ -352,7 +352,7 @@ export default async function (
   addProjectConfiguration(
     tree,
     normalizedOptions.projectName,
-    projectConfiguration
+    projectConfiguration,
   );
   addFiles(d, plugin, tree, normalizedOptions);
   addProjectToGradleSetting(tree, normalizedOptions);

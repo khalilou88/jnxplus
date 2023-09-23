@@ -5,7 +5,7 @@ import { getExecutable } from '../../lib/utils';
 
 export default async function runExecutor(
   options: RunTaskExecutorSchema,
-  context: ExecutorContext
+  context: ExecutorContext,
 ) {
   const targetName = getTargetName(context);
   logger.info(`Executor ran for ${targetName}: ${JSON.stringify(options)}`);

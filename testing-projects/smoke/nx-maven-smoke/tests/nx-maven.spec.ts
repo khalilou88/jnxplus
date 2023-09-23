@@ -50,7 +50,7 @@ describe('@jnxplus/nx-maven smoke', () => {
         cwd: smokeDirectory,
         env: process.env,
         stdio: 'inherit',
-      }
+      },
     );
 
     execSync('git init', execSyncOptions());
@@ -61,42 +61,42 @@ describe('@jnxplus/nx-maven smoke', () => {
 
     execSync(
       `npx nx generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject} --framework none`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:application ${testApp} --parentProject ${appsParentProject}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:lib ${testLib} --parentProject ${libsParentProject} --projects ${testApp}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:application ${testApp2} --parentProject ${appsParentProject}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:application ${testApp3} --parentProject ${appsParentProject}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:application ${testApp4} --parentProject ${appsParentProject}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:lib ${testLib2} --parentProject ${libsParentProject} --projects ${testApp2},${testApp3},${testApp4}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(`npx nx test ${testLib}`, execSyncOptions());
@@ -106,7 +106,7 @@ describe('@jnxplus/nx-maven smoke', () => {
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
 
     const depGraphJson = await readJson(
-      join(smokeDirectory, 'test', 'dep-graph.json')
+      join(smokeDirectory, 'test', 'dep-graph.json'),
     );
     expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
     expect(depGraphJson.graph.nodes[testLib]).toBeDefined();

@@ -46,21 +46,21 @@ describe('nx-quarkus-gradle kt e2e', () => {
       workspaceRoot,
       'dist',
       'packages',
-      'nx-gradle'
+      'nx-gradle',
     );
 
     const commonDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
-      'common'
+      'common',
     );
 
     const gradleDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
-      'gradle'
+      'gradle',
     );
 
     patchRootPackageJson(pluginName, nxQuarkusGradleDistAbsolutePath);
@@ -70,24 +70,24 @@ describe('nx-quarkus-gradle kt e2e', () => {
     patchPackageJson(
       gradleDistAbsolutePath,
       '@jnxplus/common',
-      commonDistAbsolutePath
+      commonDistAbsolutePath,
     );
 
     patchPackageJson(
       nxQuarkusGradleDistAbsolutePath,
       '@jnxplus/common',
-      commonDistAbsolutePath
+      commonDistAbsolutePath,
     );
     patchPackageJson(
       nxQuarkusGradleDistAbsolutePath,
       '@jnxplus/gradle',
-      gradleDistAbsolutePath
+      gradleDistAbsolutePath,
     );
 
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset quarkus`
+      `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset quarkus`,
     );
     updateNx();
     addJVMMemory();
@@ -128,15 +128,15 @@ describe('nx-quarkus-gradle kt e2e', () => {
         'gradlew.bat',
         'gradle.properties',
         'settings.gradle.kts',
-        'tools/linters/checkstyle.xml'
-      )
+        'tools/linters/checkstyle.xml',
+      ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesExist(
         `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-${checkstyleVersion}-all.jar`,
-        `node_modules/@jnxplus/tools/linters/ktlint/ktlint`
-      )
+        `node_modules/@jnxplus/tools/linters/ktlint/ktlint`,
+      ),
     ).not.toThrow();
   }, 120000);
 
@@ -148,15 +148,15 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const appName = uniq('quarkus-gradle-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --groupId org.acme`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --groupId org.acme`,
     );
 
     expect(() =>
       checkFilesDoNotExist(
         `apps/${appName}/src/main/java/.gitkeep`,
         `apps/${appName}/src/test/java/.gitkeep`,
-        `apps/${appName}/src/native-test/java/.gitkeep`
-      )
+        `apps/${appName}/src/native-test/java/.gitkeep`,
+      ),
     ).not.toThrow();
 
     expect(() =>
@@ -165,12 +165,12 @@ describe('nx-quarkus-gradle kt e2e', () => {
         `apps/${appName}/src/main/resources/application.properties`,
 
         `apps/${appName}/src/main/java/org/acme/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
         `apps/${appName}/src/test/java/org/acme/${names(
-          appName
-        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
-      )
+          appName,
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
@@ -193,7 +193,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -210,17 +210,17 @@ describe('nx-quarkus-gradle kt e2e', () => {
     };
     updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
     const runTaskResult = await runNxCommandAsync(
-      `run-task ${appName} --task="test"`
+      `run-task ${appName} --task="test"`,
     );
     expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
     //end test run-task
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -231,7 +231,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     const port = 8080;
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Listening on: http://localhost:${port}`)
+      output.includes(`Listening on: http://localhost:${port}`),
     );
 
     const dataResult = await getData(port, '/hello');
@@ -252,14 +252,14 @@ describe('nx-quarkus-gradle kt e2e', () => {
       const appName = uniq('quarkus-gradle-app-');
 
       await runNxCommandAsync(
-        `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus`
+        `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus`,
       );
 
       const buildResult = await runNxCommandAsync(`build ${appName}`);
       expect(buildResult.stdout).toContain('Executor ran for Build');
 
       const buildImageResult = await runNxCommandAsync(
-        `build-image ${appName}`
+        `build-image ${appName}`,
       );
       expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
@@ -272,7 +272,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const port = 8181;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${randomName} --framework quarkus --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --configFormat .yml --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${randomName} --framework quarkus --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --configFormat .yml --port ${port}`,
     );
 
     expect(() =>
@@ -280,17 +280,17 @@ describe('nx-quarkus-gradle kt e2e', () => {
         `apps/${appDir}/${randomName}/build.gradle.kts`,
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          randomName
+          randomName,
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
-      )
+          randomName,
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
     const buildGradle = readFile(
-      `apps/${appDir}/${randomName}/build.gradle.kts`
+      `apps/${appDir}/${randomName}/build.gradle.kts`,
     );
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
@@ -306,7 +306,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -315,10 +315,10 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -328,7 +328,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Listening on: http://localhost:${port}`)
+      output.includes(`Listening on: http://localhost:${port}`),
     );
 
     const dataResult = await getData(port, '/hello');
@@ -351,7 +351,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const port = 8282;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${randomName} --framework quarkus --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3 --configFormat .yml --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${randomName} --framework quarkus --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3 --configFormat .yml --port ${port}`,
     );
 
     expect(() =>
@@ -359,17 +359,17 @@ describe('nx-quarkus-gradle kt e2e', () => {
         `apps/${appDir}/${randomName}/build.gradle.kts`,
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          randomName
+          randomName,
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
-      )
+          randomName,
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the correct information
     const buildGradle = readFile(
-      `apps/${appDir}/${randomName}/build.gradle.kts`
+      `apps/${appDir}/${randomName}/build.gradle.kts`,
     );
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
@@ -385,7 +385,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -394,10 +394,10 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -407,7 +407,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Listening on: http://localhost:${port}`)
+      output.includes(`Listening on: http://localhost:${port}`),
     );
 
     // port and process cleanup
@@ -424,7 +424,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const port = 8383;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --language kotlin --port ${port} --groupId org.acme`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --language kotlin --port ${port} --groupId org.acme`,
     );
 
     expect(() =>
@@ -432,20 +432,20 @@ describe('nx-quarkus-gradle kt e2e', () => {
         `apps/${appName}/build.gradle.kts`,
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/kotlin/org/acme/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/GreetingResource.kt`,
         `apps/${appName}/src/test/kotlin/org/acme/${names(
-          appName
-        ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`
-      )
+          appName,
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`,
+      ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
         `apps/${appName}/src/main/kotlin/.gitkeep`,
         `apps/${appName}/src/test/kotlin/.gitkeep`,
-        `apps/${appName}/src/native-test/kotlin/.gitkeep`
-      )
+        `apps/${appName}/src/native-test/kotlin/.gitkeep`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
@@ -475,10 +475,10 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -488,7 +488,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Listening on: http://localhost:${port}`)
+      output.includes(`Listening on: http://localhost:${port}`),
     );
 
     const dataResult = await getData(port, '/hello');
@@ -509,14 +509,14 @@ describe('nx-quarkus-gradle kt e2e', () => {
       const appName = uniq('quarkus-gradle-app-');
 
       await runNxCommandAsync(
-        `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --language kotlin`
+        `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --language kotlin`,
       );
 
       const buildResult = await runNxCommandAsync(`build ${appName}`);
       expect(buildResult.stdout).toContain('Executor ran for Build');
 
       const buildImageResult = await runNxCommandAsync(
-        `build-image ${appName}`
+        `build-image ${appName}`,
       );
       expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
@@ -529,7 +529,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const port = 8484;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-gradle:app ${randomName} --framework quarkus --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --configFormat .yml --port ${port}`
+      `g @jnxplus/nx-gradle:app ${randomName} --framework quarkus --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --configFormat .yml --port ${port}`,
     );
 
     expect(() =>
@@ -537,17 +537,17 @@ describe('nx-quarkus-gradle kt e2e', () => {
         `apps/${appDir}/${randomName}/build.gradle.kts`,
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
-          randomName
+          randomName,
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
-      )
+          randomName,
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
     const buildGradle = readFile(
-      `apps/${appDir}/${randomName}/build.gradle.kts`
+      `apps/${appDir}/${randomName}/build.gradle.kts`,
     );
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
@@ -563,7 +563,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -572,10 +572,10 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -585,7 +585,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Listening on: http://localhost:${port}`)
+      output.includes(`Listening on: http://localhost:${port}`),
     );
 
     const dataResult = await getData(port, '/hello');
@@ -607,15 +607,15 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const port = 8585;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${randomName} --framework quarkus --directory deep/sub-dir --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${randomName} --framework quarkus --directory deep/sub-dir --port ${port}`,
     );
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -625,7 +625,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Listening on: http://localhost:${port}`)
+      output.includes(`Listening on: http://localhost:${port}`),
     );
 
     const dataResult = await getData(port, '/hello');
@@ -645,26 +645,26 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --groupId org.acme`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --groupId org.acme`,
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libName}/build.gradle.kts`,
         `libs/${libName}/src/main/java/org/acme/${names(
-          libName
+          libName,
         ).className.toLocaleLowerCase()}/GreetingService.java`,
         `libs/${libName}/src/test/java/org/acme/${names(
-          libName
-        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
-      )
+          libName,
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
+      ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
         `libs/${libName}/src/main/java/.gitkeep`,
-        `libs/${libName}/src/test/java/.gitkeep`
-      )
+        `libs/${libName}/src/test/java/.gitkeep`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
@@ -687,7 +687,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(() => checkFilesExist(`libs/${libName}/build`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${libName}`
+      `format:write --projects ${libName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -696,10 +696,10 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -713,26 +713,26 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --language kotlin --groupId org.acme`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --language kotlin --groupId org.acme`,
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libName}/build.gradle.kts`,
         `libs/${libName}/src/main/kotlin/org/acme/${names(
-          libName
+          libName,
         ).className.toLocaleLowerCase()}/GreetingService.kt`,
         `libs/${libName}/src/test/kotlin/org/acme/${names(
-          libName
-        ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`
-      )
+          libName,
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`,
+      ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
         `libs/${libName}/src/main/kotlin/.gitkeep`,
-        `libs/${libName}/src/test/kotlin/.gitkeep`
-      )
+        `libs/${libName}/src/test/kotlin/.gitkeep`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
@@ -762,10 +762,10 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -781,24 +781,24 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${randomName} --framework quarkus --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
+      `generate @jnxplus/nx-gradle:library ${randomName} --framework quarkus --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`,
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libDir}/${randomName}/build.gradle.kts`,
         `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          randomName
+          randomName,
         ).className.toLocaleLowerCase()}/GreetingService.java`,
         `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
-      )
+          randomName,
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
     const buildGradle = readFile(
-      `libs/${libDir}/${randomName}/build.gradle.kts`
+      `libs/${libDir}/${randomName}/build.gradle.kts`,
     );
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
@@ -814,7 +814,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${libName}`
+      `format:write --projects ${libName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -823,10 +823,10 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -842,24 +842,24 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${randomName} --framework quarkus --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3`
+      `generate @jnxplus/nx-gradle:library ${randomName} --framework quarkus --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3`,
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libDir}/${randomName}/build.gradle.kts`,
         `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          randomName
+          randomName,
         ).className.toLocaleLowerCase()}/GreetingService.java`,
         `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
-      )
+          randomName,
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the correct information
     const buildGradle = readFile(
-      `libs/${libDir}/${randomName}/build.gradle.kts`
+      `libs/${libDir}/${randomName}/build.gradle.kts`,
     );
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
@@ -875,7 +875,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${libName}`
+      `format:write --projects ${libName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -884,10 +884,10 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -903,24 +903,24 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const libName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-gradle:lib ${randomName} --framework quarkus --dir ${libDir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`
+      `g @jnxplus/nx-gradle:lib ${randomName} --framework quarkus --dir ${libDir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`,
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libDir}/${randomName}/build.gradle.kts`,
         `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
-          randomName
+          randomName,
         ).className.toLocaleLowerCase()}/GreetingService.java`,
         `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
-      )
+          randomName,
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
     const buildGradle = readFile(
-      `libs/${libDir}/${randomName}/build.gradle.kts`
+      `libs/${libDir}/${randomName}/build.gradle.kts`,
     );
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
@@ -936,7 +936,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${libName}`
+      `format:write --projects ${libName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -945,10 +945,10 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -963,11 +963,11 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --groupId org.acme`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --groupId org.acme`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --projects ${appName} --groupId org.acme`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --projects ${appName} --groupId org.acme`,
     );
 
     // Making sure the app build.gradle.kts file contains the lib
@@ -975,7 +975,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
 
     const greetingResourcePath = `apps/${appName}/src/main/java/org/acme/${names(
-      appName
+      appName,
     ).className.toLocaleLowerCase()}/GreetingResource.java`;
     const greetingResourceContent = readFile(greetingResourcePath);
 
@@ -989,8 +989,8 @@ describe('nx-quarkus-gradle kt e2e', () => {
       .replace(
         regex1,
         `$&\nimport jakarta.inject.Inject;\nimport org.acme.${names(
-          libName
-        ).className.toLocaleLowerCase()}.GreetingService;`
+          libName,
+        ).className.toLocaleLowerCase()}.GreetingService;`,
       )
       .replace(regex2, '$&\n@Inject\nGreetingService service;')
       .replace(regex3, 'service.greeting()');
@@ -1004,7 +1004,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('GreetingResource.java');
 
@@ -1041,11 +1041,11 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --language kotlin --groupId org.acme`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --language kotlin --groupId org.acme`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --language kotlin --projects ${appName} --groupId org.acme`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --language kotlin --projects ${appName} --groupId org.acme`,
     );
 
     // Making sure the app build.gradle.kts file contains the lib
@@ -1053,7 +1053,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
 
     const greetingResourcePath = `apps/${appName}/src/main/kotlin/org/acme/${names(
-      appName
+      appName,
     ).className.toLocaleLowerCase()}/GreetingResource.kt`;
     const greetingResourceContent = readFile(greetingResourcePath);
 
@@ -1067,8 +1067,8 @@ describe('nx-quarkus-gradle kt e2e', () => {
       .replace(
         regex1,
         `$&\nimport org.acme.${names(
-          libName
-        ).className.toLocaleLowerCase()}.GreetingService`
+          libName,
+        ).className.toLocaleLowerCase()}.GreetingService`,
       )
       .replace(regex2, '$&(private val greetingService: GreetingService)')
       .replace(regex3, 'greetingService.greeting()');
@@ -1118,7 +1118,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const port = 8686;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --configFormat .yml --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --configFormat .yml --port ${port}`,
     );
 
     expect(() =>
@@ -1126,12 +1126,12 @@ describe('nx-quarkus-gradle kt e2e', () => {
         `apps/${appDir}/${appName}/build.gradle.kts`,
         `apps/${appDir}/${appName}/src/main/resources/application.yml`,
         `apps/${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
         `apps/${appDir}/${appName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          appName
-        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`
-      )
+          appName,
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
@@ -1150,7 +1150,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -1159,10 +1159,10 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -1172,7 +1172,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Listening on: http://localhost:${port}`)
+      output.includes(`Listening on: http://localhost:${port}`),
     );
 
     const dataResult = await getData(port, '/hello');
@@ -1193,19 +1193,19 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const libDir = 'deep/subdir';
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`,
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libDir}/${libName}/build.gradle.kts`,
         `libs/${libDir}/${libName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          libName
+          libName,
         ).className.toLocaleLowerCase()}/GreetingService.java`,
         `libs/${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          libName
-        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
-      )
+          libName,
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
@@ -1224,7 +1224,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${libName}`
+      `format:write --projects ${libName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -1233,10 +1233,10 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -1250,7 +1250,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const appName = uniq('quarkus-gradle-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --minimal`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --minimal`,
     );
 
     expect(() =>
@@ -1259,22 +1259,22 @@ describe('nx-quarkus-gradle kt e2e', () => {
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/java/.gitkeep`,
         `apps/${appName}/src/test/java/.gitkeep`,
-        `apps/${appName}/src/native-test/java/.gitkeep`
-      )
+        `apps/${appName}/src/native-test/java/.gitkeep`,
+      ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
         `apps/${appName}/src/main/java/org/acme/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
         `apps/${appName}/src/test/java/org/acme/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
         `apps/${appName}/src/native-test/java/org/acme/${names(
-          appName
-        ).className.toLocaleLowerCase()}/GreetingResourceIT.java`
-      )
+          appName,
+        ).className.toLocaleLowerCase()}/GreetingResourceIT.java`,
+      ),
     ).not.toThrow();
   }, 120000);
 
@@ -1282,7 +1282,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const appName = uniq('quarkus-gradle-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --language kotlin --minimal`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework quarkus --language kotlin --minimal`,
     );
 
     expect(() =>
@@ -1291,22 +1291,22 @@ describe('nx-quarkus-gradle kt e2e', () => {
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/kotlin/.gitkeep`,
         `apps/${appName}/src/test/kotlin/.gitkeep`,
-        `apps/${appName}/src/native-test/kotlin/.gitkeep`
-      )
+        `apps/${appName}/src/native-test/kotlin/.gitkeep`,
+      ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
         `apps/${appName}/src/main/kotlin/org/acme/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/GreetingResource.kt`,
         `apps/${appName}/src/test/kotlin/org/acme/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`,
         `apps/${appName}/src/native-test/kotlin/org/acme/${names(
-          appName
-        ).className.toLocaleLowerCase()}/GreetingResourceIT.kt`
-      )
+          appName,
+        ).className.toLocaleLowerCase()}/GreetingResourceIT.kt`,
+      ),
     ).not.toThrow();
   }, 120000);
 
@@ -1314,26 +1314,26 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --skipStarterCode`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --skipStarterCode`,
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libName}/build.gradle.kts`,
         `libs/${libName}/src/main/java/.gitkeep`,
-        `libs/${libName}/src/test/java/.gitkeep`
-      )
+        `libs/${libName}/src/test/java/.gitkeep`,
+      ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
         `libs/${libName}/src/main/java/org/acme/${names(
-          libName
+          libName,
         ).className.toLocaleLowerCase()}/GreetingService.java`,
         `libs/${libName}/src/test/java/org/acme/${names(
-          libName
-        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`
-      )
+          libName,
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
+      ),
     ).not.toThrow();
   }, 120000);
 
@@ -1341,26 +1341,26 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const libName = uniq('quarkus-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --language kotlin --skipStarterCode`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --language kotlin --skipStarterCode`,
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libName}/build.gradle.kts`,
         `libs/${libName}/src/main/kotlin/.gitkeep`,
-        `libs/${libName}/src/test/kotlin/.gitkeep`
-      )
+        `libs/${libName}/src/test/kotlin/.gitkeep`,
+      ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
         `libs/${libName}/src/main/kotlin/org/acme/${names(
-          libName
+          libName,
         ).className.toLocaleLowerCase()}/GreetingService.kt`,
         `libs/${libName}/src/test/kotlin/org/acme/${names(
-          libName
-        ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`
-      )
+          libName,
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`,
+      ),
     ).not.toThrow();
   }, 120000);
 });

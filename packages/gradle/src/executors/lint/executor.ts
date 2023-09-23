@@ -11,7 +11,7 @@ import { LintExecutorSchema } from '@jnxplus/common';
 
 export default async function runExecutor(
   options: LintExecutorSchema,
-  context: ExecutorContext
+  context: ExecutorContext,
 ) {
   logger.info(`Executor ran for Lint: ${JSON.stringify(options)}`);
   if (options.linter === 'checkstyle') {

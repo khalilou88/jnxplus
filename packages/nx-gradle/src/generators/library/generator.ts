@@ -4,7 +4,7 @@ import { NxGradleLibGeneratorSchema } from './schema';
 
 export default async function (
   tree: Tree,
-  options: NxGradleLibGeneratorSchema
+  options: NxGradleLibGeneratorSchema,
 ) {
   await libraryGenerator(__dirname, '@jnxplus/nx-gradle', tree, options);
 }

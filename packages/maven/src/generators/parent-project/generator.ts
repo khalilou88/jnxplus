@@ -40,7 +40,7 @@ interface NormalizedSchema extends NxMavenParentProjectGeneratorSchema {
 
 function normalizeOptions(
   tree: Tree,
-  options: NxMavenParentProjectGeneratorSchema
+  options: NxMavenParentProjectGeneratorSchema,
 ): NormalizedSchema {
   const simpleProjectName = names(normalizeName(options.name)).fileName;
 
@@ -50,7 +50,7 @@ function normalizeOptions(
   } else {
     projectName = options.directory
       ? `${normalizeName(
-          names(options.directory).fileName
+          names(options.directory).fileName,
         )}-${simpleProjectName}`
       : simpleProjectName;
   }
@@ -74,7 +74,7 @@ function normalizeOptions(
   if (options.parentProject) {
     parentProjectRoot = readProjectConfiguration(
       tree,
-      options.parentProject
+      options.parentProject,
     ).root;
   }
 
@@ -124,7 +124,7 @@ function addFiles(d: string, tree: Tree, options: NormalizedSchema) {
     tree,
     path.join(d, 'files'),
     options.projectRoot,
-    templateOptions
+    templateOptions,
   );
 }
 
@@ -132,7 +132,7 @@ export default async function (
   d: string,
   plugin: MavenPluginType,
   tree: Tree,
-  options: NxMavenParentProjectGeneratorSchema
+  options: NxMavenParentProjectGeneratorSchema,
 ) {
   addMissedProperties(plugin, tree, {
     framework: options.framework,

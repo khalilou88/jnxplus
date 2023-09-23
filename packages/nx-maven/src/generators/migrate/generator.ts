@@ -8,7 +8,7 @@ interface NormalizedSchema extends NxMavenMigrateGeneratorSchema {
 
 function normalizeOptions(
   tree: Tree,
-  options: NxMavenMigrateGeneratorSchema
+  options: NxMavenMigrateGeneratorSchema,
 ): NormalizedSchema {
   const dot = '.';
 
@@ -28,13 +28,13 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     tree,
     path.join(__dirname, '..', 'init', 'files', 'maven', 'wrapper'),
     '',
-    templateOptions
+    templateOptions,
   );
 }
 
 export default async function (
   tree: Tree,
-  options: NxMavenMigrateGeneratorSchema
+  options: NxMavenMigrateGeneratorSchema,
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);
