@@ -7,7 +7,7 @@ import {
 
 export function processProjectGraph(
   graph: ProjectGraph,
-  context: ProjectGraphProcessorContext
+  context: ProjectGraphProcessorContext,
 ): ProjectGraph {
   const builder = new ProjectGraphBuilder(graph);
   addProjectsAndDependencies(builder, context, '@jnxplus/nx-maven');

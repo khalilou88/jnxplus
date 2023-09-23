@@ -47,7 +47,7 @@ describe('@jnxplus/nx-maven micronaut smoke', () => {
         cwd: smokeDirectory,
         env: process.env,
         stdio: 'inherit',
-      }
+      },
     );
 
     execSync('git init', execSyncOptions());
@@ -56,37 +56,37 @@ describe('@jnxplus/nx-maven micronaut smoke', () => {
 
     execSync(
       'npx nx generate @jnxplus/nx-maven:init --dependencyManagement micronaut-parent-pom',
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:application ${testApp} --framework micronaut`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:lib ${testLib} --framework micronaut --projects ${testApp}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:application ${testApp2} --framework micronaut`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:application ${testApp3} --framework micronaut`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:application ${testApp4} --framework micronaut`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-maven:lib ${testLib2} --framework micronaut --projects ${testApp2},${testApp3},${testApp4}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(`npx nx test ${testLib}`, execSyncOptions());
@@ -96,7 +96,7 @@ describe('@jnxplus/nx-maven micronaut smoke', () => {
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
 
     const depGraphJson = await readJson(
-      join(smokeDirectory, 'test', 'dep-graph.json')
+      join(smokeDirectory, 'test', 'dep-graph.json'),
     );
     expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
     expect(depGraphJson.graph.nodes[testLib]).toBeDefined();

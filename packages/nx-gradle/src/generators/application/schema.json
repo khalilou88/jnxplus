@@ -68,10 +68,7 @@
     "packaging": {
       "description": "Packaging of the project",
       "type": "string",
-      "enum": [
-        "jar",
-        "war"
-      ],
+      "enum": ["jar", "war"],
       "default": "jar"
     },
     "framework": {

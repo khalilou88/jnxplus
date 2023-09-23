@@ -8,6 +8,6 @@ export default async function runExecutor(options: RunCommandsExecutorSchema) {
   console.log('Executor ran for RunCommands', options);
   return runCommand(
     `${getExecutable()} ${options.command}`,
-    join(workspaceRoot, options.cwd)
+    join(workspaceRoot, options.cwd),
   );
 }

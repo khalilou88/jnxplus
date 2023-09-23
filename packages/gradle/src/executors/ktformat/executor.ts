@@ -8,7 +8,7 @@ import { getKtlintVersion } from '../../../.';
 
 export default async function runExecutor(
   options: KotlinFormatExecutorSchema,
-  context: ExecutorContext
+  context: ExecutorContext,
 ) {
   const ktlintPath = await getKtlintPath(getKtlintVersion);
   return runKtFormatExecutor(options, context, ktlintPath);

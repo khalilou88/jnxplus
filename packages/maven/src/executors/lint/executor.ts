@@ -11,7 +11,7 @@ import { getCheckstyleVersion, getKtlintVersion } from '../../lib/utils';
 
 export default async function runExecutor(
   options: LintExecutorSchema,
-  context: ExecutorContext
+  context: ExecutorContext,
 ) {
   logger.info(`Executor ran for Lint: ${JSON.stringify(options)}`);
   if (options.linter === 'checkstyle') {

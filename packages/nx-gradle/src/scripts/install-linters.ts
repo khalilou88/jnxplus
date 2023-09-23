@@ -13,7 +13,7 @@ import * as path from 'path';
     workspaceRootToUse,
     'tmp',
     'nx-e2e',
-    'proj'
+    'proj',
   );
 
   if (isE2eTest(tmpWorkspaceRoot)) {

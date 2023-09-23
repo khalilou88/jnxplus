@@ -39,21 +39,21 @@ describe('nx-gradle e2e', () => {
       workspaceRoot,
       'dist',
       'packages',
-      'nx-gradle'
+      'nx-gradle',
     );
 
     const commonDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
-      'common'
+      'common',
     );
 
     const gradleDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
-      'gradle'
+      'gradle',
     );
 
     patchRootPackageJson(pluginName, nxGradleDistAbsolutePath);
@@ -63,24 +63,24 @@ describe('nx-gradle e2e', () => {
     patchPackageJson(
       gradleDistAbsolutePath,
       '@jnxplus/common',
-      commonDistAbsolutePath
+      commonDistAbsolutePath,
     );
 
     patchPackageJson(
       nxGradleDistAbsolutePath,
       '@jnxplus/common',
-      commonDistAbsolutePath
+      commonDistAbsolutePath,
     );
     patchPackageJson(
       nxGradleDistAbsolutePath,
       '@jnxplus/gradle',
-      gradleDistAbsolutePath
+      gradleDistAbsolutePath,
     );
 
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName}`
+      `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName}`,
     );
     updateNx();
 
@@ -120,15 +120,15 @@ describe('nx-gradle e2e', () => {
         'gradlew.bat',
         'gradle.properties',
         'settings.gradle',
-        'tools/linters/checkstyle.xml'
-      )
+        'tools/linters/checkstyle.xml',
+      ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesExist(
         `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-${checkstyleVersion}-all.jar`,
-        `node_modules/@jnxplus/tools/linters/ktlint/ktlint`
-      )
+        `node_modules/@jnxplus/tools/linters/ktlint/ktlint`,
+      ),
     ).not.toThrow();
   }, 120000);
 
@@ -140,7 +140,7 @@ describe('nx-gradle e2e', () => {
     const appName = uniq('gradle-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework none`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework none`,
     );
 
     expect(() =>
@@ -148,13 +148,13 @@ describe('nx-gradle e2e', () => {
         `apps/${appName}/build.gradle`,
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/java/com/example/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/App.java`,
         `apps/${appName}/src/test/resources/application.properties`,
         `apps/${appName}/src/test/java/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/AppTest.java`
-      )
+          appName,
+        ).className.toLocaleLowerCase()}/AppTest.java`,
+      ),
     ).not.toThrow();
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -164,7 +164,7 @@ describe('nx-gradle e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -180,7 +180,7 @@ describe('nx-gradle e2e', () => {
     const appName = uniq('gradle-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework none --language kotlin`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework none --language kotlin`,
     );
 
     expect(() =>
@@ -188,13 +188,13 @@ describe('nx-gradle e2e', () => {
         `apps/${appName}/build.gradle`,
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/kotlin/com/example/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/App.kt`,
         `apps/${appName}/src/test/resources/application.properties`,
         `apps/${appName}/src/test/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/AppTest.kt`
-      )
+          appName,
+        ).className.toLocaleLowerCase()}/AppTest.kt`,
+      ),
     ).not.toThrow();
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -218,19 +218,19 @@ describe('nx-gradle e2e', () => {
     const libName = uniq('gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework none`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework none`,
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libName}/build.gradle`,
         `libs/${libName}/src/main/java/com/example/${names(
-          libName
+          libName,
         ).className.toLocaleLowerCase()}/Library.java`,
         `libs/${libName}/src/test/java/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/LibraryTest.java`
-      )
+          libName,
+        ).className.toLocaleLowerCase()}/LibraryTest.java`,
+      ),
     ).not.toThrow();
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
@@ -240,7 +240,7 @@ describe('nx-gradle e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${libName}`
+      `format:write --projects ${libName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -252,19 +252,19 @@ describe('nx-gradle e2e', () => {
     const libName = uniq('gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework none --language kotlin`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework none --language kotlin`,
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libName}/build.gradle`,
         `libs/${libName}/src/main/kotlin/com/example/${names(
-          libName
+          libName,
         ).className.toLocaleLowerCase()}/Library.kt`,
         `libs/${libName}/src/test/kotlin/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/LibraryTest.kt`
-      )
+          libName,
+        ).className.toLocaleLowerCase()}/LibraryTest.kt`,
+      ),
     ).not.toThrow();
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
@@ -285,11 +285,11 @@ describe('nx-gradle e2e', () => {
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName}`
+      `generate @jnxplus/nx-gradle:application ${appName}`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --projects ${appName}`
+      `generate @jnxplus/nx-gradle:library ${libName} --projects ${appName}`,
     );
 
     // Making sure the app build.gradle file contains the lib
@@ -297,7 +297,7 @@ describe('nx-gradle e2e', () => {
     expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
 
     const helloControllerPath = `apps/${appName}/src/main/java/com/example/${names(
-      appName
+      appName,
     ).className.toLocaleLowerCase()}/HelloController.java`;
     const helloControllerContent = readFile(helloControllerPath);
 
@@ -311,8 +311,8 @@ describe('nx-gradle e2e', () => {
       .replace(
         regex1,
         `$&\nimport org.springframework.beans.factory.annotation.Autowired;\nimport com.example.${names(
-          libName
-        ).className.toLocaleLowerCase()}.HelloService;`
+          libName,
+        ).className.toLocaleLowerCase()}.HelloService;`,
       )
       .replace(regex2, '$&\n@Autowired\nprivate HelloService helloService;')
       .replace(regex3, 'this.helloService.message()');
@@ -326,7 +326,7 @@ describe('nx-gradle e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('HelloController.java');
 
@@ -363,19 +363,19 @@ describe('nx-gradle e2e', () => {
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --language kotlin --packaging war`
+      `generate @jnxplus/nx-gradle:application ${appName} --language kotlin --packaging war`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName}  --language kotlin --projects ${appName}`
+      `generate @jnxplus/nx-gradle:library ${libName}  --language kotlin --projects ${appName}`,
     );
 
     expect(() =>
       checkFilesExist(
         `apps/${appName}/src/main/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/ServletInitializer.kt`
-      )
+          appName,
+        ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
+      ),
     ).not.toThrow();
 
     // Making sure the app build.gradle file contains the lib
@@ -383,7 +383,7 @@ describe('nx-gradle e2e', () => {
     expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
 
     const helloControllerPath = `apps/${appName}/src/main/kotlin/com/example/${names(
-      appName
+      appName,
     ).className.toLocaleLowerCase()}/HelloController.kt`;
     const helloControllerContent = readFile(helloControllerPath);
 
@@ -397,8 +397,8 @@ describe('nx-gradle e2e', () => {
       .replace(
         regex1,
         `$&\nimport org.springframework.beans.factory.annotation.Autowired\nimport com.example.${names(
-          libName
-        ).className.toLocaleLowerCase()}.HelloService`
+          libName,
+        ).className.toLocaleLowerCase()}.HelloService`,
       )
       .replace(regex2, '$&(@Autowired val helloService: HelloService)')
       .replace(regex3, 'helloService.message()');

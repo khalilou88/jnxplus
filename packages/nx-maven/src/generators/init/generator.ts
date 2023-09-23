@@ -29,7 +29,7 @@ interface NormalizedSchema extends NxMavenGeneratorSchema {
 
 function normalizeOptions(
   tree: Tree,
-  options: NxMavenGeneratorSchema
+  options: NxMavenGeneratorSchema,
 ): NormalizedSchema {
   const dot = '.';
 
@@ -55,19 +55,19 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     tree,
     path.join(__dirname, 'files', 'maven', 'wrapper'),
     '',
-    templateOptions
+    templateOptions,
   );
   generateFiles(
     tree,
     path.join(__dirname, 'files', 'maven', 'config'),
     '',
-    templateOptions
+    templateOptions,
   );
   generateFiles(
     tree,
     path.join(__dirname, 'files', 'linters'),
     'tools/linters',
-    templateOptions
+    templateOptions,
   );
 }
 

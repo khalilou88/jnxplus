@@ -25,7 +25,7 @@ type MavenProjectType = {
 export function addProjectsAndDependencies(
   builder: ProjectGraphBuilder,
   context: ProjectGraphProcessorContext,
-  pluginName: string
+  pluginName: string,
 ) {
   const projects: MavenProjectType[] = [];
   addProjects(builder, context, projects, pluginName, '');
@@ -38,7 +38,7 @@ function addProjects(
   projects: MavenProjectType[],
   pluginName: string,
   projectRoot: string,
-  aggregatorProjectArtifactId?: string
+  aggregatorProjectArtifactId?: string,
 ) {
   //projectDirPath
   const projectDirPath = join(workspaceRoot, projectRoot);
@@ -114,7 +114,7 @@ function addProjects(
   for (const moduleXmlElement of moduleXmlElementArray) {
     const moduleRoot = joinPathFragments(
       projectRoot,
-      moduleXmlElement.val.trim()
+      moduleXmlElement.val.trim(),
     );
     addProjects(builder, context, projects, pluginName, moduleRoot, artifactId);
   }
@@ -137,7 +137,7 @@ function getParentProjectName(pomXmlContent: XmlDocument): string | undefined {
 
 function addDependencies(
   builder: ProjectGraphBuilder,
-  projects: MavenProjectType[]
+  projects: MavenProjectType[],
 ) {
   for (const project of projects) {
     const projectRoot = path.relative(workspaceRoot, project.projectDirPath);
@@ -147,12 +147,12 @@ function addDependencies(
     if (project.parentProjectArtifactId) {
       const parentProject = getProject(
         projects,
-        project.parentProjectArtifactId
+        project.parentProjectArtifactId,
       );
       builder.addStaticDependency(
         project.name ?? project.artifactId,
         parentProject.name ?? parentProject.artifactId,
-        projectSourceFile
+        projectSourceFile,
       );
     }
 
@@ -162,12 +162,12 @@ function addDependencies(
     ) {
       const aggregatorProject = getProject(
         projects,
-        project.aggregatorProjectArtifactId
+        project.aggregatorProjectArtifactId,
       );
       builder.addStaticDependency(
         project.name ?? project.artifactId,
         aggregatorProject.name ?? aggregatorProject.artifactId,
-        projectSourceFile
+        projectSourceFile,
       );
     }
 
@@ -176,7 +176,7 @@ function addDependencies(
       builder.addStaticDependency(
         project.name ?? project.artifactId,
         dependency.name ?? dependency.artifactId,
-        projectSourceFile
+        projectSourceFile,
       );
     }
   }
@@ -207,14 +207,14 @@ function getDependencyArtifactIds(pomXml: XmlDocument) {
 
 function getDependencyProjects(
   project: MavenProjectType,
-  projects: MavenProjectType[]
+  projects: MavenProjectType[],
 ) {
   return projects.filter((p) => project.dependencies.includes(p.artifactId));
 }
 
 function getTask(
   projectRoot: string,
-  projectGraphNodeType: 'app' | 'e2e' | 'lib'
+  projectGraphNodeType: 'app' | 'e2e' | 'lib',
 ) {
   if (!projectRoot) {
     return 'install -N';

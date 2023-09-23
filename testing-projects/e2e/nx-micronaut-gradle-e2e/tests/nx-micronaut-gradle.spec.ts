@@ -44,21 +44,21 @@ describe('nx-micronaut-gradle e2e', () => {
       workspaceRoot,
       'dist',
       'packages',
-      'nx-gradle'
+      'nx-gradle',
     );
 
     const commonDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
-      'common'
+      'common',
     );
 
     const gradleDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
-      'gradle'
+      'gradle',
     );
 
     patchRootPackageJson(pluginName, nxmicronautGradleDistAbsolutePath);
@@ -68,24 +68,24 @@ describe('nx-micronaut-gradle e2e', () => {
     patchPackageJson(
       gradleDistAbsolutePath,
       '@jnxplus/common',
-      commonDistAbsolutePath
+      commonDistAbsolutePath,
     );
 
     patchPackageJson(
       nxmicronautGradleDistAbsolutePath,
       '@jnxplus/common',
-      commonDistAbsolutePath
+      commonDistAbsolutePath,
     );
     patchPackageJson(
       nxmicronautGradleDistAbsolutePath,
       '@jnxplus/gradle',
-      gradleDistAbsolutePath
+      gradleDistAbsolutePath,
     );
 
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --preset micronaut`
+      `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --preset micronaut`,
     );
     updateNx();
 
@@ -125,15 +125,15 @@ describe('nx-micronaut-gradle e2e', () => {
         'gradlew.bat',
         'gradle.properties',
         'settings.gradle',
-        'tools/linters/checkstyle.xml'
-      )
+        'tools/linters/checkstyle.xml',
+      ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesExist(
         `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-${checkstyleVersion}-all.jar`,
-        `node_modules/@jnxplus/tools/linters/ktlint/ktlint`
-      )
+        `node_modules/@jnxplus/tools/linters/ktlint/ktlint`,
+      ),
     ).not.toThrow();
   }, 120000);
 
@@ -145,7 +145,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const appName = uniq('micronaut-gradle-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut`,
     );
 
     expect(() =>
@@ -153,17 +153,17 @@ describe('nx-micronaut-gradle e2e', () => {
         `apps/${appName}/build.gradle`,
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/java/com/example/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/Application.java`,
         `apps/${appName}/src/main/java/com/example/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
 
         `apps/${appName}/src/test/resources/application.properties`,
         `apps/${appName}/src/test/java/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/HelloControllerTest.java`
-      )
+          appName,
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
@@ -186,7 +186,7 @@ describe('nx-micronaut-gradle e2e', () => {
     expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -203,17 +203,17 @@ describe('nx-micronaut-gradle e2e', () => {
     };
     updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
     const runTaskResult = await runNxCommandAsync(
-      `run-task ${appName} --task="test"`
+      `run-task ${appName} --task="test"`,
     );
     expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
     //end test run-task
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -224,7 +224,7 @@ describe('nx-micronaut-gradle e2e', () => {
 
     const port = 8080;
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:${port}`)
+      output.includes(`Server Running: http://localhost:${port}`),
     );
 
     const dataResult = await getData(port, '/hello');
@@ -244,10 +244,10 @@ describe('nx-micronaut-gradle e2e', () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('micronaut-gradle-app-');
       await runNxCommandAsync(
-        `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut`
+        `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut`,
       );
       const buildImageResult = await runNxCommandAsync(
-        `build-image ${appName} --useDocker`
+        `build-image ${appName} --useDocker`,
       );
       expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
@@ -260,7 +260,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const port = 8181;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${randomName} --framework micronaut --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${randomName} --framework micronaut --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`,
     );
 
     expect(() =>
@@ -268,16 +268,16 @@ describe('nx-micronaut-gradle e2e', () => {
         `apps/${appDir}/${randomName}/build.gradle`,
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          randomName
+          randomName,
         ).className.toLocaleLowerCase()}/Application.java`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          randomName
+          randomName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
         `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloControllerTest.java`
-      )
+          randomName,
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
@@ -302,7 +302,7 @@ describe('nx-micronaut-gradle e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -311,10 +311,10 @@ describe('nx-micronaut-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -324,7 +324,7 @@ describe('nx-micronaut-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:${port}`)
+      output.includes(`Server Running: http://localhost:${port}`),
     );
 
     const dataResult = await getData(port, '/hello');
@@ -347,7 +347,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const port = 8282;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${randomName} --framework micronaut --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${randomName} --framework micronaut --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`,
     );
 
     expect(() =>
@@ -355,16 +355,16 @@ describe('nx-micronaut-gradle e2e', () => {
         `apps/${appDir}/${randomName}/build.gradle`,
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          randomName
+          randomName,
         ).className.toLocaleLowerCase()}/Application.java`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          randomName
+          randomName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
         `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloControllerTest.java`
-      )
+          randomName,
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the correct information
@@ -389,7 +389,7 @@ describe('nx-micronaut-gradle e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -398,10 +398,10 @@ describe('nx-micronaut-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -411,7 +411,7 @@ describe('nx-micronaut-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:${port}`)
+      output.includes(`Server Running: http://localhost:${port}`),
     );
 
     const dataResult = await getData(port, '/hello');
@@ -432,7 +432,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const port = 8383;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut --language kotlin --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut --language kotlin --port ${port}`,
     );
 
     expect(() =>
@@ -440,19 +440,19 @@ describe('nx-micronaut-gradle e2e', () => {
         `apps/${appName}/build.gradle`,
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/kotlin/com/example/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/Application.kt`,
         `apps/${appName}/src/main/kotlin/com/example/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/HelloController.kt`,
         `apps/${appName}/src/test/resources/application.properties`,
         `apps/${appName}/src/test/kotlin/com/example/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/${names(appName).className}Test.kt`,
         `apps/${appName}/src/test/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/HelloControllerTest.kt`
-      )
+          appName,
+        ).className.toLocaleLowerCase()}/HelloControllerTest.kt`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
@@ -482,10 +482,10 @@ describe('nx-micronaut-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -495,7 +495,7 @@ describe('nx-micronaut-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:${port}`)
+      output.includes(`Server Running: http://localhost:${port}`),
     );
 
     const dataResult = await getData(port, '/hello');
@@ -515,10 +515,10 @@ describe('nx-micronaut-gradle e2e', () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('micronaut-gradle-app-');
       await runNxCommandAsync(
-        `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut --language kotlin`
+        `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut --language kotlin`,
       );
       const buildImageResult = await runNxCommandAsync(
-        `build-image ${appName} --useDocker`
+        `build-image ${appName} --useDocker`,
       );
       expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
@@ -531,7 +531,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const port = 8484;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-gradle:app ${randomName} --framework micronaut --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml --port ${port}`
+      `g @jnxplus/nx-gradle:app ${randomName} --framework micronaut --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml --port ${port}`,
     );
 
     expect(() =>
@@ -539,16 +539,16 @@ describe('nx-micronaut-gradle e2e', () => {
         `apps/${appDir}/${randomName}/build.gradle`,
         `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
-          randomName
+          randomName,
         ).className.toLocaleLowerCase()}/Application.java`,
         `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
-          randomName
+          randomName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
         `apps/${appDir}/${randomName}/src/test/resources/application.yml`,
         `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloControllerTest.java`
-      )
+          randomName,
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
@@ -573,7 +573,7 @@ describe('nx-micronaut-gradle e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -582,10 +582,10 @@ describe('nx-micronaut-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -595,7 +595,7 @@ describe('nx-micronaut-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:${port}`)
+      output.includes(`Server Running: http://localhost:${port}`),
     );
 
     const dataResult = await getData(port, '/hello');
@@ -617,15 +617,15 @@ describe('nx-micronaut-gradle e2e', () => {
     const port = 8585;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${randomName} --framework micronaut --directory deep/sub-dir --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${randomName} --framework micronaut --directory deep/sub-dir --port ${port}`,
     );
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -635,7 +635,7 @@ describe('nx-micronaut-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:${port}`)
+      output.includes(`Server Running: http://localhost:${port}`),
     );
 
     const dataResult = await getData(port, '/hello');
@@ -655,19 +655,19 @@ describe('nx-micronaut-gradle e2e', () => {
     const libName = uniq('micronaut-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut`,
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libName}/build.gradle`,
         `libs/${libName}/src/main/java/com/example/${names(
-          libName
+          libName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
         `libs/${libName}/src/test/java/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloServiceTest.java`
-      )
+          libName,
+        ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
@@ -690,7 +690,7 @@ describe('nx-micronaut-gradle e2e', () => {
     expect(() => checkFilesExist(`libs/${libName}/build`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${libName}`
+      `format:write --projects ${libName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -699,10 +699,10 @@ describe('nx-micronaut-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -716,19 +716,19 @@ describe('nx-micronaut-gradle e2e', () => {
     const libName = uniq('micronaut-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --language kotlin`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --language kotlin`,
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libName}/build.gradle`,
         `libs/${libName}/src/main/kotlin/com/example/${names(
-          libName
+          libName,
         ).className.toLocaleLowerCase()}/HelloService.kt`,
         `libs/${libName}/src/test/kotlin/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloServiceTest.kt`
-      )
+          libName,
+        ).className.toLocaleLowerCase()}/HelloServiceTest.kt`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
@@ -758,10 +758,10 @@ describe('nx-micronaut-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -777,19 +777,19 @@ describe('nx-micronaut-gradle e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${randomName} --framework micronaut --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
+      `generate @jnxplus/nx-gradle:library ${randomName} --framework micronaut --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`,
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libDir}/${randomName}/build.gradle`,
         `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          randomName
+          randomName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
         `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloServiceTest.java`
-      )
+          randomName,
+        ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
@@ -808,7 +808,7 @@ describe('nx-micronaut-gradle e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${libName}`
+      `format:write --projects ${libName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -817,10 +817,10 @@ describe('nx-micronaut-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -836,19 +836,19 @@ describe('nx-micronaut-gradle e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${randomName} --framework micronaut --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3`
+      `generate @jnxplus/nx-gradle:library ${randomName} --framework micronaut --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3`,
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libDir}/${randomName}/build.gradle`,
         `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          randomName
+          randomName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
         `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloServiceTest.java`
-      )
+          randomName,
+        ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the correct information
@@ -867,7 +867,7 @@ describe('nx-micronaut-gradle e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${libName}`
+      `format:write --projects ${libName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -876,10 +876,10 @@ describe('nx-micronaut-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -895,19 +895,19 @@ describe('nx-micronaut-gradle e2e', () => {
     const libName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-gradle:lib ${randomName} --framework micronaut --dir ${libDir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`
+      `g @jnxplus/nx-gradle:lib ${randomName} --framework micronaut --dir ${libDir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`,
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libDir}/${randomName}/build.gradle`,
         `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
-          randomName
+          randomName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
         `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
-          randomName
-        ).className.toLocaleLowerCase()}/HelloServiceTest.java`
-      )
+          randomName,
+        ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
@@ -926,7 +926,7 @@ describe('nx-micronaut-gradle e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${libName}`
+      `format:write --projects ${libName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -935,10 +935,10 @@ describe('nx-micronaut-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -953,11 +953,11 @@ describe('nx-micronaut-gradle e2e', () => {
     const libName = uniq('micronaut-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --projects ${appName}`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --projects ${appName}`,
     );
 
     // Making sure the app build.gradle file contains the lib
@@ -965,7 +965,7 @@ describe('nx-micronaut-gradle e2e', () => {
     expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
 
     const helloControllerPath = `apps/${appName}/src/main/java/com/example/${names(
-      appName
+      appName,
     ).className.toLocaleLowerCase()}/HelloController.java`;
     const helloControllerContent = readFile(helloControllerPath);
 
@@ -979,8 +979,8 @@ describe('nx-micronaut-gradle e2e', () => {
       .replace(
         regex1,
         `$&\nimport jakarta.inject.Inject;\nimport com.example.${names(
-          libName
-        ).className.toLocaleLowerCase()}.HelloService;`
+          libName,
+        ).className.toLocaleLowerCase()}.HelloService;`,
       )
       .replace(regex2, '$&\n@Inject\nprivate HelloService helloService;')
       .replace(regex3, 'this.helloService.greeting()');
@@ -994,7 +994,7 @@ describe('nx-micronaut-gradle e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('HelloController.java');
 
@@ -1031,11 +1031,11 @@ describe('nx-micronaut-gradle e2e', () => {
     const libName = uniq('micronaut-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut --language kotlin --packaging war`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut --language kotlin --packaging war`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --language kotlin --projects ${appName}`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --language kotlin --projects ${appName}`,
     );
 
     // Making sure the app build.gradle file contains the lib
@@ -1043,7 +1043,7 @@ describe('nx-micronaut-gradle e2e', () => {
     expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
 
     const helloControllerPath = `apps/${appName}/src/main/kotlin/com/example/${names(
-      appName
+      appName,
     ).className.toLocaleLowerCase()}/HelloController.kt`;
     const helloControllerContent = readFile(helloControllerPath);
 
@@ -1057,8 +1057,8 @@ describe('nx-micronaut-gradle e2e', () => {
       .replace(
         regex1,
         `$&\nimport jakarta.inject.Inject\nimport com.example.${names(
-          libName
-        ).className.toLocaleLowerCase()}.HelloService`
+          libName,
+        ).className.toLocaleLowerCase()}.HelloService`,
       )
       .replace(regex2, '$&(@Inject val helloService: HelloService)')
       .replace(regex3, 'helloService.greeting()');
@@ -1108,7 +1108,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const port = 8686;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`,
     );
 
     expect(() =>
@@ -1116,17 +1116,17 @@ describe('nx-micronaut-gradle e2e', () => {
         `apps/${appDir}/${appName}/build.gradle`,
         `apps/${appDir}/${appName}/src/main/resources/application.yml`,
         `apps/${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/Application.java`,
         `apps/${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
 
         `apps/${appDir}/${appName}/src/test/resources/application.yml`,
         `apps/${appDir}/${appName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          appName
-        ).className.toLocaleLowerCase()}/HelloControllerTest.java`
-      )
+          appName,
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
@@ -1151,7 +1151,7 @@ describe('nx-micronaut-gradle e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${appName}`
+      `format:write --projects ${appName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -1160,10 +1160,10 @@ describe('nx-micronaut-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -1173,7 +1173,7 @@ describe('nx-micronaut-gradle e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:${port}`)
+      output.includes(`Server Running: http://localhost:${port}`),
     );
 
     const dataResult = await getData(port, '/hello');
@@ -1194,19 +1194,19 @@ describe('nx-micronaut-gradle e2e', () => {
     const libDir = 'deep/subdir';
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`,
     );
 
     expect(() =>
       checkFilesExist(
         `libs/${libDir}/${libName}/build.gradle`,
         `libs/${libDir}/${libName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          libName
+          libName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
         `libs/${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloServiceTest.java`
-      )
+          libName,
+        ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
+      ),
     ).not.toThrow();
 
     // Making sure the build.gradle file contains the good information
@@ -1225,7 +1225,7 @@ describe('nx-micronaut-gradle e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
-      `format:write --projects ${libName}`
+      `format:write --projects ${libName}`,
     );
     expect(formatResult.stdout).toContain('');
 
@@ -1234,10 +1234,10 @@ describe('nx-micronaut-gradle e2e', () => {
 
     //graph
     const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`
+      `dep-graph --file=dep-graph.json`,
     );
     expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph'
+      'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -1252,35 +1252,35 @@ describe('nx-micronaut-gradle e2e', () => {
     const port = 8787;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut --minimal --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut --minimal --port ${port}`,
     );
 
     expect(() =>
       checkFilesExist(
         `apps/${appName}/build.gradle`,
         `apps/${appName}/src/main/java/com/example/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/Application.java`,
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/test/java/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/${names(appName).className}Test.java`
-      )
+          appName,
+        ).className.toLocaleLowerCase()}/${names(appName).className}Test.java`,
+      ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
         `apps/${appName}/src/main/java/com/example/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
         `apps/${appName}/src/test/java/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/HelloControllerTest.java`
-      )
+          appName,
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
+      ),
     ).not.toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:${port}`)
+      output.includes(`Server Running: http://localhost:${port}`),
     );
 
     // port and process cleanup
@@ -1297,7 +1297,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const port = 8888;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut --language kotlin --minimal --port ${port}`
+      `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut --language kotlin --minimal --port ${port}`,
     );
 
     expect(() =>
@@ -1305,27 +1305,27 @@ describe('nx-micronaut-gradle e2e', () => {
         `apps/${appName}/build.gradle`,
         `apps/${appName}/src/main/resources/application.properties`,
         `apps/${appName}/src/main/kotlin/com/example/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/Application.kt`,
         `apps/${appName}/src/test/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/${names(appName).className}Test.kt`
-      )
+          appName,
+        ).className.toLocaleLowerCase()}/${names(appName).className}Test.kt`,
+      ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
         `apps/${appName}/src/main/kotlin/com/example/${names(
-          appName
+          appName,
         ).className.toLocaleLowerCase()}/HelloController.kt`,
         `apps/${appName}/src/test/kotlin/com/example/${names(
-          appName
-        ).className.toLocaleLowerCase()}/HelloControllerTest.kt`
-      )
+          appName,
+        ).className.toLocaleLowerCase()}/HelloControllerTest.kt`,
+      ),
     ).not.toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:${port}`)
+      output.includes(`Server Running: http://localhost:${port}`),
     );
 
     // port and process cleanup
@@ -1341,7 +1341,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const libName = uniq('micronaut-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --skipStarterCode`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --skipStarterCode`,
     );
 
     expect(() => checkFilesExist(`libs/${libName}/build.gradle`)).not.toThrow();
@@ -1349,12 +1349,12 @@ describe('nx-micronaut-gradle e2e', () => {
     expect(() =>
       checkFilesDoNotExist(
         `libs/${libName}/src/main/java/com/example/${names(
-          libName
+          libName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
         `libs/${libName}/src/test/java/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloServiceTest.java`
-      )
+          libName,
+        ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
+      ),
     ).not.toThrow();
   }, 120000);
 
@@ -1362,7 +1362,7 @@ describe('nx-micronaut-gradle e2e', () => {
     const libName = uniq('micronaut-gradle-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --language kotlin --skipStarterCode`
+      `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --language kotlin --skipStarterCode`,
     );
 
     expect(() => checkFilesExist(`libs/${libName}/build.gradle`)).not.toThrow();
@@ -1370,13 +1370,13 @@ describe('nx-micronaut-gradle e2e', () => {
     expect(() =>
       checkFilesDoNotExist(
         `libs/${libName}/src/main/kotlin/com/example/${names(
-          libName
+          libName,
         ).className.toLocaleLowerCase()}/HelloService.kt`,
         `apps/${libName}/src/test/resources/junit-platform.properties`,
         `libs/${libName}/src/test/kotlin/com/example/${names(
-          libName
-        ).className.toLocaleLowerCase()}/HelloServiceTest.kt`
-      )
+          libName,
+        ).className.toLocaleLowerCase()}/HelloServiceTest.kt`,
+      ),
     ).not.toThrow();
   }, 120000);
 });

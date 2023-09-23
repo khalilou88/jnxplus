@@ -4,7 +4,7 @@ import { NxMavenParentProjectGeneratorSchema } from './schema';
 
 export default async function (
   tree: Tree,
-  options: NxMavenParentProjectGeneratorSchema
+  options: NxMavenParentProjectGeneratorSchema,
 ) {
   await parentProjectGenerator(__dirname, '@jnxplus/nx-maven', tree, options);
 }

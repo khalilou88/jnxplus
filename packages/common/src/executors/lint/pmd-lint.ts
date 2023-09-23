@@ -4,7 +4,7 @@ import { LintExecutorSchema } from './schema';
 
 export default async function runExecutor(
   options: LintExecutorSchema,
-  context: ExecutorContext
+  context: ExecutorContext,
 ) {
   const projectSourceRoot = getProjectSourceRoot(context);
   const command = `${getPmdExecutable()} check -f text -R ./tools/linters/pmd.xml -d ${projectSourceRoot}`;

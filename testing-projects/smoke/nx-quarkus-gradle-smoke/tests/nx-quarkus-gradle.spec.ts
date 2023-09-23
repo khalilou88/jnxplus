@@ -47,7 +47,7 @@ describe('@jnxplus/nx-gradle quarkus smoke', () => {
         cwd: smokeDirectory,
         env: process.env,
         stdio: 'inherit',
-      }
+      },
     );
 
     execSync('git init', execSyncOptions());
@@ -56,37 +56,37 @@ describe('@jnxplus/nx-gradle quarkus smoke', () => {
 
     execSync(
       'npx nx generate @jnxplus/nx-gradle:init --preset quarkus',
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-gradle:application ${testApp} --framework quarkus`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-gradle:lib ${testLib} --framework quarkus --projects ${testApp}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-gradle:application ${testApp2} --framework quarkus`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-gradle:application ${testApp3} --framework quarkus`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-gradle:application ${testApp4} --framework quarkus`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(
       `npx nx g @jnxplus/nx-gradle:lib ${testLib2} --framework quarkus --projects ${testApp2},${testApp3},${testApp4}`,
-      execSyncOptions()
+      execSyncOptions(),
     );
 
     execSync(`npx nx run-many --target=build --parallel`, execSyncOptions());
@@ -94,7 +94,7 @@ describe('@jnxplus/nx-gradle quarkus smoke', () => {
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
 
     const depGraphJson = await readJson(
-      join(smokeDirectory, 'test', 'dep-graph.json')
+      join(smokeDirectory, 'test', 'dep-graph.json'),
     );
     expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
     expect(depGraphJson.graph.nodes[testLib]).toBeDefined();

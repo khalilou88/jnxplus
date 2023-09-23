@@ -18,7 +18,7 @@ export function runNxNewCommand(args?: string, silent?: boolean) {
   const localTmpDir = path.dirname(tmpProjPath());
   return execSync(
     `node ${require.resolve(
-      'nx'
+      'nx',
     )} new proj --nx-workspace-root=${localTmpDir} --no-interactive --skip-install --collection=@nx/workspace --npmScope=proj --preset=apps ${
       args || ''
     }`,
@@ -26,7 +26,7 @@ export function runNxNewCommand(args?: string, silent?: boolean) {
       cwd: localTmpDir,
       // eslint-disable-next-line no-constant-condition
       ...(silent && false ? { stdio: ['ignore', 'ignore', 'ignore'] } : {}),
-    }
+    },
   );
 }
 
@@ -39,13 +39,13 @@ function stripConsoleColors(log: string): string {
   return log.replace(
     // eslint-disable-next-line no-control-regex
     /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
-    ''
+    '',
   );
 }
 
 export function runNxCommandUntil(
   command: string,
-  criteria: (output: string) => boolean
+  criteria: (output: string) => boolean,
 ): Promise<ChildProcess> {
   const pmc = getPackageManagerCommand();
   const p = exec(`${pmc.exec} nx ${command}`, {
@@ -88,7 +88,7 @@ export async function killPort(port: number): Promise<boolean> {
       logInfo(`Attempting to close port ${port}`);
       await kill(port);
       await new Promise<void>((resolve) =>
-        setTimeout(() => resolve(), KILL_PORT_DELAY)
+        setTimeout(() => resolve(), KILL_PORT_DELAY),
       );
       if (await portCheck(port)) {
         logError(`Port ${port} still open`);
@@ -118,21 +118,21 @@ function e2eConsoleLogger(message: string, body?: string) {
 
 export function logInfo(title: string, body?: string) {
   const message = `${chalk.reset.inverse.bold.white(
-    ' INFO '
+    ' INFO ',
   )} ${chalk.bold.white(title)}`;
   return e2eConsoleLogger(message, body);
 }
 
 export function logSuccess(title: string, body?: string) {
   const message = `${chalk.reset.inverse.bold.green(
-    ' SUCCESS '
+    ' SUCCESS ',
   )} ${chalk.bold.green(title)}`;
   return e2eConsoleLogger(message, body);
 }
 
 export function logError(title: string, body?: string) {
   const message = `${chalk.reset.inverse.bold.red(' ERROR ')} ${chalk.bold.red(
-    title
+    title,
   )}`;
   return e2eConsoleLogger(message, body);
 }
@@ -145,7 +145,7 @@ export async function killPorts(port?: number): Promise<boolean> {
 
 export const promisifiedTreeKill: (
   pid: number,
-  signal: string
+  signal: string,
 ) => Promise<void> = promisify(treeKill);
 
 export function checkFilesDoNotExist(...expectedFiles: string[]) {
@@ -164,7 +164,7 @@ export const getData = async (port = 8080, path = '') => {
 
 export function patchRootPackageJson(
   npmPackageName: string,
-  distAbsolutePath: string
+  distAbsolutePath: string,
 ) {
   const path = tmpProjPath('package.json');
   const json = readJsonFile(path);
@@ -175,7 +175,7 @@ export function patchRootPackageJson(
 export function patchPackageJson(
   pluginDistAbsulutePath: string,
   npmPackageName: string,
-  npmPackageDistAbsolutePath: string
+  npmPackageDistAbsolutePath: string,
 ) {
   const packageJsonPath = path.join(pluginDistAbsulutePath, 'package.json');
   const json = readJsonFile(packageJsonPath);
@@ -273,10 +273,10 @@ export function addJVMMemory() {
   const gradlePropertiesPath = path.join(tmpProjPath(), 'gradle.properties');
   const gradlePropertiesContent = fs.readFileSync(
     gradlePropertiesPath,
-    'utf-8'
+    'utf-8',
   );
   const updatedFileContent = gradlePropertiesContent.concat(
-    '\norg.gradle.jvmargs=-Xmx4096m'
+    '\norg.gradle.jvmargs=-Xmx4096m',
   );
   fs.writeFileSync(gradlePropertiesPath, updatedFileContent);
 }

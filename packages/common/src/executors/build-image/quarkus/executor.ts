@@ -5,7 +5,7 @@ import { QuarkusBuildImageExecutorSchema } from './schema';
 
 export default async function runExecutor(
   options: QuarkusBuildImageExecutorSchema,
-  context: ExecutorContext
+  context: ExecutorContext,
 ) {
   logger.info(`Executor ran for Build Image: ${JSON.stringify(options)}`);
 
@@ -27,6 +27,6 @@ export default async function runExecutor(
 
   return runCommand(
     `docker build -f src/main/docker/Dockerfile.${options.imageType} -t ${options.imageNamePrefix}/${context.projectName}${imageNameSuffix} .`,
-    workDir
+    workDir,
   );
 }

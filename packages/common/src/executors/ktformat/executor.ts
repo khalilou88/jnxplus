@@ -5,7 +5,7 @@ import { KotlinFormatExecutorSchema } from './schema';
 export default async function runExecutor(
   options: KotlinFormatExecutorSchema,
   context: ExecutorContext,
-  ktlintPath: string
+  ktlintPath: string,
 ) {
   logger.info(`Executor ran for Kotlin Format: ${JSON.stringify(options)}`);
   const projectSourceRoot = getProjectSourceRoot(context);

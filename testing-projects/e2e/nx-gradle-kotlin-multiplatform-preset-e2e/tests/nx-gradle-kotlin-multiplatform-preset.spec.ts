@@ -40,21 +40,21 @@ describe('nx-gradle kotlin dsl kotlin-multiplatform preset e2e', () => {
       workspaceRoot,
       'dist',
       'packages',
-      'nx-gradle'
+      'nx-gradle',
     );
 
     const commonDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
-      'common'
+      'common',
     );
 
     const gradleDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
-      'gradle'
+      'gradle',
     );
 
     patchRootPackageJson(pluginName, nxGradleDistAbsolutePath);
@@ -64,24 +64,24 @@ describe('nx-gradle kotlin dsl kotlin-multiplatform preset e2e', () => {
     patchPackageJson(
       gradleDistAbsolutePath,
       '@jnxplus/common',
-      commonDistAbsolutePath
+      commonDistAbsolutePath,
     );
 
     patchPackageJson(
       nxGradleDistAbsolutePath,
       '@jnxplus/common',
-      commonDistAbsolutePath
+      commonDistAbsolutePath,
     );
     patchPackageJson(
       nxGradleDistAbsolutePath,
       '@jnxplus/gradle',
-      gradleDistAbsolutePath
+      gradleDistAbsolutePath,
     );
 
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset kotlin-multiplatform`
+      `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset kotlin-multiplatform`,
     );
     updateNx();
 
@@ -121,15 +121,15 @@ describe('nx-gradle kotlin dsl kotlin-multiplatform preset e2e', () => {
         'gradlew.bat',
         'gradle.properties',
         'settings.gradle.kts',
-        'tools/linters/checkstyle.xml'
-      )
+        'tools/linters/checkstyle.xml',
+      ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesExist(
         `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-${checkstyleVersion}-all.jar`,
-        `node_modules/@jnxplus/tools/linters/ktlint/ktlint`
-      )
+        `node_modules/@jnxplus/tools/linters/ktlint/ktlint`,
+      ),
     ).not.toThrow();
   }, 120000);
 
@@ -137,7 +137,7 @@ describe('nx-gradle kotlin dsl kotlin-multiplatform preset e2e', () => {
     const name = uniq('kotlin-multiplatform-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:kotlin-multiplatform ${name}`
+      `generate @jnxplus/nx-gradle:kotlin-multiplatform ${name}`,
     );
   }, 240000);
 });
