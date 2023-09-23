@@ -26,9 +26,6 @@
     <properties>
         <java.version><%= javaVersion %></java.version>
         <kotlin.version><%= kotlinVersion %></kotlin.version>
-<% if(dependencyManagement === 'bom') { -%>
-        <spring.boot.version><%= springBootVersion %></spring.boot.version>
-<% } -%>
         <checkstyle.version><%= checkstyleVersion %></checkstyle.version>
         <ktlint.version><%= ktlintVersion %></ktlint.version>
 <% if(dependencyManagement === 'micronaut-parent-pom') { -%>
