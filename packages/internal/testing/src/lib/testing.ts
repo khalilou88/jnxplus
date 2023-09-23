@@ -1,7 +1,6 @@
 import {
   getPackageManagerCommand,
   readJsonFile,
-  workspaceRoot,
   writeJsonFile,
 } from '@nx/devkit';
 import { exists, tmpProjPath } from '@nx/plugin/testing';
@@ -297,7 +296,7 @@ export function updateNx() {
 }
 
 export function addSpringBootVersion() {
-  const pomXmlPath = path.join(workspaceRoot, 'pom.xml');
+  const pomXmlPath = path.join(tmpProjPath(), 'pom.xml');
   const xmldoc = readXml(pomXmlPath);
 
   //properties
