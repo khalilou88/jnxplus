@@ -177,7 +177,7 @@
         "push": true,
         "noVerify": true,
         "postTargets": ["nx-maven:publish"],
-        "commitMessageFormat": "release: cut release ${version} of ${projectName}"
+        "commitMessageFormat": "release: cut release ${version} of {projectName}"
       }
     },
     "github": {
