@@ -2,6 +2,21 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.11.0](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.10.0...nx-gradle-0.11.0) (2023-09-24)
+
+### Dependency Updates
+
+* `gradle-plugin` updated to version `0.2.0`
+* `internal-generators-files` updated to version `0.1.0`
+* `gradle` updated to version `0.17.1`
+* `common` updated to version `0.11.1`
+
+### Features
+
+* **generators:** add java 21 lts version ([#454](https://github.com/khalilou88/jnxplus/issues/454)) ([684230e](https://github.com/khalilou88/jnxplus/commit/684230e6267bfc288e13c9a24ce8e9d9450576af))
+
+
+
 # [0.10.0](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.9.0...nx-gradle-0.10.0) (2023-09-10)
 
 ### Dependency Updates
