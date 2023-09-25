@@ -23,5 +23,8 @@
     "axios": "^1.5.1",
     "nx": "16.10.0",
     "tslib": "^2.6.2"
+  },
+  "scripts": {
+    "publish-package-locally": "npm --registry http://localhost:4873 publish --force --access restricted"
   }
 }

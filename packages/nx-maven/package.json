@@ -28,7 +28,8 @@
     "maven multi-module project"
   ],
   "scripts": {
-    "postinstall": "node src/scripts/install-linters.js"
+    "postinstall": "node src/scripts/install-linters.js",
+    "publish-package-locally": "npm --registry http://localhost:4873 publish --force --access restricted"
   },
   "repository": {
     "type": "git",

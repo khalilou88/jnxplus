@@ -35,6 +35,9 @@
     },
     "version": {
       "dependsOn": ["build"]
+    },
+    "publish-package-locally": {
+      "dependsOn": ["build", "test"]
     }
   },
   "targetDependencies": {
