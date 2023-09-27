@@ -45,7 +45,7 @@
     "@types/xmldoc": "^1.1.7",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
-    "axios": "^1.5.0",
+    "axios": "^1.5.1",
     "chalk": "4.1.0",
     "eslint": "8.50.0",
     "eslint-config-prettier": "^8.10.0",
