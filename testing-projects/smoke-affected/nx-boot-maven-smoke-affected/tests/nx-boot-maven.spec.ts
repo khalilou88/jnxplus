@@ -110,33 +110,12 @@ describe('@jnxplus/nx-maven spring-boot smoke', () => {
 
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
 
-    if (ifNextVersionExists()) {
-      execSync('npx nx@next migrate next', execSyncOptions());
-
-      execSync('npm i --legacy-peer-deps', execSyncOptions());
-
-      execSync(
-        'npx nx@next migrate --run-migrations --ifExists',
-        execSyncOptions(),
-      );
-
-      execSync(`nx run-many --target=build --parallel=1`, execSyncOptions());
-
-      execSync(`nx graph --file=dep-graph.json`, execSyncOptions());
-
-      const depGraphJson = await readJson(
-        join(smokeDirectory, 'test', 'dep-graph.json'),
-      );
-      expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
-      expect(depGraphJson.graph.nodes[testLib]).toBeDefined();
-
-      expect(depGraphJson.graph.dependencies[testApp]).toContainEqual({
-        type: 'static',
-        source: testApp,
-        target: testLib,
-      });
-
-      execSync(`git commit -am "chore: nx migrate"`, execSyncOptions());
-    }
+    const affected = execSync('nx show projects --affected', execSyncOptions());
+    expect(affected).not.toContain(testApp);
+    expect(affected).not.toContain(testApp2);
+    expect(affected).not.toContain(testApp3);
+    expect(affected).not.toContain(testApp4);
+    expect(affected).not.toContain(testLib);
+    expect(affected).not.toContain(testLib2);
   }, 1500000);
 });
