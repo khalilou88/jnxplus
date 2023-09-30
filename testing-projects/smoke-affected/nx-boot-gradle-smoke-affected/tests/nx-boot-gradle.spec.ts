@@ -108,15 +108,19 @@ describe('@jnxplus/nx-gradle spring-boot smoke', () => {
 
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
 
-    const affected = execSync(
-      'npx nx show projects --affected',
+    execSync(
+      `npx nx graph --affected --file=dep-graph-affected.json`,
       execSyncOptions(),
     );
-    expect(affected).not.toContain(testApp);
-    expect(affected).not.toContain(testApp2);
-    expect(affected).not.toContain(testApp3);
-    expect(affected).not.toContain(testApp4);
-    expect(affected).not.toContain(testLib);
-    expect(affected).not.toContain(testLib2);
+
+    const depGraphAffectedJson = await readJson(
+      join(smokeDirectory, 'test', 'dep-graph-affected.json'),
+    );
+    expect(depGraphAffectedJson.graph.nodes[testApp]).toBeDefined();
+    expect(depGraphAffectedJson.graph.nodes[testApp2]).toBeDefined();
+    expect(depGraphAffectedJson.graph.nodes[testApp3]).toBeDefined();
+    expect(depGraphAffectedJson.graph.nodes[testApp4]).toBeDefined();
+    expect(depGraphAffectedJson.graph.nodes[testLib]).toBeDefined();
+    expect(depGraphAffectedJson.graph.nodes[testLib2]).toBeDefined();
   }, 1500000);
 });
