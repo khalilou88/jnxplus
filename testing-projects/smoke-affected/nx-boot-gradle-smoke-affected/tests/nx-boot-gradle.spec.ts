@@ -108,7 +108,10 @@ describe('@jnxplus/nx-gradle spring-boot smoke', () => {
 
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
 
-    const affected = execSync('nx show projects --affected', execSyncOptions());
+    const affected = execSync(
+      'npx nx show projects --affected',
+      execSyncOptions(),
+    );
     expect(affected).not.toContain(testApp);
     expect(affected).not.toContain(testApp2);
     expect(affected).not.toContain(testApp3);
