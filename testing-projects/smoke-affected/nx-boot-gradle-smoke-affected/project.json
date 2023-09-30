@@ -1,0 +1,16 @@
+{
+  "name": "nx-boot-gradle-smoke-affected",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "testing-projects/smoke-affected/nx-boot-gradle-smoke-affected/src",
+  "targets": {
+    "smoke-affected": {
+      "executor": "@nx/jest:jest",
+      "options": {
+        "jestConfig": "testing-projects/smoke-affected/nx-boot-gradle-smoke-affected/jest.config.js"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["nx-gradle"]
+}
