@@ -118,11 +118,11 @@ describe('@jnxplus/nx-maven spring-boot smoke', () => {
     const depGraphAffectedJson = await readJson(
       join(smokeDirectory, 'test', 'dep-graph-affected.json'),
     );
-    expect(depGraphAffectedJson.graph.nodes[testApp]).toBeDefined();
-    expect(depGraphAffectedJson.graph.nodes[testApp2]).toBeDefined();
-    expect(depGraphAffectedJson.graph.nodes[testApp3]).toBeDefined();
-    expect(depGraphAffectedJson.graph.nodes[testApp4]).toBeDefined();
-    expect(depGraphAffectedJson.graph.nodes[testLib]).toBeDefined();
-    expect(depGraphAffectedJson.graph.nodes[testLib2]).toBeDefined();
+    expect(depGraphAffectedJson.affectedProjects[testApp]).toBeUndefined();
+    expect(depGraphAffectedJson.affectedProjects[testApp2]).toBeUndefined();
+    expect(depGraphAffectedJson.affectedProjects[testApp3]).toBeUndefined();
+    expect(depGraphAffectedJson.affectedProjects[testApp4]).toBeUndefined();
+    expect(depGraphAffectedJson.affectedProjects[testLib]).toBeUndefined();
+    expect(depGraphAffectedJson.affectedProjects[testLib2]).toBeUndefined();
   }, 1500000);
 });
