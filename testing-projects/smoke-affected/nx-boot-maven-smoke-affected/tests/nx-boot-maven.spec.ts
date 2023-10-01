@@ -110,12 +110,19 @@ describe('@jnxplus/nx-maven spring-boot smoke', () => {
 
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
 
-    const affected = execSync('nx show projects --affected', execSyncOptions());
-    expect(affected).not.toContain(testApp);
-    expect(affected).not.toContain(testApp2);
-    expect(affected).not.toContain(testApp3);
-    expect(affected).not.toContain(testApp4);
-    expect(affected).not.toContain(testLib);
-    expect(affected).not.toContain(testLib2);
+    execSync(
+      `npx nx graph --affected --file=dep-graph-affected.json`,
+      execSyncOptions(),
+    );
+
+    const depGraphAffectedJson = await readJson(
+      join(smokeDirectory, 'test', 'dep-graph-affected.json'),
+    );
+    expect(depGraphAffectedJson.affectedProjects[testApp]).toBeUndefined();
+    expect(depGraphAffectedJson.affectedProjects[testApp2]).toBeUndefined();
+    expect(depGraphAffectedJson.affectedProjects[testApp3]).toBeUndefined();
+    expect(depGraphAffectedJson.affectedProjects[testApp4]).toBeUndefined();
+    expect(depGraphAffectedJson.affectedProjects[testLib]).toBeUndefined();
+    expect(depGraphAffectedJson.affectedProjects[testLib2]).toBeUndefined();
   }, 1500000);
 });
