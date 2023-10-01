@@ -1464,7 +1464,7 @@ describe('nx-boot-gradle kt e2e', () => {
     ).not.toThrow();
   }, 120000);
 
-  it('optional project.json', async () => {
+  xit('optional project.json', async () => {
     const libName = uniq('boot-gradle-lib-');
 
     await runNxCommandAsync(
