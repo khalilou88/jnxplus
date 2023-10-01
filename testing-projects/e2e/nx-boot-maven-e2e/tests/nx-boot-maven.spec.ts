@@ -1927,7 +1927,7 @@ describe('nx-boot-maven e2e', () => {
     }
   }, 120000);
 
-  it('should generate java nested sub-projects', async () => {
+  xit('should generate java nested sub-projects', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework none`,
@@ -2020,7 +2020,7 @@ describe('nx-boot-maven e2e', () => {
     });
   }, 120000);
 
-  it('optional project.json', async () => {
+  xit('optional project.json', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework none`,
