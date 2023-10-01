@@ -5,7 +5,6 @@ import { execSync, ExecSyncOptions } from 'child_process';
 import { join } from 'path';
 
 import { dirSync } from 'tmp';
-import { ifNextVersionExists } from '@jnxplus/internal/testing';
 
 let smokeDirectory: string;
 let cleanup: () => void;
