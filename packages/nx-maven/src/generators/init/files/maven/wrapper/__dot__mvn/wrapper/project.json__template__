@@ -15,8 +15,6 @@
       "{workspaceRoot}/pom.xml",
       "{workspaceRoot}/mvnw",
       "{workspaceRoot}/mvnw.cmd",
-      "{workspaceRoot}/.mvn/wrapper/maven-wrapper.jar",
-      "{workspaceRoot}/.mvn/wrapper/maven-wrapper.properties"
     ]
   }
 }
