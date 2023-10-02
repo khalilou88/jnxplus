@@ -11,6 +11,7 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 import { projectGraphCacheDirectory } from 'nx/src/utils/cache-directory';
 import * as path from 'path';
+import { getProjectName } from './create-nodes';
 
 export const createDependencies: CreateDependencies = (context) => {
   const results: RawProjectGraphDependency[] = [];
@@ -40,7 +41,10 @@ export const createDependencies: CreateDependencies = (context) => {
 
   for (const project of projects) {
     if (project.isBuildGradleExists || project.isBuildGradleKtsExists) {
-      const projectName = getProjectName(project);
+      const projectName = getProjectName(
+        project.relativePath,
+        project.isProjectJsonExists,
+      );
 
       const buildFile = project.isBuildGradleExists
         ? 'build.gradle'
@@ -56,7 +60,10 @@ export const createDependencies: CreateDependencies = (context) => {
         project.parentProjectName,
       );
       if (parentProject) {
-        const parentProjectName = getProjectName(parentProject);
+        const parentProjectName = getProjectName(
+          parentProject.relativePath,
+          parentProject.isProjectJsonExists,
+        );
 
         const newDependency = {
           source: projectName,
@@ -70,7 +77,10 @@ export const createDependencies: CreateDependencies = (context) => {
       }
 
       for (const dependency of project.dependencies) {
-        const dependencyName = getProjectName(dependency);
+        const dependencyName = getProjectName(
+          dependency.relativePath,
+          dependency.isProjectJsonExists,
+        );
 
         const newDependency = {
           source: projectName,
@@ -105,20 +115,6 @@ type GradleProject2Type = {
 };
 
 type GradleProjectType = GradleProject1Type & GradleProject2Type;
-
-function getProjectName(project: GradleProject1Type) {
-  if (project.isProjectJsonExists) {
-    const projectJsonPath = path.join(
-      workspaceRoot,
-      project.relativePath,
-      'project.json',
-    );
-    const projectJson = JSON.parse(fs.readFileSync(projectJsonPath, 'utf8'));
-    return projectJson.name;
-  }
-
-  return project.name;
-}
 
 function getParentProject(
   projects: GradleProjectType[],
