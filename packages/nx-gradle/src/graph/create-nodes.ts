@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import { dirname, join } from 'path';
 
 export const createNodes: CreateNodes = [
-  '**/build.gradle*',
+  '**/build.gradle',
   (buildGradleFilePath: string) => {
     let projectName;
     const projectRoot = dirname(buildGradleFilePath);
