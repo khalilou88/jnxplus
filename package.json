@@ -43,7 +43,7 @@
     "@types/node": "^20.8.0",
     "@types/tcp-port-used": "^1.0.2",
     "@types/xmldoc": "^1.1.7",
-    "@typescript-eslint/eslint-plugin": "5.62.0",
+    "@typescript-eslint/eslint-plugin": "6.7.3",
     "@typescript-eslint/parser": "5.62.0",
     "axios": "^1.5.1",
     "chalk": "4.1.0",
