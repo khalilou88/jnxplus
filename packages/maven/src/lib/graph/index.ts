@@ -212,7 +212,7 @@ function getDependencyProjects(
   return projects.filter((p) => project.dependencies.includes(p.artifactId));
 }
 
-function getTask(
+export function getTask(
   projectRoot: string,
   projectGraphNodeType: 'app' | 'e2e' | 'lib',
 ) {
