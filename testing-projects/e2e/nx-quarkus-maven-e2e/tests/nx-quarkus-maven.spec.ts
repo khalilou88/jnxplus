@@ -135,10 +135,6 @@ describe('nx-quarkus-maven e2e', () => {
     ).not.toThrow();
   }, 120000);
 
-  it('should migrate', async () => {
-    await runNxCommandAsync(`generate @jnxplus/nx-maven:migrate`);
-  }, 120000);
-
   it('should create a java application', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
