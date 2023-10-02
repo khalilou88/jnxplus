@@ -4,17 +4,21 @@ import * as fs from 'fs';
 import { dirname, join } from 'path';
 
 export const createNodes: CreateNodes = [
-  '**/build.gradle',
+  '{**/build.gradle,**/build.gradle.kts}',
   (buildGradleFilePath: string) => {
     let projectName;
     const projectRoot = dirname(buildGradleFilePath);
 
     const projectJsonPath = join(workspaceRoot, projectRoot, 'project.json');
-    const settingsGradlePath = join(workspaceRoot, projectRoot, 'project.json');
+    const settingsGradlePath = join(
+      workspaceRoot,
+      projectRoot,
+      'settings.gradle',
+    );
     const settingsGradleKtsPath = join(
       workspaceRoot,
       projectRoot,
-      'project.json',
+      'settings.gradle.kts',
     );
 
     if (fs.existsSync(projectJsonPath)) {
