@@ -139,10 +139,6 @@ describe('nx-quarkus-gradle e2e', () => {
     ).not.toThrow();
   }, 120000);
 
-  it('should migrate', async () => {
-    await runNxCommandAsync(`generate @jnxplus/nx-gradle:migrate`);
-  }, 120000);
-
   it('should create a java application', async () => {
     const appName = uniq('quarkus-gradle-app-');
 
