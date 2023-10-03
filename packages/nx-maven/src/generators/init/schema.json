@@ -58,15 +58,15 @@
         "items": [
           {
             "value": "bom",
-            "label": "use bom"
+            "label": "I will generate later a parent project with Maven BOM (Spring Boot, Quarkus or Micronaut)"
           },
           {
             "value": "spring-boot-parent-pom",
-            "label": "use spring boot parent pom"
+            "label": "I want to add Spring Boot parent POM to root POM.xml"
           },
           {
             "value": "micronaut-parent-pom",
-            "label": "use micronaut parent pom"
+            "label": "I want to add Micronaut parent POM to root POM.xml"
           }
         ]
       }
