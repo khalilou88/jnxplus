@@ -77,7 +77,7 @@ export default async function (tree: Tree, options: NxMavenGeneratorSchema) {
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);
   updateNxJson(tree, '@jnxplus/nx-maven');
-  updateGitIgnore(tree);
+  updateGitIgnore(tree, options.skipWrapper);
   addOrUpdatePrettierRc(tree);
   addOrUpdatePrettierIgnore(tree);
   addOrUpdateGitattributes(tree);
