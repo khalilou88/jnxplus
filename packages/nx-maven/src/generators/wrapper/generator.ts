@@ -38,7 +38,9 @@ export default async function (
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);
-  updateGitIgnore(tree);
+  if (!options.skipGitignore) {
+    updateGitIgnore(tree);
+  }
   tree.changePermissions('mvnw', '755');
   tree.changePermissions('mvnw.cmd', '755');
   await formatFiles(tree);
@@ -48,8 +50,7 @@ function updateGitIgnore(tree: Tree) {
   const filePath = `.gitignore`;
   const contents = tree.read(filePath, 'utf-8') || '';
 
-  const mavenIgnore =
-    '\n# Maven\ntarget/\n!.mvn/wrapper/maven-wrapper.jar\n!**/src/main/**/target/\n!**/src/test/**/target/';
+  const mavenIgnore = '\n# Maven wrapper\n.mvn/\nmvnw\nmvnw.cmd';
 
   const newContents = contents.concat(mavenIgnore);
   tree.write(filePath, newContents);
