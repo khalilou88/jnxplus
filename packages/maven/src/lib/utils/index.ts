@@ -3,20 +3,33 @@ import {
   getProjectRoot,
   ktlintVersion,
 } from '@jnxplus/common';
-import { ExecutorContext } from '@nx/devkit';
+import { ExecutorContext, workspaceRoot } from '@nx/devkit';
 import * as fs from 'fs';
 import * as path from 'path';
 import { readXml } from '../xml';
 
 export function getExecutable() {
-  const isWin = process.platform === 'win32';
-  let executable = isWin ? 'mvnw.cmd' : './mvnw';
+  let executable = '';
+
+  const isWrapperExists = isWrapperExistsFunction();
+
+  if (isWrapperExists) {
+    const isWin = process.platform === 'win32';
+    executable = isWin ? 'mvnw.cmd' : './mvnw';
+  } else {
+    executable = 'mvn';
+  }
 
   if (process.env['NX_MAVEN_CLI_OPTS']) {
     executable += ` ${process.env['NX_MAVEN_CLI_OPTS']}`;
   }
 
   return executable;
+}
+
+function isWrapperExistsFunction() {
+  const mvnwPath = path.join(workspaceRoot, 'mvnw');
+  return fs.existsSync(mvnwPath);
 }
 
 export function isPomPackaging(context: ExecutorContext): boolean {
