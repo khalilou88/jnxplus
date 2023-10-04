@@ -5,7 +5,7 @@ import {
   validateDependency,
 } from '@nx/devkit';
 
-import { readXml } from '@jnxplus/maven';
+import { readXml } from '@jnxplus/xml';
 import { joinPathFragments, workspaceRoot } from '@nx/devkit';
 import * as fs from 'fs';
 import { fileExists } from 'nx/src/utils/fileutils';

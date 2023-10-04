@@ -1,5 +1,5 @@
 import { getProjectGraphNodeType } from '@jnxplus/common';
-import { readXml } from '@jnxplus/maven';
+import { readXml } from '@jnxplus/xml';
 import { CreateNodes, readJsonFile, workspaceRoot } from '@nx/devkit';
 import { existsSync } from 'fs';
 import { dirname, join } from 'path';

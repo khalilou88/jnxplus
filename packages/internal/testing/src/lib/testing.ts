@@ -15,7 +15,7 @@ import kill = require('kill-port');
 import * as fs from 'fs';
 import { XmlDocument } from 'xmldoc';
 import { springBootVersion } from '@jnxplus/common';
-import { readXml, xmlToString } from '@jnxplus/maven';
+import { readXml, xmlToString } from '@jnxplus/xml';
 
 export function runNxNewCommand(args?: string, silent?: boolean) {
   const localTmpDir = path.dirname(tmpProjPath());
