@@ -57,7 +57,7 @@
         "trackDeps": true,
         "push": true,
         "noVerify": true,
-        "postTargets": ["maven:github", "maven:publish"],
+        "postTargets": ["xml:github", "xml:publish"],
         "commitMessageFormat": "release: cut release ${version} of {projectName}"
       }
     },
