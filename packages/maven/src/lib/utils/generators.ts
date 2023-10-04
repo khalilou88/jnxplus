@@ -91,12 +91,18 @@ export function addLibraryToProjects(
   }
 }
 
-export function updateGitIgnore(tree: Tree) {
+export function updateGitIgnore(tree: Tree, skipWrapper: boolean) {
   const filePath = `.gitignore`;
   const contents = tree.read(filePath, 'utf-8') || '';
 
-  const mavenIgnore =
-    '\n# Maven\ntarget/\n!.mvn/wrapper/maven-wrapper.jar\n!**/src/main/**/target/\n!**/src/test/**/target/';
+  let mavenIgnore = '';
+  if (skipWrapper) {
+    mavenIgnore =
+      '\n# Maven\ntarget/\n!**/src/main/**/target/\n!**/src/test/**/target/';
+  } else {
+    mavenIgnore =
+      '\n# Maven\ntarget/\n!.mvn/wrapper/maven-wrapper.jar\n!**/src/main/**/target/\n!**/src/test/**/target/';
+  }
 
   const newContents = contents.concat(mavenIgnore);
   tree.write(filePath, newContents);

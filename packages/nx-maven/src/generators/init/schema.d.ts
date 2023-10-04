@@ -7,4 +7,5 @@ export interface NxMavenGeneratorSchema {
     | 'bom'
     | 'spring-boot-parent-pom'
     | 'micronaut-parent-pom';
+  skipWrapper?: boolean;
 }

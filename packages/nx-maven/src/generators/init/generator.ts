@@ -51,12 +51,14 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     offsetFromRoot: offsetFromRoot(tree.root),
     template: '',
   };
-  generateFiles(
-    tree,
-    path.join(__dirname, 'files', 'maven', 'wrapper'),
-    '',
-    templateOptions,
-  );
+  if (!options.skipWrapper) {
+    generateFiles(
+      tree,
+      path.join(__dirname, 'files', 'maven', 'wrapper'),
+      '',
+      templateOptions,
+    );
+  }
   generateFiles(
     tree,
     path.join(__dirname, 'files', 'maven', 'config'),
@@ -75,11 +77,13 @@ export default async function (tree: Tree, options: NxMavenGeneratorSchema) {
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);
   updateNxJson(tree, '@jnxplus/nx-maven');
-  updateGitIgnore(tree);
+  updateGitIgnore(tree, options.skipWrapper);
   addOrUpdatePrettierRc(tree);
   addOrUpdatePrettierIgnore(tree);
   addOrUpdateGitattributes(tree);
-  tree.changePermissions('mvnw', '755');
-  tree.changePermissions('mvnw.cmd', '755');
+  if (!options.skipWrapper) {
+    tree.changePermissions('mvnw', '755');
+    tree.changePermissions('mvnw.cmd', '755');
+  }
   await formatFiles(tree);
 }
