@@ -2,6 +2,22 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.11.0](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.10.1...nx-maven-0.11.0) (2023-10-04)
+
+### Dependency Updates
+
+* `maven` updated to version `0.12.0`
+
+### Features
+
+* **generators:** add option to skip maven wrapper ([#490](https://github.com/khalilou88/jnxplus/issues/490)) ([d7c06eb](https://github.com/khalilou88/jnxplus/commit/d7c06eb0c815f8a198ed7d8391904ef5563943f3))
+* **generators:** add wrapper generator ([#491](https://github.com/khalilou88/jnxplus/issues/491)) ([ddd0e2a](https://github.com/khalilou88/jnxplus/commit/ddd0e2a8d038c295d28af7f48fd917a1fea0147a))
+* **generators:** remove migrate generator ([#484](https://github.com/khalilou88/jnxplus/issues/484)) ([fbcdfc9](https://github.com/khalilou88/jnxplus/commit/fbcdfc9a8501f910470370542aa28fa7781b6249))
+* **generators:** update message to choose dependency management ([e3a2c6e](https://github.com/khalilou88/jnxplus/commit/e3a2c6e8f85d25e4d1d8830dff147987c2287d21))
+* **graph:** use NxPluginV2 ([#485](https://github.com/khalilou88/jnxplus/issues/485)) ([e67db29](https://github.com/khalilou88/jnxplus/commit/e67db2985bb3ad95c3de334c937c5a33bedd82fd))
+
+
+
 ## [0.10.1](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.10.0...nx-maven-0.10.1) (2023-09-24)
 
 ### Dependency Updates
