@@ -91,7 +91,7 @@ export function addLibraryToProjects(
   }
 }
 
-export function updateGitIgnore(tree: Tree, skipWrapper: boolean) {
+export function updateGitIgnore(tree: Tree, skipWrapper: boolean | undefined) {
   const filePath = `.gitignore`;
   const contents = tree.read(filePath, 'utf-8') || '';
 
