@@ -4,7 +4,7 @@ import {
   runKtFormatExecutor,
 } from '@jnxplus/common';
 import { ExecutorContext } from '@nx/devkit';
-import { getKtlintVersion } from '../../lib/utils';
+import { getKtlintVersion } from '../../utils';
 
 export default async function runExecutor(
   options: KotlinFormatExecutorSchema,

@@ -1,5 +1,5 @@
 import { getCheckstylePath, getKtlintPath, isE2eTest } from '@jnxplus/common';
-import { getCheckstyleVersion, getKtlintVersion } from '@jnxplus/maven';
+import { getCheckstyleVersion, getKtlintVersion } from '../utils';
 import { logger, workspaceRoot } from '@nx/devkit';
 import * as path from 'path';
 
