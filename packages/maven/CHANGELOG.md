@@ -2,6 +2,16 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.12.0](https://github.com/khalilou88/jnxplus/compare/maven-0.11.2...maven-0.12.0) (2023-10-04)
+
+
+### Features
+
+* **generators:** add option to skip maven wrapper ([#490](https://github.com/khalilou88/jnxplus/issues/490)) ([d7c06eb](https://github.com/khalilou88/jnxplus/commit/d7c06eb0c815f8a198ed7d8391904ef5563943f3))
+* **graph:** use NxPluginV2 ([#485](https://github.com/khalilou88/jnxplus/issues/485)) ([e67db29](https://github.com/khalilou88/jnxplus/commit/e67db2985bb3ad95c3de334c937c5a33bedd82fd))
+
+
+
 ## [0.11.2](https://github.com/khalilou88/jnxplus/compare/maven-0.11.1...maven-0.11.2) (2023-09-24)
 
 ### Dependency Updates
