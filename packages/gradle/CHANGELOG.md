@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.18.0](https://github.com/khalilou88/jnxplus/compare/gradle-0.17.2...gradle-0.18.0) (2023-10-04)
+
+
+### Features
+
+* **graph:** use NxPluginV2 ([#485](https://github.com/khalilou88/jnxplus/issues/485)) ([e67db29](https://github.com/khalilou88/jnxplus/commit/e67db2985bb3ad95c3de334c937c5a33bedd82fd))
+
+
+
 ## [0.17.2](https://github.com/khalilou88/jnxplus/compare/gradle-0.17.1...gradle-0.17.2) (2023-09-24)
 
 ### Dependency Updates
