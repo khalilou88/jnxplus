@@ -1,7 +1,7 @@
 import { getCheckstylePath, getKtlintPath, isE2eTest } from '@jnxplus/common';
-import { getCheckstyleVersion, getKtlintVersion } from '@jnxplus/maven';
 import { logger, workspaceRoot } from '@nx/devkit';
 import * as path from 'path';
+import { getCheckstyleVersion, getKtlintVersion } from '../utils';
 
 (async () => {
   if (process.env['NX_VERBOSE_LOGGING'] === 'true') {

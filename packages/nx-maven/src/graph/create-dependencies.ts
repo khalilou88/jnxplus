@@ -5,13 +5,13 @@ import {
   validateDependency,
 } from '@nx/devkit';
 
-import { readXml } from '@jnxplus/maven';
 import { joinPathFragments, workspaceRoot } from '@nx/devkit';
 import * as fs from 'fs';
 import { fileExists } from 'nx/src/utils/fileutils';
 import * as path from 'path';
 import { join } from 'path';
 import { XmlDocument } from 'xmldoc';
+import { readXml } from '../utils/xml';
 
 export const createDependencies: CreateDependencies = (context) => {
   const results: RawProjectGraphDependency[] = [];

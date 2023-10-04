@@ -7,7 +7,7 @@ import {
   runCheckstyleLintExecutor,
 } from '@jnxplus/common';
 import { ExecutorContext, logger } from '@nx/devkit';
-import { getCheckstyleVersion, getKtlintVersion } from '../../lib/utils';
+import { getCheckstyleVersion, getKtlintVersion } from '../../utils';
 
 export default async function runExecutor(
   options: LintExecutorSchema,
