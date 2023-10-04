@@ -1,5 +1,5 @@
 import { getProjectGraphNodeType } from '@jnxplus/common';
-import { getTask, readXml } from '@jnxplus/maven';
+import { readXml } from '@jnxplus/maven';
 import { CreateNodes, readJsonFile, workspaceRoot } from '@nx/devkit';
 import { existsSync } from 'fs';
 import { dirname, join } from 'path';
@@ -52,4 +52,19 @@ function getArtifactId(pomXmlContent: XmlDocument) {
     throw new Error(`ArtifactId not found in pom.xml`);
   }
   return artifactIdXml.val;
+}
+
+function getTask(
+  projectRoot: string,
+  projectGraphNodeType: 'app' | 'e2e' | 'lib',
+) {
+  if (!projectRoot) {
+    return 'install -N';
+  }
+
+  if (projectGraphNodeType === 'app') {
+    return 'compile';
+  }
+
+  return 'install';
 }
