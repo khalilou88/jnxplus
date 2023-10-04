@@ -1,7 +1,7 @@
 import { ExecutorContext, logger } from '@nx/devkit';
 import { getTargetName, runCommand, waitForever } from '@jnxplus/common';
 import { RunTaskExecutorSchema } from './schema';
-import { getExecutable } from '../../lib/utils';
+import { getExecutable } from '../../utils';
 
 export default async function runExecutor(
   options: RunTaskExecutorSchema,

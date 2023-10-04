@@ -12,7 +12,7 @@ import {
   addOrUpdatePrettierIgnore,
   addOrUpdatePrettierRc,
   updateGitIgnore,
-} from '@jnxplus/maven';
+} from '../../utils/generators';
 import { Tree, formatFiles, generateFiles, offsetFromRoot } from '@nx/devkit';
 import * as path from 'path';
 import { NxMavenGeneratorSchema } from './schema';
