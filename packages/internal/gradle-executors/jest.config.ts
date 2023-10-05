@@ -1,10 +1,11 @@
 /* eslint-disable */
 export default {
-  displayName: 'gradle',
-  preset: '../../jest.preset.js',
+  displayName: 'internal-gradle-executors',
+  preset: '../../../jest.preset.js',
+  testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/packages/gradle',
+  coverageDirectory: '../../../coverage/packages/internal/gradle-executors',
 };
