@@ -1,10 +1,5 @@
 import { normalizeName } from '@jnxplus/common';
 import {
-  addProjectToGradleSetting,
-  getProjectPathFromProjectRoot,
-  getRootProjectName,
-} from '@jnxplus/gradle';
-import {
   ProjectConfiguration,
   Tree,
   addProjectConfiguration,
@@ -18,6 +13,8 @@ import {
 import * as fs from 'fs';
 import { fileExists } from 'nx/src/utils/fileutils';
 import * as path from 'path';
+import { getProjectPathFromProjectRoot, getRootProjectName } from '../../utils';
+import { addProjectToGradleSetting } from '../../utils/generators';
 import { NxGradleKotlinMultiplatformGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxGradleKotlinMultiplatformGeneratorSchema {

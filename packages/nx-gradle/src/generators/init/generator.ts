@@ -15,7 +15,7 @@ import {
   addOrUpdateGitattributes,
   addOrUpdatePrettierIgnore,
   updateGitIgnore,
-} from '@jnxplus/gradle';
+} from '../../utils/generators';
 import { Tree, formatFiles, generateFiles, offsetFromRoot } from '@nx/devkit';
 import * as path from 'path';
 import { NxGradleGeneratorSchema } from './schema';

@@ -1,7 +1,7 @@
-import { getRootProjectName } from '@jnxplus/gradle';
 import { CreateNodes, readJsonFile, workspaceRoot } from '@nx/devkit';
 import * as fs from 'fs';
 import { dirname, join } from 'path';
+import { getRootProjectName } from '../utils';
 
 export const createNodes: CreateNodes = [
   '{**/build.gradle,**/build.gradle.kts}',
