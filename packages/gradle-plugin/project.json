@@ -5,7 +5,7 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@jnxplus/gradle:run-commands",
+      "executor": "@jnxplus/internal-gradle-executors:run-commands",
       "options": {
         "command": "build publishToMavenLocal",
         "cwd": "packages/gradle-plugin"
@@ -27,13 +27,13 @@
       ]
     },
     "set-version": {
-      "executor": "@jnxplus/gradle:set-version",
+      "executor": "@jnxplus/internal-gradle-executors:set-version",
       "options": {
         "version": "${version}"
       }
     },
     "publish": {
-      "executor": "@jnxplus/gradle:run-commands",
+      "executor": "@jnxplus/internal-gradle-executors:run-commands",
       "options": {
         "command": "publishPlugins",
         "cwd": "packages/gradle-plugin"
@@ -41,5 +41,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["gradle"]
+  "implicitDependencies": ["internal-gradle-executors"]
 }
