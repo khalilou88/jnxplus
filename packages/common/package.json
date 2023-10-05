@@ -18,7 +18,10 @@
     "nx-workspace",
     "nx-plugin"
   ],
-  "peerDependencies": {
-    "@nx/devkit": ">=16.0.0"
+  "dependencies": {
+    "@nx/devkit": "16.10.0",
+    "axios": "^1.5.1",
+    "nx": "16.10.0",
+    "tslib": "^2.6.2"
   }
 }

@@ -1,11 +1,13 @@
 {
   "name": "@jnxplus/internal-gradle-executors",
   "version": "0.0.1",
-  "dependencies": {
-    "tslib": "^2.3.0"
-  },
   "type": "commonjs",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
-  "executors": "./executors.json"
+  "executors": "./executors.json",
+  "dependencies": {
+    "tslib": "^2.3.0",
+    "@jnxplus/common": "*",
+    "@nx/devkit": "16.10.0"
+  }
 }
