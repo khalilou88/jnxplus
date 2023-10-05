@@ -10,8 +10,8 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 import { projectGraphCacheDirectory } from 'nx/src/utils/cache-directory';
 import * as path from 'path';
-import { getExecutable } from '@jnxplus/gradle';
 import { getProjectName } from './create-nodes';
+import { getGradleExecutable } from '@jnxplus/common';
 
 export const createDependencies: CreateDependencies = (context) => {
   const results: RawProjectGraphDependency[] = [];
@@ -22,7 +22,7 @@ export const createDependencies: CreateDependencies = (context) => {
     `nx-gradle-deps.json`,
   );
 
-  let command = `${getExecutable()} :projectDependencyTask --outputFile=${outputFile}`;
+  let command = `${getGradleExecutable()} :projectDependencyTask --outputFile=${outputFile}`;
 
   if (isVerbose) {
     command += ' --stacktrace';

@@ -37,3 +37,14 @@ export function getPmdExecutable() {
   const isWin = process.platform === 'win32';
   return isWin ? 'pmd.bat' : 'pmd';
 }
+
+export function getGradleExecutable() {
+  const isWin = process.platform === 'win32';
+  let executable = isWin ? 'gradlew.bat' : './gradlew';
+
+  if (process.env['NX_GRADLE_CLI_OPTS']) {
+    executable += ` ${process.env['NX_GRADLE_CLI_OPTS']}`;
+  }
+
+  return executable;
+}
