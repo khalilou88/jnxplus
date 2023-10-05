@@ -36,6 +36,7 @@
   "dependencies": {
     "@jnxplus/common": "*",
     "nx": "16.10.0",
-    "tslib": "^2.6.2"
+    "tslib": "^2.6.2",
+    "@nx/devkit": "16.10.0"
   }
 }
