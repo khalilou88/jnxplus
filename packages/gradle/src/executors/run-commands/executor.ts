@@ -11,6 +11,7 @@ export default async function runExecutor(options: RunCommandsExecutorSchema) {
   );
 }
 
+//TODO find a solution for this
 function getExecutable() {
   const isWin = process.platform === 'win32';
   let executable = isWin ? 'gradlew.bat' : './gradlew';
