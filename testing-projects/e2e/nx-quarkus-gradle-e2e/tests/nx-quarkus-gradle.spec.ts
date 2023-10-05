@@ -67,7 +67,7 @@ describe('nx-quarkus-gradle e2e', () => {
     patchRootPackageJson(pluginName, nxQuarkusGradleDistAbsolutePath);
     patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
     patchRootPackageJson(
-      '@jnxplus/internal/gradle-executors',
+      '@jnxplus/internal-gradle-executors',
       gradleDistAbsolutePath,
     );
 
@@ -84,7 +84,7 @@ describe('nx-quarkus-gradle e2e', () => {
     );
     patchPackageJson(
       nxQuarkusGradleDistAbsolutePath,
-      '@jnxplus/internal/gradle-executors',
+      '@jnxplus/internal-gradle-executors',
       gradleDistAbsolutePath,
     );
 

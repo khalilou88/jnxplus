@@ -61,7 +61,7 @@ describe('nx-gradle kotlin dsl e2e', () => {
     patchRootPackageJson(pluginName, nxGradleDistAbsolutePath);
     patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
     patchRootPackageJson(
-      '@jnxplus/internal/gradle-executors',
+      '@jnxplus/internal-gradle-executors',
       gradleDistAbsolutePath,
     );
 
@@ -78,7 +78,7 @@ describe('nx-gradle kotlin dsl e2e', () => {
     );
     patchPackageJson(
       nxGradleDistAbsolutePath,
-      '@jnxplus/internal/gradle-executors',
+      '@jnxplus/internal-gradle-executors',
       gradleDistAbsolutePath,
     );
 

@@ -65,7 +65,7 @@ describe('nx-micronaut-gradle e2e', () => {
     patchRootPackageJson(pluginName, nxmicronautGradleDistAbsolutePath);
     patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
     patchRootPackageJson(
-      '@jnxplus/internal/gradle-executors',
+      '@jnxplus/internal-gradle-executors',
       gradleDistAbsolutePath,
     );
 
@@ -82,7 +82,7 @@ describe('nx-micronaut-gradle e2e', () => {
     );
     patchPackageJson(
       nxmicronautGradleDistAbsolutePath,
-      '@jnxplus/internal/gradle-executors',
+      '@jnxplus/internal-gradle-executors',
       gradleDistAbsolutePath,
     );
 
