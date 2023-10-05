@@ -11,7 +11,24 @@
         "outputPath": "dist/packages/internal/gradle-executors",
         "main": "packages/internal/gradle-executors/src/index.ts",
         "tsConfig": "packages/internal/gradle-executors/tsconfig.lib.json",
-        "assets": ["packages/internal/gradle-executors/*.md"]
+        "assets": [
+          "packages/internal/gradle-executors/*.md",
+          {
+            "input": "./packages/internal/gradle-executors/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/internal/gradle-executors/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/internal/gradle-executors",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
       }
     },
     "lint": {
