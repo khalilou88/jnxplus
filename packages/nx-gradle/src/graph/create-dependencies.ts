@@ -10,7 +10,7 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 import { projectGraphCacheDirectory } from 'nx/src/utils/cache-directory';
 import * as path from 'path';
-import { getExecutable } from '../utils';
+import { getExecutable } from '@jnxplus/gradle';
 import { getProjectName } from './create-nodes';
 
 export const createDependencies: CreateDependencies = (context) => {
