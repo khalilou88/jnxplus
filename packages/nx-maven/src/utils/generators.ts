@@ -1,5 +1,5 @@
 import { MavenPluginType } from '@jnxplus/common';
-import { readXmlTree, xmlToString } from '@jnxplus/maven';
+import { readXmlTree, xmlToString } from '@jnxplus/xml';
 import {
   Tree,
   readProjectConfiguration,

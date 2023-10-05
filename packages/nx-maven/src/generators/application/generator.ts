@@ -7,7 +7,7 @@ import {
   quarkusVersion,
   springBootVersion,
 } from '@jnxplus/common';
-import { readXmlTree } from '@jnxplus/maven';
+import { readXmlTree } from '@jnxplus/xml';
 import {
   ProjectConfiguration,
   Tree,

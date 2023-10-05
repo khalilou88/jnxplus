@@ -1,28 +1,28 @@
 {
-  "name": "maven",
+  "name": "xml",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/maven/src",
+  "sourceRoot": "packages/xml/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/maven",
-        "main": "packages/maven/src/index.ts",
-        "packageJson": "packages/maven/package.json",
-        "tsConfig": "packages/maven/tsconfig.lib.json",
+        "outputPath": "dist/packages/xml",
+        "main": "packages/xml/src/index.ts",
+        "packageJson": "packages/xml/package.json",
+        "tsConfig": "packages/xml/tsconfig.lib.json",
         "updateBuildableProjectDepsInPackageJson": true,
         "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": [
-          "packages/maven/*.md",
+          "packages/xml/*.md",
           {
-            "input": "./packages/maven/src",
+            "input": "./packages/xml/src",
             "glob": "**/!(*.ts)",
             "output": "./src"
           },
           {
-            "input": "./packages/maven/src",
+            "input": "./packages/xml/src",
             "glob": "**/*.d.ts",
             "output": "./src"
           }
@@ -33,14 +33,14 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/maven/**/*.ts"]
+        "lintFilePatterns": ["packages/xml/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/maven/jest.config.ts",
+        "jestConfig": "packages/xml/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -57,7 +57,7 @@
         "trackDeps": true,
         "push": true,
         "noVerify": true,
-        "postTargets": ["maven:github", "maven:publish"],
+        "postTargets": ["xml:github", "xml:publish"],
         "commitMessageFormat": "release: cut release ${version} of {projectName}"
       }
     },

@@ -6,7 +6,7 @@ import {
 import { ExecutorContext, workspaceRoot } from '@nx/devkit';
 import * as fs from 'fs';
 import * as path from 'path';
-import { readXml } from '@jnxplus/maven';
+import { readXml } from '@jnxplus/xml';
 
 export function getExecutable() {
   let executable = '';

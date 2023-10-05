@@ -54,18 +54,18 @@ describe('nx-quarkus-maven e2e', () => {
       'common',
     );
 
-    const mavenDistAbsolutePath = path.join(
+    const xmlDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
-      'maven',
+      'xml',
     );
 
     patchRootPackageJson(pluginName, nxQuarkusMavenDistAbsolutePath);
     patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
-    patchRootPackageJson('@jnxplus/maven', mavenDistAbsolutePath);
+    patchRootPackageJson('@jnxplus/xml', xmlDistAbsolutePath);
     patchPackageJson(
-      mavenDistAbsolutePath,
+      xmlDistAbsolutePath,
       '@jnxplus/common',
       commonDistAbsolutePath,
     );
@@ -76,8 +76,8 @@ describe('nx-quarkus-maven e2e', () => {
     );
     patchPackageJson(
       nxQuarkusMavenDistAbsolutePath,
-      '@jnxplus/maven',
-      mavenDistAbsolutePath,
+      '@jnxplus/xml',
+      xmlDistAbsolutePath,
     );
 
     runPackageManagerInstallLinks();
