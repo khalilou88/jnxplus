@@ -1,6 +1,5 @@
 import { runCommand } from '@jnxplus/common';
 import { RunCommandsExecutorSchema } from './schema';
-import { getExecutable } from '../../lib/utils';
 import { workspaceRoot } from '@nx/devkit';
 import { join } from 'path';
 
@@ -10,4 +9,15 @@ export default async function runExecutor(options: RunCommandsExecutorSchema) {
     `${getExecutable()} ${options.command}`,
     join(workspaceRoot, options.cwd),
   );
+}
+
+function getExecutable() {
+  const isWin = process.platform === 'win32';
+  let executable = isWin ? 'gradlew.bat' : './gradlew';
+
+  if (process.env['NX_GRADLE_CLI_OPTS']) {
+    executable += ` ${process.env['NX_GRADLE_CLI_OPTS']}`;
+  }
+
+  return executable;
 }

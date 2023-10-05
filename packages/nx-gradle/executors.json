@@ -2,17 +2,17 @@
   "$schema": "http://json-schema.org/schema",
   "executors": {
     "run-task": {
-      "implementation": "@jnxplus/gradle/src/executors/run-task/executor",
-      "schema": "@jnxplus/gradle/src/executors/run-task/schema.json",
+      "implementation": "./src/executors/run-task/executor",
+      "schema": "./src/executors/run-task/schema.json",
       "description": "run-task executor"
     },
     "lint": {
-      "implementation": "@jnxplus/gradle/src/executors/lint/executor",
+      "implementation": "./src/executors/lint/executor",
       "schema": "@jnxplus/common/src/executors/lint/schema.json",
       "description": "lint executor"
     },
     "ktformat": {
-      "implementation": "@jnxplus/gradle/src/executors/ktformat/executor",
+      "implementation": "./src/executors/ktformat/executor",
       "schema": "@jnxplus/common/src/executors/ktformat/schema.json",
       "description": "kotlin format executor"
     },

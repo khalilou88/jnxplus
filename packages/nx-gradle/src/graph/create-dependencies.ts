@@ -2,15 +2,15 @@ import {
   CreateDependencies,
   DependencyType,
   RawProjectGraphDependency,
+  joinPathFragments,
   validateDependency,
+  workspaceRoot,
 } from '@nx/devkit';
-
-import { getExecutable } from '@jnxplus/gradle';
-import { joinPathFragments, workspaceRoot } from '@nx/devkit';
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 import { projectGraphCacheDirectory } from 'nx/src/utils/cache-directory';
 import * as path from 'path';
+import { getExecutable } from '../utils';
 import { getProjectName } from './create-nodes';
 
 export const createDependencies: CreateDependencies = (context) => {
