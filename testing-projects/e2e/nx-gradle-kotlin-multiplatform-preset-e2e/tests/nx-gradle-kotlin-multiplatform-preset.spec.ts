@@ -54,12 +54,16 @@ describe('nx-gradle kotlin dsl kotlin-multiplatform preset e2e', () => {
       workspaceRoot,
       'dist',
       'packages',
-      'gradle',
+      'internal',
+      'gradle-executors',
     );
 
     patchRootPackageJson(pluginName, nxGradleDistAbsolutePath);
     patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
-    patchRootPackageJson('@jnxplus/gradle', gradleDistAbsolutePath);
+    patchRootPackageJson(
+      '@jnxplus/internal/gradle-executors',
+      gradleDistAbsolutePath,
+    );
 
     patchPackageJson(
       gradleDistAbsolutePath,
@@ -74,7 +78,7 @@ describe('nx-gradle kotlin dsl kotlin-multiplatform preset e2e', () => {
     );
     patchPackageJson(
       nxGradleDistAbsolutePath,
-      '@jnxplus/gradle',
+      '@jnxplus/internal/gradle-executors',
       gradleDistAbsolutePath,
     );
 

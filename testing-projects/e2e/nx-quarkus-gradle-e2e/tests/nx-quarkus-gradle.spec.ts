@@ -60,12 +60,16 @@ describe('nx-quarkus-gradle e2e', () => {
       workspaceRoot,
       'dist',
       'packages',
-      'gradle',
+      'internal',
+      'gradle-executors',
     );
 
     patchRootPackageJson(pluginName, nxQuarkusGradleDistAbsolutePath);
     patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
-    patchRootPackageJson('@jnxplus/gradle', gradleDistAbsolutePath);
+    patchRootPackageJson(
+      '@jnxplus/internal/gradle-executors',
+      gradleDistAbsolutePath,
+    );
 
     patchPackageJson(
       gradleDistAbsolutePath,
@@ -80,7 +84,7 @@ describe('nx-quarkus-gradle e2e', () => {
     );
     patchPackageJson(
       nxQuarkusGradleDistAbsolutePath,
-      '@jnxplus/gradle',
+      '@jnxplus/internal/gradle-executors',
       gradleDistAbsolutePath,
     );
 

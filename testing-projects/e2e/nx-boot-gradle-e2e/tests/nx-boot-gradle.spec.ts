@@ -57,12 +57,16 @@ describe('nx-boot-gradle e2e', () => {
       workspaceRoot,
       'dist',
       'packages',
-      'gradle',
+      'internal',
+      'gradle-executors',
     );
 
     patchRootPackageJson(pluginName, nxBootGradleDistAbsolutePath);
     patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
-    patchRootPackageJson('@jnxplus/gradle', gradleDistAbsolutePath);
+    patchRootPackageJson(
+      '@jnxplus/internal/gradle-executors',
+      gradleDistAbsolutePath,
+    );
 
     patchPackageJson(
       gradleDistAbsolutePath,
@@ -77,7 +81,7 @@ describe('nx-boot-gradle e2e', () => {
     );
     patchPackageJson(
       nxBootGradleDistAbsolutePath,
-      '@jnxplus/gradle',
+      '@jnxplus/internal/gradle-executors',
       gradleDistAbsolutePath,
     );
 
