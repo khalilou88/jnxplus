@@ -54,18 +54,18 @@ describe('nx-micronaut-maven e2e', () => {
       'common',
     );
 
-    const mavenDistAbsolutePath = path.join(
+    const xmlDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
-      'maven',
+      'xml',
     );
 
     patchRootPackageJson(pluginName, nxmicronautMavenDistAbsolutePath);
     patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
-    patchRootPackageJson('@jnxplus/maven', mavenDistAbsolutePath);
+    patchRootPackageJson('@jnxplus/xml', xmlDistAbsolutePath);
     patchPackageJson(
-      mavenDistAbsolutePath,
+      xmlDistAbsolutePath,
       '@jnxplus/common',
       commonDistAbsolutePath,
     );
@@ -76,8 +76,8 @@ describe('nx-micronaut-maven e2e', () => {
     );
     patchPackageJson(
       nxmicronautMavenDistAbsolutePath,
-      '@jnxplus/maven',
-      mavenDistAbsolutePath,
+      '@jnxplus/xml',
+      xmlDistAbsolutePath,
     );
 
     runPackageManagerInstallLinks();
