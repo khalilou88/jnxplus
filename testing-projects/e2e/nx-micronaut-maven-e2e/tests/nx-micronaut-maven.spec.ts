@@ -1,5 +1,6 @@
 import { checkstyleVersion, normalizeName } from '@jnxplus/common';
 import {
+  addPrettierToPackageJsonFile,
   addTmpToGitignore,
   checkFilesDoNotExist,
   getData,
@@ -40,7 +41,7 @@ describe('nx-micronaut-maven e2e', () => {
     runNxNewCommand('', true);
 
     const pluginName = '@jnxplus/nx-maven';
-    const nxmicronautMavenDistAbsolutePath = path.join(
+    const nxBootMavenDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
@@ -61,7 +62,7 @@ describe('nx-micronaut-maven e2e', () => {
       'xml',
     );
 
-    patchRootPackageJson(pluginName, nxmicronautMavenDistAbsolutePath);
+    patchRootPackageJson(pluginName, nxBootMavenDistAbsolutePath);
     patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
     patchRootPackageJson('@jnxplus/xml', xmlDistAbsolutePath);
     patchPackageJson(
@@ -70,16 +71,17 @@ describe('nx-micronaut-maven e2e', () => {
       commonDistAbsolutePath,
     );
     patchPackageJson(
-      nxmicronautMavenDistAbsolutePath,
+      nxBootMavenDistAbsolutePath,
       '@jnxplus/common',
       commonDistAbsolutePath,
     );
     patchPackageJson(
-      nxmicronautMavenDistAbsolutePath,
+      nxBootMavenDistAbsolutePath,
       '@jnxplus/xml',
       xmlDistAbsolutePath,
     );
 
+    addPrettierToPackageJsonFile(nxBootMavenDistAbsolutePath);
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(

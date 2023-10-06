@@ -28,16 +28,15 @@
   "scripts": {
     "postinstall": "node src/scripts/install-linters.js"
   },
-  "dependencies": {
-    "prettier": "^2.8.7",
-    "prettier-plugin-java": "^2.1.0"
-  },
-  "peerDependencies": {
-    "@nx/devkit": ">=16.3.0"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/khalilou88/jnxplus.git",
     "directory": "packages/nx-gradle"
+  },
+  "dependencies": {
+    "@jnxplus/common": "*",
+    "nx": "16.10.0",
+    "tslib": "^2.6.2",
+    "@nx/devkit": "16.10.0"
   }
 }

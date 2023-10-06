@@ -12,8 +12,6 @@
         "main": "packages/common/src/index.ts",
         "packageJson": "packages/common/package.json",
         "tsConfig": "packages/common/tsconfig.lib.json",
-        "updateBuildableProjectDepsInPackageJson": true,
-        "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": [
           "packages/common/*.md",
           {
@@ -33,7 +31,10 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/common/**/*.ts"]
+        "lintFilePatterns": [
+          "packages/common/**/*.ts",
+          "packages/common/package.json"
+        ]
       }
     },
     "test": {

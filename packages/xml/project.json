@@ -12,8 +12,6 @@
         "main": "packages/xml/src/index.ts",
         "packageJson": "packages/xml/package.json",
         "tsConfig": "packages/xml/tsconfig.lib.json",
-        "updateBuildableProjectDepsInPackageJson": true,
-        "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": [
           "packages/xml/*.md",
           {

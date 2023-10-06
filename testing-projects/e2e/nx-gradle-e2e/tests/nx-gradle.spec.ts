@@ -1,5 +1,6 @@
 import { checkstyleVersion } from '@jnxplus/common';
 import {
+  addPrettierToPackageJsonFile,
   addTmpToGitignore,
   patchPackageJson,
   patchRootPackageJson,
@@ -81,6 +82,7 @@ describe('nx-gradle e2e', () => {
       gradleDistAbsolutePath,
     );
 
+    addPrettierToPackageJsonFile(nxGradleDistAbsolutePath);
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(

@@ -13,6 +13,7 @@ import * as fse from 'fs-extra';
 import * as path from 'path';
 import { checkstyleVersion, normalizeName } from '@jnxplus/common';
 import {
+  addPrettierToPackageJsonFile,
   addTmpToGitignore,
   checkFilesDoNotExist,
   getData,
@@ -40,7 +41,7 @@ describe('nx-micronaut-gradle e2e', () => {
     runNxNewCommand('', true);
 
     const pluginName = '@jnxplus/nx-gradle';
-    const nxmicronautGradleDistAbsolutePath = path.join(
+    const nxGradleDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
@@ -62,7 +63,7 @@ describe('nx-micronaut-gradle e2e', () => {
       'gradle-executors',
     );
 
-    patchRootPackageJson(pluginName, nxmicronautGradleDistAbsolutePath);
+    patchRootPackageJson(pluginName, nxGradleDistAbsolutePath);
     patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
     patchRootPackageJson(
       '@jnxplus/internal-gradle-executors',
@@ -76,16 +77,17 @@ describe('nx-micronaut-gradle e2e', () => {
     );
 
     patchPackageJson(
-      nxmicronautGradleDistAbsolutePath,
+      nxGradleDistAbsolutePath,
       '@jnxplus/common',
       commonDistAbsolutePath,
     );
     patchPackageJson(
-      nxmicronautGradleDistAbsolutePath,
+      nxGradleDistAbsolutePath,
       '@jnxplus/internal-gradle-executors',
       gradleDistAbsolutePath,
     );
 
+    addPrettierToPackageJsonFile(nxGradleDistAbsolutePath);
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(

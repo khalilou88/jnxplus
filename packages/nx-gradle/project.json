@@ -12,8 +12,7 @@
         "main": "packages/nx-gradle/src/index.ts",
         "packageJson": "packages/nx-gradle/package.json",
         "tsConfig": "packages/nx-gradle/tsconfig.lib.json",
-        "updateBuildableProjectDepsInPackageJson": true,
-        "buildableProjectDepsInPackageJsonType": "dependencies",
+
         "assets": [
           "packages/nx-gradle/*.md",
           {
@@ -158,7 +157,11 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/nx-gradle/**/*.ts"]
+        "lintFilePatterns": [
+          "packages/nx-gradle/**/*.ts",
+          "packages/nx-gradle/package.json",
+          "packages/nx-gradle/executors.json"
+        ]
       }
     },
     "test": {

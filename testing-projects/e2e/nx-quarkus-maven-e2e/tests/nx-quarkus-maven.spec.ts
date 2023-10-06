@@ -1,5 +1,6 @@
 import { checkstyleVersion, normalizeName } from '@jnxplus/common';
 import {
+  addPrettierToPackageJsonFile,
   addTmpToGitignore,
   checkFilesDoNotExist,
   getData,
@@ -40,7 +41,7 @@ describe('nx-quarkus-maven e2e', () => {
     runNxNewCommand('', true);
 
     const pluginName = '@jnxplus/nx-maven';
-    const nxQuarkusMavenDistAbsolutePath = path.join(
+    const nxBootMavenDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
@@ -61,7 +62,7 @@ describe('nx-quarkus-maven e2e', () => {
       'xml',
     );
 
-    patchRootPackageJson(pluginName, nxQuarkusMavenDistAbsolutePath);
+    patchRootPackageJson(pluginName, nxBootMavenDistAbsolutePath);
     patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
     patchRootPackageJson('@jnxplus/xml', xmlDistAbsolutePath);
     patchPackageJson(
@@ -70,16 +71,17 @@ describe('nx-quarkus-maven e2e', () => {
       commonDistAbsolutePath,
     );
     patchPackageJson(
-      nxQuarkusMavenDistAbsolutePath,
+      nxBootMavenDistAbsolutePath,
       '@jnxplus/common',
       commonDistAbsolutePath,
     );
     patchPackageJson(
-      nxQuarkusMavenDistAbsolutePath,
+      nxBootMavenDistAbsolutePath,
       '@jnxplus/xml',
       xmlDistAbsolutePath,
     );
 
+    addPrettierToPackageJsonFile(nxBootMavenDistAbsolutePath);
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
