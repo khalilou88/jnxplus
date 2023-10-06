@@ -37,7 +37,8 @@
       "options": {
         "lintFilePatterns": [
           "packages/internal/gradle-executors/**/*.ts",
-          "packages/internal/gradle-executors/package.json"
+          "packages/internal/gradle-executors/package.json",
+          "packages/internal/gradle-executors/executors.json"
         ]
       }
     },

@@ -8,7 +8,11 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["packages/nx-maven/**/*.ts"]
+        "lintFilePatterns": [
+          "packages/nx-maven/**/*.ts",
+          "packages/nx-maven/package.json",
+          "packages/nx-maven/executors.json"
+        ]
       }
     },
     "test": {
