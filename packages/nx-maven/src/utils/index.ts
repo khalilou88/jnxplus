@@ -11,13 +11,17 @@ import { readXml } from '@jnxplus/xml';
 export function getExecutable() {
   let executable = '';
 
-  const isWrapperExists = isWrapperExistsFunction();
-
-  if (isWrapperExists) {
-    const isWin = process.platform === 'win32';
-    executable = isWin ? 'mvnw.cmd' : './mvnw';
-  } else {
+  if (process.env['NX_SKIP_MAVEN_WRAPPER'] === 'true') {
     executable = 'mvn';
+  } else {
+    const isWrapperExists = isWrapperExistsFunction();
+
+    if (isWrapperExists) {
+      const isWin = process.platform === 'win32';
+      executable = isWin ? 'mvnw.cmd' : './mvnw';
+    } else {
+      executable = 'mvn';
+    }
   }
 
   if (process.env['NX_MAVEN_CLI_OPTS']) {
