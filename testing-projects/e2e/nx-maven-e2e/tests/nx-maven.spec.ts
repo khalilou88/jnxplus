@@ -1,6 +1,6 @@
 import { checkstyleVersion, normalizeName } from '@jnxplus/common';
 import {
-  addPrettierToPackageJsonFiles,
+  addPrettierToPackageJsonFile,
   addSpringBootVersion,
   addTmpToGitignore,
   getData,
@@ -80,7 +80,7 @@ describe('nx-maven e2e', () => {
       xmlDistAbsolutePath,
     );
 
-    addPrettierToPackageJsonFiles(nxBootMavenDistAbsolutePath);
+    addPrettierToPackageJsonFile(nxBootMavenDistAbsolutePath);
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(

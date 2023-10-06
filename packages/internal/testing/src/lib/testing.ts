@@ -175,20 +175,13 @@ export function patchRootPackageJson(
   writeJsonFile(path, json);
 }
 
-export function addPrettierToPackageJsonFiles(pluginDistAbsulutePath: string) {
-  const path1 = tmpProjPath('package.json');
-  const json1 = readJsonFile(path1);
-  json1.devDependencies['prettier'] = '^3.0.3';
-  json1.devDependencies['@prettier/plugin-xml'] = '^3.2.1';
-  json1.devDependencies['prettier-plugin-java'] = '^2.3.1';
-  writeJsonFile(path1, json1);
-
-  const path2 = path.join(pluginDistAbsulutePath, 'package.json');
-  const json2 = readJsonFile(path2);
-  json2.dependencies['prettier'] = '^3.0.3';
-  json2.dependencies['@prettier/plugin-xml'] = '^3.2.1';
-  json2.dependencies['prettier-plugin-java'] = '^2.3.1';
-  writeJsonFile(path2, json2);
+export function addPrettierToPackageJsonFile(pluginDistAbsulutePath: string) {
+  const packageJsonPath = path.join(pluginDistAbsulutePath, 'package.json');
+  const packageJson = readJsonFile(packageJsonPath);
+  packageJson.dependencies['prettier'] = '^2.8.7';
+  packageJson.dependencies['@prettier/plugin-xml'] = '^2.2.0';
+  packageJson.dependencies['prettier-plugin-java'] = '^2.1.0';
+  writeJsonFile(packageJsonPath, packageJson);
 }
 
 export function patchPackageJson(

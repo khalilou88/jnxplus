@@ -14,6 +14,7 @@ import * as path from 'path';
 
 import { checkstyleVersion, normalizeName } from '@jnxplus/common';
 import {
+  addPrettierToPackageJsonFile,
   addTmpToGitignore,
   checkFilesDoNotExist,
   getData,
@@ -41,7 +42,7 @@ describe('nx-boot-gradle kt e2e', () => {
     runNxNewCommand('', true);
 
     const pluginName = '@jnxplus/nx-gradle';
-    const nxBootGradleDistAbsolutePath = path.join(
+    const nxGradleDistAbsolutePath = path.join(
       workspaceRoot,
       'dist',
       'packages',
@@ -63,7 +64,7 @@ describe('nx-boot-gradle kt e2e', () => {
       'gradle-executors',
     );
 
-    patchRootPackageJson(pluginName, nxBootGradleDistAbsolutePath);
+    patchRootPackageJson(pluginName, nxGradleDistAbsolutePath);
     patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
     patchRootPackageJson(
       '@jnxplus/internal-gradle-executors',
@@ -77,16 +78,17 @@ describe('nx-boot-gradle kt e2e', () => {
     );
 
     patchPackageJson(
-      nxBootGradleDistAbsolutePath,
+      nxGradleDistAbsolutePath,
       '@jnxplus/common',
       commonDistAbsolutePath,
     );
     patchPackageJson(
-      nxBootGradleDistAbsolutePath,
+      nxGradleDistAbsolutePath,
       '@jnxplus/internal-gradle-executors',
       gradleDistAbsolutePath,
     );
 
+    addPrettierToPackageJsonFile(nxGradleDistAbsolutePath);
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(

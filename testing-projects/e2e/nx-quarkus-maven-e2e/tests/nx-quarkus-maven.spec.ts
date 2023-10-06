@@ -1,6 +1,6 @@
 import { checkstyleVersion, normalizeName } from '@jnxplus/common';
 import {
-  addPrettierToPackageJsonFiles,
+  addPrettierToPackageJsonFile,
   addTmpToGitignore,
   checkFilesDoNotExist,
   getData,
@@ -81,7 +81,7 @@ describe('nx-quarkus-maven e2e', () => {
       xmlDistAbsolutePath,
     );
 
-    addPrettierToPackageJsonFiles(nxBootMavenDistAbsolutePath);
+    addPrettierToPackageJsonFile(nxBootMavenDistAbsolutePath);
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(

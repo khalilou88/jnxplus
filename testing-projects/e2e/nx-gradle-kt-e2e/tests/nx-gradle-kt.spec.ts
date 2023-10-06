@@ -14,6 +14,7 @@ import * as path from 'path';
 
 import { checkstyleVersion } from '@jnxplus/common';
 import {
+  addPrettierToPackageJsonFile,
   addTmpToGitignore,
   patchPackageJson,
   patchRootPackageJson,
@@ -82,6 +83,7 @@ describe('nx-gradle kotlin dsl e2e', () => {
       gradleDistAbsolutePath,
     );
 
+    addPrettierToPackageJsonFile(nxGradleDistAbsolutePath);
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
