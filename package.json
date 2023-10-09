@@ -24,7 +24,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.7.2",
     "@commitlint/config-angular": "^17.7.0",
-    "@jscutlery/semver": "^3.1.0",
+    "@jscutlery/semver": "^3.3.0",
     "@nx/eslint-plugin": "16.10.0",
     "@nx/jest": "16.10.0",
     "@nx/js": "16.10.0",
