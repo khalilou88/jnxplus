@@ -126,11 +126,6 @@
             "output": "./src/generators/library/files/micronaut"
           },
           {
-            "input": "./packages/internal/generators-files",
-            "glob": "linters/**",
-            "output": "./src/generators/init/files"
-          },
-          {
             "input": "./packages/internal/generators-files/none/application/shared",
             "glob": "**",
             "output": "./src/generators/application/files/none"
