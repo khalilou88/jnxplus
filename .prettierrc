@@ -1,4 +1,3 @@
 {
-  "singleQuote": true,
-  "plugins": ["prettier-plugin-java"]
+  "singleQuote": true
 }
