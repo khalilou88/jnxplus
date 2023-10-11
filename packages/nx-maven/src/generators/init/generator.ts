@@ -1,6 +1,4 @@
 import {
-  checkstyleVersion,
-  ktlintVersion,
   springBootVersion,
   kotlinVersion,
   updateNxJson,
@@ -23,8 +21,6 @@ interface NormalizedSchema extends NxMavenGeneratorSchema {
   springBootVersion: string;
   quarkusVersion: string;
   micronautVersion: string;
-  checkstyleVersion: string;
-  ktlintVersion: string;
 }
 
 function normalizeOptions(
@@ -40,8 +36,6 @@ function normalizeOptions(
     springBootVersion,
     quarkusVersion,
     micronautVersion,
-    checkstyleVersion,
-    ktlintVersion,
   };
 }
 

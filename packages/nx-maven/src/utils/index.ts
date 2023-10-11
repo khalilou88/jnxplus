@@ -1,12 +1,8 @@
-import {
-  checkstyleVersion,
-  getProjectRoot,
-  ktlintVersion,
-} from '@jnxplus/common';
+import { getProjectRoot } from '@jnxplus/common';
+import { readXml } from '@jnxplus/xml';
 import { ExecutorContext, workspaceRoot } from '@nx/devkit';
 import * as fs from 'fs';
 import * as path from 'path';
-import { readXml } from '@jnxplus/xml';
 
 export function getExecutable() {
   let executable = '';
@@ -47,34 +43,4 @@ export function isPomPackaging(context: ExecutorContext): boolean {
   }
 
   return packagingXml.val === 'pom';
-}
-
-export function getKtlintVersion(dir: string) {
-  const parentPomXmlPath = path.join(dir, 'pom.xml');
-
-  let ktlintVersionXml = undefined;
-  if (fs.existsSync(parentPomXmlPath)) {
-    const parentPomXmlContent = readXml(parentPomXmlPath);
-    ktlintVersionXml = parentPomXmlContent
-      .childNamed('properties')
-      ?.childNamed('ktlint.version');
-  }
-
-  return ktlintVersionXml === undefined ? ktlintVersion : ktlintVersionXml.val;
-}
-
-export function getCheckstyleVersion(dir: string) {
-  const parentPomXmlPath = path.join(dir, 'pom.xml');
-
-  let checkstyleVersionXml = undefined;
-  if (fs.existsSync(parentPomXmlPath)) {
-    const parentPomXmlContent = readXml(parentPomXmlPath);
-    checkstyleVersionXml = parentPomXmlContent
-      .childNamed('properties')
-      ?.childNamed('checkstyle.version');
-  }
-
-  return checkstyleVersionXml === undefined
-    ? checkstyleVersion
-    : checkstyleVersionXml.val;
 }

@@ -3,7 +3,7 @@ import { workspaceRoot } from '@nx/devkit';
 import { join } from 'path';
 import { RunCommandsExecutorSchema } from './schema';
 
-export function getExecutable() {
+function getExecutable() {
   const isWin = process.platform === 'win32';
   return isWin ? 'gradlew.bat' : './gradlew';
 }

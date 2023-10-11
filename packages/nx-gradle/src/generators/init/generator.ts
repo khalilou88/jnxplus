@@ -1,7 +1,5 @@
 import {
-  checkstyleVersion,
   springDependencyManagementVersion,
-  ktlintVersion,
   springBootVersion,
   kotlinVersion,
   updateNxJson,
@@ -29,8 +27,6 @@ interface NormalizedSchema extends NxGradleGeneratorSchema {
   kspVersion: string;
   shadowVersion: string;
   kotlinVersion: string;
-  checkstyleVersion: string;
-  ktlintVersion: string;
   jnxplusGradlePluginVersion: string;
   generateRepositories: boolean;
 }
@@ -56,8 +52,6 @@ function normalizeOptions(
     kspVersion,
     shadowVersion,
     kotlinVersion,
-    checkstyleVersion,
-    ktlintVersion,
     jnxplusGradlePluginVersion,
     generateRepositories,
   };
