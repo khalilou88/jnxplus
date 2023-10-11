@@ -11,8 +11,6 @@ import {
 } from '@nx/plugin/testing';
 import * as fse from 'fs-extra';
 import * as path from 'path';
-
-import { checkstyleVersion } from '@jnxplus/common';
 import {
   addTmpToGitignore,
   patchPackageJson,
@@ -125,14 +123,6 @@ describe('nx-gradle kotlin dsl kotlin-multiplatform preset e2e', () => {
         'gradlew.bat',
         'gradle.properties',
         'settings.gradle.kts',
-        'tools/linters/checkstyle.xml',
-      ),
-    ).not.toThrow();
-
-    expect(() =>
-      checkFilesExist(
-        `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-${checkstyleVersion}-all.jar`,
-        `node_modules/@jnxplus/tools/linters/ktlint/ktlint`,
       ),
     ).not.toThrow();
   }, 120000);

@@ -12,7 +12,7 @@ import {
 import * as fse from 'fs-extra';
 import * as path from 'path';
 
-import { checkstyleVersion, normalizeName } from '@jnxplus/common';
+import { normalizeName } from '@jnxplus/common';
 import {
   addPrettierToPackageJsonFile,
   addTmpToGitignore,
@@ -132,14 +132,6 @@ describe('nx-boot-gradle kt e2e', () => {
         'gradlew.bat',
         'gradle.properties',
         'settings.gradle.kts',
-        'tools/linters/checkstyle.xml',
-      ),
-    ).not.toThrow();
-
-    expect(() =>
-      checkFilesExist(
-        `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-${checkstyleVersion}-all.jar`,
-        `node_modules/@jnxplus/tools/linters/ktlint/ktlint`,
       ),
     ).not.toThrow();
   }, 120000);

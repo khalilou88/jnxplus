@@ -1,4 +1,4 @@
-import { checkstyleVersion, normalizeName } from '@jnxplus/common';
+import { normalizeName } from '@jnxplus/common';
 import {
   addPrettierToPackageJsonFile,
   addTmpToGitignore,
@@ -122,15 +122,6 @@ describe('nx-boot-maven e2e', () => {
         'mvnw',
         'mvnw.cmd',
         'pom.xml',
-        'tools/linters/checkstyle.xml',
-        'tools/linters/pmd.xml',
-      ),
-    ).not.toThrow();
-
-    expect(() =>
-      checkFilesExist(
-        `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-${checkstyleVersion}-all.jar`,
-        `node_modules/@jnxplus/tools/linters/ktlint/ktlint`,
       ),
     ).not.toThrow();
   }, 120000);

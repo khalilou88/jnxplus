@@ -1,4 +1,3 @@
-import { checkstyleVersion } from '@jnxplus/common';
 import {
   addPrettierToPackageJsonFile,
   addTmpToGitignore,
@@ -126,14 +125,6 @@ describe('nx-gradle e2e', () => {
         'gradlew.bat',
         'gradle.properties',
         'settings.gradle',
-        'tools/linters/checkstyle.xml',
-      ),
-    ).not.toThrow();
-
-    expect(() =>
-      checkFilesExist(
-        `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-${checkstyleVersion}-all.jar`,
-        `node_modules/@jnxplus/tools/linters/ktlint/ktlint`,
       ),
     ).not.toThrow();
   }, 120000);
