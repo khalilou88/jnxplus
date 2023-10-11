@@ -27,9 +27,6 @@
     "maven",
     "maven multi-module project"
   ],
-  "scripts": {
-    "postinstall": "node src/scripts/install-linters.js"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/khalilou88/jnxplus.git",
