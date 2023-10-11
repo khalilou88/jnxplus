@@ -75,12 +75,6 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     '',
     templateOptions,
   );
-  generateFiles(
-    tree,
-    path.join(__dirname, 'files', 'linters'),
-    'tools/linters',
-    templateOptions,
-  );
 }
 
 export default async function (tree: Tree, options: NxGradleGeneratorSchema) {
