@@ -1,4 +1,4 @@
-import { checkstyleVersion, normalizeName } from '@jnxplus/common';
+import { normalizeName } from '@jnxplus/common';
 import {
   addPrettierToPackageJsonFile,
   addTmpToGitignore,
@@ -124,15 +124,6 @@ describe('nx-quarkus-maven e2e', () => {
         'mvnw',
         'mvnw.cmd',
         'pom.xml',
-        'tools/linters/checkstyle.xml',
-        'tools/linters/pmd.xml',
-      ),
-    ).not.toThrow();
-
-    expect(() =>
-      checkFilesExist(
-        `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-${checkstyleVersion}-all.jar`,
-        `node_modules/@jnxplus/tools/linters/ktlint/ktlint`,
       ),
     ).not.toThrow();
   }, 120000);
@@ -187,8 +178,8 @@ describe('nx-quarkus-maven e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //test run-task
     const projectJson = readJson(`apps/${appName}/project.json`);
@@ -335,8 +326,8 @@ describe('nx-quarkus-maven e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -414,11 +405,11 @@ describe('nx-quarkus-maven e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/target`)).not.toThrow();
 
-    const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
-    expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
+    // const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
+    // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -517,8 +508,8 @@ describe('nx-quarkus-maven e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -599,8 +590,8 @@ describe('nx-quarkus-maven e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -727,8 +718,8 @@ describe('nx-quarkus-maven e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const lintResult = await runNxCommandAsync(`lint ${libName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -789,11 +780,11 @@ describe('nx-quarkus-maven e2e', () => {
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`libs/${libName}/target`)).not.toThrow();
 
-    const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
-    expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
+    // const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
+    // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
 
-    const lintResult = await runNxCommandAsync(`lint ${libName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -857,8 +848,8 @@ describe('nx-quarkus-maven e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const lintResult = await runNxCommandAsync(`lint ${libName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -922,8 +913,8 @@ describe('nx-quarkus-maven e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const lintResult = await runNxCommandAsync(`lint ${libName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -987,8 +978,8 @@ describe('nx-quarkus-maven e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const lintResult = await runNxCommandAsync(`lint ${libName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -1066,8 +1057,8 @@ describe('nx-quarkus-maven e2e', () => {
     );
     expect(formatResult.stdout).toContain('GreetingResource.java');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
     const depGraphJson = readJson('dep-graph.json');
@@ -1149,11 +1140,11 @@ describe('nx-quarkus-maven e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
-    expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
+    // const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
+    // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
     const depGraphJson = readJson('dep-graph.json');
@@ -1632,8 +1623,8 @@ describe('nx-quarkus-maven e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -1712,8 +1703,8 @@ describe('nx-quarkus-maven e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const lintResult = await runNxCommandAsync(`lint ${libName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(

@@ -1,6 +1,4 @@
 import {
-  checkstyleVersion,
-  ktlintVersion,
   springBootVersion,
   kotlinVersion,
   updateNxJson,
@@ -23,8 +21,6 @@ interface NormalizedSchema extends NxMavenGeneratorSchema {
   springBootVersion: string;
   quarkusVersion: string;
   micronautVersion: string;
-  checkstyleVersion: string;
-  ktlintVersion: string;
 }
 
 function normalizeOptions(
@@ -40,8 +36,6 @@ function normalizeOptions(
     springBootVersion,
     quarkusVersion,
     micronautVersion,
-    checkstyleVersion,
-    ktlintVersion,
   };
 }
 
@@ -63,12 +57,6 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     tree,
     path.join(__dirname, 'files', 'maven', 'config'),
     '',
-    templateOptions,
-  );
-  generateFiles(
-    tree,
-    path.join(__dirname, 'files', 'linters'),
-    'tools/linters',
     templateOptions,
   );
 }

@@ -368,12 +368,6 @@ async function libraryGenerator(
           task: 'install -DskipTests=true',
         },
       },
-      lint: {
-        executor: `${plugin}:lint`,
-        options: {
-          linter: `${normalizedOptions.linter}`,
-        },
-      },
       test: {
         executor: `${plugin}:run-task`,
         options: {
@@ -383,14 +377,6 @@ async function libraryGenerator(
     },
     tags: normalizedOptions.parsedTags,
   };
-
-  const targets = projectConfiguration.targets ?? {};
-
-  if (options.language === 'kotlin') {
-    targets['ktformat'] = {
-      executor: `${plugin}:ktformat`,
-    };
-  }
 
   addProjectConfiguration(
     tree,

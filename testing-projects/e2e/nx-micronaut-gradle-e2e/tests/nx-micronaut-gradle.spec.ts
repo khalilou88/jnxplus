@@ -11,7 +11,7 @@ import {
 } from '@nx/plugin/testing';
 import * as fse from 'fs-extra';
 import * as path from 'path';
-import { checkstyleVersion, normalizeName } from '@jnxplus/common';
+import { normalizeName } from '@jnxplus/common';
 import {
   addPrettierToPackageJsonFile,
   addTmpToGitignore,
@@ -131,14 +131,6 @@ describe('nx-micronaut-gradle e2e', () => {
         'gradlew.bat',
         'gradle.properties',
         'settings.gradle',
-        'tools/linters/checkstyle.xml',
-      ),
-    ).not.toThrow();
-
-    expect(() =>
-      checkFilesExist(
-        `node_modules/@jnxplus/tools/linters/checkstyle/checkstyle-${checkstyleVersion}-all.jar`,
-        `node_modules/@jnxplus/tools/linters/ktlint/ktlint`,
       ),
     ).not.toThrow();
   }, 120000);
@@ -192,8 +184,8 @@ describe('nx-micronaut-gradle e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //test run-task
     const projectJson = readJson(`apps/${appName}/project.json`);
@@ -308,8 +300,8 @@ describe('nx-micronaut-gradle e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -395,8 +387,8 @@ describe('nx-micronaut-gradle e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -476,11 +468,11 @@ describe('nx-micronaut-gradle e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
 
-    const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
-    expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
+    // const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
+    // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -579,8 +571,8 @@ describe('nx-micronaut-gradle e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -696,8 +688,8 @@ describe('nx-micronaut-gradle e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const lintResult = await runNxCommandAsync(`lint ${libName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -752,11 +744,11 @@ describe('nx-micronaut-gradle e2e', () => {
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`libs/${libName}/build`)).not.toThrow();
 
-    const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
-    expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
+    // const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
+    // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
 
-    const lintResult = await runNxCommandAsync(`lint ${libName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -814,8 +806,8 @@ describe('nx-micronaut-gradle e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const lintResult = await runNxCommandAsync(`lint ${libName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -873,8 +865,8 @@ describe('nx-micronaut-gradle e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const lintResult = await runNxCommandAsync(`lint ${libName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -932,8 +924,8 @@ describe('nx-micronaut-gradle e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const lintResult = await runNxCommandAsync(`lint ${libName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -1000,8 +992,8 @@ describe('nx-micronaut-gradle e2e', () => {
     );
     expect(formatResult.stdout).toContain('HelloController.java');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
     const depGraphJson = readJson('dep-graph.json');
@@ -1073,11 +1065,11 @@ describe('nx-micronaut-gradle e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
-    expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
+    // const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
+    // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
     const depGraphJson = readJson('dep-graph.json');
@@ -1157,8 +1149,8 @@ describe('nx-micronaut-gradle e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -1231,8 +1223,8 @@ describe('nx-micronaut-gradle e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const lintResult = await runNxCommandAsync(`lint ${libName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(

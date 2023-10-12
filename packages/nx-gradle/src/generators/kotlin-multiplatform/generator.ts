@@ -241,20 +241,11 @@ function generateAndroidApp(normalizedOptions: NormalizedSchema, tree: Tree) {
         },
       },
       serve: {},
-      lint: {
-        executor: `@jnxplus/nx-gradle:lint`,
-        options: {
-          linter: 'ktlint',
-        },
-      },
       test: {
         executor: `@jnxplus/nx-gradle:run-task`,
         options: {
           task: 'test',
         },
-      },
-      ktformat: {
-        executor: `@jnxplus/nx-gradle:ktformat`,
       },
     },
     tags: normalizedOptions.parsedTags,
@@ -314,20 +305,11 @@ function generateDesktopApp(normalizedOptions: NormalizedSchema, tree: Tree) {
           keepItRunning: true,
         },
       },
-      lint: {
-        executor: `@jnxplus/nx-gradle:lint`,
-        options: {
-          linter: 'ktlint',
-        },
-      },
       test: {
         executor: `@jnxplus/nx-gradle:run-task`,
         options: {
           task: 'test',
         },
-      },
-      ktformat: {
-        executor: `@jnxplus/nx-gradle:ktformat`,
       },
     },
     tags: normalizedOptions.parsedTags,
@@ -358,20 +340,11 @@ function generateSharedLib(normalizedOptions: NormalizedSchema, tree: Tree) {
           task: 'build',
         },
       },
-      lint: {
-        executor: `@jnxplus/nx-gradle:lint`,
-        options: {
-          linter: 'ktlint',
-        },
-      },
       test: {
         executor: `@jnxplus/nx-gradle:run-task`,
         options: {
           task: 'test',
         },
-      },
-      ktformat: {
-        executor: `@jnxplus/nx-gradle:ktformat`,
       },
     },
     tags: normalizedOptions.parsedTags,

@@ -431,12 +431,6 @@ async function applicationGenerator(
         },
         dependsOn: ['build'],
       },
-      lint: {
-        executor: `${plugin}:lint`,
-        options: {
-          linter: `${normalizedOptions.linter}`,
-        },
-      },
       test: {
         executor: `${plugin}:run-task`,
         options: {
@@ -445,7 +439,6 @@ async function applicationGenerator(
         dependsOn: ['build'],
       },
       'integration-test': {},
-      ktformat: {},
     },
     tags: normalizedOptions.parsedTags,
   };
@@ -503,12 +496,6 @@ async function applicationGenerator(
       ...targets['serve'].options,
       task: 'mn:run',
       keepItRunning: true,
-    };
-  }
-
-  if (options.language === 'kotlin') {
-    targets['ktformat'] = {
-      executor: `${plugin}:ktformat`,
     };
   }
 

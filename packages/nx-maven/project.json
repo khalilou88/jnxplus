@@ -89,11 +89,6 @@
             "output": "./src/generators/library/files/boot"
           },
           {
-            "input": "./packages/internal/generators-files",
-            "glob": "linters/**",
-            "output": "./src/generators/init/files"
-          },
-          {
             "input": "./packages/internal/generators-files/quarkus/application/shared",
             "glob": "**",
             "output": "./src/generators/application/files/quarkus"

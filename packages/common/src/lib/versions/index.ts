@@ -13,9 +13,5 @@ export const micronautVersion = '4.0.2';
 export const kspVersion = '1.8.22-1.0.11';
 export const shadowVersion = '8.1.1';
 
-//Linters
-export const checkstyleVersion = '10.11.0';
-export const ktlintVersion = '0.49.1';
-
 //Jnxplus gradle plugin
 export const jnxplusGradlePluginVersion = '0.2.0';
