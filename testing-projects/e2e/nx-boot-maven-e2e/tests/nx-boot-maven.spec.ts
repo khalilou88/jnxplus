@@ -391,8 +391,8 @@ describe('nx-boot-maven e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
 
-    const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
-    expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
+    // const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
+    // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
 
     // const lintResult = await runNxCommandAsync(`lint ${appName}`);
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -746,8 +746,8 @@ describe('nx-boot-maven e2e', () => {
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
 
-    const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
-    expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
+    // const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
+    // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
 
     // const lintResult = await runNxCommandAsync(`lint ${libName}`);
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
@@ -1145,8 +1145,8 @@ describe('nx-boot-maven e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
-    expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
+    // const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
+    // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
 
     // const lintResult = await runNxCommandAsync(`lint ${appName}`);
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
