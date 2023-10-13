@@ -31,6 +31,8 @@
         "main": "packages/nx-maven/src/index.ts",
         "packageJson": "packages/nx-maven/package.json",
         "tsConfig": "packages/nx-maven/tsconfig.lib.json",
+        "updateBuildableProjectDepsInPackageJson": true,
+        "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": [
           "packages/nx-maven/*.md",
           {
