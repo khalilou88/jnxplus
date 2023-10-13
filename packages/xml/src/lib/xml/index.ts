@@ -1,5 +1,5 @@
-import { Tree } from '@nx/devkit';
 import * as fs from 'fs';
+import { Tree } from '@nx/devkit';
 import { XmlDocument } from 'xmldoc';
 
 export function readXmlTree(tree: Tree, path: string): XmlDocument {
