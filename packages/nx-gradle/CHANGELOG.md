@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.12.1-next.2](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.12.1-next.1...nx-gradle-0.12.1-next.2) (2023-10-13)
+
+
+### Reverts
+
+* Revert "build: use fixed version instead of *" ([771bb2a](https://github.com/khalilou88/jnxplus/commit/771bb2a93297510e3c79ab5a1580426c4adb3c62))
+
+
+
 ## [0.12.1-next.1](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.12.1-next.0...nx-gradle-0.12.1-next.1) (2023-10-13)
 
 
