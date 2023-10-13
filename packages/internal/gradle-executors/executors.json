@@ -9,6 +9,16 @@
       "implementation": "./src/executors/set-version/executor",
       "schema": "./src/executors/set-version/schema.json",
       "description": "set-version executor"
+    },
+    "update-dependencies": {
+      "implementation": "./src/executors/update-dependencies/executor",
+      "schema": "./src/executors/update-dependencies/schema.json",
+      "description": "update-dependencies executor"
+    },
+    "update-xml-deps": {
+      "implementation": "./src/executors/update-xml-deps/executor",
+      "schema": "./src/executors/update-xml-deps/schema.json",
+      "description": "update-xml-deps executor"
     }
   }
 }

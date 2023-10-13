@@ -58,8 +58,18 @@
         "trackDeps": true,
         "push": true,
         "noVerify": true,
-        "postTargets": ["common:github", "common:publish"],
+        "postTargets": [
+          "common:update-dependencies",
+          "common:github",
+          "common:publish"
+        ],
         "commitMessageFormat": "release: cut release ${version} of {projectName}"
+      }
+    },
+    "update-dependencies": {
+      "executor": "@jnxplus/internal-gradle-executors:update-dependencies",
+      "options": {
+        "version": "${version}"
       }
     },
     "github": {

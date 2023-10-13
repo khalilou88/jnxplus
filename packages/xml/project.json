@@ -55,8 +55,14 @@
         "trackDeps": true,
         "push": true,
         "noVerify": true,
-        "postTargets": ["xml:github", "xml:publish"],
+        "postTargets": ["xml:update-xml-deps", "xml:github", "xml:publish"],
         "commitMessageFormat": "release: cut release ${version} of {projectName}"
+      }
+    },
+    "update-xml-deps": {
+      "executor": "@jnxplus/internal-gradle-executors:update-xml-deps",
+      "options": {
+        "version": "${version}"
       }
     },
     "github": {
