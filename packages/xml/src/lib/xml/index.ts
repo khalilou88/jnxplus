@@ -1,6 +1,6 @@
 import { Tree } from '@nx/devkit';
-import { XmlDocument } from 'xmldoc';
 import * as fs from 'fs';
+import { XmlDocument } from 'xmldoc';
 
 export function readXmlTree(tree: Tree, path: string): XmlDocument {
   const fileText = tree.read(path)?.toString();
