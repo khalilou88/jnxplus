@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.11.1-next.4](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.11.1-next.3...nx-maven-0.11.1-next.4) (2023-10-13)
+
+
+### Reverts
+
+* Revert "build: use updateBuildableProjectDepsInPackageJson option" ([07b022f](https://github.com/khalilou88/jnxplus/commit/07b022fb27f896c1a2f490622874c318e519bdf3))
+
+
+
 ## [0.11.1-next.3](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.11.1-next.2...nx-maven-0.11.1-next.3) (2023-10-13)
 
 
