@@ -2,6 +2,10 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## 0.0.1-next.0 (2023-10-13)
+
+
+
 # [0.12.0](https://github.com/khalilou88/jnxplus/compare/maven-0.11.2...maven-0.12.0) (2023-10-04)
 
 ### Features
