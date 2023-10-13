@@ -1,5 +1,5 @@
-import { ExecutorContext, logger, workspaceRoot } from '@nx/devkit';
 import { join } from 'path';
+import { ExecutorContext, logger, workspaceRoot } from '@nx/devkit';
 import { getProjectRoot, runCommand } from '../../../.';
 import { QuarkusBuildImageExecutorSchema } from './schema';
 
