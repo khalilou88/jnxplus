@@ -31,7 +31,7 @@
     "directory": "packages/nx-gradle"
   },
   "dependencies": {
-    "@jnxplus/common": "*",
+    "@jnxplus/common": "0.11.3-next.0",
     "nx": "16.10.0",
     "tslib": "^2.6.2",
     "@nx/devkit": "16.10.0"
