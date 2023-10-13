@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.12.1-next.0](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.12.0...nx-gradle-0.12.1-next.0) (2023-10-13)
+
+
+### Features
+
+* **generators:** remove linters ([#510](https://github.com/khalilou88/jnxplus/issues/510)) ([877814a](https://github.com/khalilou88/jnxplus/commit/877814a24da1d46bb494a9c727a3bcf24cbf9247))
+
+
+
 # [0.12.0](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.11.1...nx-gradle-0.12.0) (2023-10-04)
 
 ### Dependency Updates
