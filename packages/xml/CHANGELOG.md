@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.1-next.1](https://github.com/khalilou88/jnxplus/compare/xml-0.0.1-next.0...xml-0.0.1-next.1) (2023-10-13)
+
+
+### Features
+
+* organize imports (fake feat to test version) ([d0bed47](https://github.com/khalilou88/jnxplus/commit/d0bed475ca7356e48bbbf423968eaf7a6c6ecb00))
+
+
+
 ## 0.0.1-next.0 (2023-10-13)
 
 
