@@ -18,7 +18,7 @@ export default async function runExecutor(
   //update file
   updateFile(options.version, 'packages/nx-maven');
 
-  const commitMessage = `release: write version ${options.version} in dependencies section`;
+  const commitMessage = `release: write @jnxplus/xml version ${options.version} in dependencies section`;
 
   const commit = `git commit --no-verify -m "${commitMessage}" packages/nx-maven/package.json`;
   execSync(commit, {

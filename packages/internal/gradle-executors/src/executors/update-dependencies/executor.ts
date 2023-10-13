@@ -19,7 +19,7 @@ export default async function runExecutor(
   updateFile(options.version, 'packages/nx-gradle');
   updateFile(options.version, 'packages/nx-maven');
 
-  const commitMessage = `release: write version ${options.version} in dependencies section`;
+  const commitMessage = `release: write @jnxplus/common version ${options.version} in dependencies section`;
 
   const commit = `git commit --no-verify -m "${commitMessage}" packages/nx-gradle/package.json packages/nx-maven/package.json`;
   execSync(commit, {
