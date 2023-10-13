@@ -2,6 +2,16 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.11.3-next.0](https://github.com/khalilou88/jnxplus/compare/common-0.11.2...common-0.11.3-next.0) (2023-10-13)
+
+
+### Features
+
+* **executors:** add NX_SKIP_GRADLE_WRAPPER environment variable ([#503](https://github.com/khalilou88/jnxplus/issues/503)) ([931428c](https://github.com/khalilou88/jnxplus/commit/931428c3be399222857ba9b40aa14de73b875572))
+* **generators:** remove linters ([#510](https://github.com/khalilou88/jnxplus/issues/510)) ([877814a](https://github.com/khalilou88/jnxplus/commit/877814a24da1d46bb494a9c727a3bcf24cbf9247))
+
+
+
 ## [0.11.2](https://github.com/khalilou88/jnxplus/compare/common-0.11.1...common-0.11.2) (2023-09-24)
 
 
