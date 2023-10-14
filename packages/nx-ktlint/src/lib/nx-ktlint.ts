@@ -1,3 +1,88 @@
-export function nxKtlint(): string {
-  return 'nx-ktlint';
+import { workspaceRoot } from '@nx/devkit';
+import axios from 'axios';
+import { execSync } from 'child_process';
+import * as fs from 'fs';
+import { readNxJson } from 'nx/src/config/configuration';
+import * as path from 'path';
+import * as stream from 'stream';
+import { promisify } from 'util';
+
+export async function getKtlintPath(dir = workspaceRoot) {
+  const version = getKtlintVersion(dir);
+
+  const downloadUrl = `https://github.com/pinterest/ktlint/releases/download/${version}/ktlint`;
+
+  let outputDirectory;
+  const nxJson = readNxJson();
+  if (nxJson.installation) {
+    outputDirectory = path.join(
+      dir,
+      '.nx',
+      'installation',
+      'node_modules',
+      '@jnxplus',
+      'tools',
+      'linters',
+      'ktlint',
+    );
+  } else {
+    outputDirectory = path.join(
+      dir,
+      'node_modules',
+      '@jnxplus',
+      'tools',
+      'linters',
+      'ktlint',
+    );
+  }
+
+  if (!fs.existsSync(outputDirectory)) {
+    fs.mkdirSync(outputDirectory, { recursive: true });
+  }
+
+  const ktlintAbsolutePath = path.join(outputDirectory, 'ktlint');
+  if (!fs.existsSync(ktlintAbsolutePath)) {
+    await downloadFile(downloadUrl, ktlintAbsolutePath);
+  } else if (isAnotherVersion(ktlintAbsolutePath, version)) {
+    fs.unlinkSync(ktlintAbsolutePath);
+    await downloadFile(downloadUrl, ktlintAbsolutePath);
+  }
+  return ktlintAbsolutePath;
+}
+
+function isAnotherVersion(ktlintAbsolutePath: string, version: string) {
+  const jarVersion = execSync(`java -jar ${ktlintAbsolutePath} --version`)
+    .toString()
+    .trim();
+  return jarVersion !== version;
+}
+
+const finished = promisify(stream.finished);
+export async function downloadFile(
+  fileUrl: string,
+  outputLocationPath: string,
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+): Promise<any> {
+  const writer = fs.createWriteStream(outputLocationPath);
+  return axios({
+    method: 'get',
+    url: fileUrl,
+    responseType: 'stream',
+  }).then((response) => {
+    response.data.pipe(writer);
+    return finished(writer); //this is a Promise
+  });
+}
+
+export function isE2eTest(tmpWorkspaceRoot: string) {
+  return (
+    fs.existsSync(tmpWorkspaceRoot) && isSubdir(tmpWorkspaceRoot, process.cwd())
+  );
+}
+
+function isSubdir(parentPath: string, childPath: string) {
+  const relative = path.relative(parentPath, childPath);
+  const isSubdir =
+    relative && !relative.startsWith('..') && !path.isAbsolute(relative);
+  return isSubdir;
 }
