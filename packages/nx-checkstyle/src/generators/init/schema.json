@@ -1,0 +1,8 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "NxCheckstyleInit",
+  "title": "Init",
+  "type": "object",
+  "properties": {},
+  "required": []
+}
