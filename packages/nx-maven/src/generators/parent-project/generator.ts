@@ -69,10 +69,19 @@ function normalizeOptions(
     : simpleProjectName;
 
   let projectRoot: string;
+  const mavenRootDirectory = getMavenRootDirectory();
   if (options.projectType === 'application') {
-    projectRoot = `${getWorkspaceLayout(tree).appsDir}/${projectDirectory}`;
+    projectRoot = path.join(
+      mavenRootDirectory,
+      getWorkspaceLayout(tree).appsDir,
+      `${projectDirectory}`,
+    );
   } else {
-    projectRoot = `${getWorkspaceLayout(tree).libsDir}/${projectDirectory}`;
+    projectRoot = path.join(
+      mavenRootDirectory,
+      getWorkspaceLayout(tree).libsDir,
+      `${projectDirectory}`,
+    );
   }
 
   const parsedTags = options.tags
@@ -104,8 +113,6 @@ function normalizeOptions(
     pomXmlContent?.childNamed('artifactId')?.val || 'parentProjectName';
   parentProjectVersion =
     pomXmlContent?.childNamed('version')?.val || 'parentProjectVersion';
-
-  const mavenRootDirectory = getMavenRootDirectory();
 
   return {
     ...options,

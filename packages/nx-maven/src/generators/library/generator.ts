@@ -74,7 +74,13 @@ function normalizeOptions(
   const projectDirectory = options.directory
     ? `${names(options.directory).fileName}/${simpleProjectName}`
     : simpleProjectName;
-  const projectRoot = `${getWorkspaceLayout(tree).libsDir}/${projectDirectory}`;
+
+  const mavenRootDirectory = getMavenRootDirectory();
+  const projectRoot = path.join(
+    mavenRootDirectory,
+    getWorkspaceLayout(tree).libsDir,
+    `${projectDirectory}`,
+  );
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
@@ -125,8 +131,6 @@ function normalizeOptions(
     pomXmlContent?.childNamed('artifactId')?.val || 'parentProjectName';
   const parentProjectVersion =
     pomXmlContent?.childNamed('version')?.val || 'parentProjectVersion';
-
-  const mavenRootDirectory = getMavenRootDirectory();
 
   return {
     ...options,

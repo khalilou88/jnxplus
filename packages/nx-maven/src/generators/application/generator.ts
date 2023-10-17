@@ -81,7 +81,12 @@ function normalizeOptions(
     ? `${names(options.directory).fileName}/${simpleProjectName}`
     : simpleProjectName;
 
-  const projectRoot = `${getWorkspaceLayout(tree).appsDir}/${projectDirectory}`;
+  const mavenRootDirectory = getMavenRootDirectory();
+  const projectRoot = path.join(
+    mavenRootDirectory,
+    getWorkspaceLayout(tree).appsDir,
+    `${projectDirectory}`,
+  );
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
@@ -146,8 +151,6 @@ function normalizeOptions(
   }
 
   const dependencyManagement = getDependencyManagement(rootPomXmlContent);
-
-  const mavenRootDirectory = getMavenRootDirectory();
 
   return {
     ...options,
