@@ -22,6 +22,7 @@ import {
   addProjectToAggregator,
 } from '../../utils/generators';
 import { NxMavenParentProjectGeneratorSchema } from './schema';
+import { getMavenRootDirectory } from '../../utils';
 
 export default async function (
   tree: Tree,
@@ -43,6 +44,7 @@ interface NormalizedSchema extends NxMavenParentProjectGeneratorSchema {
   springBootVersion: string;
   quarkusVersion: string;
   micronautVersion: string;
+  mavenRootDirectory: string;
 }
 
 function normalizeOptions(
@@ -103,6 +105,8 @@ function normalizeOptions(
   parentProjectVersion =
     pomXmlContent?.childNamed('version')?.val || 'parentProjectVersion';
 
+  const mavenRootDirectory = getMavenRootDirectory();
+
   return {
     ...options,
     projectName,
@@ -117,6 +121,7 @@ function normalizeOptions(
     springBootVersion,
     quarkusVersion,
     micronautVersion,
+    mavenRootDirectory,
   };
 }
 

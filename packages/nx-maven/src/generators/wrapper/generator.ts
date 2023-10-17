@@ -1,9 +1,11 @@
 import { formatFiles, generateFiles, offsetFromRoot, Tree } from '@nx/devkit';
 import * as path from 'path';
 import { NxMavenWrapperGeneratorSchema } from './schema';
+import { getMavenRootDirectory } from '../../utils';
 
 interface NormalizedSchema extends NxMavenWrapperGeneratorSchema {
   dot: string;
+  mavenRootDirectory: string;
 }
 
 function normalizeOptions(
@@ -12,9 +14,12 @@ function normalizeOptions(
 ): NormalizedSchema {
   const dot = '.';
 
+  const mavenRootDirectory = getMavenRootDirectory();
+
   return {
     ...options,
     dot,
+    mavenRootDirectory,
   };
 }
 
@@ -27,7 +32,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   generateFiles(
     tree,
     path.join(__dirname, '..', 'init', 'files', 'maven', 'wrapper'),
-    '',
+    options.mavenRootDirectory,
     templateOptions,
   );
 }
@@ -41,8 +46,14 @@ export default async function (
   if (!options.skipGitignore) {
     updateGitIgnore(tree);
   }
-  tree.changePermissions('mvnw', '755');
-  tree.changePermissions('mvnw.cmd', '755');
+  tree.changePermissions(
+    path.join(normalizedOptions.mavenRootDirectory, 'mvnw'),
+    '755',
+  );
+  tree.changePermissions(
+    path.join(normalizedOptions.mavenRootDirectory, 'mvnw.cmd'),
+    '755',
+  );
   await formatFiles(tree);
 }
 

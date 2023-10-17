@@ -26,6 +26,7 @@ import {
   addProjectToAggregator,
 } from '../../utils/generators';
 import { NxMavenLibGeneratorSchema } from './schema';
+import { getMavenRootDirectory } from '../../utils';
 
 export default async function (tree: Tree, options: NxMavenLibGeneratorSchema) {
   await libraryGenerator(__dirname, '@jnxplus/nx-maven', tree, options);
@@ -49,6 +50,7 @@ interface NormalizedSchema extends NxMavenLibGeneratorSchema {
   quarkusVersion: string;
   micronautVersion: string;
   plugin: MavenPluginType;
+  mavenRootDirectory: string;
 }
 
 function normalizeOptions(
@@ -124,6 +126,8 @@ function normalizeOptions(
   const parentProjectVersion =
     pomXmlContent?.childNamed('version')?.val || 'parentProjectVersion';
 
+  const mavenRootDirectory = getMavenRootDirectory();
+
   return {
     ...options,
     projectName,
@@ -143,6 +147,7 @@ function normalizeOptions(
     quarkusVersion,
     micronautVersion,
     plugin,
+    mavenRootDirectory,
   };
 }
 

@@ -32,6 +32,14 @@ function isWrapperExistsFunction() {
   return fs.existsSync(mvnwPath);
 }
 
+export function getMavenRootDirectory() {
+  const pomXmlPath = path.join(workspaceRoot, 'pom.xml');
+  if (fs.existsSync(pomXmlPath)) {
+    return '';
+  }
+  return 'nx-maven';
+}
+
 export function isPomPackaging(context: ExecutorContext): boolean {
   const projectRoot = getProjectRoot(context);
   const pomXmlPath = path.join(context.root, projectRoot, 'pom.xml');

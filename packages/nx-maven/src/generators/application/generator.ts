@@ -27,6 +27,7 @@ import {
   getDependencyManagement,
 } from '../../utils/generators';
 import { NxMavenAppGeneratorSchema } from './schema';
+import { getMavenRootDirectory } from '../../utils';
 
 export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
   await applicationGenerator(__dirname, '@jnxplus/nx-maven', tree, options);
@@ -55,6 +56,7 @@ interface NormalizedSchema extends NxMavenAppGeneratorSchema {
     | 'bom'
     | 'spring-boot-parent-pom'
     | 'micronaut-parent-pom';
+  mavenRootDirectory: string;
 }
 
 function normalizeOptions(
@@ -145,6 +147,8 @@ function normalizeOptions(
 
   const dependencyManagement = getDependencyManagement(rootPomXmlContent);
 
+  const mavenRootDirectory = getMavenRootDirectory();
+
   return {
     ...options,
     projectName,
@@ -166,6 +170,7 @@ function normalizeOptions(
     micronautVersion,
     plugin,
     dependencyManagement,
+    mavenRootDirectory,
   };
 }
 
