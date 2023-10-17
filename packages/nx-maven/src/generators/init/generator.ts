@@ -66,6 +66,15 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     options.mavenRootDirectory,
     templateOptions,
   );
+
+  if (options.useSubfolder) {
+    generateFiles(
+      tree,
+      path.join(__dirname, 'files', 'nx'),
+      options.mavenRootDirectory,
+      templateOptions,
+    );
+  }
 }
 
 export default async function (tree: Tree, options: NxMavenGeneratorSchema) {
