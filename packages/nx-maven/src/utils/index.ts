@@ -28,7 +28,8 @@ export function getExecutable() {
 }
 
 function isWrapperExistsFunction() {
-  const mvnwPath = path.join(workspaceRoot, 'mvnw');
+  const mavenRootDirectory = getMavenRootDirectory();
+  const mvnwPath = path.join(workspaceRoot, mavenRootDirectory, 'mvnw');
   return fs.existsSync(mvnwPath);
 }
 
