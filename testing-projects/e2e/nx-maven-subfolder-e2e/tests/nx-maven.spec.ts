@@ -119,11 +119,11 @@ describe('nx-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        '.mvn/wrapper/maven-wrapper.jar',
-        '.mvn/wrapper/maven-wrapper.properties',
-        'mvnw',
-        'mvnw.cmd',
-        'pom.xml',
+        'nx-maven/.mvn/wrapper/maven-wrapper.jar',
+        'nx-maven/.mvn/wrapper/maven-wrapper.properties',
+        'nx-maven/mvnw',
+        'nx-maven/mvnw.cmd',
+        'nx-maven/pom.xml',
       ),
     ).not.toThrow();
   }, 120000);
@@ -137,13 +137,13 @@ describe('nx-maven e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${appName}/pom.xml`,
-        `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/java/com/example/${names(
+        `nx-maven/${appName}/pom.xml`,
+        `nx-maven/${appName}/src/main/resources/application.properties`,
+        `nx-maven/${appName}/src/main/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/App.java`,
-        `${appName}/src/test/resources/application.properties`,
-        `${appName}/src/test/java/com/example/${names(
+        `nx-maven/${appName}/src/test/resources/application.properties`,
+        `nx-maven/${appName}/src/test/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/AppTest.java`,
       ),
