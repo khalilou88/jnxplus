@@ -305,8 +305,15 @@ export function updateNx() {
 }
 
 export function addSpringBootVersion() {
-  const pomXmlPath = path.join(tmpProjPath(), 'pom.xml');
-  const xmldoc = readXml(pomXmlPath);
+  let xmldoc;
+  let pomXmlPath = path.join(tmpProjPath(), 'pom.xml');
+
+  if (fs.existsSync(pomXmlPath)) {
+    xmldoc = readXml(pomXmlPath);
+  } else {
+    pomXmlPath = path.join(tmpProjPath(), 'nx-maven', 'pom.xml');
+    xmldoc = readXml(pomXmlPath);
+  }
 
   //properties
   let properties = xmldoc.childNamed('properties');

@@ -356,14 +356,15 @@ async function libraryGenerator(
   tree: Tree,
   options: NxMavenLibGeneratorSchema,
 ) {
+  const normalizedOptions = normalizeOptions(plugin, tree, options);
+
   addMissedProperties(plugin, tree, {
     framework: options.framework,
     springBootVersion: springBootVersion,
     quarkusVersion: quarkusVersion,
     micronautVersion: micronautVersion,
+    mavenRootDirectory: normalizedOptions.mavenRootDirectory,
   });
-
-  const normalizedOptions = normalizeOptions(plugin, tree, options);
 
   const projectConfiguration: ProjectConfiguration = {
     root: normalizedOptions.projectRoot,
@@ -397,6 +398,7 @@ async function libraryGenerator(
   addProjectToAggregator(tree, {
     projectRoot: normalizedOptions.projectRoot,
     aggregatorProject: normalizedOptions.aggregatorProject,
+    mavenRootDirectory: normalizedOptions.mavenRootDirectory,
   });
   addLibraryToProjects(tree, normalizedOptions);
   await formatFiles(tree);

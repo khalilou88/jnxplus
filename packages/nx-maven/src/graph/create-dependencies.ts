@@ -12,6 +12,7 @@ import { fileExists } from 'nx/src/utils/fileutils';
 import * as path from 'path';
 import { join } from 'path';
 import { XmlDocument } from 'xmldoc';
+import { getMavenRootDirectory } from '../utils';
 
 export const createDependencies: CreateDependencies = (context) => {
   const results: RawProjectGraphDependency[] = [];
@@ -93,7 +94,8 @@ function addProjects(
   aggregatorProjectArtifactId?: string,
 ) {
   //projectDirPath
-  const projectDirPath = join(workspaceRoot, projectRoot);
+  const mavenRootDirectory = getMavenRootDirectory();
+  const projectDirPath = join(workspaceRoot, mavenRootDirectory, projectRoot);
   const projectJsonPath = join(projectDirPath, 'project.json');
   const pomXmlPath = join(projectDirPath, 'pom.xml');
   const pomXmlContent = readXml(pomXmlPath);

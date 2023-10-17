@@ -153,14 +153,15 @@ async function parentProjectGenerator(
   tree: Tree,
   options: NxMavenParentProjectGeneratorSchema,
 ) {
+  const normalizedOptions = normalizeOptions(tree, options);
+
   addMissedProperties(plugin, tree, {
     framework: options.framework,
     springBootVersion: springBootVersion,
     quarkusVersion: quarkusVersion,
     micronautVersion: micronautVersion,
+    mavenRootDirectory: normalizedOptions.mavenRootDirectory,
   });
-
-  const normalizedOptions = normalizeOptions(tree, options);
 
   addProjectConfiguration(tree, normalizedOptions.projectName, {
     root: normalizedOptions.projectRoot,
@@ -180,6 +181,7 @@ async function parentProjectGenerator(
   addProjectToAggregator(tree, {
     projectRoot: normalizedOptions.projectRoot,
     aggregatorProject: normalizedOptions.aggregatorProject,
+    mavenRootDirectory: normalizedOptions.mavenRootDirectory,
   });
   await formatFiles(tree);
 }

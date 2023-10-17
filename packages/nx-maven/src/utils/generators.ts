@@ -11,10 +11,16 @@ import { XmlDocument } from 'xmldoc';
 
 export function addProjectToAggregator(
   tree: Tree,
-  options: { projectRoot: string; aggregatorProject: string | undefined },
+  options: {
+    projectRoot: string;
+    aggregatorProject: string | undefined;
+    mavenRootDirectory: string;
+  },
 ) {
   const aggregatorProjectRoot = options.aggregatorProject
     ? readProjectConfiguration(tree, options.aggregatorProject).root
+    : options.mavenRootDirectory
+    ? options.mavenRootDirectory
     : '';
 
   const parentProjectPomPath = path.join(aggregatorProjectRoot, 'pom.xml');
@@ -163,9 +169,13 @@ export function addMissedProperties(
     springBootVersion: string;
     quarkusVersion: string;
     micronautVersion: string;
+    mavenRootDirectory: string;
   },
 ) {
-  const xmldoc = readXmlTree(tree, 'pom.xml');
+  const xmldoc = readXmlTree(
+    tree,
+    path.join(options.mavenRootDirectory, 'pom.xml'),
+  );
 
   //properties
   let properties = xmldoc.childNamed('properties');

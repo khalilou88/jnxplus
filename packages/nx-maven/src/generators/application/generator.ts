@@ -118,13 +118,18 @@ function normalizeOptions(
 
   const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
 
-  const rootPomXmlContent = readXmlTree(tree, 'pom.xml');
+  const rootPomXmlContent = readXmlTree(
+    tree,
+    path.join(mavenRootDirectory, 'pom.xml'),
+  );
   const rootParentProjectName =
     rootPomXmlContent?.childNamed('artifactId')?.val;
 
   const parentProjectRoot =
     options.parentProject && options.parentProject !== rootParentProjectName
       ? readProjectConfiguration(tree, options.parentProject).root
+      : mavenRootDirectory
+      ? mavenRootDirectory
       : '';
 
   const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
@@ -410,14 +415,15 @@ async function applicationGenerator(
   tree: Tree,
   options: NxMavenAppGeneratorSchema,
 ) {
+  const normalizedOptions = normalizeOptions(plugin, tree, options);
+
   addMissedProperties(plugin, tree, {
     framework: options.framework,
     springBootVersion: springBootVersion,
     quarkusVersion: quarkusVersion,
     micronautVersion: micronautVersion,
+    mavenRootDirectory: normalizedOptions.mavenRootDirectory,
   });
-
-  const normalizedOptions = normalizeOptions(plugin, tree, options);
 
   const projectConfiguration: ProjectConfiguration = {
     root: normalizedOptions.projectRoot,
@@ -519,6 +525,7 @@ async function applicationGenerator(
   addProjectToAggregator(tree, {
     projectRoot: normalizedOptions.projectRoot,
     aggregatorProject: normalizedOptions.aggregatorProject,
+    mavenRootDirectory: normalizedOptions.mavenRootDirectory,
   });
   await formatFiles(tree);
 }
