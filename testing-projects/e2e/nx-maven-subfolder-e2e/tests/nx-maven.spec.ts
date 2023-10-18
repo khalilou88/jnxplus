@@ -333,7 +333,7 @@ describe('nx-maven e2e', () => {
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
-    expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(`nx-maven/${appName}/target`)).not.toThrow();
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
