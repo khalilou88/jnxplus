@@ -951,14 +951,14 @@ describe('nx-maven e2e', () => {
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //test run-task
-    const projectJson = readJson(`${appName}/project.json`);
+    const projectJson = readJson(`nx-maven/${appName}/project.json`);
     projectJson.targets = {
       ...projectJson.targets,
       'run-task': {
         executor: '@jnxplus/nx-maven:run-task',
       },
     };
-    updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
+    updateFile(`nx-maven/${appName}/project.json`, JSON.stringify(projectJson));
     const runTaskResult = await runNxCommandAsync(
       `run-task ${appName} --task="clean install -DskipTests=true"`,
     );
