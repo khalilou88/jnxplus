@@ -76,7 +76,7 @@ function normalizeOptions(
     : simpleProjectName;
 
   const mavenRootDirectory = getMavenRootDirectory();
-  const projectRoot = path.join(
+  const projectRoot = joinPathFragments(
     mavenRootDirectory,
     getWorkspaceLayout(tree).libsDir,
     `${projectDirectory}`,
@@ -374,7 +374,7 @@ async function libraryGenerator(
   const projectConfiguration: ProjectConfiguration = {
     root: normalizedOptions.projectRoot,
     projectType: 'library',
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
+    sourceRoot: `./${normalizedOptions.projectRoot}/src`,
     targets: {
       build: {
         executor: `${plugin}:run-task`,
