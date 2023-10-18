@@ -316,7 +316,7 @@ async function libraryGenerator(
   const projectConfiguration: ProjectConfiguration = {
     root: normalizedOptions.projectRoot,
     projectType: 'library',
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
+    sourceRoot: `./${normalizedOptions.projectRoot}/src`,
     targets: {
       build: {
         executor: `${plugin}:run-task`,

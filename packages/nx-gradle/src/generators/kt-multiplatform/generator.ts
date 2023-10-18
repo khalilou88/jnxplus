@@ -231,7 +231,7 @@ function generateAndroidApp(normalizedOptions: NormalizedSchema, tree: Tree) {
   const projectConfiguration: ProjectConfiguration = {
     root: normalizedOptions.androidAppRoot,
     projectType: 'application',
-    sourceRoot: `${normalizedOptions.androidAppRoot}/src`,
+    sourceRoot: `./${normalizedOptions.androidAppRoot}/src`,
     targets: {
       build: {
         executor: `@jnxplus/nx-gradle:run-task`,
@@ -267,7 +267,7 @@ function generateIosApp(normalizedOptions: NormalizedSchema, tree: Tree) {
   const projectConfiguration: ProjectConfiguration = {
     root: normalizedOptions.iosAppRoot,
     projectType: 'application',
-    sourceRoot: `${normalizedOptions.iosAppRoot}/src`,
+    sourceRoot: `./${normalizedOptions.iosAppRoot}/src`,
     targets: {},
     tags: normalizedOptions.parsedTags,
     implicitDependencies: [
@@ -289,7 +289,7 @@ function generateDesktopApp(normalizedOptions: NormalizedSchema, tree: Tree) {
   const projectConfiguration: ProjectConfiguration = {
     root: normalizedOptions.desktopAppRoot,
     projectType: 'application',
-    sourceRoot: `${normalizedOptions.desktopAppRoot}/src`,
+    sourceRoot: `./${normalizedOptions.desktopAppRoot}/src`,
     targets: {
       build: {
         executor: `@jnxplus/nx-gradle:run-task`,
@@ -331,7 +331,7 @@ function generateSharedLib(normalizedOptions: NormalizedSchema, tree: Tree) {
   const projectConfiguration: ProjectConfiguration = {
     root: normalizedOptions.sharedLibRoot,
     projectType: 'library',
-    sourceRoot: `${normalizedOptions.sharedLibRoot}/src`,
+    sourceRoot: `./${normalizedOptions.sharedLibRoot}/src`,
     targets: {
       build: {
         executor: `@jnxplus/nx-gradle:run-task`,

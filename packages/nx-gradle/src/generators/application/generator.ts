@@ -379,7 +379,7 @@ async function applicationGenerator(
   const projectConfiguration: ProjectConfiguration = {
     root: normalizedOptions.projectRoot,
     projectType: 'application',
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
+    sourceRoot: `./${normalizedOptions.projectRoot}/src`,
     targets: {
       build: {
         executor: `${plugin}:run-task`,
