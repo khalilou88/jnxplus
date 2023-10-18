@@ -172,10 +172,8 @@ export function addMissedProperties(
     mavenRootDirectory: string;
   },
 ) {
-  const xmldoc = readXmlTree(
-    tree,
-    path.join(options.mavenRootDirectory, 'pom.xml'),
-  );
+  const pomPath = path.join(options.mavenRootDirectory, 'pom.xml');
+  const xmldoc = readXmlTree(tree, pomPath);
 
   //properties
   let properties = xmldoc.childNamed('properties');
@@ -205,7 +203,7 @@ export function addMissedProperties(
   `),
         );
 
-        tree.write('pom.xml', xmlToString(xmldoc));
+        tree.write(pomPath, xmlToString(xmldoc));
         return;
       }
     }
@@ -219,7 +217,7 @@ export function addMissedProperties(
       <quarkus.version>${options.quarkusVersion}</quarkus.version>
     `),
       );
-      tree.write('pom.xml', xmlToString(xmldoc));
+      tree.write(pomPath, xmlToString(xmldoc));
       return;
     }
   }
@@ -234,7 +232,7 @@ export function addMissedProperties(
     <micronaut.version>${options.micronautVersion}</micronaut.version>
   `),
         );
-        tree.write('pom.xml', xmlToString(xmldoc));
+        tree.write(pomPath, xmlToString(xmldoc));
         return;
       }
     }
