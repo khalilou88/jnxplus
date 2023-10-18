@@ -88,7 +88,7 @@ function normalizeOptions(
     ? options.tags.split(',').map((s) => s.trim())
     : [];
 
-  let parentProjectRoot = '';
+  let parentProjectRoot = mavenRootDirectory;
   if (options.parentProject) {
     parentProjectRoot = readProjectConfiguration(
       tree,
