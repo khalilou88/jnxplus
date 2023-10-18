@@ -3,6 +3,7 @@ import {
   addPrettierToPackageJsonFile,
   addSpringBootVersion,
   addTmpToGitignore,
+  checkFilesDoNotExist,
   getData,
   killPorts,
   patchPackageJson,
@@ -124,6 +125,16 @@ describe('nx-maven e2e', () => {
         'nx-maven/mvnw',
         'nx-maven/mvnw.cmd',
         'nx-maven/pom.xml',
+      ),
+    ).not.toThrow();
+
+    expect(() =>
+      checkFilesDoNotExist(
+        '.mvn/wrapper/maven-wrapper.jar',
+        '.mvn/wrapper/maven-wrapper.properties',
+        'mvnw',
+        'mvnw.cmd',
+        'pom.xml',
       ),
     ).not.toThrow();
   }, 120000);
