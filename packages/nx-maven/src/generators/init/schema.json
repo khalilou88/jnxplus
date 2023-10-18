@@ -75,6 +75,11 @@
       "description": "Don't generate maven wrapper",
       "type": "boolean",
       "default": false
+    },
+    "useSubfolder": {
+      "description": "Generate maven config and projects in a subfolder",
+      "type": "boolean",
+      "default": false
     }
   },
   "required": [

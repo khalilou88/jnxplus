@@ -27,6 +27,7 @@ import {
   getDependencyManagement,
 } from '../../utils/generators';
 import { NxMavenAppGeneratorSchema } from './schema';
+import { getMavenRootDirectory } from '../../utils';
 
 export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
   await applicationGenerator(__dirname, '@jnxplus/nx-maven', tree, options);
@@ -55,6 +56,7 @@ interface NormalizedSchema extends NxMavenAppGeneratorSchema {
     | 'bom'
     | 'spring-boot-parent-pom'
     | 'micronaut-parent-pom';
+  mavenRootDirectory: string;
 }
 
 function normalizeOptions(
@@ -79,7 +81,12 @@ function normalizeOptions(
     ? `${names(options.directory).fileName}/${simpleProjectName}`
     : simpleProjectName;
 
-  const projectRoot = `${getWorkspaceLayout(tree).appsDir}/${projectDirectory}`;
+  const mavenRootDirectory = getMavenRootDirectory();
+  const projectRoot = joinPathFragments(
+    mavenRootDirectory,
+    getWorkspaceLayout(tree).appsDir,
+    `${projectDirectory}`,
+  );
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
@@ -111,13 +118,18 @@ function normalizeOptions(
 
   const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
 
-  const rootPomXmlContent = readXmlTree(tree, 'pom.xml');
+  const rootPomXmlContent = readXmlTree(
+    tree,
+    path.join(mavenRootDirectory, 'pom.xml'),
+  );
   const rootParentProjectName =
     rootPomXmlContent?.childNamed('artifactId')?.val;
 
   const parentProjectRoot =
     options.parentProject && options.parentProject !== rootParentProjectName
       ? readProjectConfiguration(tree, options.parentProject).root
+      : mavenRootDirectory
+      ? mavenRootDirectory
       : '';
 
   const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
@@ -166,6 +178,7 @@ function normalizeOptions(
     micronautVersion,
     plugin,
     dependencyManagement,
+    mavenRootDirectory,
   };
 }
 
@@ -402,19 +415,20 @@ async function applicationGenerator(
   tree: Tree,
   options: NxMavenAppGeneratorSchema,
 ) {
+  const normalizedOptions = normalizeOptions(plugin, tree, options);
+
   addMissedProperties(plugin, tree, {
     framework: options.framework,
     springBootVersion: springBootVersion,
     quarkusVersion: quarkusVersion,
     micronautVersion: micronautVersion,
+    mavenRootDirectory: normalizedOptions.mavenRootDirectory,
   });
-
-  const normalizedOptions = normalizeOptions(plugin, tree, options);
 
   const projectConfiguration: ProjectConfiguration = {
     root: normalizedOptions.projectRoot,
     projectType: 'application',
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
+    sourceRoot: `./${normalizedOptions.projectRoot}/src`,
     targets: {
       build: {
         executor: `${plugin}:run-task`,
@@ -511,6 +525,7 @@ async function applicationGenerator(
   addProjectToAggregator(tree, {
     projectRoot: normalizedOptions.projectRoot,
     aggregatorProject: normalizedOptions.aggregatorProject,
+    mavenRootDirectory: normalizedOptions.mavenRootDirectory,
   });
   await formatFiles(tree);
 }

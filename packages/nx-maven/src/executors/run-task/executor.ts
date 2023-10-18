@@ -1,7 +1,8 @@
-import { ExecutorContext, logger } from '@nx/devkit';
+import { ExecutorContext, logger, workspaceRoot } from '@nx/devkit';
 import { getTargetName, runCommand, waitForever } from '@jnxplus/common';
 import { RunTaskExecutorSchema } from './schema';
-import { getExecutable } from '../../utils';
+import { getExecutable, getMavenRootDirectory } from '../../utils';
+import { join } from 'path';
 
 export default async function runExecutor(
   options: RunTaskExecutorSchema,
@@ -19,7 +20,8 @@ export default async function runExecutor(
 
   const command = `${getExecutable()} ${task} -pl :${context.projectName}`;
 
-  const result = runCommand(command);
+  const mavenRootDirectory = getMavenRootDirectory();
+  const result = runCommand(command, join(workspaceRoot, mavenRootDirectory));
 
   if (!result.success) {
     return { success: false };

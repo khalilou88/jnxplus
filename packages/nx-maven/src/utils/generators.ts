@@ -11,10 +11,16 @@ import { XmlDocument } from 'xmldoc';
 
 export function addProjectToAggregator(
   tree: Tree,
-  options: { projectRoot: string; aggregatorProject: string | undefined },
+  options: {
+    projectRoot: string;
+    aggregatorProject: string | undefined;
+    mavenRootDirectory: string;
+  },
 ) {
   const aggregatorProjectRoot = options.aggregatorProject
     ? readProjectConfiguration(tree, options.aggregatorProject).root
+    : options.mavenRootDirectory
+    ? options.mavenRootDirectory
     : '';
 
   const parentProjectPomPath = path.join(aggregatorProjectRoot, 'pom.xml');
@@ -163,9 +169,11 @@ export function addMissedProperties(
     springBootVersion: string;
     quarkusVersion: string;
     micronautVersion: string;
+    mavenRootDirectory: string;
   },
 ) {
-  const xmldoc = readXmlTree(tree, 'pom.xml');
+  const pomPath = path.join(options.mavenRootDirectory, 'pom.xml');
+  const xmldoc = readXmlTree(tree, pomPath);
 
   //properties
   let properties = xmldoc.childNamed('properties');
@@ -195,7 +203,7 @@ export function addMissedProperties(
   `),
         );
 
-        tree.write('pom.xml', xmlToString(xmldoc));
+        tree.write(pomPath, xmlToString(xmldoc));
         return;
       }
     }
@@ -209,7 +217,7 @@ export function addMissedProperties(
       <quarkus.version>${options.quarkusVersion}</quarkus.version>
     `),
       );
-      tree.write('pom.xml', xmlToString(xmldoc));
+      tree.write(pomPath, xmlToString(xmldoc));
       return;
     }
   }
@@ -224,7 +232,7 @@ export function addMissedProperties(
     <micronaut.version>${options.micronautVersion}</micronaut.version>
   `),
         );
-        tree.write('pom.xml', xmlToString(xmldoc));
+        tree.write(pomPath, xmlToString(xmldoc));
         return;
       }
     }

@@ -26,6 +26,7 @@ import {
   addProjectToAggregator,
 } from '../../utils/generators';
 import { NxMavenLibGeneratorSchema } from './schema';
+import { getMavenRootDirectory } from '../../utils';
 
 export default async function (tree: Tree, options: NxMavenLibGeneratorSchema) {
   await libraryGenerator(__dirname, '@jnxplus/nx-maven', tree, options);
@@ -49,6 +50,7 @@ interface NormalizedSchema extends NxMavenLibGeneratorSchema {
   quarkusVersion: string;
   micronautVersion: string;
   plugin: MavenPluginType;
+  mavenRootDirectory: string;
 }
 
 function normalizeOptions(
@@ -72,7 +74,13 @@ function normalizeOptions(
   const projectDirectory = options.directory
     ? `${names(options.directory).fileName}/${simpleProjectName}`
     : simpleProjectName;
-  const projectRoot = `${getWorkspaceLayout(tree).libsDir}/${projectDirectory}`;
+
+  const mavenRootDirectory = getMavenRootDirectory();
+  const projectRoot = joinPathFragments(
+    mavenRootDirectory,
+    getWorkspaceLayout(tree).libsDir,
+    `${projectDirectory}`,
+  );
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
@@ -101,13 +109,18 @@ function normalizeOptions(
 
   const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
 
-  const rootPomXmlContent = readXmlTree(tree, 'pom.xml');
+  const rootPomXmlContent = readXmlTree(
+    tree,
+    path.join(mavenRootDirectory, 'pom.xml'),
+  );
   const rootParentProjectName =
     rootPomXmlContent?.childNamed('artifactId')?.val;
 
   const parentProjectRoot =
     options.parentProject && options.parentProject !== rootParentProjectName
       ? readProjectConfiguration(tree, options.parentProject).root
+      : mavenRootDirectory
+      ? mavenRootDirectory
       : '';
 
   const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
@@ -143,6 +156,7 @@ function normalizeOptions(
     quarkusVersion,
     micronautVersion,
     plugin,
+    mavenRootDirectory,
   };
 }
 
@@ -347,19 +361,20 @@ async function libraryGenerator(
   tree: Tree,
   options: NxMavenLibGeneratorSchema,
 ) {
+  const normalizedOptions = normalizeOptions(plugin, tree, options);
+
   addMissedProperties(plugin, tree, {
     framework: options.framework,
     springBootVersion: springBootVersion,
     quarkusVersion: quarkusVersion,
     micronautVersion: micronautVersion,
+    mavenRootDirectory: normalizedOptions.mavenRootDirectory,
   });
-
-  const normalizedOptions = normalizeOptions(plugin, tree, options);
 
   const projectConfiguration: ProjectConfiguration = {
     root: normalizedOptions.projectRoot,
     projectType: 'library',
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
+    sourceRoot: `./${normalizedOptions.projectRoot}/src`,
     targets: {
       build: {
         executor: `${plugin}:run-task`,
@@ -388,6 +403,7 @@ async function libraryGenerator(
   addProjectToAggregator(tree, {
     projectRoot: normalizedOptions.projectRoot,
     aggregatorProject: normalizedOptions.aggregatorProject,
+    mavenRootDirectory: normalizedOptions.mavenRootDirectory,
   });
   addLibraryToProjects(tree, normalizedOptions);
   await formatFiles(tree);

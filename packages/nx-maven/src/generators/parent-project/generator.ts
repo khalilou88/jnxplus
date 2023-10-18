@@ -22,6 +22,7 @@ import {
   addProjectToAggregator,
 } from '../../utils/generators';
 import { NxMavenParentProjectGeneratorSchema } from './schema';
+import { getMavenRootDirectory } from '../../utils';
 
 export default async function (
   tree: Tree,
@@ -43,6 +44,7 @@ interface NormalizedSchema extends NxMavenParentProjectGeneratorSchema {
   springBootVersion: string;
   quarkusVersion: string;
   micronautVersion: string;
+  mavenRootDirectory: string;
 }
 
 function normalizeOptions(
@@ -67,17 +69,26 @@ function normalizeOptions(
     : simpleProjectName;
 
   let projectRoot: string;
+  const mavenRootDirectory = getMavenRootDirectory();
   if (options.projectType === 'application') {
-    projectRoot = `${getWorkspaceLayout(tree).appsDir}/${projectDirectory}`;
+    projectRoot = path.join(
+      mavenRootDirectory,
+      getWorkspaceLayout(tree).appsDir,
+      `${projectDirectory}`,
+    );
   } else {
-    projectRoot = `${getWorkspaceLayout(tree).libsDir}/${projectDirectory}`;
+    projectRoot = path.join(
+      mavenRootDirectory,
+      getWorkspaceLayout(tree).libsDir,
+      `${projectDirectory}`,
+    );
   }
 
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
 
-  let parentProjectRoot = '';
+  let parentProjectRoot = mavenRootDirectory;
   if (options.parentProject) {
     parentProjectRoot = readProjectConfiguration(
       tree,
@@ -117,6 +128,7 @@ function normalizeOptions(
     springBootVersion,
     quarkusVersion,
     micronautVersion,
+    mavenRootDirectory,
   };
 }
 
@@ -141,14 +153,15 @@ async function parentProjectGenerator(
   tree: Tree,
   options: NxMavenParentProjectGeneratorSchema,
 ) {
+  const normalizedOptions = normalizeOptions(tree, options);
+
   addMissedProperties(plugin, tree, {
     framework: options.framework,
     springBootVersion: springBootVersion,
     quarkusVersion: quarkusVersion,
     micronautVersion: micronautVersion,
+    mavenRootDirectory: normalizedOptions.mavenRootDirectory,
   });
-
-  const normalizedOptions = normalizeOptions(tree, options);
 
   addProjectConfiguration(tree, normalizedOptions.projectName, {
     root: normalizedOptions.projectRoot,
@@ -168,6 +181,7 @@ async function parentProjectGenerator(
   addProjectToAggregator(tree, {
     projectRoot: normalizedOptions.projectRoot,
     aggregatorProject: normalizedOptions.aggregatorProject,
+    mavenRootDirectory: normalizedOptions.mavenRootDirectory,
   });
   await formatFiles(tree);
 }

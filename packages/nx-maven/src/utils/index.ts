@@ -28,8 +28,17 @@ export function getExecutable() {
 }
 
 function isWrapperExistsFunction() {
-  const mvnwPath = path.join(workspaceRoot, 'mvnw');
+  const mavenRootDirectory = getMavenRootDirectory();
+  const mvnwPath = path.join(workspaceRoot, mavenRootDirectory, 'mvnw');
   return fs.existsSync(mvnwPath);
+}
+
+export function getMavenRootDirectory() {
+  const pomXmlPath = path.join(workspaceRoot, 'pom.xml');
+  if (fs.existsSync(pomXmlPath)) {
+    return '';
+  }
+  return 'nx-maven';
 }
 
 export function isPomPackaging(context: ExecutorContext): boolean {

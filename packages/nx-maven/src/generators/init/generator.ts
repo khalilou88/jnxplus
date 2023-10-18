@@ -11,7 +11,13 @@ import {
   addOrUpdatePrettierRc,
   updateGitIgnore,
 } from '../../utils/generators';
-import { Tree, formatFiles, generateFiles, offsetFromRoot } from '@nx/devkit';
+import {
+  Tree,
+  formatFiles,
+  generateFiles,
+  joinPathFragments,
+  offsetFromRoot,
+} from '@nx/devkit';
 import * as path from 'path';
 import { NxMavenGeneratorSchema } from './schema';
 
@@ -21,6 +27,7 @@ interface NormalizedSchema extends NxMavenGeneratorSchema {
   springBootVersion: string;
   quarkusVersion: string;
   micronautVersion: string;
+  mavenRootDirectory: string;
 }
 
 function normalizeOptions(
@@ -29,6 +36,11 @@ function normalizeOptions(
 ): NormalizedSchema {
   const dot = '.';
 
+  let mavenRootDirectory = '';
+  if (options.useSubfolder) {
+    mavenRootDirectory = 'nx-maven';
+  }
+
   return {
     ...options,
     dot,
@@ -36,6 +48,7 @@ function normalizeOptions(
     springBootVersion,
     quarkusVersion,
     micronautVersion,
+    mavenRootDirectory,
   };
 }
 
@@ -49,16 +62,25 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     generateFiles(
       tree,
       path.join(__dirname, 'files', 'maven', 'wrapper'),
-      '',
+      options.mavenRootDirectory,
       templateOptions,
     );
   }
   generateFiles(
     tree,
     path.join(__dirname, 'files', 'maven', 'config'),
-    '',
+    options.mavenRootDirectory,
     templateOptions,
   );
+
+  if (options.useSubfolder) {
+    generateFiles(
+      tree,
+      path.join(__dirname, 'files', 'nx'),
+      options.mavenRootDirectory,
+      templateOptions,
+    );
+  }
 }
 
 export default async function (tree: Tree, options: NxMavenGeneratorSchema) {
@@ -70,8 +92,14 @@ export default async function (tree: Tree, options: NxMavenGeneratorSchema) {
   addOrUpdatePrettierIgnore(tree);
   addOrUpdateGitattributes(tree);
   if (!options.skipWrapper) {
-    tree.changePermissions('mvnw', '755');
-    tree.changePermissions('mvnw.cmd', '755');
+    tree.changePermissions(
+      joinPathFragments(normalizedOptions.mavenRootDirectory, 'mvnw'),
+      '755',
+    );
+    tree.changePermissions(
+      joinPathFragments(normalizedOptions.mavenRootDirectory, 'mvnw.cmd'),
+      '755',
+    );
   }
   await formatFiles(tree);
 }
