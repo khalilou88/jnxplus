@@ -348,7 +348,13 @@ describe('nx-maven e2e', () => {
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
+    const targetDir = path.join(
+      localTmpDir,
+      'proj',
+      'nx-maven',
+      appName,
+      'target',
+    );
     fse.removeSync(targetDir);
     expect(() => checkFilesExist(`nx-maven/${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
@@ -716,7 +722,13 @@ describe('nx-maven e2e', () => {
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
+    const targetDir = path.join(
+      localTmpDir,
+      'proj',
+      'nx-maven',
+      libName,
+      'target',
+    );
     fse.removeSync(targetDir);
     expect(() => checkFilesExist(`nx-maven/${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
@@ -782,7 +794,13 @@ describe('nx-maven e2e', () => {
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
+    const targetDir = path.join(
+      localTmpDir,
+      'proj',
+      'nx-maven',
+      appName,
+      'target',
+    );
     fse.removeSync(targetDir);
     expect(() => checkFilesExist(`nx-maven/${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
@@ -880,7 +898,13 @@ describe('nx-maven e2e', () => {
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
+    const targetDir = path.join(
+      localTmpDir,
+      'proj',
+      'nx-maven',
+      libName,
+      'target',
+    );
     fse.removeSync(targetDir);
     expect(() => checkFilesExist(`nx-maven/${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
@@ -935,7 +959,13 @@ describe('nx-maven e2e', () => {
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
+    const targetDir = path.join(
+      localTmpDir,
+      'proj',
+      'nx-maven',
+      appName,
+      'target',
+    );
     fse.removeSync(targetDir);
     expect(() => checkFilesExist(`nx-maven/${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
