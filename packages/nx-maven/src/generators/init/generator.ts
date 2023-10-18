@@ -11,7 +11,13 @@ import {
   addOrUpdatePrettierRc,
   updateGitIgnore,
 } from '../../utils/generators';
-import { Tree, formatFiles, generateFiles, offsetFromRoot } from '@nx/devkit';
+import {
+  Tree,
+  formatFiles,
+  generateFiles,
+  joinPathFragments,
+  offsetFromRoot,
+} from '@nx/devkit';
 import * as path from 'path';
 import { NxMavenGeneratorSchema } from './schema';
 
@@ -87,11 +93,11 @@ export default async function (tree: Tree, options: NxMavenGeneratorSchema) {
   addOrUpdateGitattributes(tree);
   if (!options.skipWrapper) {
     tree.changePermissions(
-      path.join(normalizedOptions.mavenRootDirectory, 'mvnw'),
+      joinPathFragments(normalizedOptions.mavenRootDirectory, 'mvnw'),
       '755',
     );
     tree.changePermissions(
-      path.join(normalizedOptions.mavenRootDirectory, 'mvnw.cmd'),
+      joinPathFragments(normalizedOptions.mavenRootDirectory, 'mvnw.cmd'),
       '755',
     );
   }
