@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.12.0](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.11.2...nx-maven-0.12.0) (2023-10-18)
+
+
+### Features
+
+* **generators:** add useSubfolder option ([#528](https://github.com/khalilou88/jnxplus/issues/528)) ([d67dfbb](https://github.com/khalilou88/jnxplus/commit/d67dfbb4e86bfaee70dd8f93b95c7d67b637e94d))
+
+
+
 ## [0.11.2](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.11.1...nx-maven-0.11.2) (2023-10-13)
 
 ### Dependency Updates
