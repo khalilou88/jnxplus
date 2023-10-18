@@ -5,6 +5,7 @@ import { execSync, ExecSyncOptions } from 'child_process';
 import { join } from 'path';
 
 import { dirSync } from 'tmp';
+import { ifNextVersionExists } from '@jnxplus/internal/testing';
 
 let smokeDirectory: string;
 let cleanup: () => void;
@@ -106,5 +107,34 @@ describe('@jnxplus/nx-gradle spring-boot smoke', () => {
     });
 
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
+
+    if (ifNextVersionExists()) {
+      execSync('npx nx@next migrate next', execSyncOptions());
+
+      execSync('npm i --legacy-peer-deps', execSyncOptions());
+
+      execSync(
+        'npx nx@next migrate --run-migrations --ifExists',
+        execSyncOptions(),
+      );
+
+      execSync(`nx run-many --target=build --parallel`, execSyncOptions());
+
+      execSync(`nx graph --file=dep-graph.json`, execSyncOptions());
+
+      const depGraphJson = await readJson(
+        join(smokeDirectory, 'test', 'dep-graph.json'),
+      );
+      expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
+      expect(depGraphJson.graph.nodes[testLib]).toBeDefined();
+
+      expect(depGraphJson.graph.dependencies[testApp]).toContainEqual({
+        type: 'static',
+        source: testApp,
+        target: testLib,
+      });
+
+      execSync(`git commit -am "chore: nx migrate"`, execSyncOptions());
+    }
   }, 1500000);
 });
