@@ -24,7 +24,7 @@ In the Nx workspace root folder, run this command to install the plugin :
 npm install --save-dev @jnxplus/nx-gradle
 ```
 
-### 2. Add Gradle wrapper and desired framework support
+### 2. Init workspace with Gradle and desired framework support
 
 The following command adds Gradle support (Gradle wrapper and config files) to the workspace. This only needs to be performed once per workspace.
 
@@ -44,10 +44,7 @@ Use preset option to choose between Spring Boot, Quarkus, Micronaut, and Kotlin 
 | Build a project                        | `nx build my-project-name`                                                      |
 | Serve an application                   | `nx serve my-app-name`                                                          |
 | Test a project                         | `nx test my-project-name`                                                       |
-| Lint a project                         | `nx lint my-project-name`                                                       |
 | Format a java project                  | `nx format --projects my-project-name`                                          |
-| Format a kotlin project                | `nx ktformat my-project-name`                                                   |
-| Run a custom task                      | `nx run-task my-project-name --task="MY_CUSTOM_TASK"`                           |
 | Visualize project's dependency graph   | `nx graph`                                                                      |
 
 ## License
