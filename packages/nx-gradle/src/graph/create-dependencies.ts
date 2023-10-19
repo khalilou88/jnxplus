@@ -1,5 +1,6 @@
 import {
   CreateDependencies,
+  CreateDependenciesContext,
   DependencyType,
   RawProjectGraphDependency,
   joinPathFragments,
@@ -13,7 +14,10 @@ import * as path from 'path';
 import { getProjectName } from './create-nodes';
 import { getGradleExecutable } from '@jnxplus/common';
 
-export const createDependencies: CreateDependencies = (context) => {
+export const createDependencies: CreateDependencies = (
+  _,
+  context: CreateDependenciesContext,
+) => {
   const results: RawProjectGraphDependency[] = [];
 
   const isVerbose = process.env['NX_VERBOSE_LOGGING'] === 'true';
