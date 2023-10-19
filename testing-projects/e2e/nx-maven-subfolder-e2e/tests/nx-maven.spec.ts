@@ -85,7 +85,7 @@ describe('nx-maven e2e', () => {
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --useSubfolder`,
+      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName}`,
     );
 
     addSpringBootVersion();

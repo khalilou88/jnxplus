@@ -76,10 +76,11 @@
       "type": "boolean",
       "default": false
     },
-    "useSubfolder": {
-      "description": "Generate maven config and projects in a subfolder",
-      "type": "boolean",
-      "default": false
+    "mavenRootDirectory": {
+      "type": "string",
+      "default": "nx-maven",
+      "description": "where Maven config and projects are placed",
+      "x-prompt": "where you want Maven config and projects to be placed?"
     }
   },
   "required": [
@@ -87,6 +88,7 @@
     "groupId",
     "parentProjectName",
     "parentProjectVersion",
-    "dependencyManagement"
+    "dependencyManagement",
+    "mavenRootDirectory"
   ]
 }

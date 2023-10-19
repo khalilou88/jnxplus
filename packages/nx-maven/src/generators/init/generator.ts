@@ -27,7 +27,6 @@ interface NormalizedSchema extends NxMavenGeneratorSchema {
   springBootVersion: string;
   quarkusVersion: string;
   micronautVersion: string;
-  mavenRootDirectory: string;
 }
 
 function normalizeOptions(
@@ -36,11 +35,6 @@ function normalizeOptions(
 ): NormalizedSchema {
   const dot = '.';
 
-  let mavenRootDirectory = '';
-  if (options.useSubfolder) {
-    mavenRootDirectory = 'nx-maven';
-  }
-
   return {
     ...options,
     dot,
@@ -48,7 +42,6 @@ function normalizeOptions(
     springBootVersion,
     quarkusVersion,
     micronautVersion,
-    mavenRootDirectory,
   };
 }
 
@@ -73,7 +66,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     templateOptions,
   );
 
-  if (options.useSubfolder) {
+  if (options.mavenRootDirectory) {
     generateFiles(
       tree,
       path.join(__dirname, 'files', 'nx'),
