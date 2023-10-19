@@ -80,7 +80,7 @@
       "type": "string",
       "default": "nx-maven",
       "description": "where Maven config and projects are placed",
-      "x-prompt": "where you want Maven config and projects to be placed?"
+      "x-prompt": "where do you want Maven config and projects to be placed?"
     }
   },
   "required": [
