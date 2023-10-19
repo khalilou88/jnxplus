@@ -12,7 +12,6 @@
         "main": "packages/nx-gradle/src/index.ts",
         "packageJson": "packages/nx-gradle/package.json",
         "tsConfig": "packages/nx-gradle/tsconfig.lib.json",
-
         "assets": [
           "packages/nx-gradle/*.md",
           {
