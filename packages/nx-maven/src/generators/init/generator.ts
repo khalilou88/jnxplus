@@ -11,7 +11,9 @@ import {
   updateGitIgnore,
 } from '../../utils/generators';
 import {
+  ProjectConfiguration,
   Tree,
+  addProjectConfiguration,
   formatFiles,
   generateFiles,
   joinPathFragments,
@@ -65,19 +67,31 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     options.mavenRootDirectory,
     templateOptions,
   );
-
-  if (options.mavenRootDirectory) {
-    generateFiles(
-      tree,
-      path.join(__dirname, 'files', 'nx'),
-      options.mavenRootDirectory,
-      templateOptions,
-    );
-  }
 }
 
 export default async function (tree: Tree, options: NxMavenGeneratorSchema) {
   const normalizedOptions = normalizeOptions(tree, options);
+
+  if (options.mavenRootDirectory) {
+    const projectConfiguration: ProjectConfiguration = {
+      root: normalizedOptions.mavenRootDirectory,
+      targets: {
+        build: {
+          executor: '@jnxplus/nx-maven:run-task',
+          options: {
+            task: 'install -N',
+          },
+        },
+      },
+    };
+
+    addProjectConfiguration(
+      tree,
+      normalizedOptions.parentProjectName,
+      projectConfiguration,
+    );
+  }
+
   addFiles(tree, normalizedOptions);
   updateNxJson(tree, normalizedOptions);
   updateGitIgnore(tree, options.skipWrapper);
