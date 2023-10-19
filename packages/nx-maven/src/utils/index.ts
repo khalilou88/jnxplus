@@ -40,16 +40,3 @@ export function getMavenRootDirectory() {
   }
   return 'nx-maven';
 }
-
-export function isPomPackaging(context: ExecutorContext): boolean {
-  const projectRoot = getProjectRoot(context);
-  const pomXmlPath = path.join(context.root, projectRoot, 'pom.xml');
-  const pomXmlContent = readXml(pomXmlPath);
-  const packagingXml = pomXmlContent.childNamed('packaging');
-
-  if (packagingXml === undefined) {
-    return false;
-  }
-
-  return packagingXml.val === 'pom';
-}
