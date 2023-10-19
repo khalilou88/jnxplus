@@ -1,7 +1,6 @@
 import {
   springBootVersion,
   kotlinVersion,
-  updateNxJson,
   quarkusVersion,
   micronautVersion,
 } from '@jnxplus/common';
@@ -17,6 +16,7 @@ import {
   generateFiles,
   joinPathFragments,
   offsetFromRoot,
+  updateJson,
 } from '@nx/devkit';
 import * as path from 'path';
 import { NxMavenGeneratorSchema } from './schema';
@@ -86,7 +86,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
 export default async function (tree: Tree, options: NxMavenGeneratorSchema) {
   const normalizedOptions = normalizeOptions(tree, options);
   addFiles(tree, normalizedOptions);
-  updateNxJson(tree, '@jnxplus/nx-maven');
+  updateNxJson(tree, normalizedOptions);
   updateGitIgnore(tree, options.skipWrapper);
   addOrUpdatePrettierRc(tree);
   addOrUpdatePrettierIgnore(tree);
@@ -102,4 +102,22 @@ export default async function (tree: Tree, options: NxMavenGeneratorSchema) {
     );
   }
   await formatFiles(tree);
+}
+
+export function updateNxJson(tree: Tree, options: NormalizedSchema) {
+  const plugin = {
+    plugin: '@jnxplus/nx-maven',
+    options: {
+      mavenRootDirectory: options.mavenRootDirectory,
+    },
+  };
+
+  updateJson(tree, 'nx.json', (nxJson) => {
+    // if plugins is undefined, set it to an empty array
+    nxJson.plugins = nxJson.plugins ?? [];
+    // add plugin
+    nxJson.plugins.push(plugin);
+    // return modified JSON object
+    return nxJson;
+  });
 }
