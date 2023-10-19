@@ -1,5 +1,6 @@
 import {
   CreateDependencies,
+  CreateDependenciesContext,
   DependencyType,
   RawProjectGraphDependency,
   validateDependency,
@@ -14,7 +15,10 @@ import { join } from 'path';
 import { XmlDocument } from 'xmldoc';
 import { getMavenRootDirectory } from '../utils';
 
-export const createDependencies: CreateDependencies = (context) => {
+export const createDependencies: CreateDependencies = (
+  _,
+  context: CreateDependenciesContext,
+) => {
   const results: RawProjectGraphDependency[] = [];
 
   const projects: MavenProjectType[] = [];
