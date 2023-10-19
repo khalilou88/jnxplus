@@ -1,4 +1,10 @@
-import { formatFiles, generateFiles, offsetFromRoot, Tree } from '@nx/devkit';
+import {
+  formatFiles,
+  generateFiles,
+  joinPathFragments,
+  offsetFromRoot,
+  Tree,
+} from '@nx/devkit';
 import * as path from 'path';
 import { NxMavenWrapperGeneratorSchema } from './schema';
 import { getMavenRootDirectory } from '../../utils';
@@ -47,11 +53,11 @@ export default async function (
     updateGitIgnore(tree);
   }
   tree.changePermissions(
-    path.join(normalizedOptions.mavenRootDirectory, 'mvnw'),
+    joinPathFragments(normalizedOptions.mavenRootDirectory, 'mvnw'),
     '755',
   );
   tree.changePermissions(
-    path.join(normalizedOptions.mavenRootDirectory, 'mvnw.cmd'),
+    joinPathFragments(normalizedOptions.mavenRootDirectory, 'mvnw.cmd'),
     '755',
   );
   await formatFiles(tree);
