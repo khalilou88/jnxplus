@@ -1,4 +1,4 @@
-import { logger, workspaceRoot } from '@nx/devkit';
+import { logger } from '@nx/devkit';
 import { execSync } from 'child_process';
 
 export async function waitForever() {
@@ -9,7 +9,7 @@ export async function waitForever() {
 
 export function runCommand(
   command: string,
-  workDir: string = workspaceRoot,
+  workDir: string,
 ): { success: boolean } {
   const isVerbose = process.env['NX_VERBOSE_LOGGING'] === 'true';
 
