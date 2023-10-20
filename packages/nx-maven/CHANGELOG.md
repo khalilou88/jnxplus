@@ -2,6 +2,18 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.13.0](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.12.1...nx-maven-0.13.0) (2023-10-20)
+
+### Dependency Updates
+
+* `common` updated to version `0.12.0`
+
+### Features
+
+* **generators:** change useSubfolder to mavenRootDirectory option ([#539](https://github.com/khalilou88/jnxplus/issues/539)) ([4e6fe55](https://github.com/khalilou88/jnxplus/commit/4e6fe55c690016e9274c59cf64d750afd1abaa25))
+
+
+
 ## [0.12.1](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.12.0...nx-maven-0.12.1) (2023-10-20)
 
 ### Dependency Updates
