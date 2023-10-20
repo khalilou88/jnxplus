@@ -22,6 +22,7 @@ import {
   getDsl,
 } from '../../utils/generators';
 import { NxGradleLibGeneratorSchema } from './schema';
+import { getGradleRootDirectory } from '../../utils';
 
 export default async function (
   tree: Tree,
@@ -41,6 +42,7 @@ interface NormalizedSchema extends NxGradleLibGeneratorSchema {
   linter?: LinterType;
   dsl: DSLType;
   kotlinExtension: string;
+  gradleRootDirectory: string;
 }
 
 function normalizeOptions(
@@ -63,7 +65,14 @@ function normalizeOptions(
   const projectDirectory = options.directory
     ? `${names(options.directory).fileName}/${simpleProjectName}`
     : simpleProjectName;
-  const projectRoot = `${getWorkspaceLayout(tree).libsDir}/${projectDirectory}`;
+
+  const gradleRootDirectory = getGradleRootDirectory();
+  const projectRoot = joinPathFragments(
+    gradleRootDirectory,
+    getWorkspaceLayout(tree).libsDir,
+    projectDirectory,
+  );
+
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
@@ -92,7 +101,7 @@ function normalizeOptions(
 
   const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
 
-  const dsl = getDsl(tree);
+  const dsl = getDsl(tree, gradleRootDirectory);
   const kotlinExtension = dsl === 'kotlin' ? '.kts' : '';
 
   return {
@@ -107,6 +116,7 @@ function normalizeOptions(
     linter,
     dsl,
     kotlinExtension,
+    gradleRootDirectory,
   };
 }
 

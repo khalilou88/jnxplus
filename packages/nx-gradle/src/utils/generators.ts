@@ -1,10 +1,10 @@
 import { DSLType } from '@jnxplus/common';
-import { Tree, readProjectConfiguration } from '@nx/devkit';
+import { Tree, joinPathFragments, readProjectConfiguration } from '@nx/devkit';
 import { join } from 'path';
 import { getProjectPathFromProjectRoot } from '.';
 
-export function getDsl(tree: Tree): DSLType {
-  const filePath = 'settings.gradle';
+export function getDsl(tree: Tree, gradleRootDirectory: string): DSLType {
+  const filePath = joinPathFragments(gradleRootDirectory, 'settings.gradle');
 
   if (tree.exists(filePath)) {
     return 'groovy';
@@ -30,13 +30,22 @@ export function addOrUpdateGitattributes(tree: Tree) {
 
 export function addProjectToGradleSetting(
   tree: Tree,
-  options: { projectRoot: string },
+  options: { projectRoot: string; gradleRootDirectory: string },
 ) {
-  const filePath = 'settings.gradle';
-  const ktsFilePath = 'settings.gradle.kts';
+  const filePath = joinPathFragments(
+    options.gradleRootDirectory,
+    'settings.gradle',
+  );
+  const ktsFilePath = joinPathFragments(
+    options.gradleRootDirectory,
+    'settings.gradle.kts',
+  );
 
   const regex = /.*rootProject\.name.*/;
-  const projectPath = getProjectPathFromProjectRoot(options.projectRoot);
+  const projectPath = getProjectPathFromProjectRoot(
+    options.projectRoot,
+    options.gradleRootDirectory,
+  );
 
   if (tree.exists(filePath)) {
     const settingsContent = tree.read(filePath, 'utf-8') || '';
@@ -61,10 +70,17 @@ export function addProjectToGradleSetting(
 
 export function addLibraryToProjects(
   tree: Tree,
-  options: { projectRoot: string; parsedProjects: string[] },
+  options: {
+    projectRoot: string;
+    parsedProjects: string[];
+    gradleRootDirectory: string;
+  },
 ) {
   const regex = /dependencies\s*{/;
-  const projectPath = getProjectPathFromProjectRoot(options.projectRoot);
+  const projectPath = getProjectPathFromProjectRoot(
+    options.projectRoot,
+    options.gradleRootDirectory,
+  );
 
   for (const projectName of options.parsedProjects) {
     const projectRoot = readProjectConfiguration(tree, projectName).root;

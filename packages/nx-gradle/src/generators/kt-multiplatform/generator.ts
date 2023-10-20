@@ -6,6 +6,7 @@ import {
   formatFiles,
   generateFiles,
   getWorkspaceLayout,
+  joinPathFragments,
   names,
   offsetFromRoot,
   workspaceRoot,
@@ -13,7 +14,11 @@ import {
 import * as fs from 'fs';
 import { fileExists } from 'nx/src/utils/fileutils';
 import * as path from 'path';
-import { getProjectPathFromProjectRoot, getRootProjectName } from '../../utils';
+import {
+  getGradleRootDirectory,
+  getProjectPathFromProjectRoot,
+  getRootProjectName,
+} from '../../utils';
 import { addProjectToGradleSetting } from '../../utils/generators';
 import { NxGradleKotlinMultiplatformGeneratorSchema } from './schema';
 
@@ -38,6 +43,7 @@ interface NormalizedSchema extends NxGradleKotlinMultiplatformGeneratorSchema {
   relativePathToSharedLib: string;
   relativePathToPodfile: string;
   appName: string;
+  gradleRootDirectory: string;
 }
 
 function normalizeOptions(
@@ -71,8 +77,15 @@ function normalizeOptions(
     )}-${prefix}-shared`;
   }
 
-  const appsDir = getWorkspaceLayout(tree).appsDir;
-  const libsDir = getWorkspaceLayout(tree).libsDir;
+  const gradleRootDirectory = getGradleRootDirectory();
+  const appsDir = joinPathFragments(
+    gradleRootDirectory,
+    getWorkspaceLayout(tree).appsDir,
+  );
+  const libsDir = joinPathFragments(
+    gradleRootDirectory,
+    getWorkspaceLayout(tree).libsDir,
+  );
 
   const androidAppDirectory = options.directory
     ? `${names(options.directory).fileName}/${androidAppName}`
@@ -97,6 +110,7 @@ function normalizeOptions(
 
   const sharedLibProjectPath = `:${getProjectPathFromProjectRoot(
     sharedLibRoot,
+    gradleRootDirectory,
   )}`;
 
   const settingsGradleKtsPath = path.join(workspaceRoot, 'settings.gradle.kts');
@@ -168,6 +182,7 @@ function normalizeOptions(
     relativePathToSharedLib,
     relativePathToPodfile,
     appName,
+    gradleRootDirectory,
   };
 }
 
@@ -260,6 +275,7 @@ function generateAndroidApp(normalizedOptions: NormalizedSchema, tree: Tree) {
   addAndroidFiles(tree, normalizedOptions);
   addProjectToGradleSetting(tree, {
     projectRoot: normalizedOptions.androidAppRoot,
+    gradleRootDirectory: normalizedOptions.gradleRootDirectory,
   });
 }
 
@@ -324,6 +340,7 @@ function generateDesktopApp(normalizedOptions: NormalizedSchema, tree: Tree) {
   addDesktopFiles(tree, normalizedOptions);
   addProjectToGradleSetting(tree, {
     projectRoot: normalizedOptions.desktopAppRoot,
+    gradleRootDirectory: normalizedOptions.gradleRootDirectory,
   });
 }
 
@@ -359,6 +376,7 @@ function generateSharedLib(normalizedOptions: NormalizedSchema, tree: Tree) {
   addSharedFiles(tree, normalizedOptions);
   addProjectToGradleSetting(tree, {
     projectRoot: normalizedOptions.sharedLibRoot,
+    gradleRootDirectory: normalizedOptions.gradleRootDirectory,
   });
 }
 

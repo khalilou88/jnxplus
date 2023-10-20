@@ -20,7 +20,7 @@ import {
 } from '@nx/devkit';
 import * as fs from 'fs';
 import * as path from 'path';
-import { getQuarkusVersion } from '../../utils';
+import { getGradleRootDirectory, getQuarkusVersion } from '../../utils';
 import { addProjectToGradleSetting, getDsl } from '../../utils/generators';
 import { NxGradleAppGeneratorSchema } from './schema';
 
@@ -44,6 +44,7 @@ interface NormalizedSchema extends NxGradleAppGeneratorSchema {
   dsl: DSLType;
   kotlinExtension: string;
   quarkusVersion: string;
+  gradleRootDirectory: string;
 }
 
 function normalizeOptions(
@@ -67,7 +68,14 @@ function normalizeOptions(
   const projectDirectory = options.directory
     ? `${names(options.directory).fileName}/${simpleProjectName}`
     : simpleProjectName;
-  const projectRoot = `${getWorkspaceLayout(tree).appsDir}/${projectDirectory}`;
+
+  const gradleRootDirectory = getGradleRootDirectory();
+  const projectRoot = joinPathFragments(
+    gradleRootDirectory,
+    getWorkspaceLayout(tree).appsDir,
+    projectDirectory,
+  );
+
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
@@ -101,12 +109,16 @@ function normalizeOptions(
 
   const isCustomPort = !!options.port && +options.port !== 8080;
 
-  const dsl = getDsl(tree);
+  const dsl = getDsl(tree, gradleRootDirectory);
   const kotlinExtension = dsl === 'kotlin' ? '.kts' : '';
 
   let qVersion = '';
   if (options.framework === 'quarkus') {
-    const gradlePropertiesPath = path.join(workspaceRoot, 'gradle.properties');
+    const gradlePropertiesPath = path.join(
+      workspaceRoot,
+      gradleRootDirectory,
+      'gradle.properties',
+    );
     const gradlePropertiesContent = fs.readFileSync(
       gradlePropertiesPath,
       'utf-8',
@@ -131,6 +143,7 @@ function normalizeOptions(
     dsl,
     kotlinExtension,
     quarkusVersion: qVersion,
+    gradleRootDirectory,
   };
 }
 

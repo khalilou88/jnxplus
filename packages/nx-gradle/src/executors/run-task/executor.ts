@@ -1,12 +1,12 @@
-import { ExecutorContext, logger } from '@nx/devkit';
-import { getProjectPath } from '../../utils';
-import { RunTaskExecutorSchema } from './schema';
+import { getTargetName, runCommand, waitForever } from '@jnxplus/common';
+import { ExecutorContext, logger, workspaceRoot } from '@nx/devkit';
+import { join } from 'path';
 import {
-  getGradleExecutable,
-  getTargetName,
-  runCommand,
-  waitForever,
-} from '@jnxplus/common';
+  getExecutable,
+  getGradleRootDirectory,
+  getProjectPath,
+} from '../../utils';
+import { RunTaskExecutorSchema } from './schema';
 
 export default async function runExecutor(
   options: RunTaskExecutorSchema,
@@ -15,11 +15,13 @@ export default async function runExecutor(
   const targetName = getTargetName(context);
   logger.info(`Executor ran for ${targetName}: ${JSON.stringify(options)}`);
 
+  const gradleRootDirectory = getGradleRootDirectory();
+
   let projectPath = '';
   if (options.projectPath) {
     projectPath = options.projectPath;
   } else {
-    projectPath = getProjectPath(context);
+    projectPath = getProjectPath(context, gradleRootDirectory);
   }
 
   let task = '';
@@ -29,9 +31,9 @@ export default async function runExecutor(
     task = options.task;
   }
 
-  const command = `${getGradleExecutable()} ${projectPath}:${task}`;
+  const command = `${getExecutable()} ${projectPath}:${task}`;
 
-  const result = runCommand(command);
+  const result = runCommand(command, join(workspaceRoot, gradleRootDirectory));
 
   if (!result.success) {
     return { success: false };

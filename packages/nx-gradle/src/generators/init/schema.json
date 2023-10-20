@@ -55,6 +55,12 @@
       "x-prompt": "What rootProjectName would you like to use?",
       "pattern": "^[a-zA-Z].*$"
     },
+    "gradleRootDirectory": {
+      "type": "string",
+      "default": "",
+      "description": "Where Gradle config and projects are placed",
+      "x-prompt": "Where do you want Gradle config and projects to be placed?"
+    },
     "preset": {
       "description": "preset",
       "type": "string",
@@ -94,5 +100,11 @@
       }
     }
   },
-  "required": ["javaVersion", "dsl", "rootProjectName", "preset"]
+  "required": [
+    "javaVersion",
+    "dsl",
+    "rootProjectName",
+    "gradleRootDirectory",
+    "preset"
+  ]
 }
