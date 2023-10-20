@@ -37,7 +37,7 @@
     },
     "parentProjectName": {
       "type": "string",
-      "default": "maven-multi-module",
+      "default": "root-parent-project",
       "x-prompt": "What parentProjectName would you like to use?",
       "pattern": "^[a-zA-Z].*$"
     },
