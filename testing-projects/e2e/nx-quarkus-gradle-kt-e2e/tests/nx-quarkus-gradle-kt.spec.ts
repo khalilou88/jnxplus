@@ -144,28 +144,28 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesDoNotExist(
-        `apps/${appName}/src/main/java/.gitkeep`,
-        `apps/${appName}/src/test/java/.gitkeep`,
-        `apps/${appName}/src/native-test/java/.gitkeep`,
+        `${appName}/src/main/java/.gitkeep`,
+        `${appName}/src/test/java/.gitkeep`,
+        `${appName}/src/native-test/java/.gitkeep`,
       ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/build.gradle.kts`,
-        `apps/${appName}/src/main/resources/application.properties`,
+        `${appName}/build.gradle.kts`,
+        `${appName}/src/main/resources/application.properties`,
 
-        `apps/${appName}/src/main/java/org/acme/${names(
+        `${appName}/src/main/java/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `apps/${appName}/src/test/java/org/acme/${names(
+        `${appName}/src/test/java/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
-    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
+    const buildGradle = readFile(`${appName}/build.gradle.kts`);
     expect(buildGradle.includes('org.acme')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -179,9 +179,9 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'build');
     fse.removeSync(targetDir);
-    expect(() => checkFilesExist(`apps/${appName}/build`)).toThrow();
+    expect(() => checkFilesExist(`${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
-    expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
+    expect(() => checkFilesExist(`${appName}/build`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
@@ -192,14 +192,14 @@ describe('nx-quarkus-gradle kt e2e', () => {
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //test run-task
-    const projectJson = readJson(`apps/${appName}/project.json`);
+    const projectJson = readJson(`${appName}/project.json`);
     projectJson.targets = {
       ...projectJson.targets,
       'run-task': {
         executor: '@jnxplus/nx-gradle:run-task',
       },
     };
-    updateFile(`apps/${appName}/project.json`, JSON.stringify(projectJson));
+    updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
     const runTaskResult = await runNxCommandAsync(
       `run-task ${appName} --task="test"`,
     );
@@ -268,26 +268,24 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appDir}/${randomName}/build.gradle.kts`,
-        `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
+        `${appDir}/${randomName}/build.gradle.kts`,
+        `${appDir}/${randomName}/src/main/resources/application.yml`,
+        `${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName,
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
+        `${appDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
           randomName,
         ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
-    const buildGradle = readFile(
-      `apps/${appDir}/${randomName}/build.gradle.kts`,
-    );
+    const buildGradle = readFile(`${appDir}/${randomName}/build.gradle.kts`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
+    const projectJson = readJson(`${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -347,26 +345,24 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appDir}/${randomName}/build.gradle.kts`,
-        `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
+        `${appDir}/${randomName}/build.gradle.kts`,
+        `${appDir}/${randomName}/src/main/resources/application.yml`,
+        `${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName,
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
+        `${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
           randomName,
         ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the correct information
-    const buildGradle = readFile(
-      `apps/${appDir}/${randomName}/build.gradle.kts`,
-    );
+    const buildGradle = readFile(`${appDir}/${randomName}/build.gradle.kts`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
+    const projectJson = readJson(`${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -420,12 +416,12 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/build.gradle.kts`,
-        `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/kotlin/org/acme/${names(
+        `${appName}/build.gradle.kts`,
+        `${appName}/src/main/resources/application.properties`,
+        `${appName}/src/main/kotlin/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResource.kt`,
-        `apps/${appName}/src/test/kotlin/org/acme/${names(
+        `${appName}/src/test/kotlin/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`,
       ),
@@ -433,14 +429,14 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesDoNotExist(
-        `apps/${appName}/src/main/kotlin/.gitkeep`,
-        `apps/${appName}/src/test/kotlin/.gitkeep`,
-        `apps/${appName}/src/native-test/kotlin/.gitkeep`,
+        `${appName}/src/main/kotlin/.gitkeep`,
+        `${appName}/src/test/kotlin/.gitkeep`,
+        `${appName}/src/native-test/kotlin/.gitkeep`,
       ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
-    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
+    const buildGradle = readFile(`${appName}/build.gradle.kts`);
     expect(buildGradle.includes('org.acme')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -454,9 +450,9 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'build');
     fse.removeSync(targetDir);
-    expect(() => checkFilesExist(`apps/${appName}/build`)).toThrow();
+    expect(() => checkFilesExist(`${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
-    expect(() => checkFilesExist(`apps/${appName}/build`)).not.toThrow();
+    expect(() => checkFilesExist(`${appName}/build`)).not.toThrow();
 
     // const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
     // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -525,26 +521,24 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appDir}/${randomName}/build.gradle.kts`,
-        `apps/${appDir}/${randomName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
+        `${appDir}/${randomName}/build.gradle.kts`,
+        `${appDir}/${randomName}/src/main/resources/application.yml`,
+        `${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName,
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `apps/${appDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
+        `${appDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
           randomName,
         ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
-    const buildGradle = readFile(
-      `apps/${appDir}/${randomName}/build.gradle.kts`,
-    );
+    const buildGradle = readFile(`${appDir}/${randomName}/build.gradle.kts`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`apps/${appDir}/${randomName}/project.json`);
+    const projectJson = readJson(`${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -641,11 +635,11 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/build.gradle.kts`,
-        `libs/${libName}/src/main/java/org/acme/${names(
+        `${libName}/build.gradle.kts`,
+        `${libName}/src/main/java/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingService.java`,
-        `libs/${libName}/src/test/java/org/acme/${names(
+        `${libName}/src/test/java/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
       ),
@@ -653,13 +647,13 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesDoNotExist(
-        `libs/${libName}/src/main/java/.gitkeep`,
-        `libs/${libName}/src/test/java/.gitkeep`,
+        `${libName}/src/main/java/.gitkeep`,
+        `${libName}/src/test/java/.gitkeep`,
       ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
-    const buildGradle = readFile(`libs/${libName}/build.gradle.kts`);
+    const buildGradle = readFile(`${libName}/build.gradle.kts`);
     expect(buildGradle.includes('org.acme')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -673,9 +667,9 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'build');
     fse.removeSync(targetDir);
-    expect(() => checkFilesExist(`libs/${libName}/build`)).toThrow();
+    expect(() => checkFilesExist(`${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
-    expect(() => checkFilesExist(`libs/${libName}/build`)).not.toThrow();
+    expect(() => checkFilesExist(`${libName}/build`)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${libName}`,
@@ -709,11 +703,11 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/build.gradle.kts`,
-        `libs/${libName}/src/main/kotlin/org/acme/${names(
+        `${libName}/build.gradle.kts`,
+        `${libName}/src/main/kotlin/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingService.kt`,
-        `libs/${libName}/src/test/kotlin/org/acme/${names(
+        `${libName}/src/test/kotlin/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`,
       ),
@@ -721,13 +715,13 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesDoNotExist(
-        `libs/${libName}/src/main/kotlin/.gitkeep`,
-        `libs/${libName}/src/test/kotlin/.gitkeep`,
+        `${libName}/src/main/kotlin/.gitkeep`,
+        `${libName}/src/test/kotlin/.gitkeep`,
       ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
-    const buildGradle = readFile(`libs/${libName}/build.gradle.kts`);
+    const buildGradle = readFile(`${libName}/build.gradle.kts`);
     expect(buildGradle.includes('org.acme')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
@@ -741,9 +735,9 @@ describe('nx-quarkus-gradle kt e2e', () => {
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'build');
     fse.removeSync(targetDir);
-    expect(() => checkFilesExist(`libs/${libName}/build`)).toThrow();
+    expect(() => checkFilesExist(`${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
-    expect(() => checkFilesExist(`libs/${libName}/build`)).not.toThrow();
+    expect(() => checkFilesExist(`${libName}/build`)).not.toThrow();
 
     // const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
     // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -777,25 +771,23 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libDir}/${randomName}/build.gradle.kts`,
-        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
+        `${libDir}/${randomName}/build.gradle.kts`,
+        `${libDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName,
         ).className.toLocaleLowerCase()}/GreetingService.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
+        `${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
           randomName,
         ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
-    const buildGradle = readFile(
-      `libs/${libDir}/${randomName}/build.gradle.kts`,
-    );
+    const buildGradle = readFile(`${libDir}/${randomName}/build.gradle.kts`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`libs/${libDir}/${randomName}/project.json`);
+    const projectJson = readJson(`${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
@@ -838,25 +830,23 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libDir}/${randomName}/build.gradle.kts`,
-        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/${names(
+        `${libDir}/${randomName}/build.gradle.kts`,
+        `${libDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName,
         ).className.toLocaleLowerCase()}/GreetingService.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
+        `${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
           randomName,
         ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the correct information
-    const buildGradle = readFile(
-      `libs/${libDir}/${randomName}/build.gradle.kts`,
-    );
+    const buildGradle = readFile(`${libDir}/${randomName}/build.gradle.kts`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`libs/${libDir}/${randomName}/project.json`);
+    const projectJson = readJson(`${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
@@ -899,25 +889,23 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libDir}/${randomName}/build.gradle.kts`,
-        `libs/${libDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
+        `${libDir}/${randomName}/build.gradle.kts`,
+        `${libDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName,
         ).className.toLocaleLowerCase()}/GreetingService.java`,
-        `libs/${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
+        `${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
           randomName,
         ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
-    const buildGradle = readFile(
-      `libs/${libDir}/${randomName}/build.gradle.kts`,
-    );
+    const buildGradle = readFile(`${libDir}/${randomName}/build.gradle.kts`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`libs/${libDir}/${randomName}/project.json`);
+    const projectJson = readJson(`${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
@@ -962,10 +950,10 @@ describe('nx-quarkus-gradle kt e2e', () => {
     );
 
     // Making sure the app build.gradle.kts file contains the lib
-    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
+    const buildGradle = readFile(`${appName}/build.gradle.kts`);
     expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
 
-    const greetingResourcePath = `apps/${appName}/src/main/java/org/acme/${names(
+    const greetingResourcePath = `${appName}/src/main/java/org/acme/${names(
       appName,
     ).className.toLocaleLowerCase()}/GreetingResource.java`;
     const greetingResourceContent = readFile(greetingResourcePath);
@@ -1040,10 +1028,10 @@ describe('nx-quarkus-gradle kt e2e', () => {
     );
 
     // Making sure the app build.gradle.kts file contains the lib
-    const buildGradle = readFile(`apps/${appName}/build.gradle.kts`);
+    const buildGradle = readFile(`${appName}/build.gradle.kts`);
     expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
 
-    const greetingResourcePath = `apps/${appName}/src/main/kotlin/org/acme/${names(
+    const greetingResourcePath = `${appName}/src/main/kotlin/org/acme/${names(
       appName,
     ).className.toLocaleLowerCase()}/GreetingResource.kt`;
     const greetingResourceContent = readFile(greetingResourcePath);
@@ -1114,24 +1102,24 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appDir}/${appName}/build.gradle.kts`,
-        `apps/${appDir}/${appName}/src/main/resources/application.yml`,
-        `apps/${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
+        `${appDir}/${appName}/build.gradle.kts`,
+        `${appDir}/${appName}/src/main/resources/application.yml`,
+        `${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `apps/${appDir}/${appName}/src/test/java/com/jnxplus/deep/subdir/${names(
+        `${appDir}/${appName}/src/test/java/com/jnxplus/deep/subdir/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
-    const buildGradle = readFile(`apps/${appDir}/${appName}/build.gradle.kts`);
+    const buildGradle = readFile(`${appDir}/${appName}/build.gradle.kts`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`apps/${appDir}/${appName}/project.json`);
+    const projectJson = readJson(`${appDir}/${appName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -1189,23 +1177,23 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libDir}/${libName}/build.gradle.kts`,
-        `libs/${libDir}/${libName}/src/main/java/com/jnxplus/deep/subdir/${names(
+        `${libDir}/${libName}/build.gradle.kts`,
+        `${libDir}/${libName}/src/main/java/com/jnxplus/deep/subdir/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingService.java`,
-        `libs/${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
+        `${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the build.gradle.kts file contains the good information
-    const buildGradle = readFile(`libs/${libDir}/${libName}/build.gradle.kts`);
+    const buildGradle = readFile(`${libDir}/${libName}/build.gradle.kts`);
     expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
-    const projectJson = readJson(`libs/${libDir}/${libName}/project.json`);
+    const projectJson = readJson(`${libDir}/${libName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const testResult = await runNxCommandAsync(`test ${libName}`);
@@ -1246,23 +1234,23 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/build.gradle.kts`,
-        `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/java/.gitkeep`,
-        `apps/${appName}/src/test/java/.gitkeep`,
-        `apps/${appName}/src/native-test/java/.gitkeep`,
+        `${appName}/build.gradle.kts`,
+        `${appName}/src/main/resources/application.properties`,
+        `${appName}/src/main/java/.gitkeep`,
+        `${appName}/src/test/java/.gitkeep`,
+        `${appName}/src/native-test/java/.gitkeep`,
       ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `apps/${appName}/src/main/java/org/acme/${names(
+        `${appName}/src/main/java/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResource.java`,
-        `apps/${appName}/src/test/java/org/acme/${names(
+        `${appName}/src/test/java/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
-        `apps/${appName}/src/native-test/java/org/acme/${names(
+        `${appName}/src/native-test/java/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResourceIT.java`,
       ),
@@ -1278,23 +1266,23 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/build.gradle.kts`,
-        `apps/${appName}/src/main/resources/application.properties`,
-        `apps/${appName}/src/main/kotlin/.gitkeep`,
-        `apps/${appName}/src/test/kotlin/.gitkeep`,
-        `apps/${appName}/src/native-test/kotlin/.gitkeep`,
+        `${appName}/build.gradle.kts`,
+        `${appName}/src/main/resources/application.properties`,
+        `${appName}/src/main/kotlin/.gitkeep`,
+        `${appName}/src/test/kotlin/.gitkeep`,
+        `${appName}/src/native-test/kotlin/.gitkeep`,
       ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `apps/${appName}/src/main/kotlin/org/acme/${names(
+        `${appName}/src/main/kotlin/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResource.kt`,
-        `apps/${appName}/src/test/kotlin/org/acme/${names(
+        `${appName}/src/test/kotlin/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`,
-        `apps/${appName}/src/native-test/kotlin/org/acme/${names(
+        `${appName}/src/native-test/kotlin/org/acme/${names(
           appName,
         ).className.toLocaleLowerCase()}/GreetingResourceIT.kt`,
       ),
@@ -1310,18 +1298,18 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/build.gradle.kts`,
-        `libs/${libName}/src/main/java/.gitkeep`,
-        `libs/${libName}/src/test/java/.gitkeep`,
+        `${libName}/build.gradle.kts`,
+        `${libName}/src/main/java/.gitkeep`,
+        `${libName}/src/test/java/.gitkeep`,
       ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `libs/${libName}/src/main/java/org/acme/${names(
+        `${libName}/src/main/java/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingService.java`,
-        `libs/${libName}/src/test/java/org/acme/${names(
+        `${libName}/src/test/java/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
       ),
@@ -1337,18 +1325,18 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `libs/${libName}/build.gradle.kts`,
-        `libs/${libName}/src/main/kotlin/.gitkeep`,
-        `libs/${libName}/src/test/kotlin/.gitkeep`,
+        `${libName}/build.gradle.kts`,
+        `${libName}/src/main/kotlin/.gitkeep`,
+        `${libName}/src/test/kotlin/.gitkeep`,
       ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `libs/${libName}/src/main/kotlin/org/acme/${names(
+        `${libName}/src/main/kotlin/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingService.kt`,
-        `libs/${libName}/src/test/kotlin/org/acme/${names(
+        `${libName}/src/test/kotlin/org/acme/${names(
           libName,
         ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`,
       ),
