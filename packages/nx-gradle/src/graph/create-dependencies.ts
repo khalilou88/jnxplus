@@ -13,6 +13,7 @@ import { projectGraphCacheDirectory } from 'nx/src/utils/cache-directory';
 import * as path from 'path';
 import { getProjectName } from './create-nodes';
 import { getGradleExecutable } from '@jnxplus/common';
+import { getGradleRootDirectory } from '../utils';
 
 export const createDependencies: CreateDependencies = (
   _,
@@ -32,8 +33,9 @@ export const createDependencies: CreateDependencies = (
     command += ' --stacktrace';
   }
 
+  const gradleRootDirectory = getGradleRootDirectory();
   execSync(command, {
-    cwd: workspaceRoot,
+    cwd: path.join(workspaceRoot, gradleRootDirectory),
     stdio: isVerbose ? 'inherit' : 'pipe',
     env: process.env,
     encoding: 'utf-8',

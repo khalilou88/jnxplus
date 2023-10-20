@@ -4,6 +4,7 @@ export interface NxGradleGeneratorSchema {
   javaVersion: string | number;
   dsl: DSLType;
   rootProjectName: string;
+  gradleRootDirectory: string;
   preset:
     | 'spring-boot'
     | 'quarkus'

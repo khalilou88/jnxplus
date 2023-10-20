@@ -1,21 +1,29 @@
 import {
-  springDependencyManagementVersion,
-  springBootVersion,
-  kotlinVersion,
-  updateNxJson,
   jnxplusGradlePluginVersion,
-  quarkusVersion,
-  micronautVersion,
+  kotlinVersion,
   kspVersion,
+  micronautVersion,
+  quarkusVersion,
   shadowVersion,
+  springBootVersion,
+  springDependencyManagementVersion,
 } from '@jnxplus/common';
+import {
+  ProjectConfiguration,
+  Tree,
+  addProjectConfiguration,
+  formatFiles,
+  generateFiles,
+  joinPathFragments,
+  offsetFromRoot,
+  updateJson,
+} from '@nx/devkit';
+import * as path from 'path';
 import {
   addOrUpdateGitattributes,
   addOrUpdatePrettierIgnore,
   updateGitIgnore,
 } from '../../utils/generators';
-import { Tree, formatFiles, generateFiles, offsetFromRoot } from '@nx/devkit';
-import * as path from 'path';
 import { NxGradleGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxGradleGeneratorSchema {
@@ -66,25 +74,63 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   generateFiles(
     tree,
     path.join(__dirname, 'files', 'gradle', 'wrapper'),
-    '',
+    options.gradleRootDirectory,
     templateOptions,
   );
   generateFiles(
     tree,
     path.join(__dirname, 'files', 'gradle', 'config', options.preset),
-    '',
+    options.gradleRootDirectory,
     templateOptions,
   );
 }
 
 export default async function (tree: Tree, options: NxGradleGeneratorSchema) {
   const normalizedOptions = normalizeOptions(tree, options);
+
+  if (options.gradleRootDirectory) {
+    const projectConfiguration: ProjectConfiguration = {
+      root: normalizedOptions.gradleRootDirectory,
+      targets: {},
+    };
+
+    addProjectConfiguration(
+      tree,
+      normalizedOptions.rootProjectName,
+      projectConfiguration,
+    );
+  }
+
   addFiles(tree, normalizedOptions);
-  updateNxJson(tree, '@jnxplus/nx-gradle');
+  updateNxJson(tree, normalizedOptions);
   updateGitIgnore(tree);
   addOrUpdatePrettierIgnore(tree);
   addOrUpdateGitattributes(tree);
-  tree.changePermissions('gradlew', '755');
-  tree.changePermissions('gradlew.bat', '755');
+  tree.changePermissions(
+    joinPathFragments(options.gradleRootDirectory, 'gradlew'),
+    '755',
+  );
+  tree.changePermissions(
+    joinPathFragments(options.gradleRootDirectory, 'gradlew.bat'),
+    '755',
+  );
   await formatFiles(tree);
+}
+
+export function updateNxJson(tree: Tree, options: NormalizedSchema) {
+  const plugin = {
+    plugin: '@jnxplus/nx-gradle',
+    options: {
+      gradleRootDirectory: options.gradleRootDirectory,
+    },
+  };
+
+  updateJson(tree, 'nx.json', (nxJson) => {
+    // if plugins is undefined, set it to an empty array
+    nxJson.plugins = nxJson.plugins ?? [];
+    // add plugin
+    nxJson.plugins.push(plugin);
+    // return modified JSON object
+    return nxJson;
+  });
 }

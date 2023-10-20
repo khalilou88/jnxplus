@@ -1,5 +1,5 @@
-import { ExecutorContext, logger } from '@nx/devkit';
-import { getProjectPath } from '../../utils';
+import { ExecutorContext, logger, workspaceRoot } from '@nx/devkit';
+import { getGradleRootDirectory, getProjectPath } from '../../utils';
 import { RunTaskExecutorSchema } from './schema';
 import {
   getGradleExecutable,
@@ -7,6 +7,7 @@ import {
   runCommand,
   waitForever,
 } from '@jnxplus/common';
+import { join } from 'path';
 
 export default async function runExecutor(
   options: RunTaskExecutorSchema,
@@ -31,7 +32,8 @@ export default async function runExecutor(
 
   const command = `${getGradleExecutable()} ${projectPath}:${task}`;
 
-  const result = runCommand(command);
+  const gradleRootDirectory = getGradleRootDirectory();
+  const result = runCommand(command, join(workspaceRoot, gradleRootDirectory));
 
   if (!result.success) {
     return { success: false };

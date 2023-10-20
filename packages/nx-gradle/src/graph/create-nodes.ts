@@ -1,7 +1,7 @@
 import { CreateNodes, readJsonFile, workspaceRoot } from '@nx/devkit';
 import * as fs from 'fs';
 import { dirname, join } from 'path';
-import { getRootProjectName } from '../utils';
+import { getGradleRootDirectory, getRootProjectName } from '../utils';
 
 export const createNodes: CreateNodes = [
   '{**/build.gradle,**/build.gradle.kts}',
@@ -25,14 +25,22 @@ export function getProjectName(
   projectRoot: string,
   isProjectJsonExists?: boolean,
 ) {
-  const projectJsonPath = join(workspaceRoot, projectRoot, 'project.json');
+  const gradleRootDirectory = getGradleRootDirectory();
+  const projectJsonPath = join(
+    workspaceRoot,
+    gradleRootDirectory,
+    projectRoot,
+    'project.json',
+  );
   const settingsGradlePath = join(
     workspaceRoot,
+    gradleRootDirectory,
     projectRoot,
     'settings.gradle',
   );
   const settingsGradleKtsPath = join(
     workspaceRoot,
+    gradleRootDirectory,
     projectRoot,
     'settings.gradle.kts',
   );

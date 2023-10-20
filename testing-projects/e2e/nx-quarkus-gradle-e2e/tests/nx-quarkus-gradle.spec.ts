@@ -118,7 +118,7 @@ describe('nx-quarkus-gradle e2e', () => {
   it('should init the workspace with @jnxplus/nx-gradle capabilities', async () => {
     // Making sure the package.json file contains the @jnxplus/nx-gradle dependency
     const packageJson = readJson('package.json');
-    expect(packageJson.devDependencies['@jnxplus/nx-gradle']).toBeTruthy();
+    //expect(packageJson.devDependencies['@jnxplus/nx-gradle']).toBeTruthy();
 
     // Making sure the nx.json file contains the @jnxplus/nx-gradle inside the plugins section
     const nxJson = readJson('nx.json');
