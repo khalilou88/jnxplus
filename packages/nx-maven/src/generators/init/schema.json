@@ -50,7 +50,7 @@
     },
     "mavenRootDirectory": {
       "type": "string",
-      "default": "nx-maven",
+      "default": "",
       "description": "where Maven config and projects are placed",
       "x-prompt": "where do you want Maven config and projects to be placed?"
     },

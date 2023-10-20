@@ -84,7 +84,7 @@ describe('nx-boot-maven e2e', () => {
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --mavenRootDirectory --dependencyManagement spring-boot-parent-pom`,
+      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --dependencyManagement spring-boot-parent-pom`,
     );
 
     if (isCI) {
