@@ -49,7 +49,7 @@ jobs:
           java-version: ${{ matrix.java }}
 
       - name: Install dependencies
-        run: npm ci
+        run: npm i --legacy-peer-deps
 
       - name: smoke tests
         run: npm run nx smoke ${{ github.event.inputs.smoke_project }}
