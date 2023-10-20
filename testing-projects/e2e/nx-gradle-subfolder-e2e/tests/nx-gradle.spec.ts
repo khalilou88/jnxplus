@@ -327,7 +327,7 @@ describe('nx-gradle e2e', () => {
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
-    const depGraphJson = readJson('nx-gradle/dep-graph.json');
+    const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.nodes[rootProjectName]).toBeDefined();
     expect(depGraphJson.graph.nodes[appName]).toBeDefined();
     expect(depGraphJson.graph.nodes[libName]).toBeDefined();
