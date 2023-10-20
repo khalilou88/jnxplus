@@ -15,11 +15,13 @@ export default async function runExecutor(
   const targetName = getTargetName(context);
   logger.info(`Executor ran for ${targetName}: ${JSON.stringify(options)}`);
 
+  const gradleRootDirectory = getGradleRootDirectory();
+
   let projectPath = '';
   if (options.projectPath) {
     projectPath = options.projectPath;
   } else {
-    projectPath = getProjectPath(context);
+    projectPath = getProjectPath(context, gradleRootDirectory);
   }
 
   let task = '';
@@ -31,7 +33,6 @@ export default async function runExecutor(
 
   const command = `${getExecutable()} ${projectPath}:${task}`;
 
-  const gradleRootDirectory = getGradleRootDirectory();
   const result = runCommand(command, join(workspaceRoot, gradleRootDirectory));
 
   if (!result.success) {

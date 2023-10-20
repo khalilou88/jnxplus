@@ -8,14 +8,21 @@ import {
 import * as path from 'path';
 import * as fs from 'fs';
 
-export function getProjectPath(context: ExecutorContext) {
+export function getProjectPath(
+  context: ExecutorContext,
+  gradleRootDirectory: string,
+) {
   const projectRoot = getProjectRoot(context);
-  return `:${getProjectPathFromProjectRoot(projectRoot)}`;
+  return `:${getProjectPathFromProjectRoot(projectRoot, gradleRootDirectory)}`;
 }
 
-export function getProjectPathFromProjectRoot(projectRoot: string) {
+export function getProjectPathFromProjectRoot(
+  projectRoot: string,
+  gradleRootDirectory: string,
+) {
   return projectRoot
     .replace(new RegExp('^\\.', 'g'), '')
+    .replace(new RegExp(`^${gradleRootDirectory}/`, 'g'), '')
     .replace(new RegExp('/', 'g'), ':');
 }
 

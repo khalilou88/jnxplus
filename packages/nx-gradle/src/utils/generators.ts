@@ -30,13 +30,16 @@ export function addOrUpdateGitattributes(tree: Tree) {
 
 export function addProjectToGradleSetting(
   tree: Tree,
-  options: { projectRoot: string },
+  options: { projectRoot: string; gradleRootDirectory: string },
 ) {
   const filePath = 'settings.gradle';
   const ktsFilePath = 'settings.gradle.kts';
 
   const regex = /.*rootProject\.name.*/;
-  const projectPath = getProjectPathFromProjectRoot(options.projectRoot);
+  const projectPath = getProjectPathFromProjectRoot(
+    options.projectRoot,
+    options.gradleRootDirectory,
+  );
 
   if (tree.exists(filePath)) {
     const settingsContent = tree.read(filePath, 'utf-8') || '';
@@ -61,10 +64,17 @@ export function addProjectToGradleSetting(
 
 export function addLibraryToProjects(
   tree: Tree,
-  options: { projectRoot: string; parsedProjects: string[] },
+  options: {
+    projectRoot: string;
+    parsedProjects: string[];
+    gradleRootDirectory: string;
+  },
 ) {
   const regex = /dependencies\s*{/;
-  const projectPath = getProjectPathFromProjectRoot(options.projectRoot);
+  const projectPath = getProjectPathFromProjectRoot(
+    options.projectRoot,
+    options.gradleRootDirectory,
+  );
 
   for (const projectName of options.parsedProjects) {
     const projectRoot = readProjectConfiguration(tree, projectName).root;

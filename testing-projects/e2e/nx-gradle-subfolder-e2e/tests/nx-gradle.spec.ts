@@ -287,7 +287,7 @@ describe('nx-gradle e2e', () => {
 
     // Making sure the app build.gradle file contains the lib
     const buildGradle = readFile(`nx-gradle/apps/${appName}/build.gradle`);
-    expect(buildGradle.includes(`:nx-gradle:libs:${libName}`)).toBeTruthy();
+    expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
 
     const helloControllerPath = `nx-gradle/apps/${appName}/src/main/java/com/example/${names(
       appName,
@@ -373,7 +373,7 @@ describe('nx-gradle e2e', () => {
 
     // Making sure the app build.gradle file contains the lib
     const buildGradle = readFile(`nx-gradle/apps/${appName}/build.gradle`);
-    expect(buildGradle.includes(`:nx-gradle:libs:${libName}`)).toBeTruthy();
+    expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
 
     const helloControllerPath = `nx-gradle/apps/${appName}/src/main/kotlin/com/example/${names(
       appName,
