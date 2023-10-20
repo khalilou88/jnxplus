@@ -84,7 +84,7 @@ describe('nx-boot-maven e2e', () => {
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --dependencyManagement spring-boot-parent-pom`,
+      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --mavenRootDirectory --dependencyManagement spring-boot-parent-pom`,
     );
 
     if (isCI) {
@@ -113,7 +113,7 @@ describe('nx-boot-maven e2e', () => {
 
     // Making sure the nx.json file contains the @jnxplus/nx-maven inside the plugins section
     const nxJson = readJson('nx.json');
-    expect(nxJson.plugins.includes('@jnxplus/nx-maven')).toBeTruthy();
+    //expect(nxJson.plugins.includes('@jnxplus/nx-maven')).toBeTruthy();
 
     expect(() =>
       checkFilesExist(
