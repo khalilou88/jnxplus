@@ -32,8 +32,14 @@ export function addProjectToGradleSetting(
   tree: Tree,
   options: { projectRoot: string; gradleRootDirectory: string },
 ) {
-  const filePath = 'settings.gradle';
-  const ktsFilePath = 'settings.gradle.kts';
+  const filePath = joinPathFragments(
+    options.gradleRootDirectory,
+    'settings.gradle',
+  );
+  const ktsFilePath = joinPathFragments(
+    options.gradleRootDirectory,
+    'settings.gradle.kts',
+  );
 
   const regex = /.*rootProject\.name.*/;
   const projectPath = getProjectPathFromProjectRoot(
