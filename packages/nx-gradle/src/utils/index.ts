@@ -6,6 +6,7 @@ import {
   workspaceRoot,
 } from '@nx/devkit';
 import * as path from 'path';
+import * as fs from 'fs';
 
 export function getProjectPath(context: ExecutorContext) {
   const projectRoot = getProjectRoot(context);
@@ -69,4 +70,33 @@ export function getGradleRootDirectory(): string {
   }
 
   return '';
+}
+
+export function getExecutable() {
+  let executable = '';
+
+  if (process.env['NX_SKIP_GRADLE_WRAPPER'] === 'true') {
+    executable = 'gradle';
+  } else {
+    const isWrapperExists = isWrapperExistsFunction();
+
+    if (isWrapperExists) {
+      const isWin = process.platform === 'win32';
+      executable = isWin ? 'gradlew.bat' : './gradlew';
+    } else {
+      executable = 'gradle';
+    }
+  }
+
+  if (process.env['NX_GRADLE_CLI_OPTS']) {
+    executable += ` ${process.env['NX_GRADLE_CLI_OPTS']}`;
+  }
+
+  return executable;
+}
+
+function isWrapperExistsFunction() {
+  const gradleRootDirectory = getGradleRootDirectory();
+  const gradlePath = path.join(workspaceRoot, gradleRootDirectory, 'gradlew');
+  return fs.existsSync(gradlePath);
 }
