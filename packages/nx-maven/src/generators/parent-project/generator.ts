@@ -11,18 +11,18 @@ import {
   addProjectConfiguration,
   formatFiles,
   generateFiles,
-  getWorkspaceLayout,
+  joinPathFragments,
   names,
   offsetFromRoot,
   readProjectConfiguration,
 } from '@nx/devkit';
 import * as path from 'path';
+import { getMavenRootDirectory } from '../../utils';
 import {
   addMissedProperties,
   addProjectToAggregator,
 } from '../../utils/generators';
 import { NxMavenParentProjectGeneratorSchema } from './schema';
-import { getMavenRootDirectory } from '../../utils';
 
 export default async function (
   tree: Tree,
@@ -68,21 +68,9 @@ function normalizeOptions(
     ? `${names(options.directory).fileName}/${simpleProjectName}`
     : simpleProjectName;
 
-  let projectRoot: string;
   const mavenRootDirectory = getMavenRootDirectory();
-  if (options.projectType === 'application') {
-    projectRoot = path.join(
-      mavenRootDirectory,
-      getWorkspaceLayout(tree).appsDir,
-      `${projectDirectory}`,
-    );
-  } else {
-    projectRoot = path.join(
-      mavenRootDirectory,
-      getWorkspaceLayout(tree).libsDir,
-      `${projectDirectory}`,
-    );
-  }
+
+  const projectRoot = joinPathFragments(mavenRootDirectory, projectDirectory);
 
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
