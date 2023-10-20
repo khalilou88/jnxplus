@@ -2,6 +2,18 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.13.0](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.12.3...nx-gradle-0.13.0) (2023-10-20)
+
+### Dependency Updates
+
+* `common` updated to version `0.12.0`
+
+### Features
+
+* **generators:** add gradleRootDirectory option to init generator ([#544](https://github.com/khalilou88/jnxplus/issues/544)) ([c8f8888](https://github.com/khalilou88/jnxplus/commit/c8f88888cb33a996edfe05c1fe7bb6cd720070e7))
+
+
+
 ## [0.12.3](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.12.2...nx-gradle-0.12.3) (2023-10-20)
 
 ### Dependency Updates
