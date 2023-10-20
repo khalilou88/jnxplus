@@ -2,6 +2,14 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.12.1](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.12.0...nx-maven-0.12.1) (2023-10-20)
+
+### Dependency Updates
+
+* `common` updated to version `0.11.4`
+* `xml` updated to version `0.0.2`
+
+
 # [0.12.0](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.11.2...nx-maven-0.12.0) (2023-10-18)
 
 
