@@ -14,6 +14,7 @@ on:
           - nx-gradle-e2e
           - nx-gradle-subfolder-e2e
           - nx-gradle-kt-e2e
+          - nx-gradle-subfolder-kt-e2e
           - nx-boot-gradle-e2e
           - nx-boot-gradle-kt-e2e
           - nx-quarkus-gradle-e2e
