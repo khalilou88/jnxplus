@@ -56,6 +56,7 @@ export const createDependencies: CreateDependencies = (
         : 'build.gradle.kts';
 
       const projectSourceFile = joinPathFragments(
+        gradleRootDirectory,
         project.relativePath,
         buildFile,
       );
