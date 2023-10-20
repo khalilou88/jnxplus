@@ -1,11 +1,4 @@
-import { getProjectRoot } from '@jnxplus/common';
-import { readXml } from '@jnxplus/xml';
-import {
-  ExecutorContext,
-  NxJsonConfiguration,
-  readJsonFile,
-  workspaceRoot,
-} from '@nx/devkit';
+import { NxJsonConfiguration, readJsonFile, workspaceRoot } from '@nx/devkit';
 import * as fs from 'fs';
 import * as path from 'path';
 
