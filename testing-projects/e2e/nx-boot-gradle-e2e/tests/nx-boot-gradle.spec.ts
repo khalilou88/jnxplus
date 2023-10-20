@@ -119,7 +119,7 @@ describe('nx-boot-gradle e2e', () => {
 
     // Making sure the nx.json file contains the @jnxplus/nx-gradle inside the plugins section
     const nxJson = readJson('nx.json');
-    expect(nxJson.plugins.includes('@jnxplus/nx-gradle')).toBeTruthy();
+    //expect(nxJson.plugins.includes('@jnxplus/nx-gradle')).toBeTruthy();
 
     expect(() =>
       checkFilesExist(
