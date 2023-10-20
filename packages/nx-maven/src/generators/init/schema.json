@@ -37,7 +37,7 @@
     },
     "parentProjectName": {
       "type": "string",
-      "default": "boot-multi-module",
+      "default": "maven-multi-module",
       "x-prompt": "What parentProjectName would you like to use?",
       "pattern": "^[a-zA-Z].*$"
     },
@@ -51,8 +51,8 @@
     "mavenRootDirectory": {
       "type": "string",
       "default": "",
-      "description": "where Maven config and projects are placed",
-      "x-prompt": "where do you want Maven config and projects to be placed?"
+      "description": "Where Maven config and projects are placed",
+      "x-prompt": "Where do you want Maven config and projects to be placed?"
     },
     "dependencyManagement": {
       "description": "Dependency Management",
