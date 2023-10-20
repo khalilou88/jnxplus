@@ -1,10 +1,10 @@
 import { DSLType } from '@jnxplus/common';
-import { Tree, readProjectConfiguration } from '@nx/devkit';
+import { Tree, joinPathFragments, readProjectConfiguration } from '@nx/devkit';
 import { join } from 'path';
 import { getProjectPathFromProjectRoot } from '.';
 
-export function getDsl(tree: Tree): DSLType {
-  const filePath = 'settings.gradle';
+export function getDsl(tree: Tree, gradleRootDirectory: string): DSLType {
+  const filePath = joinPathFragments(gradleRootDirectory, 'settings.gradle');
 
   if (tree.exists(filePath)) {
     return 'groovy';

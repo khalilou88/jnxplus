@@ -109,7 +109,7 @@ function normalizeOptions(
 
   const isCustomPort = !!options.port && +options.port !== 8080;
 
-  const dsl = getDsl(tree);
+  const dsl = getDsl(tree, gradleRootDirectory);
   const kotlinExtension = dsl === 'kotlin' ? '.kts' : '';
 
   let qVersion = '';
