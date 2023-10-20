@@ -12,6 +12,7 @@ on:
           - nx-quarkus-maven-e2e
           - nx-micronaut-maven-e2e
           - nx-gradle-e2e
+          - nx-gradle-subfolder-e2e
           - nx-gradle-kt-e2e
           - nx-boot-gradle-e2e
           - nx-boot-gradle-kt-e2e
