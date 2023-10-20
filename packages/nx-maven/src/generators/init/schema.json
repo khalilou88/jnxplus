@@ -48,6 +48,12 @@
       "alias": "v",
       "x-prompt": "What project version would you like to use?"
     },
+    "mavenRootDirectory": {
+      "type": "string",
+      "default": "",
+      "description": "where Maven config and projects are placed",
+      "x-prompt": "where do you want Maven config and projects to be placed?"
+    },
     "dependencyManagement": {
       "description": "Dependency Management",
       "type": "string",
@@ -75,11 +81,6 @@
       "description": "Don't generate maven wrapper",
       "type": "boolean",
       "default": false
-    },
-    "useSubfolder": {
-      "description": "Generate maven config and projects in a subfolder",
-      "type": "boolean",
-      "default": false
     }
   },
   "required": [
@@ -87,6 +88,7 @@
     "groupId",
     "parentProjectName",
     "parentProjectVersion",
+    "mavenRootDirectory",
     "dependencyManagement"
   ]
 }

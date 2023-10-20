@@ -1,6 +1,11 @@
 import { getProjectRoot } from '@jnxplus/common';
 import { readXml } from '@jnxplus/xml';
-import { ExecutorContext, workspaceRoot } from '@nx/devkit';
+import {
+  ExecutorContext,
+  NxJsonConfiguration,
+  readJsonFile,
+  workspaceRoot,
+} from '@nx/devkit';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -33,10 +38,35 @@ function isWrapperExistsFunction() {
   return fs.existsSync(mvnwPath);
 }
 
-export function getMavenRootDirectory() {
-  const pomXmlPath = path.join(workspaceRoot, 'pom.xml');
-  if (fs.existsSync(pomXmlPath)) {
-    return '';
+export function getMavenRootDirectory(): string {
+  const nxJsonPath = path.join(workspaceRoot, 'nx.json');
+
+  const nxJson = readJsonFile<NxJsonConfiguration>(nxJsonPath);
+
+  const plugin = (nxJson?.plugins || []).find((p) =>
+    typeof p === 'string'
+      ? p === '@jnxplus/nx-maven'
+      : p.plugin === '@jnxplus/nx-maven',
+  );
+
+  if (typeof plugin === 'string') {
+    const pomXmlPath = path.join(workspaceRoot, 'pom.xml');
+    if (fs.existsSync(pomXmlPath)) {
+      return '';
+    }
+    return 'nx-maven';
   }
-  return 'nx-maven';
+
+  const options = plugin?.options;
+
+  if (
+    typeof options === 'object' &&
+    options &&
+    'mavenRootDirectory' in options &&
+    typeof options.mavenRootDirectory === 'string'
+  ) {
+    return options.mavenRootDirectory;
+  }
+
+  return '';
 }
