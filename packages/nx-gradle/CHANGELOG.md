@@ -2,6 +2,18 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.14.0](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.13.0...nx-gradle-0.14.0) (2023-10-21)
+
+### Dependency Updates
+
+* `common` updated to version `0.13.0`
+
+### Features
+
+* **generators:** remove workspaceLayout uses ([#545](https://github.com/khalilou88/jnxplus/issues/545)) ([2d730dd](https://github.com/khalilou88/jnxplus/commit/2d730dd7c394fd6dcfb2e1ee3b1374028c53fe1d))
+
+
+
 # [0.13.0](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.12.3...nx-gradle-0.13.0) (2023-10-20)
 
 ### Dependency Updates
