@@ -1,5 +1,4 @@
 import { ExecutorContext } from '@nx/devkit';
-import { workspaceLayout } from 'nx/src/config/configuration';
 
 export function getProject(context: ExecutorContext) {
   if (!context.projectName) {
@@ -39,22 +38,6 @@ export function getProjectSourceRoot(context: ExecutorContext) {
 
 export function normalizeName(name: string) {
   return name.replace(/[^0-9a-zA-Z]/g, '-');
-}
-
-export function getProjectGraphNodeType(
-  projectRoot: string,
-): 'app' | 'e2e' | 'lib' {
-  if (!projectRoot) {
-    return 'lib';
-  }
-
-  const layout = workspaceLayout();
-
-  if (projectRoot.startsWith(layout.appsDir)) {
-    return 'app';
-  }
-
-  return 'lib';
 }
 
 export function getPluginName(context: ExecutorContext) {
