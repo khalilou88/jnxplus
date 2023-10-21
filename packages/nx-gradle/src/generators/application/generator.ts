@@ -10,7 +10,6 @@ import {
   addProjectConfiguration,
   formatFiles,
   generateFiles,
-  getWorkspaceLayout,
   joinPathFragments,
   names,
   offsetFromRoot,
@@ -70,11 +69,7 @@ function normalizeOptions(
     : simpleProjectName;
 
   const gradleRootDirectory = getGradleRootDirectory();
-  const projectRoot = joinPathFragments(
-    gradleRootDirectory,
-    getWorkspaceLayout(tree).appsDir,
-    projectDirectory,
-  );
+  const projectRoot = joinPathFragments(gradleRootDirectory, projectDirectory);
 
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())

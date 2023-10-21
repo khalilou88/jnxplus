@@ -14,20 +14,19 @@ import {
   addProjectConfiguration,
   formatFiles,
   generateFiles,
-  getWorkspaceLayout,
   joinPathFragments,
   names,
   offsetFromRoot,
   readProjectConfiguration,
 } from '@nx/devkit';
 import * as path from 'path';
+import { getMavenRootDirectory } from '../../utils';
 import {
   addMissedProperties,
   addProjectToAggregator,
   getDependencyManagement,
 } from '../../utils/generators';
 import { NxMavenAppGeneratorSchema } from './schema';
-import { getMavenRootDirectory } from '../../utils';
 
 export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
   await applicationGenerator(__dirname, '@jnxplus/nx-maven', tree, options);
@@ -84,7 +83,6 @@ function normalizeOptions(
   const mavenRootDirectory = getMavenRootDirectory();
   const projectRoot = joinPathFragments(
     mavenRootDirectory,
-    getWorkspaceLayout(tree).appsDir,
     `${projectDirectory}`,
   );
   const parsedTags = options.tags

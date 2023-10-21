@@ -5,7 +5,6 @@ import {
   addProjectConfiguration,
   formatFiles,
   generateFiles,
-  getWorkspaceLayout,
   joinPathFragments,
   names,
   offsetFromRoot,
@@ -78,35 +77,36 @@ function normalizeOptions(
   }
 
   const gradleRootDirectory = getGradleRootDirectory();
-  const appsDir = joinPathFragments(
-    gradleRootDirectory,
-    getWorkspaceLayout(tree).appsDir,
-  );
-  const libsDir = joinPathFragments(
-    gradleRootDirectory,
-    getWorkspaceLayout(tree).libsDir,
-  );
 
   const androidAppDirectory = options.directory
     ? `${names(options.directory).fileName}/${androidAppName}`
     : `${androidAppName}`;
-  const androidAppRoot = `${appsDir}/${androidAppDirectory}`;
+  const androidAppRoot = joinPathFragments(
+    gradleRootDirectory,
+    androidAppDirectory,
+  );
 
   const iosAppDirectory = options.directory
     ? `${names(options.directory).fileName}/${iosAppName}`
     : `${iosAppName}`;
 
-  const iosAppRoot = `${appsDir}/${iosAppDirectory}`;
+  const iosAppRoot = joinPathFragments(gradleRootDirectory, iosAppDirectory);
 
   const desktopAppDirectory = options.directory
     ? `${names(options.directory).fileName}/${desktopAppName}`
     : `${desktopAppName}`;
-  const desktopAppRoot = `${appsDir}/${desktopAppDirectory}`;
+  const desktopAppRoot = joinPathFragments(
+    gradleRootDirectory,
+    desktopAppDirectory,
+  );
 
   const sharedLibDirectory = options.directory
     ? `${names(options.directory).fileName}/${sharedLibName}`
     : `${sharedLibName}`;
-  const sharedLibRoot = `${libsDir}/${sharedLibDirectory}`;
+  const sharedLibRoot = joinPathFragments(
+    gradleRootDirectory,
+    sharedLibDirectory,
+  );
 
   const sharedLibProjectPath = `:${getProjectPathFromProjectRoot(
     sharedLibRoot,

@@ -10,19 +10,18 @@ import {
   addProjectConfiguration,
   formatFiles,
   generateFiles,
-  getWorkspaceLayout,
   joinPathFragments,
   names,
   offsetFromRoot,
 } from '@nx/devkit';
 import { join } from 'path';
+import { getGradleRootDirectory } from '../../utils';
 import {
   addLibraryToProjects,
   addProjectToGradleSetting,
   getDsl,
 } from '../../utils/generators';
 import { NxGradleLibGeneratorSchema } from './schema';
-import { getGradleRootDirectory } from '../../utils';
 
 export default async function (
   tree: Tree,
@@ -67,11 +66,7 @@ function normalizeOptions(
     : simpleProjectName;
 
   const gradleRootDirectory = getGradleRootDirectory();
-  const projectRoot = joinPathFragments(
-    gradleRootDirectory,
-    getWorkspaceLayout(tree).libsDir,
-    projectDirectory,
-  );
+  const projectRoot = joinPathFragments(gradleRootDirectory, projectDirectory);
 
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())

@@ -1,4 +1,3 @@
-import { getProjectGraphNodeType } from '@jnxplus/common';
 import { readXml } from '@jnxplus/xml';
 import { CreateNodes, readJsonFile, workspaceRoot } from '@nx/devkit';
 import { existsSync } from 'fs';
@@ -11,8 +10,6 @@ export const createNodes: CreateNodes = [
     let projectName;
     const projectRoot = dirname(pomXmlFilePath);
     let targets = {};
-
-    const projectGraphNodeType = getProjectGraphNodeType(projectRoot);
 
     const projectJsonPath = join(workspaceRoot, projectRoot, 'project.json');
 
@@ -27,7 +24,7 @@ export const createNodes: CreateNodes = [
         build: {
           executor: '@jnxplus/nx-maven:run-task',
           options: {
-            task: getTask(projectRoot, projectGraphNodeType),
+            task: getTask(projectRoot),
           },
         },
       };
@@ -37,7 +34,6 @@ export const createNodes: CreateNodes = [
       projects: {
         [projectName]: {
           root: projectRoot,
-          type: projectGraphNodeType,
           targets: targets,
           tags: ['nx-maven'],
         },
@@ -54,16 +50,9 @@ function getArtifactId(pomXmlContent: XmlDocument) {
   return artifactIdXml.val;
 }
 
-function getTask(
-  projectRoot: string,
-  projectGraphNodeType: 'app' | 'e2e' | 'lib',
-) {
-  if (!projectRoot) {
+function getTask(projectRoot: string) {
+  if (!projectRoot || projectRoot === '.') {
     return 'install -N';
-  }
-
-  if (projectGraphNodeType === 'app') {
-    return 'compile';
   }
 
   return 'install';

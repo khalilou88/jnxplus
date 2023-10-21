@@ -1,3 +1,5 @@
+import { springBootVersion } from '@jnxplus/common';
+import { readXml, xmlToString } from '@jnxplus/xml';
 import {
   getPackageManagerCommand,
   readJsonFile,
@@ -7,15 +9,13 @@ import { exists, tmpProjPath } from '@nx/plugin/testing';
 import axios from 'axios';
 import * as chalk from 'chalk';
 import { ChildProcess, exec, execSync } from 'child_process';
+import * as fs from 'fs';
 import * as path from 'path';
 import { check as portCheck } from 'tcp-port-used';
 import * as treeKill from 'tree-kill';
 import { promisify } from 'util';
-import kill = require('kill-port');
-import * as fs from 'fs';
 import { XmlDocument } from 'xmldoc';
-import { springBootVersion } from '@jnxplus/common';
-import { readXml, xmlToString } from '@jnxplus/xml';
+import kill = require('kill-port');
 
 export function runNxNewCommand(args?: string, silent?: boolean) {
   const localTmpDir = path.dirname(tmpProjPath());
@@ -291,17 +291,6 @@ export function addJVMMemory() {
     '\norg.gradle.jvmargs=-Xmx4096m',
   );
   fs.writeFileSync(gradlePropertiesPath, updatedFileContent);
-}
-
-export function updateNx() {
-  const nxJsonPath = path.join(tmpProjPath(), 'nx.json');
-  const json = readJsonFile(nxJsonPath);
-  json.workspaceLayout = {
-    projectNameAndRootFormat: 'derived',
-    appsDir: 'apps',
-    libsDir: 'libs',
-  };
-  writeJsonFile(nxJsonPath, json);
 }
 
 export function addSpringBootVersion() {
