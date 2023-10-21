@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.13.0](https://github.com/khalilou88/jnxplus/compare/common-0.12.0...common-0.13.0) (2023-10-21)
+
+
+### Features
+
+* **generators:** remove workspaceLayout uses ([#545](https://github.com/khalilou88/jnxplus/issues/545)) ([2d730dd](https://github.com/khalilou88/jnxplus/commit/2d730dd7c394fd6dcfb2e1ee3b1374028c53fe1d))
+
+
+
 # [0.12.0](https://github.com/khalilou88/jnxplus/compare/common-0.11.4...common-0.12.0) (2023-10-20)
 
 
