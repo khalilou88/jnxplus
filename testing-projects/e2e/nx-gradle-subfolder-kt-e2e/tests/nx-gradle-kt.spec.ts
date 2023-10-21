@@ -285,7 +285,7 @@ describe('nx-gradle kotlin dsl e2e', () => {
 
     // Making sure the app build.gradle.kts file contains the lib
     const buildGradle = readFile(`deep/subdir/${appName}/build.gradle.kts`);
-    expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
+    expect(buildGradle.includes(`:${libName}`)).toBeTruthy();
 
     const helloControllerPath = `deep/subdir/${appName}/src/main/java/com/example/${names(
       appName,
@@ -371,7 +371,7 @@ describe('nx-gradle kotlin dsl e2e', () => {
 
     // Making sure the app build.gradle.kts file contains the lib
     const buildGradle = readFile(`deep/subdir/${appName}/build.gradle.kts`);
-    expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
+    expect(buildGradle.includes(`:${libName}`)).toBeTruthy();
 
     const helloControllerPath = `deep/subdir/${appName}/src/main/kotlin/com/example/${names(
       appName,

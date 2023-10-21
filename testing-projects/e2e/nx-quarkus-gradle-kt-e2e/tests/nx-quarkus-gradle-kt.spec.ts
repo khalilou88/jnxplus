@@ -951,7 +951,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     // Making sure the app build.gradle.kts file contains the lib
     const buildGradle = readFile(`${appName}/build.gradle.kts`);
-    expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
+    expect(buildGradle.includes(`:${libName}`)).toBeTruthy();
 
     const greetingResourcePath = `${appName}/src/main/java/org/acme/${names(
       appName,
@@ -1029,7 +1029,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     // Making sure the app build.gradle.kts file contains the lib
     const buildGradle = readFile(`${appName}/build.gradle.kts`);
-    expect(buildGradle.includes(`:libs:${libName}`)).toBeTruthy();
+    expect(buildGradle.includes(`:${libName}`)).toBeTruthy();
 
     const greetingResourcePath = `${appName}/src/main/kotlin/org/acme/${names(
       appName,
