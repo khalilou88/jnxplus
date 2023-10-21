@@ -165,7 +165,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
     fse.removeSync(targetDir);
     expect(() => checkFilesExist(`${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
@@ -397,7 +397,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
     fse.removeSync(targetDir);
     expect(() => checkFilesExist(`${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
@@ -705,7 +705,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
     fse.removeSync(targetDir);
     expect(() => checkFilesExist(`${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
@@ -772,7 +772,7 @@ describe('nx-quarkus-maven e2e', () => {
 
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'target');
+    const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
     fse.removeSync(targetDir);
     expect(() => checkFilesExist(`${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
@@ -1900,7 +1900,7 @@ describe('nx-quarkus-maven e2e', () => {
     const projectJson1 = path.join(
       localTmpDir,
       'proj',
-      'apps',
+
       appsParentProject,
       'project.json',
     );

@@ -176,7 +176,7 @@ describe('nx-quarkus-gradle e2e', () => {
 
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'build');
+    const targetDir = path.join(localTmpDir, 'proj', appName, 'build');
     fse.removeSync(targetDir);
     expect(() => checkFilesExist(`${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
@@ -447,7 +447,7 @@ describe('nx-quarkus-gradle e2e', () => {
 
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'apps', appName, 'build');
+    const targetDir = path.join(localTmpDir, 'proj', appName, 'build');
     fse.removeSync(targetDir);
     expect(() => checkFilesExist(`${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
@@ -664,7 +664,7 @@ describe('nx-quarkus-gradle e2e', () => {
 
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'build');
+    const targetDir = path.join(localTmpDir, 'proj', libName, 'build');
     fse.removeSync(targetDir);
     expect(() => checkFilesExist(`${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
@@ -732,7 +732,7 @@ describe('nx-quarkus-gradle e2e', () => {
 
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
-    const targetDir = path.join(localTmpDir, 'proj', 'libs', libName, 'build');
+    const targetDir = path.join(localTmpDir, 'proj', libName, 'build');
     fse.removeSync(targetDir);
     expect(() => checkFilesExist(`${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
