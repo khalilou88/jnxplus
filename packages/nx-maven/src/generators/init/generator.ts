@@ -174,12 +174,14 @@ function addOrUpdatePrettierRc(tree: Tree) {
   if (tree.exists(prettierRcPath)) {
     updateJson(tree, prettierRcPath, (prettierRcJson) => {
       prettierRcJson.xmlWhitespaceSensitivity = 'ignore';
+      prettierRcJson.plugins = ['prettier-plugin-java'];
       // return modified JSON object
       return prettierRcJson;
     });
   } else {
     writeJson(tree, prettierRcPath, {
       xmlWhitespaceSensitivity: 'ignore',
+      plugins: ['prettier-plugin-java'],
     });
   }
 }
