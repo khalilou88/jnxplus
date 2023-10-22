@@ -11,4 +11,5 @@ export interface NxGradleGeneratorSchema {
     | 'micronaut'
     | 'kotlin-multiplatform'
     | 'none';
+  skipWrapper?: boolean;
 }

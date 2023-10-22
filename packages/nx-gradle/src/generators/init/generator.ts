@@ -71,12 +71,16 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     offsetFromRoot: offsetFromRoot(tree.root),
     template: '',
   };
-  generateFiles(
-    tree,
-    path.join(__dirname, 'files', 'gradle', 'wrapper'),
-    options.gradleRootDirectory,
-    templateOptions,
-  );
+
+  if (!options.skipWrapper) {
+    generateFiles(
+      tree,
+      path.join(__dirname, 'files', 'gradle', 'wrapper'),
+      options.gradleRootDirectory,
+      templateOptions,
+    );
+  }
+
   generateFiles(
     tree,
     path.join(__dirname, 'files', 'gradle', 'config', options.preset),
@@ -106,14 +110,17 @@ export default async function (tree: Tree, options: NxGradleGeneratorSchema) {
   updateGitIgnore(tree);
   addOrUpdatePrettierIgnore(tree);
   addOrUpdateGitattributes(tree);
-  tree.changePermissions(
-    joinPathFragments(options.gradleRootDirectory, 'gradlew'),
-    '755',
-  );
-  tree.changePermissions(
-    joinPathFragments(options.gradleRootDirectory, 'gradlew.bat'),
-    '755',
-  );
+
+  if (!options.skipWrapper) {
+    tree.changePermissions(
+      joinPathFragments(options.gradleRootDirectory, 'gradlew'),
+      '755',
+    );
+    tree.changePermissions(
+      joinPathFragments(options.gradleRootDirectory, 'gradlew.bat'),
+      '755',
+    );
+  }
   await formatFiles(tree);
 }
 
