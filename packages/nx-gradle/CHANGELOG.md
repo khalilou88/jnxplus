@@ -2,6 +2,16 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.15.0](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.14.0...nx-gradle-0.15.0) (2023-10-22)
+
+
+### Features
+
+* **generators:** add skipWrapper option ([#546](https://github.com/khalilou88/jnxplus/issues/546)) ([00f75f0](https://github.com/khalilou88/jnxplus/commit/00f75f0ef684de9eae0353698c62a3ba8b52f3f2))
+* **generators:** add wrapper generator ([#547](https://github.com/khalilou88/jnxplus/issues/547)) ([0d2a64f](https://github.com/khalilou88/jnxplus/commit/0d2a64f768fde7eb7831a21e507f01a96b191d62))
+
+
+
 # [0.14.0](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.13.0...nx-gradle-0.14.0) (2023-10-21)
 
 ### Dependency Updates
