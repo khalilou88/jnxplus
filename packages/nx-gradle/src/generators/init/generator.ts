@@ -22,7 +22,6 @@ import * as path from 'path';
 import {
   addOrUpdateGitattributes,
   addOrUpdatePrettierIgnore,
-  updateGitIgnore,
 } from '../../utils/generators';
 import { NxGradleGeneratorSchema } from './schema';
 
@@ -107,7 +106,7 @@ export default async function (tree: Tree, options: NxGradleGeneratorSchema) {
 
   addFiles(tree, normalizedOptions);
   updateNxJson(tree, normalizedOptions);
-  updateGitIgnore(tree);
+  updateGitIgnore(tree, normalizedOptions);
   addOrUpdatePrettierIgnore(tree);
   addOrUpdateGitattributes(tree);
 
@@ -140,4 +139,31 @@ export function updateNxJson(tree: Tree, options: NormalizedSchema) {
     // return modified JSON object
     return nxJson;
   });
+}
+
+export function updateGitIgnore(tree: Tree, options: NormalizedSchema) {
+  const filePath = `.gitignore`;
+  const contents = tree.read(filePath, 'utf-8') || '';
+
+  let gradleIgnore = '';
+  const gradleIgnore1 = '\n\n# Gradle';
+  const gradleIgnore2 = '\n.gradle';
+  const gradleIgnore3 = '\nbuild/';
+  const gradleIgnore4 = '\n!**/src/main/**/build/';
+  const gradleIgnore5 = '\n!**/src/test/**/build/';
+
+  gradleIgnore =
+    gradleIgnore1 +
+    gradleIgnore2 +
+    gradleIgnore3 +
+    gradleIgnore4 +
+    gradleIgnore5;
+
+  if (!options.skipWrapper) {
+    const gradleWrapperIgnore = '\n!gradle/wrapper/gradle-wrapper.jar';
+    gradleIgnore += gradleWrapperIgnore;
+  }
+
+  const newContents = contents.concat(gradleIgnore);
+  tree.write(filePath, newContents);
 }

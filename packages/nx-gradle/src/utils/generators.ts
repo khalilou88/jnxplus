@@ -108,16 +108,6 @@ export function addLibraryToProjects(
   }
 }
 
-export function updateGitIgnore(tree: Tree) {
-  const filePath = `.gitignore`;
-  const contents = tree.read(filePath, 'utf-8') || '';
-
-  const gradleIgnore = '\n# Gradle\n.gradle\nbuild';
-
-  const newContents = contents.concat(gradleIgnore);
-  tree.write(filePath, newContents);
-}
-
 export function addOrUpdatePrettierIgnore(tree: Tree) {
   const prettierIgnorePath = `.prettierignore`;
   const gradlePrettierIgnore = '# Gradle build\nbuild';

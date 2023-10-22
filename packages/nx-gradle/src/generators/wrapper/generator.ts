@@ -59,12 +59,17 @@ export default async function (
   await formatFiles(tree);
 }
 
-//TODO update gitignore with all files
 export function updateGitIgnore(tree: Tree) {
   const filePath = `.gitignore`;
   const contents = tree.read(filePath, 'utf-8') || '';
 
-  const gradleIgnore = '\n# Gradle\n.gradle';
+  let gradleIgnore = '';
+  const gradleIgnore1 = '\n\n# Gradle Wrapper';
+  const gradleIgnore2 = '\ngradle/';
+  const gradleIgnore3 = '\ngradlew';
+  const gradleIgnore4 = '\ngradlew.bat';
+
+  gradleIgnore = gradleIgnore1 + gradleIgnore2 + gradleIgnore3 + gradleIgnore4;
 
   const newContents = contents.concat(gradleIgnore);
   tree.write(filePath, newContents);

@@ -8,7 +8,6 @@ import {
   addOrUpdateGitattributes,
   addOrUpdatePrettierIgnore,
   addOrUpdatePrettierRc,
-  updateGitIgnore,
 } from '../../utils/generators';
 import {
   ProjectConfiguration,
@@ -127,4 +126,24 @@ export function updateNxJson(tree: Tree, options: NormalizedSchema) {
     // return modified JSON object
     return nxJson;
   });
+}
+
+export function updateGitIgnore(tree: Tree, skipWrapper: boolean | undefined) {
+  const filePath = `.gitignore`;
+  const contents = tree.read(filePath, 'utf-8') || '';
+
+  let mavenIgnore = '';
+  const mavenIgnore1 = '\n\n# Maven';
+  const mavenIgnore2 = '\ntarget/';
+  const mavenIgnore3 = '\n!**/src/main/**/target/';
+  const mavenIgnore4 = '\n!**/src/test/**/target/';
+
+  mavenIgnore = mavenIgnore1 + mavenIgnore2 + mavenIgnore3 + mavenIgnore4;
+
+  if (!skipWrapper) {
+    mavenIgnore += '\n!.mvn/wrapper/maven-wrapper.jar';
+  }
+
+  const newContents = contents.concat(mavenIgnore);
+  tree.write(filePath, newContents);
 }
