@@ -12,7 +12,6 @@ import {
 import * as fse from 'fs-extra';
 import * as path from 'path';
 import {
-  addPrettierToPackageJsonFile,
   addTmpToGitignore,
   patchPackageJson,
   patchRootPackageJson,
@@ -80,7 +79,6 @@ describe('nx-gradle kotlin dsl e2e', () => {
       gradleDistAbsolutePath,
     );
 
-    addPrettierToPackageJsonFile(nxGradleDistAbsolutePath);
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(

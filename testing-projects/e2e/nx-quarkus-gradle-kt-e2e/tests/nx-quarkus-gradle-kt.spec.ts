@@ -14,7 +14,6 @@ import * as path from 'path';
 import { normalizeName } from '@jnxplus/common';
 import {
   addJVMMemory,
-  addPrettierToPackageJsonFile,
   addTmpToGitignore,
   checkFilesDoNotExist,
   getData,
@@ -87,7 +86,6 @@ describe('nx-quarkus-gradle kt e2e', () => {
       gradleDistAbsolutePath,
     );
 
-    addPrettierToPackageJsonFile(nxGradleDistAbsolutePath);
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(

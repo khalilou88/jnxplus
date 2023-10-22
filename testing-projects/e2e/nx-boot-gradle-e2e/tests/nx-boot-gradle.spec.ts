@@ -13,7 +13,6 @@ import * as fse from 'fs-extra';
 import * as path from 'path';
 import { normalizeName } from '@jnxplus/common';
 import {
-  addPrettierToPackageJsonFile,
   addTmpToGitignore,
   checkFilesDoNotExist,
   getData,
@@ -86,7 +85,6 @@ describe('nx-boot-gradle e2e', () => {
       gradleDistAbsolutePath,
     );
 
-    addPrettierToPackageJsonFile(nxGradleDistAbsolutePath);
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
