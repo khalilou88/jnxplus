@@ -100,7 +100,7 @@
       }
     },
     "skipWrapper": {
-      "description": "Don't generate Gradle wrapper",
+      "description": "Don't generate Gradle Wrapper",
       "type": "boolean",
       "default": false
     }

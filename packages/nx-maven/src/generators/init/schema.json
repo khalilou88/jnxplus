@@ -78,7 +78,7 @@
       }
     },
     "skipWrapper": {
-      "description": "Don't generate maven wrapper",
+      "description": "Don't generate Maven Wrapper",
       "type": "boolean",
       "default": false
     }

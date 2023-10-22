@@ -5,7 +5,7 @@
   "type": "object",
   "properties": {
     "skipGitignore": {
-      "description": "Don't add Maven wrapper to .gitignore",
+      "description": "Don't add Maven Wrapper to .gitignore",
       "type": "boolean",
       "default": false
     }
