@@ -18,10 +18,7 @@ import {
 } from '@nx/devkit';
 import * as path from 'path';
 import { getMavenRootDirectory } from '../../utils';
-import {
-  addMissedProperties,
-  addProjectToAggregator,
-} from '../../utils/generators';
+import { addMissedProperties, addProjectToAggregator } from '../../utils';
 import { NxMavenParentProjectGeneratorSchema } from './schema';
 
 export default async function (

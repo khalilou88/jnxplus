@@ -25,7 +25,7 @@ import {
   addMissedProperties,
   addProjectToAggregator,
   getDependencyManagement,
-} from '../../utils/generators';
+} from '../../utils';
 import { NxMavenAppGeneratorSchema } from './schema';
 
 export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
