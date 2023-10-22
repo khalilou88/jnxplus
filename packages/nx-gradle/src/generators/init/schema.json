@@ -98,6 +98,11 @@
           }
         ]
       }
+    },
+    "skipWrapper": {
+      "description": "Don't generate Gradle wrapper",
+      "type": "boolean",
+      "default": false
     }
   },
   "required": [
