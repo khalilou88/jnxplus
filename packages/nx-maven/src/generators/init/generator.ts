@@ -10,6 +10,7 @@ import {
   addProjectConfiguration,
   formatFiles,
   generateFiles,
+  installPackagesTask,
   joinPathFragments,
   offsetFromRoot,
   updateJson,
@@ -90,7 +91,7 @@ export default async function (tree: Tree, options: NxMavenGeneratorSchema) {
   addFiles(tree, normalizedOptions);
   updateNxJson(tree, normalizedOptions);
   updateGitIgnore(tree, options.skipWrapper);
-  installPrettier(tree);
+  addPrettierToPackageJson(tree);
   addOrUpdatePrettierRc(tree);
   addOrUpdatePrettierIgnore(tree);
   addOrUpdateGitattributes(tree);
@@ -105,6 +106,10 @@ export default async function (tree: Tree, options: NxMavenGeneratorSchema) {
     );
   }
   await formatFiles(tree);
+
+  return () => {
+    installPackagesTask(tree);
+  };
 }
 
 function updateNxJson(tree: Tree, options: NormalizedSchema) {
@@ -145,8 +150,10 @@ function updateGitIgnore(tree: Tree, skipWrapper: boolean | undefined) {
   tree.write(filePath, newContents);
 }
 
-function installPrettier(tree: Tree) {
+function addPrettierToPackageJson(tree: Tree) {
   updateJson(tree, 'package.json', (packageJson) => {
+    packageJson.devDependencies = packageJson.devDependencies ?? {};
+
     if (!packageJson.devDependencies['prettier']) {
       packageJson.devDependencies['prettier'] = '^2.8.7';
     }
