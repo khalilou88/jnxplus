@@ -174,14 +174,20 @@ function addOrUpdatePrettierRc(tree: Tree) {
   if (tree.exists(prettierRcPath)) {
     updateJson(tree, prettierRcPath, (prettierRcJson) => {
       prettierRcJson.xmlWhitespaceSensitivity = 'ignore';
-      prettierRcJson.plugins = ['prettier-plugin-java'];
+      prettierRcJson.plugins = prettierRcJson.plugins ?? [];
+      if (!prettierRcJson.plugins.includes('@prettier/plugin-xml')) {
+        prettierRcJson.plugins.push('@prettier/plugin-xml');
+      }
+      if (!prettierRcJson.plugins.includes('prettier-plugin-java')) {
+        prettierRcJson.plugins.push('prettier-plugin-java');
+      }
       // return modified JSON object
       return prettierRcJson;
     });
   } else {
     writeJson(tree, prettierRcPath, {
       xmlWhitespaceSensitivity: 'ignore',
-      plugins: ['prettier-plugin-java'],
+      plugins: ['@prettier/plugin-xml', 'prettier-plugin-java'],
     });
   }
 }

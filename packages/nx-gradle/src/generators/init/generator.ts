@@ -195,7 +195,10 @@ function addOrUpdatePrettierRc(tree: Tree) {
   const prettierRcPath = `.prettierrc`;
   if (tree.exists(prettierRcPath)) {
     updateJson(tree, prettierRcPath, (prettierRcJson) => {
-      prettierRcJson.plugins = ['prettier-plugin-java'];
+      prettierRcJson.plugins = prettierRcJson.plugins ?? [];
+      if (!prettierRcJson.plugins.includes('prettier-plugin-java')) {
+        prettierRcJson.plugins.push('prettier-plugin-java');
+      }
       // return modified JSON object
       return prettierRcJson;
     });
