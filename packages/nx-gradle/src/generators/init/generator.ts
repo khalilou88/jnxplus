@@ -17,6 +17,7 @@ import {
   joinPathFragments,
   offsetFromRoot,
   updateJson,
+  writeJson,
 } from '@nx/devkit';
 import * as path from 'path';
 import {
@@ -107,6 +108,8 @@ export default async function (tree: Tree, options: NxGradleGeneratorSchema) {
   addFiles(tree, normalizedOptions);
   updateNxJson(tree, normalizedOptions);
   updateGitIgnore(tree, normalizedOptions);
+  addPrettierToPackageJson(tree);
+  addOrUpdatePrettierRc(tree);
   addOrUpdatePrettierIgnore(tree);
   addOrUpdateGitattributes(tree);
 
@@ -123,7 +126,7 @@ export default async function (tree: Tree, options: NxGradleGeneratorSchema) {
   await formatFiles(tree);
 }
 
-export function updateNxJson(tree: Tree, options: NormalizedSchema) {
+function updateNxJson(tree: Tree, options: NormalizedSchema) {
   const plugin = {
     plugin: '@jnxplus/nx-gradle',
     options: {
@@ -141,7 +144,7 @@ export function updateNxJson(tree: Tree, options: NormalizedSchema) {
   });
 }
 
-export function updateGitIgnore(tree: Tree, options: NormalizedSchema) {
+function updateGitIgnore(tree: Tree, options: NormalizedSchema) {
   const filePath = `.gitignore`;
   const contents = tree.read(filePath, 'utf-8') || '';
 
@@ -166,4 +169,34 @@ export function updateGitIgnore(tree: Tree, options: NormalizedSchema) {
 
   const newContents = contents.concat(gradleIgnore);
   tree.write(filePath, newContents);
+}
+
+function addPrettierToPackageJson(tree: Tree) {
+  updateJson(tree, 'package.json', (packageJson) => {
+    packageJson.devDependencies = packageJson.devDependencies ?? {};
+
+    if (!packageJson.devDependencies['prettier']) {
+      packageJson.devDependencies['prettier'] = '^3.0.3';
+    }
+
+    if (!packageJson.devDependencies['prettier-plugin-java']) {
+      packageJson.devDependencies['prettier-plugin-java'] = '^2.3.1';
+    }
+    return packageJson;
+  });
+}
+
+function addOrUpdatePrettierRc(tree: Tree) {
+  const prettierRcPath = `.prettierrc`;
+  if (tree.exists(prettierRcPath)) {
+    updateJson(tree, prettierRcPath, (prettierRcJson) => {
+      prettierRcJson.plugins = ['prettier-plugin-java'];
+      // return modified JSON object
+      return prettierRcJson;
+    });
+  } else {
+    writeJson(tree, prettierRcPath, {
+      plugins: ['prettier-plugin-java'],
+    });
+  }
 }
