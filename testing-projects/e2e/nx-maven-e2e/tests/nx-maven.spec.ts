@@ -86,6 +86,7 @@ describe('nx-maven e2e', () => {
     );
 
     addSpringBootVersion();
+    runPackageManagerInstallLinks();
 
     if (isCI) {
       removeTmpFromGitignore();
