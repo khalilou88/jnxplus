@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.14.0](https://github.com/khalilou88/jnxplus/compare/common-0.13.0...common-0.14.0) (2023-10-23)
+
+
+### Features
+
+* **generators:** install prettier with plugins ([#548](https://github.com/khalilou88/jnxplus/issues/548)) ([0aafdfc](https://github.com/khalilou88/jnxplus/commit/0aafdfc3a8982d1e3519ce25fd6b2c4b5ba7f895))
+
+
+
 # [0.13.0](https://github.com/khalilou88/jnxplus/compare/common-0.12.0...common-0.13.0) (2023-10-21)
 
 
