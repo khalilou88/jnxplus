@@ -3,6 +3,8 @@ import {
   kotlinVersion,
   kspVersion,
   micronautVersion,
+  prettierPluginJavaVersion,
+  prettierVersion,
   quarkusVersion,
   shadowVersion,
   springBootVersion,
@@ -181,11 +183,12 @@ function addPrettierToPackageJson(tree: Tree) {
     packageJson.devDependencies = packageJson.devDependencies ?? {};
 
     if (!packageJson.devDependencies['prettier']) {
-      packageJson.devDependencies['prettier'] = '^3.0.3';
+      packageJson.devDependencies['prettier'] = prettierVersion;
     }
 
     if (!packageJson.devDependencies['prettier-plugin-java']) {
-      packageJson.devDependencies['prettier-plugin-java'] = '^2.3.1';
+      packageJson.devDependencies['prettier-plugin-java'] =
+        prettierPluginJavaVersion;
     }
     return packageJson;
   });
