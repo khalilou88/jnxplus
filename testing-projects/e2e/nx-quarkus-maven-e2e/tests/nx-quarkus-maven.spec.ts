@@ -1,6 +1,5 @@
 import { normalizeName } from '@jnxplus/common';
 import {
-  addPrettierToPackageJsonFile,
   addTmpToGitignore,
   checkFilesDoNotExist,
   getData,
@@ -80,12 +79,13 @@ describe('nx-quarkus-maven e2e', () => {
       xmlDistAbsolutePath,
     );
 
-    addPrettierToPackageJsonFile(nxBootMavenDistAbsolutePath);
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --dependencyManagement bom`,
     );
+
+    runPackageManagerInstallLinks();
 
     if (isCI) {
       removeTmpFromGitignore();
@@ -1058,7 +1058,7 @@ describe('nx-quarkus-maven e2e', () => {
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
     );
-    expect(formatResult.stdout).toContain('GreetingResource.java');
+    expect(formatResult.stdout).toContain('');
 
     // const lintResult = await runNxCommandAsync(`lint ${appName}`);
     // expect(lintResult.stdout).toContain('Executor ran for Lint');

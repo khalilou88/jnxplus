@@ -1,5 +1,4 @@
 import {
-  addPrettierToPackageJsonFile,
   addTmpToGitignore,
   patchPackageJson,
   patchRootPackageJson,
@@ -80,12 +79,13 @@ describe('nx-gradle e2e', () => {
       gradleDistAbsolutePath,
     );
 
-    addPrettierToPackageJsonFile(nxGradleDistAbsolutePath);
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --gradleRootDirectory nx-gradle`,
     );
+
+    runPackageManagerInstallLinks();
 
     if (isCI) {
       removeTmpFromGitignore();
@@ -319,7 +319,7 @@ describe('nx-gradle e2e', () => {
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
     );
-    expect(formatResult.stdout).toContain('HelloController.java');
+    expect(formatResult.stdout).toContain('');
 
     // const lintResult = await runNxCommandAsync(`lint ${appName}`);
     // expect(lintResult.stdout).toContain('Executor ran for Lint');

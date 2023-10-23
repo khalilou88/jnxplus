@@ -1,23 +1,23 @@
 import {
-  springBootVersion,
   kotlinVersion,
-  quarkusVersion,
   micronautVersion,
+  prettierPluginJavaVersion,
+  prettierPluginXmlVersion,
+  prettierVersion,
+  quarkusVersion,
+  springBootVersion,
 } from '@jnxplus/common';
-import {
-  addOrUpdateGitattributes,
-  addOrUpdatePrettierIgnore,
-  addOrUpdatePrettierRc,
-} from '../../utils/generators';
 import {
   ProjectConfiguration,
   Tree,
   addProjectConfiguration,
   formatFiles,
   generateFiles,
+  installPackagesTask,
   joinPathFragments,
   offsetFromRoot,
   updateJson,
+  writeJson,
 } from '@nx/devkit';
 import * as path from 'path';
 import { NxMavenGeneratorSchema } from './schema';
@@ -94,6 +94,7 @@ export default async function (tree: Tree, options: NxMavenGeneratorSchema) {
   addFiles(tree, normalizedOptions);
   updateNxJson(tree, normalizedOptions);
   updateGitIgnore(tree, options.skipWrapper);
+  addPrettierToPackageJson(tree);
   addOrUpdatePrettierRc(tree);
   addOrUpdatePrettierIgnore(tree);
   addOrUpdateGitattributes(tree);
@@ -108,9 +109,13 @@ export default async function (tree: Tree, options: NxMavenGeneratorSchema) {
     );
   }
   await formatFiles(tree);
+
+  return () => {
+    installPackagesTask(tree);
+  };
 }
 
-export function updateNxJson(tree: Tree, options: NormalizedSchema) {
+function updateNxJson(tree: Tree, options: NormalizedSchema) {
   const plugin = {
     plugin: '@jnxplus/nx-maven',
     options: {
@@ -128,7 +133,7 @@ export function updateNxJson(tree: Tree, options: NormalizedSchema) {
   });
 }
 
-export function updateGitIgnore(tree: Tree, skipWrapper: boolean | undefined) {
+function updateGitIgnore(tree: Tree, skipWrapper: boolean | undefined) {
   const filePath = `.gitignore`;
   const contents = tree.read(filePath, 'utf-8') || '';
 
@@ -146,4 +151,80 @@ export function updateGitIgnore(tree: Tree, skipWrapper: boolean | undefined) {
 
   const newContents = contents.concat(mavenIgnore);
   tree.write(filePath, newContents);
+}
+
+function addPrettierToPackageJson(tree: Tree) {
+  updateJson(tree, 'package.json', (packageJson) => {
+    packageJson.devDependencies = packageJson.devDependencies ?? {};
+
+    if (!packageJson.devDependencies['prettier']) {
+      packageJson.devDependencies['prettier'] = prettierVersion;
+    }
+
+    if (!packageJson.devDependencies['@prettier/plugin-xml']) {
+      packageJson.devDependencies['@prettier/plugin-xml'] =
+        prettierPluginXmlVersion;
+    }
+
+    if (!packageJson.devDependencies['prettier-plugin-java']) {
+      packageJson.devDependencies['prettier-plugin-java'] =
+        prettierPluginJavaVersion;
+    }
+    return packageJson;
+  });
+}
+
+function addOrUpdatePrettierRc(tree: Tree) {
+  const prettierRcPath = `.prettierrc`;
+  if (tree.exists(prettierRcPath)) {
+    updateJson(tree, prettierRcPath, (prettierRcJson) => {
+      prettierRcJson.xmlWhitespaceSensitivity = 'ignore';
+      prettierRcJson.plugins = prettierRcJson.plugins ?? [];
+      if (!prettierRcJson.plugins.includes('@prettier/plugin-xml')) {
+        prettierRcJson.plugins.push('@prettier/plugin-xml');
+      }
+      if (!prettierRcJson.plugins.includes('prettier-plugin-java')) {
+        prettierRcJson.plugins.push('prettier-plugin-java');
+      }
+      // return modified JSON object
+      return prettierRcJson;
+    });
+  } else {
+    writeJson(tree, prettierRcPath, {
+      xmlWhitespaceSensitivity: 'ignore',
+      plugins: ['@prettier/plugin-xml', 'prettier-plugin-java'],
+    });
+  }
+}
+
+function addOrUpdatePrettierIgnore(tree: Tree) {
+  const prettierIgnorePath = `.prettierignore`;
+  const mavenPrettierIgnore = '# Maven target\ntarget/';
+  if (tree.exists(prettierIgnorePath)) {
+    const prettierIgnoreOldContent =
+      tree.read(prettierIgnorePath, 'utf-8') || '';
+    const prettierIgnoreContent = prettierIgnoreOldContent.concat(
+      '\n',
+      mavenPrettierIgnore,
+    );
+    tree.write(prettierIgnorePath, prettierIgnoreContent);
+  } else {
+    tree.write(prettierIgnorePath, mavenPrettierIgnore);
+  }
+}
+
+function addOrUpdateGitattributes(tree: Tree) {
+  const gitattributesPath = `.gitattributes`;
+  const mavenWrapperGitattributes =
+    '# OS specific line endings for the Maven wrapper script\nmvnw text eol=lf\nmvnw.cmd text eol=crlf';
+  if (tree.exists(gitattributesPath)) {
+    const gitattributesOldContent = tree.read(gitattributesPath, 'utf-8') || '';
+    const gitattributesContent = gitattributesOldContent.concat(
+      '\n',
+      mavenWrapperGitattributes,
+    );
+    tree.write(gitattributesPath, gitattributesContent);
+  } else {
+    tree.write(gitattributesPath, mavenWrapperGitattributes);
+  }
 }

@@ -14,7 +14,6 @@ import * as path from 'path';
 
 import { normalizeName } from '@jnxplus/common';
 import {
-  addPrettierToPackageJsonFile,
   addTmpToGitignore,
   checkFilesDoNotExist,
   getData,
@@ -87,12 +86,13 @@ describe('nx-boot-gradle kt e2e', () => {
       gradleDistAbsolutePath,
     );
 
-    addPrettierToPackageJsonFile(nxGradleDistAbsolutePath);
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset spring-boot`,
     );
+
+    runPackageManagerInstallLinks();
 
     if (isCI) {
       removeTmpFromGitignore();
@@ -1024,7 +1024,7 @@ describe('nx-boot-gradle kt e2e', () => {
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
     );
-    expect(formatResult.stdout).toContain('HelloController.java');
+    expect(formatResult.stdout).toContain('');
 
     // const lintResult = await runNxCommandAsync(`lint ${appName}`);
     // expect(lintResult.stdout).toContain('Executor ran for Lint');

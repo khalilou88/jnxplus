@@ -24,7 +24,7 @@ import {
   addLibraryToProjects,
   addMissedProperties,
   addProjectToAggregator,
-} from '../../utils/generators';
+} from '../../utils';
 import { NxMavenLibGeneratorSchema } from './schema';
 
 export default async function (tree: Tree, options: NxMavenLibGeneratorSchema) {

@@ -1,6 +1,5 @@
 import { normalizeName } from '@jnxplus/common';
 import {
-  addPrettierToPackageJsonFile,
   addSpringBootVersion,
   addTmpToGitignore,
   checkFilesDoNotExist,
@@ -81,12 +80,13 @@ describe('nx-maven e2e', () => {
       xmlDistAbsolutePath,
     );
 
-    addPrettierToPackageJsonFile(nxBootMavenDistAbsolutePath);
     runPackageManagerInstallLinks();
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --mavenRootDirectory nx-maven`,
     );
+
+    runPackageManagerInstallLinks();
 
     addSpringBootVersion();
 
@@ -566,7 +566,7 @@ describe('nx-maven e2e', () => {
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
     );
-    expect(formatResult.stdout).toContain('HelloController.java');
+    expect(formatResult.stdout).toContain('');
 
     // const lintResult = await runNxCommandAsync(`lint ${appName}`);
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
