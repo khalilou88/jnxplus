@@ -8,7 +8,7 @@ This plugin adds Maven multi-module capabilities to Nx workspace.
 
 | @jnxplus/nx-maven | Nx     | Spring Boot | Quarkus     | Micronaut |
 | ----------------- | ------ | ----------- | ----------- | --------- |
-| 0.x.x             | 16.x.x | 3.x.x       | 3.x.x.Final | 4.x.x     |
+| 0.x.x             | 17.x.x | 3.x.x       | 3.x.x.Final | 4.x.x     |
 
 ## Getting Started
 
