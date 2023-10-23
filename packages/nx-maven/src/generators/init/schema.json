@@ -51,8 +51,8 @@
     "mavenRootDirectory": {
       "type": "string",
       "default": "",
-      "description": "Where Maven config and projects are placed",
-      "x-prompt": "Where do you want Maven config and projects to be placed?"
+      "description": "Where Maven Wrapper (if not skipped), config files and projects are placed",
+      "x-prompt": "Where do you want Maven Wrapper (if not skipped), config files and projects to be placed?"
     },
     "dependencyManagement": {
       "description": "Dependency Management",
