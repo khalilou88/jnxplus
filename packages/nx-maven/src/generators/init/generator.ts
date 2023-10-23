@@ -155,15 +155,15 @@ function addPrettierToPackageJson(tree: Tree) {
     packageJson.devDependencies = packageJson.devDependencies ?? {};
 
     if (!packageJson.devDependencies['prettier']) {
-      packageJson.devDependencies['prettier'] = '^2.8.7';
+      packageJson.devDependencies['prettier'] = '^3.0.3';
     }
 
     if (!packageJson.devDependencies['@prettier/plugin-xml']) {
-      packageJson.devDependencies['@prettier/plugin-xml'] = '^2.2.0';
+      packageJson.devDependencies['@prettier/plugin-xml'] = '^3.2.1';
     }
 
     if (!packageJson.devDependencies['prettier-plugin-java']) {
-      packageJson.devDependencies['prettier-plugin-java'] = '^2.1.0';
+      packageJson.devDependencies['prettier-plugin-java'] = '^2.3.1';
     }
     return packageJson;
   });
