@@ -178,9 +178,9 @@ export function patchRootPackageJson(
 export function addPrettierToPackageJsonFile(pluginDistAbsulutePath: string) {
   const packageJsonPath = path.join(pluginDistAbsulutePath, 'package.json');
   const packageJson = readJsonFile(packageJsonPath);
-  packageJson.dependencies['prettier'] = '^2.8.7';
-  packageJson.dependencies['@prettier/plugin-xml'] = '^2.2.0';
-  packageJson.dependencies['prettier-plugin-java'] = '^2.1.0';
+  packageJson.dependencies['prettier'] = '^3.0.3';
+  packageJson.dependencies['@prettier/plugin-xml'] = '^3.2.1';
+  packageJson.dependencies['prettier-plugin-java'] = '^2.3.1';
   writeJsonFile(packageJsonPath, packageJson);
 }
 
