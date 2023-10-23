@@ -14,6 +14,7 @@ import {
   addProjectConfiguration,
   formatFiles,
   generateFiles,
+  installPackagesTask,
   joinPathFragments,
   offsetFromRoot,
   updateJson,
@@ -124,6 +125,10 @@ export default async function (tree: Tree, options: NxGradleGeneratorSchema) {
     );
   }
   await formatFiles(tree);
+
+  return () => {
+    installPackagesTask(tree);
+  };
 }
 
 function updateNxJson(tree: Tree, options: NormalizedSchema) {
