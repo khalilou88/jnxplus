@@ -91,7 +91,9 @@ describe('nx-quarkus-gradle e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --preset quarkus`,
     );
+
     addJVMMemory();
+    runPackageManagerInstallLinks();
 
     if (isCI) {
       removeTmpFromGitignore();

@@ -85,6 +85,8 @@ describe('nx-gradle kotlin dsl e2e', () => {
       `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`,
     );
 
+    runPackageManagerInstallLinks();
+
     if (isCI) {
       removeTmpFromGitignore();
     }

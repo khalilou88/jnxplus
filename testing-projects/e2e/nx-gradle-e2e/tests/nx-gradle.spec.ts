@@ -85,6 +85,8 @@ describe('nx-gradle e2e', () => {
       `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName}`,
     );
 
+    runPackageManagerInstallLinks();
+
     if (isCI) {
       removeTmpFromGitignore();
     }

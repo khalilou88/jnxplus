@@ -85,6 +85,8 @@ describe('nx-gradle kotlin dsl kotlin-multiplatform preset e2e', () => {
       `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset kotlin-multiplatform`,
     );
 
+    runPackageManagerInstallLinks();
+
     if (isCI) {
       removeTmpFromGitignore();
     }

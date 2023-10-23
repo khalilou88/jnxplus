@@ -86,6 +86,8 @@ describe('nx-maven e2e', () => {
       `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --mavenRootDirectory nx-maven`,
     );
 
+    runPackageManagerInstallLinks();
+
     addSpringBootVersion();
 
     if (isCI) {

@@ -92,6 +92,8 @@ describe('nx-boot-gradle kt e2e', () => {
       `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset spring-boot`,
     );
 
+    runPackageManagerInstallLinks();
+
     if (isCI) {
       removeTmpFromGitignore();
     }

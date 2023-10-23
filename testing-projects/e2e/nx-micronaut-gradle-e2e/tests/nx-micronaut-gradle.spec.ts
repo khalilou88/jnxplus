@@ -91,6 +91,8 @@ describe('nx-micronaut-gradle e2e', () => {
       `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --preset micronaut`,
     );
 
+    runPackageManagerInstallLinks();
+
     if (isCI) {
       removeTmpFromGitignore();
     }

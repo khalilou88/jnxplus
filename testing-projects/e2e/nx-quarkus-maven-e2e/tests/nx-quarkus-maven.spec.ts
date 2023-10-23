@@ -85,6 +85,8 @@ describe('nx-quarkus-maven e2e', () => {
       `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --dependencyManagement bom`,
     );
 
+    runPackageManagerInstallLinks();
+
     if (isCI) {
       removeTmpFromGitignore();
     }

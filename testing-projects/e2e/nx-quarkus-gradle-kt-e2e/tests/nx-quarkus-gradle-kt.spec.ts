@@ -91,7 +91,9 @@ describe('nx-quarkus-gradle kt e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset quarkus`,
     );
+
     addJVMMemory();
+    runPackageManagerInstallLinks();
 
     if (isCI) {
       removeTmpFromGitignore();

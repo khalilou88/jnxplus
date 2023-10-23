@@ -85,6 +85,8 @@ describe('nx-micronaut-maven e2e', () => {
       `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --dependencyManagement micronaut-parent-pom`,
     );
 
+    runPackageManagerInstallLinks();
+
     if (isCI) {
       removeTmpFromGitignore();
     }

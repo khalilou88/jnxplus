@@ -91,6 +91,8 @@ describe('nx-micronaut-gradle kt e2e', () => {
       `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset micronaut`,
     );
 
+    runPackageManagerInstallLinks();
+
     if (isCI) {
       removeTmpFromGitignore();
     }
