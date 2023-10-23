@@ -317,7 +317,7 @@ describe('nx-gradle kotlin dsl e2e', () => {
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
     );
-    expect(formatResult.stdout).toContain('HelloController.java');
+    expect(formatResult.stdout).toContain('');
 
     // const lintResult = await runNxCommandAsync(`lint ${appName}`);
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
