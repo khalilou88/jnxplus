@@ -140,7 +140,7 @@ async function parentProjectGenerator(
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
 
-  addMissedProperties(plugin, tree, {
+  addMissedProperties(tree, {
     framework: options.framework,
     springBootVersion: springBootVersion,
     quarkusVersion: quarkusVersion,

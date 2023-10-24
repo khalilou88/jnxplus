@@ -415,7 +415,7 @@ async function applicationGenerator(
 ) {
   const normalizedOptions = normalizeOptions(plugin, tree, options);
 
-  addMissedProperties(plugin, tree, {
+  addMissedProperties(tree, {
     framework: options.framework,
     springBootVersion: springBootVersion,
     quarkusVersion: quarkusVersion,

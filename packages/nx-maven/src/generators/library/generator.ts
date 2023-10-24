@@ -358,7 +358,7 @@ async function libraryGenerator(
 ) {
   const normalizedOptions = normalizeOptions(plugin, tree, options);
 
-  addMissedProperties(plugin, tree, {
+  addMissedProperties(tree, {
     framework: options.framework,
     springBootVersion: springBootVersion,
     quarkusVersion: quarkusVersion,

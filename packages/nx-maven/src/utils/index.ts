@@ -1,4 +1,3 @@
-import { MavenPluginType } from '@jnxplus/common';
 import { readXmlTree, xmlToString } from '@jnxplus/xml';
 import {
   NxJsonConfiguration,
@@ -162,7 +161,6 @@ export function addLibraryToProjects(
 }
 
 export function addMissedProperties(
-  plugin: MavenPluginType,
   tree: Tree,
   options: {
     framework: 'spring-boot' | 'quarkus' | 'micronaut' | 'none' | undefined;
