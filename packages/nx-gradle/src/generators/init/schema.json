@@ -58,8 +58,8 @@
     "gradleRootDirectory": {
       "type": "string",
       "default": "",
-      "description": "Where Gradle config and projects are placed",
-      "x-prompt": "Where do you want Gradle config and projects to be placed?"
+      "description": "Where Gradle Wrapper (if not skipped), config files and projects are placed",
+      "x-prompt": "Where do you want Gradle Wrapper (if not skipped), config files and projects to be placed?"
     },
     "preset": {
       "description": "preset",
