@@ -20,7 +20,7 @@ import {
   addLibraryToProjects,
   addProjectToGradleSetting,
   getDsl,
-} from '../../utils/generators';
+} from '../../utils';
 import { NxGradleLibGeneratorSchema } from './schema';
 
 export default async function (

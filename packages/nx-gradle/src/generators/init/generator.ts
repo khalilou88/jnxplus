@@ -23,10 +23,6 @@ import {
   writeJson,
 } from '@nx/devkit';
 import * as path from 'path';
-import {
-  addOrUpdateGitattributes,
-  addOrUpdatePrettierIgnore,
-} from '../../utils/generators';
 import { NxGradleGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxGradleGeneratorSchema {
@@ -209,5 +205,36 @@ function addOrUpdatePrettierRc(tree: Tree) {
     writeJson(tree, prettierRcPath, {
       plugins: ['prettier-plugin-java'],
     });
+  }
+}
+
+function addOrUpdatePrettierIgnore(tree: Tree) {
+  const prettierIgnorePath = `.prettierignore`;
+  const gradlePrettierIgnore = '# Gradle build\nbuild';
+  if (tree.exists(prettierIgnorePath)) {
+    const prettierIgnoreOldContent =
+      tree.read(prettierIgnorePath, 'utf-8') || '';
+    const prettierIgnoreContent = prettierIgnoreOldContent.concat(
+      '\n',
+      gradlePrettierIgnore,
+    );
+    tree.write(prettierIgnorePath, prettierIgnoreContent);
+  } else {
+    tree.write(prettierIgnorePath, gradlePrettierIgnore);
+  }
+}
+
+function addOrUpdateGitattributes(tree: Tree) {
+  const gitattributesPath = `.gitattributes`;
+  const gradleWrapperGitattributes = `#\n# https://help.github.com/articles/dealing-with-line-endings/\n#\n# Linux start script should use lf\ngradlew text eol=lf\n# Windows script files should use crlf\n*.bat text eol=crlf`;
+  if (tree.exists(gitattributesPath)) {
+    const gitattributesOldContent = tree.read(gitattributesPath, 'utf-8') || '';
+    const gitattributesContent = gitattributesOldContent.concat(
+      '\n',
+      gradleWrapperGitattributes,
+    );
+    tree.write(gitattributesPath, gitattributesContent);
+  } else {
+    tree.write(gitattributesPath, gradleWrapperGitattributes);
   }
 }

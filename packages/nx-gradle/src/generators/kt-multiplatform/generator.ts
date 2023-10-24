@@ -18,7 +18,7 @@ import {
   getProjectPathFromProjectRoot,
   getRootProjectName,
 } from '../../utils';
-import { addProjectToGradleSetting } from '../../utils/generators';
+import { addProjectToGradleSetting } from '../../utils';
 import { NxGradleKotlinMultiplatformGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxGradleKotlinMultiplatformGeneratorSchema {

@@ -20,7 +20,7 @@ import {
 import * as fs from 'fs';
 import * as path from 'path';
 import { getGradleRootDirectory, getQuarkusVersion } from '../../utils';
-import { addProjectToGradleSetting, getDsl } from '../../utils/generators';
+import { addProjectToGradleSetting, getDsl } from '../../utils';
 import { NxGradleAppGeneratorSchema } from './schema';
 
 export default async function (

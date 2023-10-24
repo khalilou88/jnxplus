@@ -1,12 +1,16 @@
-import { getProjectRoot } from '@jnxplus/common';
+import { DSLType, getProjectRoot } from '@jnxplus/common';
 import {
   ExecutorContext,
   NxJsonConfiguration,
+  Tree,
+  joinPathFragments,
   readJsonFile,
+  readProjectConfiguration,
   workspaceRoot,
 } from '@nx/devkit';
-import * as path from 'path';
 import * as fs from 'fs';
+import * as path from 'path';
+import { join } from 'path';
 
 export function getProjectPath(
   context: ExecutorContext,
@@ -106,4 +110,94 @@ function isWrapperExistsFunction() {
   const gradleRootDirectory = getGradleRootDirectory();
   const gradlePath = path.join(workspaceRoot, gradleRootDirectory, 'gradlew');
   return fs.existsSync(gradlePath);
+}
+
+export function getDsl(tree: Tree, gradleRootDirectory: string): DSLType {
+  const filePath = joinPathFragments(gradleRootDirectory, 'settings.gradle');
+
+  if (tree.exists(filePath)) {
+    return 'groovy';
+  }
+
+  return 'kotlin';
+}
+
+export function addProjectToGradleSetting(
+  tree: Tree,
+  options: { projectRoot: string; gradleRootDirectory: string },
+) {
+  const filePath = joinPathFragments(
+    options.gradleRootDirectory,
+    'settings.gradle',
+  );
+  const ktsFilePath = joinPathFragments(
+    options.gradleRootDirectory,
+    'settings.gradle.kts',
+  );
+
+  const regex = /.*rootProject\.name.*/;
+  const projectPath = getProjectPathFromProjectRoot(
+    options.projectRoot,
+    options.gradleRootDirectory,
+  );
+
+  if (tree.exists(filePath)) {
+    const settingsContent = tree.read(filePath, 'utf-8') || '';
+
+    const newSettingsContent = settingsContent.replace(
+      regex,
+      `$&\ninclude('${projectPath}')`,
+    );
+    tree.write(filePath, newSettingsContent);
+  }
+
+  if (tree.exists(ktsFilePath)) {
+    const settingsContent = tree.read(ktsFilePath, 'utf-8') || '';
+
+    const newSettingsContent = settingsContent.replace(
+      regex,
+      `$&\ninclude("${projectPath}")`,
+    );
+    tree.write(ktsFilePath, newSettingsContent);
+  }
+}
+
+export function addLibraryToProjects(
+  tree: Tree,
+  options: {
+    projectRoot: string;
+    parsedProjects: string[];
+    gradleRootDirectory: string;
+  },
+) {
+  const regex = /dependencies\s*{/;
+  const projectPath = getProjectPathFromProjectRoot(
+    options.projectRoot,
+    options.gradleRootDirectory,
+  );
+
+  for (const projectName of options.parsedProjects) {
+    const projectRoot = readProjectConfiguration(tree, projectName).root;
+    const filePath = join(projectRoot, `build.gradle`);
+    const ktsPath = join(projectRoot, `build.gradle.kts`);
+
+    if (tree.exists(filePath)) {
+      const buildGradleContent = tree.read(filePath, 'utf-8') || '';
+      const newBuildGradleContent = buildGradleContent.replace(
+        regex,
+        `$&\n\timplementation project(':${projectPath}')`,
+      );
+      tree.write(filePath, newBuildGradleContent);
+    }
+
+    if (tree.exists(ktsPath)) {
+      const buildGradleContent = tree.read(ktsPath, 'utf-8') || '';
+
+      const newBuildGradleContent = buildGradleContent.replace(
+        regex,
+        `$&\n\timplementation(project(":${projectPath}"))`,
+      );
+      tree.write(ktsPath, newBuildGradleContent);
+    }
+  }
 }
