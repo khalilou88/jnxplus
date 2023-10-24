@@ -1,9 +1,4 @@
-import {
-  DSLType,
-  GradlePluginType,
-  LinterType,
-  normalizeName,
-} from '@jnxplus/common';
+import { DSLType, GradlePluginType, normalizeName } from '@jnxplus/common';
 import {
   ProjectConfiguration,
   Tree,
@@ -15,11 +10,11 @@ import {
   offsetFromRoot,
 } from '@nx/devkit';
 import { join } from 'path';
-import { getGradleRootDirectory } from '../../utils';
 import {
   addLibraryToProjects,
   addProjectToGradleSetting,
   getDsl,
+  getGradleRootDirectory,
 } from '../../utils';
 import { NxGradleLibGeneratorSchema } from './schema';
 
@@ -38,7 +33,6 @@ interface NormalizedSchema extends NxGradleLibGeneratorSchema {
   packageName: string;
   packageDirectory: string;
   parsedProjects: string[];
-  linter?: LinterType;
   dsl: DSLType;
   kotlinExtension: string;
   gradleRootDirectory: string;
@@ -94,8 +88,6 @@ function normalizeOptions(
     ? options.projects.split(',').map((s) => s.trim())
     : [];
 
-  const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
-
   const dsl = getDsl(tree, gradleRootDirectory);
   const kotlinExtension = dsl === 'kotlin' ? '.kts' : '';
 
@@ -108,7 +100,6 @@ function normalizeOptions(
     packageName,
     packageDirectory,
     parsedProjects,
-    linter,
     dsl,
     kotlinExtension,
     gradleRootDirectory,
@@ -329,12 +320,6 @@ async function libraryGenerator(
           task: 'build',
         },
         outputs: [`{projectRoot}/build`],
-      },
-      lint: {
-        executor: `${plugin}:lint`,
-        options: {
-          linter: `${normalizedOptions.linter}`,
-        },
       },
       test: {
         executor: `${plugin}:run-task`,

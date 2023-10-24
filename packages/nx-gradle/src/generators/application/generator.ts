@@ -2,7 +2,6 @@ import {
   clearEmpties,
   DSLType,
   GradlePluginType,
-  LinterType,
   normalizeName,
   quarkusVersion,
 } from '@jnxplus/common';
@@ -19,8 +18,12 @@ import {
 } from '@nx/devkit';
 import * as fs from 'fs';
 import * as path from 'path';
-import { getGradleRootDirectory, getQuarkusVersion } from '../../utils';
-import { addProjectToGradleSetting, getDsl } from '../../utils';
+import {
+  addProjectToGradleSetting,
+  getDsl,
+  getGradleRootDirectory,
+  getQuarkusVersion,
+} from '../../utils';
 import { NxGradleAppGeneratorSchema } from './schema';
 
 export default async function (
@@ -38,7 +41,6 @@ interface NormalizedSchema extends NxGradleAppGeneratorSchema {
   appClassName: string;
   packageName: string;
   packageDirectory: string;
-  linter?: LinterType;
   isCustomPort: boolean;
   dsl: DSLType;
   kotlinExtension: string;
@@ -100,8 +102,6 @@ function normalizeOptions(
 
   const packageDirectory = packageName.replace(new RegExp(/\./, 'g'), '/');
 
-  const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
-
   const isCustomPort = !!options.port && +options.port !== 8080;
 
   const dsl = getDsl(tree, gradleRootDirectory);
@@ -133,7 +133,6 @@ function normalizeOptions(
     appClassName,
     packageName,
     packageDirectory,
-    linter,
     isCustomPort,
     dsl,
     kotlinExtension,
@@ -401,12 +400,6 @@ async function applicationGenerator(
         executor: `${plugin}:run-task`,
         options: {
           task: 'run',
-        },
-      },
-      lint: {
-        executor: `${plugin}:lint`,
-        options: {
-          linter: `${normalizedOptions.linter}`,
         },
       },
       test: {

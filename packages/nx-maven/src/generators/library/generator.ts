@@ -1,5 +1,4 @@
 import {
-  LinterType,
   MavenPluginType,
   micronautVersion,
   normalizeName,
@@ -19,11 +18,11 @@ import {
   readProjectConfiguration,
 } from '@nx/devkit';
 import * as path from 'path';
-import { getMavenRootDirectory } from '../../utils';
 import {
   addLibraryToProjects,
   addMissedProperties,
   addProjectToAggregator,
+  getMavenRootDirectory,
 } from '../../utils';
 import { NxMavenLibGeneratorSchema } from './schema';
 
@@ -39,7 +38,6 @@ interface NormalizedSchema extends NxMavenLibGeneratorSchema {
   packageName: string;
   packageDirectory: string;
   parsedProjects: string[];
-  linter?: LinterType;
   parentGroupId: string;
   parentProjectName: string;
   parentProjectVersion: string;
@@ -102,8 +100,6 @@ function normalizeOptions(
     ? options.projects.split(',').map((s) => s.trim())
     : [];
 
-  const linter = options.language === 'java' ? 'checkstyle' : 'ktlint';
-
   const rootPomXmlContent = readXmlTree(
     tree,
     path.join(mavenRootDirectory, 'pom.xml'),
@@ -141,7 +137,6 @@ function normalizeOptions(
     packageName,
     packageDirectory,
     parsedProjects,
-    linter,
     parentGroupId,
     parentProjectName,
     parentProjectVersion,
