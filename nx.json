@@ -1,12 +1,12 @@
 {
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "affected": {
     "defaultBase": "main"
   },
   "workspaceLayout": {
-    "appsDir": "testing-projects",
-    "libsDir": "packages"
+    "libsDir": "packages",
+    "appsDir": "testing-projects"
   },
-  "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
