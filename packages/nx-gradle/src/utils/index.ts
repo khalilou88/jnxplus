@@ -24,10 +24,18 @@ export function getProjectPathFromProjectRoot(
   projectRoot: string,
   gradleRootDirectory: string,
 ) {
-  return projectRoot
-    .replace(new RegExp('^\\.', 'g'), '')
-    .replace(new RegExp(`^${gradleRootDirectory}/`, 'g'), '')
-    .replace(new RegExp('/', 'g'), ':');
+  //Remove first dot
+  let replacedString = projectRoot.replace(new RegExp('^\\.', 'g'), '');
+
+  //Remove gradleRootDirectory if exits
+  if (gradleRootDirectory) {
+    replacedString = replacedString.replace(
+      new RegExp(`^/?${gradleRootDirectory}`, 'g'),
+      '',
+    );
+  }
+
+  return replacedString.replace(new RegExp('/', 'g'), ':');
 }
 
 export function getProjectRootFromProjectPath(projectPath: string) {
