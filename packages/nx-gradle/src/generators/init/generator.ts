@@ -148,29 +148,23 @@ function updateNxJson(tree: Tree, options: NormalizedSchema) {
 }
 
 function updateGitIgnore(tree: Tree, options: NormalizedSchema) {
-  const filePath = `.gitignore`;
+  const filePath = '.gitignore';
   const contents = tree.read(filePath, 'utf-8') || '';
 
-  let gradleIgnore = '';
-  const gradleIgnore1 = '\n\n# Gradle';
-  const gradleIgnore2 = '\n.gradle';
-  const gradleIgnore3 = '\nbuild/';
-  const gradleIgnore4 = '\n!**/src/main/**/build/';
-  const gradleIgnore5 = '\n!**/src/test/**/build/';
-
-  gradleIgnore =
-    gradleIgnore1 +
-    gradleIgnore2 +
-    gradleIgnore3 +
-    gradleIgnore4 +
-    gradleIgnore5;
+  const gradleIgnores = [
+    '\n',
+    '\n# Gradle',
+    '\n.gradle',
+    '\nbuild/',
+    '\n!**/src/main/**/build/',
+    '\n!**/src/test/**/build/',
+  ];
 
   if (!options.skipWrapper) {
-    const gradleWrapperIgnore = '\n!gradle/wrapper/gradle-wrapper.jar';
-    gradleIgnore += gradleWrapperIgnore;
+    gradleIgnores.push('\n!gradle/wrapper/gradle-wrapper.jar');
   }
 
-  const newContents = contents.concat(gradleIgnore);
+  const newContents = contents.concat(gradleIgnores.join(''));
   tree.write(filePath, newContents);
 }
 
@@ -191,7 +185,7 @@ function addPrettierToPackageJson(tree: Tree) {
 }
 
 function addOrUpdatePrettierRc(tree: Tree) {
-  const prettierRcPath = `.prettierrc`;
+  const prettierRcPath = '.prettierrc';
   if (tree.exists(prettierRcPath)) {
     updateJson(tree, prettierRcPath, (prettierRcJson) => {
       prettierRcJson.plugins = prettierRcJson.plugins ?? [];
@@ -209,18 +203,19 @@ function addOrUpdatePrettierRc(tree: Tree) {
 }
 
 function addOrUpdatePrettierIgnore(tree: Tree) {
-  const prettierIgnorePath = `.prettierignore`;
-  const gradlePrettierIgnore = '# Gradle build\nbuild';
+  const prettierIgnorePath = '.prettierignore';
+  const gradlePrettierIgnores = ['# Gradle build', '\nbuild/'];
   if (tree.exists(prettierIgnorePath)) {
     const prettierIgnoreOldContent =
       tree.read(prettierIgnorePath, 'utf-8') || '';
+
+    gradlePrettierIgnores.push('\n\n');
     const prettierIgnoreContent = prettierIgnoreOldContent.concat(
-      '\n',
-      gradlePrettierIgnore,
+      gradlePrettierIgnores.join(''),
     );
     tree.write(prettierIgnorePath, prettierIgnoreContent);
   } else {
-    tree.write(prettierIgnorePath, gradlePrettierIgnore);
+    tree.write(prettierIgnorePath, gradlePrettierIgnores.join(''));
   }
 }
 

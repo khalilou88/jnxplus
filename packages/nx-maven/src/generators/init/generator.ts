@@ -134,22 +134,22 @@ function updateNxJson(tree: Tree, options: NormalizedSchema) {
 }
 
 function updateGitIgnore(tree: Tree, skipWrapper: boolean | undefined) {
-  const filePath = `.gitignore`;
+  const filePath = '.gitignore';
   const contents = tree.read(filePath, 'utf-8') || '';
 
-  let mavenIgnore = '';
-  const mavenIgnore1 = '\n\n# Maven';
-  const mavenIgnore2 = '\ntarget/';
-  const mavenIgnore3 = '\n!**/src/main/**/target/';
-  const mavenIgnore4 = '\n!**/src/test/**/target/';
-
-  mavenIgnore = mavenIgnore1 + mavenIgnore2 + mavenIgnore3 + mavenIgnore4;
+  const mavenIgnores = [
+    '\n',
+    '\n# Maven',
+    '\ntarget/',
+    '\n!**/src/main/**/target/',
+    '\n!**/src/test/**/target/',
+  ];
 
   if (!skipWrapper) {
-    mavenIgnore += '\n!.mvn/wrapper/maven-wrapper.jar';
+    mavenIgnores.push('\n!.mvn/wrapper/maven-wrapper.jar');
   }
 
-  const newContents = contents.concat(mavenIgnore);
+  const newContents = contents.concat(mavenIgnores.join(''));
   tree.write(filePath, newContents);
 }
 
@@ -175,7 +175,7 @@ function addPrettierToPackageJson(tree: Tree) {
 }
 
 function addOrUpdatePrettierRc(tree: Tree) {
-  const prettierRcPath = `.prettierrc`;
+  const prettierRcPath = '.prettierrc';
   if (tree.exists(prettierRcPath)) {
     updateJson(tree, prettierRcPath, (prettierRcJson) => {
       prettierRcJson.xmlWhitespaceSensitivity = 'ignore';
@@ -198,18 +198,19 @@ function addOrUpdatePrettierRc(tree: Tree) {
 }
 
 function addOrUpdatePrettierIgnore(tree: Tree) {
-  const prettierIgnorePath = `.prettierignore`;
-  const mavenPrettierIgnore = '# Maven target\ntarget/';
+  const prettierIgnorePath = '.prettierignore';
+  const mavenPrettierIgnores = ['# Maven target', '\ntarget/'];
   if (tree.exists(prettierIgnorePath)) {
     const prettierIgnoreOldContent =
       tree.read(prettierIgnorePath, 'utf-8') || '';
+    mavenPrettierIgnores.push('\n\n');
+
     const prettierIgnoreContent = prettierIgnoreOldContent.concat(
-      '\n',
-      mavenPrettierIgnore,
+      mavenPrettierIgnores.join(''),
     );
     tree.write(prettierIgnorePath, prettierIgnoreContent);
   } else {
-    tree.write(prettierIgnorePath, mavenPrettierIgnore);
+    tree.write(prettierIgnorePath, mavenPrettierIgnores.join(''));
   }
 }
 
