@@ -214,17 +214,26 @@ function addOrUpdatePrettierIgnore(tree: Tree) {
 }
 
 function addOrUpdateGitattributes(tree: Tree) {
-  const gitattributesPath = `.gitattributes`;
-  const mavenWrapperGitattributes =
-    '# OS specific line endings for the Maven wrapper script\nmvnw text eol=lf\nmvnw.cmd text eol=crlf';
+  const gitattributesPath = '.gitattributes';
+  const attributes = [
+    '#',
+    '\n# https://help.github.com/articles/dealing-with-line-endings/',
+    '\n#',
+    '\n# Linux start script should use lf',
+    '\nmvnw text eol=lf',
+    '\n# Windows script files should use crlf',
+    '\nmvnw.cmd text eol=crlf',
+  ];
+
   if (tree.exists(gitattributesPath)) {
     const gitattributesOldContent = tree.read(gitattributesPath, 'utf-8') || '';
+    attributes.push('\n\n');
+
     const gitattributesContent = gitattributesOldContent.concat(
-      '\n',
-      mavenWrapperGitattributes,
+      attributes.join(''),
     );
     tree.write(gitattributesPath, gitattributesContent);
   } else {
-    tree.write(gitattributesPath, mavenWrapperGitattributes);
+    tree.write(gitattributesPath, attributes.join(''));
   }
 }
