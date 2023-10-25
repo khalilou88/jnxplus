@@ -10,16 +10,19 @@ async function main() {
 
   console.log(`Creating the workspace: ${name}`);
 
-  // This assumes "nx-maven" and "create-nx-maven-workspace" are at the same version
+  // This assumes "@jnxplus/nx-maven" and "create-nx-maven-workspace" are at the same version
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const presetVersion = require('../package.json').version;
 
   // TODO: update below to customize the workspace
-  const { directory } = await createWorkspace(`nx-maven@${presetVersion}`, {
-    name,
-    nxCloud: false,
-    packageManager: 'npm',
-  });
+  const { directory } = await createWorkspace(
+    `@jnxplus/nx-maven@${presetVersion}`,
+    {
+      name,
+      nxCloud: false,
+      packageManager: 'npm',
+    },
+  );
 
   console.log(`Successfully created the workspace: ${directory}.`);
 }
