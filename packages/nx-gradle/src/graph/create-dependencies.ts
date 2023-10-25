@@ -11,8 +11,11 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 import { projectGraphCacheDirectory } from 'nx/src/utils/cache-directory';
 import * as path from 'path';
-import { getExecutable, getGradleRootDirectory } from '../utils';
-import { getProjectName } from './create-nodes';
+import {
+  getExecutable,
+  getGradleRootDirectory,
+  getProjectName,
+} from '../utils';
 
 export const createDependencies: CreateDependencies = (
   _,
