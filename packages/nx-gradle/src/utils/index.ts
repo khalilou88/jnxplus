@@ -30,7 +30,7 @@ export function getProjectPathFromProjectRoot(
   //Remove gradleRootDirectory if exits
   if (gradleRootDirectory) {
     replacedString = replacedString.replace(
-      new RegExp(`^/?${gradleRootDirectory}`, 'g'),
+      new RegExp(`^/${gradleRootDirectory}`, 'g'),
       '',
     );
   }
