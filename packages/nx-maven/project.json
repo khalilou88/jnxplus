@@ -17,7 +17,7 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/packages/nx-maven"],
+      "outputs": ["{workspaceRoot}/coverage/nx-maven"],
       "options": {
         "jestConfig": "packages/nx-maven/jest.config.ts",
         "passWithNoTests": true
