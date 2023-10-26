@@ -52,12 +52,12 @@ try {
   const json = JSON.parse(readFileSync(`package.json`).toString());
   json.version = version;
 
-  if (json.devDependencies['@jnxplus/common']) {
-    json.devDependencies['@jnxplus/common'] = version;
+  if (json.dependencies['@jnxplus/common']) {
+    json.dependencies['@jnxplus/common'] = version;
   }
 
-  if (json.devDependencies['@jnxplus/xml']) {
-    json.devDependencies['@jnxplus/xml'] = version;
+  if (json.dependencies['@jnxplus/xml']) {
+    json.dependencies['@jnxplus/xml'] = version;
   }
 
   writeFileSync(`package.json`, JSON.stringify(json, null, 2));
