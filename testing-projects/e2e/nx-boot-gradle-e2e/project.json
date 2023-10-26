@@ -19,13 +19,6 @@
         }
       },
       "dependsOn": ["^build"]
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["testing-projects/e2e/nx-boot-gradle-e2e/**/*.ts"]
-      }
     }
   },
   "tags": [],
