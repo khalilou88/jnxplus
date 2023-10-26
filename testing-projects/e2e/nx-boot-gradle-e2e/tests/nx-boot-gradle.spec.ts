@@ -28,8 +28,13 @@ import * as path from 'path';
  * @returns The directory where the test project was created
  */
 function createTestProject() {
-  const projectName = 'testproject';
-  const projectDirectory = path.join(process.cwd(), 'tmp', projectName);
+  const projectName = 'proj';
+  const projectDirectory = path.join(
+    process.cwd(),
+    'tmp',
+    'nx-e2e',
+    projectName,
+  );
 
   // Ensure projectDirectory is empty
   rmSync(projectDirectory, {
