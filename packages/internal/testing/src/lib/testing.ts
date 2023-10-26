@@ -1,4 +1,4 @@
-import { springBootVersion } from '@jnxplus/common';
+import { CustomCli, springBootVersion } from '@jnxplus/common';
 import { readXml, xmlToString } from '@jnxplus/xml';
 import { getPackageManagerCommand } from '@nx/devkit';
 import { exists, tmpProjPath } from '@nx/plugin/testing';
@@ -14,38 +14,68 @@ import { XmlDocument } from 'xmldoc';
 import kill = require('kill-port');
 
 /**
- * Creates a test project with create-nx-workspace and installs the plugin
- * @returns The directory where the test project was created
+ * Creates a test workspace with create-nx-workspace and installs the plugin
+ * @returns The directory where the test workspace was created
  */
 export function createTestWorkspace() {
-  const projectName = 'proj';
-  const projectDirectory = path.join(
+  const workspaceName = 'proj';
+  const workspaceDirectory = path.join(
     process.cwd(),
     'tmp',
     'nx-e2e',
-    projectName,
+    workspaceName,
   );
 
-  // Ensure projectDirectory is empty
-  fs.rmSync(projectDirectory, {
+  // Ensure workspaceDirectory is empty
+  fs.rmSync(workspaceDirectory, {
     recursive: true,
     force: true,
   });
-  fs.mkdirSync(path.dirname(projectDirectory), {
+  fs.mkdirSync(path.dirname(workspaceDirectory), {
     recursive: true,
   });
 
   execSync(
-    `npx --yes create-nx-workspace@latest ${projectName} --preset apps --no-nxCloud --no-interactive`,
+    `npx --yes create-nx-workspace@latest ${workspaceName} --preset apps --no-nxCloud --no-interactive`,
     {
-      cwd: path.dirname(projectDirectory),
+      cwd: path.dirname(workspaceDirectory),
       stdio: 'inherit',
       env: process.env,
     },
   );
-  console.log(`Created test project in "${projectDirectory}"`);
+  console.log(`Created test project in "${workspaceDirectory}"`);
 
-  return projectDirectory;
+  return workspaceDirectory;
+}
+
+/**
+ * Creates a test workspace with create-nx-maven-workspace create-nx-gradle-workspace or and installs the plugin
+ * @returns The directory where the test workspace was created
+ */
+export function createTestWorkspaceWithCustomCli(
+  customCli: CustomCli,
+  extraArgs = '',
+) {
+  const workspaceName = 'test-workspace';
+  const workspaceDirectory = path.join(process.cwd(), 'tmp', workspaceName);
+
+  // Ensure workspaceDirectory is empty
+  fs.rmSync(workspaceDirectory, {
+    recursive: true,
+    force: true,
+  });
+  fs.mkdirSync(path.dirname(workspaceDirectory), {
+    recursive: true,
+  });
+
+  execSync(`npx --yes ${customCli}@e2e ${workspaceName} ${extraArgs}`, {
+    cwd: path.dirname(workspaceDirectory),
+    stdio: 'inherit',
+    env: process.env,
+  });
+  console.log(`Created test workspace in "${workspaceDirectory}"`);
+
+  return workspaceDirectory;
 }
 
 /**
