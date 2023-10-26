@@ -31,6 +31,10 @@
         ]
       }
     },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs internal-gradle-executors {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],

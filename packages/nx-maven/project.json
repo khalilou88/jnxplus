@@ -4,25 +4,6 @@
   "sourceRoot": "packages/nx-maven/src",
   "projectType": "library",
   "targets": {
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": [
-          "packages/nx-maven/**/*.ts",
-          "packages/nx-maven/package.json",
-          "packages/nx-maven/executors.json"
-        ]
-      }
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/nx-maven"],
-      "options": {
-        "jestConfig": "packages/nx-maven/jest.config.ts",
-        "passWithNoTests": true
-      }
-    },
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
@@ -166,6 +147,29 @@
         ]
       }
     },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs nx-maven {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "packages/nx-maven/**/*.ts",
+          "packages/nx-maven/package.json",
+          "packages/nx-maven/executors.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/nx-maven"],
+      "options": {
+        "jestConfig": "packages/nx-maven/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
     "version": {
       "executor": "@jscutlery/semver:version",
       "options": {
@@ -173,7 +177,7 @@
         "trackDeps": true,
         "push": true,
         "noVerify": true,
-        "postTargets": ["nx-maven:publish"],
+        "postTargets": ["nx-maven:deploy"],
         "commitMessageFormat": "release: cut release ${version} of {projectName}"
       }
     },
@@ -184,7 +188,7 @@
         "notes": "${notes}"
       }
     },
-    "publish": {
+    "deploy": {
       "executor": "ngx-deploy-npm:deploy",
       "options": {
         "access": "public"

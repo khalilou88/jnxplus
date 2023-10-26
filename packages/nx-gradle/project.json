@@ -147,6 +147,10 @@
         ]
       }
     },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs nx-gradle {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
@@ -184,7 +188,7 @@
         "notes": "${notes}"
       }
     },
-    "publish": {
+    "deploy": {
       "executor": "ngx-deploy-npm:deploy",
       "options": {
         "access": "public"

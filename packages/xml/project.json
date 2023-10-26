@@ -27,6 +27,10 @@
         ]
       }
     },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs xml {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
@@ -55,7 +59,7 @@
         "trackDeps": true,
         "push": true,
         "noVerify": true,
-        "postTargets": ["xml:update-xml-deps", "xml:github", "xml:publish"],
+        "postTargets": ["xml:update-xml-deps", "xml:github", "xml:deploy"],
         "commitMessageFormat": "release: cut release ${version} of {projectName}"
       }
     },
@@ -72,7 +76,7 @@
         "notes": "${notes}"
       }
     },
-    "publish": {
+    "deploy": {
       "executor": "ngx-deploy-npm:deploy",
       "options": {
         "access": "public"
