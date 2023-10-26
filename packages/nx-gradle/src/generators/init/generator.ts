@@ -23,9 +23,9 @@ import {
   writeJson,
 } from '@nx/devkit';
 import * as path from 'path';
-import { NxGradleGeneratorSchema } from './schema';
+import { NxGradleInitGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends NxGradleGeneratorSchema {
+interface NormalizedSchema extends NxGradleInitGeneratorSchema {
   kotlinExtension: string;
   springBootVersion: string;
   springDependencyManagementVersion: string;
@@ -40,7 +40,7 @@ interface NormalizedSchema extends NxGradleGeneratorSchema {
 
 function normalizeOptions(
   tree: Tree,
-  options: NxGradleGeneratorSchema,
+  options: NxGradleInitGeneratorSchema,
 ): NormalizedSchema {
   const kotlinExtension =
     options.dsl === 'kotlin' || options.preset === 'kotlin-multiplatform'
@@ -88,7 +88,12 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   );
 }
 
-export default async function (tree: Tree, options: NxGradleGeneratorSchema) {
+export default initGenerator;
+
+export async function initGenerator(
+  tree: Tree,
+  options: NxGradleInitGeneratorSchema,
+) {
   const normalizedOptions = normalizeOptions(tree, options);
 
   if (options.gradleRootDirectory) {
