@@ -2,6 +2,7 @@ import { normalizeName } from '@jnxplus/common';
 import {
   addTmpToGitignore,
   checkFilesDoNotExist,
+  createTestWorkspace,
   getData,
   killPorts,
   promisifiedTreeKill,
@@ -19,47 +20,12 @@ import {
   updateFile,
 } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
-import { mkdirSync, rmSync } from 'fs';
+import { rmSync } from 'fs';
 import * as fse from 'fs-extra';
 import * as path from 'path';
 
-/**
- * Creates a test project with create-nx-workspace and installs the plugin
- * @returns The directory where the test project was created
- */
-function createTestProject() {
-  const projectName = 'proj';
-  const projectDirectory = path.join(
-    process.cwd(),
-    'tmp',
-    'nx-e2e',
-    projectName,
-  );
-
-  // Ensure projectDirectory is empty
-  rmSync(projectDirectory, {
-    recursive: true,
-    force: true,
-  });
-  mkdirSync(path.dirname(projectDirectory), {
-    recursive: true,
-  });
-
-  execSync(
-    `npx --yes create-nx-workspace@latest ${projectName} --preset apps --no-nxCloud --no-interactive`,
-    {
-      cwd: path.dirname(projectDirectory),
-      stdio: 'inherit',
-      env: process.env,
-    },
-  );
-  console.log(`Created test project in "${projectDirectory}"`);
-
-  return projectDirectory;
-}
-
 describe('nx-boot-gradle e2e', () => {
-  let projectDirectory: string;
+  let workspaceDirectory: string;
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
@@ -67,12 +33,12 @@ describe('nx-boot-gradle e2e', () => {
   const rootProjectName = uniq('boot-root-project-');
 
   beforeAll(async () => {
-    projectDirectory = createTestProject();
+    workspaceDirectory = createTestWorkspace();
 
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
     execSync(`npm install @jnxplus/nx-gradle@e2e`, {
-      cwd: projectDirectory,
+      cwd: workspaceDirectory,
       stdio: 'inherit',
       env: process.env,
     });
@@ -91,7 +57,7 @@ describe('nx-boot-gradle e2e', () => {
       addTmpToGitignore();
     }
     // Cleanup the test project
-    rmSync(projectDirectory, {
+    rmSync(workspaceDirectory, {
       recursive: true,
       force: true,
     });

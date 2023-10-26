@@ -1,10 +1,6 @@
 import { springBootVersion } from '@jnxplus/common';
 import { readXml, xmlToString } from '@jnxplus/xml';
-import {
-  getPackageManagerCommand,
-  readJsonFile,
-  writeJsonFile,
-} from '@nx/devkit';
+import { getPackageManagerCommand } from '@nx/devkit';
 import { exists, tmpProjPath } from '@nx/plugin/testing';
 import axios from 'axios';
 import * as chalk from 'chalk';
@@ -17,20 +13,39 @@ import { promisify } from 'util';
 import { XmlDocument } from 'xmldoc';
 import kill = require('kill-port');
 
-export function runNxNewCommand(args?: string, silent?: boolean) {
-  const localTmpDir = path.dirname(tmpProjPath());
-  return execSync(
-    `node ${require.resolve(
-      'nx',
-    )} new proj --nx-workspace-root=${localTmpDir} --no-interactive --skip-install --collection=@nx/workspace --npmScope=proj --preset=apps ${
-      args || ''
-    }`,
+/**
+ * Creates a test project with create-nx-workspace and installs the plugin
+ * @returns The directory where the test project was created
+ */
+export function createTestWorkspace() {
+  const projectName = 'proj';
+  const projectDirectory = path.join(
+    process.cwd(),
+    'tmp',
+    'nx-e2e',
+    projectName,
+  );
+
+  // Ensure projectDirectory is empty
+  fs.rmSync(projectDirectory, {
+    recursive: true,
+    force: true,
+  });
+  fs.mkdirSync(path.dirname(projectDirectory), {
+    recursive: true,
+  });
+
+  execSync(
+    `npx --yes create-nx-workspace@latest ${projectName} --preset apps --no-nxCloud --no-interactive`,
     {
-      cwd: localTmpDir,
-      // eslint-disable-next-line no-constant-condition
-      ...(silent && false ? { stdio: ['ignore', 'ignore', 'ignore'] } : {}),
+      cwd: path.dirname(projectDirectory),
+      stdio: 'inherit',
+      env: process.env,
     },
   );
+  console.log(`Created test project in "${projectDirectory}"`);
+
+  return projectDirectory;
 }
 
 /**
@@ -164,39 +179,6 @@ export const getData = async (port = 8080, path = '') => {
   const response = await axios.get(`http://127.0.0.1:${port}${path}`);
   return { status: response.status, message: response.data };
 };
-
-export function patchRootPackageJson(
-  npmPackageName: string,
-  distAbsolutePath: string,
-) {
-  const path = tmpProjPath('package.json');
-  const json = readJsonFile(path);
-  json.devDependencies[npmPackageName] = `file:${distAbsolutePath}`;
-  writeJsonFile(path, json);
-}
-
-export function patchPackageJson(
-  pluginDistAbsulutePath: string,
-  npmPackageName: string,
-  npmPackageDistAbsolutePath: string,
-) {
-  const packageJsonPath = path.join(pluginDistAbsulutePath, 'package.json');
-  const json = readJsonFile(packageJsonPath);
-  json.dependencies[npmPackageName] = `file:${npmPackageDistAbsolutePath}`;
-  writeJsonFile(packageJsonPath, json);
-}
-
-/**
- * Run the appropriate package manager install command in the e2e directory
- * @param silent silent output from the install
- */
-export function runPackageManagerInstallLinks(silent = true) {
-  const install = execSync('npm i --install-links', {
-    cwd: tmpProjPath(),
-    ...(silent ? { stdio: ['ignore', 'ignore', 'ignore'] } : {}),
-  });
-  return install ? install.toString() : '';
-}
 
 export function removeTmpFromGitignore() {
   const filePath = path.join(process.cwd(), '.gitignore');
