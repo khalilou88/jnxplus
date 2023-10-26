@@ -1,7 +1,16 @@
-import { names, workspaceRoot } from '@nx/devkit';
+import { normalizeName } from '@jnxplus/common';
+import {
+  addTmpToGitignore,
+  checkFilesDoNotExist,
+  getData,
+  killPorts,
+  promisifiedTreeKill,
+  removeTmpFromGitignore,
+  runNxCommandUntil,
+} from '@jnxplus/internal/testing';
+import { names } from '@nx/devkit';
 import {
   checkFilesExist,
-  cleanup,
   readFile,
   readJson,
   runNxCommandAsync,
@@ -9,24 +18,43 @@ import {
   uniq,
   updateFile,
 } from '@nx/plugin/testing';
+import { execSync } from 'child_process';
+import { mkdirSync, rmSync } from 'fs';
 import * as fse from 'fs-extra';
 import * as path from 'path';
-import { normalizeName } from '@jnxplus/common';
-import {
-  addTmpToGitignore,
-  checkFilesDoNotExist,
-  getData,
-  killPorts,
-  patchPackageJson,
-  patchRootPackageJson,
-  promisifiedTreeKill,
-  removeTmpFromGitignore,
-  runNxCommandUntil,
-  runNxNewCommand,
-  runPackageManagerInstallLinks,
-} from '@jnxplus/internal/testing';
+
+/**
+ * Creates a test project with create-nx-workspace and installs the plugin
+ * @returns The directory where the test project was created
+ */
+function createTestProject() {
+  const projectName = 'test-project';
+  const projectDirectory = path.join(process.cwd(), 'tmp', projectName);
+
+  // Ensure projectDirectory is empty
+  rmSync(projectDirectory, {
+    recursive: true,
+    force: true,
+  });
+  mkdirSync(path.dirname(projectDirectory), {
+    recursive: true,
+  });
+
+  execSync(
+    `npx --yes create-nx-workspace@latest ${projectName} --preset apps --no-nxCloud --no-interactive`,
+    {
+      cwd: path.dirname(projectDirectory),
+      stdio: 'inherit',
+      env: process.env,
+    },
+  );
+  console.log(`Created test project in "${projectDirectory}"`);
+
+  return projectDirectory;
+}
 
 describe('nx-boot-gradle e2e', () => {
+  let projectDirectory: string;
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
@@ -34,64 +62,19 @@ describe('nx-boot-gradle e2e', () => {
   const rootProjectName = uniq('boot-root-project-');
 
   beforeAll(async () => {
-    fse.ensureDirSync(tmpProjPath());
-    cleanup();
-    runNxNewCommand('', true);
+    projectDirectory = createTestProject();
 
-    const pluginName = '@jnxplus/nx-gradle';
-    const nxGradleDistAbsolutePath = path.join(
-      workspaceRoot,
-      'dist',
-      'packages',
-      'nx-gradle',
-    );
-
-    const commonDistAbsolutePath = path.join(
-      workspaceRoot,
-      'dist',
-      'packages',
-      'common',
-    );
-
-    const gradleDistAbsolutePath = path.join(
-      workspaceRoot,
-      'dist',
-      'packages',
-      'internal',
-      'gradle-executors',
-    );
-
-    patchRootPackageJson(pluginName, nxGradleDistAbsolutePath);
-    patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
-    patchRootPackageJson(
-      '@jnxplus/internal-gradle-executors',
-      gradleDistAbsolutePath,
-    );
-
-    patchPackageJson(
-      gradleDistAbsolutePath,
-      '@jnxplus/common',
-      commonDistAbsolutePath,
-    );
-
-    patchPackageJson(
-      nxGradleDistAbsolutePath,
-      '@jnxplus/common',
-      commonDistAbsolutePath,
-    );
-    patchPackageJson(
-      nxGradleDistAbsolutePath,
-      '@jnxplus/internal-gradle-executors',
-      gradleDistAbsolutePath,
-    );
-
-    runPackageManagerInstallLinks();
+    // The plugin has been built and published to a local registry in the jest globalSetup
+    // Install the plugin built with the latest source code into the test repo
+    execSync(`npm install jnxplus@e2e`, {
+      cwd: projectDirectory,
+      stdio: 'inherit',
+      env: process.env,
+    });
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --preset spring-boot`,
     );
-
-    runPackageManagerInstallLinks();
 
     if (isCI) {
       removeTmpFromGitignore();
