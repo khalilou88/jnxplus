@@ -4,7 +4,7 @@
   "sourceRoot": "packages/gradle-plugin/src",
   "projectType": "library",
   "targets": {
-    "build": {
+    "build2": {
       "executor": "@jnxplus/internal-gradle-executors:run-commands",
       "options": {
         "command": "build publishToMavenLocal",
@@ -32,7 +32,7 @@
         "version": "${version}"
       }
     },
-    "publish": {
+    "publish2": {
       "executor": "@jnxplus/internal-gradle-executors:run-commands",
       "options": {
         "command": "publishPlugins",

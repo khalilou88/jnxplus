@@ -147,6 +147,10 @@
         ]
       }
     },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs nx-gradle {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
@@ -164,6 +168,12 @@
       "options": {
         "jestConfig": "packages/nx-gradle/jest.config.ts",
         "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
       }
     },
     "version": {
@@ -184,7 +194,7 @@
         "notes": "${notes}"
       }
     },
-    "publish": {
+    "deploy": {
       "executor": "ngx-deploy-npm:deploy",
       "options": {
         "access": "public"

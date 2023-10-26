@@ -1,26 +1,22 @@
-import { names, workspaceRoot } from '@nx/devkit';
+import {
+  addTmpToGitignore,
+  createTestWorkspace,
+  removeTmpFromGitignore,
+} from '@jnxplus/internal/testing';
+import { names } from '@nx/devkit';
 import {
   checkFilesExist,
-  cleanup,
   readFile,
   readJson,
   runNxCommandAsync,
-  tmpProjPath,
   uniq,
   updateFile,
 } from '@nx/plugin/testing';
-import * as fse from 'fs-extra';
-import * as path from 'path';
-import {
-  addTmpToGitignore,
-  patchPackageJson,
-  patchRootPackageJson,
-  removeTmpFromGitignore,
-  runNxNewCommand,
-  runPackageManagerInstallLinks,
-} from '@jnxplus/internal/testing';
+import { execSync } from 'child_process';
+import { rmSync } from 'fs';
 
 describe('nx-gradle kotlin dsl e2e', () => {
+  let workspaceDirectory: string;
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
@@ -28,64 +24,19 @@ describe('nx-gradle kotlin dsl e2e', () => {
   const rootProjectName = uniq('boot-root-project-');
 
   beforeAll(async () => {
-    fse.ensureDirSync(tmpProjPath());
-    cleanup();
-    runNxNewCommand('', true);
+    workspaceDirectory = createTestWorkspace();
 
-    const pluginName = '@jnxplus/nx-gradle';
-    const nxGradleDistAbsolutePath = path.join(
-      workspaceRoot,
-      'dist',
-      'packages',
-      'nx-gradle',
-    );
-
-    const commonDistAbsolutePath = path.join(
-      workspaceRoot,
-      'dist',
-      'packages',
-      'common',
-    );
-
-    const gradleDistAbsolutePath = path.join(
-      workspaceRoot,
-      'dist',
-      'packages',
-      'internal',
-      'gradle-executors',
-    );
-
-    patchRootPackageJson(pluginName, nxGradleDistAbsolutePath);
-    patchRootPackageJson('@jnxplus/common', commonDistAbsolutePath);
-    patchRootPackageJson(
-      '@jnxplus/internal-gradle-executors',
-      gradleDistAbsolutePath,
-    );
-
-    patchPackageJson(
-      gradleDistAbsolutePath,
-      '@jnxplus/common',
-      commonDistAbsolutePath,
-    );
-
-    patchPackageJson(
-      nxGradleDistAbsolutePath,
-      '@jnxplus/common',
-      commonDistAbsolutePath,
-    );
-    patchPackageJson(
-      nxGradleDistAbsolutePath,
-      '@jnxplus/internal-gradle-executors',
-      gradleDistAbsolutePath,
-    );
-
-    runPackageManagerInstallLinks();
+    // The plugin has been built and published to a local registry in the jest globalSetup
+    // Install the plugin built with the latest source code into the test repo
+    execSync(`npm install @jnxplus/nx-gradle@e2e`, {
+      cwd: workspaceDirectory,
+      stdio: 'inherit',
+      env: process.env,
+    });
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}`,
     );
-
-    runPackageManagerInstallLinks();
 
     if (isCI) {
       removeTmpFromGitignore();
@@ -96,10 +47,11 @@ describe('nx-gradle kotlin dsl e2e', () => {
     if (isCI) {
       addTmpToGitignore();
     }
-
-    // `nx reset` kills the daemon, and performs
-    // some work which can help clean up e2e leftovers
-    await runNxCommandAsync('reset');
+    // Cleanup the test project
+    rmSync(workspaceDirectory, {
+      recursive: true,
+      force: true,
+    });
   });
 
   it('should set NX_VERBOSE_LOGGING to true', async () => {

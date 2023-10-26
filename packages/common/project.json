@@ -27,6 +27,10 @@
         ]
       }
     },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs common {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"],
@@ -61,7 +65,7 @@
         "postTargets": [
           "common:update-dependencies",
           "common:github",
-          "common:publish"
+          "common:deploy"
         ],
         "commitMessageFormat": "release: cut release ${version} of {projectName}"
       }
@@ -79,7 +83,7 @@
         "notes": "${notes}"
       }
     },
-    "publish": {
+    "deploy": {
       "executor": "ngx-deploy-npm:deploy",
       "options": {
         "access": "public"

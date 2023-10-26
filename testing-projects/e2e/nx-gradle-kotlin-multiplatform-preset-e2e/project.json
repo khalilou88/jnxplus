@@ -6,11 +6,18 @@
   "targets": {
     "e2e": {
       "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "testing-projects/e2e/nx-gradle-kotlin-multiplatform-preset-e2e/jest.config.js",
         "runInBand": true
       },
-      "dependsOn": ["nx-gradle:build"]
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      },
+      "dependsOn": ["^build"]
     }
   },
   "tags": [],
