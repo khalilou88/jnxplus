@@ -85,10 +85,11 @@ describe('nx-boot-gradle e2e', () => {
     if (isCI) {
       addTmpToGitignore();
     }
-
-    // `nx reset` kills the daemon, and performs
-    // some work which can help clean up e2e leftovers
-    await runNxCommandAsync('reset');
+    // Cleanup the test project
+    rmSync(projectDirectory, {
+      recursive: true,
+      force: true,
+    });
   });
 
   it('should set NX_VERBOSE_LOGGING to true', async () => {
