@@ -2,7 +2,8 @@
   "name": "create-nx-maven-workspace",
   "version": "0.0.1",
   "dependencies": {
-    "create-nx-workspace": "17.0.1"
+    "create-nx-workspace": ">=17.0.0",
+    "tslib": "^2.6.2"
   },
   "type": "commonjs",
   "main": "./src/index.js",

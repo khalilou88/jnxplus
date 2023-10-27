@@ -1,11 +1,17 @@
 #!/usr/bin/env node
 
 import { createWorkspace } from 'create-nx-workspace';
+import { prompt } from 'enquirer';
 
 async function main() {
-  const name = process.argv[2]; // TODO: use libraries like yargs or enquirer to set your workspace name
+  let name = process.argv[2];
   if (!name) {
-    throw new Error('Please provide a name for the workspace');
+    const response = await prompt<{ name: string }>({
+      type: 'input',
+      name: 'name',
+      message: 'What is the name of the workspace?',
+    });
+    name = response.name;
   }
 
   console.log(`Creating the workspace: ${name}`);
