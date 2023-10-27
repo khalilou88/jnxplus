@@ -41,7 +41,7 @@ jobs:
 
       - name: E2E tests
         id: e2e
-        run: npm run nx run-many -- --target=e2e --projects=nx-boot-gradle-e2e,nx-boot-maven-e2e
+        run: npm run nx run-many -- --target=e2e --projects=jnxplus-nx-maven-e2e
         env:
           NX_VERBOSE_LOGGING: 'true'
           GITHUB_ACTIONS: 'true'
