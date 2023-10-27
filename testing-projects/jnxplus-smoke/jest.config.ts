@@ -1,11 +1,11 @@
 /* eslint-disable */
 export default {
-  displayName: 'xml',
+  displayName: 'jnxplus-smoke',
   preset: '../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/packages/xml',
+  coverageDirectory: '../../coverage/packages/jnxplus-smoke',
 };
