@@ -4,7 +4,7 @@
   "projectType": "application",
   "sourceRoot": "testing-projects/jnxplus-smoke-affected/tests",
   "targets": {
-    "smoke": {
+    "smoke-affected": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
