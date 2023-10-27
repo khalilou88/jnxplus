@@ -20,13 +20,19 @@ async function main() {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const presetVersion = require('../package.json').version;
 
-  // TODO: update below to customize the workspace
   const { directory } = await createWorkspace(
     `@jnxplus/nx-gradle@${presetVersion}`,
     {
       name,
       nxCloud: false,
       packageManager: 'npm',
+      //init generator
+      javaVersion: 17,
+      dsl: 'groovy',
+      rootProjectName: name,
+      gradleRootDirectory: 'nx-gradle',
+      preset: 'spring-boot',
+      skipWrapper: false,
     },
   );
 

@@ -20,13 +20,20 @@ async function main() {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const presetVersion = require('../package.json').version;
 
-  // TODO: update below to customize the workspace
   const { directory } = await createWorkspace(
     `@jnxplus/nx-maven@${presetVersion}`,
     {
       name,
       nxCloud: false,
       packageManager: 'npm',
+      //init generator
+      javaVersion: '17',
+      groupId: 'org.example',
+      parentProjectName: name,
+      parentProjectVersion: '0.0.0',
+      mavenRootDirectory: 'nx-maven',
+      dependencyManagement: 'bom',
+      skipWrapper: false,
     },
   );
 
