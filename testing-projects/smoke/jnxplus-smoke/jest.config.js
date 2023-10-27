@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'nx-quarkus-maven-smoke',
+  displayName: 'jnxplus-smoke',
   preset: '../../../jest.preset.js',
   globals: {},
   transform: {
@@ -11,5 +11,5 @@ module.exports = {
     ],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../../coverage/smoke/nx-quarkus-maven-smoke',
+  coverageDirectory: '../../../coverage/smoke/jnxplus-smoke',
 };
