@@ -28,5 +28,10 @@
       }
     }
   },
-  "implicitDependencies": ["nx-gradle", "nx-maven"]
+  "implicitDependencies": [
+    "nx-gradle",
+    "nx-maven",
+    "create-nx-gradle-workspace",
+    "create-nx-maven-workspace"
+  ]
 }
