@@ -1,7 +1,7 @@
 /* eslint-disable */
 export default {
   displayName: 'nx-gradle',
-
+  preset: '../../jest.preset.js',
   globals: {},
   testEnvironment: 'node',
   transform: {
@@ -14,5 +14,4 @@ export default {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../coverage/packages/nx-gradle',
-  preset: '../../jest.preset.js',
 };
