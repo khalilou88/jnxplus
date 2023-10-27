@@ -16,6 +16,7 @@ describe('create-nx-maven-workspace', () => {
   it('should be installed', () => {
     workspaceDirectory = createTestWorkspaceWithCustomCli(
       'create-nx-maven-workspace',
+      '--javaVersion 17',
     );
 
     // npm ls will fail if the package is not installed properly
