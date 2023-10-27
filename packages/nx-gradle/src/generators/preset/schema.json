@@ -12,7 +12,114 @@
         "index": 0
       },
       "x-prompt": "What name would you like to use?"
+    },
+    "javaVersion": {
+      "description": "Java version",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "default": "17",
+      "x-prompt": {
+        "message": "Which version of Java would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "21",
+            "label": "21"
+          },
+          {
+            "value": "17",
+            "label": "17"
+          }
+        ]
+      }
+    },
+    "dsl": {
+      "description": "Build DSL",
+      "type": "string",
+      "default": "groovy",
+      "x-prompt": {
+        "message": "Which build DSL would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "groovy",
+            "label": "Groovy build DSL"
+          },
+          {
+            "value": "kotlin",
+            "label": "Kotlin build DSL"
+          }
+        ]
+      }
+    },
+    "rootProjectName": {
+      "type": "string",
+      "default": "root-project",
+      "x-prompt": "What rootProjectName would you like to use?",
+      "pattern": "^[a-zA-Z].*$"
+    },
+    "gradleRootDirectory": {
+      "type": "string",
+      "default": "",
+      "description": "Where Gradle Wrapper (if not skipped), config files and projects are placed",
+      "x-prompt": "Where do you want Gradle Wrapper (if not skipped), config files and projects to be placed?"
+    },
+    "preset": {
+      "description": "preset",
+      "type": "string",
+      "default": "spring-boot",
+      "enum": [
+        "spring-boot",
+        "quarkus",
+        "micronaut",
+        "kotlin-multiplatform",
+        "none"
+      ],
+      "x-prompt": {
+        "message": "Which preset to use? or 'none' to skip.",
+        "type": "list",
+        "items": [
+          {
+            "value": "spring-boot",
+            "label": "spring-boot"
+          },
+          {
+            "value": "quarkus",
+            "label": "quarkus"
+          },
+          {
+            "value": "micronaut",
+            "label": "micronaut"
+          },
+          {
+            "value": "kotlin-multiplatform",
+            "label": "kotlin-multiplatform"
+          },
+          {
+            "value": "none",
+            "label": "none"
+          }
+        ]
+      }
+    },
+    "skipWrapper": {
+      "description": "Don't generate Gradle Wrapper",
+      "type": "boolean",
+      "default": false
     }
   },
-  "required": ["name"]
+  "required": [
+    "name",
+    "javaVersion",
+    "dsl",
+    "rootProjectName",
+    "gradleRootDirectory",
+    "preset"
+  ]
 }
