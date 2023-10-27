@@ -28,7 +28,7 @@ describe('nx-gradle kotlin dsl e2e', () => {
 
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
-    execSync(`npm install @jnxplus/nx-gradle@e2e`, {
+    execSync(`npm install -D @jnxplus/nx-gradle@e2e`, {
       cwd: workspaceDirectory,
       stdio: 'inherit',
       env: process.env,
