@@ -24,13 +24,13 @@ import { rmSync } from 'fs';
 import * as fse from 'fs-extra';
 import * as path from 'path';
 
-describe('nx-micronaut-maven e2e', () => {
+describe('nx-maven quarkus bom e2e', () => {
   let workspaceDirectory: string;
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
-  const parentProjectName = uniq('micronaut-parent-project-');
+  const parentProjectName = uniq('quarkus-parent-project-');
 
   beforeAll(async () => {
     workspaceDirectory = createTestWorkspace();
@@ -44,7 +44,7 @@ describe('nx-micronaut-maven e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --dependencyManagement micronaut-parent-pom`,
+      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --dependencyManagement bom`,
     );
 
     if (isCI) {
@@ -88,36 +88,37 @@ describe('nx-micronaut-maven e2e', () => {
   }, 120000);
 
   it('should create a java application', async () => {
-    const appName = uniq('micronaut-maven-app-');
+    const appsParentProject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework quarkus`,
+    );
+
+    const appName = uniq('quarkus-maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework quarkus --groupId org.acme --parent-project ${appsParentProject}`,
     );
 
     expect(() =>
       checkFilesExist(
         `${appName}/pom.xml`,
         `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/java/com/example/${names(
+        `${appName}/src/main/java/org/acme/${names(
           appName,
-        ).className.toLocaleLowerCase()}/Application.java`,
-        `${appName}/src/main/java/com/example/${names(
+        ).className.toLocaleLowerCase()}/GreetingResource.java`,
+        `${appName}/src/test/java/org/acme/${names(
           appName,
-        ).className.toLocaleLowerCase()}/HelloController.java`,
-        `${appName}/src/test/java/com/example/${names(
-          appName,
-        ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
     const pomXml = readFile(`${appName}/pom.xml`);
-    expect(pomXml.includes('com.example')).toBeTruthy();
+    expect(pomXml.includes('org.acme')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
-    expect(pomXml).not.toContain('<spring.boot.version>');
-    expect(pomXml).not.toContain('<quarkus.version>');
-    expect(pomXml).not.toContain('<micronaut.version>');
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
@@ -130,9 +131,6 @@ describe('nx-micronaut-maven e2e', () => {
     expect(() => checkFilesExist(`${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
-
-    const testResult = await runNxCommandAsync(`test ${appName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
@@ -176,29 +174,51 @@ describe('nx-micronaut-maven e2e', () => {
         .task,
     ).toEqual('install -N');
 
+    const port = 8080;
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:8080`),
+      output.includes(`Listening on: http://localhost:${port}`),
     );
 
-    const dataResult = await getData(8080, '/hello');
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World');
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
       await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
+      await killPorts(port);
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
-  it('should build-image a java application', async () => {
+  it('should build-image a java app', async () => {
     if (!isWin && !isMacOs && isCI) {
-      const appName = uniq('micronaut-maven-app-');
+      const appsParentProject = uniq('apps-parent-project-');
       await runNxCommandAsync(
-        `generate @jnxplus/nx-maven:application ${appName} --framework micronaut`,
+        `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework quarkus`,
       );
+
+      const appName = uniq('quarkus-maven-app-');
+      await runNxCommandAsync(
+        `generate @jnxplus/nx-maven:application ${appName} --framework quarkus --groupId org.acme --parent-project ${appsParentProject}`,
+      );
+
+      //test run-task
+      const projectJson = readJson(`${appName}/project.json`);
+      projectJson.targets = {
+        ...projectJson.targets,
+        build: {
+          executor: '@jnxplus/nx-maven:run-task',
+          options: {
+            task: 'package',
+          },
+        },
+      };
+      updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
+      //end test run-task
+
+      await runNxCommandAsync(`build ${appName}`);
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`,
       );
@@ -207,48 +227,63 @@ describe('nx-micronaut-maven e2e', () => {
   }, 120000);
 
   it('should use specified options to create an application', async () => {
-    const randomName = uniq('micronaut-maven-app-');
+    const appsParentProject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework quarkus`,
+    );
+
+    const randomName = uniq('quarkus-maven-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
     const port = 8181;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework micronaut --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`,
+      `generate @jnxplus/nx-maven:application ${randomName} --framework quarkus --tags e2etag,e2ePackage --directory ${appDir} --groupId org.jnxplus --projectVersion 1.2.3 --configFormat .yml --port ${port} --parent-project ${appsParentProject}`,
     );
 
     expect(() =>
       checkFilesExist(
         `${appDir}/${randomName}/pom.xml`,
         `${appDir}/${randomName}/src/main/resources/application.yml`,
-        `${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
+        `${appDir}/${randomName}/src/main/java/org/jnxplus/deep/subdir/${names(
           randomName,
-        ).className.toLocaleLowerCase()}/Application.java`,
-        `${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
+        ).className.toLocaleLowerCase()}/GreetingResource.java`,
+        `${appDir}/${randomName}/src/test/java/org/jnxplus/deep/subdir/${names(
           randomName,
-        ).className.toLocaleLowerCase()}/HelloController.java`,
-
-        `${appDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          randomName,
-        ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
     const pomXml = readFile(`${appDir}/${randomName}/pom.xml`);
-    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('org.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
-    // expect(pomXml.includes('war')).toBeTruthy();
-    // expect(pomXml.includes('spring-micronaut-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Listening on: http://localhost:${port}`),
+    );
+
+    const dataResult = await getData(port, '/hello');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World!');
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(port);
+    } catch (err) {
+      // ignore err
+    }
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
@@ -271,14 +306,46 @@ describe('nx-micronaut-maven e2e', () => {
       source: appName,
       target: parentProjectName,
     });
+  }, 120000);
+
+  it('should create a kotlin application', async () => {
+    const appsParentProject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework quarkus`,
+    );
+
+    const appName = uniq('quarkus-maven-app-');
+    const port = 8282;
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:application ${appName} --framework quarkus --groupId org.acme --language kotlin --port ${port} --parent-project ${appsParentProject}`,
+    );
+
+    expect(() =>
+      checkFilesExist(
+        `${appName}/pom.xml`,
+        `${appName}/src/main/resources/application.properties`,
+        `${appName}/src/main/kotlin/org/acme/${names(
+          appName,
+        ).className.toLocaleLowerCase()}/GreetingResource.kt`,
+        `${appName}/src/test/kotlin/org/acme/${names(
+          appName,
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`,
+      ),
+    ).not.toThrow();
+
+    // Making sure the pom.xml file contains the correct information
+    const pomXml = readFile(`${appName}/pom.xml`);
+    expect(pomXml.includes('org.acme')).toBeTruthy();
+    expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:${port}`),
+      output.includes(`Listening on: http://localhost:${port}`),
     );
 
     const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World');
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -287,37 +354,9 @@ describe('nx-micronaut-maven e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 240000);
 
-  it('should create a kotlin application', async () => {
-    const appName = uniq('micronaut-maven-app-');
-    const port = 8282;
-
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin --port ${port}`,
-    );
-
-    expect(() =>
-      checkFilesExist(
-        `${appName}/pom.xml`,
-        `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/kotlin/com/example/${names(
-          appName,
-        ).className.toLocaleLowerCase()}/Application.kt`,
-        `${appName}/src/main/kotlin/com/example/${names(
-          appName,
-        ).className.toLocaleLowerCase()}/HelloController.kt`,
-
-        `${appName}/src/test/kotlin/com/example/${names(
-          appName,
-        ).className.toLocaleLowerCase()}/HelloControllerTest.kt`,
-      ),
-    ).not.toThrow();
-
-    // Making sure the pom.xml file contains the correct information
-    const pomXml = readFile(`${appName}/pom.xml`);
-    expect(pomXml.includes('com.example')).toBeTruthy();
-    expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
@@ -329,9 +368,6 @@ describe('nx-micronaut-maven e2e', () => {
     expect(() => checkFilesExist(`${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
-
-    const testResult = await runNxCommandAsync(`test ${appName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
 
     // const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
     // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -352,30 +388,35 @@ describe('nx-micronaut-maven e2e', () => {
       source: appName,
       target: parentProjectName,
     });
-
-    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:${port}`),
-    );
-
-    const dataResult = await getData(port, '/hello');
-    expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World');
-
-    // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
   }, 240000);
 
-  it('should build-image a kotlin application', async () => {
+  it('should build-image a kotlin app', async () => {
     if (!isWin && !isMacOs && isCI) {
-      const appName = uniq('micronaut-maven-app-');
+      const appsParentProject = uniq('apps-parent-project-');
       await runNxCommandAsync(
-        `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin`,
+        `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework quarkus`,
       );
+
+      const appName = uniq('quarkus-maven-app-');
+      await runNxCommandAsync(
+        `generate @jnxplus/nx-maven:application ${appName} --framework quarkus --groupId org.acme --language kotlin --parent-project ${appsParentProject}`,
+      );
+
+      //test run-task
+      const projectJson = readJson(`${appName}/project.json`);
+      projectJson.targets = {
+        ...projectJson.targets,
+        build: {
+          executor: '@jnxplus/nx-maven:run-task',
+          options: {
+            task: 'package',
+          },
+        },
+      };
+      updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
+      //end test run-task
+
+      await runNxCommandAsync(`build ${appName}`);
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`,
       );
@@ -384,48 +425,47 @@ describe('nx-micronaut-maven e2e', () => {
   }, 120000);
 
   it('--an app with aliases', async () => {
-    const randomName = uniq('micronaut-maven-app-');
+    const appsParentProject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework quarkus`,
+    );
+
+    const randomName = uniq('quarkus-maven-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
     const port = 8383;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-maven:app ${randomName} --framework micronaut --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml --port ${port}`,
+      `g @jnxplus/nx-maven:app ${randomName} --framework quarkus --t e2etag,e2ePackage --dir ${appDir} --groupId org.jnxplus --v 1.2.3 --configFormat .yml --port ${port} --parent-project ${appsParentProject}`,
     );
 
     expect(() =>
       checkFilesExist(
         `${appDir}/${randomName}/pom.xml`,
         `${appDir}/${randomName}/src/main/resources/application.yml`,
-        `${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
+        `${appDir}/${randomName}/src/main/java/org/jnxplus/subdir/${names(
           randomName,
-        ).className.toLocaleLowerCase()}/Application.java`,
-        `${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
+        ).className.toLocaleLowerCase()}/GreetingResource.java`,
+        `${appDir}/${randomName}/src/test/java/org/jnxplus/subdir/${names(
           randomName,
-        ).className.toLocaleLowerCase()}/HelloController.java`,
-
-        `${appDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
-          randomName,
-        ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good information
     const pomXml = readFile(`${appDir}/${randomName}/pom.xml`);
-    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('org.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
-    // expect(pomXml.includes('war')).toBeTruthy();
-    // expect(pomXml.includes('spring-micronaut-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
@@ -450,12 +490,12 @@ describe('nx-micronaut-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:${port}`),
+      output.includes(`Listening on: http://localhost:${port}`),
     );
 
     const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World');
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -464,52 +504,50 @@ describe('nx-micronaut-maven e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 240000);
+  }, 120000);
 
   it('should generate an app with a simple package name', async () => {
-    const randomName = uniq('micronaut-maven-app-');
+    const appsParentProject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework quarkus`,
+    );
+
+    const randomName = uniq('quarkus-maven-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
-
     const port = 8484;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-maven:app ${randomName} --framework micronaut --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --simplePackageName --v 1.2.3 --packaging war --configFormat .yml --port ${port}`,
+      `g @jnxplus/nx-maven:app ${randomName} --framework quarkus --t e2etag,e2ePackage --dir ${appDir} --groupId org.jnxplus --simplePackageName --v 1.2.3 --configFormat .yml --port ${port} --parent-project ${appsParentProject}`,
     );
 
     expect(() =>
       checkFilesExist(
         `${appDir}/${randomName}/pom.xml`,
         `${appDir}/${randomName}/src/main/resources/application.yml`,
-        `${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
+        `${appDir}/${randomName}/src/main/java/org/jnxplus/${names(
           randomName,
-        ).className.toLocaleLowerCase()}/Application.java`,
-        `${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
+        ).className.toLocaleLowerCase()}/GreetingResource.java`,
+        `${appDir}/${randomName}/src/test/java/org/jnxplus/${names(
           randomName,
-        ).className.toLocaleLowerCase()}/HelloController.java`,
-
-        `${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
-          randomName,
-        ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
     const buildmaven = readFile(`${appDir}/${randomName}/pom.xml`);
-    expect(buildmaven.includes('com.jnxplus')).toBeTruthy();
+    expect(buildmaven.includes('org.jnxplus')).toBeTruthy();
     expect(buildmaven.includes('1.2.3')).toBeTruthy();
-    // expect(buildmaven.includes('war')).toBeTruthy();
-    // expect(buildmaven.includes('spring-micronaut-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
@@ -534,12 +572,12 @@ describe('nx-micronaut-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:${port}`),
+      output.includes(`Listening on: http://localhost:${port}`),
     );
 
     const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World');
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -548,15 +586,20 @@ describe('nx-micronaut-maven e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 240000);
+  }, 120000);
 
   it('directory with dash', async () => {
-    const randomName = uniq('micronaut-maven-app-');
+    const appsParentProject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework quarkus`,
+    );
+
+    const randomName = uniq('quarkus-maven-app-');
     const appName = `deep-sub-dir-${randomName}`;
     const port = 8585;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework micronaut --directory deep/sub-dir --port ${port}`,
+      `generate @jnxplus/nx-maven:application ${randomName} --framework quarkus --directory deep/sub-dir --port ${port} --parent-project ${appsParentProject}`,
     );
 
     //graph
@@ -574,12 +617,12 @@ describe('nx-micronaut-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:${port}`),
+      output.includes(`Listening on: http://localhost:${port}`),
     );
 
     const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World');
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -591,28 +634,37 @@ describe('nx-micronaut-maven e2e', () => {
   }, 120000);
 
   it('should create a library', async () => {
-    const libName = uniq('micronaut-maven-lib-');
+    const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut`,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework quarkus`,
+    );
+
+    const libName = uniq('quarkus-maven-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:library ${libName} --framework quarkus --groupId org.acme --parent-project ${libsParentProject}`,
     );
 
     expect(() =>
       checkFilesExist(
         `${libName}/pom.xml`,
-        `${libName}/src/main/java/com/example/${names(
+        `${libName}/src/main/java/org/acme/${names(
           libName,
-        ).className.toLocaleLowerCase()}/HelloService.java`,
-        `${libName}/src/test/java/com/example/${names(
+        ).className.toLocaleLowerCase()}/GreetingService.java`,
+        `${libName}/src/test/java/org/acme/${names(
           libName,
-        ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
     const pomXml = readFile(`${libName}/pom.xml`);
-    expect(pomXml.includes('com.example')).toBeTruthy();
+    expect(pomXml.includes('org.acme')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
+
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
@@ -624,9 +676,6 @@ describe('nx-micronaut-maven e2e', () => {
     expect(() => checkFilesExist(`${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
-
-    const testResult = await runNxCommandAsync(`test ${libName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${libName}`,
@@ -652,28 +701,37 @@ describe('nx-micronaut-maven e2e', () => {
   }, 120000);
 
   it('should create a kotlin library', async () => {
-    const libName = uniq('micronaut-maven-lib-');
+    const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --language kotlin`,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework quarkus`,
+    );
+
+    const libName = uniq('quarkus-maven-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:library ${libName} --framework quarkus --groupId org.acme --language kotlin --parent-project ${libsParentProject}`,
     );
 
     expect(() =>
       checkFilesExist(
         `${libName}/pom.xml`,
-        `${libName}/src/main/kotlin/com/example/${names(
+        `${libName}/src/main/kotlin/org/acme/${names(
           libName,
-        ).className.toLocaleLowerCase()}/HelloService.kt`,
-        `${libName}/src/test/kotlin/com/example/${names(
+        ).className.toLocaleLowerCase()}/GreetingService.kt`,
+        `${libName}/src/test/kotlin/org/acme/${names(
           libName,
-        ).className.toLocaleLowerCase()}/HelloServiceTest.kt`,
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
     const pomXml = readFile(`${libName}/pom.xml`);
-    expect(pomXml.includes('com.example')).toBeTruthy();
+    expect(pomXml.includes('org.acme')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
+
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
@@ -685,9 +743,6 @@ describe('nx-micronaut-maven e2e', () => {
     expect(() => checkFilesExist(`${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
-
-    const testResult = await runNxCommandAsync(`test ${libName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
 
     // const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
     // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -711,41 +766,46 @@ describe('nx-micronaut-maven e2e', () => {
   }, 120000);
 
   it('should use the the specified properties to create a library', async () => {
-    const randomName = uniq('micronaut-maven-lib-');
+    const libsParentProject = uniq('libs-parent-project-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework quarkus`,
+    );
+
+    const randomName = uniq('quarkus-maven-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${randomName} --framework micronaut --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`,
+      `generate @jnxplus/nx-maven:library ${randomName} --framework quarkus --directory ${libDir} --tags e2etag,e2ePackage --groupId org.jnxplus --projectVersion 1.2.3 --parent-project ${libsParentProject}`,
     );
 
     expect(() =>
       checkFilesExist(
         `${libDir}/${randomName}/pom.xml`,
-        `${libDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
+        `${libDir}/${randomName}/src/main/java/org/jnxplus/deep/subdir/${names(
           randomName,
-        ).className.toLocaleLowerCase()}/HelloService.java`,
-
-        `${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
+        ).className.toLocaleLowerCase()}/GreetingService.java`,
+        `${libDir}/${randomName}/src/test/java/org/jnxplus/deep/subdir/${names(
           randomName,
-        ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good information
     const pomXml = readFile(`${libDir}/${randomName}/pom.xml`);
-    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('org.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${libName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${libName}`,
@@ -771,41 +831,46 @@ describe('nx-micronaut-maven e2e', () => {
   }, 120000);
 
   it('should generare a lib with a simple package name', async () => {
-    const randomName = uniq('micronaut-maven-lib-');
+    const libsParentProject = uniq('libs-parent-project-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework quarkus`,
+    );
+
+    const randomName = uniq('quarkus-maven-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${randomName} --framework micronaut --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3`,
+      `generate @jnxplus/nx-maven:library ${randomName} --framework quarkus --directory ${libDir} --tags e2etag,e2ePackage --groupId org.jnxplus --simplePackageName --projectVersion 1.2.3 --parent-project ${libsParentProject}`,
     );
 
     expect(() =>
       checkFilesExist(
         `${libDir}/${randomName}/pom.xml`,
-        `${libDir}/${randomName}/src/main/java/com/jnxplus/${names(
+        `${libDir}/${randomName}/src/main/java/org/jnxplus/${names(
           randomName,
-        ).className.toLocaleLowerCase()}/HelloService.java`,
-
-        `${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
+        ).className.toLocaleLowerCase()}/GreetingService.java`,
+        `${libDir}/${randomName}/src/test/java/org/jnxplus/${names(
           randomName,
-        ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
     const pomXml = readFile(`${libDir}/${randomName}/pom.xml`);
-    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('org.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${libName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${libName}`,
@@ -831,41 +896,46 @@ describe('nx-micronaut-maven e2e', () => {
   }, 120000);
 
   it('--a lib with aliases', async () => {
-    const randomName = uniq('micronaut-maven-lib-');
+    const libsParentProject = uniq('libs-parent-project-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework quarkus`,
+    );
+
+    const randomName = uniq('quarkus-maven-lib-');
     const libDir = 'subdir';
     const libName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-maven:lib ${randomName} --framework micronaut --dir ${libDir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`,
+      `g @jnxplus/nx-maven:lib ${randomName} --framework quarkus --dir ${libDir} --t e2etag,e2ePackage --groupId org.jnxplus --v 1.2.3 --parent-project ${libsParentProject}`,
     );
 
     expect(() =>
       checkFilesExist(
         `${libDir}/${randomName}/pom.xml`,
-        `${libDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
+        `${libDir}/${randomName}/src/main/java/org/jnxplus/subdir/${names(
           randomName,
-        ).className.toLocaleLowerCase()}/HelloService.java`,
-
-        `${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
+        ).className.toLocaleLowerCase()}/GreetingService.java`,
+        `${libDir}/${randomName}/src/test/java/org/jnxplus/subdir/${names(
           randomName,
-        ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good information
     const pomXml = readFile(`${libDir}/${randomName}/pom.xml`);
-    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('org.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${libName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${libName}`,
@@ -891,49 +961,60 @@ describe('nx-micronaut-maven e2e', () => {
   }, 120000);
 
   it('should add a lib to an app dependencies', async () => {
-    const appName = uniq('micronaut-maven-app-');
-    const libName = uniq('micronaut-maven-lib-');
+    const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut`,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework quarkus`,
+    );
+
+    const appsParentProject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework none --parent-project ${libsParentProject}`,
+    );
+
+    const appName = uniq('quarkus-maven-app-');
+    const libName = uniq('quarkus-maven-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:application ${appName} --framework quarkus --groupId org.acme --parent-project ${appsParentProject}`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --projects ${appName}`,
+      `generate @jnxplus/nx-maven:library ${libName} --framework quarkus --groupId org.acme --projects ${appName} --parent-project ${libsParentProject}`,
     );
 
     // Making sure the app pom.xml file contains the lib
     const pomXml = readFile(`${appName}/pom.xml`);
     expect(pomXml.includes(`${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `${appName}/src/main/java/com/example/${names(
+    const greetingResourcePath = `${appName}/src/main/java/org/acme/${names(
       appName,
-    ).className.toLocaleLowerCase()}/HelloController.java`;
-    const helloControllerContent = readFile(helloControllerPath);
+    ).className.toLocaleLowerCase()}/GreetingResource.java`;
+    const greetingResourceContent = readFile(greetingResourcePath);
 
-    const regex1 = /package\s*com\.example\..*\s*;/;
+    const regex1 = /package\s*org\.acme\..*\s*;/;
 
-    const regex2 = /public\s*class\s*HelloController\s*{/;
+    const regex2 = /public\s*class\s*GreetingResource\s*{/;
 
-    const regex3 = /"Hello World"/;
+    const regex3 = /"Hello World!"/;
 
-    const newHelloControllerContent = helloControllerContent
+    const newGreetingResourceContent = greetingResourceContent
       .replace(
         regex1,
-        `$&\nimport jakarta.inject.Inject;\nimport com.example.${names(
+        `$&\nimport jakarta.inject.Inject;\nimport org.acme.${names(
           libName,
-        ).className.toLocaleLowerCase()}.HelloService;`,
+        ).className.toLocaleLowerCase()}.GreetingService;`,
       )
-      .replace(regex2, '$&\n@Inject\nprivate HelloService helloService;')
-      .replace(regex3, 'this.helloService.greeting()');
+      .replace(regex2, '$&\n@Inject\nGreetingService service;')
+      .replace(regex3, 'service.greeting()');
 
-    updateFile(helloControllerPath, newHelloControllerContent);
-
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
+    updateFile(greetingResourcePath, newGreetingResourceContent);
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
@@ -968,49 +1049,60 @@ describe('nx-micronaut-maven e2e', () => {
   }, 120000);
 
   it('should add a kotlin lib to a kotlin app dependencies', async () => {
-    const appName = uniq('micronaut-maven-app-');
-    const libName = uniq('micronaut-maven-lib-');
+    const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin --packaging war`,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework quarkus`,
+    );
+
+    const appsParentProject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework none --parent-project ${libsParentProject}`,
+    );
+
+    const appName = uniq('quarkus-maven-app-');
+    const libName = uniq('quarkus-maven-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:application ${appName} --framework quarkus --groupId org.acme --language kotlin --parent-project ${appsParentProject}`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --language kotlin --projects ${appName}`,
+      `generate @jnxplus/nx-maven:library ${libName} --framework quarkus --groupId org.acme --language kotlin --projects ${appName} --parent-project ${libsParentProject}`,
     );
 
     // Making sure the app pom.xml file contains the lib
     const pomXml = readFile(`${appName}/pom.xml`);
     expect(pomXml.includes(`${libName}`)).toBeTruthy();
 
-    const helloControllerPath = `${appName}/src/main/kotlin/com/example/${names(
+    const greetingResourcePath = `${appName}/src/main/kotlin/org/acme/${names(
       appName,
-    ).className.toLocaleLowerCase()}/HelloController.kt`;
-    const helloControllerContent = readFile(helloControllerPath);
+    ).className.toLocaleLowerCase()}/GreetingResource.kt`;
+    const greetingResourceContent = readFile(greetingResourcePath);
 
-    const regex1 = /package\s*com\.example\..*/;
+    const regex1 = /package\s*org\.acme\..*/;
 
-    const regex2 = /class\s*HelloController/;
+    const regex2 = /class\s*GreetingResource/;
 
-    const regex3 = /"Hello World"/;
+    const regex3 = /"Hello World!"/;
 
-    const newHelloControllerContent = helloControllerContent
+    const newGreetingResourceContent = greetingResourceContent
       .replace(
         regex1,
-        `$&\nimport jakarta.inject.Inject\nimport com.example.${names(
+        `$&\nimport org.acme.${names(
           libName,
-        ).className.toLocaleLowerCase()}.HelloService`,
+        ).className.toLocaleLowerCase()}.GreetingService`,
       )
-      .replace(regex2, '$&(@Inject val helloService: HelloService)')
-      .replace(regex3, 'helloService.greeting()');
+      .replace(regex2, '$&(private val greetingService: GreetingService)')
+      .replace(regex3, 'greetingService.greeting()');
 
-    updateFile(helloControllerPath, newHelloControllerContent);
-
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
+    updateFile(greetingResourcePath, newGreetingResourceContent);
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     // const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
     // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -1043,10 +1135,16 @@ describe('nx-micronaut-maven e2e', () => {
   }, 120000);
 
   it("should dep-graph don't crash when pom.xml don't contains dependencies tag", async () => {
-    const libName = uniq('micronaut-maven-lib-');
+    const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut`,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework quarkus`,
+    );
+
+    const libName = uniq('quarkus-maven-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:library ${libName} --framework quarkus --parent-project ${libsParentProject}`,
     );
 
     const regex = /<dependencies>[\s\S]*?<\/dependencies>/;
@@ -1073,26 +1171,26 @@ describe('nx-micronaut-maven e2e', () => {
   it('should generate java apps that use a parent project', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework quarkus`,
     );
 
-    const randomName = uniq('micronaut-maven-app-');
+    const randomName = uniq('quarkus-maven-app-');
     const appDir = 'dir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework micronaut --parent-project ${appsParentProject} --directory ${appDir}`,
+      `generate @jnxplus/nx-maven:application ${randomName} --framework quarkus --parent-project ${appsParentProject} --directory ${appDir}`,
     );
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject} --framework none`,
     );
 
-    const secondAppName = uniq('micronaut-maven-app-');
+    const secondAppName = uniq('quarkus-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${secondAppName} --framework micronaut --parent-project ${secondParentProject}`,
+      `generate @jnxplus/nx-maven:application ${secondAppName} --framework quarkus --parent-project ${secondParentProject}`,
     );
     const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
     expect(secondBuildResult.stdout).toContain('Executor ran for Build');
@@ -1103,12 +1201,12 @@ describe('nx-micronaut-maven e2e', () => {
       parentProjectDir,
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject}  --directory ${parentProjectDir}`,
+      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject} --directory ${parentProjectDir} --framework none`,
     );
 
-    const thirdAppName = uniq('micronaut-maven-app-');
+    const thirdAppName = uniq('quarkus-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${thirdAppName} --framework micronaut --parent-project ${thirdParentProject}`,
+      `generate @jnxplus/nx-maven:application ${thirdAppName} --framework quarkus --parent-project ${thirdParentProject}`,
     );
     const thirdBuildResult = await runNxCommandAsync(`build ${thirdAppName}`);
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
@@ -1163,26 +1261,26 @@ describe('nx-micronaut-maven e2e', () => {
   it('should generate kotlin apps that use a parent project', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework quarkus`,
     );
 
-    const randomName = uniq('micronaut-maven-app-');
+    const randomName = uniq('quarkus-maven-app-');
     const appDir = 'dir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework micronaut --parent-project ${appsParentProject} --directory ${appDir} --language kotlin`,
+      `generate @jnxplus/nx-maven:application ${randomName} --framework quarkus --parent-project ${appsParentProject} --directory ${appDir} --language kotlin`,
     );
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject} --framework none`,
     );
 
-    const secondAppName = uniq('micronaut-maven-app-');
+    const secondAppName = uniq('quarkus-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${secondAppName} --framework micronaut --parent-project ${secondParentProject} --language kotlin`,
+      `generate @jnxplus/nx-maven:application ${secondAppName} --framework quarkus --parent-project ${secondParentProject} --language kotlin`,
     );
     const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
     expect(secondBuildResult.stdout).toContain('Executor ran for Build');
@@ -1193,12 +1291,12 @@ describe('nx-micronaut-maven e2e', () => {
       parentProjectDir,
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject}  --directory ${parentProjectDir}`,
+      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject} --directory ${parentProjectDir} --framework none`,
     );
 
-    const thirdAppName = uniq('micronaut-maven-app-');
+    const thirdAppName = uniq('quarkus-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${thirdAppName} --framework micronaut --parent-project ${thirdParentProject} --language kotlin`,
+      `generate @jnxplus/nx-maven:application ${thirdAppName} --framework quarkus --parent-project ${thirdParentProject} --language kotlin`,
     );
     const thirdBuildResult = await runNxCommandAsync(`build ${thirdAppName}`);
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
@@ -1254,13 +1352,13 @@ describe('nx-micronaut-maven e2e', () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework quarkus`,
     );
 
-    const libName = uniq('micronaut-maven-lib-');
+    const libName = uniq('quarkus-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --parent-project ${libsParentProject}`,
+      `generate @jnxplus/nx-maven:library ${libName} --framework quarkus --parent-project ${libsParentProject}`,
     );
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
@@ -1269,15 +1367,15 @@ describe('nx-micronaut-maven e2e', () => {
     const secondParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject} --framework none`,
     );
 
-    const randomName = uniq('micronaut-maven-lib-');
+    const randomName = uniq('quarkus-maven-lib-');
     const libDir = 'subdir';
     const secondLibName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${randomName} --framework micronaut --parent-project ${secondParentProject} --dir ${libDir}`,
+      `generate @jnxplus/nx-maven:library ${randomName} --framework quarkus --parent-project ${secondParentProject} --dir ${libDir}`,
     );
 
     const secondBuildResult = await runNxCommandAsync(`build ${secondLibName}`);
@@ -1289,12 +1387,12 @@ describe('nx-micronaut-maven e2e', () => {
       parentProjectDir,
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject}  --directory ${parentProjectDir}`,
+      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject} --directory ${parentProjectDir} --framework none`,
     );
 
-    const thirdLibName = uniq('micronaut-maven-lib-');
+    const thirdLibName = uniq('quarkus-maven-lib-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${thirdLibName} --framework micronaut --parent-project ${thirdParentProject}`,
+      `generate @jnxplus/nx-maven:library ${thirdLibName} --framework quarkus --parent-project ${thirdParentProject}`,
     );
     const thirdBuildResult = await runNxCommandAsync(`build ${thirdLibName}`);
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
@@ -1350,13 +1448,13 @@ describe('nx-micronaut-maven e2e', () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework quarkus`,
     );
 
-    const libName = uniq('micronaut-maven-lib-');
+    const libName = uniq('quarkus-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --parent-project ${libsParentProject} --language kotlin`,
+      `generate @jnxplus/nx-maven:library ${libName} --framework quarkus --parent-project ${libsParentProject} --language kotlin`,
     );
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
@@ -1365,15 +1463,15 @@ describe('nx-micronaut-maven e2e', () => {
     const secondParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library --parent-project ${libsParentProject} --framework none`,
     );
 
-    const randomName = uniq('micronaut-maven-lib-');
+    const randomName = uniq('quarkus-maven-lib-');
     const libDir = 'subdir';
     const secondLibName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${randomName} --framework micronaut --parent-project ${secondParentProject} --dir ${libDir} --language kotlin`,
+      `generate @jnxplus/nx-maven:library ${randomName} --framework quarkus --parent-project ${secondParentProject} --dir ${libDir} --language kotlin`,
     );
 
     const secondBuildResult = await runNxCommandAsync(`build ${secondLibName}`);
@@ -1385,12 +1483,12 @@ describe('nx-micronaut-maven e2e', () => {
       parentProjectDir,
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject}  --directory ${parentProjectDir}`,
+      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject} --directory ${parentProjectDir} --framework none`,
     );
 
-    const thirdLibName = uniq('micronaut-maven-lib-');
+    const thirdLibName = uniq('quarkus-maven-lib-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${thirdLibName} --framework micronaut --parent-project ${thirdParentProject} --language kotlin`,
+      `generate @jnxplus/nx-maven:library ${thirdLibName} --framework quarkus --parent-project ${thirdParentProject} --language kotlin`,
     );
     const thirdBuildResult = await runNxCommandAsync(`build ${thirdLibName}`);
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
@@ -1442,48 +1540,47 @@ describe('nx-micronaut-maven e2e', () => {
     });
   }, 120000);
 
-  it('should create an application with a simple name', async () => {
-    const appName = uniq('micronaut-maven-app-');
+  it('should create an application with simple name', async () => {
+    const appsParentProject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework quarkus`,
+    );
+
+    const appName = uniq('quarkus-maven-app-');
     const appDir = 'deep/subdir';
     const port = 8686;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework quarkus --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId org.jnxplus --projectVersion 1.2.3 --configFormat .yml --port ${port} --parent-project ${appsParentProject}`,
     );
 
     expect(() =>
       checkFilesExist(
         `${appDir}/${appName}/pom.xml`,
         `${appDir}/${appName}/src/main/resources/application.yml`,
-        `${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
+        `${appDir}/${appName}/src/main/java/org/jnxplus/deep/subdir/${names(
           appName,
-        ).className.toLocaleLowerCase()}/Application.java`,
-        `${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
+        ).className.toLocaleLowerCase()}/GreetingResource.java`,
+        `${appDir}/${appName}/src/test/java/org/jnxplus/deep/subdir/${names(
           appName,
-        ).className.toLocaleLowerCase()}/HelloController.java`,
-
-        `${appDir}/${appName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          appName,
-        ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the correct information
     const pomXml = readFile(`${appDir}/${appName}/pom.xml`);
-    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('org.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
-    // expect(pomXml.includes('war')).toBeTruthy();
-    // expect(pomXml.includes('spring-micronaut-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`${appDir}/${appName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
@@ -1508,12 +1605,12 @@ describe('nx-micronaut-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:${port}`),
+      output.includes(`Listening on: http://localhost:${port}`),
     );
 
     const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World');
+    expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
     try {
@@ -1522,43 +1619,48 @@ describe('nx-micronaut-maven e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 240000);
+  }, 120000);
 
   it('should create a library with a simple name', async () => {
-    const libName = uniq('micronaut-maven-lib-');
+    const libsParentProject = uniq('libs-parent-project-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework quarkus`,
+    );
+
+    const libName = uniq('quarkus-maven-lib-');
     const libDir = 'deep/subdir';
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`,
+      `generate @jnxplus/nx-maven:library ${libName} --framework quarkus --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId org.jnxplus --projectVersion 1.2.3 --parent-project ${libsParentProject}`,
     );
 
     expect(() =>
       checkFilesExist(
         `${libDir}/${libName}/pom.xml`,
-        `${libDir}/${libName}/src/main/java/com/jnxplus/deep/subdir/${names(
+        `${libDir}/${libName}/src/main/java/org/jnxplus/deep/subdir/${names(
           libName,
-        ).className.toLocaleLowerCase()}/HelloService.java`,
-
-        `${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
+        ).className.toLocaleLowerCase()}/GreetingService.java`,
+        `${libDir}/${libName}/src/test/java/org/jnxplus/deep/subdir/${names(
           libName,
-        ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
       ),
     ).not.toThrow();
 
     // Making sure the pom.xml file contains the good information
     const pomXml = readFile(`${libDir}/${libName}/pom.xml`);
-    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('org.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`${libDir}/${libName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const buildResult = await runNxCommandAsync(`build ${libName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
     const testResult = await runNxCommandAsync(`test ${libName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const buildResult = await runNxCommandAsync(`build ${libName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${libName}`,
@@ -1583,210 +1685,165 @@ describe('nx-micronaut-maven e2e', () => {
     });
   }, 120000);
 
-  it('should create a minimal java application', async () => {
-    const appName = uniq('micronaut-maven-app-');
-    const port = 8787;
+  it('should skip starter code when generating a java application with minimal option', async () => {
+    const appsParentProject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework quarkus`,
+    );
+
+    const appName = uniq('quarkus-maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --minimal --port ${port}`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework quarkus --minimal --parent-project ${appsParentProject}`,
     );
 
     expect(() =>
       checkFilesExist(
         `${appName}/pom.xml`,
-        `${appName}/src/main/java/com/example/${names(
-          appName,
-        ).className.toLocaleLowerCase()}/Application.java`,
         `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/test/java/com/example/${names(
-          appName,
-        ).className.toLocaleLowerCase()}/${names(appName).className}Test.java`,
+        `${appName}/src/main/java/.gitkeep`,
+        `${appName}/src/test/java/.gitkeep`,
       ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `${appName}/src/main/java/com/example/${names(
+        `${appName}/src/main/java/org/acme/${names(
           appName,
-        ).className.toLocaleLowerCase()}/HelloController.java`,
-
-        `${appName}/src/test/java/com/example/${names(
+        ).className.toLocaleLowerCase()}/GreetingResource.java`,
+        `${appName}/src/test/java/org/acme/${names(
           appName,
-        ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.java`,
+        `${appName}/src/native-test/java/org/acme/${names(
+          appName,
+        ).className.toLocaleLowerCase()}/GreetingResourceIT.java`,
       ),
     ).not.toThrow();
-
-    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:${port}`),
-    );
-
-    // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
   }, 120000);
 
-  it('should create a minimal kotlin application', async () => {
-    const appName = uniq('micronaut-maven-app-');
-    const port = 8888;
+  it('should skip starter code when generating a kotlin application with minimal option', async () => {
+    const appsParentProject = uniq('apps-parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework quarkus`,
+    );
+
+    const appName = uniq('quarkus-maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin --minimal --port ${port}`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework quarkus --language kotlin --minimal --parent-project ${appsParentProject}`,
     );
 
     expect(() =>
       checkFilesExist(
         `${appName}/pom.xml`,
         `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/kotlin/com/example/${names(
-          appName,
-        ).className.toLocaleLowerCase()}/Application.kt`,
-        `${appName}/src/test/kotlin/com/example/${names(
-          appName,
-        ).className.toLocaleLowerCase()}/${names(appName).className}Test.kt`,
+        `${appName}/src/main/kotlin/.gitkeep`,
+        `${appName}/src/test/kotlin/.gitkeep`,
       ),
     ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `${appName}/src/main/kotlin/com/example/${names(
+        `${appName}/src/main/kotlin/org/acme/${names(
           appName,
-        ).className.toLocaleLowerCase()}/HelloController.kt`,
-
-        `${appName}/src/test/kotlin/com/example/${names(
+        ).className.toLocaleLowerCase()}/GreetingResource.kt`,
+        `${appName}/src/test/kotlin/org/acme/${names(
           appName,
-        ).className.toLocaleLowerCase()}/HelloControllerTest.kt`,
+        ).className.toLocaleLowerCase()}/GreetingResourceTest.kt`,
+        `${appName}/src/native-test/kotlin/org/acme/${names(
+          appName,
+        ).className.toLocaleLowerCase()}/GreetingResourceIT.kt`,
       ),
     ).not.toThrow();
-
-    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:${port}`),
-    );
-
-    // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
   }, 120000);
 
   it('should skip starter code when generating a java library with skipStarterCode option', async () => {
-    const libName = uniq('micronaut-maven-lib-');
+    const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --skipStarterCode`,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework quarkus`,
     );
 
-    expect(() => checkFilesExist(`${libName}/pom.xml`)).not.toThrow();
+    const libName = uniq('quarkus-maven-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:library ${libName} --framework quarkus --skipStarterCode --parent-project ${libsParentProject}`,
+    );
+
+    expect(() =>
+      checkFilesExist(
+        `${libName}/pom.xml`,
+        `${libName}/src/main/java/.gitkeep`,
+        `${libName}/src/test/java/.gitkeep`,
+      ),
+    ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `${libName}/src/main/java/com/example/${names(
+        `${libName}/src/main/java/org/acme/${names(
           libName,
-        ).className.toLocaleLowerCase()}/HelloService.java`,
-
-        `${libName}/src/test/java/com/example/${names(
+        ).className.toLocaleLowerCase()}/GreetingService.java`,
+        `${libName}/src/test/java/org/acme/${names(
           libName,
-        ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
       ),
     ).not.toThrow();
   }, 120000);
 
   it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
-    const libName = uniq('micronaut-maven-lib-');
+    const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --language kotlin --skipStarterCode`,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework quarkus`,
     );
 
-    expect(() => checkFilesExist(`${libName}/pom.xml`)).not.toThrow();
+    const libName = uniq('quarkus-maven-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:library ${libName} --framework quarkus --language kotlin --skipStarterCode --parent-project ${libsParentProject}`,
+    );
+
+    expect(() =>
+      checkFilesExist(
+        `${libName}/pom.xml`,
+        `${libName}/src/main/kotlin/.gitkeep`,
+        `${libName}/src/test/kotlin/.gitkeep`,
+      ),
+    ).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
-        `${libName}/src/main/kotlin/com/example/${names(
+        `${libName}/src/main/kotlin/org/acme/${names(
           libName,
-        ).className.toLocaleLowerCase()}/HelloService.kt`,
-        `${libName}/src/test/resources/junit-platform.properties`,
-
-        `${libName}/src/test/kotlin/com/example/${names(
+        ).className.toLocaleLowerCase()}/GreetingService.kt`,
+        `${libName}/src/test/kotlin/org/acme/${names(
           libName,
-        ).className.toLocaleLowerCase()}/HelloServiceTest.kt`,
+        ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`,
       ),
     ).not.toThrow();
-  }, 120000);
-
-  it('should generate java app inside a parent project', async () => {
-    const parentProject = uniq('parent-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${parentProject}`,
-    );
-
-    const randomName = uniq('micronaut-maven-app-');
-    const appName = `${parentProject}-${randomName}`;
-    const port = 8989;
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework micronaut --parent-project ${parentProject} --directory ${parentProject} --port ${port}`,
-    );
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
-    //graph
-    const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`,
-    );
-    expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph',
-    );
-    const depGraphJson = readJson('dep-graph.json');
-    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
-      type: 'static',
-      source: appName,
-      target: parentProject,
-    });
-
-    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:${port}`),
-    );
-
-    const dataResult = await getData(port, '/hello');
-    expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World');
-
-    // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
   }, 120000);
 
   it('should generate java nested sub-projects', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework quarkus`,
     );
 
-    const appName = uniq('micronaut-maven-app-');
+    const appName = uniq('quarkus-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework quarkus --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject}`,
     );
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject} --framework none`,
     );
 
-    const secondAppName = uniq('micronaut-maven-app-');
+    const secondAppName = uniq('quarkus-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${secondAppName} --framework micronaut --simpleName --parent-project ${secondParentProject} --directory ${appsParentProject}/${secondParentProject}`,
+      `generate @jnxplus/nx-maven:application ${secondAppName} --framework quarkus --simpleName --parent-project ${secondParentProject} --directory ${appsParentProject}/${secondParentProject}`,
     );
     const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
     expect(secondBuildResult.stdout).toContain('Executor ran for Build');
@@ -1794,12 +1851,12 @@ describe('nx-micronaut-maven e2e', () => {
     const thirdParentProject = uniq('apps-parent-project-');
     const parentProjectDir = `${appsParentProject}/${secondParentProject}/deep/subdir`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${thirdParentProject} --simpleName --parent-project ${secondParentProject}  --directory ${parentProjectDir}`,
+      `generate @jnxplus/nx-maven:parent-project ${thirdParentProject} --simpleName --parent-project ${secondParentProject}  --directory ${parentProjectDir} --framework none`,
     );
 
-    const thirdAppName = uniq('micronaut-maven-app-');
+    const thirdAppName = uniq('quarkus-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${thirdAppName} --framework micronaut --parent-project ${thirdParentProject}`,
+      `generate @jnxplus/nx-maven:application ${thirdAppName} --framework quarkus --parent-project ${thirdParentProject}`,
     );
     const thirdBuildResult = await runNxCommandAsync(`build ${thirdAppName}`);
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');

@@ -45,16 +45,16 @@ jobs:
         run: npm i --legacy-peer-deps
 
       - name: Lint
-        run: npm run nx affected -- --target=lint --parallel=3
+        run: npm run nx run-many -- --target=lint --parallel=3
 
       - name: Unit tests
-        run: npm run nx affected -- --target=test --parallel=3 --ci --code-coverage
+        run: npm run nx run-many -- --target=test --parallel=3
 
       - name: Build
-        run: npm run nx affected -- --target=build --parallel=3
+        run: npm run nx run-many -- --target=build --parallel=3
 
       - name: E2E tests
-        run: npm run nx affected -- --target=e2e
+        run: npm run nx run-many -- --target=e2e
         env:
           NX_VERBOSE_LOGGING: 'true'
           GITHUB_ACTIONS: 'true'

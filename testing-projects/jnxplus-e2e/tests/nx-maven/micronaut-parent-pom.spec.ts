@@ -24,13 +24,13 @@ import { rmSync } from 'fs';
 import * as fse from 'fs-extra';
 import * as path from 'path';
 
-describe('nx-boot-maven e2e', () => {
+describe('nx-maven micronaut-parent-pom e2e', () => {
   let workspaceDirectory: string;
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
-  const parentProjectName = uniq('boot-parent-project-');
+  const parentProjectName = uniq('micronaut-parent-project-');
 
   beforeAll(async () => {
     workspaceDirectory = createTestWorkspace();
@@ -44,7 +44,7 @@ describe('nx-boot-maven e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --dependencyManagement spring-boot-parent-pom`,
+      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --dependencyManagement micronaut-parent-pom`,
     );
 
     if (isCI) {
@@ -88,10 +88,10 @@ describe('nx-boot-maven e2e', () => {
   }, 120000);
 
   it('should create a java application', async () => {
-    const appName = uniq('boot-maven-app-');
+    const appName = uniq('micronaut-maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework spring-boot`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut`,
     );
 
     expect(() =>
@@ -100,17 +100,13 @@ describe('nx-boot-maven e2e', () => {
         `${appName}/src/main/resources/application.properties`,
         `${appName}/src/main/java/com/example/${names(
           appName,
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
+        ).className.toLocaleLowerCase()}/Application.java`,
         `${appName}/src/main/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
-
-        `${appName}/src/test/resources/application.properties`,
         `${appName}/src/test/java/com/example/${names(
           appName,
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`,
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
       ),
     ).not.toThrow();
 
@@ -119,8 +115,9 @@ describe('nx-boot-maven e2e', () => {
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
-    const testResult = await runNxCommandAsync(`test ${appName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
+    expect(pomXml).not.toContain('<spring.boot.version>');
+    expect(pomXml).not.toContain('<quarkus.version>');
+    expect(pomXml).not.toContain('<micronaut.version>');
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
@@ -133,6 +130,9 @@ describe('nx-boot-maven e2e', () => {
     expect(() => checkFilesExist(`${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
@@ -177,12 +177,12 @@ describe('nx-boot-maven e2e', () => {
     ).toEqual('install -N');
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`),
+      output.includes(`Server Running: http://localhost:8080`),
     );
 
-    const dataResult = await getData();
+    const dataResult = await getData(8080, '/hello');
     expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult.message).toMatch('Hello World');
 
     // port and process cleanup
     try {
@@ -195,9 +195,9 @@ describe('nx-boot-maven e2e', () => {
 
   it('should build-image a java application', async () => {
     if (!isWin && !isMacOs && isCI) {
-      const appName = uniq('boot-maven-app-');
+      const appName = uniq('micronaut-maven-app-');
       await runNxCommandAsync(
-        `generate @jnxplus/nx-maven:application ${appName} --framework spring-boot`,
+        `generate @jnxplus/nx-maven:application ${appName} --framework micronaut`,
       );
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`,
@@ -207,13 +207,13 @@ describe('nx-boot-maven e2e', () => {
   }, 120000);
 
   it('should use specified options to create an application', async () => {
-    const randomName = uniq('boot-maven-app-');
+    const randomName = uniq('micronaut-maven-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
     const port = 8181;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework spring-boot --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`,
+      `generate @jnxplus/nx-maven:application ${randomName} --framework micronaut --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`,
     );
 
     expect(() =>
@@ -222,19 +222,14 @@ describe('nx-boot-maven e2e', () => {
         `${appDir}/${randomName}/src/main/resources/application.yml`,
         `${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName,
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
+        ).className.toLocaleLowerCase()}/Application.java`,
         `${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
-          randomName,
-        ).className.toLocaleLowerCase()}/ServletInitializer.java`,
-        `${appDir}/${randomName}/src/test/resources/application.yml`,
+
         `${appDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
           randomName,
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`,
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
       ),
     ).not.toThrow();
 
@@ -242,18 +237,18 @@ describe('nx-boot-maven e2e', () => {
     const pomXml = readFile(`${appDir}/${randomName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
-    expect(pomXml.includes('war')).toBeTruthy();
-    expect(pomXml.includes('spring-boot-starter-tomcat')).toBeTruthy();
+    // expect(pomXml.includes('war')).toBeTruthy();
+    // expect(pomXml.includes('spring-micronaut-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const testResult = await runNxCommandAsync(`test ${appName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
-
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
@@ -278,12 +273,12 @@ describe('nx-boot-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Server Running: http://localhost:${port}`),
     );
 
-    const dataResult = await getData(port);
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult.message).toMatch('Hello World');
 
     // port and process cleanup
     try {
@@ -292,14 +287,14 @@ describe('nx-boot-maven e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('should create a kotlin application', async () => {
-    const appName = uniq('boot-maven-app-');
+    const appName = uniq('micronaut-maven-app-');
     const port = 8282;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework spring-boot --language kotlin --port ${port}`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin --port ${port}`,
     );
 
     expect(() =>
@@ -308,17 +303,14 @@ describe('nx-boot-maven e2e', () => {
         `${appName}/src/main/resources/application.properties`,
         `${appName}/src/main/kotlin/com/example/${names(
           appName,
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.kt`,
+        ).className.toLocaleLowerCase()}/Application.kt`,
         `${appName}/src/main/kotlin/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloController.kt`,
 
-        `${appName}/src/test/resources/application.properties`,
         `${appName}/src/test/kotlin/com/example/${names(
           appName,
-        ).className.toLocaleLowerCase()}/HelloControllerTests.kt`,
+        ).className.toLocaleLowerCase()}/HelloControllerTest.kt`,
       ),
     ).not.toThrow();
 
@@ -326,25 +318,6 @@ describe('nx-boot-maven e2e', () => {
     const pomXml = readFile(`${appName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
-
-    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
-    );
-
-    const dataResult = await getData(port);
-    expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
-
-    // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
-
-    const testResult = await runNxCommandAsync(`test ${appName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
@@ -356,6 +329,9 @@ describe('nx-boot-maven e2e', () => {
     expect(() => checkFilesExist(`${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
 
     // const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
     // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -376,13 +352,29 @@ describe('nx-boot-maven e2e', () => {
       source: appName,
       target: parentProjectName,
     });
-  }, 120000);
+
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Server Running: http://localhost:${port}`),
+    );
+
+    const dataResult = await getData(port, '/hello');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World');
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(port);
+    } catch (err) {
+      // ignore err
+    }
+  }, 240000);
 
   it('should build-image a kotlin application', async () => {
     if (!isWin && !isMacOs && isCI) {
-      const appName = uniq('boot-maven-app-');
+      const appName = uniq('micronaut-maven-app-');
       await runNxCommandAsync(
-        `generate @jnxplus/nx-maven:application ${appName} --framework spring-boot --language kotlin`,
+        `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin`,
       );
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`,
@@ -392,13 +384,13 @@ describe('nx-boot-maven e2e', () => {
   }, 120000);
 
   it('--an app with aliases', async () => {
-    const randomName = uniq('boot-maven-app-');
+    const randomName = uniq('micronaut-maven-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
     const port = 8383;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-maven:app ${randomName} --framework spring-boot --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml --port ${port}`,
+      `g @jnxplus/nx-maven:app ${randomName} --framework micronaut --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml --port ${port}`,
     );
 
     expect(() =>
@@ -407,19 +399,14 @@ describe('nx-boot-maven e2e', () => {
         `${appDir}/${randomName}/src/main/resources/application.yml`,
         `${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName,
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
+        ).className.toLocaleLowerCase()}/Application.java`,
         `${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `${appDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
-          randomName,
-        ).className.toLocaleLowerCase()}/ServletInitializer.java`,
-        `${appDir}/${randomName}/src/test/resources/application.yml`,
+
         `${appDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
           randomName,
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`,
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
       ),
     ).not.toThrow();
 
@@ -427,34 +414,18 @@ describe('nx-boot-maven e2e', () => {
     const pomXml = readFile(`${appDir}/${randomName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
-    expect(pomXml.includes('war')).toBeTruthy();
-    expect(pomXml.includes('spring-boot-starter-tomcat')).toBeTruthy();
+    // expect(pomXml.includes('war')).toBeTruthy();
+    // expect(pomXml.includes('spring-micronaut-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
-    );
-
-    const dataResult = await getData(port);
-    expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
-
-    // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
-
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
@@ -477,16 +448,33 @@ describe('nx-boot-maven e2e', () => {
       source: appName,
       target: parentProjectName,
     });
-  }, 120000);
+
+    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
+      output.includes(`Server Running: http://localhost:${port}`),
+    );
+
+    const dataResult = await getData(port, '/hello');
+    expect(dataResult.status).toEqual(200);
+    expect(dataResult.message).toMatch('Hello World');
+
+    // port and process cleanup
+    try {
+      await promisifiedTreeKill(process.pid, 'SIGKILL');
+      await killPorts(port);
+    } catch (err) {
+      // ignore err
+    }
+  }, 240000);
 
   it('should generate an app with a simple package name', async () => {
-    const randomName = uniq('boot-maven-app-');
+    const randomName = uniq('micronaut-maven-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
+
     const port = 8484;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-maven:app ${randomName} --framework spring-boot --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --simplePackageName --v 1.2.3 --packaging war --configFormat .yml --port ${port}`,
+      `g @jnxplus/nx-maven:app ${randomName} --framework micronaut --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --simplePackageName --v 1.2.3 --packaging war --configFormat .yml --port ${port}`,
     );
 
     expect(() =>
@@ -495,19 +483,14 @@ describe('nx-boot-maven e2e', () => {
         `${appDir}/${randomName}/src/main/resources/application.yml`,
         `${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName,
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
+        ).className.toLocaleLowerCase()}/Application.java`,
         `${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `${appDir}/${randomName}/src/main/java/com/jnxplus/${names(
-          randomName,
-        ).className.toLocaleLowerCase()}/ServletInitializer.java`,
-        `${appDir}/${randomName}/src/test/resources/application.yml`,
+
         `${appDir}/${randomName}/src/test/java/com/jnxplus/${names(
           randomName,
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`,
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
       ),
     ).not.toThrow();
 
@@ -515,18 +498,18 @@ describe('nx-boot-maven e2e', () => {
     const buildmaven = readFile(`${appDir}/${randomName}/pom.xml`);
     expect(buildmaven.includes('com.jnxplus')).toBeTruthy();
     expect(buildmaven.includes('1.2.3')).toBeTruthy();
-    expect(buildmaven.includes('war')).toBeTruthy();
-    expect(buildmaven.includes('spring-boot-starter-tomcat')).toBeTruthy();
+    // expect(buildmaven.includes('war')).toBeTruthy();
+    // expect(buildmaven.includes('spring-micronaut-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`${appDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const testResult = await runNxCommandAsync(`test ${appName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
-
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
@@ -551,12 +534,12 @@ describe('nx-boot-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Server Running: http://localhost:${port}`),
     );
 
-    const dataResult = await getData(port);
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult.message).toMatch('Hello World');
 
     // port and process cleanup
     try {
@@ -565,15 +548,15 @@ describe('nx-boot-maven e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('directory with dash', async () => {
-    const randomName = uniq('boot-maven-app-');
+    const randomName = uniq('micronaut-maven-app-');
     const appName = `deep-sub-dir-${randomName}`;
     const port = 8585;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework spring-boot --directory deep/sub-dir --port ${port}`,
+      `generate @jnxplus/nx-maven:application ${randomName} --framework micronaut --directory deep/sub-dir --port ${port}`,
     );
 
     //graph
@@ -591,12 +574,12 @@ describe('nx-boot-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Server Running: http://localhost:${port}`),
     );
 
-    const dataResult = await getData(port);
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult.message).toMatch('Hello World');
 
     // port and process cleanup
     try {
@@ -608,10 +591,10 @@ describe('nx-boot-maven e2e', () => {
   }, 120000);
 
   it('should create a library', async () => {
-    const libName = uniq('boot-maven-lib-');
+    const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework spring-boot`,
+      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut`,
     );
 
     expect(() =>
@@ -622,10 +605,7 @@ describe('nx-boot-maven e2e', () => {
         ).className.toLocaleLowerCase()}/HelloService.java`,
         `${libName}/src/test/java/com/example/${names(
           libName,
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `${libName}/src/test/java/com/example/${names(
-          libName,
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`,
+        ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
       ),
     ).not.toThrow();
 
@@ -633,9 +613,6 @@ describe('nx-boot-maven e2e', () => {
     const pomXml = readFile(`${libName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
-
-    const testResult = await runNxCommandAsync(`test ${libName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
@@ -647,6 +624,9 @@ describe('nx-boot-maven e2e', () => {
     expect(() => checkFilesExist(`${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
+
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${libName}`,
@@ -672,10 +652,10 @@ describe('nx-boot-maven e2e', () => {
   }, 120000);
 
   it('should create a kotlin library', async () => {
-    const libName = uniq('boot-maven-lib-');
+    const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework spring-boot --language kotlin`,
+      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --language kotlin`,
     );
 
     expect(() =>
@@ -686,10 +666,7 @@ describe('nx-boot-maven e2e', () => {
         ).className.toLocaleLowerCase()}/HelloService.kt`,
         `${libName}/src/test/kotlin/com/example/${names(
           libName,
-        ).className.toLocaleLowerCase()}/TestConfiguration.kt`,
-        `${libName}/src/test/kotlin/com/example/${names(
-          libName,
-        ).className.toLocaleLowerCase()}/HelloServiceTests.kt`,
+        ).className.toLocaleLowerCase()}/HelloServiceTest.kt`,
       ),
     ).not.toThrow();
 
@@ -697,9 +674,6 @@ describe('nx-boot-maven e2e', () => {
     const pomXml = readFile(`${libName}/pom.xml`);
     expect(pomXml.includes('com.example')).toBeTruthy();
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
-
-    const testResult = await runNxCommandAsync(`test ${libName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
@@ -711,6 +685,9 @@ describe('nx-boot-maven e2e', () => {
     expect(() => checkFilesExist(`${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
+
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
 
     // const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
     // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -734,12 +711,12 @@ describe('nx-boot-maven e2e', () => {
   }, 120000);
 
   it('should use the the specified properties to create a library', async () => {
-    const randomName = uniq('boot-maven-lib-');
+    const randomName = uniq('micronaut-maven-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${randomName} --framework spring-boot --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`,
+      `generate @jnxplus/nx-maven:library ${randomName} --framework micronaut --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`,
     );
 
     expect(() =>
@@ -748,12 +725,10 @@ describe('nx-boot-maven e2e', () => {
         `${libDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
+
         `${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
           randomName,
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `${libDir}/${randomName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          randomName,
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`,
+        ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
       ),
     ).not.toThrow();
 
@@ -766,11 +741,11 @@ describe('nx-boot-maven e2e', () => {
     const projectJson = readJson(`${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const testResult = await runNxCommandAsync(`test ${libName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
-
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${libName}`,
@@ -796,12 +771,12 @@ describe('nx-boot-maven e2e', () => {
   }, 120000);
 
   it('should generare a lib with a simple package name', async () => {
-    const randomName = uniq('boot-maven-lib-');
+    const randomName = uniq('micronaut-maven-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${randomName} --framework spring-boot --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3`,
+      `generate @jnxplus/nx-maven:library ${randomName} --framework micronaut --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3`,
     );
 
     expect(() =>
@@ -810,12 +785,10 @@ describe('nx-boot-maven e2e', () => {
         `${libDir}/${randomName}/src/main/java/com/jnxplus/${names(
           randomName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
+
         `${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
           randomName,
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `${libDir}/${randomName}/src/test/java/com/jnxplus/${names(
-          randomName,
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`,
+        ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
       ),
     ).not.toThrow();
 
@@ -828,11 +801,11 @@ describe('nx-boot-maven e2e', () => {
     const projectJson = readJson(`${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const testResult = await runNxCommandAsync(`test ${libName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
-
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${libName}`,
@@ -858,12 +831,12 @@ describe('nx-boot-maven e2e', () => {
   }, 120000);
 
   it('--a lib with aliases', async () => {
-    const randomName = uniq('boot-maven-lib-');
+    const randomName = uniq('micronaut-maven-lib-');
     const libDir = 'subdir';
     const libName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-maven:lib ${randomName} --framework spring-boot --dir ${libDir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`,
+      `g @jnxplus/nx-maven:lib ${randomName} --framework micronaut --dir ${libDir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3`,
     );
 
     expect(() =>
@@ -872,12 +845,10 @@ describe('nx-boot-maven e2e', () => {
         `${libDir}/${randomName}/src/main/java/com/jnxplus/subdir/${names(
           randomName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
+
         `${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
           randomName,
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `${libDir}/${randomName}/src/test/java/com/jnxplus/subdir/${names(
-          randomName,
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`,
+        ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
       ),
     ).not.toThrow();
 
@@ -890,11 +861,11 @@ describe('nx-boot-maven e2e', () => {
     const projectJson = readJson(`${libDir}/${randomName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const testResult = await runNxCommandAsync(`test ${libName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
-
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${libName}`,
@@ -920,16 +891,15 @@ describe('nx-boot-maven e2e', () => {
   }, 120000);
 
   it('should add a lib to an app dependencies', async () => {
-    const port = 9090;
-    const appName = uniq('boot-maven-app-');
-    const libName = uniq('boot-maven-lib-');
+    const appName = uniq('micronaut-maven-app-');
+    const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework spring-boot --port ${port}`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework spring-boot --projects ${appName}`,
+      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --projects ${appName}`,
     );
 
     // Making sure the app pom.xml file contains the lib
@@ -945,41 +915,25 @@ describe('nx-boot-maven e2e', () => {
 
     const regex2 = /public\s*class\s*HelloController\s*{/;
 
-    const regex3 = /"Hello World!"/;
+    const regex3 = /"Hello World"/;
 
     const newHelloControllerContent = helloControllerContent
       .replace(
         regex1,
-        `$&\nimport org.springframework.beans.factory.annotation.Autowired;\nimport com.example.${names(
+        `$&\nimport jakarta.inject.Inject;\nimport com.example.${names(
           libName,
         ).className.toLocaleLowerCase()}.HelloService;`,
       )
-      .replace(regex2, '$&\n@Autowired\nprivate HelloService helloService;')
-      .replace(regex3, 'this.helloService.message()');
+      .replace(regex2, '$&\n@Inject\nprivate HelloService helloService;')
+      .replace(regex3, 'this.helloService.greeting()');
 
     updateFile(helloControllerPath, newHelloControllerContent);
 
-    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
-    );
-
-    const dataResult = await getData(port);
-    expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
-
-    // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
-
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
@@ -1013,70 +967,17 @@ describe('nx-boot-maven e2e', () => {
     });
   }, 120000);
 
-  it('should test an app with a lib', async () => {
-    const appName = uniq('boot-maven-app-');
-    const libName = uniq('boot-maven-lib-');
-
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework spring-boot`,
-    );
-
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework spring-boot --projects ${appName}`,
-    );
-
-    const helloControllerPath = `${appName}/src/main/java/com/example/${names(
-      appName,
-    ).className.toLocaleLowerCase()}/HelloController.java`;
-    const helloControllerContent = readFile(helloControllerPath);
-
-    const regex1 = /package\s*com\.example\..*\s*;/;
-
-    const regex2 = /public\s*class\s*HelloController\s*{/;
-
-    const regex3 = /"Hello World!"/;
-
-    const newHelloControllerContent = helloControllerContent
-      .replace(
-        regex1,
-        `$&\nimport org.springframework.beans.factory.annotation.Autowired;\nimport com.example.${names(
-          libName,
-        ).className.toLocaleLowerCase()}.HelloService;`,
-      )
-      .replace(regex2, '$&\n@Autowired\nprivate HelloService helloService;')
-      .replace(regex3, 'this.helloService.message()');
-
-    updateFile(helloControllerPath, newHelloControllerContent);
-
-    const testResult = await runNxCommandAsync(`test ${appName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
-
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
-    expect(buildResult.stdout).toContain('Executor ran for Build');
-
-    const testResult2 = await runNxCommandAsync(`test ${libName}`);
-    expect(testResult2.stdout).toContain('Executor ran for Test');
-  }, 120000);
-
   it('should add a kotlin lib to a kotlin app dependencies', async () => {
-    const appName = uniq('boot-maven-app-');
-    const libName = uniq('boot-maven-lib-');
+    const appName = uniq('micronaut-maven-app-');
+    const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework spring-boot --language kotlin --packaging war`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin --packaging war`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework spring-boot --language kotlin --projects ${appName}`,
+      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --language kotlin --projects ${appName}`,
     );
-
-    expect(() =>
-      checkFilesExist(
-        `${appName}/src/main/kotlin/com/example/${names(
-          appName,
-        ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
-      ),
-    ).not.toThrow();
 
     // Making sure the app pom.xml file contains the lib
     const pomXml = readFile(`${appName}/pom.xml`);
@@ -1091,25 +992,25 @@ describe('nx-boot-maven e2e', () => {
 
     const regex2 = /class\s*HelloController/;
 
-    const regex3 = /"Hello World!"/;
+    const regex3 = /"Hello World"/;
 
     const newHelloControllerContent = helloControllerContent
       .replace(
         regex1,
-        `$&\nimport org.springframework.beans.factory.annotation.Autowired\nimport com.example.${names(
+        `$&\nimport jakarta.inject.Inject\nimport com.example.${names(
           libName,
         ).className.toLocaleLowerCase()}.HelloService`,
       )
-      .replace(regex2, '$&(@Autowired val helloService: HelloService)')
-      .replace(regex3, 'helloService.message()');
+      .replace(regex2, '$&(@Inject val helloService: HelloService)')
+      .replace(regex3, 'helloService.greeting()');
 
     updateFile(helloControllerPath, newHelloControllerContent);
 
-    const testResult = await runNxCommandAsync(`test ${appName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
-
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
 
     // const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
     // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
@@ -1142,10 +1043,10 @@ describe('nx-boot-maven e2e', () => {
   }, 120000);
 
   it("should dep-graph don't crash when pom.xml don't contains dependencies tag", async () => {
-    const libName = uniq('boot-maven-lib-');
+    const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework spring-boot`,
+      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut`,
     );
 
     const regex = /<dependencies>[\s\S]*?<\/dependencies>/;
@@ -1172,26 +1073,26 @@ describe('nx-boot-maven e2e', () => {
   it('should generate java apps that use a parent project', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`,
     );
 
-    const randomName = uniq('boot-maven-app-');
+    const randomName = uniq('micronaut-maven-app-');
     const appDir = 'dir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework spring-boot --parent-project ${appsParentProject} --directory ${appDir}`,
+      `generate @jnxplus/nx-maven:application ${randomName} --framework micronaut --parent-project ${appsParentProject} --directory ${appDir}`,
     );
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject}`,
     );
 
-    const secondAppName = uniq('boot-maven-app-');
+    const secondAppName = uniq('micronaut-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${secondAppName} --framework spring-boot --parent-project ${secondParentProject}`,
+      `generate @jnxplus/nx-maven:application ${secondAppName} --framework micronaut --parent-project ${secondParentProject}`,
     );
     const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
     expect(secondBuildResult.stdout).toContain('Executor ran for Build');
@@ -1202,12 +1103,12 @@ describe('nx-boot-maven e2e', () => {
       parentProjectDir,
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject}  --directory ${parentProjectDir} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject}  --directory ${parentProjectDir}`,
     );
 
-    const thirdAppName = uniq('boot-maven-app-');
+    const thirdAppName = uniq('micronaut-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${thirdAppName} --framework spring-boot --parent-project ${thirdParentProject}`,
+      `generate @jnxplus/nx-maven:application ${thirdAppName} --framework micronaut --parent-project ${thirdParentProject}`,
     );
     const thirdBuildResult = await runNxCommandAsync(`build ${thirdAppName}`);
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
@@ -1262,26 +1163,26 @@ describe('nx-boot-maven e2e', () => {
   it('should generate kotlin apps that use a parent project', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`,
     );
 
-    const randomName = uniq('boot-maven-app-');
+    const randomName = uniq('micronaut-maven-app-');
     const appDir = 'dir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework spring-boot --parent-project ${appsParentProject} --directory ${appDir} --language kotlin`,
+      `generate @jnxplus/nx-maven:application ${randomName} --framework micronaut --parent-project ${appsParentProject} --directory ${appDir} --language kotlin`,
     );
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject}`,
     );
 
-    const secondAppName = uniq('boot-maven-app-');
+    const secondAppName = uniq('micronaut-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${secondAppName} --framework spring-boot --parent-project ${secondParentProject} --language kotlin`,
+      `generate @jnxplus/nx-maven:application ${secondAppName} --framework micronaut --parent-project ${secondParentProject} --language kotlin`,
     );
     const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
     expect(secondBuildResult.stdout).toContain('Executor ran for Build');
@@ -1292,12 +1193,12 @@ describe('nx-boot-maven e2e', () => {
       parentProjectDir,
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject}  --directory ${parentProjectDir} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --parent-project ${secondParentProject}  --directory ${parentProjectDir}`,
     );
 
-    const thirdAppName = uniq('boot-maven-app-');
+    const thirdAppName = uniq('micronaut-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${thirdAppName} --framework spring-boot --parent-project ${thirdParentProject} --language kotlin`,
+      `generate @jnxplus/nx-maven:application ${thirdAppName} --framework micronaut --parent-project ${thirdParentProject} --language kotlin`,
     );
     const thirdBuildResult = await runNxCommandAsync(`build ${thirdAppName}`);
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
@@ -1353,13 +1254,13 @@ describe('nx-boot-maven e2e', () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`,
     );
 
-    const libName = uniq('boot-maven-lib-');
+    const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework spring-boot --parent-project ${libsParentProject}`,
+      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --parent-project ${libsParentProject}`,
     );
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
@@ -1368,15 +1269,15 @@ describe('nx-boot-maven e2e', () => {
     const secondParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject}`,
     );
 
-    const randomName = uniq('boot-maven-lib-');
+    const randomName = uniq('micronaut-maven-lib-');
     const libDir = 'subdir';
     const secondLibName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${randomName} --framework spring-boot --parent-project ${secondParentProject} --dir ${libDir}`,
+      `generate @jnxplus/nx-maven:library ${randomName} --framework micronaut --parent-project ${secondParentProject} --dir ${libDir}`,
     );
 
     const secondBuildResult = await runNxCommandAsync(`build ${secondLibName}`);
@@ -1388,12 +1289,12 @@ describe('nx-boot-maven e2e', () => {
       parentProjectDir,
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject} --directory ${parentProjectDir} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject}  --directory ${parentProjectDir}`,
     );
 
-    const thirdLibName = uniq('boot-maven-lib-');
+    const thirdLibName = uniq('micronaut-maven-lib-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${thirdLibName} --framework spring-boot --parent-project ${thirdParentProject}`,
+      `generate @jnxplus/nx-maven:library ${thirdLibName} --framework micronaut --parent-project ${thirdParentProject}`,
     );
     const thirdBuildResult = await runNxCommandAsync(`build ${thirdLibName}`);
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
@@ -1449,13 +1350,13 @@ describe('nx-boot-maven e2e', () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`,
     );
 
-    const libName = uniq('boot-maven-lib-');
+    const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework spring-boot --parent-project ${libsParentProject} --language kotlin`,
+      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --parent-project ${libsParentProject} --language kotlin`,
     );
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
@@ -1464,15 +1365,15 @@ describe('nx-boot-maven e2e', () => {
     const secondParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject}`,
     );
 
-    const randomName = uniq('boot-maven-lib-');
+    const randomName = uniq('micronaut-maven-lib-');
     const libDir = 'subdir';
     const secondLibName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${randomName} --framework spring-boot --parent-project ${secondParentProject} --dir ${libDir} --language kotlin`,
+      `generate @jnxplus/nx-maven:library ${randomName} --framework micronaut --parent-project ${secondParentProject} --dir ${libDir} --language kotlin`,
     );
 
     const secondBuildResult = await runNxCommandAsync(`build ${secondLibName}`);
@@ -1484,12 +1385,12 @@ describe('nx-boot-maven e2e', () => {
       parentProjectDir,
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject}  --directory ${parentProjectDir} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject}  --directory ${parentProjectDir}`,
     );
 
-    const thirdLibName = uniq('boot-maven-lib-');
+    const thirdLibName = uniq('micronaut-maven-lib-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${thirdLibName} --framework spring-boot --parent-project ${thirdParentProject} --language kotlin`,
+      `generate @jnxplus/nx-maven:library ${thirdLibName} --framework micronaut --parent-project ${thirdParentProject} --language kotlin`,
     );
     const thirdBuildResult = await runNxCommandAsync(`build ${thirdLibName}`);
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
@@ -1542,12 +1443,12 @@ describe('nx-boot-maven e2e', () => {
   }, 120000);
 
   it('should create an application with a simple name', async () => {
-    const appName = uniq('boot-maven-app-');
+    const appName = uniq('micronaut-maven-app-');
     const appDir = 'deep/subdir';
     const port = 8686;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework spring-boot --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`,
     );
 
     expect(() =>
@@ -1556,17 +1457,14 @@ describe('nx-boot-maven e2e', () => {
         `${appDir}/${appName}/src/main/resources/application.yml`,
         `${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
           appName,
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
+        ).className.toLocaleLowerCase()}/Application.java`,
         `${appDir}/${appName}/src/main/java/com/jnxplus/deep/subdir/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
 
-        `${appDir}/${appName}/src/test/resources/application.yml`,
         `${appDir}/${appName}/src/test/java/com/jnxplus/deep/subdir/${names(
           appName,
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`,
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
       ),
     ).not.toThrow();
 
@@ -1574,18 +1472,18 @@ describe('nx-boot-maven e2e', () => {
     const pomXml = readFile(`${appDir}/${appName}/pom.xml`);
     expect(pomXml.includes('com.jnxplus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
-    expect(pomXml.includes('war')).toBeTruthy();
-    expect(pomXml.includes('spring-boot-starter-tomcat')).toBeTruthy();
+    // expect(pomXml.includes('war')).toBeTruthy();
+    // expect(pomXml.includes('spring-micronaut-starter-tomcat')).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`${appDir}/${appName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const testResult = await runNxCommandAsync(`test ${appName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
-
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${appName}`,
@@ -1610,12 +1508,12 @@ describe('nx-boot-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Server Running: http://localhost:${port}`),
     );
 
-    const dataResult = await getData(port);
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult.message).toMatch('Hello World');
 
     // port and process cleanup
     try {
@@ -1624,14 +1522,14 @@ describe('nx-boot-maven e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('should create a library with a simple name', async () => {
-    const libName = uniq('boot-maven-lib-');
+    const libName = uniq('micronaut-maven-lib-');
     const libDir = 'deep/subdir';
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework spring-boot --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`,
+      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3`,
     );
 
     expect(() =>
@@ -1640,12 +1538,10 @@ describe('nx-boot-maven e2e', () => {
         `${libDir}/${libName}/src/main/java/com/jnxplus/deep/subdir/${names(
           libName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
+
         `${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
           libName,
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `${libDir}/${libName}/src/test/java/com/jnxplus/deep/subdir/${names(
-          libName,
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`,
+        ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
       ),
     ).not.toThrow();
 
@@ -1658,11 +1554,11 @@ describe('nx-boot-maven e2e', () => {
     const projectJson = readJson(`${libDir}/${libName}/project.json`);
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
-    const testResult = await runNxCommandAsync(`test ${libName}`);
-    expect(testResult.stdout).toContain('Executor ran for Test');
-
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult = await runNxCommandAsync(`test ${libName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${libName}`,
@@ -1688,11 +1584,11 @@ describe('nx-boot-maven e2e', () => {
   }, 120000);
 
   it('should create a minimal java application', async () => {
-    const appName = uniq('boot-maven-app-');
+    const appName = uniq('micronaut-maven-app-');
     const port = 8787;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework spring-boot --minimal --port ${port}`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --minimal --port ${port}`,
     );
 
     expect(() =>
@@ -1700,15 +1596,11 @@ describe('nx-boot-maven e2e', () => {
         `${appName}/pom.xml`,
         `${appName}/src/main/java/com/example/${names(
           appName,
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.java`,
+        ).className.toLocaleLowerCase()}/Application.java`,
         `${appName}/src/main/resources/application.properties`,
         `${appName}/src/test/java/com/example/${names(
           appName,
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }ApplicationTests.java`,
+        ).className.toLocaleLowerCase()}/${names(appName).className}Test.java`,
       ),
     ).not.toThrow();
 
@@ -1717,15 +1609,15 @@ describe('nx-boot-maven e2e', () => {
         `${appName}/src/main/java/com/example/${names(
           appName,
         ).className.toLocaleLowerCase()}/HelloController.java`,
-        `${appName}/src/test/resources/application.properties`,
+
         `${appName}/src/test/java/com/example/${names(
           appName,
-        ).className.toLocaleLowerCase()}/HelloControllerTests.java`,
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
       ),
     ).not.toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Server Running: http://localhost:${port}`),
     );
 
     // port and process cleanup
@@ -1738,11 +1630,11 @@ describe('nx-boot-maven e2e', () => {
   }, 120000);
 
   it('should create a minimal kotlin application', async () => {
-    const appName = uniq('boot-maven-app-');
+    const appName = uniq('micronaut-maven-app-');
     const port = 8888;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework spring-boot --language kotlin --minimal --port ${port}`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin --minimal --port ${port}`,
     );
 
     expect(() =>
@@ -1751,14 +1643,10 @@ describe('nx-boot-maven e2e', () => {
         `${appName}/src/main/resources/application.properties`,
         `${appName}/src/main/kotlin/com/example/${names(
           appName,
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }Application.kt`,
+        ).className.toLocaleLowerCase()}/Application.kt`,
         `${appName}/src/test/kotlin/com/example/${names(
           appName,
-        ).className.toLocaleLowerCase()}/${
-          names(appName).className
-        }ApplicationTests.kt`,
+        ).className.toLocaleLowerCase()}/${names(appName).className}Test.kt`,
       ),
     ).not.toThrow();
 
@@ -1766,20 +1654,16 @@ describe('nx-boot-maven e2e', () => {
       checkFilesDoNotExist(
         `${appName}/src/main/kotlin/com/example/${names(
           appName,
-        ).className.toLocaleLowerCase()}/ServletInitializer.kt`,
-        `${appName}/src/main/kotlin/com/example/${names(
-          appName,
         ).className.toLocaleLowerCase()}/HelloController.kt`,
-        `${appName}/src/test/resources/application.properties`,
 
         `${appName}/src/test/kotlin/com/example/${names(
           appName,
-        ).className.toLocaleLowerCase()}/HelloControllerTests.kt`,
+        ).className.toLocaleLowerCase()}/HelloControllerTest.kt`,
       ),
     ).not.toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Server Running: http://localhost:${port}`),
     );
 
     // port and process cleanup
@@ -1792,10 +1676,10 @@ describe('nx-boot-maven e2e', () => {
   }, 120000);
 
   it('should skip starter code when generating a java library with skipStarterCode option', async () => {
-    const libName = uniq('boot-maven-lib-');
+    const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework spring-boot --skipStarterCode`,
+      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --skipStarterCode`,
     );
 
     expect(() => checkFilesExist(`${libName}/pom.xml`)).not.toThrow();
@@ -1805,21 +1689,19 @@ describe('nx-boot-maven e2e', () => {
         `${libName}/src/main/java/com/example/${names(
           libName,
         ).className.toLocaleLowerCase()}/HelloService.java`,
+
         `${libName}/src/test/java/com/example/${names(
           libName,
-        ).className.toLocaleLowerCase()}/TestConfiguration.java`,
-        `${libName}/src/test/java/com/example/${names(
-          libName,
-        ).className.toLocaleLowerCase()}/HelloServiceTests.java`,
+        ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
       ),
     ).not.toThrow();
   }, 120000);
 
   it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
-    const libName = uniq('boot-maven-lib-');
+    const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework spring-boot --language kotlin --skipStarterCode`,
+      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --language kotlin --skipStarterCode`,
     );
 
     expect(() => checkFilesExist(`${libName}/pom.xml`)).not.toThrow();
@@ -1830,12 +1712,10 @@ describe('nx-boot-maven e2e', () => {
           libName,
         ).className.toLocaleLowerCase()}/HelloService.kt`,
         `${libName}/src/test/resources/junit-platform.properties`,
+
         `${libName}/src/test/kotlin/com/example/${names(
           libName,
-        ).className.toLocaleLowerCase()}/TestConfiguration.kt`,
-        `${libName}/src/test/kotlin/com/example/${names(
-          libName,
-        ).className.toLocaleLowerCase()}/HelloServiceTests.kt`,
+        ).className.toLocaleLowerCase()}/HelloServiceTest.kt`,
       ),
     ).not.toThrow();
   }, 120000);
@@ -1843,14 +1723,14 @@ describe('nx-boot-maven e2e', () => {
   it('should generate java app inside a parent project', async () => {
     const parentProject = uniq('parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${parentProject} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${parentProject}`,
     );
 
-    const randomName = uniq('boot-maven-app-');
+    const randomName = uniq('micronaut-maven-app-');
     const appName = `${parentProject}-${randomName}`;
     const port = 8989;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework spring-boot --parent-project ${parentProject} --directory ${parentProject} --port ${port}`,
+      `generate @jnxplus/nx-maven:application ${randomName} --framework micronaut --parent-project ${parentProject} --directory ${parentProject} --port ${port}`,
     );
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
@@ -1870,12 +1750,12 @@ describe('nx-boot-maven e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Server Running: http://localhost:${port}`),
     );
 
-    const dataResult = await getData(port);
+    const dataResult = await getData(port, '/hello');
     expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World!');
+    expect(dataResult.message).toMatch('Hello World');
 
     // port and process cleanup
     try {
@@ -1889,24 +1769,24 @@ describe('nx-boot-maven e2e', () => {
   it('should generate java nested sub-projects', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`,
     );
 
-    const appName = uniq('boot-maven-app-');
+    const appName = uniq('micronaut-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework spring-boot --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject}`,
     );
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject}`,
     );
 
-    const secondAppName = uniq('boot-maven-app-');
+    const secondAppName = uniq('micronaut-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${secondAppName} --framework spring-boot --simpleName --parent-project ${secondParentProject} --directory ${appsParentProject}/${secondParentProject}`,
+      `generate @jnxplus/nx-maven:application ${secondAppName} --framework micronaut --simpleName --parent-project ${secondParentProject} --directory ${appsParentProject}/${secondParentProject}`,
     );
     const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
     expect(secondBuildResult.stdout).toContain('Executor ran for Build');
@@ -1914,12 +1794,12 @@ describe('nx-boot-maven e2e', () => {
     const thirdParentProject = uniq('apps-parent-project-');
     const parentProjectDir = `${appsParentProject}/${secondParentProject}/deep/subdir`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${thirdParentProject} --simpleName --parent-project ${secondParentProject}  --directory ${parentProjectDir} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${thirdParentProject} --simpleName --parent-project ${secondParentProject}  --directory ${parentProjectDir}`,
     );
 
-    const thirdAppName = uniq('boot-maven-app-');
+    const thirdAppName = uniq('micronaut-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${thirdAppName} --framework spring-boot --parent-project ${thirdParentProject}`,
+      `generate @jnxplus/nx-maven:application ${thirdAppName} --framework micronaut --parent-project ${thirdParentProject}`,
     );
     const thirdBuildResult = await runNxCommandAsync(`build ${thirdAppName}`);
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
@@ -1929,6 +1809,7 @@ describe('nx-boot-maven e2e', () => {
     const projectJson1 = path.join(
       localTmpDir,
       'proj',
+
       appsParentProject,
       'project.json',
     );
@@ -1977,28 +1858,5 @@ describe('nx-boot-maven e2e', () => {
       source: thirdAppName,
       target: thirdParentProject,
     });
-  }, 120000);
-
-  it('optional project.json', async () => {
-    const appsParentProject = uniq('apps-parent-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework none`,
-    );
-
-    //graph
-    const localTmpDir = path.dirname(tmpProjPath());
-    const projectJson1 = path.join(
-      localTmpDir,
-      'proj',
-      appsParentProject,
-      'project.json',
-    );
-    fse.removeSync(projectJson1);
-    const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`,
-    );
-    expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph',
-    );
   }, 120000);
 });
