@@ -49,7 +49,7 @@ export function createTestWorkspace() {
 }
 
 /**
- * Creates a test workspace with create-nx-maven-workspace create-nx-gradle-workspace or and installs the plugin
+ * Creates a test workspace with create-nx-maven-workspace or create-nx-gradle-workspace  and installs the plugin
  * @returns The directory where the test workspace was created
  */
 export function createTestWorkspaceWithCustomCli(
