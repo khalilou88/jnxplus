@@ -61,5 +61,10 @@
     ],
     "sharedGlobals": []
   },
-  "parallel": 1
+  "parallel": 1,
+  "release": {
+    "groups": {
+      "default": { "projects": ["common", "xml", "nx-gradle", "nx-maven"] }
+    }
+  }
 }
