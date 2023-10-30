@@ -2,17 +2,40 @@
 
 import { createWorkspace } from 'create-nx-workspace';
 import { prompt } from 'enquirer';
+import * as yargs from 'yargs';
 
 async function main() {
   let name = process.argv[2];
   if (!name) {
-    const response = await prompt<{ name: string }>({
-      type: 'input',
-      name: 'name',
-      message: 'What is the name of the workspace?',
-    });
-    name = response.name;
+    name = (
+      await prompt<{ name: string }>({
+        type: 'input',
+        name: 'name',
+        message: 'What is the name of the workspace?',
+      })
+    ).name;
   }
+
+  const argsString = process.argv[3];
+  const args = yargs.parse(argsString);
+  console.log(args);
+
+  let mode = '';
+  if (!args['mode']) {
+    mode = (
+      await prompt<{ mode: 'light' | 'dark' }>({
+        name: 'mode',
+        message: 'Which mode to use',
+        initial: 'dark' as any,
+        type: 'autocomplete',
+        choices: [
+          { name: 'light', message: 'light' },
+          { name: 'dark', message: 'dark' },
+        ],
+      })
+    ).mode;
+  }
+  console.log(mode);
 
   console.log(`Creating the workspace: ${name}`);
 
