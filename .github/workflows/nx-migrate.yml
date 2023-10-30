@@ -85,7 +85,7 @@ jobs:
         id: e2e
         if: steps.nx-workspace-outdated.outputs.outdated == 'true'
         continue-on-error: true
-        run: npm run nx run-many -- --target=e2e --t="nx-maven spring-boot-parent-pom e2e"
+        run: npm run nx run-many -- --target=e2e -- --t="nx-maven spring-boot-parent-pom e2e"
         env:
           NX_VERBOSE_LOGGING: 'true'
           GITHUB_ACTIONS: 'true'
