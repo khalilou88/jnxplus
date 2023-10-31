@@ -16,7 +16,7 @@ describe('create-nx-gradle-workspace', () => {
   it('should be installed', () => {
     workspaceDirectory = createTestWorkspaceWithCustomCli(
       'create-nx-gradle-workspace',
-      '--javaVersion 21 --gradleRootDirectory test',
+      '--javaVersion 21 --dsl=kotlin --gradleRootDirectory test --preset micronaut',
     );
 
     // npm ls will fail if the package is not installed properly
