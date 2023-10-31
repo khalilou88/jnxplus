@@ -2,16 +2,91 @@
 
 import { createWorkspace } from 'create-nx-workspace';
 import { prompt } from 'enquirer';
+import * as yargs from 'yargs';
 
 async function main() {
   let name = process.argv[2];
   if (!name) {
-    const response = await prompt<{ name: string }>({
-      type: 'input',
-      name: 'name',
-      message: 'What is the name of the workspace?',
-    });
-    name = response.name;
+    name = (
+      await prompt<{ name: string }>({
+        type: 'input',
+        name: 'name',
+        message: 'What is the name of the workspace?',
+      })
+    ).name;
+  }
+
+  const argsString = process.argv[3];
+  const args = yargs.parse(argsString);
+
+  let javaVersion = '';
+  if (!args['javaVersion']) {
+    javaVersion = (
+      await prompt<{ javaVersion: '17' | '21' }>({
+        name: 'javaVersion',
+        message: 'Which version of Java would you like to use?',
+        initial: '17' as any,
+        type: 'autocomplete',
+        choices: [
+          { name: '17', message: '17' },
+          { name: '21', message: '21' },
+        ],
+      })
+    ).javaVersion;
+  }
+
+  let dsl = '';
+  if (!args['dsl']) {
+    dsl = (
+      await prompt<{ dsl: 'groovy' | 'kotlin' }>({
+        name: 'dsl',
+        message: 'Which build DSL would you like to use?',
+        initial: 'groovy' as any,
+        type: 'autocomplete',
+        choices: [
+          { name: 'groovy', message: 'Groovy build DSL' },
+          { name: 'kotlin', message: 'Kotlin build DSL' },
+        ],
+      })
+    ).dsl;
+  }
+
+  let gradleRootDirectory = '';
+  if (!args['gradleRootDirectory']) {
+    gradleRootDirectory = (
+      await prompt<{ gradleRootDirectory: string }>({
+        type: 'input',
+        name: 'gradleRootDirectory',
+        message:
+          'Where do you want Gradle Wrapper (if not skipped), config files and projects to be placed?',
+      })
+    ).gradleRootDirectory;
+  }
+
+  let preset = '';
+  if (!args['preset']) {
+    preset = (
+      await prompt<{
+        preset:
+          | 'spring-boot'
+          | 'quarkus'
+          | 'micronaut'
+          | 'kotlin-multiplatform'
+          | 'none';
+      }>({
+        name: 'preset',
+        message: "Which preset to use? or 'none' to skip.",
+        initial: 'spring-boot' as any,
+        type: 'autocomplete',
+        choices: [
+          { name: 'spring-boot', message: 'spring-boot' },
+          { name: 'quarkus', message: 'quarkus' },
+          { name: 'micronaut', message: 'micronaut' },
+          { name: 'kotlin-multiplatform', message: 'kotlin-multiplatform' },
+          { name: 'none', message: 'none' },
+        ],
+      })
+    ).preset;
   }
 
   console.log(`Creating the workspace: ${name}`);
@@ -27,11 +102,11 @@ async function main() {
       nxCloud: false,
       packageManager: 'npm',
       //init generator
-      javaVersion: 17,
-      dsl: 'groovy',
+      javaVersion,
+      dsl,
       rootProjectName: name,
-      gradleRootDirectory: 'nx-gradle',
-      preset: 'spring-boot',
+      gradleRootDirectory,
+      preset,
       skipWrapper: false,
     },
   );
