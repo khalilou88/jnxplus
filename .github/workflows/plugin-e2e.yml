@@ -2,26 +2,12 @@ name: Run plugin e2e tests
 on:
   workflow_dispatch:
     inputs:
-      e2e_project:
+      t_option:
         type: choice
-        description: e2e project
+        description: t option
         options:
-          - jnxplus-nx-maven-e2e
-          - nx-maven-e2e
-          - nx-maven-subfolder-e2e
-          - nx-boot-maven-e2e
-          - nx-quarkus-maven-e2e
-          - nx-micronaut-maven-e2e
-          - nx-gradle-e2e
-          - nx-gradle-subfolder-e2e
-          - nx-gradle-kt-e2e
-          - nx-gradle-subfolder-kt-e2e
-          - nx-boot-gradle-e2e
-          - nx-boot-gradle-kt-e2e
-          - nx-quarkus-gradle-e2e
-          - nx-quarkus-gradle-kt-e2e
-          - nx-micronaut-gradle-e2e
-          - nx-micronaut-gradle-kt-e2e
+          - create-nx-gradle-workspace
+          - create-nx-maven-workspace
       os:
         type: choice
         description: Os
@@ -32,7 +18,7 @@ on:
 
 jobs:
   check_plugin:
-    name: Running ${{ github.event.inputs.e2e_project }} tests from ${{ github.head_ref || github.ref_name }} branch
+    name: Running ${{ github.event.inputs.t_option }} tests from ${{ github.head_ref || github.ref_name }} branch
     strategy:
       matrix:
         node_version: ['18']
@@ -59,7 +45,7 @@ jobs:
         run: npm i --legacy-peer-deps
 
       - name: E2E tests
-        run: npm run e2e ${{ github.event.inputs.e2e_project }}
+        run: npm run e2e -- --t="${{ github.event.inputs.t_option }}"
         env:
           NX_VERBOSE_LOGGING: 'true'
           GITHUB_ACTIONS: 'true'
