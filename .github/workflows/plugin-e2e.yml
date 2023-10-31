@@ -45,7 +45,7 @@ jobs:
         run: npm i --legacy-peer-deps
 
       - name: E2E tests
-        run: npm run e2e -- --t="${{ github.event.inputs.t_option }}"
+        run: npm run e2e jnxplus-e2e -- --t="${{ github.event.inputs.t_option }}"
         env:
           NX_VERBOSE_LOGGING: 'true'
           GITHUB_ACTIONS: 'true'
