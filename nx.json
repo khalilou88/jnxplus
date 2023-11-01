@@ -64,7 +64,16 @@
   "parallel": 1,
   "release": {
     "groups": {
-      "default": { "projects": ["common", "xml", "nx-gradle", "nx-maven"] }
+      "default": {
+        "projects": [
+          "common",
+          "xml",
+          "create-nx-gradle-workspace",
+          "nx-gradle",
+          "create-nx-maven-workspace",
+          "nx-maven"
+        ]
+      }
     }
   }
 }
