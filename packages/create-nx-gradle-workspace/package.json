@@ -1,0 +1,40 @@
+{
+  "name": "create-nx-gradle-workspace",
+  "version": "0.0.1",
+  "dependencies": {
+    "create-nx-workspace": ">=17.0.0",
+    "enquirer": "^2.3.6",
+    "tslib": "^2.6.2"
+  },
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
+  "bin": {
+    "create-nx-gradle-workspace": "./bin/index.js"
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "author": "Khalil LAGRIDA",
+  "homepage": "https://github.com/khalilou88/jnxplus/blob/main/packages/create-nx-gradle-workspace/README.md",
+  "bugs": {
+    "url": "https://github.com/khalilou88/jnxplus/issues"
+  },
+  "keywords": [
+    "nx",
+    "nx-workspace",
+    "nx-plugin",
+    "java",
+    "spring",
+    "spring-boot",
+    "gradle",
+    "gradle multi-project build"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khalilou88/jnxplus.git",
+    "directory": "packages/create-nx-gradle-workspace"
+  }
+}

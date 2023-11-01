@@ -31,6 +31,12 @@
       "factory": "./src/generators/parent-project/generator",
       "schema": "./src/generators/parent-project/schema.json",
       "description": "parent-project generator"
+    },
+    "preset": {
+      "factory": "./src/generators/preset/generator",
+      "schema": "./src/generators/preset/schema.json",
+      "description": "preset generator",
+      "x-use-standalone-layout": true
     }
   }
 }

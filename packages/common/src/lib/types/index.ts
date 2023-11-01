@@ -10,3 +10,7 @@ export type GetVersionFunction = (dir: string) => string;
 export type MavenPluginType = '@jnxplus/nx-maven';
 
 export type GradlePluginType = '@jnxplus/nx-gradle';
+
+export type CustomCli =
+  | 'create-nx-maven-workspace'
+  | 'create-nx-gradle-workspace';

@@ -1,6 +1,6 @@
 import { DSLType } from '@jnxplus/common';
 
-export interface NxGradleGeneratorSchema {
+export interface NxGradleInitGeneratorSchema {
   javaVersion: string | number;
   dsl: DSLType;
   rootProjectName: string;

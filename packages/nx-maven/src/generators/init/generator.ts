@@ -20,9 +20,9 @@ import {
   writeJson,
 } from '@nx/devkit';
 import * as path from 'path';
-import { NxMavenGeneratorSchema } from './schema';
+import { NxMavenInitGeneratorSchema } from './schema';
 
-interface NormalizedSchema extends NxMavenGeneratorSchema {
+interface NormalizedSchema extends NxMavenInitGeneratorSchema {
   dot: string;
   kotlinVersion: string;
   springBootVersion: string;
@@ -32,7 +32,7 @@ interface NormalizedSchema extends NxMavenGeneratorSchema {
 
 function normalizeOptions(
   tree: Tree,
-  options: NxMavenGeneratorSchema,
+  options: NxMavenInitGeneratorSchema,
 ): NormalizedSchema {
   const dot = '.';
 
@@ -68,7 +68,12 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   );
 }
 
-export default async function (tree: Tree, options: NxMavenGeneratorSchema) {
+export default initGenerator;
+
+export async function initGenerator(
+  tree: Tree,
+  options: NxMavenInitGeneratorSchema,
+) {
   const normalizedOptions = normalizeOptions(tree, options);
 
   if (options.mavenRootDirectory) {

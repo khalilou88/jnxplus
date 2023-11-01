@@ -1,4 +1,4 @@
-export interface NxMavenGeneratorSchema {
+export interface NxMavenInitGeneratorSchema {
   javaVersion: string | number;
   groupId: string;
   parentProjectName: string;
