@@ -16,8 +16,7 @@ async function main() {
     ).name;
   }
 
-  const argsString = process.argv[3];
-  const args = yargs.parse(argsString);
+  const args = yargs.argv;
   console.log(args);
 
   let javaVersion = '';
