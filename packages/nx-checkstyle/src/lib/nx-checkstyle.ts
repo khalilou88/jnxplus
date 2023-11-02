@@ -8,7 +8,15 @@ import * as path from 'path';
 import * as stream from 'stream';
 import { promisify } from 'util';
 
-function getCheckstyleVersion(dir: string) {
+function readCheckstyleVersion(gradlePropertiesContent: string) {
+  const regexp = /checkstyleVersion=(.*)/g;
+  const matches = (gradlePropertiesContent.match(regexp) || []).map((e) =>
+    e.replace(regexp, '$1'),
+  );
+  return matches[0];
+}
+
+function getCheckstyleVersionMaven(dir: string) {
   const parentPomXmlPath = path.join(dir, 'pom.xml');
 
   let checkstyleVersionXml = undefined;
@@ -22,6 +30,25 @@ function getCheckstyleVersion(dir: string) {
   return checkstyleVersionXml === undefined
     ? checkstyleVersion
     : checkstyleVersionXml.val;
+}
+
+function getCheckstyleVersionGradle(dir: string) {
+  const gradlePropertiesPath = path.join(dir, 'gradle.properties');
+  let version = undefined;
+  if (fs.existsSync(gradlePropertiesPath)) {
+    const gradlePropertiesContent = fs.readFileSync(
+      gradlePropertiesPath,
+      'utf-8',
+    );
+    version = readCheckstyleVersion(gradlePropertiesContent);
+  }
+  return version === undefined ? checkstyleVersion : version;
+}
+
+//TODO
+function getCheckstyleVersion(dir: string) {
+  return getCheckstyleVersionGradle(dir);
+  return getCheckstyleVersionMaven(dir);
 }
 
 export async function getCheckstylePath(dir = workspaceRoot) {
