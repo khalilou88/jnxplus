@@ -20,3 +20,7 @@ export const jnxplusGradlePluginVersion = '0.2.0';
 export const prettierVersion = '^3.0.3';
 export const prettierPluginXmlVersion = '^3.2.1';
 export const prettierPluginJavaVersion = '^2.3.1';
+
+//Linters
+export const checkstyleVersion = '10.11.0';
+export const ktlintVersion = '0.49.1';

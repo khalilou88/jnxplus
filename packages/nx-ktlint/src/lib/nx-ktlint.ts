@@ -1,3 +1,4 @@
+import { ktlintVersion } from '@jnxplus/common';
 import { workspaceRoot } from '@nx/devkit';
 import axios from 'axios';
 import { execSync } from 'child_process';
@@ -6,6 +7,27 @@ import { readNxJson } from 'nx/src/config/configuration';
 import * as path from 'path';
 import * as stream from 'stream';
 import { promisify } from 'util';
+
+function readKtlintVersion(gradlePropertiesContent: string) {
+  const regexp = /ktlintVersion=(.*)/g;
+  const matches = (gradlePropertiesContent.match(regexp) || []).map((e) =>
+    e.replace(regexp, '$1'),
+  );
+  return matches[0];
+}
+
+function getKtlintVersion(dir: string) {
+  const gradlePropertiesPath = path.join(dir, 'gradle.properties');
+  let version = undefined;
+  if (fs.existsSync(gradlePropertiesPath)) {
+    const gradlePropertiesContent = fs.readFileSync(
+      gradlePropertiesPath,
+      'utf-8',
+    );
+    version = readKtlintVersion(gradlePropertiesContent);
+  }
+  return version === undefined ? ktlintVersion : version;
+}
 
 export async function getKtlintPath(dir = workspaceRoot) {
   const version = getKtlintVersion(dir);
