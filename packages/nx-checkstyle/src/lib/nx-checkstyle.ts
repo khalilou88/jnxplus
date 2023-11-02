@@ -1,4 +1,4 @@
-import { checkstyleVersion } from '@jnxplus/common';
+import { checkstyleVersion, getBuildTool } from '@jnxplus/common';
 import { readXml } from '@jnxplus/xml';
 import { workspaceRoot } from '@nx/devkit';
 import axios from 'axios';
@@ -45,10 +45,12 @@ function getCheckstyleVersionGradle(dir: string) {
   return version === undefined ? checkstyleVersion : version;
 }
 
-//TODO
 function getCheckstyleVersion(dir: string) {
-  return getCheckstyleVersionGradle(dir);
-  return getCheckstyleVersionMaven(dir);
+  if (getBuildTool() === '@jnxplus/nx-gradle') {
+    return getCheckstyleVersionGradle(dir);
+  } else {
+    return getCheckstyleVersionMaven(dir);
+  }
 }
 
 export async function getCheckstylePath(dir = workspaceRoot) {

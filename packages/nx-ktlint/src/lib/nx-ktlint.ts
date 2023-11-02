@@ -1,4 +1,4 @@
-import { ktlintVersion } from '@jnxplus/common';
+import { getBuildTool, ktlintVersion } from '@jnxplus/common';
 import { readXml } from '@jnxplus/xml';
 import { workspaceRoot } from '@nx/devkit';
 import axios from 'axios';
@@ -44,10 +44,12 @@ function getKtlintVersionGradle(dir: string) {
   return version === undefined ? ktlintVersion : version;
 }
 
-//TODO
 function getKtlintVersion(dir: string) {
-  return getKtlintVersionGradle(dir);
-  return getKtlintVersionMaven(dir);
+  if (getBuildTool() === '@jnxplus/nx-gradle') {
+    return getKtlintVersionGradle(dir);
+  } else {
+    return getKtlintVersionMaven(dir);
+  }
 }
 
 export async function getKtlintPath(dir = workspaceRoot) {
