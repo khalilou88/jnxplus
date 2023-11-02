@@ -1,6 +1,7 @@
+import { isE2eTest } from '@jnxplus/common';
 import { logger, workspaceRoot } from '@nx/devkit';
 import * as path from 'path';
-import { getCheckstylePath, isE2eTest } from '../lib/nx-checkstyle';
+import { getCheckstylePath } from '../lib/nx-checkstyle';
 
 (async () => {
   if (process.env['NX_VERBOSE_LOGGING'] === 'true') {

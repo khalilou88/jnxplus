@@ -1,10 +1,7 @@
-import {
-  LintExecutorSchema,
-  getProjectSourceRoot,
-  runCommand,
-} from '@jnxplus/common';
+import { getProjectSourceRoot, runCommand } from '@jnxplus/common';
 import { ExecutorContext, logger, workspaceRoot } from '@nx/devkit';
 import { getKtlintPath } from '../../lib/nx-ktlint';
+import { LintExecutorSchema } from './schema';
 
 export default async function runExecutor(
   options: LintExecutorSchema,

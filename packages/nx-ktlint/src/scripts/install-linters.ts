@@ -1,6 +1,7 @@
+import { isE2eTest } from '@jnxplus/common';
 import { logger, workspaceRoot } from '@nx/devkit';
 import * as path from 'path';
-import { getKtlintPath, isE2eTest } from '../lib/nx-ktlint';
+import { getKtlintPath } from '../lib/nx-ktlint';
 
 (async () => {
   if (process.env['NX_VERBOSE_LOGGING'] === 'true') {

@@ -10,8 +10,8 @@ function addFiles(tree: Tree, options: NxGradleGeneratorSchema) {
   };
   generateFiles(
     tree,
-    path.join(__dirname, 'files', 'linters'),
-    'tools/linters',
+    path.join(__dirname, 'files', 'checkstyle'),
+    'tools/checkstyle',
     templateOptions,
   );
 }

@@ -1,12 +1,9 @@
-import { checkstyleVersion, getBuildTool } from '@jnxplus/common';
+import { checkstyleVersion, downloadFile, getBuildTool } from '@jnxplus/common';
 import { readXml } from '@jnxplus/xml';
 import { workspaceRoot } from '@nx/devkit';
-import axios from 'axios';
 import * as fs from 'fs';
 import { readNxJson } from 'nx/src/config/configuration';
 import * as path from 'path';
-import * as stream from 'stream';
-import { promisify } from 'util';
 
 function readCheckstyleVersion(gradlePropertiesContent: string) {
   const regexp = /checkstyleVersion=(.*)/g;
@@ -96,34 +93,4 @@ export async function getCheckstylePath(dir = workspaceRoot) {
     await downloadFile(downloadUrl, checkstyleJarAbsolutePath);
   }
   return checkstyleJarAbsolutePath;
-}
-
-const finished = promisify(stream.finished);
-export async function downloadFile(
-  fileUrl: string,
-  outputLocationPath: string,
-  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-): Promise<any> {
-  const writer = fs.createWriteStream(outputLocationPath);
-  return axios({
-    method: 'get',
-    url: fileUrl,
-    responseType: 'stream',
-  }).then((response) => {
-    response.data.pipe(writer);
-    return finished(writer); //this is a Promise
-  });
-}
-
-export function isE2eTest(tmpWorkspaceRoot: string) {
-  return (
-    fs.existsSync(tmpWorkspaceRoot) && isSubdir(tmpWorkspaceRoot, process.cwd())
-  );
-}
-
-function isSubdir(parentPath: string, childPath: string) {
-  const relative = path.relative(parentPath, childPath);
-  const isSubdir =
-    relative && !relative.startsWith('..') && !path.isAbsolute(relative);
-  return isSubdir;
 }
