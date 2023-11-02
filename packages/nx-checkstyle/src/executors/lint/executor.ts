@@ -3,7 +3,7 @@ import {
   getProjectSourceRoot,
   runCommand,
 } from '@jnxplus/common';
-import { ExecutorContext, logger } from '@nx/devkit';
+import { ExecutorContext, logger, workspaceRoot } from '@nx/devkit';
 import { getCheckstylePath } from '../../lib/nx-checkstyle';
 
 export default async function runExecutor(
@@ -14,5 +14,5 @@ export default async function runExecutor(
   const checkstylePath = await getCheckstylePath();
   const projectSourceRoot = getProjectSourceRoot(context);
   const command = `java -jar ${checkstylePath} -c ./tools/linters/checkstyle.xml ${projectSourceRoot}`;
-  return runCommand(command);
+  return runCommand(command, workspaceRoot);
 }

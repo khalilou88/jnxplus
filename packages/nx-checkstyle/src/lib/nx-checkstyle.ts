@@ -1,3 +1,5 @@
+import { checkstyleVersion } from '@jnxplus/common';
+import { readXml } from '@jnxplus/xml';
 import { workspaceRoot } from '@nx/devkit';
 import axios from 'axios';
 import * as fs from 'fs';
@@ -5,6 +7,22 @@ import { readNxJson } from 'nx/src/config/configuration';
 import * as path from 'path';
 import * as stream from 'stream';
 import { promisify } from 'util';
+
+function getCheckstyleVersion(dir: string) {
+  const parentPomXmlPath = path.join(dir, 'pom.xml');
+
+  let checkstyleVersionXml = undefined;
+  if (fs.existsSync(parentPomXmlPath)) {
+    const parentPomXmlContent = readXml(parentPomXmlPath);
+    checkstyleVersionXml = parentPomXmlContent
+      .childNamed('properties')
+      ?.childNamed('checkstyle.version');
+  }
+
+  return checkstyleVersionXml === undefined
+    ? checkstyleVersion
+    : checkstyleVersionXml.val;
+}
 
 export async function getCheckstylePath(dir = workspaceRoot) {
   const version = getCheckstyleVersion(dir);
