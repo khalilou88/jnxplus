@@ -1,4 +1,5 @@
 import { ktlintVersion } from '@jnxplus/common';
+import { readXml } from '@jnxplus/xml';
 import { workspaceRoot } from '@nx/devkit';
 import axios from 'axios';
 import { execSync } from 'child_process';
@@ -16,7 +17,21 @@ function readKtlintVersion(gradlePropertiesContent: string) {
   return matches[0];
 }
 
-function getKtlintVersion(dir: string) {
+function getKtlintVersionMaven(dir: string) {
+  const parentPomXmlPath = path.join(dir, 'pom.xml');
+
+  let ktlintVersionXml = undefined;
+  if (fs.existsSync(parentPomXmlPath)) {
+    const parentPomXmlContent = readXml(parentPomXmlPath);
+    ktlintVersionXml = parentPomXmlContent
+      .childNamed('properties')
+      ?.childNamed('ktlint.version');
+  }
+
+  return ktlintVersionXml === undefined ? ktlintVersion : ktlintVersionXml.val;
+}
+
+function getKtlintVersionGradle(dir: string) {
   const gradlePropertiesPath = path.join(dir, 'gradle.properties');
   let version = undefined;
   if (fs.existsSync(gradlePropertiesPath)) {
@@ -27,6 +42,12 @@ function getKtlintVersion(dir: string) {
     version = readKtlintVersion(gradlePropertiesContent);
   }
   return version === undefined ? ktlintVersion : version;
+}
+
+//TODO
+function getKtlintVersion(dir: string) {
+  return getKtlintVersionGradle(dir);
+  return getKtlintVersionMaven(dir);
 }
 
 export async function getKtlintPath(dir = workspaceRoot) {
