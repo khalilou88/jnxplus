@@ -70,8 +70,8 @@ describe('nx-boot-gradle kt e2e', () => {
 
   it('should use dsl option when initiating the workspace', async () => {
     // Making sure the package.json file contains the @jnxplus/nx-gradle dependency
-    //const packageJson = readJson('package.json');
-    //expect(packageJson.devDependencies['@jnxplus/nx-gradle']).toBeTruthy();
+    const packageJson = readJson('package.json');
+    expect(packageJson.devDependencies['@jnxplus/nx-gradle']).toBeTruthy();
 
     // Making sure the nx.json file contains the @jnxplus/nx-gradle inside the plugins section
     //const nxJson = readJson('nx.json');
