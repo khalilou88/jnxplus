@@ -48,6 +48,12 @@ describe('nx-maven maven-root-directory e2e', () => {
       env: process.env,
     });
 
+    execSync(`npm install -D @jnxplus/nx-ktlint@e2e`, {
+      cwd: workspaceDirectory,
+      stdio: 'inherit',
+      env: process.env,
+    });
+
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --mavenRootDirectory nx-maven`,
     );
