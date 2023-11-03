@@ -368,24 +368,24 @@ Type: `string`
 
 ArtifactId of the parent project or leave it blank for the root project
 
-## @jnxplus/nx-maven:migrate
+## @jnxplus/nx-maven:wrapper
 
-Update Maven wrapper.
+Generate Maven wrapper.
 
 ### Usage
 
 ```bash
-nx generate @jnxplus/nx-maven:migrate
+nx generate @jnxplus/nx-maven:wrapper
 ```
 
 Or
 
 ```bash
-nx g @jnxplus/nx-maven:migrate
+nx g @jnxplus/nx-maven:wrapper
 ```
 
 Show what will be generated without writing to disk:
 
 ```bash
-nx g @jnxplus/nx-maven:migrate --dry-run
+nx g @jnxplus/nx-maven:wrapper --dry-run
 ```

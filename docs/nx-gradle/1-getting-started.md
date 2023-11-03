@@ -67,7 +67,6 @@ UPDATE .prettierignore
 
 As you see, the command added the following files :
 
-- `checkstyle.xml` for linting.
 - Gradle wrapper and Gradle executables for windows and Linux :
   Using Gradle Wrapper we can distribute/share a project to everybody to use the same version and Gradle's functionality(compile, build, install...) even if it has not been installed
 - `gradle.properties` :

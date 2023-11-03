@@ -52,6 +52,12 @@ Type: `string`
 
 The root project name.
 
+#### gradleRootDirectory
+
+Type: `string`
+
+Where Gradle Wrapper (if not skipped), config files and projects are placed.
+
 ## @jnxplus/nx-gradle:application
 
 Create a Spring Boot application.
@@ -282,24 +288,24 @@ Type: `boolean`
 
 Skip starter code
 
-## @jnxplus/nx-gradle:migrate
+## @jnxplus/nx-gradle:wrapper
 
-Update Gradle wrapper.
+Generate a Gradle wrapper.
 
 ### Usage
 
 ```bash
-nx generate @jnxplus/nx-gradle:migrate
+nx generate @jnxplus/nx-gradle:wrapper
 ```
 
 Or
 
 ```bash
-nx g @jnxplus/nx-gradle:migrate
+nx g @jnxplus/nx-gradle:wrapper
 ```
 
 Show what will be generated without writing to disk:
 
 ```bash
-nx g @jnxplus/nx-gradle:migrate --dry-run
+nx g @jnxplus/nx-gradle:wrapper --dry-run
 ```

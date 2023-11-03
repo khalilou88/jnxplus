@@ -69,6 +69,5 @@ As you see, the command added the following files :
 
 - Maven wrapper and Maven executables for windows and Linux.
 - Pom.xml for maven parent project. Here we will add our apps and libs later so Maven could perform its tasks.
-- `checkstyle.xml` and `pmd.xml` for java linting.
 
 We also updated `nx.json` file to add the plugin for dep-graph feature and `.gitignore` and `.prettierignore` so we can ignore Maven build and cache folders.
