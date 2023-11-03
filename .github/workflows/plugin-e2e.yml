@@ -6,8 +6,10 @@ on:
         type: choice
         description: t option
         options:
+          - nx-gradle spring-boot e2e
           - create-nx-gradle-workspace
           - create-nx-maven-workspace
+          - nx-maven maven-root-directory e2e
       os:
         type: choice
         description: Os

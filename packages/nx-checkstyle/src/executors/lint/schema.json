@@ -5,10 +5,6 @@
   "title": "Lint executor",
   "description": "",
   "type": "object",
-  "properties": {
-    "linter": {
-      "type": "string"
-    }
-  },
-  "required": ["linter"]
+  "properties": {},
+  "required": []
 }

@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "executors": {
+    "lint": {
+      "implementation": "./src/executors/lint/executor",
+      "schema": "./src/executors/lint/schema.json",
+      "description": "lint executor"
+    },
+    "ktformat": {
+      "implementation": "./src/executors/ktformat/executor",
+      "schema": "./src/executors/ktformat/schema.json",
+      "description": "kotlin format executor"
+    }
+  }
+}

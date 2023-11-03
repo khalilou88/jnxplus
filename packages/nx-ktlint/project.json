@@ -11,7 +11,24 @@
         "outputPath": "dist/packages/nx-ktlint",
         "main": "packages/nx-ktlint/src/index.ts",
         "tsConfig": "packages/nx-ktlint/tsconfig.lib.json",
-        "assets": ["packages/nx-ktlint/*.md"]
+        "assets": [
+          "packages/nx-ktlint/*.md",
+          {
+            "input": "./packages/nx-ktlint/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-ktlint/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-ktlint",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
       }
     },
     "publish": {
@@ -40,6 +57,30 @@
           "ci": true,
           "codeCoverage": true
         }
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular",
+        "trackDeps": true,
+        "push": true,
+        "noVerify": true,
+        "postTargets": ["nx-ktlint:deploy"],
+        "commitMessageFormat": "release: cut release ${version} of {projectName}"
+      }
+    },
+    "github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "${tag}",
+        "notes": "${notes}"
+      }
+    },
+    "deploy": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public"
       }
     }
   },

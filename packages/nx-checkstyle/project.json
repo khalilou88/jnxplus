@@ -11,7 +11,29 @@
         "outputPath": "dist/packages/nx-checkstyle",
         "main": "packages/nx-checkstyle/src/index.ts",
         "tsConfig": "packages/nx-checkstyle/tsconfig.lib.json",
-        "assets": ["packages/nx-checkstyle/*.md"]
+        "assets": [
+          "packages/nx-checkstyle/*.md",
+          {
+            "input": "./packages/nx-checkstyle/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-checkstyle/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-checkstyle",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./packages/nx-checkstyle",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
       }
     },
     "publish": {
@@ -40,6 +62,30 @@
           "ci": true,
           "codeCoverage": true
         }
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular",
+        "trackDeps": true,
+        "push": true,
+        "noVerify": true,
+        "postTargets": ["nx-checkstyle:deploy"],
+        "commitMessageFormat": "release: cut release ${version} of {projectName}"
+      }
+    },
+    "github": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "${tag}",
+        "notes": "${notes}"
+      }
+    },
+    "deploy": {
+      "executor": "ngx-deploy-npm:deploy",
+      "options": {
+        "access": "public"
       }
     }
   },
