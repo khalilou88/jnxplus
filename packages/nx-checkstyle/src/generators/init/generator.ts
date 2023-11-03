@@ -1,8 +1,8 @@
 import { Tree, formatFiles, generateFiles, offsetFromRoot } from '@nx/devkit';
 import * as path from 'path';
-import { NxGradleGeneratorSchema } from './schema';
+import { NxInitGeneratorSchema } from './schema';
 
-function addFiles(tree: Tree, options: NxGradleGeneratorSchema) {
+function addFiles(tree: Tree, options: NxInitGeneratorSchema) {
   const templateOptions = {
     ...options,
     offsetFromRoot: offsetFromRoot(tree.root),
@@ -16,7 +16,7 @@ function addFiles(tree: Tree, options: NxGradleGeneratorSchema) {
   );
 }
 
-export default async function (tree: Tree, options: NxGradleGeneratorSchema) {
+export default async function (tree: Tree, options: NxInitGeneratorSchema) {
   addFiles(tree, options);
   await formatFiles(tree);
 }

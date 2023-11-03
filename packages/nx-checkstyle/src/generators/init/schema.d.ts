@@ -1,1 +1,1 @@
-export interface NxGradleGeneratorSchema {} // eslint-disable-line
+export interface NxInitGeneratorSchema {} // eslint-disable-line
