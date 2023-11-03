@@ -11,6 +11,29 @@
   "type": "commonjs",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
+  "generators": "./generators.json",
+  "executors": "./executors.json",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "author": "Khalil LAGRIDA",
+  "homepage": "https://github.com/khalilou88/jnxplus/blob/main/packages/nx-checkstyle/README.md",
+  "bugs": {
+    "url": "https://github.com/khalilou88/jnxplus/issues"
+  },
+  "keywords": [
+    "nx",
+    "nx-workspace",
+    "nx-plugin",
+    "checkstyle"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khalilou88/jnxplus.git",
+    "directory": "packages/nx-checkstyle"
+  },
   "scripts": {
     "postinstall": "node src/scripts/install-checkstyle.js"
   }
