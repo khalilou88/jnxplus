@@ -6,7 +6,7 @@ Check project readme.
 
 ## Update Gradle wrapper
 
-Use Migrate generator to update Gradle wrapper.
+Use Gradle command: `./gradlew wrapper --gradle-version=8.4 --distribution-type=bin`
 
 ## Update Java and Spring boot versions
 

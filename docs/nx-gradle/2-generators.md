@@ -1,25 +1,25 @@
 # Generators
 
-## @jnxplus/nx-boot-maven:init
+## @jnxplus/nx-gradle:init
 
-Add Spring Boot and Maven support. This only needs to be performed once per workspace.
+Add Spring Boot and Gradle support. This only needs to be performed once per workspace.
 
 ### Usage
 
 ```bash
-nx generate @jnxplus/nx-boot-maven:init
+nx generate @jnxplus/nx-gradle:init
 ```
 
 Or
 
 ```bash
-nx g @jnxplus/nx-boot-maven:init
+nx g @jnxplus/nx-gradle:init
 ```
 
 Show what will be generated without writing to disk:
 
 ```bash
-nx g @jnxplus/nx-boot-maven:init --dry-run
+nx g @jnxplus/nx-gradle:init --dry-run
 ```
 
 ### Options
@@ -34,44 +34,44 @@ Possible values: `17`, `20`
 
 The java version for Spring Boot apps and libs. The same java version is used inside the Nx workspace.
 
-#### groupId (_**required**_)
+#### dsl (_**required**_)
 
-Default: `com.example`
-
-Type: `string`
-
-The parent project groupId.
-
-#### parentProjectName (_**required**_)
-
-Default: `boot-multi-module`
+Default: `groovy`
 
 Type: `string`
 
-The parent project name.
+Possible values: `groovy`, `kotlin`
 
-#### parentProjectVersion (_**required**_)
+The Build DSL.
 
-Default: `0.0.1-SNAPSHOT`
+#### rootProjectName (_**required**_)
+
+Default: `spring-boot-root-project`
 
 Type: `string`
 
-The parent project version.
+The root project name.
 
-## @jnxplus/nx-boot-maven:application
+#### gradleRootDirectory
+
+Type: `string`
+
+Where Gradle Wrapper (if not skipped), config files and projects are placed.
+
+## @jnxplus/nx-gradle:application
 
 Create a Spring Boot application.
 
 ### Usage
 
 ```bash
-nx generate @jnxplus/nx-boot-maven:application my-app-name
+nx generate @jnxplus/nx-gradle:application my-app-name
 ```
 
 Or
 
 ```bash
-nx g @jnxplus/nx-boot-maven:app my-app-name
+nx g @jnxplus/nx-gradle:app my-app-name
 ```
 
 Show what will be generated without writing to disk:
@@ -180,28 +180,20 @@ Type: `number`
 
 Port to start the server at. Default is 8080.
 
-#### parentProject
-
-Default: `root project`
-
-Type: `string`
-
-ArtifactId of the parent project or leave it blank for the root project
-
-## @jnxplus/nx-boot-maven:library
+## @jnxplus/nx-gradle:library
 
 Create a Spring Boot library.
 
 ### Usage
 
 ```bash
-nx generate @jnxplus/nx-boot-maven:library my-lib-name
+nx generate @jnxplus/nx-gradle:library my-lib-name
 ```
 
 Or
 
 ```bash
-nx g @jnxplus/nx-boot-maven:lib my-lib-name
+nx g @jnxplus/nx-gradle:lib my-lib-name
 ```
 
 Show what will be generated without writing to disk:
@@ -215,7 +207,7 @@ nx g ... --dry-run
 Generate libs/myapp/mylib:
 
 ```bash
-nx g @jnxplus/nx-boot-maven:lib mylib --directory=myapp
+nx g @jnxplus/nx-gradle:lib mylib --directory=myapp
 ```
 
 ### Options
@@ -270,7 +262,7 @@ Add tags to the library (used for linting).
 
 Type: `string`
 
-Projects that needs to access this library (comma delimited). This add the library to their dependencies.
+Projects that needs to access this library (comma delimited). This adds the library to their dependencies.
 
 #### simpleName
 
@@ -296,96 +288,24 @@ Type: `boolean`
 
 Skip starter code
 
-#### parentProject
+## @jnxplus/nx-gradle:wrapper
 
-Default: `root project`
-
-Type: `string`
-
-ArtifactId of the parent project or leave it blank for the root project
-
-## @jnxplus/nx-boot-maven:parent-project
-
-Create a parent project.
+Generate a Gradle wrapper.
 
 ### Usage
 
 ```bash
-nx generate @jnxplus/nx-boot-maven:parent-project my-parent-project
-```
-
-### Options
-
-#### name (_**required**_)
-
-Type: `string`
-
-The name of the library.
-
-#### groupId (_**required**_)
-
-Type: `string`
-
-The groupId of the library.
-
-#### projectVersion (_**required**_)
-
-Alias(es): v
-
-Type: `string`
-
-The version of the library.
-
-#### directory
-
-Alias(es): dir
-
-Type: `string`
-
-A directory where the library is placed.
-
-#### tags
-
-Alias(es): t
-
-Type: `string`
-
-Add tags to the library (used for linting).
-
-#### simpleName
-
-Default: `false`
-
-Type: `boolean`
-
-Don't include the directory in the lib name
-
-#### parentProject
-
-Default: `root project`
-
-Type: `string`
-
-ArtifactId of the parent project or leave it blank for the root project
-
-## @jnxplus/nx-boot-maven:migrate
-
-Update Maven wrapper.
-
-### Usage
-
-```bash
-nx generate @jnxplus/nx-boot-maven:migrate
+nx generate @jnxplus/nx-gradle:wrapper
 ```
 
 Or
 
 ```bash
-nx g @jnxplus/nx-boot-maven:migrate
+nx g @jnxplus/nx-gradle:wrapper
 ```
 
 Show what will be generated without writing to disk:
 
 ```bash
-nx g @jnxplus/nx-boot-maven:migrate --dry-run
+nx g @jnxplus/nx-gradle:wrapper --dry-run
 ```

@@ -6,7 +6,7 @@ Check project readme.
 
 ## Update Maven wrapper
 
-Use Migrate generator to update Maven wrapper.
+`./mvnw wrapper:wrapper -Dmaven=3.9.2`
 
 ## Update Spring boot
 
