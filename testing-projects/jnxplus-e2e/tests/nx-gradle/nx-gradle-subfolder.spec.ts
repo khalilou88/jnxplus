@@ -19,8 +19,6 @@ describe('nx-gradle e2e', () => {
   let workspaceDirectory: string;
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
-  const isWin = process.platform === 'win32';
-  const isMacOs = process.platform === 'darwin';
   const rootProjectName = uniq('boot-root-project-');
 
   beforeAll(async () => {
@@ -61,10 +59,10 @@ describe('nx-gradle e2e', () => {
   it('should init the workspace with @jnxplus/nx-gradle capabilities', async () => {
     // Making sure the package.json file contains the @jnxplus/nx-gradle dependency
     const packageJson = readJson('package.json');
-    //expect(packageJson.devDependencies['@jnxplus/nx-gradle']).toBeTruthy();
+    expect(packageJson.devDependencies['@jnxplus/nx-gradle']).toBeTruthy();
 
     // Making sure the nx.json file contains the @jnxplus/nx-gradle inside the plugins section
-    const nxJson = readJson('nx.json');
+    //const nxJson = readJson('nx.json');
     //expect(nxJson.plugins.includes('@jnxplus/nx-gradle')).toBeTruthy();
 
     expect(() =>

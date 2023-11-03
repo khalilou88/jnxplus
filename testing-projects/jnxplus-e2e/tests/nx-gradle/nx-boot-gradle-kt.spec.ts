@@ -74,7 +74,7 @@ describe('nx-boot-gradle kt e2e', () => {
     expect(packageJson.devDependencies['@jnxplus/nx-gradle']).toBeTruthy();
 
     // Making sure the nx.json file contains the @jnxplus/nx-gradle inside the plugins section
-    //const nxJson = readJson('nx.json');
+    ////const nxJson = readJson('nx.json');
     //expect(nxJson.plugins.includes('@jnxplus/nx-gradle')).toBeTruthy();
 
     expect(() =>

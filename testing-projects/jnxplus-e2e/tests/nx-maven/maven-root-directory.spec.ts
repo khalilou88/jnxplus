@@ -29,8 +29,6 @@ describe('nx-maven maven-root-directory e2e', () => {
   let workspaceDirectory: string;
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
-  const isWin = process.platform === 'win32';
-  const isMacOs = process.platform === 'darwin';
   const parentProjectName = uniq('boot-parent-project-');
 
   beforeAll(async () => {
@@ -76,7 +74,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     expect(packageJson.devDependencies['@jnxplus/nx-maven']).toBeTruthy();
 
     // Making sure the nx.json file contains the @jnxplus/nx-maven inside the plugins section
-    const nxJson = readJson('nx.json');
+    //const nxJson = readJson('nx.json');
     //expect(nxJson.plugins.includes('@jnxplus/nx-maven')).toBeTruthy();
 
     expect(() =>

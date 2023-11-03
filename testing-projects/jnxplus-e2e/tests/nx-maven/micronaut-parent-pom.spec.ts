@@ -73,7 +73,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     expect(packageJson.devDependencies['@jnxplus/nx-maven']).toBeTruthy();
 
     // Making sure the nx.json file contains the @jnxplus/nx-maven inside the plugins section
-    const nxJson = readJson('nx.json');
+    //const nxJson = readJson('nx.json');
     //expect(nxJson.plugins.includes('@jnxplus/nx-maven')).toBeTruthy();
 
     expect(() =>
