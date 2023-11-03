@@ -32,6 +32,8 @@
     "nx-gradle",
     "nx-maven",
     "create-nx-gradle-workspace",
-    "create-nx-maven-workspace"
+    "create-nx-maven-workspace",
+    "nx-checkstyle",
+    "nx-ktlint"
   ]
 }
