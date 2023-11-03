@@ -11,7 +11,29 @@
         "outputPath": "dist/packages/nx-checkstyle",
         "main": "packages/nx-checkstyle/src/index.ts",
         "tsConfig": "packages/nx-checkstyle/tsconfig.lib.json",
-        "assets": ["packages/nx-checkstyle/*.md"]
+        "assets": [
+          "packages/nx-checkstyle/*.md",
+          {
+            "input": "./packages/nx-checkstyle/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-checkstyle/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-checkstyle",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./packages/nx-checkstyle",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
       }
     },
     "publish": {
