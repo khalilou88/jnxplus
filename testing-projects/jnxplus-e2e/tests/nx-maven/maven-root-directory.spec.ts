@@ -42,6 +42,12 @@ describe('nx-maven maven-root-directory e2e', () => {
       env: process.env,
     });
 
+    execSync(`npm install -D @jnxplus/nx-checkstyle@e2e`, {
+      cwd: workspaceDirectory,
+      stdio: 'inherit',
+      env: process.env,
+    });
+
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --mavenRootDirectory nx-maven`,
     );
@@ -134,8 +140,16 @@ describe('nx-maven maven-root-directory e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    // expect(lintResult.stdout).toContain('Executor ran for Lint');
+    const projectJson = readJson(`${appName}/project.json`);
+    projectJson.targets = {
+      ...projectJson.targets,
+      lint: {
+        executor: '@jnxplus/nx-checkstyle:lint',
+      },
+    };
+    updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
   }, 120000);
 
   it('should test an app with none option', async () => {

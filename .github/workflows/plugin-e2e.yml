@@ -8,6 +8,7 @@ on:
         options:
           - create-nx-gradle-workspace
           - create-nx-maven-workspace
+          - nx-maven maven-root-directory e2e
       os:
         type: choice
         description: Os
