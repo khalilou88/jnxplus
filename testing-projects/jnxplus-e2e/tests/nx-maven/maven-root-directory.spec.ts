@@ -52,6 +52,8 @@ describe('nx-maven maven-root-directory e2e', () => {
       `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --mavenRootDirectory nx-maven`,
     );
 
+    await runNxCommandAsync('generate @jnxplus/nx-checkstyle:init');
+
     addSpringBootVersion();
 
     if (isCI) {
@@ -140,7 +142,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    const projectJson = readJson(`${appName}/project.json`);
+    const projectJson = readJson(`nx-maven/${appName}/project.json`);
     projectJson.targets = {
       ...projectJson.targets,
       lint: {
