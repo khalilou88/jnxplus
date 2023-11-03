@@ -149,7 +149,7 @@ describe('nx-maven maven-root-directory e2e', () => {
         executor: '@jnxplus/nx-checkstyle:lint',
       },
     };
-    updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
+    updateFile(`nx-maven/${appName}/project.json`, JSON.stringify(projectJson));
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
   }, 120000);
@@ -203,11 +203,23 @@ describe('nx-maven maven-root-directory e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    // const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
-    // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
+    const projectJson = readJson(`nx-maven/${appName}/project.json`);
+    projectJson.targets = {
+      ...projectJson.targets,
+      ktformat: {
+        executor: '@jnxplus/nx-ktlint:ktformat',
+      },
+      lint: {
+        executor: '@jnxplus/nx-ktlint:lint',
+      },
+    };
+    updateFile(`nx-maven/${appName}/project.json`, JSON.stringify(projectJson));
 
-    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    // expect(lintResult.stdout).toContain('Executor ran for Lint');
+    const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
+    expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
+
+    const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     const serveResult = await runNxCommandAsync(`serve ${appName}`);
     expect(serveResult.stdout).toContain('Executor ran for Serve');
