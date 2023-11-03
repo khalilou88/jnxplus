@@ -65,19 +65,10 @@ export async function getCheckstylePath(dir = workspaceRoot) {
       'installation',
       'node_modules',
       '@jnxplus',
-      'tools',
-      'linters',
       'checkstyle',
     );
   } else {
-    outputDirectory = path.join(
-      dir,
-      'node_modules',
-      '@jnxplus',
-      'tools',
-      'linters',
-      'checkstyle',
-    );
+    outputDirectory = path.join(dir, 'node_modules', '@jnxplus', 'checkstyle');
   }
 
   if (!fs.existsSync(outputDirectory)) {

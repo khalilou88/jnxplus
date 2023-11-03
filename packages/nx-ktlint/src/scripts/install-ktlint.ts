@@ -5,7 +5,7 @@ import { getKtlintPath } from '../lib/nx-ktlint';
 
 (async () => {
   if (process.env['NX_VERBOSE_LOGGING'] === 'true') {
-    logger.debug('Install Linters');
+    logger.debug('Install Ktlint');
   }
 
   let workspaceRootToUse = workspaceRoot;

@@ -8,6 +8,6 @@
   "main": "./src/index.js",
   "typings": "./src/index.d.ts",
   "scripts": {
-    "postinstall": "node src/scripts/install-linters.js"
+    "postinstall": "node src/scripts/install-checkstyle.js"
   }
 }

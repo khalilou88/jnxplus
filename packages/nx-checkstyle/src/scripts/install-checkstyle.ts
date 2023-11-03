@@ -5,7 +5,7 @@ import { getCheckstylePath } from '../lib/nx-checkstyle';
 
 (async () => {
   if (process.env['NX_VERBOSE_LOGGING'] === 'true') {
-    logger.debug('Install Linters');
+    logger.debug('Install Checkstyle');
   }
 
   let workspaceRootToUse = workspaceRoot;

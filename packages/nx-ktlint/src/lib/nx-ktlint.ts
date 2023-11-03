@@ -63,19 +63,10 @@ export async function getKtlintPath(dir = workspaceRoot) {
       'installation',
       'node_modules',
       '@jnxplus',
-      'tools',
-      'linters',
       'ktlint',
     );
   } else {
-    outputDirectory = path.join(
-      dir,
-      'node_modules',
-      '@jnxplus',
-      'tools',
-      'linters',
-      'ktlint',
-    );
+    outputDirectory = path.join(dir, 'node_modules', '@jnxplus', 'ktlint');
   }
 
   if (!fs.existsSync(outputDirectory)) {
