@@ -1,0 +1,31 @@
+name: Nx release
+
+on:
+  - workflow_dispatch
+
+jobs:
+  release:
+    name: Nx release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+
+      - name: Setup Git
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - run: npm i --legacy-peer-deps
+
+      - name: Version
+        run: npx nx release version 0.20.0
+
