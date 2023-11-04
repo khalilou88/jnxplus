@@ -41,7 +41,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.nx-workspace-outdated.outputs.outdated == 'true'
-        run: npm i
+        run: npm i --legacy-peer-deps
 
       - name: Check if has migrations
         if: steps.nx-workspace-outdated.outputs.outdated == 'true'
