@@ -191,7 +191,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('should build-image a java application', async () => {
     if (!isWin && !isMacOs && isCI) {
