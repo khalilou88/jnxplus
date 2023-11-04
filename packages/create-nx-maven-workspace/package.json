@@ -4,7 +4,8 @@
   "dependencies": {
     "create-nx-workspace": ">=17.0.0",
     "enquirer": "^2.3.6",
-    "tslib": "^2.6.2"
+    "tslib": "^2.6.2",
+    "yargs": "^17.7.2"
   },
   "type": "commonjs",
   "main": "./src/index.js",

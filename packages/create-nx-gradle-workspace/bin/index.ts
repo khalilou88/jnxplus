@@ -25,6 +25,7 @@ async function main() {
       await prompt<{ javaVersion: '17' | '21' }>({
         name: 'javaVersion',
         message: 'Which version of Java would you like to use?',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         initial: '17' as any,
         type: 'autocomplete',
         choices: [
@@ -41,6 +42,7 @@ async function main() {
       await prompt<{ dsl: 'groovy' | 'kotlin' }>({
         name: 'dsl',
         message: 'Which build DSL would you like to use?',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         initial: 'groovy' as any,
         type: 'autocomplete',
         choices: [
@@ -76,6 +78,7 @@ async function main() {
       }>({
         name: 'preset',
         message: "Which preset to use? or 'none' to skip.",
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         initial: 'spring-boot' as any,
         type: 'autocomplete',
         choices: [

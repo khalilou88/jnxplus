@@ -25,6 +25,7 @@ async function main() {
       await prompt<{ javaVersion: '17' | '21' }>({
         name: 'javaVersion',
         message: 'Which version of Java would you like to use?',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         initial: '17' as any,
         type: 'autocomplete',
         choices: [
@@ -80,6 +81,7 @@ async function main() {
       }>({
         name: 'dependencyManagement',
         message: "Which preset to use? or 'none' to skip.",
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         initial: 'bom' as any,
         type: 'autocomplete',
         choices: [

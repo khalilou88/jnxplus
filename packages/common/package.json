@@ -20,6 +20,7 @@
   ],
   "dependencies": {
     "@nx/devkit": ">=17.0.0",
-    "tslib": "^2.6.2"
+    "tslib": "^2.6.2",
+    "axios": "^1.6.0"
   }
 }
