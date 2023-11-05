@@ -45,13 +45,13 @@ jobs:
         run: npm i --legacy-peer-deps
 
       - name: Lint
-        run: npm run nx run-many -- --target=lint --parallel=3
+        run: npm run nx run-many -- --target=lint
 
       - name: Unit tests
-        run: npm run nx run-many -- --target=test --parallel=3
+        run: npm run nx run-many -- --target=test
 
       - name: Build
-        run: npm run nx run-many -- --target=build --parallel=3
+        run: npm run nx run-many -- --target=build
 
       - name: E2E tests
         run: npm run nx run-many -- --target=e2e
