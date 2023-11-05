@@ -47,6 +47,17 @@ async function main() {
     ).groupId;
   }
 
+  let parentProjectName = '';
+  if (!args['parentProjectName']) {
+    parentProjectName = (
+      await prompt<{ parentProjectName: string }>({
+        type: 'input',
+        name: 'parentProjectName',
+        message: 'What parentProjectName would you like to use?',
+      })
+    ).parentProjectName;
+  }
+
   let parentProjectVersion = '';
   if (!args['parentProjectVersion']) {
     parentProjectVersion = (
@@ -118,7 +129,7 @@ async function main() {
       //init generator
       javaVersion,
       groupId,
-      parentProjectName: name,
+      parentProjectName,
       parentProjectVersion,
       mavenRootDirectory,
       dependencyManagement,
