@@ -108,6 +108,7 @@ export function runNxCommandUntil(
     let output = '';
     let complete = false;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function checkCriteria(c: any) {
       output += c.toString();
       if (criteria(stripConsoleColors(output)) && !complete) {
