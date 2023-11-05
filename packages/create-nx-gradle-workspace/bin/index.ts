@@ -53,6 +53,17 @@ async function main() {
     ).dsl;
   }
 
+  let rootProjectName = '';
+  if (!args['rootProjectName']) {
+    rootProjectName = (
+      await prompt<{ rootProjectName: string }>({
+        type: 'input',
+        name: 'rootProjectName',
+        message: 'What rootProjectName would you like to use?',
+      })
+    ).rootProjectName;
+  }
+
   let gradleRootDirectory = '';
   if (!args['gradleRootDirectory']) {
     gradleRootDirectory = (
@@ -107,7 +118,7 @@ async function main() {
       //init generator
       javaVersion,
       dsl,
-      rootProjectName: name,
+      rootProjectName,
       gradleRootDirectory,
       preset,
       skipWrapper: false,
