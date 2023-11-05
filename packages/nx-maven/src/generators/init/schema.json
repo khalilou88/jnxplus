@@ -59,7 +59,7 @@
       "type": "string",
       "default": "bom",
       "x-prompt": {
-        "message": "How to handle dependency management?",
+        "message": "How to manage dependencies?",
         "type": "list",
         "items": [
           {

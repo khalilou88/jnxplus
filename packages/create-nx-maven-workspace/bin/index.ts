@@ -91,7 +91,7 @@ async function main() {
           | 'micronaut-parent-pom';
       }>({
         name: 'dependencyManagement',
-        message: "Which preset to use? or 'none' to skip.",
+        message: 'How to manage dependencies?',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         initial: 'bom' as any,
         type: 'autocomplete',
