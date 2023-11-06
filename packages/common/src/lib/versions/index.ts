@@ -2,14 +2,14 @@
 export const kotlinVersion = '1.8.22';
 
 //Spring boot
-export const springBootVersion = '3.1.0';
-export const springDependencyManagementVersion = '1.1.0';
+export const springBootVersion = '3.1.5';
+export const springDependencyManagementVersion = '1.1.3';
 
 //Quarkus
-export const quarkusVersion = '3.1.2.Final';
+export const quarkusVersion = '3.5.0';
 
 //Micronaut
-export const micronautVersion = '4.0.2';
+export const micronautVersion = '4.0.4';
 export const kspVersion = '1.8.22-1.0.11';
 export const shadowVersion = '8.1.1';
 
