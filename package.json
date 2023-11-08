@@ -42,7 +42,7 @@
     "@types/jest": "^29.5.8",
     "@types/kill-port": "^2.0.3",
     "@types/node": "^20.9.0",
-    "@types/tcp-port-used": "^1.0.3",
+    "@types/tcp-port-used": "^1.0.4",
     "@types/xmldoc": "^1.1.8",
     "@typescript-eslint/eslint-plugin": "6.10.0",
     "@typescript-eslint/parser": "5.62.0",
