@@ -96,7 +96,12 @@ export async function initGenerator(
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
 
-  if (options.gradleRootDirectory) {
+  const projectJsonPath = joinPathFragments(
+    normalizedOptions.gradleRootDirectory,
+    'project.json',
+  );
+
+  if (!tree.exists(projectJsonPath)) {
     const projectConfiguration: ProjectConfiguration = {
       root: normalizedOptions.gradleRootDirectory,
       targets: {},

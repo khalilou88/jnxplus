@@ -76,7 +76,12 @@ export async function initGenerator(
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
 
-  if (options.mavenRootDirectory) {
+  const projectJsonPath = joinPathFragments(
+    normalizedOptions.mavenRootDirectory,
+    'project.json',
+  );
+
+  if (!tree.exists(projectJsonPath)) {
     const projectConfiguration: ProjectConfiguration = {
       root: normalizedOptions.mavenRootDirectory,
       targets: {
