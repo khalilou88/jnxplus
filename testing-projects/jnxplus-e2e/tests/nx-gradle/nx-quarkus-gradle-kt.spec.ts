@@ -31,7 +31,8 @@ describe('nx-quarkus-gradle kt e2e', () => {
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
-  const rootProjectName = uniq('quarkus-root-project-');
+  const rootProjectName = uniq('root-project-');
+  const nxRootProjectName = '@proj/source';
 
   beforeAll(async () => {
     workspaceDirectory = createTestWorkspace();
@@ -173,7 +174,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: rootProjectName,
+      target: nxRootProjectName,
     });
 
     const port = 8080;
@@ -269,7 +270,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: rootProjectName,
+      target: nxRootProjectName,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
@@ -346,7 +347,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: rootProjectName,
+      target: nxRootProjectName,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
@@ -427,7 +428,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: rootProjectName,
+      target: nxRootProjectName,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
@@ -522,7 +523,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: rootProjectName,
+      target: nxRootProjectName,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
@@ -562,7 +563,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: rootProjectName,
+      target: nxRootProjectName,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
@@ -646,7 +647,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: rootProjectName,
+      target: nxRootProjectName,
     });
   }, 240000);
 
@@ -712,7 +713,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: rootProjectName,
+      target: nxRootProjectName,
     });
   }, 240000);
 
@@ -771,7 +772,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: rootProjectName,
+      target: nxRootProjectName,
     });
   }, 240000);
 
@@ -830,7 +831,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: rootProjectName,
+      target: nxRootProjectName,
     });
   }, 240000);
 
@@ -889,7 +890,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: rootProjectName,
+      target: nxRootProjectName,
     });
   }, 240000);
 
@@ -948,20 +949,20 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
     const depGraphJson = readJson('dep-graph.json');
-    expect(depGraphJson.graph.nodes[rootProjectName]).toBeDefined();
+    expect(depGraphJson.graph.nodes[nxRootProjectName]).toBeDefined();
     expect(depGraphJson.graph.nodes[appName]).toBeDefined();
     expect(depGraphJson.graph.nodes[libName]).toBeDefined();
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: rootProjectName,
+      target: nxRootProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: rootProjectName,
+      target: nxRootProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -1024,20 +1025,20 @@ describe('nx-quarkus-gradle kt e2e', () => {
 
     await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
     const depGraphJson = readJson('dep-graph.json');
-    expect(depGraphJson.graph.nodes[rootProjectName]).toBeDefined();
+    expect(depGraphJson.graph.nodes[nxRootProjectName]).toBeDefined();
     expect(depGraphJson.graph.nodes[appName]).toBeDefined();
     expect(depGraphJson.graph.nodes[libName]).toBeDefined();
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: rootProjectName,
+      target: nxRootProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: rootProjectName,
+      target: nxRootProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -1103,7 +1104,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: rootProjectName,
+      target: nxRootProjectName,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
@@ -1177,7 +1178,7 @@ describe('nx-quarkus-gradle kt e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: rootProjectName,
+      target: nxRootProjectName,
     });
   }, 240000);
 

@@ -19,7 +19,8 @@ describe('nx-gradle kotlin dsl e2e', () => {
   let workspaceDirectory: string;
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
-  const rootProjectName = uniq('boot-root-project-');
+  const rootProjectName = uniq('root-project-');
+  const nxRootProjectName = '@proj/source';
 
   beforeAll(async () => {
     workspaceDirectory = createTestWorkspace();
@@ -276,20 +277,20 @@ describe('nx-gradle kotlin dsl e2e', () => {
 
     await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
     const depGraphJson = readJson('dep-graph.json');
-    expect(depGraphJson.graph.nodes[rootProjectName]).toBeDefined();
+    expect(depGraphJson.graph.nodes[nxRootProjectName]).toBeDefined();
     expect(depGraphJson.graph.nodes[appName]).toBeDefined();
     expect(depGraphJson.graph.nodes[libName]).toBeDefined();
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: rootProjectName,
+      target: nxRootProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: rootProjectName,
+      target: nxRootProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -360,20 +361,20 @@ describe('nx-gradle kotlin dsl e2e', () => {
 
     await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
     const depGraphJson = readJson('dep-graph.json');
-    expect(depGraphJson.graph.nodes[rootProjectName]).toBeDefined();
+    expect(depGraphJson.graph.nodes[nxRootProjectName]).toBeDefined();
     expect(depGraphJson.graph.nodes[appName]).toBeDefined();
     expect(depGraphJson.graph.nodes[libName]).toBeDefined();
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: rootProjectName,
+      target: nxRootProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: rootProjectName,
+      target: nxRootProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
