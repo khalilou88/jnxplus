@@ -76,6 +76,15 @@ export async function initGenerator(
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
 
+  const buildTarget = {
+    build: {
+      executor: '@jnxplus/nx-maven:run-task',
+      options: {
+        task: 'install -N',
+      },
+    },
+  };
+
   const projectJsonPath = joinPathFragments(
     normalizedOptions.mavenRootDirectory,
     'project.json',
@@ -84,14 +93,7 @@ export async function initGenerator(
   if (!tree.exists(projectJsonPath)) {
     const projectConfiguration: ProjectConfiguration = {
       root: normalizedOptions.mavenRootDirectory,
-      targets: {
-        build: {
-          executor: '@jnxplus/nx-maven:run-task',
-          options: {
-            task: 'install -N',
-          },
-        },
-      },
+      targets: buildTarget,
     };
 
     addProjectConfiguration(
@@ -99,6 +101,15 @@ export async function initGenerator(
       normalizedOptions.parentProjectName,
       projectConfiguration,
     );
+  } else {
+    updateJson(tree, projectJsonPath, (projectJson) => {
+      // if targets is undefined, set it to an empty object
+      projectJson.targets = projectJson.targets ?? {};
+      // add build
+      projectJson.targets.push(buildTarget);
+      // return modified JSON object
+      return projectJson;
+    });
   }
 
   addFiles(tree, normalizedOptions);
