@@ -166,14 +166,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/nx-gradle"],
       "options": {
-        "jestConfig": "packages/nx-gradle/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
+        "jestConfig": "packages/nx-gradle/jest.config.ts"
       }
     },
     "version": {
