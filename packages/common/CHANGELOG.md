@@ -2,6 +2,17 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.15.0](https://github.com/khalilou88/jnxplus/compare/common-0.14.0...common-0.15.0) (2023-11-10)
+
+
+### Features
+
+* **plugins:** add custom cli ([#560](https://github.com/khalilou88/jnxplus/issues/560)) ([7a2aa57](https://github.com/khalilou88/jnxplus/commit/7a2aa5729f9c171b7fd76509d6b7ccc21731d923))
+* update checkstyle and ktlint versions ([#579](https://github.com/khalilou88/jnxplus/issues/579)) ([43658ca](https://github.com/khalilou88/jnxplus/commit/43658cafe8ea1232ee4c3f81c18ca6af0cb37583))
+* update nx to version 17.1.1 ([#603](https://github.com/khalilou88/jnxplus/issues/603)) ([46c30a3](https://github.com/khalilou88/jnxplus/commit/46c30a3ceb2d7add26a33504bbafc9951f5025c3))
+
+
+
 # [0.14.0](https://github.com/khalilou88/jnxplus/compare/common-0.13.0...common-0.14.0) (2023-10-23)
 
 
