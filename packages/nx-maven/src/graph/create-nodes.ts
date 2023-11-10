@@ -3,11 +3,13 @@ import { CreateNodes, readJsonFile, workspaceRoot } from '@nx/devkit';
 import { existsSync } from 'fs';
 import { dirname, join } from 'path';
 import { XmlDocument } from 'xmldoc';
+import * as fs from 'fs';
 
 export const createNodes: CreateNodes = [
   '**/pom.xml',
   (pomXmlFilePath: string) => {
     let projectName;
+    let task;
     const projectRoot = dirname(pomXmlFilePath);
     let targets = {};
 
@@ -17,14 +19,23 @@ export const createNodes: CreateNodes = [
       const projectJson = readJsonFile(projectJsonPath);
       projectName = projectJson.name;
     } else {
-      const pomXmlContent = readXml(pomXmlFilePath);
-      projectName = getArtifactId(pomXmlContent);
+      if (!projectRoot || projectRoot === '.') {
+        const json = JSON.parse(
+          fs.readFileSync(join(workspaceRoot, 'package.json')).toString(),
+        );
+        projectName = json.name;
+        task = 'install -N';
+      } else {
+        const pomXmlContent = readXml(pomXmlFilePath);
+        projectName = getArtifactId(pomXmlContent);
+        task = 'install';
+      }
 
       targets = {
         build: {
           executor: '@jnxplus/nx-maven:run-task',
           options: {
-            task: getTask(projectRoot),
+            task: task,
           },
         },
       };
@@ -48,12 +59,4 @@ function getArtifactId(pomXmlContent: XmlDocument) {
     throw new Error(`ArtifactId not found in pom.xml`);
   }
   return artifactIdXml.val;
-}
-
-function getTask(projectRoot: string) {
-  if (!projectRoot || projectRoot === '.') {
-    return 'install -N';
-  }
-
-  return 'install';
 }

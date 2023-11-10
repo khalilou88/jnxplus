@@ -237,6 +237,11 @@ export function getProjectName(
   if (isProjectJsonExists || fs.existsSync(projectJsonPath)) {
     const projectJson = readJsonFile(projectJsonPath);
     return projectJson.name;
+  } else if (!projectRoot || projectRoot === '.') {
+    const json = JSON.parse(
+      fs.readFileSync(join(workspaceRoot, 'package.json')).toString(),
+    );
+    return json.name;
   } else if (fs.existsSync(settingsGradlePath)) {
     const settingsGradleContent = fs.readFileSync(settingsGradlePath, 'utf-8');
     return getRootProjectName(settingsGradleContent);
