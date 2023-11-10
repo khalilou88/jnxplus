@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "dependencies": {
     "tslib": "^2.3.0",
-    "@jnxplus/common": "*",
+    "@jnxplus/common": "0.15.0",
     "@nx/devkit": ">=17.0.0",
     "@jnxplus/xml": "*",
     "nx": ">=17.0.0"
