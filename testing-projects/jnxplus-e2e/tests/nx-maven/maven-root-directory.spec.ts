@@ -29,7 +29,7 @@ describe('nx-maven maven-root-directory e2e', () => {
   let workspaceDirectory: string;
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
-  const parentProjectName = uniq('boot-parent-project-');
+  const parentProjectName = uniq('parent-project-');
 
   beforeAll(async () => {
     workspaceDirectory = createTestWorkspace();

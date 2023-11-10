@@ -19,7 +19,7 @@ describe('nx-gradle kotlin dsl e2e', () => {
   let workspaceDirectory: string;
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
-  const rootProjectName = uniq('boot-root-project-');
+  const rootProjectName = uniq('root-project-');
 
   beforeAll(async () => {
     workspaceDirectory = createTestWorkspace();

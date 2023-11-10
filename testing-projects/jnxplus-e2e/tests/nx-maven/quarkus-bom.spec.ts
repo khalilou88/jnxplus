@@ -30,7 +30,8 @@ describe('nx-maven quarkus bom e2e', () => {
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
-  const parentProjectName = uniq('quarkus-parent-project-');
+  const parentProjectName = uniq('parent-project-');
+  const nxRootProjectName = '@proj/source';
 
   beforeAll(async () => {
     workspaceDirectory = createTestWorkspace();
@@ -166,11 +167,11 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
 
     expect(
-      depGraphJson.graph.nodes[parentProjectName].data.targets.build.options
+      depGraphJson.graph.nodes[nxRootProjectName].data.targets.build.options
         .task,
     ).toEqual('install -N');
 
@@ -304,7 +305,7 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
   }, 120000);
 
@@ -386,7 +387,7 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
   }, 240000);
 
@@ -486,7 +487,7 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
@@ -568,7 +569,7 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
@@ -613,7 +614,7 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
@@ -696,7 +697,7 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
   }, 120000);
 
@@ -761,7 +762,7 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
   }, 120000);
 
@@ -826,7 +827,7 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
   }, 120000);
 
@@ -891,7 +892,7 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
   }, 120000);
 
@@ -956,7 +957,7 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
   }, 120000);
 
@@ -1032,13 +1033,13 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -1118,13 +1119,13 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -1164,7 +1165,7 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
   }, 120000);
 
@@ -1222,7 +1223,7 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appsParentProject]).toContainEqual({
       type: 'static',
       source: appsParentProject,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -1312,7 +1313,7 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appsParentProject]).toContainEqual({
       type: 'static',
       source: appsParentProject,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -1408,7 +1409,7 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(depGraphJson.graph.dependencies[libsParentProject]).toContainEqual({
       type: 'static',
       source: libsParentProject,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -1504,7 +1505,7 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(depGraphJson.graph.dependencies[libsParentProject]).toContainEqual({
       type: 'static',
       source: libsParentProject,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
@@ -1601,7 +1602,7 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
@@ -1681,7 +1682,7 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
   }, 120000);
 
@@ -1881,7 +1882,7 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appsParentProject]).toContainEqual({
       type: 'static',
       source: appsParentProject,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({

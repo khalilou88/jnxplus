@@ -28,7 +28,8 @@ describe('nx-maven all bom e2e', () => {
   let workspaceDirectory: string;
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
-  const parentProjectName = uniq('boot-parent-project-');
+  const parentProjectName = uniq('parent-project-');
+  const nxRootProjectName = '@proj/source';
 
   beforeAll(async () => {
     workspaceDirectory = createTestWorkspace();
@@ -91,7 +92,7 @@ describe('nx-maven all bom e2e', () => {
     const appName = uniq('maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework none --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework none --parentProject ${nxRootProjectName}`,
     );
 
     expect(() =>
@@ -131,7 +132,7 @@ describe('nx-maven all bom e2e', () => {
     const appName = uniq('maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework none --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework none --parentProject ${nxRootProjectName}`,
     );
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -142,7 +143,7 @@ describe('nx-maven all bom e2e', () => {
     const appName = uniq('maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework none --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework none --parentProject ${nxRootProjectName}`,
     );
     const serveResult = await runNxCommandAsync(`serve ${appName}`);
     expect(serveResult.stdout).toContain('Executor ran for Serve');
@@ -153,7 +154,7 @@ describe('nx-maven all bom e2e', () => {
     const appName = uniq('maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework none --language kotlin --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework none --language kotlin --parentProject ${nxRootProjectName}`,
     );
 
     expect(() =>
@@ -191,7 +192,7 @@ describe('nx-maven all bom e2e', () => {
     const libName = uniq('maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework none --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:library ${libName} --framework none --parentProject ${nxRootProjectName}`,
     );
 
     expect(() =>
@@ -225,7 +226,7 @@ describe('nx-maven all bom e2e', () => {
     const libName = uniq('maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework none --language kotlin --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:library ${libName} --framework none --language kotlin --parentProject ${nxRootProjectName}`,
     );
 
     expect(() =>
@@ -339,11 +340,11 @@ describe('nx-maven all bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
 
     expect(
-      depGraphJson.graph.nodes[parentProjectName].data.targets.build.options
+      depGraphJson.graph.nodes[nxRootProjectName].data.targets.build.options
         .task,
     ).toEqual('install -N');
 
@@ -442,7 +443,7 @@ describe('nx-maven all bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
   }, 120000);
 
@@ -519,13 +520,13 @@ describe('nx-maven all bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -613,13 +614,13 @@ describe('nx-maven all bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -690,7 +691,7 @@ describe('nx-maven all bom e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
   }, 120000);
 
@@ -776,7 +777,7 @@ describe('nx-maven all bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
@@ -859,7 +860,7 @@ describe('nx-maven all bom e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
   }, 120000);
 
@@ -927,7 +928,7 @@ describe('nx-maven all bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: nxRootProjectName,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
