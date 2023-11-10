@@ -64,7 +64,7 @@
         "trackDeps": true,
         "push": true,
         "noVerify": true,
-        "postTargets": ["nx-checkstyle:deploy"],
+        "postTargets": ["nx-checkstyle:github", "nx-checkstyle:deploy"],
         "commitMessageFormat": "release: cut release ${version} of {projectName}"
       }
     },

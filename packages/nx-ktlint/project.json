@@ -59,7 +59,7 @@
         "trackDeps": true,
         "push": true,
         "noVerify": true,
-        "postTargets": ["nx-ktlint:deploy"],
+        "postTargets": ["nx-ktlint:github", "nx-ktlint:deploy"],
         "commitMessageFormat": "release: cut release ${version} of {projectName}"
       }
     },

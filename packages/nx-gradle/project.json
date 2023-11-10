@@ -176,7 +176,7 @@
         "trackDeps": true,
         "push": true,
         "noVerify": true,
-        "postTargets": ["nx-gradle:github", "nx-gradle:publish"],
+        "postTargets": ["nx-gradle:github", "nx-gradle:deploy"],
         "commitMessageFormat": "release: cut release ${version} of {projectName}"
       }
     },

@@ -18,10 +18,12 @@ export default async function runExecutor(
   //update files
   updateFile(options.version, 'packages/nx-gradle');
   updateFile(options.version, 'packages/nx-maven');
+  updateFile(options.version, 'packages/nx-checkstyle');
+  updateFile(options.version, 'packages/nx-ktlint');
 
   const commitMessage = `release: write @jnxplus/common version ${options.version} in dependencies section`;
 
-  const commit = `git commit --no-verify -m "${commitMessage}" packages/nx-gradle/package.json packages/nx-maven/package.json`;
+  const commit = `git commit --no-verify -m "${commitMessage}" packages/nx-gradle/package.json packages/nx-maven/package.json packages/nx-checkstyle/package.json packages/nx-ktlint/package.json`;
   execSync(commit, {
     cwd: workspaceRoot,
     stdio: 'inherit',
