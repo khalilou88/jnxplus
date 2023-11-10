@@ -11,7 +11,8 @@ export const createNodes: CreateNodes = [
 
     return {
       projects: {
-        [projectName]: {
+        [projectRoot]: {
+          name: projectName,
           root: projectRoot,
           tags: ['nx-gradle'],
         },

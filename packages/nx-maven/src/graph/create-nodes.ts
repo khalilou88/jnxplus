@@ -32,7 +32,8 @@ export const createNodes: CreateNodes = [
 
     return {
       projects: {
-        [projectName]: {
+        [projectRoot]: {
+          name: projectName,
           root: projectRoot,
           targets: targets,
           tags: ['nx-maven'],
