@@ -59,7 +59,7 @@
     "jsonc-eslint-parser": "^2.4.0",
     "kill-port": "^2.0.1",
     "lint-staged": "^15.0.2",
-    "ngx-deploy-npm": "^7.0.1",
+    "ngx-deploy-npm": "^7.1.0",
     "nx": "17.1.1",
     "prettier": "^3.0.3",
     "prettier-plugin-java": "^2.3.1",
