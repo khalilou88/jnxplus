@@ -26,12 +26,6 @@ jobs:
 
       - run: npm i --legacy-peer-deps
 
-      - name: Github
-        shell: bash
-        run: npx nx run-many --target=github --projects=create-nx-gradle-workspace,create-nx-maven-workspace
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Deploy
         shell: bash
         run: npx nx run-many --target=deploy --projects=create-nx-gradle-workspace,create-nx-maven-workspace
