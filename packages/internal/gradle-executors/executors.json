@@ -19,6 +19,11 @@
       "implementation": "./src/executors/update-xml-deps/executor",
       "schema": "./src/executors/update-xml-deps/schema.json",
       "description": "update-xml-deps executor"
+    },
+    "update-package-json": {
+      "implementation": "./src/executors/update-package-json/executor",
+      "schema": "./src/executors/update-package-json/schema.json",
+      "description": "update-package-json executor"
     }
   }
 }

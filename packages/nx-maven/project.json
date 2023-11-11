@@ -176,7 +176,11 @@
         "trackDeps": true,
         "push": true,
         "noVerify": true,
-        "postTargets": ["nx-maven:deploy"],
+        "postTargets": [
+          "nx-maven:github",
+          "nx-maven:deploy",
+          "create-nx-maven-workspace:update-package-json"
+        ],
         "commitMessageFormat": "release: cut release ${version} of {projectName}"
       }
     },
