@@ -29,7 +29,7 @@ const testLib2 = uniq('test-lib2');
 const testApp3 = uniq('test-app3');
 const testApp4 = uniq('test-app4');
 
-describe('@jnxplus/nx-maven micronaut smoke', () => {
+describe('@jnxplus/nx-gradle spring-boot smoke', () => {
   beforeEach(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
       unsafeCleanup: true,
@@ -42,7 +42,7 @@ describe('@jnxplus/nx-maven micronaut smoke', () => {
 
   it('should work', async () => {
     execSync(
-      'npx create-nx-workspace@latest test --preset empty --nxCloud false',
+      'npx create-nx-gradle-workspace@latest test --javaVersion 17 --dsl kotlin --rootProjectName root-project --gradleRootDirectory nx-gradle --preset spring-boot',
       {
         cwd: smokeDirectory,
         env: process.env,
@@ -52,46 +52,37 @@ describe('@jnxplus/nx-maven micronaut smoke', () => {
 
     execSync('git init', execSyncOptions());
 
-    execSync('npm i --save-dev @jnxplus/nx-maven', execSyncOptions());
-
     execSync(
-      'npx nx generate @jnxplus/nx-maven:init --dependencyManagement micronaut-parent-pom',
+      `npx nx g @jnxplus/nx-gradle:application ${testApp} --framework spring-boot`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp} --framework micronaut`,
+      `npx nx g @jnxplus/nx-gradle:lib ${testLib} --framework spring-boot --projects ${testApp}`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:lib ${testLib} --framework micronaut --projects ${testApp}`,
+      `npx nx g @jnxplus/nx-gradle:application ${testApp2} --framework spring-boot`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp2} --framework micronaut`,
+      `npx nx g @jnxplus/nx-gradle:application ${testApp3} --framework spring-boot`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp3} --framework micronaut`,
+      `npx nx g @jnxplus/nx-gradle:application ${testApp4} --framework spring-boot`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp4} --framework micronaut`,
+      `npx nx g @jnxplus/nx-gradle:lib ${testLib2} --framework spring-boot --projects ${testApp2},${testApp3},${testApp4}`,
       execSyncOptions(),
     );
 
-    execSync(
-      `npx nx g @jnxplus/nx-maven:lib ${testLib2} --framework micronaut --projects ${testApp2},${testApp3},${testApp4}`,
-      execSyncOptions(),
-    );
-
-    execSync(`npx nx test ${testLib}`, execSyncOptions());
-
-    execSync(`npx nx run-many --target=build --parallel=1`, execSyncOptions());
+    execSync(`npx nx run-many --target=build --parallel`, execSyncOptions());
 
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
 
@@ -107,6 +98,6 @@ describe('@jnxplus/nx-maven micronaut smoke', () => {
       target: testLib,
     });
 
-    execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
+    // execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
   }, 1500000);
 });
