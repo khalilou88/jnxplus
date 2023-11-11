@@ -42,7 +42,7 @@ describe('@jnxplus/nx-gradle spring-boot smoke', () => {
 
   it('should work', async () => {
     execSync(
-      'npx create-nx-gradle-workspace@latest test --preset spring-boot',
+      'npx create-nx-gradle-workspace@latest test --javaVersion 17 --dsl kotlin --rootProjectName root-project --gradleRootDirectory nx-gradle --preset spring-boot',
       {
         cwd: smokeDirectory,
         env: process.env,

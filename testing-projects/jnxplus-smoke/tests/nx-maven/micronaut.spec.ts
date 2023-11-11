@@ -42,7 +42,7 @@ describe('@jnxplus/nx-maven micronaut smoke', () => {
 
   it('should work', async () => {
     execSync(
-      'npx create-nx-maven-workspace@latest test --dependencyManagement micronaut-parent-pom',
+      'npx create-nx-maven-workspace@latest test --javaVersion 17 --groupId com.example --parentProjectName root-project --parentProjectVersion 0.0.0 --mavenRootDirectory nx-maven --dependencyManagement micronaut-parent-pom',
       {
         cwd: smokeDirectory,
         env: process.env,
