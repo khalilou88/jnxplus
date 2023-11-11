@@ -120,11 +120,11 @@ async function main() {
       nxCloud: false,
       packageManager: 'npm',
       //init generator
-      javaVersion,
-      dsl,
-      rootProjectName,
-      gradleRootDirectory,
-      preset,
+      javaVersion: javaVersion,
+      dsl: dsl,
+      rootProjectName: rootProjectName,
+      gradleRootDirectory: gradleRootDirectory,
+      preset: preset,
       skipWrapper: false,
     },
   );
