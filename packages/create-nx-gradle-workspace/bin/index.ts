@@ -19,8 +19,8 @@ async function main() {
   const args = yargs.argv;
   console.log(args);
 
-  let javaVersion = '';
-  if (!args['javaVersion']) {
+  let javaVersion = args['javaVersion'];
+  if (!javaVersion) {
     javaVersion = (
       await prompt<{ javaVersion: '17' | '21' }>({
         name: 'javaVersion',
@@ -36,8 +36,8 @@ async function main() {
     ).javaVersion;
   }
 
-  let dsl = '';
-  if (!args['dsl']) {
+  let dsl = args['dsl'];
+  if (!dsl) {
     dsl = (
       await prompt<{ dsl: 'groovy' | 'kotlin' }>({
         name: 'dsl',
@@ -53,8 +53,8 @@ async function main() {
     ).dsl;
   }
 
-  let rootProjectName = '';
-  if (!args['rootProjectName']) {
+  let rootProjectName = args['rootProjectName'];
+  if (!rootProjectName) {
     rootProjectName = (
       await prompt<{ rootProjectName: string }>({
         type: 'input',
@@ -64,8 +64,8 @@ async function main() {
     ).rootProjectName;
   }
 
-  let gradleRootDirectory = '';
-  if (!args['gradleRootDirectory']) {
+  let gradleRootDirectory = args['gradleRootDirectory'];
+  if (!gradleRootDirectory) {
     gradleRootDirectory = (
       await prompt<{ gradleRootDirectory: string }>({
         type: 'input',
@@ -76,8 +76,8 @@ async function main() {
     ).gradleRootDirectory;
   }
 
-  let preset = '';
-  if (!args['preset']) {
+  let preset = args['preset'];
+  if (!preset) {
     preset = (
       await prompt<{
         preset:
