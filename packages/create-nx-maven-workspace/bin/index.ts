@@ -19,8 +19,8 @@ async function main() {
   const args = yargs.argv;
   console.log(args);
 
-  let javaVersion = '';
-  if (!args['javaVersion']) {
+  let javaVersion = args['javaVersion'];
+  if (!javaVersion) {
     javaVersion = (
       await prompt<{ javaVersion: '17' | '21' }>({
         name: 'javaVersion',
@@ -36,8 +36,8 @@ async function main() {
     ).javaVersion;
   }
 
-  let groupId = '';
-  if (!args['groupId']) {
+  let groupId = args['groupId'];
+  if (!groupId) {
     groupId = (
       await prompt<{ groupId: string }>({
         type: 'input',
@@ -47,8 +47,8 @@ async function main() {
     ).groupId;
   }
 
-  let parentProjectName = '';
-  if (!args['parentProjectName']) {
+  let parentProjectName = args['parentProjectName'];
+  if (!parentProjectName) {
     parentProjectName = (
       await prompt<{ parentProjectName: string }>({
         type: 'input',
@@ -58,8 +58,8 @@ async function main() {
     ).parentProjectName;
   }
 
-  let parentProjectVersion = '';
-  if (!args['parentProjectVersion']) {
+  let parentProjectVersion = args['parentProjectVersion'];
+  if (!parentProjectVersion) {
     parentProjectVersion = (
       await prompt<{ parentProjectVersion: string }>({
         type: 'input',
@@ -69,8 +69,8 @@ async function main() {
     ).parentProjectVersion;
   }
 
-  let mavenRootDirectory = '';
-  if (!args['mavenRootDirectory']) {
+  let mavenRootDirectory = args['mavenRootDirectory'];
+  if (!mavenRootDirectory) {
     mavenRootDirectory = (
       await prompt<{ mavenRootDirectory: string }>({
         type: 'input',
@@ -81,8 +81,8 @@ async function main() {
     ).mavenRootDirectory;
   }
 
-  let dependencyManagement = '';
-  if (!args['dependencyManagement']) {
+  let dependencyManagement = args['dependencyManagement'];
+  if (!dependencyManagement) {
     dependencyManagement = (
       await prompt<{
         dependencyManagement:
