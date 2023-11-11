@@ -100,6 +100,6 @@ describe('@jnxplus/nx-maven micronaut smoke', () => {
       target: testLib,
     });
 
-    execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
+    // execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
   }, 1500000);
 });
