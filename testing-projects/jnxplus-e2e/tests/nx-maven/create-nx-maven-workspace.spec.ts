@@ -1,4 +1,5 @@
 import { createTestWorkspaceWithCustomCli } from '@jnxplus/internal/testing';
+import { checkFilesExist } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
 import { rmSync } from 'fs';
 
@@ -16,7 +17,7 @@ describe('create-nx-maven-workspace', () => {
   it('should be installed', () => {
     workspaceDirectory = createTestWorkspaceWithCustomCli(
       'create-nx-maven-workspace',
-      '--javaVersion 17 --groupId com.example --parentProjectName root-project --parentProjectVersion 0.0.0 --mavenRootDirectory test --dependencyManagement spring-boot-parent-pom',
+      '--javaVersion 17 --groupId com.example --parentProjectName root-project --parentProjectVersion 0.0.0 --mavenRootDirectory nx-maven --dependencyManagement spring-boot-parent-pom',
     );
 
     // npm ls will fail if the package is not installed properly
@@ -24,5 +25,15 @@ describe('create-nx-maven-workspace', () => {
       cwd: workspaceDirectory,
       stdio: 'inherit',
     });
+
+    expect(() =>
+      checkFilesExist(
+        'nx-maven/.mvn/wrapper/maven-wrapper.jar',
+        'nx-maven/.mvn/wrapper/maven-wrapper.properties',
+        'nx-maven/mvnw',
+        'nx-maven/mvnw.cmd',
+        'nx-maven/pom.xml',
+      ),
+    ).not.toThrow();
   });
 });
