@@ -33,7 +33,7 @@
     "directory": "packages/nx-maven"
   },
   "dependencies": {
-    "@jnxplus/common": "0.15.0",
+    "@jnxplus/common": "0.15.1",
     "@jnxplus/xml": "0.1.0",
     "nx": ">=17.0.0",
     "tslib": "^2.6.2",
