@@ -35,6 +35,12 @@
         "jestConfig": "packages/create-nx-gradle-workspace/jest.config.ts"
       }
     },
+    "update-package-json": {
+      "executor": "@jnxplus/internal-gradle-executors:update-package-json",
+      "options": {
+        "version": "${version}"
+      }
+    },
     "deploy": {
       "executor": "ngx-deploy-npm:deploy",
       "options": {
