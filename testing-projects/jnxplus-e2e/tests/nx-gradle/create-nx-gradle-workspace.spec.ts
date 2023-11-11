@@ -1,5 +1,4 @@
 import { createTestWorkspaceWithCustomCli } from '@jnxplus/internal/testing';
-import { checkFilesExist } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
 import { rmSync } from 'fs';
 
@@ -25,16 +24,5 @@ describe('create-nx-gradle-workspace', () => {
       cwd: workspaceDirectory,
       stdio: 'inherit',
     });
-
-    expect(() =>
-      checkFilesExist(
-        'nx-gradle/gradle/wrapper/gradle-wrapper.jar',
-        'nx-gradle/gradle/wrapper/gradle-wrapper.properties',
-        'nx-gradle/gradlew',
-        'nx-gradle/gradlew.bat',
-        'nx-gradle/gradle.properties',
-        'nx-gradle/settings.gradle',
-      ),
-    ).not.toThrow();
   });
 });

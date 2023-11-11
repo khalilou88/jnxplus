@@ -20,8 +20,6 @@ async function main() {
   console.log(args);
 
   let javaVersion = args['javaVersion'];
-  console.log('javaVersion');
-  console.log(args['javaVersion']);
   if (!javaVersion) {
     javaVersion = (
       await prompt<{ javaVersion: '17' | '21' }>({
@@ -39,8 +37,6 @@ async function main() {
   }
 
   let dsl = args['dsl'];
-  console.log('dsl');
-  console.log(args['dsl']);
   if (!dsl) {
     dsl = (
       await prompt<{ dsl: 'groovy' | 'kotlin' }>({
