@@ -34,7 +34,7 @@ jobs:
           java-version: ${{ matrix.java }}
 
       - name: Install dependencies
-        run: npm i --legacy-peer-deps
+        run: npm i
 
       - run: npm run nx run-many -- --target=smoke
         env:

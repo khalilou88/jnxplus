@@ -26,7 +26,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm i --legacy-peer-deps
+        run: npm i
 
       - name: Check if @nx/workspace is outdated
         id: nx-workspace-outdated
@@ -41,7 +41,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.nx-workspace-outdated.outputs.outdated == 'true'
-        run: npm i --legacy-peer-deps
+        run: npm i
 
       - name: Check if has migrations
         if: steps.nx-workspace-outdated.outputs.outdated == 'true'
