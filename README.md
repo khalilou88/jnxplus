@@ -11,17 +11,10 @@
 
 ### Plugins
 
-#### Gradle Build Tool
-
-| Plugin                                     | Frameworks                                                |
-| ------------------------------------------ | --------------------------------------------------------- |
-| [`@jnxplus/nx-gradle`](packages/nx-gradle) | Spring-Boot, Quarkus, Micronaut, Kotlin Multiplatform,... |
-
-#### Maven Build Tool
-
-| Plugin                                   | Frameworks                          |
-| ---------------------------------------- | ----------------------------------- |
-| [`@jnxplus/nx-maven`](packages/nx-maven) | Spring-Boot, Quarkus, Micronaut,... |
+| Plugin                                     | Build Tool | Frameworks                                                |
+| ------------------------------------------ | ---------- | --------------------------------------------------------- |
+| [`@jnxplus/nx-gradle`](packages/nx-gradle) | Gradle     | Spring-Boot, Quarkus, Micronaut, Kotlin Multiplatform,... |
+| [`@jnxplus/nx-maven`](packages/nx-maven)   | Maven      | Spring-Boot, Quarkus, Micronaut,...                       |
 
 ### Linters and Code Formatters
 
