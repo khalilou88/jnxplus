@@ -21,8 +21,9 @@ export const createDependencies: CreateDependencies = (
 ) => {
   const results: RawProjectGraphDependency[] = [];
 
+  const mavenRootDirectory = getMavenRootDirectory();
   const projects: MavenProjectType[] = [];
-  addProjects(projects, '');
+  addProjects(mavenRootDirectory, projects, '');
 
   for (const project of projects) {
     const projectRoot = path.relative(workspaceRoot, project.projectDirPath);
@@ -93,12 +94,12 @@ type MavenProjectType = {
 };
 
 function addProjects(
+  mavenRootDirectory: string,
   projects: MavenProjectType[],
   projectRoot: string,
   aggregatorProjectArtifactId?: string,
 ) {
   //projectDirPath
-  const mavenRootDirectory = getMavenRootDirectory();
   const projectDirPath = join(workspaceRoot, mavenRootDirectory, projectRoot);
   const projectJsonPath = join(projectDirPath, 'project.json');
   const pomXmlPath = join(projectDirPath, 'pom.xml');
@@ -145,7 +146,7 @@ function addProjects(
       projectRoot,
       moduleXmlElement.val.trim(),
     );
-    addProjects(projects, moduleRoot, artifactId);
+    addProjects(mavenRootDirectory, projects, moduleRoot, artifactId);
   }
 }
 
