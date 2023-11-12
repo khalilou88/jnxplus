@@ -29,7 +29,7 @@ const testLib2 = uniq('test-lib2');
 const testApp3 = uniq('test-app3');
 const testApp4 = uniq('test-app4');
 
-describe('@jnxplus/nx-maven spring-boot smoke', () => {
+describe('nx-maven spring-boot smoke', () => {
   beforeEach(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
       unsafeCleanup: true,

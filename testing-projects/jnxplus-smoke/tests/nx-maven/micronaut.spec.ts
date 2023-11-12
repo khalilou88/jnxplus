@@ -29,7 +29,7 @@ const testLib2 = uniq('test-lib2');
 const testApp3 = uniq('test-app3');
 const testApp4 = uniq('test-app4');
 
-describe('@jnxplus/nx-maven micronaut smoke', () => {
+describe('nx-maven micronaut smoke', () => {
   beforeEach(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
       unsafeCleanup: true,

@@ -2,19 +2,18 @@ name: Run plugin smoke tests
 on:
   workflow_dispatch:
     inputs:
-      smoke_project:
+      t_option:
         type: choice
-        description: smoke project
+        description: t option
         options:
-          - nx-maven-smoke
-          - nx-boot-maven-smoke
-          - nx-quarkus-maven-smoke
-          - nx-micronaut-maven-smoke
-          - nx-gradle-smoke
-          - nx-boot-gradle-smoke
-          - nx-quarkus-gradle-smoke
-          - nx-micronaut-gradle-smoke
-
+          - nx-gradle micronaut smoke
+          - nx-gradle default smoke
+          - nx-gradle quarkus smoke
+          - nx-gradle spring-boot smoke
+          - nx-maven micronaut smoke
+          - nx-maven default smoke
+          - nx-maven quarkus smoke
+          - nx-maven spring-boot smoke
       os:
         type: choice
         description: Os
@@ -25,7 +24,7 @@ on:
 
 jobs:
   run_plugin_smoke_tests:
-    name: Running ${{ github.event.inputs.smoke_project }} tests
+    name: Running ${{ github.event.inputs.t_option }} smoke tests from ${{ github.head_ref || github.ref_name }} branch
     strategy:
       matrix:
         node_version: ['18']
@@ -52,7 +51,8 @@ jobs:
         run: npm i --legacy-peer-deps
 
       - name: smoke tests
-        run: npm run nx smoke ${{ github.event.inputs.smoke_project }}
+        run: npm run smoke jnxplus-smoke -- --t="${{ github.event.inputs.t_option }}"
         env:
           NX_VERBOSE_LOGGING: 'true'
           GITHUB_ACTIONS: 'true'
+          MAVEN_ARGS: '-Dmaven.plugin.validation=VERBOSE'
