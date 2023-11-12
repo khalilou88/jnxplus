@@ -1,5 +1,5 @@
 {
-  "name": "@jnxplus/internal-gradle-executors",
+  "name": "@jnxplus/internal-executors",
   "version": "0.0.1",
   "type": "commonjs",
   "main": "./src/index.js",

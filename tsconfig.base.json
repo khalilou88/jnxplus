@@ -16,8 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@jnxplus/common": ["packages/common/src/index.ts"],
-      "@jnxplus/internal-gradle-executors": [
-        "packages/internal/gradle-executors/src/index.ts"
+      "@jnxplus/internal-executors": [
+        "packages/internal/executors/src/index.ts"
       ],
       "@jnxplus/internal/testing": ["packages/internal/testing/src/index.ts"],
       "@jnxplus/nx-checkstyle": ["packages/nx-checkstyle/src/index.ts"],
