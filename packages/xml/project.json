@@ -57,7 +57,7 @@
       }
     },
     "update-xml-deps": {
-      "executor": "@jnxplus/internal-gradle-executors:update-xml-deps",
+      "executor": "@jnxplus/internal-executors:update-xml-deps",
       "options": {
         "version": "${version}"
       }

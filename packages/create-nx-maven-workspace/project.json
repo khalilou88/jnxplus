@@ -36,7 +36,7 @@
       }
     },
     "update-package-json": {
-      "executor": "@jnxplus/internal-gradle-executors:update-package-json",
+      "executor": "@jnxplus/internal-executors:update-package-json",
       "options": {
         "version": "${version}"
       }

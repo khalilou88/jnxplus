@@ -4,8 +4,8 @@
   "sourceRoot": "packages/gradle-plugin/src",
   "projectType": "library",
   "targets": {
-    "build2": {
-      "executor": "@jnxplus/internal-gradle-executors:run-commands",
+    "build": {
+      "executor": "@jnxplus/internal-executors:run-commands",
       "options": {
         "command": "build publishToMavenLocal",
         "cwd": "packages/gradle-plugin"
@@ -17,7 +17,7 @@
         "preset": "angular",
         "push": true,
         "noVerify": true,
-        "postTargets": ["gradle-plugin:set-version", "gradle-plugin:publish"],
+        "postTargets": ["gradle-plugin:set-version", "gradle-plugin:deploy"],
         "commitMessageFormat": "release: cut release ${version} for {projectName}"
       },
       "dependsOn": [
@@ -27,13 +27,13 @@
       ]
     },
     "set-version": {
-      "executor": "@jnxplus/internal-gradle-executors:set-version",
+      "executor": "@jnxplus/internal-executors:set-version",
       "options": {
         "version": "${version}"
       }
     },
-    "publish2": {
-      "executor": "@jnxplus/internal-gradle-executors:run-commands",
+    "deploy": {
+      "executor": "@jnxplus/internal-executors:run-commands",
       "options": {
         "command": "publishPlugins",
         "cwd": "packages/gradle-plugin"
@@ -41,5 +41,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["internal-gradle-executors"]
+  "implicitDependencies": ["internal-executors"]
 }

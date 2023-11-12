@@ -64,7 +64,7 @@
       }
     },
     "update-dependencies": {
-      "executor": "@jnxplus/internal-gradle-executors:update-dependencies",
+      "executor": "@jnxplus/internal-executors:update-dependencies",
       "options": {
         "version": "${version}"
       }
