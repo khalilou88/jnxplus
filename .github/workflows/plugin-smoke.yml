@@ -51,7 +51,7 @@ jobs:
         run: npm i --legacy-peer-deps
 
       - name: smoke tests
-        run: npm run smoke jnxplus-smoke -- --t="${{ github.event.inputs.t_option }}"
+        run: npm run nx smoke jnxplus-smoke -- --t="${{ github.event.inputs.t_option }}"
         env:
           NX_VERBOSE_LOGGING: 'true'
           GITHUB_ACTIONS: 'true'
