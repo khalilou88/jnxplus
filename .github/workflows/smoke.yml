@@ -39,3 +39,4 @@ jobs:
       - run: npm run nx run-many -- --target=smoke
         env:
           NX_MAVEN_CLI_OPTS: '--no-transfer-progress'
+          MAVEN_ARGS: '-Dmaven.plugin.validation=VERBOSE'
