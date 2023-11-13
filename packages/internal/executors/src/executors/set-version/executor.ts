@@ -16,10 +16,11 @@ export default async function runExecutor(
 
   //change file
   updateFile(options.version, projectRoot);
+  updateFile2(options.version);
 
   const commitMessage = `release: write version ${options.version} in gradle.build`;
 
-  const commit = `git commit --no-verify -m "${commitMessage}" packages/gradle-plugin/build.gradle`;
+  const commit = `git commit --no-verify -m "${commitMessage}" packages/gradle-plugin/build.gradle packages/common/src/lib/versions/index.ts`;
   execSync(commit, {
     cwd: workspaceRoot,
     stdio: 'inherit',
@@ -45,9 +46,26 @@ function updateFile(newVersion: string, projectRoot: string) {
   fs.writeFileSync(buildGradlePath, newContent);
 }
 
-export function setVersion(buildGradleContent: string, newVersion: string) {
+function setVersion(buildGradleContent: string, newVersion: string) {
   return buildGradleContent.replace(
     /(version\s=\s')(.*)(')/,
+    `$1${newVersion}$3`,
+  );
+}
+
+function updateFile2(newVersion: string) {
+  const indexTsPath = path.join(
+    workspaceRoot,
+    'packages/common/src/lib/versions/index.ts',
+  );
+  const indexTsContent = fs.readFileSync(indexTsPath, 'utf-8');
+  const newContent = setVersion2(indexTsContent, newVersion);
+  fs.writeFileSync(indexTsPath, newContent);
+}
+
+function setVersion2(indexTsContent: string, newVersion: string) {
+  return indexTsContent.replace(
+    /(export\s*const\s*jnxplusGradlePluginVersion\s*=\s*')(.*)(')/,
     `$1${newVersion}$3`,
   );
 }
