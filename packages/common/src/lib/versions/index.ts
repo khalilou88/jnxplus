@@ -14,7 +14,7 @@ export const kspVersion = '1.8.22-1.0.11';
 export const shadowVersion = '8.1.1';
 
 //Jnxplus gradle plugin
-export const jnxplusGradlePluginVersion = '0.2.1';
+export const jnxplusGradlePluginVersion = '0.2.2';
 
 //Prettier
 export const prettierVersion = '^3.0.3';
