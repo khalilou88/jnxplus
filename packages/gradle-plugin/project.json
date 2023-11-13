@@ -11,7 +11,7 @@
         "cwd": "packages/gradle-plugin"
       }
     },
-    "release": {
+    "version": {
       "executor": "@jscutlery/semver:version",
       "options": {
         "preset": "angular",
