@@ -37,7 +37,6 @@ abstract class ProjectDependencyTask extends DefaultTask {
       .findAll { it instanceof ProjectDependency }
       .collect { element ->
         return [name               : element.name,
-                projectDirPath     : element.dependencyProject.projectDir.path,
                 relativePath       : rootProject.relativePath(element.dependencyProject.projectDir),
                 isProjectJsonExists: element.dependencyProject.file('project.json').exists(),
                 isBuildGradleExists: element.dependencyProject.file('build.gradle').exists()]
@@ -50,7 +49,6 @@ abstract class ProjectDependencyTask extends DefaultTask {
                   isSettingsGradleExists   : project.file('settings.gradle').exists(),
                   isSettingsGradleKtsExists: project.file('settings.gradle.kts').exists(),
                   isGradlePropertiesExists : project.file('gradle.properties').exists(),
-                  projectDirPath           : project.projectDir.path,
                   relativePath             : rootProject.relativePath(project.projectDir),
                   parentProjectName        : parentProjectName,
                   dependencies             : dependencies]);
