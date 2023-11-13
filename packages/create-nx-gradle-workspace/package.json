@@ -1,6 +1,6 @@
 {
   "name": "create-nx-gradle-workspace",
-  "version": "0.17.3-next.1",
+  "version": "0.17.3",
   "dependencies": {
     "create-nx-workspace": ">=17.0.0",
     "enquirer": "^2.3.6",
