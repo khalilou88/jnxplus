@@ -32,16 +32,6 @@ export function getProjectRoot(context: ExecutorContext) {
   return project.root;
 }
 
-export function isRootProject(context: ExecutorContext): boolean {
-  const projectRoot = getProjectRoot(context);
-  return !projectRoot;
-}
-
-export function getProjectType(context: ExecutorContext) {
-  const project = getProject(context);
-  return project.projectType;
-}
-
 export function getProjectSourceRoot(context: ExecutorContext) {
   const project = getProject(context);
   return project.sourceRoot;
