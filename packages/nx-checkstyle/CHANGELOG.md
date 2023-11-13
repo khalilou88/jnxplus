@@ -2,6 +2,10 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.2-next.0](https://github.com/khalilou88/jnxplus/compare/nx-checkstyle-0.1.1...nx-checkstyle-0.1.2-next.0) (2023-11-13)
+
+
+
 ## [0.1.1](https://github.com/khalilou88/jnxplus/compare/nx-checkstyle-0.1.0...nx-checkstyle-0.1.1) (2023-11-11)
 
 ### Dependency Updates
