@@ -47,6 +47,11 @@ Generate a parent project to add Spring Boot, Quarkus, or Micronaut frameworks.
 | Format a java project                | `nx format --projects my-project-name`                           |
 | Visualize project's dependency graph | `nx graph`                                                       |
 
+## Known Limitations
+
+- Nx caching don't work especially for libs in a distributed environment
+- Build in parallel mode fails randomly
+
 ## License
 
 MIT © 2021-2023 Khalil LAGRIDA
