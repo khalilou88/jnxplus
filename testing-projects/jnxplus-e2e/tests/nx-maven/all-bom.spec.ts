@@ -1,6 +1,5 @@
 import { normalizeName } from '@jnxplus/common';
 import {
-  addSpringBootVersion,
   addTmpToGitignore,
   createTestWorkspace,
   getData,
@@ -44,8 +43,6 @@ describe('nx-maven all bom e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName}`,
     );
-
-    addSpringBootVersion();
 
     if (isCI) {
       removeTmpFromGitignore();

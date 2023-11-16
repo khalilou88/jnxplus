@@ -1,6 +1,5 @@
 import { normalizeName } from '@jnxplus/common';
 import {
-  addSpringBootVersion,
   addTmpToGitignore,
   checkFilesDoNotExist,
   createTestWorkspace,
@@ -59,8 +58,6 @@ describe('nx-maven maven-root-directory e2e', () => {
     );
 
     await runNxCommandAsync('generate @jnxplus/nx-checkstyle:init');
-
-    addSpringBootVersion();
 
     if (isCI) {
       removeTmpFromGitignore();
