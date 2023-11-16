@@ -36,11 +36,13 @@
           <artifactId>spring-boot-maven-plugin</artifactId>
           <version>${spring.boot.version}</version>
         </plugin>
+<% if(language === 'kotlin') { -%>
         <plugin>
           <groupId>org.jetbrains.kotlin</groupId>
           <artifactId>kotlin-maven-plugin</artifactId>
           <version>${kotlin.version}</version>
         </plugin>
+<% } -%>
       </plugins>
     </pluginManagement>
   </build>

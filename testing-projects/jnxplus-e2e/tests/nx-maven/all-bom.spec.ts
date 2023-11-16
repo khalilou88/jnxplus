@@ -536,7 +536,7 @@ describe('nx-maven all bom e2e', () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --language kotlin`,
     );
 
     const appsParentProject = uniq('apps-parent-project-');
@@ -589,10 +589,6 @@ describe('nx-maven all bom e2e', () => {
       .replace(regex3, 'helloService.message()');
 
     updateFile(helloControllerPath, newHelloControllerContent);
-
-    await runNxCommandAsync(`build ${parentProjectName}`);
-    await runNxCommandAsync(`build ${libsParentProject}`);
-    await runNxCommandAsync(`build ${appsParentProject}`);
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
