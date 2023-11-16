@@ -1,5 +1,4 @@
-import { CustomCli, springBootVersion } from '@jnxplus/common';
-import { readXml, xmlToString } from '@jnxplus/xml';
+import { CustomCli } from '@jnxplus/common';
 import { getPackageManagerCommand } from '@nx/devkit';
 import { exists, tmpProjPath } from '@nx/plugin/testing';
 import axios from 'axios';
@@ -10,7 +9,6 @@ import * as path from 'path';
 import { check as portCheck } from 'tcp-port-used';
 import * as treeKill from 'tree-kill';
 import { promisify } from 'util';
-import { XmlDocument } from 'xmldoc';
 import kill = require('kill-port');
 
 /**
@@ -295,43 +293,4 @@ export function addJVMMemory() {
     '\norg.gradle.jvmargs=-Xmx4096m',
   );
   fs.writeFileSync(gradlePropertiesPath, updatedFileContent);
-}
-
-export function addSpringBootVersion() {
-  let xmldoc;
-  let pomXmlPath = path.join(tmpProjPath(), 'pom.xml');
-
-  if (fs.existsSync(pomXmlPath)) {
-    xmldoc = readXml(pomXmlPath);
-  } else {
-    pomXmlPath = path.join(tmpProjPath(), 'nx-maven', 'pom.xml');
-    xmldoc = readXml(pomXmlPath);
-  }
-
-  //properties
-  let properties = xmldoc.childNamed('properties');
-
-  if (properties === undefined) {
-    xmldoc.children.push(
-      new XmlDocument(`
-    <properties>
-    </properties>
-  `),
-    );
-    properties = xmldoc.childNamed('properties');
-  }
-
-  if (properties === undefined) {
-    throw new Error('Properties tag undefined');
-  }
-  const springBootVersionTag = properties.childNamed('spring.boot.version');
-  if (springBootVersionTag === undefined) {
-    properties.children.push(
-      new XmlDocument(`
-    <spring.boot.version>${springBootVersion}</spring.boot.version>
-  `),
-    );
-
-    fs.writeFileSync(pomXmlPath, xmlToString(xmldoc));
-  }
 }

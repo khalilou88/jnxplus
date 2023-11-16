@@ -1,6 +1,5 @@
 import { normalizeName } from '@jnxplus/common';
 import {
-  addSpringBootVersion,
   addTmpToGitignore,
   checkFilesDoNotExist,
   createTestWorkspace,
@@ -59,8 +58,6 @@ describe('nx-maven maven-root-directory e2e', () => {
     );
 
     await runNxCommandAsync('generate @jnxplus/nx-checkstyle:init');
-
-    addSpringBootVersion();
 
     if (isCI) {
       removeTmpFromGitignore();
@@ -588,11 +585,11 @@ describe('nx-maven maven-root-directory e2e', () => {
     });
   }, 120000);
 
-  xit('should add a kotlin lib to a kotlin app dependencies', async () => {
+  it('should add a kotlin lib to a kotlin app dependencies', async () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --language kotlin`,
     );
 
     const appsParentProject = uniq('apps-parent-project-');

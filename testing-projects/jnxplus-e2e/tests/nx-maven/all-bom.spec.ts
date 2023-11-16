@@ -1,6 +1,5 @@
 import { normalizeName } from '@jnxplus/common';
 import {
-  addSpringBootVersion,
   addTmpToGitignore,
   createTestWorkspace,
   getData,
@@ -44,8 +43,6 @@ describe('nx-maven all bom e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName}`,
     );
-
-    addSpringBootVersion();
 
     if (isCI) {
       removeTmpFromGitignore();
@@ -535,11 +532,11 @@ describe('nx-maven all bom e2e', () => {
     });
   }, 120000);
 
-  xit('should add a kotlin lib to a kotlin app dependencies', async () => {
+  it('should add a kotlin lib to a kotlin app dependencies', async () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --language kotlin`,
     );
 
     const appsParentProject = uniq('apps-parent-project-');
