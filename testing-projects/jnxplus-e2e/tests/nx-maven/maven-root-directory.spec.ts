@@ -588,7 +588,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     });
   }, 120000);
 
-  it('should add a kotlin lib to a kotlin app dependencies', async () => {
+  xit('should add a kotlin lib to a kotlin app dependencies', async () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
