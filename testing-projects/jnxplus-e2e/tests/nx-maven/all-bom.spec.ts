@@ -532,7 +532,7 @@ describe('nx-maven all bom e2e', () => {
     });
   }, 120000);
 
-  xit('should add a kotlin lib to a kotlin app dependencies', async () => {
+  it('should add a kotlin lib to a kotlin app dependencies', async () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
@@ -589,6 +589,10 @@ describe('nx-maven all bom e2e', () => {
       .replace(regex3, 'helloService.message()');
 
     updateFile(helloControllerPath, newHelloControllerContent);
+
+    await runNxCommandAsync(`build ${parentProjectName}`);
+    await runNxCommandAsync(`build ${libsParentProject}`);
+    await runNxCommandAsync(`build ${appsParentProject}`);
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
