@@ -643,9 +643,9 @@ describe('nx-maven maven-root-directory e2e', () => {
 
     updateFile(helloControllerPath, newHelloControllerContent);
 
-    await runNxCommandAsync(`build ${parentProjectName}`);
-
-    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    const buildResult = await runNxCommandAsync(
+      `build ${appName} --skip-nx-cache`,
+    );
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
