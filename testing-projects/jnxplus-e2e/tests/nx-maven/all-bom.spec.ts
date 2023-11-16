@@ -1,6 +1,5 @@
 import { normalizeName } from '@jnxplus/common';
 import {
-  addSpringBootVersion,
   addTmpToGitignore,
   createTestWorkspace,
   getData,
@@ -44,8 +43,6 @@ describe('nx-maven all bom e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName}`,
     );
-
-    addSpringBootVersion();
 
     if (isCI) {
       removeTmpFromGitignore();
@@ -535,7 +532,7 @@ describe('nx-maven all bom e2e', () => {
     });
   }, 120000);
 
-  xit('should add a kotlin lib to a kotlin app dependencies', async () => {
+  it('should add a kotlin lib to a kotlin app dependencies', async () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
@@ -592,6 +589,8 @@ describe('nx-maven all bom e2e', () => {
       .replace(regex3, 'helloService.message()');
 
     updateFile(helloControllerPath, newHelloControllerContent);
+
+    await runNxCommandAsync(`build ${parentProjectName}`);
 
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
