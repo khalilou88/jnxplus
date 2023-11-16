@@ -89,11 +89,11 @@
       }
     },
     "language": {
-      "description": "Language of sub-projects",
+      "description": "Language for sub-projects",
       "type": "string",
       "default": "java",
       "x-prompt": {
-        "message": "Which language of sub-projects would you like to use?",
+        "message": "Which language for sub-projects would you like to use?",
         "type": "list",
         "items": [
           {
