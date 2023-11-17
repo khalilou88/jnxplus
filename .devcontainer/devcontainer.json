@@ -2,15 +2,9 @@
 {
   "name": "JNxPlus Dev Container",
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  "image": "mcr.microsoft.com/vscode/devcontainers/base:ubuntu",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:20-bullseye",
   // Features to add to the dev container. More info: https://containers.dev/features.
   "features": {
-    "ghcr.io/devcontainers/features/git:1": {
-      "version": "latest"
-    },
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "18"
-    },
     "ghcr.io/devcontainers/features/java:1": {
       "version": "17"
     }
@@ -19,10 +13,20 @@
   // "forwardPorts": [],
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "npm i"
+  "postCreateCommand": "./.devcontainer/postCreateCommand.sh",
   // Configure tool-specific properties.
-  // "customizations": {},
-
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "nrwl.angular-console",
+        "firsttris.vscode-jest-runner",
+        "eamodio.gitlens"
+      ],
+      "settings": {
+        "debug.javascript.autoAttachFilter": "onlyWithFlag" // workaround for that issue: https://github.com/microsoft/vscode-js-debug/issues/374#issuecomment-622239998
+      }
+    }
+  }
   // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
   // "remoteUser": "root"
 }
