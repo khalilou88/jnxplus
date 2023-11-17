@@ -6,10 +6,12 @@ on:
         type: choice
         description: t option
         options:
+          - nx-gradle
           - nx-gradle micronaut smoke
           - nx-gradle default smoke
           - nx-gradle quarkus smoke
           - nx-gradle spring-boot smoke
+          - nx-maven
           - nx-maven micronaut smoke
           - nx-maven default smoke
           - nx-maven quarkus smoke
