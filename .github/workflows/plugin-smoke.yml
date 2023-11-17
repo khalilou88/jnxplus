@@ -53,5 +53,5 @@ jobs:
       - name: smoke tests
         run: npm run nx smoke jnxplus-smoke -- --t="${{ github.event.inputs.t_option }}"
         env:
-          NX_MAVEN_CLI_OPTS: '--no-transfer-progress'
-          MAVEN_ARGS: '-Dmaven.plugin.validation=VERBOSE'
+          NX_MAVEN_CLI_OPTS: '--no-transfer-progress -Dmaven.plugin.validation=VERBOSE'
+
