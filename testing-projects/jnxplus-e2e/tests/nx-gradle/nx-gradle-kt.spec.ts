@@ -15,7 +15,7 @@ import {
 import { execSync } from 'child_process';
 import { rmSync } from 'fs';
 
-describe('nx-gradle kotlin dsl e2e', () => {
+describe('nx-gradle all kotlin dsl e2e', () => {
   let workspaceDirectory: string;
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';

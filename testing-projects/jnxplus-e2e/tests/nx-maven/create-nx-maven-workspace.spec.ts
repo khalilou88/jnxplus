@@ -2,7 +2,7 @@ import { createTestWorkspaceWithCustomCli } from '@jnxplus/internal/testing';
 import { execSync } from 'child_process';
 import { rmSync } from 'fs';
 
-describe('create-nx-maven-workspace', () => {
+describe('nx-maven create-nx-maven-workspace', () => {
   let workspaceDirectory: string;
 
   afterAll(() => {

@@ -6,10 +6,22 @@ on:
         type: choice
         description: t option
         options:
+          - nx-gradle
+          - nx-gradle create-nx-gradle-workspace
+          - nx-gradle gradle-root-directory e2e
+          - nx-gradle gradle-root-directory kotlin dsl e2e
+          - nx-gradle kt-multiplatform kotlin dsl e2e
+          - nx-gradle micronaut e2e
+          - nx-gradle micronaut kotlin dsl e2e
+          - nx-gradle all e2e
+          - nx-gradle all kotlin dsl e2e
+          - nx-gradle quarkus e2e
+          - nx-gradle quarkus kotlin dsl e2e
           - nx-gradle spring-boot e2e
-          - create-nx-gradle-workspace
+          - nx-gradle spring-boot kotlin dsl e2e
+          - nx-maven
           - nx-maven all bom e2e
-          - create-nx-maven-workspace
+          - nx-maven create-nx-maven-workspace
           - nx-maven maven-root-directory e2e
           - nx-maven micronaut-parent-pom e2e
           - nx-maven quarkus bom e2e

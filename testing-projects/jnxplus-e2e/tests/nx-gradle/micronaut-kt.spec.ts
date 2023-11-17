@@ -24,7 +24,7 @@ import { rmSync } from 'fs';
 import * as fse from 'fs-extra';
 import * as path from 'path';
 
-describe('nx-micronaut-gradle kt e2e', () => {
+describe('nx-gradle micronaut kotlin dsl e2e', () => {
   let workspaceDirectory: string;
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
