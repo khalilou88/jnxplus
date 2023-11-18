@@ -28,6 +28,9 @@ const testApp2 = uniq('test-app2');
 const testLib2 = uniq('test-lib2');
 const testApp3 = uniq('test-app3');
 const testApp4 = uniq('test-app4');
+const testApp5 = uniq('test-app5');
+const testLib5 = uniq('test-lib5');
+const testApp6 = uniq('test-app6');
 
 describe('nx-maven spring-boot smoke', () => {
   beforeEach(async () => {
@@ -70,7 +73,7 @@ describe('nx-maven spring-boot smoke', () => {
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp2} --framework spring-boot`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp2} --framework spring-boot --packaging war`,
       execSyncOptions(),
     );
 
@@ -86,6 +89,21 @@ describe('nx-maven spring-boot smoke', () => {
 
     execSync(
       `npx nx g @jnxplus/nx-maven:lib ${testLib2} --framework spring-boot --projects ${testApp2},${testApp3},${testApp4}`,
+      execSyncOptions(),
+    );
+
+    execSync(
+      `npx nx g @jnxplus/nx-maven:application ${testApp5} --framework spring-boot --language kotlin`,
+      execSyncOptions(),
+    );
+
+    execSync(
+      `npx nx g @jnxplus/nx-maven:application ${testApp6} --framework spring-boot --language kotlin --packaging war`,
+      execSyncOptions(),
+    );
+
+    execSync(
+      `npx nx g @jnxplus/nx-maven:lib ${testLib5} --framework spring-boot --projects ${testApp5},${testApp6}`,
       execSyncOptions(),
     );
 
