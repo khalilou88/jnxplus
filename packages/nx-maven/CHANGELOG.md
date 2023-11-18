@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.17.0](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.16.3...nx-maven-0.17.0) (2023-11-18)
+
+### Dependency Updates
+
+* `internal-generators-files` updated to version `0.1.0`
+
+### Features
+
+* fix Maven plugin validation warnings ([#625](https://github.com/khalilou88/jnxplus/issues/625)) ([671c17a](https://github.com/khalilou88/jnxplus/commit/671c17a2830af7fa1ca0ee5b06e5e4d7dc8f61eb))
+* **generators:** add language option to parent-project generator ([#623](https://github.com/khalilou88/jnxplus/issues/623)) ([e6cf9ca](https://github.com/khalilou88/jnxplus/commit/e6cf9ca1b154c9ac0bbc06d99b5f38aa14d3cdf5))
+
+
+
 ## [0.16.3](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.16.3-next.0...nx-maven-0.16.3) (2023-11-13)
 
 ### Dependency Updates
