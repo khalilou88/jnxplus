@@ -25,14 +25,17 @@ const libsParentProject = uniq('libs-parent-project-');
 const appsParentProject = uniq('apps-parent-project-');
 
 const testApp = uniq('test-app-');
-const testLib = uniq('test-lib');
+const testLib = uniq('test-lib-');
 
 const testApp2 = uniq('test-app2-');
 const testLib2 = uniq('test-lib2-');
 const testApp3 = uniq('test-app3-');
 const testApp4 = uniq('test-app4-');
+const testApp5 = uniq('test-app5-');
+const testLib5 = uniq('test-lib5-');
+const testApp6 = uniq('test-app6-');
 
-describe('nx-maven default smoke', () => {
+describe('nx-maven micronaut bom smoke', () => {
   beforeEach(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
       unsafeCleanup: true,
@@ -60,7 +63,7 @@ describe('nx-maven default smoke', () => {
     execSync('npx nx generate @jnxplus/nx-maven:init', execSyncOptions());
 
     execSync(
-      `npx nx generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`,
+      `npx nx generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework micronaut`,
       execSyncOptions(),
     );
 
@@ -70,32 +73,47 @@ describe('nx-maven default smoke', () => {
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp} --parentProject ${appsParentProject}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp} --parentProject ${appsParentProject} --framework micronaut`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:lib ${testLib} --parentProject ${libsParentProject} --projects ${testApp}`,
+      `npx nx g @jnxplus/nx-maven:lib ${testLib} --parentProject ${libsParentProject} --projects ${testApp} --framework micronaut`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp2} --parentProject ${appsParentProject}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp2} --parentProject ${appsParentProject} --framework micronaut`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp3} --parentProject ${appsParentProject}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp3} --parentProject ${appsParentProject} --framework micronaut`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp4} --parentProject ${appsParentProject}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp4} --parentProject ${appsParentProject} --framework micronaut`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:lib ${testLib2} --parentProject ${libsParentProject} --projects ${testApp2},${testApp3},${testApp4}`,
+      `npx nx g @jnxplus/nx-maven:lib ${testLib2} --parentProject ${libsParentProject} --projects ${testApp2},${testApp3},${testApp4} --framework micronaut`,
+      execSyncOptions(),
+    );
+
+    execSync(
+      `npx nx g @jnxplus/nx-maven:application ${testApp5} --parentProject ${appsParentProject} --framework micronaut --language kotlin`,
+      execSyncOptions(),
+    );
+
+    execSync(
+      `npx nx g @jnxplus/nx-maven:application ${testApp6} --parentProject ${appsParentProject} --framework micronaut --language kotlin`,
+      execSyncOptions(),
+    );
+
+    execSync(
+      `npx nx g @jnxplus/nx-maven:lib ${testLib5} --parentProject ${libsParentProject} --framework micronaut --language kotlin --projects ${testApp5},${testApp6}`,
       execSyncOptions(),
     );
 

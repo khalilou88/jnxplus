@@ -21,16 +21,16 @@ const execSyncOptions: () => ExecSyncOptions = () => ({
   stdio: 'inherit',
 });
 
-const testApp = uniq('test-app');
-const testLib = uniq('test-lib');
+const testApp = uniq('test-app-');
+const testLib = uniq('test-lib-');
 
-const testApp2 = uniq('test-app2');
-const testLib2 = uniq('test-lib2');
-const testApp3 = uniq('test-app3');
-const testApp4 = uniq('test-app4');
-const testApp5 = uniq('test-app5');
-const testLib5 = uniq('test-lib5');
-const testApp6 = uniq('test-app6');
+const testApp2 = uniq('test-app2-');
+const testLib2 = uniq('test-lib2-');
+const testApp3 = uniq('test-app3-');
+const testApp4 = uniq('test-app4-');
+const testApp5 = uniq('test-app5-');
+const testLib5 = uniq('test-lib5-');
+const testApp6 = uniq('test-app6-');
 
 describe('nx-maven spring-boot smoke', () => {
   beforeEach(async () => {

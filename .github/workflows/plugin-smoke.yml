@@ -13,9 +13,10 @@ on:
           - nx-gradle spring-boot smoke
           - nx-maven
           - nx-maven micronaut smoke
-          - nx-maven default smoke
+          - nx-maven micronaut bom smoke
           - nx-maven quarkus smoke
           - nx-maven spring-boot smoke
+          - nx-maven spring-boot bom smoke
       os:
         type: choice
         description: Os

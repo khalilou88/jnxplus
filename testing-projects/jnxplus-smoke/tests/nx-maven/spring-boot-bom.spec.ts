@@ -35,7 +35,7 @@ const testApp5 = uniq('test-app5-');
 const testLib5 = uniq('test-lib5-');
 const testApp6 = uniq('test-app6-');
 
-describe('nx-maven quarkus smoke', () => {
+describe('nx-maven spring-boot bom smoke', () => {
   beforeEach(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
       unsafeCleanup: true,
@@ -63,7 +63,7 @@ describe('nx-maven quarkus smoke', () => {
     execSync('npx nx generate @jnxplus/nx-maven:init', execSyncOptions());
 
     execSync(
-      `npx nx generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework quarkus`,
+      `npx nx generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`,
       execSyncOptions(),
     );
 
@@ -73,47 +73,47 @@ describe('nx-maven quarkus smoke', () => {
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp} --framework quarkus --parentProject ${appsParentProject}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp} --parentProject ${appsParentProject}`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:lib ${testLib} --framework quarkus --parentProject ${libsParentProject} --projects ${testApp}`,
+      `npx nx g @jnxplus/nx-maven:lib ${testLib} --parentProject ${libsParentProject} --projects ${testApp}`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp2} --framework quarkus --parentProject ${appsParentProject}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp2} --parentProject ${appsParentProject} --packaging war`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp3} --framework quarkus --parentProject ${appsParentProject}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp3} --parentProject ${appsParentProject}`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp4} --framework quarkus --parentProject ${appsParentProject}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp4} --parentProject ${appsParentProject}`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:lib ${testLib2} --framework quarkus --parentProject ${libsParentProject} --projects ${testApp2},${testApp3},${testApp4}`,
+      `npx nx g @jnxplus/nx-maven:lib ${testLib2} --parentProject ${libsParentProject} --projects ${testApp2},${testApp3},${testApp4}`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp5} --parentProject ${appsParentProject} --framework micronaut --language kotlin`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp5} --parentProject ${appsParentProject} --framework spring-boot --language kotlin`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp6} --parentProject ${appsParentProject} --framework micronaut --language kotlin`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp6} --parentProject ${appsParentProject} --framework spring-boot --language kotlin --packaging war`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:lib ${testLib5} --parentProject ${libsParentProject} --framework micronaut --language kotlin --projects ${testApp5},${testApp6}`,
+      `npx nx g @jnxplus/nx-maven:lib ${testLib5} --parentProject ${libsParentProject} --framework spring-boot --language kotlin --projects ${testApp5},${testApp6}`,
       execSyncOptions(),
     );
 
