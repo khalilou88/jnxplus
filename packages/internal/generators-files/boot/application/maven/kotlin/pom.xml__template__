@@ -55,7 +55,7 @@
       <plugin>
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-maven-plugin</artifactId>
-<% if(plugin === '@jnxplus/nx-maven') { -%>
+<% if(dependencyManagement === 'bom') { -%>
         <executions>
           <execution>
             <id>compile</id>
@@ -79,7 +79,7 @@
           <compilerPlugins>
             <plugin>spring</plugin>
           </compilerPlugins>
-<% if(plugin === '@jnxplus/nx-maven') { -%>
+<% if(dependencyManagement === 'bom') { -%>
           <jvmTarget>${java.version}</jvmTarget>
 <% } -%>
         </configuration>
@@ -91,6 +91,24 @@
           </dependency>
         </dependencies>
       </plugin>
+
+<% if(dependencyManagement === 'bom' && packaging === 'war') { -%>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>${maven-war-plugin.version}</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>${start-class}</mainClass>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+<% } -%>
+
+
     </plugins>
   </build>
 
