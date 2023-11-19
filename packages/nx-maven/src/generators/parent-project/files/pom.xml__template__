@@ -70,7 +70,7 @@
           <artifactId>spring-boot-maven-plugin</artifactId>
           <version>${spring.boot.version}</version>
         </plugin>
-<% if(language === 'kotlin') { -%>
+<% if(language === 'kotlin' || language === 'java-kotlin') { -%>
         <plugin>
           <groupId>org.jetbrains.kotlin</groupId>
           <artifactId>kotlin-maven-plugin</artifactId>
