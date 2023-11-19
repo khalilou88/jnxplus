@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.17.1](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.17.0...nx-maven-0.17.1) (2023-11-19)
+
+
+### Bug Fixes
+
+* add micronaut.core.version ([#627](https://github.com/khalilou88/jnxplus/issues/627)) ([65f03b1](https://github.com/khalilou88/jnxplus/commit/65f03b145d5a467d2ed9a9337b4c397b751f50ac))
+
+
+
 # [0.17.0](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.16.3...nx-maven-0.17.0) (2023-11-18)
 
 ### Dependency Updates
