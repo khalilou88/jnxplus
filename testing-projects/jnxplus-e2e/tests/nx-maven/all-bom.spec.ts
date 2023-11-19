@@ -795,4 +795,166 @@ describe('nx-maven all bom e2e', () => {
       // ignore err
     }
   }, 120000);
+
+  it('micronaut: should add a lib to an app dependencies', async () => {
+    const parentProject = uniq('parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${parentProject} --framework micronaut --language kotlin`,
+    );
+
+    const appName = uniq('micronaut-maven-app-');
+    const libName = uniq('micronaut-maven-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --parentProject ${parentProject}`,
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --projects ${appName} --parentProject ${parentProject}`,
+    );
+
+    // Making sure the app pom.xml file contains the lib
+    const pomXml = readFile(`${appName}/pom.xml`);
+    expect(pomXml.includes(`${libName}`)).toBeTruthy();
+
+    const helloControllerPath = `${appName}/src/main/java/com/example/${names(
+      appName,
+    ).className.toLocaleLowerCase()}/HelloController.java`;
+    const helloControllerContent = readFile(helloControllerPath);
+
+    const regex1 = /package\s*com\.example\..*\s*;/;
+
+    const regex2 = /public\s*class\s*HelloController\s*{/;
+
+    const regex3 = /"Hello World"/;
+
+    const newHelloControllerContent = helloControllerContent
+      .replace(
+        regex1,
+        `$&\nimport jakarta.inject.Inject;\nimport com.example.${names(
+          libName,
+        ).className.toLocaleLowerCase()}.HelloService;`,
+      )
+      .replace(regex2, '$&\n@Inject\nprivate HelloService helloService;')
+      .replace(regex3, 'this.helloService.greeting()');
+
+    updateFile(helloControllerPath, newHelloControllerContent);
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    const formatResult = await runNxCommandAsync(
+      `format:write --projects ${appName}`,
+    );
+    expect(formatResult.stdout).toContain('');
+
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.nodes[appName]).toBeDefined();
+    expect(depGraphJson.graph.nodes[libName]).toBeDefined();
+
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: parentProjectName,
+    });
+
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: parentProjectName,
+    });
+
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: libName,
+    });
+  }, 120000);
+
+  it('micronaut: should add a kotlin lib to a kotlin app dependencies', async () => {
+    const parentProject = uniq('parent-project-');
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${parentProject} --framework micronaut --language kotlin`,
+    );
+
+    const appName = uniq('micronaut-maven-app-');
+    const libName = uniq('micronaut-maven-lib-');
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin --packaging war --parentProject ${parentProject}`,
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --language kotlin --projects ${appName} --parentProject ${parentProject}`,
+    );
+
+    // Making sure the app pom.xml file contains the lib
+    const pomXml = readFile(`${appName}/pom.xml`);
+    expect(pomXml.includes(`${libName}`)).toBeTruthy();
+
+    const helloControllerPath = `${appName}/src/main/kotlin/com/example/${names(
+      appName,
+    ).className.toLocaleLowerCase()}/HelloController.kt`;
+    const helloControllerContent = readFile(helloControllerPath);
+
+    const regex1 = /package\s*com\.example\..*/;
+
+    const regex2 = /class\s*HelloController/;
+
+    const regex3 = /"Hello World"/;
+
+    const newHelloControllerContent = helloControllerContent
+      .replace(
+        regex1,
+        `$&\nimport jakarta.inject.Inject\nimport com.example.${names(
+          libName,
+        ).className.toLocaleLowerCase()}.HelloService`,
+      )
+      .replace(regex2, '$&(@Inject val helloService: HelloService)')
+      .replace(regex3, 'helloService.greeting()');
+
+    updateFile(helloControllerPath, newHelloControllerContent);
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    // const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
+    // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
+
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    await runNxCommandAsync(`dep-graph --file=dep-graph.json`);
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.nodes[appName]).toBeDefined();
+    expect(depGraphJson.graph.nodes[libName]).toBeDefined();
+
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: parentProjectName,
+    });
+
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: parentProjectName,
+    });
+
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: libName,
+    });
+  }, 120000);
 });
