@@ -130,6 +130,7 @@
       <maven.compiler.source>${java.version}</maven.compiler.source>
       <maven.compiler.target>${java.version}</maven.compiler.target>
       <maven.compiler.release>${java.version}</maven.compiler.release>
+      <micronaut.core.version>4.0.2</micronaut.core.version>
       <micronaut.serialization.version>2.0.2</micronaut.serialization.version>
       <micronaut.test.resources.version>2.0.0</micronaut.test.resources.version>
       <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
