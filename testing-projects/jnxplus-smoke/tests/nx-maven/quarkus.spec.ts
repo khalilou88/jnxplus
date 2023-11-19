@@ -103,17 +103,17 @@ describe('nx-maven quarkus smoke', () => {
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp5} --parentProject ${appsParentProject} --framework micronaut --language kotlin`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp5} --parentProject ${appsParentProject} --framework quarkus --language kotlin`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp6} --parentProject ${appsParentProject} --framework micronaut --language kotlin`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp6} --parentProject ${appsParentProject} --framework quarkus --language kotlin`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:lib ${testLib5} --parentProject ${libsParentProject} --framework micronaut --language kotlin --projects ${testApp5},${testApp6}`,
+      `npx nx g @jnxplus/nx-maven:lib ${testLib5} --parentProject ${libsParentProject} --framework quarkus --language kotlin --projects ${testApp5},${testApp6}`,
       execSyncOptions(),
     );
 
