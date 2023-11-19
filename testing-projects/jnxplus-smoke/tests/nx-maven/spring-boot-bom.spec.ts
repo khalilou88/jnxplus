@@ -63,7 +63,7 @@ describe('nx-maven spring-boot bom smoke', () => {
     execSync('npx nx generate @jnxplus/nx-maven:init', execSyncOptions());
 
     execSync(
-      `npx nx generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`,
+      `npx nx generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --language kotlin`,
       execSyncOptions(),
     );
 
