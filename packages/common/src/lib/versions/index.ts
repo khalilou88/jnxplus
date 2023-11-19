@@ -9,7 +9,7 @@ export const springDependencyManagementVersion = '1.1.0';
 export const quarkusVersion = '3.1.2.Final';
 
 //Micronaut
-export const micronautVersion = '4.0.2';
+export const micronautVersion = '4.2.0';
 export const kspVersion = '1.8.22-1.0.11';
 export const shadowVersion = '8.1.1';
 
