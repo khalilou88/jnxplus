@@ -28,6 +28,8 @@ describe('nx-maven spring-boot bom e2e', () => {
   const isCI =
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const parentProjectName = uniq('boot-parent-project-');
+  const libsParentProject = uniq('libs-parent-project-');
+  const appsParentProject = uniq('apps-parent-project-');
 
   beforeAll(async () => {
     workspaceDirectory = createTestWorkspace();
@@ -42,6 +44,14 @@ describe('nx-maven spring-boot bom e2e', () => {
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName}`,
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --language kotlin`,
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject} --framework none`,
     );
 
     if (isCI) {
@@ -85,11 +95,6 @@ describe('nx-maven spring-boot bom e2e', () => {
   }, 120000);
 
   it('spring-boot: should create a java application', async () => {
-    const appsParentProject = uniq('apps-parent-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`,
-    );
-
     const appName = uniq('boot-maven-app-');
 
     await runNxCommandAsync(
@@ -196,17 +201,6 @@ describe('nx-maven spring-boot bom e2e', () => {
   }, 120000);
 
   it('spring-boot: should add a lib to an app dependencies', async () => {
-    const libsParentProject = uniq('libs-parent-project-');
-
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`,
-    );
-
-    const appsParentProject = uniq('apps-parent-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject} --framework none`,
-    );
-
     const appName = uniq('boot-maven-app-');
 
     await runNxCommandAsync(
@@ -285,17 +279,6 @@ describe('nx-maven spring-boot bom e2e', () => {
   }, 120000);
 
   it('spring-boot: should add a kotlin lib to a kotlin app dependencies', async () => {
-    const libsParentProject = uniq('libs-parent-project-');
-
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --language kotlin`,
-    );
-
-    const appsParentProject = uniq('apps-parent-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject} --framework none`,
-    );
-
     const appName = uniq('boot-maven-app-');
     const libName = uniq('boot-maven-lib-');
 
@@ -385,7 +368,7 @@ describe('nx-maven spring-boot bom e2e', () => {
     const port = 8181;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework spring-boot --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`,
+      `generate @jnxplus/nx-maven:application ${randomName} --framework spring-boot --parentProject ${appsParentProject} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port}`,
     );
 
     expect(() =>
