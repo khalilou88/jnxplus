@@ -40,27 +40,25 @@
     <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
     <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
     <plugins>
-        <plugin>
+      <plugin>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-maven-plugin</artifactId>
+        <configuration>
+          <args>
+            <arg>-Xjsr305=strict</arg>
+          </args>
+          <compilerPlugins>
+            <plugin>spring</plugin>
+          </compilerPlugins>
+        </configuration>
+        <dependencies>
+          <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-maven-plugin</artifactId>
+            <artifactId>kotlin-maven-allopen</artifactId>
             <version>${kotlin.version}</version>
-
-            <executions>
-                <execution>
-                    <id>compile</id>
-                    <goals>
-                        <goal>compile</goal>
-                    </goals>
-                </execution>
-
-                <execution>
-                    <id>test-compile</id>
-                    <goals>
-                        <goal>test-compile</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
+          </dependency>
+        </dependencies>
+      </plugin>
     </plugins>
   </build>
 

@@ -55,23 +55,6 @@
       <plugin>
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-maven-plugin</artifactId>
-<% if(dependencyManagement === 'bom') { -%>
-        <executions>
-          <execution>
-            <id>compile</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <configuration>
-              <sourceDirs>
-                <source>src/main/kotlin</source>
-                <source>target/generated-sources/annotations</source>
-              </sourceDirs>
-            </configuration>
-          </execution>
-        </executions>
-<% } -%>
         <configuration>
           <args>
             <arg>-Xjsr305=strict</arg>
@@ -79,9 +62,6 @@
           <compilerPlugins>
             <plugin>spring</plugin>
           </compilerPlugins>
-<% if(dependencyManagement === 'bom') { -%>
-          <jvmTarget>${java.version}</jvmTarget>
-<% } -%>
         </configuration>
         <dependencies>
           <dependency>
