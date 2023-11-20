@@ -25,6 +25,7 @@ on:
           - nx-maven maven-root-directory e2e
           - nx-maven micronaut-parent-pom e2e
           - nx-maven quarkus bom e2e
+          - nx-maven spring-boot bom e2e
           - nx-maven spring-boot-parent-pom e2e
       os:
         type: choice
