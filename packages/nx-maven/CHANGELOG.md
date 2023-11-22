@@ -2,6 +2,18 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.17.2](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.17.1...nx-maven-0.17.2) (2023-11-22)
+
+### Dependency Updates
+
+* `internal-generators-files` updated to version `0.1.0`
+
+### Bug Fixes
+
+* fix maven warning ([#626](https://github.com/khalilou88/jnxplus/issues/626)) ([c8b9554](https://github.com/khalilou88/jnxplus/commit/c8b95546b5e83125023494924631c0185e7d6dc8))
+
+
+
 ## [0.17.1](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.17.0...nx-maven-0.17.1) (2023-11-19)
 
 
