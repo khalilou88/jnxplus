@@ -57,6 +57,20 @@
             <mainClass>${start-class}</mainClass>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>${maven-war-plugin.version}</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <mainClass>${start-class}</mainClass>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              </manifest>
+            </archive>
+          </configuration>
+        </plugin>
+
 <% if(language === 'kotlin' || language === 'java-kotlin') { -%>
         <plugin>
             <groupId>org.jetbrains.kotlin</groupId>
