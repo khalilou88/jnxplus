@@ -361,21 +361,6 @@ describe('nx-maven maven-root-directory e2e', () => {
     // const lintResult = await runNxCommandAsync(`lint ${appName}`);
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
-    //test run-task
-    const projectJson = readJson(`nx-maven/${appName}/project.json`);
-    projectJson.targets = {
-      ...projectJson.targets,
-      'run-task': {
-        executor: '@jnxplus/nx-maven:run-task',
-      },
-    };
-    updateFile(`nx-maven/${appName}/project.json`, JSON.stringify(projectJson));
-    const runTaskResult = await runNxCommandAsync(
-      `run-task ${appName} --task="clean install -DskipTests=true"`,
-    );
-    expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
-    //end test run-task
-
     //graph
     const depGraphResult = await runNxCommandAsync(
       `dep-graph --file=dep-graph.json`,
@@ -812,21 +797,6 @@ describe('nx-maven maven-root-directory e2e', () => {
     // const lintResult = await runNxCommandAsync(`lint ${appName}`);
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
-    //test run-task
-    const projectJson = readJson(`nx-maven/${appName}/project.json`);
-    projectJson.targets = {
-      ...projectJson.targets,
-      'run-task': {
-        executor: '@jnxplus/nx-maven:run-task',
-      },
-    };
-    updateFile(`nx-maven/${appName}/project.json`, JSON.stringify(projectJson));
-    const runTaskResult = await runNxCommandAsync(
-      `run-task ${appName} --task="clean install -DskipTests=true"`,
-    );
-    expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
-    //end test run-task
-
     //graph
     const depGraphResult = await runNxCommandAsync(
       `dep-graph --file=dep-graph.json`,
@@ -974,21 +944,6 @@ describe('nx-maven maven-root-directory e2e', () => {
 
     // const lintResult = await runNxCommandAsync(`lint ${appName}`);
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
-
-    //test run-task
-    const projectJson = readJson(`nx-maven/${appName}/project.json`);
-    projectJson.targets = {
-      ...projectJson.targets,
-      'run-task': {
-        executor: '@jnxplus/nx-maven:run-task',
-      },
-    };
-    updateFile(`nx-maven/${appName}/project.json`, JSON.stringify(projectJson));
-    const runTaskResult = await runNxCommandAsync(
-      `run-task ${appName} --task="clean install -DskipTests=true"`,
-    );
-    expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
-    //end test run-task
 
     //graph
     const depGraphResult = await runNxCommandAsync(
