@@ -23,6 +23,7 @@ on:
           - nx-maven all bom e2e
           - nx-maven create-nx-maven-workspace
           - nx-maven maven-root-directory e2e
+          - nx-maven micronaut bom e2e
           - nx-maven micronaut-parent-pom e2e
           - nx-maven quarkus bom e2e
           - nx-maven spring-boot bom e2e
