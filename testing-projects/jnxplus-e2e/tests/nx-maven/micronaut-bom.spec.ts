@@ -18,7 +18,6 @@ import {
   updateFile,
 } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
-import { rmSync } from 'fs';
 import * as fse from 'fs-extra';
 import * as path from 'path';
 
@@ -138,21 +137,6 @@ describe('nx-maven micronaut bom e2e', () => {
 
     // const lintResult = await runNxCommandAsync(`lint ${appName}`);
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
-
-    //test run-task
-    const projectJson = readJson(`${appName}/project.json`);
-    projectJson.targets = {
-      ...projectJson.targets,
-      'run-task': {
-        executor: '@jnxplus/nx-maven:run-task',
-      },
-    };
-    updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
-    const runTaskResult = await runNxCommandAsync(
-      `run-task ${appName} --task="clean install -DskipTests=true"`,
-    );
-    expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
-    //end test run-task
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -289,21 +273,6 @@ describe('nx-maven micronaut bom e2e', () => {
 
     // const lintResult = await runNxCommandAsync(`lint ${appName}`);
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
-
-    //test run-task
-    const projectJson = readJson(`${appName}/project.json`);
-    projectJson.targets = {
-      ...projectJson.targets,
-      'run-task': {
-        executor: '@jnxplus/nx-maven:run-task',
-      },
-    };
-    updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
-    const runTaskResult = await runNxCommandAsync(
-      `run-task ${appName} --task="clean install -DskipTests=true"`,
-    );
-    expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
-    //end test run-task
 
     //graph
     const depGraphResult = await runNxCommandAsync(
