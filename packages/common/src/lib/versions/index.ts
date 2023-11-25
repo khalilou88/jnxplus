@@ -6,7 +6,7 @@ export const springBootVersion = '3.1.0';
 export const springDependencyManagementVersion = '1.1.0';
 
 //Quarkus
-export const quarkusVersion = '3.1.2.Final';
+export const quarkusVersion = '3.5.3';
 
 //Micronaut
 export const micronautVersion = '4.2.0';
