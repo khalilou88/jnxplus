@@ -347,6 +347,13 @@ function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
     templateOptions,
   );
 
+  generateFiles(
+    tree,
+    path.join(d, 'files', 'micronaut', 'shared'),
+    options.projectRoot,
+    templateOptions,
+  );
+
   if (options.minimal) {
     const fileExtension = options.language === 'java' ? 'java' : 'kt';
     tree.delete(
