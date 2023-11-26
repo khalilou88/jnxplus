@@ -2,6 +2,16 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.16.0](https://github.com/khalilou88/jnxplus/compare/common-0.15.2...common-0.16.0) (2023-11-26)
+
+
+### Features
+
+* **generators:** update micronaut versions ([#646](https://github.com/khalilou88/jnxplus/issues/646)) ([be0ec84](https://github.com/khalilou88/jnxplus/commit/be0ec840de6d86e001f107361b1b3a82c7d1596c))
+* **generators:** update quarkus versions ([#647](https://github.com/khalilou88/jnxplus/issues/647)) ([7b9d7ad](https://github.com/khalilou88/jnxplus/commit/7b9d7ad9eb5fad016305c64131cddbad6c6d1c00))
+
+
+
 ## [0.15.2](https://github.com/khalilou88/jnxplus/compare/common-0.15.2-next.0...common-0.15.2) (2023-11-13)
 
 
