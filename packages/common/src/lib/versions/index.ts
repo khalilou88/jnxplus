@@ -10,6 +10,9 @@ export const quarkusVersion = '3.5.3';
 
 //Micronaut
 export const micronautVersion = '4.2.0';
+export const micronautCoreVersion = '4.2.0';
+export const micronautSerializationVersion = '2.4.0';
+export const micronautMavenPluginVersion = '4.0.7';
 export const kspVersion = '1.9.20-1.0.14';
 export const shadowVersion = '8.1.1';
 
@@ -24,3 +27,9 @@ export const prettierPluginJavaVersion = '^2.3.1';
 //Linters
 export const checkstyleVersion = '10.12.4';
 export const ktlintVersion = '1.0.1';
+
+//Maven plugins
+export const mavenCompilerPluginVersion = '3.11.0';
+export const mavenEnforcerPluginVersion = '3.4.1';
+export const mavenResourcesPluginVersion = '3.3.1';
+export const mavenWarPluginVersion = '3.4.0';
