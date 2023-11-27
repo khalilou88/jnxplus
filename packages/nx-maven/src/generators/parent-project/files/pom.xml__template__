@@ -181,6 +181,7 @@
       <micronaut-maven-plugin.version><%= micronautMavenPluginVersion %></micronaut-maven-plugin.version>
       <micronaut.core.version><%= micronautCoreVersion %></micronaut.core.version>
       <micronaut.serialization.version><%= micronautSerializationVersion %></micronaut.serialization.version>
+      <micronaut.test.resources.version><%= micronautTestResourcesVersion %></micronaut.test.resources.version>
   </properties>
 
   <dependencyManagement>
