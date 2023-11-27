@@ -4,6 +4,16 @@ import {
   normalizeName,
   quarkusVersion,
   springBootVersion,
+  micronautCoreVersion,
+  micronautSerializationVersion,
+  micronautTestResourcesVersion,
+  micronautMavenPluginVersion,
+  mavenCompilerPluginVersion,
+  mavenEnforcerPluginVersion,
+  mavenResourcesPluginVersion,
+  mavenWarPluginVersion,
+  mavenSurefirePluginVersion,
+  mavenFailsafePluginVersion,
 } from '@jnxplus/common';
 import { readXmlTree } from '@jnxplus/xml';
 import {
@@ -42,6 +52,16 @@ interface NormalizedSchema extends NxMavenParentProjectGeneratorSchema {
   quarkusVersion: string;
   micronautVersion: string;
   mavenRootDirectory: string;
+  micronautCoreVersion: string;
+  micronautSerializationVersion: string;
+  micronautTestResourcesVersion: string;
+  micronautMavenPluginVersion: string;
+  mavenCompilerPluginVersion: string;
+  mavenEnforcerPluginVersion: string;
+  mavenResourcesPluginVersion: string;
+  mavenWarPluginVersion: string;
+  mavenSurefirePluginVersion: string;
+  mavenFailsafePluginVersion: string;
 }
 
 function normalizeOptions(
@@ -114,6 +134,16 @@ function normalizeOptions(
     quarkusVersion,
     micronautVersion,
     mavenRootDirectory,
+    micronautCoreVersion,
+    micronautSerializationVersion,
+    micronautTestResourcesVersion,
+    micronautMavenPluginVersion,
+    mavenCompilerPluginVersion,
+    mavenEnforcerPluginVersion,
+    mavenResourcesPluginVersion,
+    mavenWarPluginVersion,
+    mavenSurefirePluginVersion,
+    mavenFailsafePluginVersion,
   };
 }
 
