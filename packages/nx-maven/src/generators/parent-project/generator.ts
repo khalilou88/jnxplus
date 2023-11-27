@@ -11,6 +11,8 @@ import {
   mavenEnforcerPluginVersion,
   mavenResourcesPluginVersion,
   mavenWarPluginVersion,
+  mavenSurefirePluginVersion,
+  mavenFailsafePluginVersion,
 } from '@jnxplus/common';
 import { readXmlTree } from '@jnxplus/xml';
 import {
@@ -56,6 +58,8 @@ interface NormalizedSchema extends NxMavenParentProjectGeneratorSchema {
   mavenEnforcerPluginVersion: string;
   mavenResourcesPluginVersion: string;
   mavenWarPluginVersion: string;
+  mavenSurefirePluginVersion: string;
+  mavenFailsafePluginVersion: string;
 }
 
 function normalizeOptions(
@@ -135,6 +139,8 @@ function normalizeOptions(
     mavenEnforcerPluginVersion,
     mavenResourcesPluginVersion,
     mavenWarPluginVersion,
+    mavenSurefirePluginVersion,
+    mavenFailsafePluginVersion,
   };
 }
 

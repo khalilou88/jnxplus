@@ -131,6 +131,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <maven-compiler-plugin.version><%= mavenCompilerPluginVersion %></maven-compiler-plugin.version>
+    <maven-surefire-plugin.version><%= mavenSurefirePluginVersion %></maven-surefire-plugin.version>
+    <maven-failsafe-plugin.version><%= mavenFailsafePluginVersion %></maven-failsafe-plugin.version>
     <maven-resources-plugin.version><%= mavenResourcesPluginVersion %></maven-resources-plugin.version>
   </properties>
 

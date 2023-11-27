@@ -33,3 +33,5 @@ export const mavenCompilerPluginVersion = '3.11.0';
 export const mavenEnforcerPluginVersion = '3.4.1';
 export const mavenResourcesPluginVersion = '3.3.1';
 export const mavenWarPluginVersion = '3.4.0';
+export const mavenSurefirePluginVersion = '3.0.0';
+export const mavenFailsafePluginVersion = '3.0.0';
