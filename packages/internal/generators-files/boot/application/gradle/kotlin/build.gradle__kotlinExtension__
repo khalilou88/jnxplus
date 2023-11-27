@@ -40,10 +40,6 @@ tasks.withType(KotlinCompile) {
   }
 }
 
-tasks.named('bootBuildImage') {
-  builder = 'paketobuildpacks/builder-jammy-base:latest'
-}
-
 tasks.named('test') {
   useJUnitPlatform()
 }
@@ -90,10 +86,6 @@ tasks.withType<KotlinCompile> {
     freeCompilerArgs += "-Xjsr305=strict"
     jvmTarget = javaVersion
   }
-}
-
-tasks.bootBuildImage {
-  builder.set("paketobuildpacks/builder-jammy-base:latest")
 }
 
 tasks.withType<Test> {
