@@ -7,7 +7,10 @@ plugins {
 
 group = '<%= groupId %>'
 version = '<%= projectVersion %>'
-sourceCompatibility = "${javaVersion}"
+
+java {
+  sourceCompatibility = "${javaVersion}"
+}
 
 repositories {
 	mavenCentral()
@@ -39,7 +42,10 @@ plugins {
 
 group = "<%= groupId %>"
 version = "<%= projectVersion %>"
-java.sourceCompatibility = JavaVersion.toVersion(javaVersion)
+
+java {
+  sourceCompatibility = JavaVersion.toVersion(javaVersion)
+}
 
 repositories {
 	mavenCentral()

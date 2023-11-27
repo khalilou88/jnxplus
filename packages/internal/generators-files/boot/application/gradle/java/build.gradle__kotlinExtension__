@@ -10,7 +10,11 @@ plugins {
 
 group = '<%= groupId %>'
 version = '<%= projectVersion %>'
-sourceCompatibility = "${javaVersion}"
+
+java {
+  sourceCompatibility = "${javaVersion}"
+}
+
 
 repositories {
 	mavenCentral()
@@ -23,6 +27,11 @@ dependencies {
 <% } -%>
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
+
+tasks.named('bootBuildImage') {
+  builder = 'paketobuildpacks/builder-jammy-base:latest'
+}
+
 
 tasks.named('test') {
   useJUnitPlatform()
@@ -42,7 +51,10 @@ plugins {
 
 group = "<%= groupId %>"
 version = "<%= projectVersion %>"
-java.sourceCompatibility = JavaVersion.toVersion(javaVersion)
+
+java {
+  sourceCompatibility = JavaVersion.toVersion(javaVersion)
+}
 
 repositories {
 	mavenCentral()
@@ -54,6 +66,10 @@ dependencies {
  	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 <% } -%>
   	testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+tasks.bootBuildImage {
+  builder.set("paketobuildpacks/builder-jammy-base:latest")
 }
 
 tasks.withType<Test> {
