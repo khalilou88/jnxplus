@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.17.0](https://github.com/khalilou88/jnxplus/compare/common-0.16.0...common-0.17.0) (2023-11-27)
+
+
+### Features
+
+* **generators:** update spring boot versions ([#645](https://github.com/khalilou88/jnxplus/issues/645)) ([4d9d956](https://github.com/khalilou88/jnxplus/commit/4d9d95628e3bf247e470ddd6ce8a48ea6bf23848))
+
+
+
 # [0.16.0](https://github.com/khalilou88/jnxplus/compare/common-0.15.2...common-0.16.0) (2023-11-26)
 
 
