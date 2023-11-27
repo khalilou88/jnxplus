@@ -12,6 +12,8 @@ pluginManagement {
     mavenCentral()
     gradlePluginPortal()
     mavenLocal()
+    maven { url = uri("https://repo.spring.io/milestone") }
+    maven { url = uri("https://repo.spring.io/snapshot") }
   }
 <% } -%>
 }
@@ -35,6 +37,8 @@ pluginManagement {
     mavenCentral()
     gradlePluginPortal()
     mavenLocal()
+    maven { url = uri("https://repo.spring.io/milestone") }
+    maven { url = uri("https://repo.spring.io/snapshot") }
   }
 <% } -%>
 }
