@@ -10,7 +10,10 @@ plugins {
 
 group = '<%= groupId %>'
 version = '<%= projectVersion %>'
-sourceCompatibility = "${javaVersion}"
+
+java {
+  sourceCompatibility = "${javaVersion}"
+}
 
 repositories {
 	mavenCentral()
@@ -31,7 +34,7 @@ dependencies {
 
 tasks.withType(KotlinCompile) {
   kotlinOptions {
-    freeCompilerArgs = ['-Xjsr305=strict']
+    freeCompilerArgs += '-Xjsr305=strict'
     jvmTarget = "${javaVersion}"
   }
 }
@@ -54,7 +57,10 @@ plugins {
 
 group = "<%= groupId %>"
 version = "<%= projectVersion %>"
-java.sourceCompatibility = JavaVersion.toVersion(javaVersion)
+
+java {
+  sourceCompatibility = JavaVersion.toVersion(javaVersion)
+}
 
 repositories {
 	mavenCentral()
@@ -75,7 +81,7 @@ dependencies {
 
 tasks.withType<KotlinCompile> {
   kotlinOptions {
-    freeCompilerArgs = listOf("-Xjsr305=strict")
+    freeCompilerArgs += "-Xjsr305=strict"
     jvmTarget = javaVersion
   }
 }

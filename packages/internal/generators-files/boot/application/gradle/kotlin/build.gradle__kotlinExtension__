@@ -13,7 +13,10 @@ plugins {
 
 group = '<%= groupId %>'
 version = '<%= projectVersion %>'
-sourceCompatibility = "${javaVersion}"
+
+java {
+  sourceCompatibility = "${javaVersion}"
+}
 
 repositories {
   mavenCentral()
@@ -32,9 +35,13 @@ dependencies {
 
 tasks.withType(KotlinCompile) {
   kotlinOptions {
-    freeCompilerArgs = ['-Xjsr305=strict']
+    freeCompilerArgs += '-Xjsr305=strict'
     jvmTarget = "${javaVersion}"
   }
+}
+
+tasks.named('bootBuildImage') {
+  builder = 'paketobuildpacks/builder-jammy-base:latest'
 }
 
 tasks.named('test') {
@@ -58,7 +65,10 @@ plugins {
 
 group = "<%= groupId %>"
 version = "<%= projectVersion %>"
-java.sourceCompatibility = JavaVersion.toVersion(javaVersion)
+
+java {
+  sourceCompatibility = JavaVersion.toVersion(javaVersion)
+}
 
 repositories {
   mavenCentral()
@@ -77,9 +87,13 @@ dependencies {
 
 tasks.withType<KotlinCompile> {
   kotlinOptions {
-    freeCompilerArgs = listOf("-Xjsr305=strict")
+    freeCompilerArgs += "-Xjsr305=strict"
     jvmTarget = javaVersion
   }
+}
+
+tasks.bootBuildImage {
+  builder.set("paketobuildpacks/builder-jammy-base:latest")
 }
 
 tasks.withType<Test> {
