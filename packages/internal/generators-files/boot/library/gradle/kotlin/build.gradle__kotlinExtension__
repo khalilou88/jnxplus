@@ -15,7 +15,6 @@ java {
   sourceCompatibility = "${javaVersion}"
 }
 
-
 repositories {
 	mavenCentral()
 }
@@ -62,7 +61,6 @@ version = "<%= projectVersion %>"
 java {
   sourceCompatibility = JavaVersion.toVersion(javaVersion)
 }
-
 
 repositories {
 	mavenCentral()
