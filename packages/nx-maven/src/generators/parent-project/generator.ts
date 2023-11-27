@@ -6,6 +6,7 @@ import {
   springBootVersion,
   micronautCoreVersion,
   micronautSerializationVersion,
+  micronautTestResourcesVersion,
   micronautMavenPluginVersion,
   mavenCompilerPluginVersion,
   mavenEnforcerPluginVersion,
@@ -53,6 +54,7 @@ interface NormalizedSchema extends NxMavenParentProjectGeneratorSchema {
   mavenRootDirectory: string;
   micronautCoreVersion: string;
   micronautSerializationVersion: string;
+  micronautTestResourcesVersion: string;
   micronautMavenPluginVersion: string;
   mavenCompilerPluginVersion: string;
   mavenEnforcerPluginVersion: string;
@@ -134,6 +136,7 @@ function normalizeOptions(
     mavenRootDirectory,
     micronautCoreVersion,
     micronautSerializationVersion,
+    micronautTestResourcesVersion,
     micronautMavenPluginVersion,
     mavenCompilerPluginVersion,
     mavenEnforcerPluginVersion,
