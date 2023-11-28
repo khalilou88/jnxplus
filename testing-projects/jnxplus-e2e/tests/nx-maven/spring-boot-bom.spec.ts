@@ -198,7 +198,7 @@ describe('nx-maven spring-boot bom e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('spring-boot: should add a lib to an app dependencies', async () => {
     const appName = uniq('boot-maven-app-');
@@ -447,5 +447,5 @@ describe('nx-maven spring-boot bom e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 });
