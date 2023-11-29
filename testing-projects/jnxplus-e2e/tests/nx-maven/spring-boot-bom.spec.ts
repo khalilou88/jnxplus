@@ -183,8 +183,9 @@ describe('nx-maven spring-boot bom e2e', () => {
         .task,
     ).toEqual('install -N');
 
+    const port = 8080;
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`),
+      output.includes(`Tomcat initialized with port ${port} (http)`),
     );
 
     const dataResult = await getData();
@@ -198,7 +199,7 @@ describe('nx-maven spring-boot bom e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 240000);
+  }, 120000);
 
   it('spring-boot: should add a lib to an app dependencies', async () => {
     const appName = uniq('boot-maven-app-');
@@ -433,7 +434,7 @@ describe('nx-maven spring-boot bom e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Tomcat initialized with port ${port} (http)`),
     );
 
     const dataResult = await getData(port);
@@ -447,5 +448,5 @@ describe('nx-maven spring-boot bom e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 240000);
+  }, 120000);
 });
