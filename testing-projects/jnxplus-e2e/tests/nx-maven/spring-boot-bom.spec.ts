@@ -184,7 +184,7 @@ describe('nx-maven spring-boot bom e2e', () => {
     ).toEqual('install -N');
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`),
+      output.includes(`Tomcat started on port 8080`),
     );
 
     const dataResult = await getData();
@@ -433,7 +433,7 @@ describe('nx-maven spring-boot bom e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Tomcat started on port ${port}`),
     );
 
     const dataResult = await getData(port);

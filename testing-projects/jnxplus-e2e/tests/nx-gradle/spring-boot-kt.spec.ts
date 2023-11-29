@@ -173,7 +173,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`),
+      output.includes(`Tomcat started on port 8080`),
     );
 
     const dataResult = await getData();
@@ -278,7 +278,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Tomcat started on port ${port}`),
     );
 
     const dataResult = await getData(port);
@@ -370,7 +370,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Tomcat started on port ${port}`),
     );
 
     const dataResult = await getData(port);
@@ -458,7 +458,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Tomcat started on port ${port}`),
     );
 
     const dataResult = await getData(port);
@@ -563,7 +563,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Tomcat started on port ${port}`),
     );
 
     const dataResult = await getData(port);
@@ -603,7 +603,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Tomcat started on port ${port}`),
     );
 
     const dataResult = await getData(port);
@@ -1166,7 +1166,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Tomcat started on port ${port}`),
     );
 
     const dataResult = await getData(port);
@@ -1284,7 +1284,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     ).not.toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Tomcat started on port ${port}`),
     );
 
     // port and process cleanup
@@ -1338,7 +1338,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     ).not.toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Tomcat started on port ${port}`),
     );
 
     // port and process cleanup

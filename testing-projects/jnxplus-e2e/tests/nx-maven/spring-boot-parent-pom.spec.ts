@@ -177,7 +177,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     ).toEqual('install -N');
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): 8080`),
+      output.includes(`Tomcat started on port 8080`),
     );
 
     const dataResult = await getData();
@@ -278,7 +278,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Tomcat started on port ${port}`),
     );
 
     const dataResult = await getData(port);
@@ -328,7 +328,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     expect(pomXml.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Tomcat started on port ${port}`),
     );
 
     const dataResult = await getData(port);
@@ -435,7 +435,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Tomcat started on port ${port}`),
     );
 
     const dataResult = await getData(port);
@@ -551,7 +551,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Tomcat started on port ${port}`),
     );
 
     const dataResult = await getData(port);
@@ -591,7 +591,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Tomcat started on port ${port}`),
     );
 
     const dataResult = await getData(port);
@@ -960,7 +960,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     updateFile(helloControllerPath, newHelloControllerContent);
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Tomcat started on port ${port}`),
     );
 
     const dataResult = await getData(port);
@@ -1610,7 +1610,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Tomcat started on port ${port}`),
     );
 
     const dataResult = await getData(port);
@@ -1725,7 +1725,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     ).not.toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Tomcat started on port ${port}`),
     );
 
     // port and process cleanup
@@ -1779,7 +1779,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     ).not.toThrow();
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Tomcat started on port ${port}`),
     );
 
     // port and process cleanup
@@ -1870,7 +1870,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Tomcat started on port(s): ${port}`),
+      output.includes(`Tomcat started on port ${port}`),
     );
 
     const dataResult = await getData(port);
