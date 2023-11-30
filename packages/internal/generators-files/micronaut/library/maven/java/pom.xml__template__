@@ -2,17 +2,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
+	<groupId><%= groupId %></groupId>
+	<artifactId><%= projectName %></artifactId>
+	<version><%= projectVersion %></version>
+	<name><%= projectName %></name>
+	<description>This project was generated with nx-maven</description>
+
+  <parent>
 		<groupId><%= parentGroupId %></groupId>
 		<artifactId><%= parentProjectName %></artifactId>
 		<version><%= parentProjectVersion %></version>
 		<relativePath><%= relativePath %></relativePath>
 	</parent>
-	<groupId><%= groupId %></groupId>
-	<artifactId><%= projectName %></artifactId>
-	<version><%= projectVersion %></version>
-	<name><%= projectName %></name>
-	<description>This project was generated with <%= plugin %></description>
 
   <dependencies>
     <dependency>
