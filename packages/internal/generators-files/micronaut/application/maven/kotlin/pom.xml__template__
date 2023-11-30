@@ -7,7 +7,7 @@
 	<version><%= projectVersion %></version>
   <packaging>${packaging}</packaging>
 	<name><%= projectName %></name>
-	<description>This project was generated with <%= plugin %></description>
+	<description>This project was generated with nx-maven</description>
 
 	<parent>
 		<groupId><%= parentGroupId %></groupId>
