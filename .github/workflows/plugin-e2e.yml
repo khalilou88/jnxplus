@@ -14,6 +14,7 @@ on:
           - nx-gradle micronaut e2e
           - nx-gradle micronaut kotlin dsl e2e
           - nx-gradle all e2e
+          - nx-gradle version-catalog e2e
           - nx-gradle all kotlin dsl e2e
           - nx-gradle quarkus e2e
           - nx-gradle quarkus kotlin dsl e2e
