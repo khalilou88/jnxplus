@@ -39,19 +39,6 @@ java {
     sourceCompatibility = JavaVersion.toVersion("${javaVersion}")
 }
 
-tasks {
-    compileKotlin {
-        compilerOptions {
-            jvmTarget = JvmTarget.valueOf("JVM_${javaVersion}")
-        }
-    }
-    compileTestKotlin {
-        compilerOptions {
-            jvmTarget = JvmTarget.valueOf("JVM_${javaVersion}")
-        }
-    }
-}
-
 graalvmNative.toolchainDetection = false
 
 micronaut {
@@ -117,19 +104,6 @@ application {
 
 java {
     sourceCompatibility = JavaVersion.toVersion(javaVersion)
-}
-
-tasks {
-    compileKotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.valueOf("JVM_${javaVersion}"))
-        }
-    }
-    compileTestKotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.valueOf("JVM_${javaVersion}"))
-        }
-    }
 }
 
 graalvmNative.toolchainDetection.set(false)
