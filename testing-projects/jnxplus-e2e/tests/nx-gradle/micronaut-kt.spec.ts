@@ -187,7 +187,7 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
     }
   }, 240000);
 
-  it('should build-image a java application', async () => {
+  it('should build-image of a java application', async () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('micronaut-gradle-app-');
       await runNxCommandAsync(
