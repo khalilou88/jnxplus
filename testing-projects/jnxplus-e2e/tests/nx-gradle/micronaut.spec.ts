@@ -194,7 +194,7 @@ describe('nx-gradle micronaut e2e', () => {
         `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut`,
       );
       const buildImageResult = await runNxCommandAsync(
-        `build-image ${appName} --useDocker`,
+        `build-image ${appName}`,
       );
       expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
@@ -465,7 +465,7 @@ describe('nx-gradle micronaut e2e', () => {
         `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut --language kotlin`,
       );
       const buildImageResult = await runNxCommandAsync(
-        `build-image ${appName} --useDocker`,
+        `build-image ${appName}`,
       );
       expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
