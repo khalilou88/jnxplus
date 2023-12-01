@@ -25,27 +25,6 @@ dependencies {
 java {
     sourceCompatibility = JavaVersion.toVersion("${javaVersion}")
 }
-
-tasks {
-    compileKotlin {
-        compilerOptions {
-            jvmTarget = JvmTarget.valueOf("JVM_${javaVersion}")
-        }
-    }
-    compileTestKotlin {
-        compilerOptions {
-            jvmTarget = JvmTarget.valueOf("JVM_${javaVersion}")
-        }
-    }
-}
-
-micronaut {
-    testRuntime("junit5")
-    processing {
-        incremental(true)
-        annotations("<%= packageName %>.*")
-    }
-}
 <% } -%>
 <% if(dsl === 'kotlin') { -%>
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -77,27 +56,5 @@ dependencies {
 
 java {
     sourceCompatibility = JavaVersion.toVersion(javaVersion)
-}
-
-tasks {
-    compileKotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.valueOf("JVM_${javaVersion}"))
-        }
-    }
-    compileTestKotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.valueOf("JVM_${javaVersion}"))
-        }
-    }
-}
-
-micronaut {
-    runtime("netty")
-    testRuntime("junit5")
-    processing {
-        incremental(true)
-        annotations("<%= packageName %>.*")
-    }
 }
 <% } -%>
