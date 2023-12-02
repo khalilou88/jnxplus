@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.19.3](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.19.2...nx-maven-0.19.3) (2023-12-02)
+
+
+### Bug Fixes
+
+* fix union ([d1c0a8d](https://github.com/khalilou88/jnxplus/commit/d1c0a8dd0e9032a1677eef7781c6cd3b92dcc2bb))
+
+
+
 ## [0.19.2](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.19.1...nx-maven-0.19.2) (2023-12-01)
 
 ### Dependency Updates
