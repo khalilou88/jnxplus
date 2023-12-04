@@ -51,7 +51,7 @@
     "chalk": "4.1.0",
     "enquirer": "^2.4.1",
     "eslint": "8.55.0",
-    "eslint-config-prettier": "9.0.0",
+    "eslint-config-prettier": "9.1.0",
     "fs-extra": "^11.2.0",
     "husky": "^8.0.3",
     "jest": "^29.7.0",
