@@ -29,7 +29,7 @@ const testLib2 = uniq('test-lib2');
 const testApp3 = uniq('test-app3');
 const testApp4 = uniq('test-app4');
 
-describe('@jnxplus/nx-gradle spring-boot smoke', () => {
+describe('@jnxplus/nx-maven spring-boot smoke', () => {
   beforeEach(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
       unsafeCleanup: true,
@@ -52,44 +52,46 @@ describe('@jnxplus/nx-gradle spring-boot smoke', () => {
 
     execSync('git init', execSyncOptions());
 
-    execSync('npm i --save-dev @jnxplus/nx-gradle', execSyncOptions());
+    execSync('npm i --save-dev @jnxplus/nx-maven', execSyncOptions());
 
     execSync(
-      'npx nx generate @jnxplus/nx-gradle:init --preset spring-boot',
+      'npx nx generate @jnxplus/nx-maven:init --javaVersion 21 --dependencyManagement spring-boot-parent-pom',
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-gradle:application ${testApp} --framework spring-boot`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp} --framework spring-boot`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-gradle:lib ${testLib} --framework spring-boot --projects ${testApp}`,
+      `npx nx g @jnxplus/nx-maven:lib ${testLib} --framework spring-boot --projects ${testApp}`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-gradle:application ${testApp2} --framework spring-boot`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp2} --framework spring-boot`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-gradle:application ${testApp3} --framework spring-boot`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp3} --framework spring-boot`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-gradle:application ${testApp4} --framework spring-boot`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp4} --framework spring-boot`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-gradle:lib ${testLib2} --framework spring-boot --projects ${testApp2},${testApp3},${testApp4}`,
+      `npx nx g @jnxplus/nx-maven:lib ${testLib2} --framework spring-boot --projects ${testApp2},${testApp3},${testApp4}`,
       execSyncOptions(),
     );
 
-    execSync(`npx nx run-many --target=build --parallel`, execSyncOptions());
+    execSync(`npx nx test ${testLib}`, execSyncOptions());
+
+    execSync(`npx nx run-many --target=build --parallel=1`, execSyncOptions());
 
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
 

@@ -15,7 +15,7 @@ jobs:
         # os: [ubuntu-latest, macOS-latest, windows-latest]
         os: [ubuntu-latest]
         node_version: ['18']
-        java: ['17']
+        java: ['21']
     runs-on: ${{matrix.os}}
     env:
       NX_RUN_GROUP: ${{ github.run_id }}-v${{matrix.java}}
@@ -39,4 +39,4 @@ jobs:
 
       - run: npm run nx run-many -- --target=smoke-affected
         env:
-          NX_MAVEN_CLI_OPTS: '--no-transfer-progress'
+          NX_MAVEN_CLI_OPTS: '--no-transfer-progress -Dmaven.plugin.validation=VERBOSE'
