@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node_version: ['18']
+        node_version: ['20']
         java: ['17']
     runs-on: ${{ matrix.os }}
     if: ${{ github.actor == 'dependabot[bot]' || (github.event.pull_request.user.login == 'dependabot[bot]' && github.actor == '@khalilou88') }}

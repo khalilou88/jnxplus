@@ -41,7 +41,7 @@ jobs:
     name: Running ${{ github.event.inputs.t_option }} tests from ${{ github.head_ref || github.ref_name }} branch
     strategy:
       matrix:
-        node_version: ['18']
+        node_version: ['20']
         java: ['17']
       fail-fast: true
     runs-on: ${{ github.event.inputs.os }}
