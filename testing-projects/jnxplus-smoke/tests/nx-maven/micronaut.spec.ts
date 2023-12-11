@@ -55,6 +55,8 @@ describe('nx-maven micronaut smoke', () => {
 
     execSync('git init', execSyncOptions());
 
+    execSync('npm i', execSyncOptions());
+
     execSync(
       `npx nx g @jnxplus/nx-maven:application ${testApp} --framework micronaut`,
       execSyncOptions(),
@@ -118,6 +120,8 @@ describe('nx-maven micronaut smoke', () => {
       target: testLib,
     });
 
-    // execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
+    execSync(`git add --all`, execSyncOptions());
+
+    execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
   }, 1500000);
 });
