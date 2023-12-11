@@ -21,8 +21,8 @@ export const shadowVersion = '8.1.1';
 export const jnxplusGradlePluginVersion = '0.2.2';
 
 //Prettier
-export const prettierVersion = '^3.0.3';
-export const prettierPluginXmlVersion = '^3.2.1';
+export const prettierVersion = '^3.1.1';
+export const prettierPluginXmlVersion = '^3.2.2';
 export const prettierPluginJavaVersion = '^2.3.1';
 
 //Linters
