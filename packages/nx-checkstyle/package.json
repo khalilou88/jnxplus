@@ -1,6 +1,6 @@
 {
   "name": "@jnxplus/nx-checkstyle",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "dependencies": {
     "tslib": "^2.3.0",
     "@jnxplus/common": "0.18.1",
