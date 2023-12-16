@@ -77,6 +77,25 @@
         ]
       }
     },
+    "localRepositoryLocation": {
+      "description": "Local Repository is a directory on the local machine that stores all the project artifacts",
+      "type": "string",
+      "default": "default",
+      "x-prompt": {
+        "message": "Where to store all the project artifacts?",
+        "type": "list",
+        "items": [
+          {
+            "value": "default",
+            "label": "Default local Repository"
+          },
+          {
+            "value": "workspace",
+            "label": "Inside workspace"
+          }
+        ]
+      }
+    },
     "skipWrapper": {
       "description": "Don't generate Maven Wrapper",
       "type": "boolean",
