@@ -3,6 +3,8 @@ import { CreateNodes, readJsonFile, workspaceRoot } from '@nx/devkit';
 import { existsSync } from 'fs';
 import { dirname, join } from 'path';
 import { XmlDocument } from 'xmldoc';
+import { getExecutable } from '../utils';
+import { execSync } from 'child_process';
 
 export const createNodes: CreateNodes = [
   '**/pom.xml',
@@ -11,17 +13,18 @@ export const createNodes: CreateNodes = [
     const projectRoot = dirname(pomXmlFilePath);
     let targets = {};
 
+    const pomXmlContent = readXml(pomXmlFilePath);
+    const groupId = getGroupId(pomXmlContent);
+    const projectVersion = getVersion(pomXmlContent);
+    const localRepositoryLocation = getLocalRepositoryLocation();
+
     const projectJsonPath = join(workspaceRoot, projectRoot, 'project.json');
 
     if (existsSync(projectJsonPath)) {
       const projectJson = readJsonFile(projectJsonPath);
       projectName = projectJson.name;
     } else {
-      const pomXmlContent = readXml(pomXmlFilePath);
-      const groupId = getGroupId(pomXmlContent);
       projectName = getArtifactId(pomXmlContent);
-      const projectVersion = getVersion(pomXmlContent);
-      const localRepositoryLocation = getLocalRepositoryLocation();
 
       targets = {
         build: {
@@ -85,7 +88,7 @@ function getOutput(
   projectName: string,
   projectVersion: string,
 ) {
-  return `${localRepositoryLocation}/.m2/repository/${groupId.replace(
+  return `${localRepositoryLocation}/${groupId.replace(
     new RegExp(/\./, 'g'),
     '/',
   )}/${projectName}/${projectVersion}`;
@@ -100,6 +103,15 @@ function getTask(projectRoot: string) {
 }
 
 function getLocalRepositoryLocation() {
-  const location = '{workspaceRoot}';
-  return location;
+  const command = `${getExecutable()} help:effective-settings`;
+
+  const objStr = execSync(command).toString().trim();
+
+  const settingsXml = new XmlDocument(objStr);
+
+  const localRepositoryXml = settingsXml.childNamed('localRepository');
+  if (localRepositoryXml === undefined) {
+    throw new Error(`LocalRepository not found in settings`);
+  }
+  return localRepositoryXml.val;
 }
