@@ -120,6 +120,8 @@ function getLocalRepositoryLocation() {
 
   const objStr = execSync(command).toString().trim();
 
+  console.log(objStr);
+
   const settingsXml = new XmlDocument(objStr);
 
   const localRepositoryXml = settingsXml.childNamed('localRepository');
