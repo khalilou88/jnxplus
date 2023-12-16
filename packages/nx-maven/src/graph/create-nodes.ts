@@ -8,7 +8,7 @@ import {
 import { existsSync } from 'fs';
 import { dirname, join } from 'path';
 import { XmlDocument } from 'xmldoc';
-import { getExecutable } from '../utils';
+import { getExecutable, getMavenRootDirectory } from '../utils';
 import { execSync } from 'child_process';
 
 export const createNodes: CreateNodes = [
@@ -118,7 +118,10 @@ function getTask(projectRoot: string) {
 function getLocalRepositoryLocation() {
   const command = `${getExecutable()} help:effective-settings`;
 
-  const objStr = execSync(command).toString();
+  const mavenRootDirectory = getMavenRootDirectory();
+  const objStr = execSync(command, {
+    cwd: join(workspaceRoot, mavenRootDirectory),
+  }).toString();
 
   console.log(objStr);
 
