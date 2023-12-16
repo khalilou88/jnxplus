@@ -1,5 +1,10 @@
 import { readXml } from '@jnxplus/xml';
-import { CreateNodes, readJsonFile, workspaceRoot } from '@nx/devkit';
+import {
+  CreateNodes,
+  TargetConfiguration,
+  readJsonFile,
+  workspaceRoot,
+} from '@nx/devkit';
 import { existsSync } from 'fs';
 import { dirname, join } from 'path';
 import { XmlDocument } from 'xmldoc';
@@ -11,34 +16,42 @@ export const createNodes: CreateNodes = [
   (pomXmlFilePath: string) => {
     let projectName;
     const projectRoot = dirname(pomXmlFilePath);
-    let targets = {};
+    let targets: {
+      [targetName: string]: TargetConfiguration;
+    } = {};
 
     const pomXmlContent = readXml(pomXmlFilePath);
     const groupId = getGroupId(pomXmlContent);
+    const artifactId = getArtifactId(pomXmlContent);
     const projectVersion = getVersion(pomXmlContent);
     const localRepositoryLocation = getLocalRepositoryLocation();
+
+    const output = getOutput(
+      localRepositoryLocation,
+      groupId,
+      artifactId,
+      projectVersion,
+    );
 
     const projectJsonPath = join(workspaceRoot, projectRoot, 'project.json');
 
     if (existsSync(projectJsonPath)) {
       const projectJson = readJsonFile(projectJsonPath);
       projectName = projectJson.name;
+      targets = projectJson.targets;
+      const build = targets['build'];
+      if (build.outputs) {
+        build.outputs.push(output);
+      } else {
+        build.outputs = [output];
+      }
     } else {
-      projectName = getArtifactId(pomXmlContent);
-
+      projectName = artifactId;
       targets = {
         build: {
           executor: '@jnxplus/nx-maven:run-task',
+          outputs: [`{projectRoot}/target`, output],
           options: {
-            outputs: [
-              `{projectRoot}/target`,
-              getOutput(
-                localRepositoryLocation,
-                groupId,
-                projectName,
-                projectVersion,
-              ),
-            ],
             task: getTask(projectRoot),
           },
         },
