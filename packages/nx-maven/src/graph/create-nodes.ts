@@ -118,7 +118,7 @@ function getTask(projectRoot: string) {
 function getLocalRepositoryLocation() {
   const command = `${getExecutable()} help:effective-settings`;
 
-  const objStr = execSync(command).toString().trim();
+  const objStr = execSync(command).toString();
 
   console.log(objStr);
 
