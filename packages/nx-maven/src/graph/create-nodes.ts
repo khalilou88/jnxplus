@@ -5,11 +5,11 @@ import {
   readJsonFile,
   workspaceRoot,
 } from '@nx/devkit';
+import { execSync } from 'child_process';
 import { existsSync } from 'fs';
 import { dirname, join } from 'path';
 import { XmlDocument } from 'xmldoc';
 import { getExecutable, getMavenRootDirectory } from '../utils';
-import { execSync } from 'child_process';
 
 export const createNodes: CreateNodes = [
   '**/pom.xml',
@@ -121,18 +121,11 @@ function getLocalRepositoryLocation() {
   const mavenRootDirectory = getMavenRootDirectory();
   const objStr = execSync(command, {
     cwd: join(workspaceRoot, mavenRootDirectory),
-  })
-    ?.toString()
-    ?.trim()
-    ?.replace('\u001b[2K\u001b[1G', ''); // strip out ansi codes
+  }).toString();
 
-  console.log(objStr);
-
-  const settingsXml = new XmlDocument(objStr);
-
-  const localRepositoryXml = settingsXml.childNamed('localRepository');
-  if (localRepositoryXml === undefined) {
-    throw new Error(`LocalRepository not found in settings`);
-  }
-  return localRepositoryXml.val;
+  const regexp = /<localRepository>(.+?)<\/localRepository>/g;
+  const matches = (objStr.match(regexp) || []).map((e) =>
+    e.replace(regexp, '$1'),
+  );
+  return matches[0];
 }
