@@ -38,14 +38,13 @@ export const createNodes: CreateNodes = [
     if (existsSync(projectJsonPath)) {
       const projectJson = readJsonFile(projectJsonPath);
       projectName = projectJson.name;
-      targets = projectJson.targets;
-      const build = targets['build'];
-      build.options = { outputDirectory: outputDirectory, ...build.options };
-      if (build.outputs) {
-        build.outputs.push('{options.outputDirectory}');
-      } else {
-        build.outputs = ['{options.outputDirectory}'];
-      }
+      targets = {
+        build: {
+          options: {
+            outputDirectory: outputDirectory,
+          },
+        },
+      };
     } else {
       projectName = artifactId;
       let outputs;

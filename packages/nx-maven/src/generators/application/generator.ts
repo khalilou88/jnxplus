@@ -123,8 +123,8 @@ function normalizeOptions(
     options.parentProject && options.parentProject !== rootParentProjectName
       ? readProjectConfiguration(tree, options.parentProject).root
       : mavenRootDirectory
-      ? mavenRootDirectory
-      : '';
+        ? mavenRootDirectory
+        : '';
 
   const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
 
@@ -432,7 +432,7 @@ async function applicationGenerator(
     targets: {
       build: {
         executor: `${plugin}:run-task`,
-        outputs: [`{projectRoot}/target`],
+        outputs: ['{projectRoot}/target', '{options.outputDirectory}'],
         options: {
           task: 'compile -DskipTests=true',
         },
