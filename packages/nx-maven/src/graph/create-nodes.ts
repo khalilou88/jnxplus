@@ -98,7 +98,7 @@ function getVersion(pomXmlContent: XmlDocument) {
 function getOutput(
   localRepositoryLocation: string,
   groupId: string,
-  projectName: string,
+  artifactId: string,
   projectVersion: string,
 ) {
   return join(
@@ -106,7 +106,7 @@ function getOutput(
     `${groupId.replace(
       new RegExp(/\./, 'g'),
       '/',
-    )}/${projectName}/${projectVersion}`,
+    )}/${artifactId}/${projectVersion}`,
   );
 }
 

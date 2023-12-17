@@ -8,6 +8,5 @@ export interface NxMavenInitGeneratorSchema {
     | 'bom'
     | 'spring-boot-parent-pom'
     | 'micronaut-parent-pom';
-  localRepositoryLocation: 'default' | 'workspace';
   skipWrapper?: boolean;
 }
