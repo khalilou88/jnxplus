@@ -51,7 +51,7 @@ export const createNodes: CreateNodes = [
       targets = {
         build: {
           executor: '@jnxplus/nx-maven:run-task',
-          outputs: [`{projectRoot}/target`, '{options.outputDirectory}'],
+          outputs: ['{projectRoot}/target', '{options.outputDirectory}'],
           options: {
             outputDirectory: output,
             task: getTask(projectRoot),
