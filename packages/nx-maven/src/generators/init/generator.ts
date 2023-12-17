@@ -125,7 +125,6 @@ function updateNxJson(tree: Tree, options: NormalizedSchema) {
     plugin: '@jnxplus/nx-maven',
     options: {
       mavenRootDirectory: options.mavenRootDirectory,
-      localRepositoryLocation: options.localRepositoryLocation,
     },
   };
 
