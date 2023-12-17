@@ -101,10 +101,13 @@ function getOutput(
   projectName: string,
   projectVersion: string,
 ) {
-  return `${localRepositoryLocation}/${groupId.replace(
-    new RegExp(/\./, 'g'),
-    '/',
-  )}/${projectName}/${projectVersion}`;
+  return join(
+    localRepositoryLocation,
+    `${groupId.replace(
+      new RegExp(/\./, 'g'),
+      '/',
+    )}/${projectName}/${projectVersion}`,
+  );
 }
 
 function getTask(projectRoot: string) {
