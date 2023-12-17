@@ -26,7 +26,7 @@ export const createNodes: CreateNodes = [
     const projectVersion = getVersion(pomXmlContent);
     const localRepositoryLocation = getLocalRepositoryLocation();
 
-    const output = getOutput(
+    const outputDirectory = getOutputDirectory(
       localRepositoryLocation,
       groupId,
       artifactId,
@@ -40,7 +40,7 @@ export const createNodes: CreateNodes = [
       projectName = projectJson.name;
       targets = projectJson.targets;
       const build = targets['build'];
-      build.options = { outputDirectory: output, ...build.options };
+      build.options = { outputDirectory: outputDirectory, ...build.options };
       if (build.outputs) {
         build.outputs.push('{options.outputDirectory}');
       } else {
@@ -48,12 +48,18 @@ export const createNodes: CreateNodes = [
       }
     } else {
       projectName = artifactId;
+      let outputs;
+      if (isPomPackaging(pomXmlContent)) {
+        outputs = ['{options.outputDirectory}'];
+      } else {
+        outputs = ['{projectRoot}/target', '{options.outputDirectory}'];
+      }
       targets = {
         build: {
           executor: '@jnxplus/nx-maven:run-task',
-          outputs: ['{projectRoot}/target', '{options.outputDirectory}'],
+          outputs: outputs,
           options: {
-            outputDirectory: output,
+            outputDirectory: outputDirectory,
             task: getTask(projectRoot),
           },
         },
@@ -97,7 +103,7 @@ function getVersion(pomXmlContent: XmlDocument) {
   return versionXml.val;
 }
 
-function getOutput(
+function getOutputDirectory(
   localRepositoryLocation: string,
   groupId: string,
   artifactId: string,
@@ -133,4 +139,14 @@ function getLocalRepositoryLocation() {
     e.replace(regexp, '$1'),
   );
   return matches[0];
+}
+
+export function isPomPackaging(pomXmlContent: XmlDocument): boolean {
+  const packagingXml = pomXmlContent.childNamed('packaging');
+
+  if (packagingXml === undefined) {
+    return false;
+  }
+
+  return packagingXml.val === 'pom';
 }
