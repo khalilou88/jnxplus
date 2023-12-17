@@ -121,7 +121,10 @@ function getLocalRepositoryLocation() {
   const mavenRootDirectory = getMavenRootDirectory();
   const objStr = execSync(command, {
     cwd: join(workspaceRoot, mavenRootDirectory),
-  }).toString();
+  })
+    ?.toString()
+    ?.trim()
+    ?.replace('\u001b[2K\u001b[1G', ''); // strip out ansi codes
 
   console.log(objStr);
 
