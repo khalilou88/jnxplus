@@ -40,18 +40,20 @@ export const createNodes: CreateNodes = [
       projectName = projectJson.name;
       targets = projectJson.targets;
       const build = targets['build'];
+      build.options = { outputDirectory: output, ...build.options };
       if (build.outputs) {
-        build.outputs.push(output);
+        build.outputs.push('{options.outputDirectory}');
       } else {
-        build.outputs = [output];
+        build.outputs = ['{options.outputDirectory}'];
       }
     } else {
       projectName = artifactId;
       targets = {
         build: {
           executor: '@jnxplus/nx-maven:run-task',
-          outputs: [`{projectRoot}/target`, output],
+          outputs: [`{projectRoot}/target`, '{options.outputDirectory}'],
           options: {
+            outputDirectory: output,
             task: getTask(projectRoot),
           },
         },
