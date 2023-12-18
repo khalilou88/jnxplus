@@ -111,8 +111,8 @@ function normalizeOptions(
     options.parentProject && options.parentProject !== rootParentProjectName
       ? readProjectConfiguration(tree, options.parentProject).root
       : mavenRootDirectory
-      ? mavenRootDirectory
-      : '';
+        ? mavenRootDirectory
+        : '';
 
   const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
 
@@ -368,7 +368,7 @@ async function libraryGenerator(
     targets: {
       build: {
         executor: `${plugin}:run-task`,
-        outputs: [`{projectRoot}/target`],
+        outputs: ['{projectRoot}/target', '{options.outputDirLocalRepo}'],
         options: {
           task: 'install -DskipTests=true',
         },

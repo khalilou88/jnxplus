@@ -49,7 +49,6 @@ Generate a parent project to add Spring Boot, Quarkus, or Micronaut frameworks.
 
 ## Known Limitations
 
-- Nx caching don't work especially for libs in a distributed environment
 - Build in parallel mode fails randomly
 
 ## License
