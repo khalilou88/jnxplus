@@ -368,7 +368,7 @@ async function libraryGenerator(
     targets: {
       build: {
         executor: `${plugin}:run-task`,
-        outputs: ['{projectRoot}/target', '{options.outputDirectory}'],
+        outputs: ['{projectRoot}/target', '{options.outputDirLocalRepo}'],
         options: {
           task: 'install -DskipTests=true',
         },

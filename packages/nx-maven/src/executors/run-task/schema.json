@@ -23,7 +23,7 @@
       "description": "Keep the task running, you can use this option for serve target for example.",
       "default": false
     },
-    "outputDirectory": {
+    "outputDirLocalRepo": {
       "type": "string",
       "description": "Where to store the project artifact in maven local repository for build target (dynamically calculated)"
     }

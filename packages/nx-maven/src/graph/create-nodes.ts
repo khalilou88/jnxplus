@@ -28,7 +28,7 @@ export const createNodes: CreateNodes = [
       projectName = projectJson.name;
       if (
         (projectJson.targets['build'].outputs ?? []).some(
-          (element: string) => element === '{options.outputDirectory}',
+          (element: string) => element === '{options.outputDirLocalRepo}',
         )
       ) {
         const pomXmlContent = readXml(pomXmlFilePath);
@@ -37,7 +37,7 @@ export const createNodes: CreateNodes = [
         const projectVersion = getVersion(pomXmlContent);
         const localRepositoryLocation = getLocalRepositoryLocation();
 
-        const outputDirectory = getOutputDirectory(
+        const outputDirLocalRepo = getOutputDirLocalRepo(
           localRepositoryLocation,
           groupId,
           artifactId,
@@ -46,7 +46,7 @@ export const createNodes: CreateNodes = [
 
         targets = projectJson.targets;
         targets['build'].options = {
-          outputDirectory: outputDirectory,
+          outputDirLocalRepo: outputDirLocalRepo,
           ...targets['build'].options,
         };
       }
@@ -57,7 +57,7 @@ export const createNodes: CreateNodes = [
       const projectVersion = getVersion(pomXmlContent);
       const localRepositoryLocation = getLocalRepositoryLocation();
 
-      const outputDirectory = getOutputDirectory(
+      const outputDirLocalRepo = getOutputDirLocalRepo(
         localRepositoryLocation,
         groupId,
         artifactId,
@@ -67,16 +67,16 @@ export const createNodes: CreateNodes = [
       projectName = artifactId;
       let outputs;
       if (isPomPackaging(pomXmlContent)) {
-        outputs = ['{options.outputDirectory}'];
+        outputs = ['{options.outputDirLocalRepo}'];
       } else {
-        outputs = ['{projectRoot}/target', '{options.outputDirectory}'];
+        outputs = ['{projectRoot}/target', '{options.outputDirLocalRepo}'];
       }
       targets = {
         build: {
           executor: '@jnxplus/nx-maven:run-task',
           outputs: outputs,
           options: {
-            outputDirectory: outputDirectory,
+            outputDirLocalRepo: outputDirLocalRepo,
             task: getTask(projectRoot),
           },
         },
@@ -120,7 +120,7 @@ function getVersion(pomXmlContent: XmlDocument) {
   return versionXml.val;
 }
 
-function getOutputDirectory(
+function getOutputDirLocalRepo(
   localRepositoryLocation: string,
   groupId: string,
   artifactId: string,
