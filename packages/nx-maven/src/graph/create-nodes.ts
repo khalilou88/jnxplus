@@ -39,8 +39,8 @@ export const createNodes: CreateNodes = [
       const projectJson = readJsonFile(projectJsonPath);
       projectName = projectJson.name;
       if (
-        (targets['build'].outputs ?? []).some(
-          (element) => element === '{options.outputDirectory}',
+        (projectJson.targets['build'].outputs ?? []).some(
+          (element: string) => element === '{options.outputDirectory}',
         )
       ) {
         targets = projectJson.targets;
