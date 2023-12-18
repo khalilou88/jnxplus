@@ -20,19 +20,6 @@ export const createNodes: CreateNodes = [
       [targetName: string]: TargetConfiguration;
     } = {};
 
-    const pomXmlContent = readXml(pomXmlFilePath);
-    const groupId = getGroupId(pomXmlContent);
-    const artifactId = getArtifactId(pomXmlContent);
-    const projectVersion = getVersion(pomXmlContent);
-    const localRepositoryLocation = getLocalRepositoryLocation();
-
-    const outputDirectory = getOutputDirectory(
-      localRepositoryLocation,
-      groupId,
-      artifactId,
-      projectVersion,
-    );
-
     const projectJsonPath = join(workspaceRoot, projectRoot, 'project.json');
 
     if (existsSync(projectJsonPath)) {
@@ -43,6 +30,19 @@ export const createNodes: CreateNodes = [
           (element: string) => element === '{options.outputDirectory}',
         )
       ) {
+        const pomXmlContent = readXml(pomXmlFilePath);
+        const groupId = getGroupId(pomXmlContent);
+        const artifactId = getArtifactId(pomXmlContent);
+        const projectVersion = getVersion(pomXmlContent);
+        const localRepositoryLocation = getLocalRepositoryLocation();
+
+        const outputDirectory = getOutputDirectory(
+          localRepositoryLocation,
+          groupId,
+          artifactId,
+          projectVersion,
+        );
+
         targets = projectJson.targets;
         targets['build'].options = {
           outputDirectory: outputDirectory,
@@ -50,6 +50,19 @@ export const createNodes: CreateNodes = [
         };
       }
     } else {
+      const pomXmlContent = readXml(pomXmlFilePath);
+      const groupId = getGroupId(pomXmlContent);
+      const artifactId = getArtifactId(pomXmlContent);
+      const projectVersion = getVersion(pomXmlContent);
+      const localRepositoryLocation = getLocalRepositoryLocation();
+
+      const outputDirectory = getOutputDirectory(
+        localRepositoryLocation,
+        groupId,
+        artifactId,
+        projectVersion,
+      );
+
       projectName = artifactId;
       let outputs;
       if (isPomPackaging(pomXmlContent)) {
