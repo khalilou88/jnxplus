@@ -169,7 +169,7 @@ function getLocalRepositoryLocation() {
   return data;
 }
 
-export function isPomPackaging(pomXmlContent: XmlDocument): boolean {
+function isPomPackaging(pomXmlContent: XmlDocument): boolean {
   const packagingXml = pomXmlContent.childNamed('packaging');
 
   if (packagingXml === undefined) {
