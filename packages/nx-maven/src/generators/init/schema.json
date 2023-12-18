@@ -81,6 +81,10 @@
       "description": "Don't generate Maven Wrapper",
       "type": "boolean",
       "default": false
+    },
+    "localRepositoryLocation": {
+      "type": "string",
+      "description": "Maven local repository location inside workspace"
     }
   },
   "required": [
