@@ -184,7 +184,6 @@ async function parentProjectGenerator(
     targets: {
       build: {
         executor: `${plugin}:run-task`,
-        outputs: ['{options.outputDirectory}'],
         options: {
           task: 'install',
         },
