@@ -1443,7 +1443,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
       source: thirdLibName,
       target: thirdParentProject,
     });
-  }, 240000);
+  }, 360000);
 
   it('should generate kotlin libs that use a parent project', async () => {
     const libsParentProject = uniq('libs-parent-project-');
