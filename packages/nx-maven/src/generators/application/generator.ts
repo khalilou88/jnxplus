@@ -432,7 +432,7 @@ async function applicationGenerator(
     targets: {
       build: {
         executor: `${plugin}:run-task`,
-        outputs: ['{projectRoot}/target', '{options.outputDirectory}'],
+        outputs: ['{projectRoot}/target'],
         options: {
           task: 'compile -DskipTests=true',
         },
