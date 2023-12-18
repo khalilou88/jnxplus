@@ -10,6 +10,7 @@ import { existsSync } from 'fs';
 import { dirname, join } from 'path';
 import { XmlDocument } from 'xmldoc';
 import { getExecutable, getMavenRootDirectory } from '../utils';
+import * as cache from 'memory-cache';
 
 export const createNodes: CreateNodes = [
   '**/pom.xml',
@@ -143,6 +144,12 @@ function getTask(projectRoot: string) {
 }
 
 function getLocalRepositoryLocation() {
+  const key = 'localRepositoryLocation';
+  const cachedData = cache.get(key);
+  if (cachedData) {
+    return cachedData;
+  }
+
   const command = `${getExecutable()} help:effective-settings`;
 
   const mavenRootDirectory = getMavenRootDirectory();
@@ -154,7 +161,12 @@ function getLocalRepositoryLocation() {
   const matches = (objStr.match(regexp) || []).map((e) =>
     e.replace(regexp, '$1'),
   );
-  return matches[0];
+  const data = matches[0];
+
+  // Store data in cache for future use
+  cache.put(key, data, 60000); // Cache for 60 seconds
+
+  return data;
 }
 
 export function isPomPackaging(pomXmlContent: XmlDocument): boolean {
