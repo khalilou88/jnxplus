@@ -38,7 +38,7 @@ on:
 
 jobs:
   check_plugin:
-    name: Running ${{ github.event.inputs.t_option }} tests from ${{ github.head_ref || github.ref_name }} branch
+    name: Running ${{ github.event.inputs.t_option }} tests from ${{ github.head_ref || github.ref_name }} branch on ${{ github.event.inputs.os }}
     strategy:
       matrix:
         node_version: ['20']
