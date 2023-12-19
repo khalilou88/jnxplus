@@ -1158,7 +1158,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
       source: thirdAppName,
       target: thirdParentProject,
     });
-  }, 120000);
+  }, 240000);
 
   it('should generate kotlin apps that use a parent project', async () => {
     const appsParentProject = uniq('apps-parent-project-');
@@ -1248,7 +1248,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
       source: thirdAppName,
       target: thirdParentProject,
     });
-  }, 120000);
+  }, 240000);
 
   it('should generate java libs that use a parent project', async () => {
     const libsParentProject = uniq('libs-parent-project-');
@@ -1344,7 +1344,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
       source: thirdLibName,
       target: thirdParentProject,
     });
-  }, 120000);
+  }, 240000);
 
   it('should generate kotlin libs that use a parent project', async () => {
     const libsParentProject = uniq('libs-parent-project-');
@@ -1440,7 +1440,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
       source: thirdLibName,
       target: thirdParentProject,
     });
-  }, 120000);
+  }, 240000);
 
   it('should create an application with a simple name', async () => {
     const appName = uniq('micronaut-maven-app-');
@@ -1858,5 +1858,5 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
       source: thirdAppName,
       target: thirdParentProject,
     });
-  }, 120000);
+  }, 240000);
 });

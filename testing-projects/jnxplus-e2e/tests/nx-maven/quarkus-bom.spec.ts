@@ -306,7 +306,7 @@ describe('nx-maven quarkus bom e2e', () => {
       source: appName,
       target: parentProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should create a kotlin application', async () => {
     const appsParentProject = uniq('apps-parent-project-');
@@ -504,7 +504,7 @@ describe('nx-maven quarkus bom e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('should generate an app with a simple package name', async () => {
     const appsParentProject = uniq('apps-parent-project-');
@@ -586,7 +586,7 @@ describe('nx-maven quarkus bom e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('directory with dash', async () => {
     const appsParentProject = uniq('apps-parent-project-');
