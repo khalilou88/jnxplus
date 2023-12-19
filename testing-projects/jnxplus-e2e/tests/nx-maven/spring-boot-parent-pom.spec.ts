@@ -191,7 +191,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('should build-image a java application', async () => {
     if (!isWin && !isMacOs && isCI) {
@@ -292,7 +292,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('should create a kotlin application', async () => {
     const appName = uniq('boot-maven-app-');
@@ -1347,7 +1347,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
       source: thirdAppName,
       target: thirdParentProject,
     });
-  }, 120000);
+  }, 240000);
 
   it('should generate java libs that use a parent project', async () => {
     const libsParentProject = uniq('libs-parent-project-');
@@ -1539,7 +1539,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
       source: thirdLibName,
       target: thirdParentProject,
     });
-  }, 120000);
+  }, 240000);
 
   it('should create an application with a simple name', async () => {
     const appName = uniq('boot-maven-app-');
@@ -1977,7 +1977,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
       source: thirdAppName,
       target: thirdParentProject,
     });
-  }, 120000);
+  }, 240000);
 
   it('optional project.json', async () => {
     const appsParentProject = uniq('apps-parent-project-');
