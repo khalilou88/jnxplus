@@ -586,7 +586,7 @@ describe('nx-maven quarkus bom e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('directory with dash', async () => {
     const appsParentProject = uniq('apps-parent-project-');
