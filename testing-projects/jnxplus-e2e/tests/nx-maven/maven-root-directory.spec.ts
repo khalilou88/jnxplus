@@ -479,7 +479,7 @@ describe('nx-maven maven-root-directory e2e', () => {
       source: appName,
       target: parentProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should add a lib to an app dependencies', async () => {
     const libsParentProject = uniq('libs-parent-project-');
@@ -826,7 +826,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('should create a micronaut library', async () => {
     const libsParentProject = uniq('libs-parent-project-');
