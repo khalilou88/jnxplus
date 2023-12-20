@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.20.0](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.19.4...nx-maven-0.20.0) (2023-12-20)
+
+
+### Features
+
+* **generators:** add  build output dynamically ([#690](https://github.com/khalilou88/jnxplus/issues/690)) ([ef2ceac](https://github.com/khalilou88/jnxplus/commit/ef2ceacfaa1d1ba01efa96effd330c478b332765))
+
+
+
 ## [0.19.4](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.19.3...nx-maven-0.19.4) (2023-12-11)
 
 ### Dependency Updates
