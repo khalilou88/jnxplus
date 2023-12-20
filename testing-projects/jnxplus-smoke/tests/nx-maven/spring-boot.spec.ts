@@ -109,7 +109,7 @@ describe('nx-maven spring-boot smoke', () => {
 
     execSync(`npx nx test ${testLib}`, execSyncOptions());
 
-    execSync(`npx nx run-many --target=build --parallel=1`, execSyncOptions());
+    execSync(`npx nx run-many --target=build --parallel`, execSyncOptions());
 
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
 
