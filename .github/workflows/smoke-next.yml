@@ -34,9 +34,15 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
 
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4.5
+        with:
+          maven-version: 3.9.2
+
       - name: Install dependencies
         run: npm i
 
       - run: npm run nx run-many -- --target=smoke-next
         env:
           NX_MAVEN_CLI_OPTS: '--no-transfer-progress'
+          NX_SKIP_MAVEN_WRAPPER: 'true'
