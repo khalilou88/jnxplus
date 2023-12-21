@@ -37,7 +37,7 @@ jobs:
       - name: Set up Maven
         uses: stCarolas/setup-maven@v4.5
         with:
-          maven-version: 3.9.2
+          maven-version: 3.9.6
 
       - name: Install dependencies
         run: npm i
