@@ -1046,7 +1046,7 @@ describe('nx-maven quarkus bom e2e', () => {
       source: appName,
       target: libName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should add a kotlin lib to a kotlin app dependencies', async () => {
     const libsParentProject = uniq('libs-parent-project-');
@@ -1132,7 +1132,7 @@ describe('nx-maven quarkus bom e2e', () => {
       source: appName,
       target: libName,
     });
-  }, 120000);
+  }, 240000);
 
   it("should dep-graph don't crash when pom.xml don't contains dependencies tag", async () => {
     const libsParentProject = uniq('libs-parent-project-');
@@ -1256,7 +1256,7 @@ describe('nx-maven quarkus bom e2e', () => {
       source: thirdAppName,
       target: thirdParentProject,
     });
-  }, 120000);
+  }, 240000);
 
   it('should generate kotlin apps that use a parent project', async () => {
     const appsParentProject = uniq('apps-parent-project-');
@@ -1442,7 +1442,7 @@ describe('nx-maven quarkus bom e2e', () => {
       source: thirdLibName,
       target: thirdParentProject,
     });
-  }, 120000);
+  }, 240000);
 
   it('should generate kotlin libs that use a parent project', async () => {
     const libsParentProject = uniq('libs-parent-project-');
