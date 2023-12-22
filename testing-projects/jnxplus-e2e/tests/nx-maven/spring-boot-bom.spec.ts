@@ -97,6 +97,10 @@ describe('nx-maven spring-boot bom e2e', () => {
       `show project ${appsParentProject} --json`,
     );
     const projectJson = JSON.parse(showProjectResult.stdout);
+    expect(Object.entries(projectJson.targets).length).toBe(1);
+    expect(projectJson.targets.build.outputs).toContain(
+      '{options.outputDirLocalRepo}',
+    );
     expect(projectJson.targets.build.options.outputDirLocalRepo).toBeTruthy();
   }, 120000);
 
