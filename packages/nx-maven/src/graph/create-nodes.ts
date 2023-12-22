@@ -24,6 +24,12 @@ export const createNodes: CreateNodes = [
     const projectPath = path.join(workspaceRoot, projectRoot);
     const projectJsonPath = path.join(projectPath, 'project.json');
 
+    const mavenRootDirectory = getMavenRootDirectory();
+    const mavenRootDirAbsolutePath = path.join(
+      workspaceRoot,
+      mavenRootDirectory,
+    );
+
     if (existsSync(projectJsonPath)) {
       const projectJson = readJsonFile(projectJsonPath);
       projectName = projectJson.name;
@@ -37,8 +43,13 @@ export const createNodes: CreateNodes = [
           const pomXmlContent = readXml(pomXmlFilePath);
           const artifactId = getArtifactId(pomXmlContent);
           const groupId = getGroupId(artifactId, pomXmlContent);
-          const projectVersion = getEffectiveVersion(projectPath);
-          const localRepositoryLocation = getLocalRepositoryLocation();
+          const projectVersion = getEffectiveVersion(
+            mavenRootDirAbsolutePath,
+            projectPath,
+          );
+          const localRepositoryLocation = getLocalRepositoryLocation(
+            mavenRootDirAbsolutePath,
+          );
 
           const outputDirLocalRepo = getOutputDirLocalRepo(
             localRepositoryLocation,
@@ -57,8 +68,13 @@ export const createNodes: CreateNodes = [
       const pomXmlContent = readXml(pomXmlFilePath);
       const artifactId = getArtifactId(pomXmlContent);
       const groupId = getGroupId(artifactId, pomXmlContent);
-      const projectVersion = getEffectiveVersion(projectPath);
-      const localRepositoryLocation = getLocalRepositoryLocation();
+      const projectVersion = getEffectiveVersion(
+        mavenRootDirAbsolutePath,
+        projectPath,
+      );
+      const localRepositoryLocation = getLocalRepositoryLocation(
+        mavenRootDirAbsolutePath,
+      );
 
       const outputDirLocalRepo = getOutputDirLocalRepo(
         localRepositoryLocation,
@@ -157,7 +173,7 @@ function getTask(projectRoot: string) {
   return 'install';
 }
 
-function getLocalRepositoryLocation() {
+function getLocalRepositoryLocation(mavenRootDirAbsolutePath: string) {
   const key = 'localRepositoryLocation';
   const cachedData = cache.get(key);
   if (cachedData) {
@@ -167,7 +183,11 @@ function getLocalRepositoryLocation() {
   const regexp = /<localRepository>(.+?)<\/localRepository>/g;
   const command = `${getExecutable()} help:effective-settings`;
 
-  const data = runCommandAndExtractRegExp(command, regexp);
+  const data = runCommandAndExtractRegExp(
+    command,
+    mavenRootDirAbsolutePath,
+    regexp,
+  );
 
   // Store data in cache for future use
   cache.put(key, data, 60000); // Cache for 60 seconds
@@ -185,10 +205,13 @@ function isPomPackaging(pomXmlContent: XmlDocument): boolean {
   return packagingXml.val === 'pom';
 }
 
-function runCommandAndExtractRegExp(command: string, regexp: RegExp) {
-  const mavenRootDirectory = getMavenRootDirectory();
+function runCommandAndExtractRegExp(
+  command: string,
+  mavenRootDirAbsolutePath: string,
+  regexp: RegExp,
+) {
   const objStr = execSync(command, {
-    cwd: path.join(workspaceRoot, mavenRootDirectory),
+    cwd: mavenRootDirAbsolutePath,
   }).toString();
 
   const matches = (objStr.match(regexp) || []).map((e) =>
@@ -197,13 +220,15 @@ function runCommandAndExtractRegExp(command: string, regexp: RegExp) {
   return matches[0];
 }
 
-function getEffectiveVersion(projectPath: string) {
-  const mavenRootDirectory = getMavenRootDirectory();
-  const pomRelativePath = path.relative(mavenRootDirectory, projectPath);
+function getEffectiveVersion(
+  mavenRootDirAbsolutePath: string,
+  projectPath: string,
+) {
+  const pomRelativePath = path.relative(mavenRootDirAbsolutePath, projectPath);
   const version = execSync(
     `${getExecutable()} -f ${pomRelativePath} help:evaluate -Dexpression=project.version -q -DforceStdout`,
     {
-      cwd: path.join(workspaceRoot, mavenRootDirectory),
+      cwd: mavenRootDirAbsolutePath,
     },
   )
     .toString()
