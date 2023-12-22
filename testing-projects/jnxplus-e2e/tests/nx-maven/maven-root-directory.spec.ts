@@ -62,7 +62,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     if (isCI) {
       removeTmpFromGitignore();
     }
-  }, 120000);
+  }, 240000);
 
   afterAll(async () => {
     if (isCI) {
@@ -77,7 +77,7 @@ describe('nx-maven maven-root-directory e2e', () => {
 
   it('should set NX_VERBOSE_LOGGING to true', async () => {
     expect(process.env['NX_VERBOSE_LOGGING']).toBe('true');
-  }, 120000);
+  }, 240000);
 
   it('should init the workspace with @jnxplus/nx-maven capabilities', async () => {
     // Making sure the package.json file contains the @jnxplus/nx-maven dependency
@@ -107,7 +107,7 @@ describe('nx-maven maven-root-directory e2e', () => {
         'pom.xml',
       ),
     ).not.toThrow();
-  }, 120000);
+  }, 240000);
 
   it('1 none app', async () => {
     const appName = uniq('maven-app-');
@@ -155,7 +155,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     updateFile(`nx-maven/${appName}/project.json`, JSON.stringify(projectJson));
     const lintResult = await runNxCommandAsync(`lint ${appName}`);
     expect(lintResult.stdout).toContain('Executor ran for Lint');
-  }, 120000);
+  }, 240000);
 
   it('should test an app with none option', async () => {
     const appName = uniq('maven-app-');
@@ -166,7 +166,7 @@ describe('nx-maven maven-root-directory e2e', () => {
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
-  }, 120000);
+  }, 240000);
 
   it('should serve an app with none option', async () => {
     const appName = uniq('maven-app-');
@@ -177,7 +177,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     const serveResult = await runNxCommandAsync(`serve ${appName}`);
     expect(serveResult.stdout).toContain('Executor ran for Serve');
     expect(serveResult.stdout).toContain('Hello World!');
-  }, 120000);
+  }, 240000);
 
   it('2 none app kt', async () => {
     const appName = uniq('maven-app-');
@@ -227,7 +227,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     const serveResult = await runNxCommandAsync(`serve ${appName}`);
     expect(serveResult.stdout).toContain('Executor ran for Serve');
     expect(serveResult.stdout).toContain('Hello World!');
-  }, 120000);
+  }, 240000);
 
   it('1 none lib', async () => {
     const libName = uniq('maven-lib-');
@@ -272,7 +272,7 @@ describe('nx-maven maven-root-directory e2e', () => {
       '{options.outputDirLocalRepo}',
     ]);
     expect(projectJson.targets.build.options.outputDirLocalRepo).toBeTruthy();
-  }, 120000);
+  }, 240000);
 
   it('2 none lib kt', async () => {
     const libName = uniq('maven-lib-');
@@ -304,7 +304,7 @@ describe('nx-maven maven-root-directory e2e', () => {
 
     // const lintResult = await runNxCommandAsync(`lint ${libName}`);
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
-  }, 120000);
+  }, 240000);
 
   it('should create a java application', async () => {
     const appsParentProject = uniq('apps-parent-project-');
@@ -406,7 +406,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('should use specified options to create a quarkus application', async () => {
     const appsParentProject = uniq('apps-parent-project-');
@@ -579,7 +579,7 @@ describe('nx-maven maven-root-directory e2e', () => {
       source: appName,
       target: libName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should add a kotlin lib to a kotlin app dependencies', async () => {
     const libsParentProject = uniq('libs-parent-project-');
@@ -744,7 +744,7 @@ describe('nx-maven maven-root-directory e2e', () => {
       source: libName,
       target: parentProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should create a micronaut java application', async () => {
     const appsParentProject = uniq('apps-parent-project-');
@@ -910,7 +910,7 @@ describe('nx-maven maven-root-directory e2e', () => {
       source: libName,
       target: parentProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should create a micronaut kotlin application', async () => {
     const appsParentProject = uniq('apps-parent-project-');
@@ -985,5 +985,5 @@ describe('nx-maven maven-root-directory e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 });

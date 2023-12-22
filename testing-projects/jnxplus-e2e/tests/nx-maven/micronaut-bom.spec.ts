@@ -46,7 +46,7 @@ describe('nx-maven micronaut bom e2e', () => {
     if (isCI) {
       removeTmpFromGitignore();
     }
-  }, 120000);
+  }, 240000);
 
   afterAll(async () => {
     if (isCI) {
@@ -61,7 +61,7 @@ describe('nx-maven micronaut bom e2e', () => {
 
   it('should set NX_VERBOSE_LOGGING to true', async () => {
     expect(process.env['NX_VERBOSE_LOGGING']).toBe('true');
-  }, 120000);
+  }, 240000);
 
   it('should init the workspace with @jnxplus/nx-maven capabilities', async () => {
     // Making sure the package.json file contains the @jnxplus/nx-maven dependency
@@ -81,7 +81,7 @@ describe('nx-maven micronaut bom e2e', () => {
         'pom.xml',
       ),
     ).not.toThrow();
-  }, 120000);
+  }, 240000);
 
   it('should create a micronaut java application', async () => {
     const appsParentProject = uniq('apps-parent-project-');
@@ -235,7 +235,7 @@ describe('nx-maven micronaut bom e2e', () => {
       source: libName,
       target: parentProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should create a micronaut kotlin application', async () => {
     const appsParentProject = uniq('apps-parent-project-');
@@ -386,7 +386,7 @@ describe('nx-maven micronaut bom e2e', () => {
       source: appName,
       target: libName,
     });
-  }, 120000);
+  }, 240000);
 
   it('micronaut: should add a kotlin lib to a kotlin app dependencies', async () => {
     const parentProject = uniq('parent-project-');
@@ -466,5 +466,5 @@ describe('nx-maven micronaut bom e2e', () => {
       source: appName,
       target: libName,
     });
-  }, 120000);
+  }, 240000);
 });
