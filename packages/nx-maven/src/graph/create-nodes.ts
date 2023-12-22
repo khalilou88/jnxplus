@@ -1,25 +1,18 @@
 import { readXml } from '@jnxplus/xml';
-import {
-  CreateNodes,
-  TargetConfiguration,
-  readJsonFile,
-  workspaceRoot,
-} from '@nx/devkit';
+import { CreateNodes, readJsonFile, workspaceRoot } from '@nx/devkit';
 import { execSync } from 'child_process';
 import { existsSync } from 'fs';
+import * as cache from 'memory-cache';
 import { dirname, join } from 'path';
 import { XmlDocument } from 'xmldoc';
 import { getExecutable, getMavenRootDirectory } from '../utils';
-import * as cache from 'memory-cache';
 
 export const createNodes: CreateNodes = [
   '**/pom.xml',
   (pomXmlFilePath: string) => {
     let projectName;
     const projectRoot = dirname(pomXmlFilePath);
-    let targets: {
-      [targetName: string]: TargetConfiguration;
-    } = {};
+    let targets = {};
 
     const projectJsonPath = join(workspaceRoot, projectRoot, 'project.json');
 
@@ -45,10 +38,17 @@ export const createNodes: CreateNodes = [
             projectVersion,
           );
 
-          targets = projectJson.targets;
-          targets[targetName].options = {
-            outputDirLocalRepo: outputDirLocalRepo,
-            ...targets[targetName].options,
+          const target = {
+            targetName: {
+              options: {
+                outputDirLocalRepo: outputDirLocalRepo,
+              },
+            },
+          };
+
+          targets = {
+            target,
+            ...targets,
           };
         }
       }
