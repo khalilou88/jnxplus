@@ -267,9 +267,10 @@ describe('nx-maven maven-root-directory e2e', () => {
     );
     const projectJson = JSON.parse(showProjectResult.stdout);
     expect(Object.entries(projectJson.targets).length).toBe(2);
-    expect(projectJson.targets.build.outputs).toContain(
+    expect(projectJson.targets.build.outputs).toContainEqual([
+      '{projectRoot}/target',
       '{options.outputDirLocalRepo}',
-    );
+    ]);
     expect(projectJson.targets.build.options.outputDirLocalRepo).toBeTruthy();
   }, 120000);
 
