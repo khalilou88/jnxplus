@@ -92,6 +92,16 @@ describe('nx-maven spring-boot bom e2e', () => {
         'pom.xml',
       ),
     ).not.toThrow();
+
+    const showProjectResult = await runNxCommandAsync(
+      `show project ${appsParentProject} --json`,
+    );
+    const projectJson = JSON.parse(showProjectResult.stdout);
+    expect(Object.entries(projectJson.targets).length).toBe(1);
+    expect(projectJson.targets.build.outputs).toEqual([
+      '{options.outputDirLocalRepo}',
+    ]);
+    expect(projectJson.targets.build.options.outputDirLocalRepo).toBeTruthy();
   }, 120000);
 
   it('spring-boot: should create a java application', async () => {

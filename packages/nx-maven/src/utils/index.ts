@@ -83,8 +83,8 @@ export function addProjectToAggregator(
   const aggregatorProjectRoot = options.aggregatorProject
     ? readProjectConfiguration(tree, options.aggregatorProject).root
     : options.mavenRootDirectory
-    ? options.mavenRootDirectory
-    : '';
+      ? options.mavenRootDirectory
+      : '';
 
   const parentProjectPomPath = path.join(aggregatorProjectRoot, 'pom.xml');
   const xmldoc = readXmlTree(tree, parentProjectPomPath);
@@ -241,15 +241,15 @@ function isParentPomExits(
   xmldoc: XmlDocument,
   parentPom: 'spring-boot-starter-parent' | 'micronaut-parent',
 ) {
-  const parent = xmldoc.childNamed('parent');
+  const parentXml = xmldoc.childNamed('parent');
 
-  if (parent === undefined) {
+  if (parentXml === undefined) {
     return false;
   }
 
-  const artifactId = parent.childNamed('artifactId');
+  const artifactIdXml = parentXml.childNamed('artifactId');
 
-  return parentPom === artifactId?.val;
+  return parentPom === artifactIdXml?.val;
 }
 
 export function getDependencyManagement(

@@ -7,10 +7,10 @@ import {
 } from '@nx/devkit';
 import { execSync } from 'child_process';
 import { existsSync } from 'fs';
+import * as cache from 'memory-cache';
 import { dirname, join } from 'path';
 import { XmlDocument } from 'xmldoc';
 import { getExecutable, getMavenRootDirectory } from '../utils';
-import * as cache from 'memory-cache';
 
 export const createNodes: CreateNodes = [
   '**/pom.xml',
@@ -26,35 +26,37 @@ export const createNodes: CreateNodes = [
     if (existsSync(projectJsonPath)) {
       const projectJson = readJsonFile(projectJsonPath);
       projectName = projectJson.name;
-      if (
-        (projectJson.targets['build'].outputs ?? []).some(
-          (element: string) => element === '{options.outputDirLocalRepo}',
-        )
-      ) {
-        const pomXmlContent = readXml(pomXmlFilePath);
-        const groupId = getGroupId(pomXmlContent);
-        const artifactId = getArtifactId(pomXmlContent);
-        const projectVersion = getVersion(pomXmlContent);
-        const localRepositoryLocation = getLocalRepositoryLocation();
+      targets = projectJson.targets;
+      for (const [targetName] of Object.entries(targets ?? {})) {
+        if (
+          (targets[targetName].outputs ?? []).some(
+            (element: string) => element === '{options.outputDirLocalRepo}',
+          )
+        ) {
+          const pomXmlContent = readXml(pomXmlFilePath);
+          const artifactId = getArtifactId(pomXmlContent);
+          const groupId = getGroupId(artifactId, pomXmlContent);
+          const projectVersion = getVersion(artifactId, pomXmlContent);
+          const localRepositoryLocation = getLocalRepositoryLocation();
 
-        const outputDirLocalRepo = getOutputDirLocalRepo(
-          localRepositoryLocation,
-          groupId,
-          artifactId,
-          projectVersion,
-        );
+          const outputDirLocalRepo = getOutputDirLocalRepo(
+            localRepositoryLocation,
+            groupId,
+            artifactId,
+            projectVersion,
+          );
 
-        targets = projectJson.targets;
-        targets['build'].options = {
-          outputDirLocalRepo: outputDirLocalRepo,
-          ...targets['build'].options,
-        };
+          targets[targetName].options = {
+            outputDirLocalRepo: outputDirLocalRepo,
+            ...targets[targetName].options,
+          };
+        }
       }
     } else {
       const pomXmlContent = readXml(pomXmlFilePath);
-      const groupId = getGroupId(pomXmlContent);
       const artifactId = getArtifactId(pomXmlContent);
-      const projectVersion = getVersion(pomXmlContent);
+      const groupId = getGroupId(artifactId, pomXmlContent);
+      const projectVersion = getVersion(artifactId, pomXmlContent);
       const localRepositoryLocation = getLocalRepositoryLocation();
 
       const outputDirLocalRepo = getOutputDirLocalRepo(
@@ -96,10 +98,48 @@ export const createNodes: CreateNodes = [
   },
 ];
 
-function getGroupId(pomXmlContent: XmlDocument) {
+function getParentGroupId(
+  artifactId: string,
+  pomXmlContent: XmlDocument,
+): string {
+  const parentXml = pomXmlContent.childNamed('parent');
+
+  if (parentXml === undefined) {
+    throw new Error(`Parent tag not found for project ${artifactId}`);
+  }
+
+  const groupIdXml = parentXml.childNamed('groupId');
+
+  if (groupIdXml === undefined) {
+    throw new Error(`ParentGroupId not found for project ${artifactId}`);
+  }
+
+  return groupIdXml?.val;
+}
+
+function getParentVersion(
+  artifactId: string,
+  pomXmlContent: XmlDocument,
+): string {
+  const parentXml = pomXmlContent.childNamed('parent');
+
+  if (parentXml === undefined) {
+    throw new Error(`Parent tag not found for project ${artifactId}`);
+  }
+
+  const versionXml = parentXml.childNamed('version');
+
+  if (versionXml === undefined) {
+    throw new Error(`ParentVersion not found for project ${artifactId}`);
+  }
+
+  return versionXml?.val;
+}
+
+function getGroupId(artifactId: string, pomXmlContent: XmlDocument) {
   const groupIdXml = pomXmlContent.childNamed('groupId');
   if (groupIdXml === undefined) {
-    throw new Error(`GroupId not found in pom.xml`);
+    return getParentGroupId(artifactId, pomXmlContent);
   }
   return groupIdXml.val;
 }
@@ -112,10 +152,10 @@ function getArtifactId(pomXmlContent: XmlDocument) {
   return artifactIdXml.val;
 }
 
-function getVersion(pomXmlContent: XmlDocument) {
+function getVersion(artifactId: string, pomXmlContent: XmlDocument) {
   const versionXml = pomXmlContent.childNamed('version');
   if (versionXml === undefined) {
-    throw new Error(`Version not found in pom.xml`);
+    return getParentVersion(artifactId, pomXmlContent);
   }
   return versionXml.val;
 }
@@ -150,18 +190,10 @@ function getLocalRepositoryLocation() {
     return cachedData;
   }
 
+  const regexp = /<localRepository>(.+?)<\/localRepository>/g;
   const command = `${getExecutable()} help:effective-settings`;
 
-  const mavenRootDirectory = getMavenRootDirectory();
-  const objStr = execSync(command, {
-    cwd: join(workspaceRoot, mavenRootDirectory),
-  }).toString();
-
-  const regexp = /<localRepository>(.+?)<\/localRepository>/g;
-  const matches = (objStr.match(regexp) || []).map((e) =>
-    e.replace(regexp, '$1'),
-  );
-  const data = matches[0];
+  const data = runCommandAndExtractRegExp(command, regexp);
 
   // Store data in cache for future use
   cache.put(key, data, 60000); // Cache for 60 seconds
@@ -177,4 +209,16 @@ function isPomPackaging(pomXmlContent: XmlDocument): boolean {
   }
 
   return packagingXml.val === 'pom';
+}
+
+function runCommandAndExtractRegExp(command: string, regexp: RegExp) {
+  const mavenRootDirectory = getMavenRootDirectory();
+  const objStr = execSync(command, {
+    cwd: join(workspaceRoot, mavenRootDirectory),
+  }).toString();
+
+  const matches = (objStr.match(regexp) || []).map((e) =>
+    e.replace(regexp, '$1'),
+  );
+  return matches[0];
 }
