@@ -118,21 +118,29 @@ function getParentGroupId(
   return groupIdXml?.val;
 }
 
+function getParentVersion(
+  artifactId: string,
+  pomXmlContent: XmlDocument,
+): string {
+  const parentXml = pomXmlContent.childNamed('parent');
+
+  if (parentXml === undefined) {
+    throw new Error(`Parent tag not found for project ${artifactId}`);
+  }
+
+  const versionXml = parentXml.childNamed('version');
+
+  if (versionXml === undefined) {
+    throw new Error(`ParentVersion not found for project ${artifactId}`);
+  }
+
+  return versionXml?.val;
+}
+
 function getGroupId(artifactId: string, pomXmlContent: XmlDocument) {
   const groupIdXml = pomXmlContent.childNamed('groupId');
   if (groupIdXml === undefined) {
-    const parentGroupId = getParentGroupId(artifactId, pomXmlContent);
-
-    const command = `${getExecutable()} help:effective-pom -Dartifact=${parentGroupId}:${artifactId}`;
-
-    const regexp = /<groupId>(.+?)<\/groupId>/g;
-    const groupId = runCommandAndExtractRegExp(command, regexp);
-
-    if (!groupId) {
-      throw new Error(`GroupId not found for project ${artifactId}`);
-    }
-
-    return groupId;
+    return getParentGroupId(artifactId, pomXmlContent);
   }
   return groupIdXml.val;
 }
@@ -148,18 +156,7 @@ function getArtifactId(pomXmlContent: XmlDocument) {
 function getVersion(artifactId: string, pomXmlContent: XmlDocument) {
   const versionXml = pomXmlContent.childNamed('version');
   if (versionXml === undefined) {
-    const parentGroupId = getParentGroupId(artifactId, pomXmlContent);
-
-    const command = `${getExecutable()} help:effective-pom -Dartifact=${parentGroupId}:${artifactId}`;
-
-    const regexp = /<version>(.+?)<\/version>/g;
-    const version = runCommandAndExtractRegExp(command, regexp);
-
-    if (!version) {
-      throw new Error(`Version not found for project ${artifactId}`);
-    }
-
-    return version;
+    return getParentVersion(artifactId, pomXmlContent);
   }
   return versionXml.val;
 }
