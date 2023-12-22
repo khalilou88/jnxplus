@@ -8,6 +8,7 @@ import {
 import { execSync } from 'child_process';
 import { existsSync } from 'fs';
 import * as cache from 'memory-cache';
+import * as path from 'path';
 import { dirname, join } from 'path';
 import { XmlDocument } from 'xmldoc';
 import { getExecutable, getMavenRootDirectory } from '../utils';
@@ -21,7 +22,6 @@ export const createNodes: CreateNodes = [
       [targetName: string]: TargetConfiguration;
     } = {};
 
-    const pomRelativePath = join(projectRoot, 'pom.xml');
     const projectJsonPath = join(workspaceRoot, projectRoot, 'project.json');
 
     if (existsSync(projectJsonPath)) {
@@ -37,7 +37,7 @@ export const createNodes: CreateNodes = [
           const pomXmlContent = readXml(pomXmlFilePath);
           const artifactId = getArtifactId(pomXmlContent);
           const groupId = getGroupId(artifactId, pomXmlContent);
-          const projectVersion = getEffectiveVersion(pomRelativePath);
+          const projectVersion = getEffectiveVersion(projectRoot);
           const localRepositoryLocation = getLocalRepositoryLocation();
 
           const outputDirLocalRepo = getOutputDirLocalRepo(
@@ -57,7 +57,7 @@ export const createNodes: CreateNodes = [
       const pomXmlContent = readXml(pomXmlFilePath);
       const artifactId = getArtifactId(pomXmlContent);
       const groupId = getGroupId(artifactId, pomXmlContent);
-      const projectVersion = getEffectiveVersion(pomRelativePath);
+      const projectVersion = getEffectiveVersion(projectRoot);
       const localRepositoryLocation = getLocalRepositoryLocation();
 
       const outputDirLocalRepo = getOutputDirLocalRepo(
@@ -197,8 +197,9 @@ function runCommandAndExtractRegExp(command: string, regexp: RegExp) {
   return matches[0];
 }
 
-function getEffectiveVersion(pomRelativePath: string) {
+function getEffectiveVersion(projectRoot: string) {
   const mavenRootDirectory = getMavenRootDirectory();
+  const pomRelativePath = path.relative(mavenRootDirectory, projectRoot);
   const version = execSync(
     `${getExecutable()} -f ${pomRelativePath} help:evaluate -Dexpression=project.version -q -DforceStdout`,
     {
