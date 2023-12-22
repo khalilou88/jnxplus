@@ -19,7 +19,8 @@ export const createNodes: CreateNodes = [
     if (existsSync(projectJsonPath)) {
       const projectJson = readJsonFile(projectJsonPath);
       projectName = projectJson.name;
-      for (const targetName in projectJson.targets) {
+      const targetNames = Object.keys(projectJson.targets);
+      for (const targetName of targetNames) {
         if (
           (projectJson.targets[targetName].outputs ?? []).some(
             (element: string) => element === '{options.outputDirLocalRepo}',
