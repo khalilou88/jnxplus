@@ -36,7 +36,7 @@ export const createNodes: CreateNodes = [
           const pomXmlContent = readXml(pomXmlFilePath);
           const artifactId = getArtifactId(pomXmlContent);
           const groupId = getGroupId(artifactId, pomXmlContent);
-          const projectVersion = getVersion(artifactId, pomXmlContent);
+          const projectVersion = getEffectiveVersion(groupId, artifactId);
           const localRepositoryLocation = getLocalRepositoryLocation();
 
           const outputDirLocalRepo = getOutputDirLocalRepo(
@@ -56,7 +56,7 @@ export const createNodes: CreateNodes = [
       const pomXmlContent = readXml(pomXmlFilePath);
       const artifactId = getArtifactId(pomXmlContent);
       const groupId = getGroupId(artifactId, pomXmlContent);
-      const projectVersion = getVersion(artifactId, pomXmlContent);
+      const projectVersion = getEffectiveVersion(groupId, artifactId);
       const localRepositoryLocation = getLocalRepositoryLocation();
 
       const outputDirLocalRepo = getOutputDirLocalRepo(
@@ -117,25 +117,6 @@ function getParentGroupId(
   return groupIdXml?.val;
 }
 
-function getParentVersion(
-  artifactId: string,
-  pomXmlContent: XmlDocument,
-): string {
-  const parentXml = pomXmlContent.childNamed('parent');
-
-  if (parentXml === undefined) {
-    throw new Error(`Parent tag not found for project ${artifactId}`);
-  }
-
-  const versionXml = parentXml.childNamed('version');
-
-  if (versionXml === undefined) {
-    throw new Error(`ParentVersion not found for project ${artifactId}`);
-  }
-
-  return versionXml?.val;
-}
-
 function getGroupId(artifactId: string, pomXmlContent: XmlDocument) {
   const groupIdXml = pomXmlContent.childNamed('groupId');
   if (groupIdXml === undefined) {
@@ -150,14 +131,6 @@ function getArtifactId(pomXmlContent: XmlDocument) {
     throw new Error(`ArtifactId not found in pom.xml`);
   }
   return artifactIdXml.val;
-}
-
-function getVersion(artifactId: string, pomXmlContent: XmlDocument) {
-  const versionXml = pomXmlContent.childNamed('version');
-  if (versionXml === undefined) {
-    return getParentVersion(artifactId, pomXmlContent);
-  }
-  return versionXml.val;
 }
 
 function getOutputDirLocalRepo(
@@ -221,4 +194,16 @@ function runCommandAndExtractRegExp(command: string, regexp: RegExp) {
     e.replace(regexp, '$1'),
   );
   return matches[0];
+}
+
+function getEffectiveVersion(groupId: string, artifactId: string) {
+  const mavenRootDirectory = getMavenRootDirectory();
+  const version = execSync(
+    `${getExecutable()} help:evaluate -Dartifact=${groupId}:${artifactId} -Dexpression=project.version -q -DforceStdout`,
+    {
+      cwd: join(workspaceRoot, mavenRootDirectory),
+    },
+  ).toString();
+
+  return version;
 }
