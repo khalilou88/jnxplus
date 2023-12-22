@@ -99,10 +99,31 @@ export const createNodes: CreateNodes = [
   },
 ];
 
+function getParentGroupId(
+  artifactId: string,
+  pomXmlContent: XmlDocument,
+): string {
+  const parentXml = pomXmlContent.childNamed('parent');
+
+  if (parentXml === undefined) {
+    throw new Error(`Parent tag not found for project ${artifactId}`);
+  }
+
+  const groupIdXml = parentXml.childNamed('groupId');
+
+  if (groupIdXml === undefined) {
+    throw new Error(`ParentGroupId not found for project ${artifactId}`);
+  }
+
+  return groupIdXml?.val;
+}
+
 function getGroupId(artifactId: string, pomXmlContent: XmlDocument) {
   const groupIdXml = pomXmlContent.childNamed('groupId');
   if (groupIdXml === undefined) {
-    const command = `${getExecutable()} help:effective-pom -Dartifact=:${artifactId}`;
+    const parentGroupId = getParentGroupId(artifactId, pomXmlContent);
+
+    const command = `${getExecutable()} help:effective-pom -Dartifact=${parentGroupId}:${artifactId}`;
 
     const regexp = /<groupId>(.+?)<\/groupId>/g;
     const groupId = runCommandAndExtractRegExp(command, regexp);
@@ -127,7 +148,9 @@ function getArtifactId(pomXmlContent: XmlDocument) {
 function getVersion(artifactId: string, pomXmlContent: XmlDocument) {
   const versionXml = pomXmlContent.childNamed('version');
   if (versionXml === undefined) {
-    const command = `${getExecutable()} help:effective-pom -Dartifact=:${artifactId}`;
+    const parentGroupId = getParentGroupId(pomXmlContent);
+
+    const command = `${getExecutable()} help:effective-pom -Dartifact=${parentGroupId}:${artifactId}`;
 
     const regexp = /<version>(.+?)<\/version>/g;
     const version = runCommandAndExtractRegExp(command, regexp);
