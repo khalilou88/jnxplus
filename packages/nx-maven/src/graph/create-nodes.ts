@@ -43,7 +43,9 @@ export const createNodes: CreateNodes = [
           const pomXmlContent = readXml(pomXmlFilePath);
           const artifactId = getArtifactId(pomXmlContent);
           const groupId = getGroupId(artifactId, pomXmlContent);
-          const projectVersion = getEffectiveVersion(
+          const projectVersion = getVersion(
+            artifactId,
+            pomXmlContent,
             mavenRootDirAbsolutePath,
             projectPath,
           );
@@ -68,7 +70,9 @@ export const createNodes: CreateNodes = [
       const pomXmlContent = readXml(pomXmlFilePath);
       const artifactId = getArtifactId(pomXmlContent);
       const groupId = getGroupId(artifactId, pomXmlContent);
-      const projectVersion = getEffectiveVersion(
+      const projectVersion = getVersion(
+        artifactId,
+        pomXmlContent,
         mavenRootDirAbsolutePath,
         projectPath,
       );
@@ -220,10 +224,50 @@ function runCommandAndExtractRegExp(
   return matches[0];
 }
 
-function getEffectiveVersion(
+function getVersion(
+  artifactId: string,
+  pomXmlContent: XmlDocument,
   mavenRootDirAbsolutePath: string,
   projectPath: string,
 ) {
+  let version;
+  const versionXml = pomXmlContent.childNamed('version');
+  if (versionXml === undefined) {
+    version = getParentVersion(artifactId, pomXmlContent);
+  } else {
+    version = versionXml.val;
+  }
+
+  if (version.indexOf('${') >= 0) {
+    version = getEffectiveVersion(mavenRootDirAbsolutePath, projectPath);
+  }
+
+  return version;
+}
+
+function getParentVersion(
+  artifactId: string,
+  pomXmlContent: XmlDocument,
+): string {
+  const parentXml = pomXmlContent.childNamed('parent');
+
+  if (parentXml === undefined) {
+    throw new Error(`Parent tag not found for project ${artifactId}`);
+  }
+
+  const versionXml = parentXml.childNamed('version');
+
+  if (versionXml === undefined) {
+    throw new Error(`ParentVersion not found for project ${artifactId}`);
+  }
+
+  return versionXml?.val;
+}
+
+function getEffectiveVersion(
+  mavenRootDirAbsolutePath: string,
+  projectPath: string,
+): string {
   const pomRelativePath = path.relative(mavenRootDirAbsolutePath, projectPath);
   const version = execSync(
     `${getExecutable()} -f ${pomRelativePath} help:evaluate -Dexpression=project.version -q -DforceStdout`,
