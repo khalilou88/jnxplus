@@ -9,7 +9,6 @@ import { execSync } from 'child_process';
 import { existsSync } from 'fs';
 import * as cache from 'memory-cache';
 import * as path from 'path';
-import { dirname, join } from 'path';
 import { XmlDocument } from 'xmldoc';
 import { getExecutable, getMavenRootDirectory } from '../utils';
 
@@ -17,13 +16,13 @@ export const createNodes: CreateNodes = [
   '**/pom.xml',
   (pomXmlFilePath: string) => {
     let projectName;
-    const projectRoot = dirname(pomXmlFilePath);
+    const projectRoot = path.dirname(pomXmlFilePath);
     let targets: {
       [targetName: string]: TargetConfiguration;
     } = {};
 
-    const projectPath = join(workspaceRoot, projectRoot);
-    const projectJsonPath = join(projectPath, 'project.json');
+    const projectPath = path.join(workspaceRoot, projectRoot);
+    const projectJsonPath = path.join(projectPath, 'project.json');
 
     if (existsSync(projectJsonPath)) {
       const projectJson = readJsonFile(projectJsonPath);
@@ -141,7 +140,7 @@ function getOutputDirLocalRepo(
   artifactId: string,
   projectVersion: string,
 ) {
-  return join(
+  return path.join(
     localRepositoryLocation,
     `${groupId.replace(
       new RegExp(/\./, 'g'),
@@ -189,7 +188,7 @@ function isPomPackaging(pomXmlContent: XmlDocument): boolean {
 function runCommandAndExtractRegExp(command: string, regexp: RegExp) {
   const mavenRootDirectory = getMavenRootDirectory();
   const objStr = execSync(command, {
-    cwd: join(workspaceRoot, mavenRootDirectory),
+    cwd: path.join(workspaceRoot, mavenRootDirectory),
   }).toString();
 
   const matches = (objStr.match(regexp) || []).map((e) =>
@@ -204,7 +203,7 @@ function getEffectiveVersion(projectPath: string) {
   const version = execSync(
     `${getExecutable()} -f ${pomRelativePath} help:evaluate -Dexpression=project.version -q -DforceStdout`,
     {
-      cwd: join(workspaceRoot, mavenRootDirectory),
+      cwd: path.join(workspaceRoot, mavenRootDirectory),
     },
   )
     .toString()
