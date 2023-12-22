@@ -22,7 +22,8 @@ export const createNodes: CreateNodes = [
       [targetName: string]: TargetConfiguration;
     } = {};
 
-    const projectJsonPath = join(workspaceRoot, projectRoot, 'project.json');
+    const projectPath = join(workspaceRoot, projectRoot);
+    const projectJsonPath = join(projectPath, 'project.json');
 
     if (existsSync(projectJsonPath)) {
       const projectJson = readJsonFile(projectJsonPath);
@@ -37,7 +38,7 @@ export const createNodes: CreateNodes = [
           const pomXmlContent = readXml(pomXmlFilePath);
           const artifactId = getArtifactId(pomXmlContent);
           const groupId = getGroupId(artifactId, pomXmlContent);
-          const projectVersion = getEffectiveVersion(projectRoot);
+          const projectVersion = getEffectiveVersion(projectPath);
           const localRepositoryLocation = getLocalRepositoryLocation();
 
           const outputDirLocalRepo = getOutputDirLocalRepo(
@@ -57,7 +58,7 @@ export const createNodes: CreateNodes = [
       const pomXmlContent = readXml(pomXmlFilePath);
       const artifactId = getArtifactId(pomXmlContent);
       const groupId = getGroupId(artifactId, pomXmlContent);
-      const projectVersion = getEffectiveVersion(projectRoot);
+      const projectVersion = getEffectiveVersion(projectPath);
       const localRepositoryLocation = getLocalRepositoryLocation();
 
       const outputDirLocalRepo = getOutputDirLocalRepo(
@@ -197,9 +198,9 @@ function runCommandAndExtractRegExp(command: string, regexp: RegExp) {
   return matches[0];
 }
 
-function getEffectiveVersion(projectRoot: string) {
+function getEffectiveVersion(projectPath: string) {
   const mavenRootDirectory = getMavenRootDirectory();
-  const pomRelativePath = path.relative(mavenRootDirectory, projectRoot);
+  const pomRelativePath = path.relative(mavenRootDirectory, projectPath);
   const version = execSync(
     `${getExecutable()} -f ${pomRelativePath} help:evaluate -Dexpression=project.version -q -DforceStdout`,
     {
