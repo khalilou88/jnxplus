@@ -27,9 +27,9 @@ export const createNodes: CreateNodes = [
           )
         ) {
           const pomXmlContent = readXml(pomXmlFilePath);
-          const groupId = getGroupId(pomXmlContent);
           const artifactId = getArtifactId(pomXmlContent);
-          const projectVersion = getVersion(pomXmlContent);
+          const groupId = getGroupId(artifactId, pomXmlContent);
+          const projectVersion = getVersion(artifactId, pomXmlContent);
           const localRepositoryLocation = getLocalRepositoryLocation();
 
           const outputDirLocalRepo = getOutputDirLocalRepo(
@@ -55,9 +55,9 @@ export const createNodes: CreateNodes = [
       }
     } else {
       const pomXmlContent = readXml(pomXmlFilePath);
-      const groupId = getGroupId(pomXmlContent);
       const artifactId = getArtifactId(pomXmlContent);
-      const projectVersion = getVersion(pomXmlContent);
+      const groupId = getGroupId(artifactId, pomXmlContent);
+      const projectVersion = getVersion(artifactId, pomXmlContent);
       const localRepositoryLocation = getLocalRepositoryLocation();
 
       const outputDirLocalRepo = getOutputDirLocalRepo(
@@ -99,10 +99,19 @@ export const createNodes: CreateNodes = [
   },
 ];
 
-function getGroupId(pomXmlContent: XmlDocument) {
+function getGroupId(artifactId: string, pomXmlContent: XmlDocument) {
   const groupIdXml = pomXmlContent.childNamed('groupId');
   if (groupIdXml === undefined) {
-    throw new Error(`GroupId not found in pom.xml`);
+    const command = `${getExecutable()} help:effective-pom -Dartifact=:${artifactId}`;
+
+    const regexp = /<groupId>(.+?)<\/groupId>/g;
+    const groupId = runCommandAndExtractRegExp(command, regexp);
+
+    if (!groupId) {
+      throw new Error(`GroupId not found for project ${artifactId}`);
+    }
+
+    return groupId;
   }
   return groupIdXml.val;
 }
@@ -115,10 +124,19 @@ function getArtifactId(pomXmlContent: XmlDocument) {
   return artifactIdXml.val;
 }
 
-function getVersion(pomXmlContent: XmlDocument) {
+function getVersion(artifactId: string, pomXmlContent: XmlDocument) {
   const versionXml = pomXmlContent.childNamed('version');
   if (versionXml === undefined) {
-    throw new Error(`Version not found in pom.xml`);
+    const command = `${getExecutable()} help:effective-pom -Dartifact=:${artifactId}`;
+
+    const regexp = /<version>(.+?)<\/version>/g;
+    const version = runCommandAndExtractRegExp(command, regexp);
+
+    if (!version) {
+      throw new Error(`Version not found for project ${artifactId}`);
+    }
+
+    return version;
   }
   return versionXml.val;
 }
@@ -153,18 +171,10 @@ function getLocalRepositoryLocation() {
     return cachedData;
   }
 
+  const regexp = /<localRepository>(.+?)<\/localRepository>/g;
   const command = `${getExecutable()} help:effective-settings`;
 
-  const mavenRootDirectory = getMavenRootDirectory();
-  const objStr = execSync(command, {
-    cwd: join(workspaceRoot, mavenRootDirectory),
-  }).toString();
-
-  const regexp = /<localRepository>(.+?)<\/localRepository>/g;
-  const matches = (objStr.match(regexp) || []).map((e) =>
-    e.replace(regexp, '$1'),
-  );
-  const data = matches[0];
+  const data = runCommandAndExtractRegExp(command, regexp);
 
   // Store data in cache for future use
   cache.put(key, data, 60000); // Cache for 60 seconds
@@ -180,4 +190,16 @@ function isPomPackaging(pomXmlContent: XmlDocument): boolean {
   }
 
   return packagingXml.val === 'pom';
+}
+
+function runCommandAndExtractRegExp(command: string, regexp: RegExp) {
+  const mavenRootDirectory = getMavenRootDirectory();
+  const objStr = execSync(command, {
+    cwd: join(workspaceRoot, mavenRootDirectory),
+  }).toString();
+
+  const matches = (objStr.match(regexp) || []).map((e) =>
+    e.replace(regexp, '$1'),
+  );
+  return matches[0];
 }
