@@ -98,7 +98,7 @@ describe('nx-maven spring-boot bom e2e', () => {
     );
     const projectJson = JSON.parse(showProjectResult.stdout);
     expect(Object.entries(projectJson.targets).length).toBe(1);
-    expect(projectJson.targets.build.outputs).toContainEqual([
+    expect(projectJson.targets.build.outputs).toEqual([
       '{options.outputDirLocalRepo}',
     ]);
     expect(projectJson.targets.build.options.outputDirLocalRepo).toBeTruthy();
