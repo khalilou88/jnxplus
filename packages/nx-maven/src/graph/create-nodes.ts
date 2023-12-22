@@ -1,5 +1,10 @@
 import { readXml } from '@jnxplus/xml';
-import { CreateNodes, readJsonFile, workspaceRoot } from '@nx/devkit';
+import {
+  CreateNodes,
+  TargetConfiguration,
+  readJsonFile,
+  workspaceRoot,
+} from '@nx/devkit';
 import { execSync } from 'child_process';
 import { existsSync } from 'fs';
 import * as cache from 'memory-cache';
@@ -12,16 +17,19 @@ export const createNodes: CreateNodes = [
   (pomXmlFilePath: string) => {
     let projectName;
     const projectRoot = dirname(pomXmlFilePath);
-    let targets = {};
+    let targets: {
+      [targetName: string]: TargetConfiguration;
+    } = {};
 
     const projectJsonPath = join(workspaceRoot, projectRoot, 'project.json');
 
     if (existsSync(projectJsonPath)) {
       const projectJson = readJsonFile(projectJsonPath);
       projectName = projectJson.name;
-      for (const [targetName] of Object.entries(projectJson.targets ?? {})) {
+      targets = projectJson.targets;
+      for (const [targetName] of Object.entries(targets ?? {})) {
         if (
-          (projectJson.targets[targetName].outputs ?? []).some(
+          (targets[targetName].outputs ?? []).some(
             (element: string) => element === '{options.outputDirLocalRepo}',
           )
         ) {
@@ -38,17 +46,9 @@ export const createNodes: CreateNodes = [
             projectVersion,
           );
 
-          const target = {
-            targetName: {
-              options: {
-                outputDirLocalRepo: outputDirLocalRepo,
-              },
-            },
-          };
-
-          targets = {
-            target,
-            ...targets,
+          targets[targetName].options = {
+            outputDirLocalRepo: outputDirLocalRepo,
+            ...targets[targetName].options,
           };
         }
       }
