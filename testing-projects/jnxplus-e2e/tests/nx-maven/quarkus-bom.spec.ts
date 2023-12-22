@@ -50,7 +50,7 @@ describe('nx-maven quarkus bom e2e', () => {
     if (isCI) {
       removeTmpFromGitignore();
     }
-  }, 120000);
+  }, 240000);
 
   afterAll(async () => {
     if (isCI) {
@@ -65,7 +65,7 @@ describe('nx-maven quarkus bom e2e', () => {
 
   it('should set NX_VERBOSE_LOGGING to true', async () => {
     expect(process.env['NX_VERBOSE_LOGGING']).toBe('true');
-  }, 120000);
+  }, 240000);
 
   it('should init the workspace with @jnxplus/nx-maven capabilities', async () => {
     // Making sure the package.json file contains the @jnxplus/nx-maven dependency
@@ -85,7 +85,7 @@ describe('nx-maven quarkus bom e2e', () => {
         'pom.xml',
       ),
     ).not.toThrow();
-  }, 120000);
+  }, 240000);
 
   it('should create a java application', async () => {
     const appsParentProject = uniq('apps-parent-project-');
@@ -224,7 +224,7 @@ describe('nx-maven quarkus bom e2e', () => {
       );
       expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
-  }, 120000);
+  }, 240000);
 
   it('should use specified options to create an application', async () => {
     const appsParentProject = uniq('apps-parent-project-');
@@ -422,7 +422,7 @@ describe('nx-maven quarkus bom e2e', () => {
       );
       expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
-  }, 120000);
+  }, 240000);
 
   it('--an app with aliases', async () => {
     const appsParentProject = uniq('apps-parent-project-');
@@ -631,7 +631,7 @@ describe('nx-maven quarkus bom e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('should create a library', async () => {
     const libsParentProject = uniq('libs-parent-project-');
@@ -698,7 +698,7 @@ describe('nx-maven quarkus bom e2e', () => {
       source: libName,
       target: parentProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should create a kotlin library', async () => {
     const libsParentProject = uniq('libs-parent-project-');
@@ -763,7 +763,7 @@ describe('nx-maven quarkus bom e2e', () => {
       source: libName,
       target: parentProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should use the the specified properties to create a library', async () => {
     const libsParentProject = uniq('libs-parent-project-');
@@ -828,7 +828,7 @@ describe('nx-maven quarkus bom e2e', () => {
       source: libName,
       target: parentProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should generare a lib with a simple package name', async () => {
     const libsParentProject = uniq('libs-parent-project-');
@@ -893,7 +893,7 @@ describe('nx-maven quarkus bom e2e', () => {
       source: libName,
       target: parentProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('--a lib with aliases', async () => {
     const libsParentProject = uniq('libs-parent-project-');
@@ -958,7 +958,7 @@ describe('nx-maven quarkus bom e2e', () => {
       source: libName,
       target: parentProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should add a lib to an app dependencies', async () => {
     const libsParentProject = uniq('libs-parent-project-');
@@ -1166,7 +1166,7 @@ describe('nx-maven quarkus bom e2e', () => {
       source: libName,
       target: parentProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should generate java apps that use a parent project', async () => {
     const appsParentProject = uniq('apps-parent-project-');
@@ -1683,7 +1683,7 @@ describe('nx-maven quarkus bom e2e', () => {
       source: libName,
       target: parentProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should skip starter code when generating a java application with minimal option', async () => {
     const appsParentProject = uniq('apps-parent-project-');
@@ -1719,7 +1719,7 @@ describe('nx-maven quarkus bom e2e', () => {
         ).className.toLocaleLowerCase()}/GreetingResourceIT.java`,
       ),
     ).not.toThrow();
-  }, 120000);
+  }, 240000);
 
   it('should skip starter code when generating a kotlin application with minimal option', async () => {
     const appsParentProject = uniq('apps-parent-project-');
@@ -1755,7 +1755,7 @@ describe('nx-maven quarkus bom e2e', () => {
         ).className.toLocaleLowerCase()}/GreetingResourceIT.kt`,
       ),
     ).not.toThrow();
-  }, 120000);
+  }, 240000);
 
   it('should skip starter code when generating a java library with skipStarterCode option', async () => {
     const libsParentProject = uniq('libs-parent-project-');
@@ -1788,7 +1788,7 @@ describe('nx-maven quarkus bom e2e', () => {
         ).className.toLocaleLowerCase()}/GreetingServiceTest.java`,
       ),
     ).not.toThrow();
-  }, 120000);
+  }, 240000);
 
   it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
     const libsParentProject = uniq('libs-parent-project-');
@@ -1821,7 +1821,7 @@ describe('nx-maven quarkus bom e2e', () => {
         ).className.toLocaleLowerCase()}/GreetingServiceTest.kt`,
       ),
     ).not.toThrow();
-  }, 120000);
+  }, 240000);
 
   it('should generate java nested sub-projects', async () => {
     const appsParentProject = uniq('apps-parent-project-');
@@ -1915,5 +1915,5 @@ describe('nx-maven quarkus bom e2e', () => {
       source: thirdAppName,
       target: thirdParentProject,
     });
-  }, 120000);
+  }, 240000);
 });

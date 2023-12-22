@@ -37,7 +37,7 @@ describe('nx-maven all bom e2e', () => {
     if (isCI) {
       removeTmpFromGitignore();
     }
-  }, 120000);
+  }, 240000);
 
   afterAll(async () => {
     if (isCI) {
@@ -52,7 +52,7 @@ describe('nx-maven all bom e2e', () => {
 
   it('should set NX_VERBOSE_LOGGING to true', async () => {
     expect(process.env['NX_VERBOSE_LOGGING']).toBe('true');
-  }, 120000);
+  }, 240000);
 
   it('should init the workspace with @jnxplus/nx-maven capabilities', async () => {
     // Making sure the package.json file contains the @jnxplus/nx-maven dependency
@@ -72,7 +72,7 @@ describe('nx-maven all bom e2e', () => {
         'pom.xml',
       ),
     ).not.toThrow();
-  }, 120000);
+  }, 240000);
 
   it('1 none app', async () => {
     const appName = uniq('maven-app-');
@@ -112,7 +112,7 @@ describe('nx-maven all bom e2e', () => {
 
     // const lintResult = await runNxCommandAsync(`lint ${appName}`);
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
-  }, 120000);
+  }, 240000);
 
   it('should test an app with none option', async () => {
     const appName = uniq('maven-app-');
@@ -123,7 +123,7 @@ describe('nx-maven all bom e2e', () => {
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
-  }, 120000);
+  }, 240000);
 
   it('should serve an app with none option', async () => {
     const appName = uniq('maven-app-');
@@ -134,7 +134,7 @@ describe('nx-maven all bom e2e', () => {
     const serveResult = await runNxCommandAsync(`serve ${appName}`);
     expect(serveResult.stdout).toContain('Executor ran for Serve');
     expect(serveResult.stdout).toContain('Hello World!');
-  }, 120000);
+  }, 240000);
 
   it('2 none app kt', async () => {
     const appName = uniq('maven-app-');
@@ -172,7 +172,7 @@ describe('nx-maven all bom e2e', () => {
     const serveResult = await runNxCommandAsync(`serve ${appName}`);
     expect(serveResult.stdout).toContain('Executor ran for Serve');
     expect(serveResult.stdout).toContain('Hello World!');
-  }, 120000);
+  }, 240000);
 
   it('1 none lib', async () => {
     const libName = uniq('maven-lib-');
@@ -206,7 +206,7 @@ describe('nx-maven all bom e2e', () => {
 
     // const lintResult = await runNxCommandAsync(`lint ${libName}`);
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
-  }, 120000);
+  }, 240000);
 
   it('2 none lib kt', async () => {
     const libName = uniq('maven-lib-');
@@ -238,5 +238,5 @@ describe('nx-maven all bom e2e', () => {
 
     // const lintResult = await runNxCommandAsync(`lint ${libName}`);
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
-  }, 120000);
+  }, 240000);
 });

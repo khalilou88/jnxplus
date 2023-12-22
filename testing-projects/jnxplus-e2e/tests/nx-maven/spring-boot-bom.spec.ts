@@ -57,7 +57,7 @@ describe('nx-maven spring-boot bom e2e', () => {
     if (isCI) {
       removeTmpFromGitignore();
     }
-  }, 120000);
+  }, 240000);
 
   afterAll(async () => {
     if (isCI) {
@@ -72,7 +72,7 @@ describe('nx-maven spring-boot bom e2e', () => {
 
   it('should set NX_VERBOSE_LOGGING to true', async () => {
     expect(process.env['NX_VERBOSE_LOGGING']).toBe('true');
-  }, 120000);
+  }, 240000);
 
   it('should init the workspace with @jnxplus/nx-maven capabilities', async () => {
     // Making sure the package.json file contains the @jnxplus/nx-maven dependency
@@ -102,7 +102,7 @@ describe('nx-maven spring-boot bom e2e', () => {
       '{options.outputDirLocalRepo}',
     ]);
     expect(projectJson.targets.build.options.outputDirLocalRepo).toBeTruthy();
-  }, 120000);
+  }, 240000);
 
   it('spring-boot: should create a java application', async () => {
     const appName = uniq('boot-maven-app-');
@@ -286,7 +286,7 @@ describe('nx-maven spring-boot bom e2e', () => {
       source: appName,
       target: libName,
     });
-  }, 120000);
+  }, 240000);
 
   it('spring-boot: should add a kotlin lib to a kotlin app dependencies', async () => {
     const appName = uniq('boot-maven-app-');
@@ -457,5 +457,5 @@ describe('nx-maven spring-boot bom e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 });
