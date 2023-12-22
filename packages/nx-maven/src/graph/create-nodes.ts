@@ -148,7 +148,7 @@ function getArtifactId(pomXmlContent: XmlDocument) {
 function getVersion(artifactId: string, pomXmlContent: XmlDocument) {
   const versionXml = pomXmlContent.childNamed('version');
   if (versionXml === undefined) {
-    const parentGroupId = getParentGroupId(pomXmlContent);
+    const parentGroupId = getParentGroupId(artifactId, pomXmlContent);
 
     const command = `${getExecutable()} help:effective-pom -Dartifact=${parentGroupId}:${artifactId}`;
 
