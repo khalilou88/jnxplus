@@ -262,9 +262,10 @@ describe('nx-maven maven-root-directory e2e', () => {
     // const lintResult = await runNxCommandAsync(`lint ${libName}`);
     // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
-    const projectJson = JSON.parse(
-      await runNxCommandAsync(`show project ${libName} --json`),
+    const showProjectResult = await runNxCommandAsync(
+      `show project ${libName} --json`,
     );
+    const projectJson = JSON.parse(showProjectResult.stdout);
     expect(projectJson.targets.build.options.outputDirLocalRepo).toBeTruthy();
   }, 120000);
 
