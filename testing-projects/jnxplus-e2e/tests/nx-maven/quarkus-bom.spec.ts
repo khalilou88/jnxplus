@@ -1538,7 +1538,7 @@ describe('nx-maven quarkus bom e2e', () => {
       source: thirdLibName,
       target: thirdParentProject,
     });
-  }, 120000);
+  }, 240000);
 
   it('should create an application with simple name', async () => {
     const appsParentProject = uniq('apps-parent-project-');

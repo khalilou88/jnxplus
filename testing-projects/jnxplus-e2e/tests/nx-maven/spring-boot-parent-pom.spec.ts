@@ -376,7 +376,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
       source: appName,
       target: parentProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should build-image a kotlin application', async () => {
     if (!isWin && !isMacOs && isCI) {

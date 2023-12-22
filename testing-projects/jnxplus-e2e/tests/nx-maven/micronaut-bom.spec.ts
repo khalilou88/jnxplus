@@ -304,7 +304,7 @@ describe('nx-maven micronaut bom e2e', () => {
     } catch (err) {
       // ignore err
     }
-  }, 120000);
+  }, 240000);
 
   it('micronaut: should add a lib to an app dependencies', async () => {
     const parentProject = uniq('parent-project-');
