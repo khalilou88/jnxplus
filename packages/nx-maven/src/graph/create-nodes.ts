@@ -26,29 +26,31 @@ export const createNodes: CreateNodes = [
     if (existsSync(projectJsonPath)) {
       const projectJson = readJsonFile(projectJsonPath);
       projectName = projectJson.name;
-      if (
-        (projectJson.targets['build'].outputs ?? []).some(
-          (element: string) => element === '{options.outputDirLocalRepo}',
-        )
-      ) {
-        const pomXmlContent = readXml(pomXmlFilePath);
-        const groupId = getGroupId(pomXmlContent);
-        const artifactId = getArtifactId(pomXmlContent);
-        const projectVersion = getVersion(pomXmlContent);
-        const localRepositoryLocation = getLocalRepositoryLocation();
+      for (const targetName in projectJson.targets) {
+        if (
+          (projectJson.targets[targetName].outputs ?? []).some(
+            (element: string) => element === '{options.outputDirLocalRepo}',
+          )
+        ) {
+          const pomXmlContent = readXml(pomXmlFilePath);
+          const groupId = getGroupId(pomXmlContent);
+          const artifactId = getArtifactId(pomXmlContent);
+          const projectVersion = getVersion(pomXmlContent);
+          const localRepositoryLocation = getLocalRepositoryLocation();
 
-        const outputDirLocalRepo = getOutputDirLocalRepo(
-          localRepositoryLocation,
-          groupId,
-          artifactId,
-          projectVersion,
-        );
+          const outputDirLocalRepo = getOutputDirLocalRepo(
+            localRepositoryLocation,
+            groupId,
+            artifactId,
+            projectVersion,
+          );
 
-        targets = projectJson.targets;
-        targets['build'].options = {
-          outputDirLocalRepo: outputDirLocalRepo,
-          ...targets['build'].options,
-        };
+          targets = projectJson.targets;
+          targets[targetName].options = {
+            outputDirLocalRepo: outputDirLocalRepo,
+            ...targets[targetName].options,
+          };
+        }
       }
     } else {
       const pomXmlContent = readXml(pomXmlFilePath);
