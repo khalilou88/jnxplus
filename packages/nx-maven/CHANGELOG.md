@@ -2,6 +2,16 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.20.2](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.20.1...nx-maven-0.20.2) (2023-12-23)
+
+
+### Bug Fixes
+
+* fix outputDirLocalRepo calculation  ([#703](https://github.com/khalilou88/jnxplus/issues/703)) ([b6282da](https://github.com/khalilou88/jnxplus/commit/b6282da850d6d5cbd8f2db8c11735260df83c87e))
+* use help:evaluate to get project version ([#704](https://github.com/khalilou88/jnxplus/issues/704)) ([d6fdd93](https://github.com/khalilou88/jnxplus/commit/d6fdd938982d9a1abfece9530fbbfe17f670331e))
+
+
+
 ## [0.20.1](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.20.0...nx-maven-0.20.1) (2023-12-21)
 
 ### Dependency Updates
