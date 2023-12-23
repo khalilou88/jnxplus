@@ -62,8 +62,8 @@ export const createNodes: CreateNodes = [
           );
 
           targets[targetName].options = {
-            outputDirLocalRepo: outputDirLocalRepo,
             ...targets[targetName].options,
+            outputDirLocalRepo: outputDirLocalRepo,
           };
         }
       }
@@ -100,8 +100,8 @@ export const createNodes: CreateNodes = [
           executor: '@jnxplus/nx-maven:run-task',
           outputs: outputs,
           options: {
-            outputDirLocalRepo: outputDirLocalRepo,
             task: getTask(projectRoot),
+            outputDirLocalRepo: outputDirLocalRepo,
           },
         },
       };
