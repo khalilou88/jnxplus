@@ -2,6 +2,7 @@ import { readXml } from '@jnxplus/xml';
 import {
   CreateNodes,
   TargetConfiguration,
+  joinPathFragments,
   readJsonFile,
   workspaceRoot,
 } from '@nx/devkit';
@@ -21,8 +22,8 @@ export const createNodes: CreateNodes = [
       [targetName: string]: TargetConfiguration;
     } = {};
 
-    const projectPath = path.join(workspaceRoot, projectRoot);
-    const projectJsonPath = path.join(projectPath, 'project.json');
+    const projectAbsolutePath = path.join(workspaceRoot, projectRoot);
+    const projectJsonPath = path.join(projectAbsolutePath, 'project.json');
 
     const mavenRootDirectory = getMavenRootDirectory();
     const mavenRootDirAbsolutePath = path.join(
@@ -47,7 +48,7 @@ export const createNodes: CreateNodes = [
             artifactId,
             pomXmlContent,
             mavenRootDirAbsolutePath,
-            projectPath,
+            projectAbsolutePath,
           );
           const localRepositoryLocation = getLocalRepositoryLocation(
             mavenRootDirAbsolutePath,
@@ -74,7 +75,7 @@ export const createNodes: CreateNodes = [
         artifactId,
         pomXmlContent,
         mavenRootDirAbsolutePath,
-        projectPath,
+        projectAbsolutePath,
       );
       const localRepositoryLocation = getLocalRepositoryLocation(
         mavenRootDirAbsolutePath,
@@ -228,7 +229,7 @@ function getVersion(
   artifactId: string,
   pomXmlContent: XmlDocument,
   mavenRootDirAbsolutePath: string,
-  projectPath: string,
+  projectAbsolutePath: string,
 ) {
   let version;
   const versionXml = pomXmlContent.childNamed('version');
@@ -239,7 +240,10 @@ function getVersion(
   }
 
   if (version.indexOf('${') >= 0) {
-    version = getEffectiveVersion(mavenRootDirAbsolutePath, projectPath);
+    version = getEffectiveVersion(
+      mavenRootDirAbsolutePath,
+      projectAbsolutePath,
+    );
   }
 
   return version;
@@ -266,11 +270,15 @@ function getParentVersion(
 
 function getEffectiveVersion(
   mavenRootDirAbsolutePath: string,
-  projectPath: string,
+  projectAbsolutePath: string,
 ): string {
-  const pomRelativePath = path.relative(mavenRootDirAbsolutePath, projectPath);
+  const relativePath = path.relative(
+    mavenRootDirAbsolutePath,
+    projectAbsolutePath,
+  );
+  const pomXmlRelativePath = joinPathFragments(relativePath, 'pom.xml');
   const version = execSync(
-    `${getExecutable()} -f ${pomRelativePath} help:evaluate -Dexpression=project.version -q -DforceStdout`,
+    `${getExecutable()} -f ${pomXmlRelativePath} help:evaluate -Dexpression=project.version -q -DforceStdout`,
     {
       cwd: mavenRootDirAbsolutePath,
     },
