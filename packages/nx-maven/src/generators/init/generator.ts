@@ -82,6 +82,7 @@ export async function initGenerator(
       targets: {
         build: {
           executor: '@jnxplus/nx-maven:run-task',
+          outputs: ['{options.outputDirLocalRepo}'],
           options: {
             task: 'install -N',
           },
