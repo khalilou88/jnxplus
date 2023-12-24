@@ -89,11 +89,11 @@ export function addProjectToAggregator(
   const parentProjectPomPath = path.join(aggregatorProjectRoot, 'pom.xml');
   const xmldoc = readXmlTree(tree, parentProjectPomPath);
 
-  const relativePath = path
+  const moduleRelativePath = path
     .relative(aggregatorProjectRoot, options.projectRoot)
     .replace(new RegExp(/\\/, 'g'), '/');
 
-  const fragment = new XmlDocument(`<module>${relativePath}</module>`);
+  const fragment = new XmlDocument(`<module>${moduleRelativePath}</module>`);
 
   let modules = xmldoc.childNamed('modules');
 

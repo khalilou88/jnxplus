@@ -129,9 +129,10 @@ function normalizeOptions(
   const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
 
   const pomXmlContent = readXmlTree(tree, parentProjectPomPath);
-  const relativePath = path
-    .relative(projectRoot, parentProjectRoot)
-    .replace(new RegExp(/\\/, 'g'), '/');
+  const relativePath = joinPathFragments(
+    path.relative(projectRoot, parentProjectRoot),
+    'pom.xml',
+  );
 
   const parentGroupId =
     pomXmlContent?.childNamed('groupId')?.val || 'parentGroupId';
