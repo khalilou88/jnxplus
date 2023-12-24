@@ -82,7 +82,7 @@
       "type": "boolean",
       "default": false
     },
-    "localRepositoryLocation": {
+    "localRepositoryPath": {
       "type": "string",
       "description": "Maven local repository location inside workspace"
     }

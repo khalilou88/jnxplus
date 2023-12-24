@@ -33,12 +33,12 @@
     </properties>
 
 
-<% if(localRepositoryLocation) { -%>
+<% if(localRepositoryPath) { -%>
 	<distributionManagement>
 		<repository>
 			<id>local-repository</id>
 			<name>Local Repository</name>
-        <url>file://${project.build.directory}/<%= localRepositoryLocation %></url>
+        <url>file://${project.build.directory}/<%= localRepositoryPath %></url>
 			<layout>default</layout>
 			<uniqueVersion>false</uniqueVersion>
 		</repository>

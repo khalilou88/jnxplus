@@ -51,11 +51,7 @@ export function getMavenRootDirectory(): string {
   );
 
   if (typeof plugin === 'string') {
-    const pomXmlPath = path.join(workspaceRoot, 'pom.xml');
-    if (fs.existsSync(pomXmlPath)) {
-      return '';
-    }
-    return 'nx-maven';
+    return '';
   }
 
   const options = plugin?.options;
@@ -67,6 +63,35 @@ export function getMavenRootDirectory(): string {
     typeof options.mavenRootDirectory === 'string'
   ) {
     return options.mavenRootDirectory;
+  }
+
+  return '';
+}
+
+export function getLocalRepoPath(): string {
+  const nxJsonPath = path.join(workspaceRoot, 'nx.json');
+
+  const nxJson = readJsonFile<NxJsonConfiguration>(nxJsonPath);
+
+  const plugin = (nxJson?.plugins || []).find((p) =>
+    typeof p === 'string'
+      ? p === '@jnxplus/nx-maven'
+      : p.plugin === '@jnxplus/nx-maven',
+  );
+
+  if (typeof plugin === 'string') {
+    return '';
+  }
+
+  const options = plugin?.options;
+
+  if (
+    typeof options === 'object' &&
+    options &&
+    'localRepositoryPath' in options &&
+    typeof options.localRepositoryPath === 'string'
+  ) {
+    return options.localRepositoryPath;
   }
 
   return '';

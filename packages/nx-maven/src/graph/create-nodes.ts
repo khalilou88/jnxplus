@@ -11,7 +11,11 @@ import { existsSync } from 'fs';
 import * as cache from 'memory-cache';
 import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
-import { getExecutable, getMavenRootDirectory } from '../utils';
+import {
+  getExecutable,
+  getLocalRepoPath,
+  getMavenRootDirectory,
+} from '../utils';
 
 export const createNodes: CreateNodes = [
   '**/pom.xml',
@@ -185,16 +189,20 @@ function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
     return cachedLocalRepository;
   }
 
-  const localRepository = execSync(
-    `${getExecutable()} help:evaluate -Dexpression=settings.localRepository -q -DforceStdout`,
-    {
-      cwd: mavenRootDirAbsolutePath,
-    },
-  )
-    .toString()
-    .trim();
+  let localRepository = getLocalRepoPath();
 
-  // Store data in cache for future use
+  if (!localRepository) {
+    localRepository = execSync(
+      `${getExecutable()} help:evaluate -Dexpression=settings.localRepository -q -DforceStdout`,
+      {
+        cwd: mavenRootDirAbsolutePath,
+      },
+    )
+      .toString()
+      .trim();
+  }
+
+  // Store localRepositoryPath in cache for future use
   cache.put(key, localRepository, 60000); // Cache for 60 seconds
 
   return localRepository;
