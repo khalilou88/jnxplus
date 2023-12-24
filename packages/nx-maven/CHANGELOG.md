@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.20.3](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.20.2...nx-maven-0.20.3) (2023-12-24)
+
+
+### Bug Fixes
+
+* add missing outputDirLocalRepo ([e89ca1f](https://github.com/khalilou88/jnxplus/commit/e89ca1fb1408078919ccb334fa660a7feaf5f995))
+
+
+
 ## [0.20.2](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.20.1...nx-maven-0.20.2) (2023-12-23)
 
 
