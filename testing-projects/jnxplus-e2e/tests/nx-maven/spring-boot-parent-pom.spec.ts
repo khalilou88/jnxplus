@@ -704,23 +704,29 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
     expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
+    expect(() =>
+      checkFilesExist(`.m2/repository/com/example/${libName}/0.0.1-SNAPSHOT`),
+    ).not.toThrow();
+
+    //should recreate target folder and outputDirLocalRepo
     const localTmpDir = path.dirname(tmpProjPath());
+    const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
+    fse.removeSync(targetDir);
     const outputDirLocalRepo = path.join(
       localTmpDir,
       'proj',
       `.m2/repository/com/example/${libName}/0.0.1-SNAPSHOT`,
     );
-    expect(() => checkFilesExist(outputDirLocalRepo)).not.toThrow();
-
-    //should recreate target folder and outputDirLocalRepo
-    const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
-    fse.removeSync(targetDir);
     fse.removeSync(outputDirLocalRepo);
     expect(() => checkFilesExist(`${libName}/target`)).toThrow();
-    expect(() => checkFilesExist(outputDirLocalRepo)).toThrow();
+    expect(() =>
+      checkFilesExist(`.m2/repository/com/example/${libName}/0.0.1-SNAPSHOT`),
+    ).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
-    expect(() => checkFilesExist(outputDirLocalRepo)).not.toThrow();
+    expect(() =>
+      checkFilesExist(`.m2/repository/com/example/${libName}/0.0.1-SNAPSHOT`),
+    ).not.toThrow();
 
     // const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
     // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
