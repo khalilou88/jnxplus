@@ -64,7 +64,9 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
   const isMacOs = process.platform === 'darwin';
   const parentProjectName = uniq('boot-parent-project-');
   const localTmpDir = path.dirname(tmpProjPath());
-  const localRepositoryPath = getLocalRepositoryPath(localTmpDir);
+  const localRepositoryPath = getLocalRepositoryPath(
+    path.join(localTmpDir, 'proj'),
+  );
 
   beforeAll(async () => {
     workspaceDirectory = createTestWorkspace();
