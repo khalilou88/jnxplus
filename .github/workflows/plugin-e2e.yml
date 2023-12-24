@@ -28,6 +28,7 @@ on:
           - nx-maven quarkus bom e2e
           - nx-maven spring-boot bom e2e
           - nx-maven spring-boot-parent-pom e2e
+          - should create a library outputDirLocalRepo
       os:
         type: choice
         description: Os

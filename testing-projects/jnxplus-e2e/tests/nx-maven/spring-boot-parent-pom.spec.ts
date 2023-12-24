@@ -613,7 +613,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     }
   }, 240000);
 
-  it('should create a library', async () => {
+  it('should create a library outputDirLocalRepo', async () => {
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
