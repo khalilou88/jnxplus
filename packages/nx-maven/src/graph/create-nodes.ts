@@ -50,12 +50,12 @@ export const createNodes: CreateNodes = [
             mavenRootDirAbsolutePath,
             projectAbsolutePath,
           );
-          const localRepositoryLocation = getLocalRepositoryLocation(
+          const localRepositoryPath = getLocalRepositoryPath(
             mavenRootDirAbsolutePath,
           );
 
           const outputDirLocalRepo = getOutputDirLocalRepo(
-            localRepositoryLocation,
+            localRepositoryPath,
             groupId,
             artifactId,
             projectVersion,
@@ -77,12 +77,12 @@ export const createNodes: CreateNodes = [
         mavenRootDirAbsolutePath,
         projectAbsolutePath,
       );
-      const localRepositoryLocation = getLocalRepositoryLocation(
+      const localRepositoryPath = getLocalRepositoryPath(
         mavenRootDirAbsolutePath,
       );
 
       const outputDirLocalRepo = getOutputDirLocalRepo(
-        localRepositoryLocation,
+        localRepositoryPath,
         groupId,
         artifactId,
         projectVersion,
@@ -156,13 +156,13 @@ function getArtifactId(pomXmlContent: XmlDocument) {
 }
 
 function getOutputDirLocalRepo(
-  localRepositoryLocation: string,
+  localRepositoryPath: string,
   groupId: string,
   artifactId: string,
   projectVersion: string,
 ) {
   return path.join(
-    localRepositoryLocation,
+    localRepositoryPath,
     `${groupId.replace(
       new RegExp(/\./, 'g'),
       '/',
@@ -178,26 +178,26 @@ function getTask(projectRoot: string) {
   return 'install';
 }
 
-function getLocalRepositoryLocation(mavenRootDirAbsolutePath: string) {
-  const key = 'localRepositoryLocation';
-  const cachedData = cache.get(key);
-  if (cachedData) {
-    return cachedData;
+function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
+  const key = 'localRepositoryPath';
+  const cachedLocalRepository = cache.get(key);
+  if (cachedLocalRepository) {
+    return cachedLocalRepository;
   }
 
-  const regexp = /<localRepository>(.+?)<\/localRepository>/g;
-  const command = `${getExecutable()} help:effective-settings`;
-
-  const data = runCommandAndExtractRegExp(
-    command,
-    mavenRootDirAbsolutePath,
-    regexp,
-  );
+  const localRepository = execSync(
+    `${getExecutable()} help:evaluate -Dexpression=settings.localRepository -q -DforceStdout`,
+    {
+      cwd: mavenRootDirAbsolutePath,
+    },
+  )
+    .toString()
+    .trim();
 
   // Store data in cache for future use
-  cache.put(key, data, 60000); // Cache for 60 seconds
+  cache.put(key, localRepository, 60000); // Cache for 60 seconds
 
-  return data;
+  return localRepository;
 }
 
 function isPomPackaging(pomXmlContent: XmlDocument): boolean {
@@ -208,21 +208,6 @@ function isPomPackaging(pomXmlContent: XmlDocument): boolean {
   }
 
   return packagingXml.val === 'pom';
-}
-
-function runCommandAndExtractRegExp(
-  command: string,
-  mavenRootDirAbsolutePath: string,
-  regexp: RegExp,
-) {
-  const objStr = execSync(command, {
-    cwd: mavenRootDirAbsolutePath,
-  }).toString();
-
-  const matches = (objStr.match(regexp) || []).map((e) =>
-    e.replace(regexp, '$1'),
-  );
-  return matches[0];
 }
 
 function getVersion(
