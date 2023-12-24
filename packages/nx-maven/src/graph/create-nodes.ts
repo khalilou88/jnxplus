@@ -200,6 +200,8 @@ function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
     )
       .toString()
       .trim();
+  } else {
+    localRepository = path.join(workspaceRoot, localRepository);
   }
 
   // Store localRepositoryPath in cache for future use
