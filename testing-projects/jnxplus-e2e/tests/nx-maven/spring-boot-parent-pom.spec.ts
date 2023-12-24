@@ -24,6 +24,38 @@ import { rmSync } from 'fs';
 import * as fse from 'fs-extra';
 import * as path from 'path';
 
+function getOutputDirLocalRepo(
+  localRepositoryPath: string,
+  groupId: string,
+  artifactId: string,
+  projectVersion: string,
+) {
+  return path.join(
+    localRepositoryPath,
+    `${groupId.replace(
+      new RegExp(/\./, 'g'),
+      '/',
+    )}/${artifactId}/${projectVersion}`,
+  );
+}
+
+function getExecutable() {
+  const isWin = process.platform === 'win32';
+  return isWin ? 'mvnw.cmd' : './mvnw';
+}
+
+function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
+  const localRepository = execSync(
+    `${getExecutable()} help:evaluate -Dexpression=settings.localRepository -q -DforceStdout`,
+    {
+      cwd: mavenRootDirAbsolutePath,
+    },
+  )
+    .toString()
+    .trim();
+  return localRepository;
+}
+
 describe('nx-maven spring-boot-parent-pom e2e', () => {
   let workspaceDirectory: string;
   const isCI =
@@ -31,6 +63,8 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
   const parentProjectName = uniq('boot-parent-project-');
+  const localTmpDir = path.dirname(tmpProjPath());
+  const localRepositoryPath = getLocalRepositoryPath(localTmpDir);
 
   beforeAll(async () => {
     workspaceDirectory = createTestWorkspace();
@@ -127,7 +161,6 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
 
     //should recreate target folder
-    const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
     fse.removeSync(targetDir);
     expect(() => checkFilesExist(`${appName}/target`)).toThrow();
@@ -350,7 +383,6 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     //should recreate target folder
-    const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
     fse.removeSync(targetDir);
     expect(() => checkFilesExist(`${appName}/target`)).toThrow();
@@ -640,13 +672,20 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
-    //should recreate target folder
-    const localTmpDir = path.dirname(tmpProjPath());
+    //should recreate target folder and outputDirLocalRepo
     const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
     fse.removeSync(targetDir);
+    const outputDirLocalRepo = getOutputDirLocalRepo(
+      localRepositoryPath,
+      'com.example',
+      libName,
+      '0.0.1-SNAPSHOT',
+    );
+    fse.removeSync(outputDirLocalRepo);
     expect(() => checkFilesExist(`${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
+    expect(() => checkFilesExist(outputDirLocalRepo)).not.toThrow();
 
     const formatResult = await runNxCommandAsync(
       `format:write --projects ${libName}`,
@@ -705,7 +744,6 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     //should recreate target folder
-    const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
     fse.removeSync(targetDir);
     expect(() => checkFilesExist(`${libName}/target`)).toThrow();
@@ -1925,7 +1963,6 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
 
     //graph
-    const localTmpDir = path.dirname(tmpProjPath());
     const projectJson1 = path.join(
       localTmpDir,
       'proj',
@@ -1986,7 +2023,6 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     );
 
     //graph
-    const localTmpDir = path.dirname(tmpProjPath());
     const projectJson1 = path.join(
       localTmpDir,
       'proj',
