@@ -4,6 +4,7 @@ import {
   checkFilesDoNotExist,
   createTestWorkspace,
   getData,
+  getLocalRepositoryPath,
   killPorts,
   promisifiedTreeKill,
   removeTmpFromGitignore,
@@ -23,38 +24,6 @@ import { execSync } from 'child_process';
 import { rmSync } from 'fs';
 import * as fse from 'fs-extra';
 import * as path from 'path';
-
-function getOutputDirLocalRepo(
-  localRepositoryPath: string,
-  groupId: string,
-  artifactId: string,
-  projectVersion: string,
-) {
-  return path.join(
-    localRepositoryPath,
-    `${groupId.replace(
-      new RegExp(/\./, 'g'),
-      '/',
-    )}/${artifactId}/${projectVersion}`,
-  );
-}
-
-function getExecutable() {
-  const isWin = process.platform === 'win32';
-  return isWin ? 'mvnw.cmd' : './mvnw';
-}
-
-function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
-  const localRepository = execSync(
-    `${getExecutable()} help:evaluate -Dexpression=settings.localRepository -q -DforceStdout`,
-    {
-      cwd: mavenRootDirAbsolutePath,
-    },
-  )
-    .toString()
-    .trim();
-  return localRepository;
-}
 
 describe('nx-maven spring-boot-parent-pom e2e', () => {
   let workspaceDirectory: string;
@@ -680,14 +649,13 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     //should recreate target folder and outputDirLocalRepo
     const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
     fse.removeSync(targetDir);
-    const outputDirLocalRepo = getOutputDirLocalRepo(
+    const outputDirLocalRepo = path.join(
       localRepositoryPath,
-      'com.example',
-      libName,
-      '0.0.1-SNAPSHOT',
+      `com/example/${libName}/0.0.1-SNAPSHOT`,
     );
     fse.removeSync(outputDirLocalRepo);
     expect(() => checkFilesExist(`${libName}/target`)).toThrow();
+    expect(() => checkFilesExist(outputDirLocalRepo)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
     expect(() => checkFilesExist(outputDirLocalRepo)).not.toThrow();

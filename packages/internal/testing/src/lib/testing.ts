@@ -294,3 +294,18 @@ export function addJVMMemory() {
   );
   fs.writeFileSync(gradlePropertiesPath, updatedFileContent);
 }
+
+export function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
+  const isWin = process.platform === 'win32';
+  const executable = isWin ? 'mvnw.cmd' : './mvnw';
+
+  const localRepository = execSync(
+    `${executable} help:evaluate -Dexpression=settings.localRepository -q -DforceStdout`,
+    {
+      cwd: mavenRootDirAbsolutePath,
+    },
+  )
+    .toString()
+    .trim();
+  return localRepository;
+}
