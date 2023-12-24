@@ -38,9 +38,7 @@
 		<repository>
 			<id>local-repository</id>
 			<name>Local Repository</name>
-        <url>file://${project.build.directory}/<%= localRepositoryPath %></url>
-			<layout>default</layout>
-			<uniqueVersion>false</uniqueVersion>
+      <url>file://${project.basedir}/<%= localRepositoryPath %></url>
 		</repository>
  	</repositories>
 <% } -%>
