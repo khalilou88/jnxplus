@@ -645,14 +645,16 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
-
-    //should recreate target folder and outputDirLocalRepo
-    const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
-    fse.removeSync(targetDir);
+    expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
     const outputDirLocalRepo = path.join(
       localRepositoryPath,
       `com/example/${libName}/0.0.1-SNAPSHOT`,
     );
+    expect(() => checkFilesExist(outputDirLocalRepo)).not.toThrow();
+
+    //should recreate target folder and outputDirLocalRepo
+    const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
+    fse.removeSync(targetDir);
     fse.removeSync(outputDirLocalRepo);
     expect(() => checkFilesExist(`${libName}/target`)).toThrow();
     expect(() => checkFilesExist(outputDirLocalRepo)).toThrow();
