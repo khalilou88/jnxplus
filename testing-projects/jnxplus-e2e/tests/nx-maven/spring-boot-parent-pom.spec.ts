@@ -63,10 +63,8 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
   const parentProjectName = uniq('boot-parent-project-');
-  const localTmpDir = path.dirname(tmpProjPath());
-  const localRepositoryPath = getLocalRepositoryPath(
-    path.join(localTmpDir, 'proj'),
-  );
+  let localTmpDir: string;
+  let localRepositoryPath: string;
 
   beforeAll(async () => {
     workspaceDirectory = createTestWorkspace();
@@ -81,6 +79,11 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --dependencyManagement spring-boot-parent-pom`,
+    );
+
+    localTmpDir = path.dirname(tmpProjPath());
+    localRepositoryPath = getLocalRepositoryPath(
+      path.join(localTmpDir, 'proj'),
     );
 
     if (isCI) {
