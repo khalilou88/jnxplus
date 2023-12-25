@@ -84,7 +84,7 @@
     },
     "localRepoRelativePath": {
       "type": "string",
-      "description": "Maven local repository location inside workspace"
+      "description": "Maven local repository relative path to {workspaceRoot}/{mavenRootDirectory}"
     }
   },
   "required": [
