@@ -300,16 +300,17 @@ export function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
     return cachedLocalRepository;
   }
 
-  let localRepositoryRelativePath = getLocalRepositoryRelativePath();
+  let localRepositoryPath;
+  const localRepositoryRelativePath = getLocalRepositoryRelativePath();
   if (localRepositoryRelativePath) {
     const mavenRootDirectory = getMavenRootDirectory();
-    localRepositoryRelativePath = path.join(
+    localRepositoryPath = path.join(
       '{workspaceRoot}',
       mavenRootDirectory,
       localRepositoryRelativePath,
     );
   } else {
-    localRepositoryRelativePath = execSync(
+    localRepositoryPath = execSync(
       `${getExecutable()} help:evaluate -Dexpression=settings.localRepository -q -DforceStdout`,
       {
         cwd: mavenRootDirAbsolutePath,
@@ -320,7 +321,7 @@ export function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
   }
 
   // Store localRepositoryPath in cache for future use
-  cache.put(key, localRepositoryRelativePath, 60000); // Cache for 60 seconds
+  cache.put(key, localRepositoryPath, 60000); // Cache for 60 seconds
 
-  return localRepositoryRelativePath;
+  return localRepositoryPath;
 }
