@@ -99,7 +99,7 @@ export async function initGenerator(
 
   addFiles(tree, normalizedOptions);
   updateNxJson(tree, normalizedOptions);
-  updateGitIgnore(tree, options.skipWrapper);
+  updateGitIgnore(tree, normalizedOptions);
   addPrettierToPackageJson(tree);
   addOrUpdatePrettierRc(tree);
   addOrUpdatePrettierIgnore(tree);
@@ -158,7 +158,7 @@ function updateNxJson(tree: Tree, options: NormalizedSchema) {
   });
 }
 
-function updateGitIgnore(tree: Tree, skipWrapper: boolean | undefined) {
+function updateGitIgnore(tree: Tree, options: NormalizedSchema) {
   const filePath = '.gitignore';
   const contents = tree.read(filePath, 'utf-8') || '';
 
@@ -170,8 +170,12 @@ function updateGitIgnore(tree: Tree, skipWrapper: boolean | undefined) {
     '\n!**/src/test/**/target/',
   ];
 
-  if (!skipWrapper) {
+  if (!options.skipWrapper) {
     mavenIgnores.push('\n!.mvn/wrapper/maven-wrapper.jar');
+  }
+
+  if (options.localRepoRelativePath) {
+    mavenIgnores.push(`\n${options.localRepoRelativePath}`);
   }
 
   const newContents = contents.concat(mavenIgnores.join(''));
