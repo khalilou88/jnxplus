@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.22.0](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.21.1...nx-maven-0.22.0) (2023-12-25)
+
+
+### Features
+
+* make localRepoRelativePath option mandatory ([#709](https://github.com/khalilou88/jnxplus/issues/709)) ([a05d4fc](https://github.com/khalilou88/jnxplus/commit/a05d4fcf9435a4bda6e12977fbfc4889649cdfc6))
+
+
+
 ## [0.21.1](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.21.0...nx-maven-0.21.1) (2023-12-25)
 
 
