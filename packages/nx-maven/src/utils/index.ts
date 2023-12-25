@@ -2,6 +2,7 @@ import { readXmlTree, xmlToString } from '@jnxplus/xml';
 import {
   NxJsonConfiguration,
   Tree,
+  joinPathFragments,
   readJsonFile,
   readProjectConfiguration,
   workspaceRoot,
@@ -315,11 +316,10 @@ export function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
   const localRepoRelativePath = getLocalRepoRelativePath();
   if (localRepoRelativePath) {
     const mavenRootDirectory = getMavenRootDirectory();
-    localRepositoryPath = path.join(
-      '{workspaceRoot}',
+    localRepositoryPath = `{workspaceRoot}/${joinPathFragments(
       mavenRootDirectory,
       localRepoRelativePath,
-    );
+    )}`;
   } else {
     localRepositoryPath = execSync(
       `${getExecutable()} help:evaluate -Dexpression=settings.localRepository -q -DforceStdout`,

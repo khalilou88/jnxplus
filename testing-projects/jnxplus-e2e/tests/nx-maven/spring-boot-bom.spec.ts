@@ -43,7 +43,7 @@ describe('nx-maven spring-boot bom e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --localRepoRelativePath .m2/repository`,
     );
 
     await runNxCommandAsync(
@@ -102,6 +102,9 @@ describe('nx-maven spring-boot bom e2e', () => {
       '{options.outputDirLocalRepo}',
     ]);
     expect(projectJson.targets.build.options.outputDirLocalRepo).toBeTruthy();
+    expect(projectJson.targets.build.options.outputDirLocalRepo).toBe(
+      `.m2/repository/com/example/${appsParentProject}/0.0.1-SNAPSHOT`,
+    );
   }, 240000);
 
   it('spring-boot: should create a java application', async () => {
