@@ -3,7 +3,7 @@ import { getTargetName, runCommand, waitForever } from '@jnxplus/common';
 import { RunTaskExecutorSchema } from './schema';
 import {
   getExecutable,
-  getLocalRepoPath,
+  getLocalRepositoryRelativePath,
   getMavenRootDirectory,
 } from '../../utils';
 import { join } from 'path';
@@ -24,18 +24,19 @@ export default async function runExecutor(
     task = options.task;
   }
 
-  const localRepository = getLocalRepoPath();
-  let mavenRepoLocal;
-  if (localRepository) {
-    mavenRepoLocal = `-Dmaven.repo.local=${join(
+  let command = `${getExecutable()} ${task}`;
+
+  const localRepositoryRelativePath = getLocalRepositoryRelativePath();
+  if (localRepositoryRelativePath) {
+    const mavenRepoLocal = `-Dmaven.repo.local=${join(
       workspaceRoot,
-      localRepository,
+      mavenRootDirectory,
+      localRepositoryRelativePath,
     )}`;
+    command += ` ${mavenRepoLocal}`;
   }
 
-  const command = `${getExecutable()} ${task} ${mavenRepoLocal} -pl :${
-    context.projectName
-  }`;
+  command += ` -pl :${context.projectName}`;
 
   const result = runCommand(command, join(workspaceRoot, mavenRootDirectory));
 

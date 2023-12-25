@@ -70,35 +70,6 @@ export function getMavenRootDirectory(): string {
   return '';
 }
 
-export function getLocalRepoPath(): string {
-  const nxJsonPath = path.join(workspaceRoot, 'nx.json');
-
-  const nxJson = readJsonFile<NxJsonConfiguration>(nxJsonPath);
-
-  const plugin = (nxJson?.plugins || []).find((p) =>
-    typeof p === 'string'
-      ? p === '@jnxplus/nx-maven'
-      : p.plugin === '@jnxplus/nx-maven',
-  );
-
-  if (typeof plugin === 'string') {
-    return '';
-  }
-
-  const options = plugin?.options;
-
-  if (
-    typeof options === 'object' &&
-    options &&
-    'localRepositoryPath' in options &&
-    typeof options.localRepositoryPath === 'string'
-  ) {
-    return options.localRepositoryPath;
-  }
-
-  return '';
-}
-
 export function addProjectToAggregator(
   tree: Tree,
   options: {
@@ -293,6 +264,35 @@ export function getDependencyManagement(
   return 'bom';
 }
 
+export function getLocalRepositoryRelativePath(): string {
+  const nxJsonPath = path.join(workspaceRoot, 'nx.json');
+
+  const nxJson = readJsonFile<NxJsonConfiguration>(nxJsonPath);
+
+  const plugin = (nxJson?.plugins || []).find((p) =>
+    typeof p === 'string'
+      ? p === '@jnxplus/nx-maven'
+      : p.plugin === '@jnxplus/nx-maven',
+  );
+
+  if (typeof plugin === 'string') {
+    return '';
+  }
+
+  const options = plugin?.options;
+
+  if (
+    typeof options === 'object' &&
+    options &&
+    'localRepositoryRelativePath' in options &&
+    typeof options.localRepositoryRelativePath === 'string'
+  ) {
+    return options.localRepositoryRelativePath;
+  }
+
+  return '';
+}
+
 export function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
   const key = 'localRepositoryPath';
   const cachedLocalRepository = cache.get(key);
@@ -300,10 +300,10 @@ export function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
     return cachedLocalRepository;
   }
 
-  let localRepository = getLocalRepoPath();
+  let localRepositoryRelativePath = getLocalRepositoryRelativePath();
 
-  if (!localRepository) {
-    localRepository = execSync(
+  if (!localRepositoryRelativePath) {
+    localRepositoryRelativePath = execSync(
       `${getExecutable()} help:evaluate -Dexpression=settings.localRepository -q -DforceStdout`,
       {
         cwd: mavenRootDirAbsolutePath,
@@ -312,11 +312,16 @@ export function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
       .toString()
       .trim();
   } else {
-    localRepository = `{workspaceRoot}/${localRepository}`;
+    const mavenRootDirectory = getMavenRootDirectory();
+    localRepositoryRelativePath = path.join(
+      '{workspaceRoot}',
+      mavenRootDirectory,
+      localRepositoryRelativePath,
+    );
   }
 
   // Store localRepositoryPath in cache for future use
-  cache.put(key, localRepository, 60000); // Cache for 60 seconds
+  cache.put(key, localRepositoryRelativePath, 60000); // Cache for 60 seconds
 
-  return localRepository;
+  return localRepositoryRelativePath;
 }
