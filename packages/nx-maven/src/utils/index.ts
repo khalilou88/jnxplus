@@ -316,10 +316,10 @@ export function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
   const localRepoRelativePath = getLocalRepoRelativePath();
   if (localRepoRelativePath) {
     const mavenRootDirectory = getMavenRootDirectory();
-    localRepositoryPath = `{workspaceRoot}/${joinPathFragments(
+    localRepositoryPath = joinPathFragments(
       mavenRootDirectory,
       localRepoRelativePath,
-    )}`;
+    );
   } else {
     localRepositoryPath = execSync(
       `${getExecutable()} help:evaluate -Dexpression=settings.localRepository -q -DforceStdout`,
