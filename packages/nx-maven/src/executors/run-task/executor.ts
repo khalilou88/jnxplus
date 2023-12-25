@@ -29,7 +29,6 @@ export default async function runExecutor(
   if (localRepository) {
     mavenRepoLocal = `-Dmaven.repo.local=${join(
       workspaceRoot,
-      mavenRootDirectory,
       localRepository,
     )}`;
   }

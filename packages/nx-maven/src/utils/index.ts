@@ -312,12 +312,7 @@ export function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
       .toString()
       .trim();
   } else {
-    const mavenRootDirectory = getMavenRootDirectory();
-    localRepository = path.join(
-      workspaceRoot,
-      mavenRootDirectory,
-      localRepository,
-    );
+    localRepository = `{workspaceRoot}/${localRepository}`;
   }
 
   // Store localRepositoryPath in cache for future use
