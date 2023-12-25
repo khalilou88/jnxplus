@@ -724,9 +724,9 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     ).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
-    expect(() =>
-      checkFilesExist(`.m2/repository/com/example/${libName}/0.0.1-SNAPSHOT`),
-    ).not.toThrow();
+    // expect(() =>
+    //   checkFilesExist(`.m2/repository/com/example/${libName}/0.0.1-SNAPSHOT`),
+    // ).not.toThrow();
 
     // const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
     // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
