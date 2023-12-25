@@ -43,7 +43,7 @@ describe('nx-maven spring-boot bom e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --localRepoRelativePath .m2/repository`,
+      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName}`,
     );
 
     await runNxCommandAsync(

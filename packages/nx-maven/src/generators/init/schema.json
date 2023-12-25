@@ -84,7 +84,9 @@
     },
     "localRepoRelativePath": {
       "type": "string",
-      "description": "Maven local repository relative path to {workspaceRoot}/{mavenRootDirectory}"
+      "description": "Maven local repository relative path to {workspaceRoot}/{mavenRootDirectory}",
+      "default": ".m2/repository",
+      "x-prompt": "Choose a relative path to {workspaceRoot}/{mavenRootDirectory} for Maven local repository?"
     }
   },
   "required": [
@@ -93,6 +95,7 @@
     "parentProjectName",
     "parentProjectVersion",
     "mavenRootDirectory",
-    "dependencyManagement"
+    "dependencyManagement",
+    "localRepoRelativePath"
   ]
 }
