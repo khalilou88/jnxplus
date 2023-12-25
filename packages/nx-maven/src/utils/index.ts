@@ -301,8 +301,14 @@ export function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
   }
 
   let localRepositoryRelativePath = getLocalRepositoryRelativePath();
-
-  if (!localRepositoryRelativePath) {
+  if (localRepositoryRelativePath) {
+    const mavenRootDirectory = getMavenRootDirectory();
+    localRepositoryRelativePath = path.join(
+      '{workspaceRoot}',
+      mavenRootDirectory,
+      localRepositoryRelativePath,
+    );
+  } else {
     localRepositoryRelativePath = execSync(
       `${getExecutable()} help:evaluate -Dexpression=settings.localRepository -q -DforceStdout`,
       {
@@ -311,13 +317,6 @@ export function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
     )
       .toString()
       .trim();
-  } else {
-    const mavenRootDirectory = getMavenRootDirectory();
-    localRepositoryRelativePath = path.join(
-      '{workspaceRoot}',
-      mavenRootDirectory,
-      localRepositoryRelativePath,
-    );
   }
 
   // Store localRepositoryPath in cache for future use
