@@ -15,10 +15,12 @@ import { XmlDocument } from 'xmldoc';
 export function getExecutable() {
   let executable = '';
 
+  const mavenRootDirectory = getMavenRootDirectory();
+
   if (process.env['NX_SKIP_MAVEN_WRAPPER'] === 'true') {
     executable = 'mvn';
   } else {
-    const isWrapperExists = isWrapperExistsFunction();
+    const isWrapperExists = isWrapperExistsFunction(mavenRootDirectory);
 
     if (isWrapperExists) {
       const isWin = process.platform === 'win32';
@@ -32,11 +34,20 @@ export function getExecutable() {
     executable += ` ${process.env['NX_MAVEN_CLI_OPTS']}`;
   }
 
+  const localRepoRelativePath = getLocalRepoRelativePath();
+  if (localRepoRelativePath) {
+    const mavenRepoLocal = `-Dmaven.repo.local=${path.join(
+      workspaceRoot,
+      mavenRootDirectory,
+      localRepoRelativePath,
+    )}`;
+    executable += ` ${mavenRepoLocal}`;
+  }
+
   return executable;
 }
 
-function isWrapperExistsFunction() {
-  const mavenRootDirectory = getMavenRootDirectory();
+function isWrapperExistsFunction(mavenRootDirectory: string) {
   const mvnwPath = path.join(workspaceRoot, mavenRootDirectory, 'mvnw');
   return fs.existsSync(mvnwPath);
 }

@@ -1,11 +1,7 @@
 import { ExecutorContext, logger, workspaceRoot } from '@nx/devkit';
 import { getTargetName, runCommand, waitForever } from '@jnxplus/common';
 import { RunTaskExecutorSchema } from './schema';
-import {
-  getExecutable,
-  getLocalRepoRelativePath,
-  getMavenRootDirectory,
-} from '../../utils';
+import { getExecutable, getMavenRootDirectory } from '../../utils';
 import { join } from 'path';
 
 export default async function runExecutor(
@@ -15,8 +11,6 @@ export default async function runExecutor(
   const targetName = getTargetName(context);
   logger.info(`Executor ran for ${targetName}: ${JSON.stringify(options)}`);
 
-  const mavenRootDirectory = getMavenRootDirectory();
-
   let task = '';
   if (Array.isArray(options.task)) {
     task = options.task.join(' ');
@@ -24,20 +18,9 @@ export default async function runExecutor(
     task = options.task;
   }
 
-  let command = `${getExecutable()} ${task}`;
+  const command = `${getExecutable()} ${task} -pl :${context.projectName}`;
 
-  const localRepoRelativePath = getLocalRepoRelativePath();
-  if (localRepoRelativePath) {
-    const mavenRepoLocal = `-Dmaven.repo.local=${join(
-      workspaceRoot,
-      mavenRootDirectory,
-      localRepoRelativePath,
-    )}`;
-    command += ` ${mavenRepoLocal}`;
-  }
-
-  command += ` -pl :${context.projectName}`;
-
+  const mavenRootDirectory = getMavenRootDirectory();
   const result = runCommand(command, join(workspaceRoot, mavenRootDirectory));
 
   if (!result.success) {
