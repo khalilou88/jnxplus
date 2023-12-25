@@ -275,7 +275,7 @@ export function getDependencyManagement(
   return 'bom';
 }
 
-export function getLocalRepoRelativePath(): string {
+function getLocalRepoRelativePath(): string {
   const nxJsonPath = path.join(workspaceRoot, 'nx.json');
 
   const nxJson = readJsonFile<NxJsonConfiguration>(nxJsonPath);
