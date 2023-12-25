@@ -264,7 +264,7 @@ export function getDependencyManagement(
   return 'bom';
 }
 
-export function getLocalRepositoryRelativePath(): string {
+export function getLocalRepoRelativePath(): string {
   const nxJsonPath = path.join(workspaceRoot, 'nx.json');
 
   const nxJson = readJsonFile<NxJsonConfiguration>(nxJsonPath);
@@ -284,10 +284,10 @@ export function getLocalRepositoryRelativePath(): string {
   if (
     typeof options === 'object' &&
     options &&
-    'localRepositoryRelativePath' in options &&
-    typeof options.localRepositoryRelativePath === 'string'
+    'localRepoRelativePath' in options &&
+    typeof options.localRepoRelativePath === 'string'
   ) {
-    return options.localRepositoryRelativePath;
+    return options.localRepoRelativePath;
   }
 
   return '';
@@ -301,13 +301,13 @@ export function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
   }
 
   let localRepositoryPath;
-  const localRepositoryRelativePath = getLocalRepositoryRelativePath();
-  if (localRepositoryRelativePath) {
+  const localRepoRelativePath = getLocalRepoRelativePath();
+  if (localRepoRelativePath) {
     const mavenRootDirectory = getMavenRootDirectory();
     localRepositoryPath = path.join(
       '{workspaceRoot}',
       mavenRootDirectory,
-      localRepositoryRelativePath,
+      localRepoRelativePath,
     );
   } else {
     localRepositoryPath = execSync(

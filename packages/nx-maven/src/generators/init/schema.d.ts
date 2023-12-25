@@ -9,5 +9,5 @@ export interface NxMavenInitGeneratorSchema {
     | 'spring-boot-parent-pom'
     | 'micronaut-parent-pom';
   skipWrapper?: boolean;
-  localRepositoryRelativePath?: string;
+  localRepoRelativePath?: string;
 }
