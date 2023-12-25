@@ -32,15 +32,4 @@
 <% } -%>
     </properties>
 
-
-<% if(localRepositoryPath) { -%>
-	<repositories>
-		<repository>
-			<id>local-repository</id>
-			<name>Local Repository</name>
-            <url>file://${maven.multiModuleProjectDirectory}/<%= localRepositoryPath %></url>
-		</repository>
- 	</repositories>
-<% } -%>
-
 </project>
