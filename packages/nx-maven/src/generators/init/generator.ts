@@ -122,12 +122,31 @@ export async function initGenerator(
 }
 
 function updateNxJson(tree: Tree, options: NormalizedSchema) {
-  const plugin = {
-    plugin: '@jnxplus/nx-maven',
-    options: {
+  let pluginOptions = {};
+
+  if (options.mavenRootDirectory) {
+    pluginOptions = {
+      ...pluginOptions,
       mavenRootDirectory: options.mavenRootDirectory,
-    },
-  };
+    };
+  }
+
+  if (options.localRepoRelativePath) {
+    pluginOptions = {
+      ...pluginOptions,
+      localRepoRelativePath: options.localRepoRelativePath,
+    };
+  }
+
+  let plugin: string | object;
+  if (pluginOptions) {
+    plugin = {
+      plugin: '@jnxplus/nx-maven',
+      options: pluginOptions,
+    };
+  } else {
+    plugin = '@jnxplus/nx-maven';
+  }
 
   updateJson(tree, 'nx.json', (nxJson) => {
     // if plugins is undefined, set it to an empty array

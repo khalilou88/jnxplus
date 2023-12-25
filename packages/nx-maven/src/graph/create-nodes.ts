@@ -8,10 +8,13 @@ import {
 } from '@nx/devkit';
 import { execSync } from 'child_process';
 import { existsSync } from 'fs';
-import * as cache from 'memory-cache';
 import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
-import { getExecutable, getMavenRootDirectory } from '../utils';
+import {
+  getExecutable,
+  getLocalRepositoryPath,
+  getMavenRootDirectory,
+} from '../utils';
 
 export const createNodes: CreateNodes = [
   '**/pom.xml',
@@ -176,28 +179,6 @@ function getTask(projectRoot: string) {
   }
 
   return 'install';
-}
-
-function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
-  const key = 'localRepositoryPath';
-  const cachedLocalRepository = cache.get(key);
-  if (cachedLocalRepository) {
-    return cachedLocalRepository;
-  }
-
-  const localRepository = execSync(
-    `${getExecutable()} help:evaluate -Dexpression=settings.localRepository -q -DforceStdout`,
-    {
-      cwd: mavenRootDirAbsolutePath,
-    },
-  )
-    .toString()
-    .trim();
-
-  // Store data in cache for future use
-  cache.put(key, localRepository, 60000); // Cache for 60 seconds
-
-  return localRepository;
 }
 
 function isPomPackaging(pomXmlContent: XmlDocument): boolean {

@@ -44,7 +44,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --dependencyManagement spring-boot-parent-pom`,
+      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --dependencyManagement spring-boot-parent-pom --localRepoRelativePath .m2/repository`,
     );
 
     if (isCI) {
@@ -671,7 +671,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     });
   }, 240000);
 
-  it('should create a kotlin library', async () => {
+  it('should create a kotlin library outputDirLocalRepo', async () => {
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
@@ -703,14 +703,30 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
+    expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
+    expect(() =>
+      checkFilesExist(`.m2/repository/com/example/${libName}/0.0.1-SNAPSHOT`),
+    ).not.toThrow();
 
-    //should recreate target folder
+    //should recreate target folder and outputDirLocalRepo
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
     fse.removeSync(targetDir);
+    const outputDirLocalRepo = path.join(
+      localTmpDir,
+      'proj',
+      `.m2/repository/com/example/${libName}/0.0.1-SNAPSHOT`,
+    );
+    fse.removeSync(outputDirLocalRepo);
     expect(() => checkFilesExist(`${libName}/target`)).toThrow();
+    expect(() =>
+      checkFilesExist(`.m2/repository/com/example/${libName}/0.0.1-SNAPSHOT`),
+    ).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
+    expect(() =>
+      checkFilesExist(`.m2/repository/com/example/${libName}/0.0.1-SNAPSHOT`),
+    ).not.toThrow();
 
     // const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
     // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');

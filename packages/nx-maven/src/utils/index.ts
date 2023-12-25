@@ -6,17 +6,21 @@ import {
   readProjectConfiguration,
   workspaceRoot,
 } from '@nx/devkit';
+import { execSync } from 'child_process';
 import * as fs from 'fs';
+import * as cache from 'memory-cache';
 import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
 
 export function getExecutable() {
   let executable = '';
 
+  const mavenRootDirectory = getMavenRootDirectory();
+
   if (process.env['NX_SKIP_MAVEN_WRAPPER'] === 'true') {
     executable = 'mvn';
   } else {
-    const isWrapperExists = isWrapperExistsFunction();
+    const isWrapperExists = isWrapperExistsFunction(mavenRootDirectory);
 
     if (isWrapperExists) {
       const isWin = process.platform === 'win32';
@@ -30,11 +34,20 @@ export function getExecutable() {
     executable += ` ${process.env['NX_MAVEN_CLI_OPTS']}`;
   }
 
+  const localRepoRelativePath = getLocalRepoRelativePath();
+  if (localRepoRelativePath) {
+    const mavenRepoLocal = `-Dmaven.repo.local=${path.join(
+      workspaceRoot,
+      mavenRootDirectory,
+      localRepoRelativePath,
+    )}`;
+    executable += ` ${mavenRepoLocal}`;
+  }
+
   return executable;
 }
 
-function isWrapperExistsFunction() {
-  const mavenRootDirectory = getMavenRootDirectory();
+function isWrapperExistsFunction(mavenRootDirectory: string) {
   const mvnwPath = path.join(workspaceRoot, mavenRootDirectory, 'mvnw');
   return fs.existsSync(mvnwPath);
 }
@@ -51,11 +64,7 @@ export function getMavenRootDirectory(): string {
   );
 
   if (typeof plugin === 'string') {
-    const pomXmlPath = path.join(workspaceRoot, 'pom.xml');
-    if (fs.existsSync(pomXmlPath)) {
-      return '';
-    }
-    return 'nx-maven';
+    return '';
   }
 
   const options = plugin?.options;
@@ -264,4 +273,66 @@ export function getDependencyManagement(
   }
 
   return 'bom';
+}
+
+function getLocalRepoRelativePath(): string {
+  const nxJsonPath = path.join(workspaceRoot, 'nx.json');
+
+  const nxJson = readJsonFile<NxJsonConfiguration>(nxJsonPath);
+
+  const plugin = (nxJson?.plugins || []).find((p) =>
+    typeof p === 'string'
+      ? p === '@jnxplus/nx-maven'
+      : p.plugin === '@jnxplus/nx-maven',
+  );
+
+  if (typeof plugin === 'string') {
+    return '';
+  }
+
+  const options = plugin?.options;
+
+  if (
+    typeof options === 'object' &&
+    options &&
+    'localRepoRelativePath' in options &&
+    typeof options.localRepoRelativePath === 'string'
+  ) {
+    return options.localRepoRelativePath;
+  }
+
+  return '';
+}
+
+export function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
+  const key = 'localRepositoryPath';
+  const cachedLocalRepository = cache.get(key);
+  if (cachedLocalRepository) {
+    return cachedLocalRepository;
+  }
+
+  let localRepositoryPath;
+  const localRepoRelativePath = getLocalRepoRelativePath();
+  if (localRepoRelativePath) {
+    const mavenRootDirectory = getMavenRootDirectory();
+    localRepositoryPath = path.join(
+      '{workspaceRoot}',
+      mavenRootDirectory,
+      localRepoRelativePath,
+    );
+  } else {
+    localRepositoryPath = execSync(
+      `${getExecutable()} help:evaluate -Dexpression=settings.localRepository -q -DforceStdout`,
+      {
+        cwd: mavenRootDirAbsolutePath,
+      },
+    )
+      .toString()
+      .trim();
+  }
+
+  // Store localRepositoryPath in cache for future use
+  cache.put(key, localRepositoryPath, 60000); // Cache for 60 seconds
+
+  return localRepositoryPath;
 }
