@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.22.1](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.22.0...nx-maven-0.22.1) (2023-12-25)
+
+
+### Bug Fixes
+
+* remove {workspaceRoot} ([#711](https://github.com/khalilou88/jnxplus/issues/711)) ([e25f7c8](https://github.com/khalilou88/jnxplus/commit/e25f7c8d1b3a895657f252ba4a58d9496084746e))
+
+
+
 # [0.22.0](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.21.1...nx-maven-0.22.0) (2023-12-25)
 
 
