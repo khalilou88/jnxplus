@@ -175,7 +175,13 @@ function updateGitIgnore(tree: Tree, options: NormalizedSchema) {
   }
 
   if (options.localRepoRelativePath) {
-    mavenIgnores.push(`\n${options.localRepoRelativePath}`);
+    if (options.mavenRootDirectory) {
+      mavenIgnores.push(
+        `\n${options.mavenRootDirectory}/${options.localRepoRelativePath}`,
+      );
+    } else {
+      mavenIgnores.push(`\n${options.localRepoRelativePath}`);
+    }
   }
 
   const newContents = contents.concat(mavenIgnores.join(''));
