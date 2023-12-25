@@ -38,7 +38,7 @@
 		<repository>
 			<id>local-repository</id>
 			<name>Local Repository</name>
-      <url>file://${project.basedir}/<%= localRepositoryPath %></url>
+            <url>file://${maven.multiModuleProjectDirectory}/<%= localRepositoryPath %></url>
 		</repository>
  	</repositories>
 <% } -%>

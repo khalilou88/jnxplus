@@ -15,6 +15,8 @@ export default async function runExecutor(
   const targetName = getTargetName(context);
   logger.info(`Executor ran for ${targetName}: ${JSON.stringify(options)}`);
 
+  const mavenRootDirectory = getMavenRootDirectory();
+
   let task = '';
   if (Array.isArray(options.task)) {
     task = options.task.join(' ');
@@ -27,6 +29,7 @@ export default async function runExecutor(
   if (localRepository) {
     mavenRepoLocal = `-Dmaven.repo.local=${join(
       workspaceRoot,
+      mavenRootDirectory,
       localRepository,
     )}`;
   }
@@ -35,7 +38,6 @@ export default async function runExecutor(
     context.projectName
   }`;
 
-  const mavenRootDirectory = getMavenRootDirectory();
   const result = runCommand(command, join(workspaceRoot, mavenRootDirectory));
 
   if (!result.success) {
