@@ -24,7 +24,8 @@ import * as path from 'path';
 
 describe('nx-maven quarkus bom e2e', () => {
   let workspaceDirectory: string;
-
+  const isCI =
+    process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
   const parentProjectName = uniq('quarkus-parent-project-');

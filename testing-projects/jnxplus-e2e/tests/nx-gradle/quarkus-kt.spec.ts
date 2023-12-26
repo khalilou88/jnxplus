@@ -25,7 +25,8 @@ import * as path from 'path';
 
 describe('nx-gradle quarkus kotlin dsl e2e', () => {
   let workspaceDirectory: string;
-
+  const isCI =
+    process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
   const rootProjectName = uniq('quarkus-root-project-');
