@@ -209,10 +209,6 @@ export const getData = async (port = 8080, path = '') => {
   return { status: response.status, message: response.data };
 };
 
-export function removeTmpFromGitignore() {}
-
-export function addTmpToGitignore() {}
-
 export function semver(s: string): {
   major: number;
   minor: number;

@@ -1,12 +1,10 @@
 import { normalizeName } from '@jnxplus/common';
 import {
-  addTmpToGitignore,
   checkFilesDoNotExist,
   createTestWorkspace,
   getData,
   killPorts,
   promisifiedTreeKill,
-  removeTmpFromGitignore,
   runNxCommandUntil,
 } from '@jnxplus/internal/testing';
 import { names } from '@nx/devkit';
@@ -26,8 +24,7 @@ import * as path from 'path';
 
 describe('nx-gradle spring-boot e2e', () => {
   let workspaceDirectory: string;
-  const isCI =
-    process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
+
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
   const rootProjectName = uniq('boot-root-project-');
@@ -60,16 +57,9 @@ describe('nx-gradle spring-boot e2e', () => {
     );
 
     await runNxCommandAsync('generate @jnxplus/nx-checkstyle:init');
-
-    if (isCI) {
-      removeTmpFromGitignore();
-    }
   }, 120000);
 
   afterAll(async () => {
-    if (isCI) {
-      addTmpToGitignore();
-    }
     // Cleanup the test project
     rmSync(workspaceDirectory, {
       recursive: true,

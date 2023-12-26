@@ -1,12 +1,10 @@
 import { normalizeName } from '@jnxplus/common';
 import {
-  addTmpToGitignore,
   checkFilesDoNotExist,
   createTestWorkspace,
   getData,
   killPorts,
   promisifiedTreeKill,
-  removeTmpFromGitignore,
   runNxCommandUntil,
 } from '@jnxplus/internal/testing';
 import { names } from '@nx/devkit';
@@ -26,8 +24,7 @@ import * as path from 'path';
 
 describe('nx-maven quarkus bom e2e', () => {
   let workspaceDirectory: string;
-  const isCI =
-    process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
+
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
   const parentProjectName = uniq('quarkus-parent-project-');
@@ -46,16 +43,9 @@ describe('nx-maven quarkus bom e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --dependencyManagement bom`,
     );
-
-    if (isCI) {
-      removeTmpFromGitignore();
-    }
   }, 240000);
 
   afterAll(async () => {
-    if (isCI) {
-      addTmpToGitignore();
-    }
     // Cleanup the test project
     rmSync(workspaceDirectory, {
       recursive: true,

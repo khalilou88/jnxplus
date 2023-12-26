@@ -1,13 +1,11 @@
 import { normalizeName } from '@jnxplus/common';
 import {
   addJVMMemory,
-  addTmpToGitignore,
   checkFilesDoNotExist,
   createTestWorkspace,
   getData,
   killPorts,
   promisifiedTreeKill,
-  removeTmpFromGitignore,
   runNxCommandUntil,
 } from '@jnxplus/internal/testing';
 import { names } from '@nx/devkit';
@@ -27,8 +25,7 @@ import * as path from 'path';
 
 describe('nx-gradle quarkus kotlin dsl e2e', () => {
   let workspaceDirectory: string;
-  const isCI =
-    process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
+
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
   const rootProjectName = uniq('quarkus-root-project-');
@@ -49,16 +46,9 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
     );
 
     addJVMMemory();
-
-    if (isCI) {
-      removeTmpFromGitignore();
-    }
   }, 120000);
 
   afterAll(async () => {
-    if (isCI) {
-      addTmpToGitignore();
-    }
     // Cleanup the test project
     rmSync(workspaceDirectory, {
       recursive: true,
