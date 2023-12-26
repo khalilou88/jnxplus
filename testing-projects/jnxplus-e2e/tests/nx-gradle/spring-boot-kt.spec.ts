@@ -13,13 +13,11 @@ import * as path from 'path';
 
 import { normalizeName } from '@jnxplus/common';
 import {
-  addTmpToGitignore,
   checkFilesDoNotExist,
   createTestWorkspace,
   getData,
   killPorts,
   promisifiedTreeKill,
-  removeTmpFromGitignore,
   runNxCommandUntil,
 } from '@jnxplus/internal/testing';
 import { execSync } from 'child_process';
@@ -47,16 +45,9 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset spring-boot`,
     );
-
-    if (isCI) {
-      removeTmpFromGitignore();
-    }
   }, 120000);
 
   afterAll(async () => {
-    if (isCI) {
-      addTmpToGitignore();
-    }
     // Cleanup the test project
     rmSync(workspaceDirectory, {
       recursive: true,

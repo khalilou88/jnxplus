@@ -1,8 +1,4 @@
-import {
-  addTmpToGitignore,
-  createTestWorkspace,
-  removeTmpFromGitignore,
-} from '@jnxplus/internal/testing';
+import { createTestWorkspace } from '@jnxplus/internal/testing';
 import { names } from '@nx/devkit';
 import {
   checkFilesExist,
@@ -15,8 +11,7 @@ import { rmSync } from 'fs';
 
 describe('nx-maven all bom e2e', () => {
   let workspaceDirectory: string;
-  const isCI =
-    process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
+
   const parentProjectName = uniq('parent-project-');
 
   beforeAll(async () => {
@@ -33,16 +28,9 @@ describe('nx-maven all bom e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName}`,
     );
-
-    if (isCI) {
-      removeTmpFromGitignore();
-    }
   }, 240000);
 
   afterAll(async () => {
-    if (isCI) {
-      addTmpToGitignore();
-    }
     // Cleanup the test project
     rmSync(workspaceDirectory, {
       recursive: true,

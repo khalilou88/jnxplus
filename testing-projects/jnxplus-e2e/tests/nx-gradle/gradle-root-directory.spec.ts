@@ -1,8 +1,4 @@
-import {
-  addTmpToGitignore,
-  createTestWorkspace,
-  removeTmpFromGitignore,
-} from '@jnxplus/internal/testing';
+import { createTestWorkspace } from '@jnxplus/internal/testing';
 import { names } from '@nx/devkit';
 import {
   checkFilesExist,
@@ -17,8 +13,7 @@ import { rmSync } from 'fs';
 
 describe('nx-gradle gradle-root-directory e2e', () => {
   let workspaceDirectory: string;
-  const isCI =
-    process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
+
   const rootProjectName = uniq('boot-root-project-');
 
   beforeAll(async () => {
@@ -35,16 +30,9 @@ describe('nx-gradle gradle-root-directory e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --gradleRootDirectory nx-gradle`,
     );
-
-    if (isCI) {
-      removeTmpFromGitignore();
-    }
   }, 120000);
 
   afterAll(async () => {
-    if (isCI) {
-      addTmpToGitignore();
-    }
     // Cleanup the test project
     rmSync(workspaceDirectory, {
       recursive: true,

@@ -1,13 +1,11 @@
 import { normalizeName } from '@jnxplus/common';
 import {
   addJVMMemory,
-  addTmpToGitignore,
   checkFilesDoNotExist,
   createTestWorkspace,
   getData,
   killPorts,
   promisifiedTreeKill,
-  removeTmpFromGitignore,
   runNxCommandUntil,
 } from '@jnxplus/internal/testing';
 import { names } from '@nx/devkit';
@@ -49,16 +47,9 @@ describe('nx-gradle quarkus e2e', () => {
     );
 
     addJVMMemory();
-
-    if (isCI) {
-      removeTmpFromGitignore();
-    }
   }, 120000);
 
   afterAll(async () => {
-    if (isCI) {
-      addTmpToGitignore();
-    }
     // Cleanup the test project
     rmSync(workspaceDirectory, {
       recursive: true,

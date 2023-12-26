@@ -209,20 +209,6 @@ export const getData = async (port = 8080, path = '') => {
   return { status: response.status, message: response.data };
 };
 
-export function removeTmpFromGitignore() {
-  const filePath = path.join(process.cwd(), '.gitignore');
-  const fileContent = fs.readFileSync(filePath, 'utf-8');
-  const updatedFileContent = fileContent.replace('/tmp', '');
-  fs.writeFileSync(filePath, updatedFileContent);
-}
-
-export function addTmpToGitignore() {
-  const filePath = path.join(process.cwd(), '.gitignore');
-  const fileContent = fs.readFileSync(filePath, 'utf-8');
-  const updatedFileContent = fileContent.concat('\n/tmp');
-  fs.writeFileSync(filePath, updatedFileContent);
-}
-
 export function semver(s: string): {
   major: number;
   minor: number;

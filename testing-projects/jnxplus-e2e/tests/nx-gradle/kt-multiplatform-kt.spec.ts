@@ -1,8 +1,4 @@
-import {
-  addTmpToGitignore,
-  createTestWorkspace,
-  removeTmpFromGitignore,
-} from '@jnxplus/internal/testing';
+import { createTestWorkspace } from '@jnxplus/internal/testing';
 import {
   checkFilesExist,
   readJson,
@@ -14,8 +10,7 @@ import { rmSync } from 'fs';
 
 describe('nx-gradle kt-multiplatform kotlin dsl e2e', () => {
   let workspaceDirectory: string;
-  const isCI =
-    process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
+
   const rootProjectName = uniq('boot-root-project-');
 
   beforeAll(async () => {
@@ -32,16 +27,9 @@ describe('nx-gradle kt-multiplatform kotlin dsl e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset kotlin-multiplatform`,
     );
-
-    if (isCI) {
-      removeTmpFromGitignore();
-    }
   }, 120000);
 
   afterAll(async () => {
-    if (isCI) {
-      addTmpToGitignore();
-    }
     // Cleanup the test project
     rmSync(workspaceDirectory, {
       recursive: true,
