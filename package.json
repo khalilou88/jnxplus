@@ -47,7 +47,7 @@
     "@types/tcp-port-used": "^1.0.4",
     "@types/tmp": "^0.2.6",
     "@types/xmldoc": "^1.1.9",
-    "@typescript-eslint/eslint-plugin": "6.15.0",
+    "@typescript-eslint/eslint-plugin": "6.16.0",
     "@typescript-eslint/parser": "6.15.0",
     "axios": "^1.6.2",
     "chalk": "4.1.0",
