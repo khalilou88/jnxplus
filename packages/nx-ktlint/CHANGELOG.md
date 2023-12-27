@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.7](https://github.com/khalilou88/jnxplus/compare/nx-ktlint-0.1.6...nx-ktlint-0.1.7) (2023-12-27)
+
+### Dependency Updates
+
+* `common` updated to version `0.18.2`
+
+
 ## [0.1.6](https://github.com/khalilou88/jnxplus/compare/nx-ktlint-0.1.5...nx-ktlint-0.1.6) (2023-12-11)
 
 ### Dependency Updates
