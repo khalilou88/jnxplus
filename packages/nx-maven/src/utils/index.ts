@@ -336,3 +336,96 @@ export function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
 
   return localRepositoryPath;
 }
+
+export function getArtifactId(pomXmlContent: XmlDocument) {
+  const artifactIdXml = pomXmlContent.childNamed('artifactId');
+  if (artifactIdXml === undefined) {
+    throw new Error(`ArtifactId not found in pom.xml`);
+  }
+  return artifactIdXml.val;
+}
+
+export function getGroupId(artifactId: string, pomXmlContent: XmlDocument) {
+  const groupIdXml = pomXmlContent.childNamed('groupId');
+  if (groupIdXml === undefined) {
+    return getParentGroupId(artifactId, pomXmlContent);
+  }
+  return groupIdXml.val;
+}
+
+function getParentGroupId(
+  artifactId: string,
+  pomXmlContent: XmlDocument,
+): string {
+  const parentXml = pomXmlContent.childNamed('parent');
+
+  if (parentXml === undefined) {
+    throw new Error(`Parent tag not found for project ${artifactId}`);
+  }
+
+  const groupIdXml = parentXml.childNamed('groupId');
+
+  if (groupIdXml === undefined) {
+    throw new Error(`ParentGroupId not found for project ${artifactId}`);
+  }
+
+  return groupIdXml?.val;
+}
+
+export function getVersion(artifactId: string, pomXmlContent: XmlDocument) {
+  let version;
+  const versionXml = pomXmlContent.childNamed('version');
+  if (versionXml === undefined) {
+    version = getParentVersion(artifactId, pomXmlContent);
+  } else {
+    version = versionXml.val;
+  }
+
+  return version;
+}
+
+function getParentVersion(
+  artifactId: string,
+  pomXmlContent: XmlDocument,
+): string {
+  const parentXml = pomXmlContent.childNamed('parent');
+
+  if (parentXml === undefined) {
+    throw new Error(`Parent tag not found for project ${artifactId}`);
+  }
+
+  const versionXml = parentXml.childNamed('version');
+
+  if (versionXml === undefined) {
+    throw new Error(`ParentVersion not found for project ${artifactId}`);
+  }
+
+  return versionXml?.val;
+}
+
+export function getEffectiveVersion(
+  artifactId: string,
+  pomXmlContent: XmlDocument,
+  mavenRootDirAbsolutePath: string,
+  projectAbsolutePath: string,
+) {
+  let version = getVersion(artifactId, pomXmlContent);
+
+  if (version.indexOf('${') >= 0) {
+    const relativePath = path.relative(
+      mavenRootDirAbsolutePath,
+      projectAbsolutePath,
+    );
+    const pomXmlRelativePath = joinPathFragments(relativePath, 'pom.xml');
+    version = execSync(
+      `${getExecutable()} -f ${pomXmlRelativePath} help:evaluate -Dexpression=project.version -q -DforceStdout`,
+      {
+        cwd: mavenRootDirAbsolutePath,
+      },
+    )
+      .toString()
+      .trim();
+  }
+
+  return version;
+}

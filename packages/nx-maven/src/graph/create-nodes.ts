@@ -2,18 +2,18 @@ import { readXml } from '@jnxplus/xml';
 import {
   CreateNodes,
   TargetConfiguration,
-  joinPathFragments,
   readJsonFile,
   workspaceRoot,
 } from '@nx/devkit';
-import { execSync } from 'child_process';
 import { existsSync } from 'fs';
 import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
 import {
-  getExecutable,
+  getArtifactId,
+  getGroupId,
   getLocalRepositoryPath,
   getMavenRootDirectory,
+  getEffectiveVersion,
 } from '../utils';
 
 export const createNodes: CreateNodes = [
@@ -47,7 +47,7 @@ export const createNodes: CreateNodes = [
           const pomXmlContent = readXml(pomXmlFilePath);
           const artifactId = getArtifactId(pomXmlContent);
           const groupId = getGroupId(artifactId, pomXmlContent);
-          const projectVersion = getVersion(
+          const projectVersion = getEffectiveVersion(
             artifactId,
             pomXmlContent,
             mavenRootDirAbsolutePath,
@@ -74,7 +74,7 @@ export const createNodes: CreateNodes = [
       const pomXmlContent = readXml(pomXmlFilePath);
       const artifactId = getArtifactId(pomXmlContent);
       const groupId = getGroupId(artifactId, pomXmlContent);
-      const projectVersion = getVersion(
+      const projectVersion = getEffectiveVersion(
         artifactId,
         pomXmlContent,
         mavenRootDirAbsolutePath,
@@ -123,41 +123,6 @@ export const createNodes: CreateNodes = [
   },
 ];
 
-function getParentGroupId(
-  artifactId: string,
-  pomXmlContent: XmlDocument,
-): string {
-  const parentXml = pomXmlContent.childNamed('parent');
-
-  if (parentXml === undefined) {
-    throw new Error(`Parent tag not found for project ${artifactId}`);
-  }
-
-  const groupIdXml = parentXml.childNamed('groupId');
-
-  if (groupIdXml === undefined) {
-    throw new Error(`ParentGroupId not found for project ${artifactId}`);
-  }
-
-  return groupIdXml?.val;
-}
-
-function getGroupId(artifactId: string, pomXmlContent: XmlDocument) {
-  const groupIdXml = pomXmlContent.childNamed('groupId');
-  if (groupIdXml === undefined) {
-    return getParentGroupId(artifactId, pomXmlContent);
-  }
-  return groupIdXml.val;
-}
-
-function getArtifactId(pomXmlContent: XmlDocument) {
-  const artifactIdXml = pomXmlContent.childNamed('artifactId');
-  if (artifactIdXml === undefined) {
-    throw new Error(`ArtifactId not found in pom.xml`);
-  }
-  return artifactIdXml.val;
-}
-
 function getOutputDirLocalRepo(
   localRepositoryPath: string,
   groupId: string,
@@ -189,68 +154,4 @@ function isPomPackaging(pomXmlContent: XmlDocument): boolean {
   }
 
   return packagingXml.val === 'pom';
-}
-
-function getVersion(
-  artifactId: string,
-  pomXmlContent: XmlDocument,
-  mavenRootDirAbsolutePath: string,
-  projectAbsolutePath: string,
-) {
-  let version;
-  const versionXml = pomXmlContent.childNamed('version');
-  if (versionXml === undefined) {
-    version = getParentVersion(artifactId, pomXmlContent);
-  } else {
-    version = versionXml.val;
-  }
-
-  if (version.indexOf('${') >= 0) {
-    version = getEffectiveVersion(
-      mavenRootDirAbsolutePath,
-      projectAbsolutePath,
-    );
-  }
-
-  return version;
-}
-
-function getParentVersion(
-  artifactId: string,
-  pomXmlContent: XmlDocument,
-): string {
-  const parentXml = pomXmlContent.childNamed('parent');
-
-  if (parentXml === undefined) {
-    throw new Error(`Parent tag not found for project ${artifactId}`);
-  }
-
-  const versionXml = parentXml.childNamed('version');
-
-  if (versionXml === undefined) {
-    throw new Error(`ParentVersion not found for project ${artifactId}`);
-  }
-
-  return versionXml?.val;
-}
-
-function getEffectiveVersion(
-  mavenRootDirAbsolutePath: string,
-  projectAbsolutePath: string,
-): string {
-  const relativePath = path.relative(
-    mavenRootDirAbsolutePath,
-    projectAbsolutePath,
-  );
-  const pomXmlRelativePath = joinPathFragments(relativePath, 'pom.xml');
-  const version = execSync(
-    `${getExecutable()} -f ${pomXmlRelativePath} help:evaluate -Dexpression=project.version -q -DforceStdout`,
-    {
-      cwd: mavenRootDirAbsolutePath,
-    },
-  )
-    .toString()
-    .trim();
-
-  return version;
 }
