@@ -3,7 +3,7 @@
 #
 # Before building the container image run:
 #
-# nx build <%= projectName %> --mvnBuildCommand="package" --mvnBuildArgs="-Dquarkus.package.type=legacy-jar"
+# nx build <%= projectName %> --task="package -Dquarkus.package.type=legacy-jar"
 #
 # Then, build the image with:
 #

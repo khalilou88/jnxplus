@@ -3,7 +3,7 @@
 #
 # Before building the container image run:
 #
-# nx build <%= projectName %> --mvnBuildCommand="package" --mvnBuildArgs="-Pnative"
+# nx build <%= projectName %> --task="package -Pnative"
 #
 # Then, build the image with:
 #
