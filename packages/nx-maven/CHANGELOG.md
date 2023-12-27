@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.22.2](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.22.1...nx-maven-0.22.2) (2023-12-27)
+
+
+### Bug Fixes
+
+* organize imports ([c56b670](https://github.com/khalilou88/jnxplus/commit/c56b670244479ded7609beca2bfb5a5916132541))
+
+
+
 ## [0.22.1](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.22.0...nx-maven-0.22.1) (2023-12-25)
 
 
