@@ -107,8 +107,7 @@ function normalizeOptions(
     tree,
     path.join(mavenRootDirectory, 'pom.xml'),
   );
-  const rootParentProjectName =
-    rootPomXmlContent?.childNamed('artifactId')?.val;
+  const rootParentProjectName = getArtifactId(rootPomXmlContent);
 
   const parentProjectRoot =
     options.parentProject && options.parentProject !== rootParentProjectName
