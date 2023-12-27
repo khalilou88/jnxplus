@@ -1,8 +1,8 @@
-import { ExecutorContext, logger, workspaceRoot } from '@nx/devkit';
 import { getTargetName, runCommand, waitForever } from '@jnxplus/common';
-import { RunTaskExecutorSchema } from './schema';
-import { getExecutable, getMavenRootDirectory } from '../../utils';
+import { ExecutorContext, logger, workspaceRoot } from '@nx/devkit';
 import { join } from 'path';
+import { getExecutable, getMavenRootDirectory } from '../../utils';
+import { RunTaskExecutorSchema } from './schema';
 
 export default async function runExecutor(
   options: RunTaskExecutorSchema,
