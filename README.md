@@ -4,10 +4,10 @@
 
 ### Custom CLIs
 
-| Custom CLI                                                          | Workspace                                 |
-| ------------------------------------------------------------------- | ----------------------------------------- |
-| [`create-nx-gradle-workspace`](packages/create-nx-gradle-workspace) | Create NX workspace with nx-gradle plugin |
-| [`create-nx-maven-workspace`](packages/create-nx-maven-workspace)   | Create NX workspace with nx-maven plugin  |
+| Custom CLI                                                          | Workspace                                       |
+| ------------------------------------------------------------------- | ----------------------------------------------- |
+| [`create-nx-gradle-workspace`](packages/create-nx-gradle-workspace) | Create a new Nx workspace with nx-gradle plugin |
+| [`create-nx-maven-workspace`](packages/create-nx-maven-workspace)   | Create a new Nx workspace with nx-maven plugin  |
 
 ### Plugins
 

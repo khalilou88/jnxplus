@@ -1,11 +1,9 @@
 # create-nx-maven-workspace
 
-This library was generated with [Nx](https://nx.dev).
+[![npm version](https://badge.fury.io/js/create-nx-maven-workspace.svg)](https://badge.fury.io/js/create-nx-maven-workspace)
 
-## Building
+It's a command to create a new Nx workspace with nx-maven plugin.
 
-Run `nx build create-nx-maven-workspace` to build the library.
+## How to use it?
 
-## Running unit tests
-
-Run `nx test create-nx-maven-workspace` to execute the unit tests via [Jest](https://jestjs.io).
+Run `npx create-create-nx-maven-workspace-workspace@latest`

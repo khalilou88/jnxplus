@@ -1,11 +1,9 @@
 # create-nx-gradle-workspace
 
-This library was generated with [Nx](https://nx.dev).
+[![npm version](https://badge.fury.io/js/create-nx-gradle-workspace.svg)](https://badge.fury.io/js/create-nx-gradle-workspace)
 
-## Building
+It's a command to create a new Nx workspace with nx-gradle plugin.
 
-Run `nx build create-nx-gradle-workspace` to build the library.
+## How to use it?
 
-## Running unit tests
-
-Run `nx test create-nx-gradle-workspace` to execute the unit tests via [Jest](https://jestjs.io).
+Run `npx create-create-nx-gradle-workspace-workspace@latest`
