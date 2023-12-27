@@ -133,8 +133,8 @@ async function main() {
       parentProjectVersion,
       mavenRootDirectory,
       dependencyManagement,
-      localRepoRelativePath: '.m2/repository',
       skipWrapper: false,
+      localRepoRelativePath: '.m2/repository',
     },
   );
 
