@@ -134,6 +134,7 @@ async function main() {
       mavenRootDirectory,
       dependencyManagement,
       skipWrapper: false,
+      localRepoRelativePath: '.m2/repository',
     },
   );
 
