@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.22.4](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.22.3...nx-maven-0.22.4) (2023-12-27)
+
+
+### Bug Fixes
+
+* get correct parent project properties ([#717](https://github.com/khalilou88/jnxplus/issues/717)) ([72f7ee2](https://github.com/khalilou88/jnxplus/commit/72f7ee2526bf717332859e22385903401e3e6235))
+
+
+
 ## [0.22.3](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.22.2...nx-maven-0.22.3) (2023-12-27)
 
 ### Dependency Updates
