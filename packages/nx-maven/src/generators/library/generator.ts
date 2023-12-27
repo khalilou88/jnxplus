@@ -22,7 +22,10 @@ import {
   addLibraryToProjects,
   addMissedProperties,
   addProjectToAggregator,
+  getArtifactId,
+  getGroupId,
   getMavenRootDirectory,
+  getVersion,
 } from '../../utils';
 import { NxMavenLibGeneratorSchema } from './schema';
 
@@ -104,8 +107,7 @@ function normalizeOptions(
     tree,
     path.join(mavenRootDirectory, 'pom.xml'),
   );
-  const rootParentProjectName =
-    rootPomXmlContent?.childNamed('artifactId')?.val;
+  const rootParentProjectName = getArtifactId(rootPomXmlContent);
 
   const parentProjectRoot =
     options.parentProject && options.parentProject !== rootParentProjectName
@@ -122,12 +124,9 @@ function normalizeOptions(
     'pom.xml',
   );
 
-  const parentGroupId =
-    pomXmlContent?.childNamed('groupId')?.val || 'parentGroupId';
-  const parentProjectName =
-    pomXmlContent?.childNamed('artifactId')?.val || 'parentProjectName';
-  const parentProjectVersion =
-    pomXmlContent?.childNamed('version')?.val || 'parentProjectVersion';
+  const parentProjectName = getArtifactId(pomXmlContent);
+  const parentGroupId = getGroupId(parentProjectName, pomXmlContent);
+  const parentProjectVersion = getVersion(parentProjectName, pomXmlContent);
 
   return {
     ...options,

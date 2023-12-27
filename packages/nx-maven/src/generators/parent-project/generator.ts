@@ -27,7 +27,12 @@ import {
   readProjectConfiguration,
 } from '@nx/devkit';
 import * as path from 'path';
-import { getMavenRootDirectory } from '../../utils';
+import {
+  getArtifactId,
+  getGroupId,
+  getMavenRootDirectory,
+  getVersion,
+} from '../../utils';
 import { addMissedProperties, addProjectToAggregator } from '../../utils';
 import { NxMavenParentProjectGeneratorSchema } from './schema';
 
@@ -101,10 +106,6 @@ function normalizeOptions(
     ).root;
   }
 
-  let parentGroupId = '';
-  let parentProjectName = '';
-  let parentProjectVersion = '';
-
   const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
 
   const pomXmlContent = readXmlTree(tree, parentProjectPomPath);
@@ -113,11 +114,9 @@ function normalizeOptions(
     'pom.xml',
   );
 
-  parentGroupId = pomXmlContent?.childNamed('groupId')?.val || 'parentGroupId';
-  parentProjectName =
-    pomXmlContent?.childNamed('artifactId')?.val || 'parentProjectName';
-  parentProjectVersion =
-    pomXmlContent?.childNamed('version')?.val || 'parentProjectVersion';
+  const parentProjectName = getArtifactId(pomXmlContent);
+  const parentGroupId = getGroupId(parentProjectName, pomXmlContent);
+  const parentProjectVersion = getVersion(parentProjectName, pomXmlContent);
 
   return {
     ...options,
