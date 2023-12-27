@@ -17,7 +17,6 @@ async function main() {
   }
 
   const args = yargs.argv;
-  console.log(args);
 
   let javaVersion = args['javaVersion'];
   if (!javaVersion) {
@@ -60,6 +59,8 @@ async function main() {
         type: 'input',
         name: 'rootProjectName',
         message: 'What rootProjectName would you like to use?',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        initial: 'root-project' as any,
       })
     ).rootProjectName;
   }
@@ -72,6 +73,8 @@ async function main() {
         name: 'gradleRootDirectory',
         message:
           'Where do you want Gradle Wrapper (if not skipped), config files and projects to be placed?',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        initial: '' as any,
       })
     ).gradleRootDirectory;
   }
