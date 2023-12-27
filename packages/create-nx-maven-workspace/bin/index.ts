@@ -17,7 +17,6 @@ async function main() {
   }
 
   const args = yargs.argv;
-  console.log(args);
 
   let javaVersion = args['javaVersion'];
   if (!javaVersion) {
@@ -43,6 +42,8 @@ async function main() {
         type: 'input',
         name: 'groupId',
         message: 'What groupId would you like to use?',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        initial: 'com.example' as any,
       })
     ).groupId;
   }
@@ -54,6 +55,8 @@ async function main() {
         type: 'input',
         name: 'parentProjectName',
         message: 'What parentProjectName would you like to use?',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        initial: 'root-parent-project' as any,
       })
     ).parentProjectName;
   }
@@ -65,6 +68,8 @@ async function main() {
         type: 'input',
         name: 'parentProjectVersion',
         message: 'What project version would you like to use?',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        initial: '0.0.1-SNAPSHOT' as any,
       })
     ).parentProjectVersion;
   }
@@ -77,6 +82,8 @@ async function main() {
         name: 'mavenRootDirectory',
         message:
           'Where do you want Maven Wrapper (if not skipped), config files and projects to be placed?',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        initial: '' as any,
       })
     ).mavenRootDirectory;
   }
