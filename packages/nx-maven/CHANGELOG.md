@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.22.6](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.22.5...nx-maven-0.22.6) (2023-12-28)
+
+
+### Bug Fixes
+
+* add `windowsHide: true` ([#719](https://github.com/khalilou88/jnxplus/issues/719)) ([b8c616f](https://github.com/khalilou88/jnxplus/commit/b8c616f3ac618a0eac1f286effa72c65b6edb6ce))
+
+
+
 ## [0.22.5](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.22.4...nx-maven-0.22.5) (2023-12-27)
 
 ### Dependency Updates
