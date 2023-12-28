@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.17.15](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.17.14...nx-gradle-0.17.15) (2023-12-28)
+
+
+### Bug Fixes
+
+* add `windowsHide: true` ([#719](https://github.com/khalilou88/jnxplus/issues/719)) ([b8c616f](https://github.com/khalilou88/jnxplus/commit/b8c616f3ac618a0eac1f286effa72c65b6edb6ce))
+
+
+
 ## [0.17.14](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.17.13...nx-gradle-0.17.14) (2023-12-27)
 
 ### Dependency Updates
