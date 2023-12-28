@@ -325,6 +325,7 @@ export function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
       `${getExecutable()} help:evaluate -Dexpression=settings.localRepository -q -DforceStdout`,
       {
         cwd: mavenRootDirAbsolutePath,
+        windowsHide: true,
       },
     )
       .toString()
@@ -421,6 +422,7 @@ export function getEffectiveVersion(
       `${getExecutable()} -f ${pomXmlRelativePath} help:evaluate -Dexpression=project.version -q -DforceStdout`,
       {
         cwd: mavenRootDirAbsolutePath,
+        windowsHide: true,
       },
     )
       .toString()
