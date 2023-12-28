@@ -478,6 +478,7 @@ async function applicationGenerator(
       task: 'spring-boot:run',
       keepItRunning: true,
     };
+    targets['serve'].dependsOn = ['^build'];
   }
 
   if (options.framework === 'quarkus') {
@@ -490,6 +491,7 @@ async function applicationGenerator(
       task: 'quarkus:dev',
       keepItRunning: true,
     };
+    targets['serve'].dependsOn = ['^build'];
 
     targets['integration-test'] = {
       executor: `${plugin}:run-task`,
@@ -512,6 +514,7 @@ async function applicationGenerator(
       task: 'mn:run',
       keepItRunning: true,
     };
+    targets['serve'].dependsOn = ['^build'];
   }
 
   clearEmpties(targets);
