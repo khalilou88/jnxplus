@@ -34,9 +34,19 @@ export const createNodes: CreateNodes = [
       mavenRootDirectory,
     );
 
+    const pomXmlContent = readXml(pomXmlFilePath);
+    const artifactId = getArtifactId(pomXmlContent);
+
     if (existsSync(projectJsonPath)) {
       const projectJson = readJsonFile(projectJsonPath);
       projectName = projectJson.name;
+
+      if (projectName !== artifactId) {
+        throw new Error(
+          `ProjectName ${projectName} and artifactId ${artifactId} should be the same`,
+        );
+      }
+
       targets = projectJson.targets;
       for (const [targetName] of Object.entries(targets ?? {})) {
         if (
@@ -44,8 +54,6 @@ export const createNodes: CreateNodes = [
             (element: string) => element === '{options.outputDirLocalRepo}',
           )
         ) {
-          const pomXmlContent = readXml(pomXmlFilePath);
-          const artifactId = getArtifactId(pomXmlContent);
           const groupId = getGroupId(artifactId, pomXmlContent);
           const projectVersion = getEffectiveVersion(
             artifactId,
@@ -71,8 +79,6 @@ export const createNodes: CreateNodes = [
         }
       }
     } else {
-      const pomXmlContent = readXml(pomXmlFilePath);
-      const artifactId = getArtifactId(pomXmlContent);
       const groupId = getGroupId(artifactId, pomXmlContent);
       const projectVersion = getEffectiveVersion(
         artifactId,
