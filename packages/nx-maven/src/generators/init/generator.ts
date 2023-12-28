@@ -238,7 +238,7 @@ function addOrUpdatePrettierIgnore(tree: Tree) {
   if (tree.exists(prettierIgnorePath)) {
     const prettierIgnoreOldContent =
       tree.read(prettierIgnorePath, 'utf-8') || '';
-    mavenPrettierIgnores.push('\n\n');
+    mavenPrettierIgnores.unshift('\n\n');
 
     const prettierIgnoreContent = prettierIgnoreOldContent.concat(
       mavenPrettierIgnores.join(''),
@@ -263,7 +263,7 @@ function addOrUpdateGitattributes(tree: Tree) {
 
   if (tree.exists(gitattributesPath)) {
     const gitattributesOldContent = tree.read(gitattributesPath, 'utf-8') || '';
-    attributes.push('\n\n');
+    attributes.unshift('\n\n');
 
     const gitattributesContent = gitattributesOldContent.concat(
       attributes.join(''),
