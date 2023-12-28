@@ -444,7 +444,7 @@ async function applicationGenerator(
         options: {
           task: 'exec:java',
         },
-        dependsOn: ['^build'],
+        dependsOn: ['build'],
       },
       test: {
         executor: `${plugin}:run-task`,
