@@ -6,4 +6,4 @@ It's a command to create a new Nx workspace with nx-gradle plugin.
 
 ## How to use it?
 
-Run `npx create-create-nx-gradle-workspace-workspace@latest`
+Run `npx create-nx-gradle-workspace@latest`

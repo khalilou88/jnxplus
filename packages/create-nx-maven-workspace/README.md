@@ -6,4 +6,4 @@ It's a command to create a new Nx workspace with nx-maven plugin.
 
 ## How to use it?
 
-Run `npx create-create-nx-maven-workspace-workspace@latest`
+Run `npx create-nx-maven-workspace@latest`
