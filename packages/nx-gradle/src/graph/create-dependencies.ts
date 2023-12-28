@@ -41,6 +41,7 @@ export const createDependencies: CreateDependencies = (
     stdio: isVerbose ? 'inherit' : 'pipe',
     env: process.env,
     encoding: 'utf-8',
+    windowsHide: true,
   });
 
   const projects: GradleProjectType[] = JSON.parse(
