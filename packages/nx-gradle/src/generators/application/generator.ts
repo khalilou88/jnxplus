@@ -409,7 +409,6 @@ async function applicationGenerator(
         },
       },
       'integration-test': {},
-      ktformat: {},
     },
     tags: normalizedOptions.parsedTags,
   };
@@ -471,12 +470,6 @@ async function applicationGenerator(
     targets['serve'].options = {
       ...targets['serve'].options,
       keepItRunning: true,
-    };
-  }
-
-  if (options.language === 'kotlin') {
-    targets['ktformat'] = {
-      executor: `${plugin}:ktformat`,
     };
   }
 

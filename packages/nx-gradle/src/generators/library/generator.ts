@@ -340,12 +340,6 @@ async function libraryGenerator(
     };
   }
 
-  if (options.language === 'kotlin') {
-    targets['ktformat'] = {
-      executor: `${plugin}:ktformat`,
-    };
-  }
-
   addProjectConfiguration(
     tree,
     normalizedOptions.projectName,
