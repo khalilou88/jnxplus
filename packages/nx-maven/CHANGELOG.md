@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.22.7](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.22.6...nx-maven-0.22.7) (2023-12-29)
+
+
+### Bug Fixes
+
+* use unshift instead of push ([81cc3b5](https://github.com/khalilou88/jnxplus/commit/81cc3b5899a6157809295b56e3f95fb6fa106fe1))
+
+
+
 ## [0.22.6](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.22.5...nx-maven-0.22.6) (2023-12-28)
 
 
