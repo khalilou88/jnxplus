@@ -3,7 +3,7 @@
 #
 # Before building the container image run:
 #
-# nx build <%= projectName %> --args="-Dquarkus.package.type=native"
+# nx build <%= projectName %> --task="build -Dquarkus.package.type=native"
 #
 # Then, build the image with:
 #

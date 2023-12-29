@@ -3,7 +3,7 @@
 #
 # Before building the container image run:
 #
-# nx build <%= projectName %>
+# nx build <%= projectName %> --task="build"
 #
 # Then, build the image with:
 #
