@@ -102,7 +102,7 @@ export async function initGenerator(
   updateGitIgnore(tree, normalizedOptions);
   addPrettierToPackageJson(tree);
   addOrUpdatePrettierRc(tree);
-  addOrUpdatePrettierIgnore(tree);
+  addOrUpdatePrettierIgnore(tree, normalizedOptions);
   addOrUpdateGitattributes(tree);
   if (!options.skipWrapper) {
     tree.changePermissions(
@@ -232,9 +232,20 @@ function addOrUpdatePrettierRc(tree: Tree) {
   }
 }
 
-function addOrUpdatePrettierIgnore(tree: Tree) {
+function addOrUpdatePrettierIgnore(tree: Tree, options: NormalizedSchema) {
   const prettierIgnorePath = '.prettierignore';
   const mavenPrettierIgnores = ['# Maven target', '\ntarget/'];
+
+  if (options.localRepoRelativePath) {
+    if (options.mavenRootDirectory) {
+      mavenPrettierIgnores.push(
+        `\n${options.mavenRootDirectory}/${options.localRepoRelativePath}`,
+      );
+    } else {
+      mavenPrettierIgnores.push(`\n${options.localRepoRelativePath}`);
+    }
+  }
+
   if (tree.exists(prettierIgnorePath)) {
     const prettierIgnoreOldContent =
       tree.read(prettierIgnorePath, 'utf-8') || '';
