@@ -43,7 +43,7 @@
     "@types/jest": "^29.5.11",
     "@types/kill-port": "^2.0.3",
     "@types/memory-cache": "^0.2.5",
-    "@types/node": "20.10.5",
+    "@types/node": "20.10.6",
     "@types/tcp-port-used": "^1.0.4",
     "@types/tmp": "^0.2.6",
     "@types/xmldoc": "^1.1.9",
