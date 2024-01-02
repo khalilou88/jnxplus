@@ -1,19 +1,15 @@
+import { TargetsType } from '@jnxplus/common';
 import { readXml } from '@jnxplus/xml';
-import {
-  CreateNodes,
-  TargetConfiguration,
-  readJsonFile,
-  workspaceRoot,
-} from '@nx/devkit';
+import { CreateNodes, readJsonFile, workspaceRoot } from '@nx/devkit';
 import { existsSync } from 'fs';
 import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
 import {
   getArtifactId,
+  getEffectiveVersion,
   getGroupId,
   getLocalRepositoryPath,
   getMavenRootDirectory,
-  getEffectiveVersion,
 } from '../utils';
 
 export const createNodes: CreateNodes = [
@@ -21,9 +17,7 @@ export const createNodes: CreateNodes = [
   (pomXmlFilePath: string) => {
     let projectName;
     const projectRoot = path.dirname(pomXmlFilePath);
-    let targets: {
-      [targetName: string]: TargetConfiguration;
-    } = {};
+    let targets: TargetsType = {};
 
     const projectAbsolutePath = path.join(workspaceRoot, projectRoot);
     const projectJsonPath = path.join(projectAbsolutePath, 'project.json');
