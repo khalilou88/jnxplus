@@ -16,13 +16,6 @@
 | [`@jnxplus/nx-gradle`](packages/nx-gradle) | Gradle     | Spring-Boot, Quarkus, Micronaut, Kotlin Multiplatform,... |
 | [`@jnxplus/nx-maven`](packages/nx-maven)   | Maven      | Spring-Boot, Quarkus, Micronaut,...                       |
 
-### Linters and Code Formatters
-
-| Plugin                                             | Framework  |
-| -------------------------------------------------- | ---------- |
-| [`@jnxplus/nx-checkstyle`](packages/nx-checkstyle) | checkstyle |
-| [`@jnxplus/nx-ktlint`](packages/nx-ktlint)         | ktlint     |
-
 ### Credits
 
 This plugins wouldn't be possible without the great teams behind these projects:
