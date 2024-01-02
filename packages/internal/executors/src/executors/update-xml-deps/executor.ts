@@ -17,12 +17,10 @@ export default async function runExecutor(
 
   //update package.json files
   updateFile(options.version, 'packages/nx-maven');
-  updateFile(options.version, 'packages/nx-checkstyle');
-  updateFile(options.version, 'packages/nx-ktlint');
 
   const commitMessage = `release: write @jnxplus/xml version ${options.version} in dependencies section`;
 
-  const commit = `git commit --no-verify -m "${commitMessage}" packages/nx-maven/package.json packages/nx-checkstyle/package.json packages/nx-ktlint/package.json`;
+  const commit = `git commit --no-verify -m "${commitMessage}" packages/nx-maven/package.json`;
   execSync(commit, {
     cwd: workspaceRoot,
     stdio: 'inherit',

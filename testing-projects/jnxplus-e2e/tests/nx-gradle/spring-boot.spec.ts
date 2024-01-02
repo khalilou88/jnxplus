@@ -41,23 +41,9 @@ describe('nx-gradle spring-boot e2e', () => {
       env: process.env,
     });
 
-    execSync(`npm install -D @jnxplus/nx-checkstyle@e2e`, {
-      cwd: workspaceDirectory,
-      stdio: 'inherit',
-      env: process.env,
-    });
-
-    execSync(`npm install -D @jnxplus/nx-ktlint@e2e`, {
-      cwd: workspaceDirectory,
-      stdio: 'inherit',
-      env: process.env,
-    });
-
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --preset spring-boot`,
     );
-
-    await runNxCommandAsync('generate @jnxplus/nx-checkstyle:init');
   }, 120000);
 
   afterAll(async () => {
@@ -264,19 +250,19 @@ describe('nx-gradle spring-boot e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    projectJson.targets = {
-      ...projectJson.targets,
-      lint: {
-        executor: '@jnxplus/nx-checkstyle:lint',
-      },
-    };
-    updateFile(
-      `${appDir}/${randomName}/project.json`,
-      JSON.stringify(projectJson),
-    );
+    // projectJson.targets = {
+    //   ...projectJson.targets,
+    //   lint: {
+    //     executor: '@jnxplus/nx-checkstyle:lint',
+    //   },
+    // };
+    // updateFile(
+    //   `${appDir}/${randomName}/project.json`,
+    //   JSON.stringify(projectJson),
+    // );
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -452,23 +438,23 @@ describe('nx-gradle spring-boot e2e', () => {
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/build`)).not.toThrow();
 
-    const projectJson = readJson(`${appName}/project.json`);
-    projectJson.targets = {
-      ...projectJson.targets,
-      ktformat: {
-        executor: '@jnxplus/nx-ktlint:ktformat',
-      },
-      lint: {
-        executor: '@jnxplus/nx-ktlint:lint',
-      },
-    };
-    updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
+    // const projectJson = readJson(`${appName}/project.json`);
+    // projectJson.targets = {
+    //   ...projectJson.targets,
+    //   ktformat: {
+    //     executor: '@jnxplus/nx-ktlint:ktformat',
+    //   },
+    //   lint: {
+    //     executor: '@jnxplus/nx-ktlint:lint',
+    //   },
+    // };
+    // updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
 
-    const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
-    expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
+    // const formatResult = await runNxCommandAsync(`ktformat ${appName}`);
+    // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
 
-    const lintResult = await runNxCommandAsync(`lint ${appName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -751,23 +737,23 @@ describe('nx-gradle spring-boot e2e', () => {
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/build`)).not.toThrow();
 
-    const projectJson = readJson(`${libName}/project.json`);
-    projectJson.targets = {
-      ...projectJson.targets,
-      ktformat: {
-        executor: '@jnxplus/nx-ktlint:ktformat',
-      },
-      lint: {
-        executor: '@jnxplus/nx-ktlint:lint',
-      },
-    };
-    updateFile(`${libName}/project.json`, JSON.stringify(projectJson));
+    // const projectJson = readJson(`${libName}/project.json`);
+    // projectJson.targets = {
+    //   ...projectJson.targets,
+    //   ktformat: {
+    //     executor: '@jnxplus/nx-ktlint:ktformat',
+    //   },
+    //   lint: {
+    //     executor: '@jnxplus/nx-ktlint:lint',
+    //   },
+    // };
+    // updateFile(`${libName}/project.json`, JSON.stringify(projectJson));
 
-    const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
-    expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
+    // const formatResult = await runNxCommandAsync(`ktformat ${libName}`);
+    // expect(formatResult.stdout).toContain('Executor ran for Kotlin Format');
 
-    const lintResult = await runNxCommandAsync(`lint ${libName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(
@@ -828,19 +814,19 @@ describe('nx-gradle spring-boot e2e', () => {
     );
     expect(formatResult.stdout).toContain('');
 
-    projectJson.targets = {
-      ...projectJson.targets,
-      lint: {
-        executor: '@jnxplus/nx-checkstyle:lint',
-      },
-    };
-    updateFile(
-      `${libDir}/${randomName}/project.json`,
-      JSON.stringify(projectJson),
-    );
+    // projectJson.targets = {
+    //   ...projectJson.targets,
+    //   lint: {
+    //     executor: '@jnxplus/nx-checkstyle:lint',
+    //   },
+    // };
+    // updateFile(
+    //   `${libDir}/${randomName}/project.json`,
+    //   JSON.stringify(projectJson),
+    // );
 
-    const lintResult = await runNxCommandAsync(`lint ${libName}`);
-    expect(lintResult.stdout).toContain('Executor ran for Lint');
+    // const lintResult = await runNxCommandAsync(`lint ${libName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
 
     //graph
     const depGraphResult = await runNxCommandAsync(

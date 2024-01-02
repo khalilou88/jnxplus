@@ -20,9 +20,7 @@
         "packages/internal/executors/src/index.ts"
       ],
       "@jnxplus/internal/testing": ["packages/internal/testing/src/index.ts"],
-      "@jnxplus/nx-checkstyle": ["packages/nx-checkstyle/src/index.ts"],
       "@jnxplus/nx-gradle": ["packages/nx-gradle/src/index.ts"],
-      "@jnxplus/nx-ktlint": ["packages/nx-ktlint/src/index.ts"],
       "@jnxplus/nx-maven": ["packages/nx-maven/src/index.ts"],
       "@jnxplus/xml": ["packages/xml/src/index.ts"]
     }
