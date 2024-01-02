@@ -25,7 +25,7 @@
     },
     "outputDirLocalRepo": {
       "type": "string",
-      "description": "Where to store the project artifact in maven local repository for build target (dynamically calculated)"
+      "description": "The artifacts created during the `install phase` will be placed in this sub-directory of the Maven local repository (dynamically calculated)"
     }
   },
   "required": ["task"]
