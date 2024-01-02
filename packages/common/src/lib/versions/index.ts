@@ -25,10 +25,6 @@ export const prettierVersion = '^3.1.1';
 export const prettierPluginXmlVersion = '^3.2.2';
 export const prettierPluginJavaVersion = '^2.3.1';
 
-//Linters
-export const checkstyleVersion = '10.12.4';
-export const ktlintVersion = '1.0.1';
-
 //Maven plugins
 export const mavenCompilerPluginVersion = '3.11.0';
 export const mavenEnforcerPluginVersion = '3.4.1';
