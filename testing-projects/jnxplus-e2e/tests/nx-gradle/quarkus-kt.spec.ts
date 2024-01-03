@@ -6,7 +6,7 @@ import {
   getData,
   killProcessAndPorts,
   runNxCommandUntil,
-} from '@jnxplus/internal/testing';
+} from '@jnxplus/internal-testing';
 import { names } from '@nx/devkit';
 import {
   checkFilesExist,

@@ -1,4 +1,4 @@
-import { createTestWorkspace } from '@jnxplus/internal/testing';
+import { createTestWorkspace } from '@jnxplus/internal-testing';
 import {
   checkFilesExist,
   readJson,
