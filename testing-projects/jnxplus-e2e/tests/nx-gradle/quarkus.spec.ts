@@ -4,8 +4,7 @@ import {
   checkFilesDoNotExist,
   createTestWorkspace,
   getData,
-  killPorts,
-  promisifiedTreeKill,
+  killProcessAndPorts,
   runNxCommandUntil,
 } from '@jnxplus/internal/testing';
 import { names } from '@nx/devkit';
@@ -177,12 +176,7 @@ describe('nx-gradle quarkus e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 240000);
 
   it('should build-image a java application', async () => {
@@ -272,12 +266,7 @@ describe('nx-gradle quarkus e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 240000);
 
   it('should generate an app with a simple package name', async () => {
@@ -345,12 +334,7 @@ describe('nx-gradle quarkus e2e', () => {
     );
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 120000);
 
   it('should create a kotlin application', async () => {
@@ -430,12 +414,7 @@ describe('nx-gradle quarkus e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 240000);
 
   it('should build-image a kotlin application', async () => {
@@ -525,12 +504,7 @@ describe('nx-gradle quarkus e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 120000);
 
   it('directory with dash', async () => {
@@ -565,12 +539,7 @@ describe('nx-gradle quarkus e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 120000);
 
   it('should create a library', async () => {
@@ -1106,12 +1075,7 @@ describe('nx-gradle quarkus e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 240000);
 
   it('should create a library with simple name', async () => {

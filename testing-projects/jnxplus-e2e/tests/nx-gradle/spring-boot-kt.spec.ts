@@ -1,3 +1,11 @@
+import { normalizeName } from '@jnxplus/common';
+import {
+  checkFilesDoNotExist,
+  createTestWorkspace,
+  getData,
+  killProcessAndPorts,
+  runNxCommandUntil,
+} from '@jnxplus/internal/testing';
 import { names } from '@nx/devkit';
 import {
   checkFilesExist,
@@ -8,20 +16,10 @@ import {
   uniq,
   updateFile,
 } from '@nx/plugin/testing';
-import * as fse from 'fs-extra';
-import * as path from 'path';
-
-import { normalizeName } from '@jnxplus/common';
-import {
-  checkFilesDoNotExist,
-  createTestWorkspace,
-  getData,
-  killPorts,
-  promisifiedTreeKill,
-  runNxCommandUntil,
-} from '@jnxplus/internal/testing';
 import { execSync } from 'child_process';
 import { rmSync } from 'fs';
+import * as fse from 'fs-extra';
+import * as path from 'path';
 
 describe('nx-gradle spring-boot kotlin dsl e2e', () => {
   let workspaceDirectory: string;
@@ -172,12 +170,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, 8080);
   }, 240000);
 
   it('should build-image a java application', async () => {
@@ -277,12 +270,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 120000);
 
   it('should generate an app with a simple package name', async () => {
@@ -369,12 +357,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 120000);
 
   it('should create a kotlin application', async () => {
@@ -457,12 +440,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 120000);
 
   it('should build-image a kotlin application', async () => {
@@ -562,12 +540,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 120000);
 
   it('directory with dash', async () => {
@@ -602,12 +575,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 120000);
 
   it('should create a library', async () => {
@@ -1165,12 +1133,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 120000);
 
   it('should create a library with a simple name', async () => {
@@ -1279,12 +1242,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     );
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 120000);
 
   it('should create a minimal kotlin application', async () => {
@@ -1333,12 +1291,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     );
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 120000);
 
   it('should skip starter code when generating a java library with skipStarterCode option', async () => {
