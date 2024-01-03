@@ -796,7 +796,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     expect(dataResult.message).toMatch('Hello World');
 
     // port and process cleanup
-    await killProcessAndPorts(process.pid, port);
+    await killProcessAndPorts(process.pid, 8080);
   }, 240000);
 
   it('should create a micronaut library', async () => {
