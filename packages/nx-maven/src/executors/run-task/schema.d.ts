@@ -1,5 +1,5 @@
 export interface RunTaskExecutorSchema {
   task: string | string[];
-  keepItRunning: boolean;
+  keepItRunning?: boolean;
   outputDirLocalRepo?: string;
 }
