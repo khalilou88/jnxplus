@@ -3,8 +3,7 @@ import {
   checkFilesDoNotExist,
   createTestWorkspace,
   getData,
-  killPorts,
-  promisifiedTreeKill,
+  killProcessAndPorts,
   runNxCommandUntil,
 } from '@jnxplus/internal/testing';
 import { names } from '@nx/devkit';
@@ -376,12 +375,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, 8080);
   }, 240000);
 
   it('should use specified options to create a quarkus application', async () => {
@@ -432,12 +426,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
@@ -807,12 +796,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     expect(dataResult.message).toMatch('Hello World');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 240000);
 
   it('should create a micronaut library', async () => {
@@ -955,11 +939,6 @@ describe('nx-maven maven-root-directory e2e', () => {
     expect(dataResult.message).toMatch('Hello World');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, 8080);
   }, 240000);
 });

@@ -2,8 +2,7 @@ import { normalizeName } from '@jnxplus/common';
 import {
   createTestWorkspace,
   getData,
-  killPorts,
-  promisifiedTreeKill,
+  killProcessAndPorts,
   runNxCommandUntil,
 } from '@jnxplus/internal/testing';
 import { names } from '@nx/devkit';
@@ -195,12 +194,7 @@ describe('nx-maven spring-boot bom e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, 8080);
   }, 240000);
 
   it('spring-boot: should add a lib to an app dependencies', async () => {
@@ -444,11 +438,6 @@ describe('nx-maven spring-boot bom e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 240000);
 });

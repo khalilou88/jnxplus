@@ -3,8 +3,7 @@ import {
   checkFilesDoNotExist,
   createTestWorkspace,
   getData,
-  killPorts,
-  promisifiedTreeKill,
+  killProcessAndPorts,
   runNxCommandUntil,
 } from '@jnxplus/internal/testing';
 import { names } from '@nx/devkit';
@@ -176,12 +175,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(8080);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, 8080);
   }, 240000);
 
   it('should build-image a java application', async () => {
@@ -277,12 +271,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 240000);
 
   it('should create a kotlin application', async () => {
@@ -327,12 +316,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
@@ -434,12 +418,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
@@ -550,12 +529,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 240000);
 
   it('directory with dash', async () => {
@@ -590,12 +564,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 240000);
 
   it('should create a library', async () => {
@@ -975,12 +944,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
@@ -1625,12 +1589,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 240000);
 
   it('should create a library with a simple name', async () => {
@@ -1736,12 +1695,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     );
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 240000);
 
   it('should create a minimal kotlin application', async () => {
@@ -1790,12 +1744,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     );
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 240000);
 
   it('should skip starter code when generating a java library with skipStarterCode option', async () => {
@@ -1885,12 +1834,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     expect(dataResult.message).toMatch('Hello World!');
 
     // port and process cleanup
-    try {
-      await promisifiedTreeKill(process.pid, 'SIGKILL');
-      await killPorts(port);
-    } catch (err) {
-      // ignore err
-    }
+    await killProcessAndPorts(process.pid, port);
   }, 240000);
 
   it('should generate java nested sub-projects', async () => {

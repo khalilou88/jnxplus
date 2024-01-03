@@ -129,7 +129,7 @@ export function runNxCommandUntil(
 
 const KILL_PORT_DELAY = 5000;
 
-export async function killPort(port: number): Promise<boolean> {
+async function killPort(port: number): Promise<boolean> {
   if (await portCheck(port)) {
     try {
       logInfo(`Attempting to close port ${port}`);
@@ -184,16 +184,24 @@ export function logError(title: string, body?: string) {
   return e2eConsoleLogger(message, body);
 }
 
-export async function killPorts(port?: number): Promise<boolean> {
-  return port
-    ? await killPort(port)
-    : (await killPort(3333)) && (await killPort(4200));
-}
+const promisifiedTreeKill: (pid: number, signal: string) => Promise<void> =
+  promisify(treeKill);
 
-export const promisifiedTreeKill: (
-  pid: number,
-  signal: string,
-) => Promise<void> = promisify(treeKill);
+export async function killProcessAndPorts(
+  pid: number | undefined,
+  ...ports: number[]
+): Promise<void> {
+  try {
+    if (pid) {
+      await promisifiedTreeKill(pid, 'SIGKILL');
+    }
+    for (const port of ports) {
+      await killPort(port);
+    }
+  } catch (err) {
+    // ignore err
+  }
+}
 
 export function checkFilesDoNotExist(...expectedFiles: string[]) {
   expectedFiles.forEach((f) => {
