@@ -1,6 +1,5 @@
 import {
   DSLType,
-  GradlePluginType,
   generatePackageDirectory,
   generatePackageName,
   generateParsedProjects,
@@ -33,7 +32,7 @@ export default async function (
   tree: Tree,
   options: NxGradleLibGeneratorSchema,
 ) {
-  await libraryGenerator(__dirname, '@jnxplus/nx-gradle', tree, options);
+  await libraryGenerator(tree, options);
 }
 
 interface NormalizedSchema extends NxGradleLibGeneratorSchema {
@@ -103,25 +102,25 @@ function normalizeOptions(
   };
 }
 
-function addFiles(d: string, tree: Tree, options: NormalizedSchema) {
+function addFiles(tree: Tree, options: NormalizedSchema) {
   if (options.framework === 'spring-boot') {
-    addBootFiles(d, tree, options);
+    addBootFiles(tree, options);
   }
 
   if (options.framework === 'quarkus') {
-    addQuarkusFiles(d, tree, options);
+    addQuarkusFiles(tree, options);
   }
 
   if (options.framework === 'micronaut') {
-    addMicronautFiles(d, tree, options);
+    addMicronautFiles(tree, options);
   }
 
   if (options.framework === 'none') {
-    addNoneFiles(d, tree, options);
+    addNoneFiles(tree, options);
   }
 }
 
-function addNoneFiles(d: string, tree: Tree, options: NormalizedSchema) {
+function addNoneFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -130,7 +129,7 @@ function addNoneFiles(d: string, tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    join(d, 'files', 'none', options.language),
+    join(__dirname, 'files', 'none', options.language),
     options.projectRoot,
     templateOptions,
   );
@@ -153,7 +152,7 @@ function addNoneFiles(d: string, tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
+function addBootFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -162,7 +161,7 @@ function addBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    join(d, 'files', 'boot', options.language),
+    join(__dirname, 'files', 'boot', options.language),
     options.projectRoot,
     templateOptions,
   );
@@ -201,7 +200,7 @@ function addBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addQuarkusFiles(d: string, tree: Tree, options: NormalizedSchema) {
+function addQuarkusFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -210,7 +209,7 @@ function addQuarkusFiles(d: string, tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    join(d, 'files', 'quarkus', options.language),
+    join(__dirname, 'files', 'quarkus', options.language),
     options.projectRoot,
     templateOptions,
   );
@@ -247,7 +246,7 @@ function addQuarkusFiles(d: string, tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
+function addMicronautFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -256,7 +255,7 @@ function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    join(d, 'files', 'micronaut', options.language),
+    join(__dirname, 'files', 'micronaut', options.language),
     options.projectRoot,
     templateOptions,
   );
@@ -294,8 +293,6 @@ function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
 }
 
 async function libraryGenerator(
-  d: string,
-  plugin: GradlePluginType,
   tree: Tree,
   options: NxGradleLibGeneratorSchema,
 ) {
@@ -307,14 +304,14 @@ async function libraryGenerator(
     sourceRoot: `./${normalizedOptions.projectRoot}/src`,
     targets: {
       build: {
-        executor: `${plugin}:run-task`,
+        executor: '@jnxplus/nx-gradle:run-task',
         options: {
           task: 'build',
         },
         outputs: [`{projectRoot}/build`],
       },
       test: {
-        executor: `${plugin}:run-task`,
+        executor: '@jnxplus/nx-gradle:run-task',
         options: {
           task: 'test',
         },
@@ -337,7 +334,7 @@ async function libraryGenerator(
     normalizedOptions.projectName,
     projectConfiguration,
   );
-  addFiles(d, tree, normalizedOptions);
+  addFiles(tree, normalizedOptions);
   addProjectToGradleSetting(tree, normalizedOptions);
   addLibraryToProjects(tree, normalizedOptions);
   await formatFiles(tree);
