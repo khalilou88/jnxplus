@@ -1,8 +1,16 @@
 import {
   clearEmpties,
   DSLType,
+  generateAppClassName,
+  generatePackageDirectory,
+  generatePackageName,
+  generateParsedTags,
+  generateProjectDirectory,
+  generateProjectName,
+  generateProjectRoot,
+  generateSimpleProjectName,
   GradlePluginType,
-  normalizeName,
+  isCustomPortFunction,
   quarkusVersion,
 } from '@jnxplus/common';
 import {
@@ -49,60 +57,44 @@ interface NormalizedSchema extends NxGradleAppGeneratorSchema {
 }
 
 function normalizeOptions(
-  plugin: GradlePluginType,
   tree: Tree,
   options: NxGradleAppGeneratorSchema,
 ): NormalizedSchema {
-  const simpleProjectName = names(normalizeName(options.name)).fileName;
+  const simpleProjectName = generateSimpleProjectName({
+    name: options.name,
+  });
 
-  let projectName: string;
-  if (options.simpleName) {
-    projectName = simpleProjectName;
-  } else {
-    projectName = options.directory
-      ? `${normalizeName(
-          names(options.directory).fileName,
-        )}-${simpleProjectName}`
-      : simpleProjectName;
-  }
+  const projectName = generateProjectName(simpleProjectName, {
+    name: options.name,
+    simpleName: options.simpleName,
+    directory: options.directory,
+  });
 
-  const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${simpleProjectName}`
-    : simpleProjectName;
+  const projectDirectory = generateProjectDirectory(simpleProjectName, {
+    directory: options.directory,
+  });
 
   const gradleRootDirectory = getGradleRootDirectory();
-  const projectRoot = joinPathFragments(gradleRootDirectory, projectDirectory);
+  const projectRoot = generateProjectRoot(
+    gradleRootDirectory,
+    projectDirectory,
+  );
 
-  const parsedTags = options.tags
-    ? options.tags.split(',').map((s) => s.trim())
-    : [];
+  const parsedTags = generateParsedTags({ tags: options.tags });
 
-  let appClassName = '';
-  if (options.framework === 'micronaut') {
-    appClassName = names(projectName).className;
-  } else {
-    appClassName = `${names(projectName).className}Application`;
-  }
+  const appClassName = generateAppClassName(projectName, {
+    framework: options.framework,
+  });
 
-  let packageName: string;
-  if (options.simplePackageName) {
-    packageName = `${options.groupId}.${names(
-      simpleProjectName,
-    ).className.toLocaleLowerCase()}`.replace(new RegExp(/-/, 'g'), '');
-  } else {
-    packageName = `${options.groupId}.${
-      options.directory
-        ? `${names(options.directory).fileName.replace(
-            new RegExp(/\//, 'g'),
-            '.',
-          )}.${names(simpleProjectName).className.toLocaleLowerCase()}`
-        : names(simpleProjectName).className.toLocaleLowerCase()
-    }`.replace(new RegExp(/-/, 'g'), '');
-  }
+  const packageName = generatePackageName(simpleProjectName, {
+    simplePackageName: options.simplePackageName,
+    groupId: options.groupId,
+    directory: options.directory,
+  });
 
-  const packageDirectory = packageName.replace(new RegExp(/\./, 'g'), '/');
+  const packageDirectory = generatePackageDirectory(packageName);
 
-  const isCustomPort = !!options.port && +options.port !== 8080;
+  const isCustomPort = isCustomPortFunction({ port: options.port });
 
   const dsl = getDsl(tree, gradleRootDirectory);
   const kotlinExtension = dsl === 'kotlin' ? '.kts' : '';
@@ -381,7 +373,7 @@ async function applicationGenerator(
   tree: Tree,
   options: NxGradleAppGeneratorSchema,
 ) {
-  const normalizedOptions = normalizeOptions(plugin, tree, options);
+  const normalizedOptions = normalizeOptions(tree, options);
 
   const projectConfiguration: ProjectConfiguration = {
     root: normalizedOptions.projectRoot,

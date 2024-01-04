@@ -1,8 +1,16 @@
 import {
   MavenPluginType,
   clearEmpties,
+  generateAppClassName,
+  generatePackageDirectory,
+  generatePackageName,
+  generateParsedTags,
+  generateProjectDirectory,
+  generateProjectName,
+  generateProjectRoot,
+  generateSimpleProjectName,
+  isCustomPortFunction,
   micronautVersion,
-  normalizeName,
   quarkusVersion,
   springBootVersion,
 } from '@jnxplus/common';
@@ -64,56 +72,36 @@ function normalizeOptions(
   tree: Tree,
   options: NxMavenAppGeneratorSchema,
 ): NormalizedSchema {
-  const simpleProjectName = names(normalizeName(options.name)).fileName;
+  const simpleProjectName = generateSimpleProjectName({
+    name: options.name,
+  });
 
-  let projectName: string;
-  if (options.simpleName) {
-    projectName = simpleProjectName;
-  } else {
-    projectName = options.directory
-      ? `${normalizeName(
-          names(options.directory).fileName,
-        )}-${simpleProjectName}`
-      : simpleProjectName;
-  }
+  const projectName = generateProjectName(simpleProjectName, {
+    name: options.name,
+    simpleName: options.simpleName,
+    directory: options.directory,
+  });
 
-  const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${simpleProjectName}`
-    : simpleProjectName;
+  const projectDirectory = generateProjectDirectory(simpleProjectName, {
+    directory: options.directory,
+  });
 
   const mavenRootDirectory = getMavenRootDirectory();
-  const projectRoot = joinPathFragments(
-    mavenRootDirectory,
-    `${projectDirectory}`,
-  );
-  const parsedTags = options.tags
-    ? options.tags.split(',').map((s) => s.trim())
-    : [];
+  const projectRoot = generateProjectRoot(mavenRootDirectory, projectDirectory);
 
-  let appClassName = '';
-  if (options.framework === 'micronaut') {
-    appClassName = names(projectName).className;
-  } else {
-    appClassName = `${names(projectName).className}Application`;
-  }
+  const parsedTags = generateParsedTags({ tags: options.tags });
 
-  let packageName: string;
-  if (options.simplePackageName) {
-    packageName = `${options.groupId}.${names(
-      simpleProjectName,
-    ).className.toLocaleLowerCase()}`.replace(new RegExp(/-/, 'g'), '');
-  } else {
-    packageName = `${options.groupId}.${
-      options.directory
-        ? `${names(options.directory).fileName.replace(
-            new RegExp(/\//, 'g'),
-            '.',
-          )}.${names(simpleProjectName).className.toLocaleLowerCase()}`
-        : names(simpleProjectName).className.toLocaleLowerCase()
-    }`.replace(new RegExp(/-/, 'g'), '');
-  }
+  const appClassName = generateAppClassName(projectName, {
+    framework: options.framework,
+  });
 
-  const packageDirectory = packageName.replace(new RegExp(/\./, 'g'), '/');
+  const packageName = generatePackageName(simpleProjectName, {
+    simplePackageName: options.simplePackageName,
+    groupId: options.groupId,
+    directory: options.directory,
+  });
+
+  const packageDirectory = generatePackageDirectory(packageName);
 
   const rootPomXmlContent = readXmlTree(
     tree,
@@ -141,7 +129,7 @@ function normalizeOptions(
   const parentGroupId = getGroupId(parentProjectName, pomXmlContent);
   const parentProjectVersion = getVersion(parentProjectName, pomXmlContent);
 
-  const isCustomPort = !!options.port && +options.port !== 8080;
+  const isCustomPort = isCustomPortFunction({ port: options.port });
 
   let quarkusVersion = '';
   if (options.framework === 'quarkus') {

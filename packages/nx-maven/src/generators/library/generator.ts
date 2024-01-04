@@ -1,7 +1,14 @@
 import {
   MavenPluginType,
+  generatePackageDirectory,
+  generatePackageName,
+  generateParsedProjects,
+  generateParsedTags,
+  generateProjectDirectory,
+  generateProjectName,
+  generateProjectRoot,
+  generateSimpleProjectName,
   micronautVersion,
-  normalizeName,
   quarkusVersion,
   springBootVersion,
 } from '@jnxplus/common';
@@ -58,50 +65,34 @@ function normalizeOptions(
   tree: Tree,
   options: NxMavenLibGeneratorSchema,
 ): NormalizedSchema {
-  const simpleProjectName = names(normalizeName(options.name)).fileName;
+  const simpleProjectName = generateSimpleProjectName({
+    name: options.name,
+  });
 
-  let projectName: string;
-  if (options.simpleName) {
-    projectName = simpleProjectName;
-  } else {
-    projectName = options.directory
-      ? `${normalizeName(
-          names(options.directory).fileName,
-        )}-${simpleProjectName}`
-      : simpleProjectName;
-  }
+  const projectName = generateProjectName(simpleProjectName, {
+    name: options.name,
+    simpleName: options.simpleName,
+    directory: options.directory,
+  });
 
-  const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${simpleProjectName}`
-    : simpleProjectName;
+  const projectDirectory = generateProjectDirectory(simpleProjectName, {
+    directory: options.directory,
+  });
 
   const mavenRootDirectory = getMavenRootDirectory();
-  const projectRoot = joinPathFragments(mavenRootDirectory, projectDirectory);
-  const parsedTags = options.tags
-    ? options.tags.split(',').map((s) => s.trim())
-    : [];
+  const projectRoot = generateProjectRoot(mavenRootDirectory, projectDirectory);
 
-  let packageName: string;
-  if (options.simplePackageName) {
-    packageName = `${options.groupId}.${names(
-      simpleProjectName,
-    ).className.toLocaleLowerCase()}`.replace(new RegExp(/-/, 'g'), '');
-  } else {
-    packageName = `${options.groupId}.${
-      options.directory
-        ? `${names(options.directory).fileName.replace(
-            new RegExp(/\//, 'g'),
-            '.',
-          )}.${names(simpleProjectName).className.toLocaleLowerCase()}`
-        : names(simpleProjectName).className.toLocaleLowerCase()
-    }`.replace(new RegExp(/-/, 'g'), '');
-  }
+  const parsedTags = generateParsedTags({ tags: options.tags });
 
-  const packageDirectory = packageName.replace(new RegExp(/\./, 'g'), '/');
+  const packageName = generatePackageName(simpleProjectName, {
+    simplePackageName: options.simplePackageName,
+    groupId: options.groupId,
+    directory: options.directory,
+  });
 
-  const parsedProjects = options.projects
-    ? options.projects.split(',').map((s) => s.trim())
-    : [];
+  const packageDirectory = generatePackageDirectory(packageName);
+
+  const parsedProjects = generateParsedProjects({ projects: options.projects });
 
   const rootPomXmlContent = readXmlTree(
     tree,
