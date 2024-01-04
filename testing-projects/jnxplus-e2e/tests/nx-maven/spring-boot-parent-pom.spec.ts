@@ -27,7 +27,8 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
-  const parentProjectName = uniq('boot-parent-project-');
+
+  const parentProjectName = uniq('parent-project-');
 
   beforeAll(async () => {
     workspaceDirectory = createTestWorkspace();

@@ -27,7 +27,8 @@ describe('nx-gradle micronaut e2e', () => {
     process.env.CI === 'true' || process.env.GITHUB_ACTIONS === 'true';
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
-  const rootProjectName = uniq('micronaut-root-project-');
+
+  const rootProjectName = uniq('root-project-');
 
   beforeAll(async () => {
     workspaceDirectory = createTestWorkspace();

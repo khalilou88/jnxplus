@@ -23,7 +23,7 @@ import * as path from 'path';
 describe('nx-maven spring-boot bom e2e', () => {
   let workspaceDirectory: string;
 
-  const parentProjectName = uniq('boot-parent-project-');
+  const parentProjectName = uniq('parent-project-');
   const libsParentProject = uniq('libs-parent-project-');
   const appsParentProject = uniq('apps-parent-project-');
 

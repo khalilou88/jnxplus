@@ -14,7 +14,7 @@ import { rmSync } from 'fs';
 describe('nx-gradle all kotlin dsl e2e', () => {
   let workspaceDirectory: string;
 
-  const rootProjectName = uniq('boot-root-project-');
+  const rootProjectName = uniq('root-project-');
 
   beforeAll(async () => {
     workspaceDirectory = createTestWorkspace();

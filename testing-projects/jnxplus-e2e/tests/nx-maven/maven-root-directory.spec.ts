@@ -24,7 +24,7 @@ import * as path from 'path';
 describe('nx-maven maven-root-directory e2e', () => {
   let workspaceDirectory: string;
 
-  const parentProjectName = uniq('boot-parent-project-');
+  const parentProjectName = uniq('parent-project-');
 
   beforeAll(async () => {
     workspaceDirectory = createTestWorkspace();
