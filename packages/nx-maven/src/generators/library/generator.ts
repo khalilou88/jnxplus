@@ -1,5 +1,4 @@
 import {
-  MavenPluginType,
   generatePackageDirectory,
   generatePackageName,
   generateParsedProjects,
@@ -37,7 +36,7 @@ import {
 import { NxMavenLibGeneratorSchema } from './schema';
 
 export default async function (tree: Tree, options: NxMavenLibGeneratorSchema) {
-  await libraryGenerator(__dirname, '@jnxplus/nx-maven', tree, options);
+  await libraryGenerator(tree, options);
 }
 
 interface NormalizedSchema extends NxMavenLibGeneratorSchema {
@@ -56,12 +55,10 @@ interface NormalizedSchema extends NxMavenLibGeneratorSchema {
   springBootVersion: string;
   quarkusVersion: string;
   micronautVersion: string;
-  plugin: MavenPluginType;
   mavenRootDirectory: string;
 }
 
 function normalizeOptions(
-  plugin: MavenPluginType,
   tree: Tree,
   options: NxMavenLibGeneratorSchema,
 ): NormalizedSchema {
@@ -136,12 +133,11 @@ function normalizeOptions(
     springBootVersion,
     quarkusVersion,
     micronautVersion,
-    plugin,
     mavenRootDirectory,
   };
 }
 
-function addBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
+function addBootFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -150,7 +146,7 @@ function addBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(d, 'files', 'boot', options.language),
+    path.join(__dirname, 'files', 'boot', options.language),
     options.projectRoot,
     templateOptions,
   );
@@ -189,7 +185,7 @@ function addBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addQuarkusFiles(d: string, tree: Tree, options: NormalizedSchema) {
+function addQuarkusFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -198,7 +194,7 @@ function addQuarkusFiles(d: string, tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(d, 'files', 'quarkus', options.language),
+    path.join(__dirname, 'files', 'quarkus', options.language),
     options.projectRoot,
     templateOptions,
   );
@@ -235,7 +231,7 @@ function addQuarkusFiles(d: string, tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
+function addMicronautFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -244,7 +240,7 @@ function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(d, 'files', 'micronaut', options.language),
+    path.join(__dirname, 'files', 'micronaut', options.language),
     options.projectRoot,
     templateOptions,
   );
@@ -281,7 +277,7 @@ function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addNoneFiles(d: string, tree: Tree, options: NormalizedSchema) {
+function addNoneFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -290,7 +286,7 @@ function addNoneFiles(d: string, tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(d, 'files', 'none', options.language),
+    path.join(__dirname, 'files', 'none', options.language),
     options.projectRoot,
     templateOptions,
   );
@@ -313,36 +309,29 @@ function addNoneFiles(d: string, tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addFiles(
-  d: string,
-  plugin: MavenPluginType,
-  tree: Tree,
-  options: NormalizedSchema,
-) {
+function addFiles(tree: Tree, options: NormalizedSchema) {
   if (options.framework === 'spring-boot') {
-    addBootFiles(d, tree, options);
+    addBootFiles(tree, options);
   }
 
   if (options.framework === 'quarkus') {
-    addQuarkusFiles(d, tree, options);
+    addQuarkusFiles(tree, options);
   }
 
   if (options.framework === 'micronaut') {
-    addMicronautFiles(d, tree, options);
+    addMicronautFiles(tree, options);
   }
 
   if (options.framework === 'none') {
-    addNoneFiles(d, tree, options);
+    addNoneFiles(tree, options);
   }
 }
 
 async function libraryGenerator(
-  d: string,
-  plugin: MavenPluginType,
   tree: Tree,
   options: NxMavenLibGeneratorSchema,
 ) {
-  const normalizedOptions = normalizeOptions(plugin, tree, options);
+  const normalizedOptions = normalizeOptions(tree, options);
 
   addMissedProperties(tree, {
     framework: options.framework,
@@ -358,14 +347,14 @@ async function libraryGenerator(
     sourceRoot: `./${normalizedOptions.projectRoot}/src`,
     targets: {
       build: {
-        executor: `${plugin}:run-task`,
+        executor: '@jnxplus/nx-maven:run-task',
         outputs: ['{projectRoot}/target', '{options.outputDirLocalRepo}'],
         options: {
           task: 'install -DskipTests=true',
         },
       },
       test: {
-        executor: `${plugin}:run-task`,
+        executor: '@jnxplus/nx-maven:run-task',
         options: {
           task: 'test',
         },
@@ -380,7 +369,7 @@ async function libraryGenerator(
     projectConfiguration,
   );
 
-  addFiles(d, plugin, tree, normalizedOptions);
+  addFiles(tree, normalizedOptions);
   addProjectToAggregator(tree, {
     projectRoot: normalizedOptions.projectRoot,
     aggregatorProject: normalizedOptions.aggregatorProject,

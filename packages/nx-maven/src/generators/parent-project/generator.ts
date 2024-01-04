@@ -1,5 +1,4 @@
 import {
-  MavenPluginType,
   generateParsedTags,
   generateProjectDirectory,
   generateProjectName,
@@ -45,7 +44,7 @@ export default async function (
   tree: Tree,
   options: NxMavenParentProjectGeneratorSchema,
 ) {
-  await parentProjectGenerator(__dirname, '@jnxplus/nx-maven', tree, options);
+  await parentProjectGenerator(tree, options);
 }
 
 interface NormalizedSchema extends NxMavenParentProjectGeneratorSchema {
@@ -146,7 +145,7 @@ function normalizeOptions(
   };
 }
 
-function addFiles(d: string, tree: Tree, options: NormalizedSchema) {
+function addFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -155,15 +154,13 @@ function addFiles(d: string, tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(d, 'files'),
+    path.join(__dirname, 'files'),
     options.projectRoot,
     templateOptions,
   );
 }
 
 async function parentProjectGenerator(
-  d: string,
-  plugin: MavenPluginType,
   tree: Tree,
   options: NxMavenParentProjectGeneratorSchema,
 ) {
@@ -182,7 +179,7 @@ async function parentProjectGenerator(
     projectType: normalizedOptions.projectType,
     targets: {
       build: {
-        executor: `${plugin}:run-task`,
+        executor: '@jnxplus/nx-maven:run-task',
         outputs: ['{options.outputDirLocalRepo}'],
         options: {
           task: 'install',
@@ -192,7 +189,7 @@ async function parentProjectGenerator(
     tags: normalizedOptions.parsedTags,
   });
 
-  addFiles(d, tree, normalizedOptions);
+  addFiles(tree, normalizedOptions);
   addProjectToAggregator(tree, {
     projectRoot: normalizedOptions.projectRoot,
     aggregatorProject: normalizedOptions.aggregatorProject,

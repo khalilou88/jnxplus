@@ -9,7 +9,6 @@ import {
   generateProjectName,
   generateProjectRoot,
   generateSimpleProjectName,
-  GradlePluginType,
   isCustomPortFunction,
   quarkusVersion,
 } from '@jnxplus/common';
@@ -38,7 +37,7 @@ export default async function (
   tree: Tree,
   options: NxGradleAppGeneratorSchema,
 ) {
-  await applicationGenerator(__dirname, '@jnxplus/nx-gradle', tree, options);
+  await applicationGenerator(tree, options);
 }
 
 interface NormalizedSchema extends NxGradleAppGeneratorSchema {
@@ -133,30 +132,25 @@ function normalizeOptions(
   };
 }
 
-function addFiles(
-  d: string,
-  plugin: GradlePluginType,
-  tree: Tree,
-  options: NormalizedSchema,
-) {
+function addFiles(tree: Tree, options: NormalizedSchema) {
   if (options.framework === 'spring-boot') {
-    addBootFiles(d, tree, options);
+    addBootFiles(tree, options);
   }
 
   if (options.framework === 'quarkus') {
-    addQuarkusFiles(d, tree, options);
+    addQuarkusFiles(tree, options);
   }
 
   if (options.framework === 'micronaut') {
-    addMicronautFiles(d, tree, options);
+    addMicronautFiles(tree, options);
   }
 
   if (options.framework === 'none') {
-    addNoneFiles(d, tree, options);
+    addNoneFiles(tree, options);
   }
 }
 
-function addNoneFiles(d: string, tree: Tree, options: NormalizedSchema) {
+function addNoneFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -165,7 +159,7 @@ function addNoneFiles(d: string, tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(d, 'files', 'none', options.language),
+    path.join(__dirname, 'files', 'none', options.language),
     options.projectRoot,
     templateOptions,
   );
@@ -196,7 +190,7 @@ function addNoneFiles(d: string, tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
+function addBootFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -205,7 +199,7 @@ function addBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(d, 'files', 'boot', options.language),
+    path.join(__dirname, 'files', 'boot', options.language),
     options.projectRoot,
     templateOptions,
   );
@@ -254,7 +248,7 @@ function addBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addQuarkusFiles(d: string, tree: Tree, options: NormalizedSchema) {
+function addQuarkusFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -263,7 +257,7 @@ function addQuarkusFiles(d: string, tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(d, 'files', 'quarkus', options.language),
+    path.join(__dirname, 'files', 'quarkus', options.language),
     options.projectRoot,
     templateOptions,
   );
@@ -321,7 +315,7 @@ function addQuarkusFiles(d: string, tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
+function addMicronautFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -330,7 +324,7 @@ function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(d, 'files', 'micronaut', options.language),
+    path.join(__dirname, 'files', 'micronaut', options.language),
     options.projectRoot,
     templateOptions,
   );
@@ -368,8 +362,6 @@ function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
 }
 
 async function applicationGenerator(
-  d: string,
-  plugin: GradlePluginType,
   tree: Tree,
   options: NxGradleAppGeneratorSchema,
 ) {
@@ -381,7 +373,7 @@ async function applicationGenerator(
     sourceRoot: `./${normalizedOptions.projectRoot}/src`,
     targets: {
       build: {
-        executor: `${plugin}:run-task`,
+        executor: '@jnxplus/nx-gradle:run-task',
         outputs: [`{projectRoot}/build`],
         options: {
           task: 'build',
@@ -389,13 +381,13 @@ async function applicationGenerator(
       },
       'build-image': {},
       serve: {
-        executor: `${plugin}:run-task`,
+        executor: '@jnxplus/nx-gradle:run-task',
         options: {
           task: 'run',
         },
       },
       test: {
-        executor: `${plugin}:run-task`,
+        executor: '@jnxplus/nx-gradle:run-task',
         options: {
           task: 'test',
         },
@@ -420,7 +412,7 @@ async function applicationGenerator(
     };
 
     targets['build-image'] = {
-      executor: `${plugin}:run-task`,
+      executor: '@jnxplus/nx-gradle:run-task',
       options: {
         task: 'bootBuildImage',
       },
@@ -440,11 +432,11 @@ async function applicationGenerator(
     };
 
     targets['build-image'] = {
-      executor: `${plugin}:quarkus-build-image`,
+      executor: '@jnxplus/nx-gradle:quarkus-build-image',
     };
 
     targets['integration-test'] = {
-      executor: `${plugin}:run-task`,
+      executor: '@jnxplus/nx-gradle:run-task',
       options: {
         task: 'quarkusIntTest',
       },
@@ -453,7 +445,7 @@ async function applicationGenerator(
 
   if (options.framework === 'micronaut') {
     targets['build-image'] = {
-      executor: `${plugin}:run-task`,
+      executor: '@jnxplus/nx-gradle:run-task',
       options: {
         task: 'dockerBuild',
       },
@@ -473,7 +465,7 @@ async function applicationGenerator(
     projectConfiguration,
   );
 
-  addFiles(d, plugin, tree, normalizedOptions);
+  addFiles(tree, normalizedOptions);
   addProjectToGradleSetting(tree, normalizedOptions);
   await formatFiles(tree);
 }

@@ -1,5 +1,4 @@
 import {
-  MavenPluginType,
   clearEmpties,
   generateAppClassName,
   generatePackageDirectory,
@@ -39,7 +38,7 @@ import {
 import { NxMavenAppGeneratorSchema } from './schema';
 
 export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
-  await applicationGenerator(__dirname, '@jnxplus/nx-maven', tree, options);
+  await applicationGenerator(tree, options);
 }
 
 interface NormalizedSchema extends NxMavenAppGeneratorSchema {
@@ -59,7 +58,6 @@ interface NormalizedSchema extends NxMavenAppGeneratorSchema {
   springBootVersion: string;
   quarkusVersion: string;
   micronautVersion: string;
-  plugin: MavenPluginType;
   dependencyManagement:
     | 'bom'
     | 'spring-boot-parent-pom'
@@ -68,7 +66,6 @@ interface NormalizedSchema extends NxMavenAppGeneratorSchema {
 }
 
 function normalizeOptions(
-  plugin: MavenPluginType,
   tree: Tree,
   options: NxMavenAppGeneratorSchema,
 ): NormalizedSchema {
@@ -158,7 +155,6 @@ function normalizeOptions(
     springBootVersion,
     quarkusVersion,
     micronautVersion,
-    plugin,
     dependencyManagement,
     mavenRootDirectory,
   };
@@ -375,36 +371,29 @@ function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addFiles(
-  d: string,
-  plugin: MavenPluginType,
-  tree: Tree,
-  options: NormalizedSchema,
-) {
+function addFiles(tree: Tree, options: NormalizedSchema) {
   if (options.framework === 'spring-boot') {
-    addBootFiles(d, tree, options);
+    addBootFiles(__dirname, tree, options);
   }
 
   if (options.framework === 'quarkus') {
-    addQuarkusFiles(d, tree, options);
+    addQuarkusFiles(__dirname, tree, options);
   }
 
   if (options.framework === 'micronaut') {
-    addMicronautFiles(d, tree, options);
+    addMicronautFiles(__dirname, tree, options);
   }
 
   if (options.framework === 'none') {
-    addNoneFiles(d, tree, options);
+    addNoneFiles(__dirname, tree, options);
   }
 }
 
 async function applicationGenerator(
-  d: string,
-  plugin: MavenPluginType,
   tree: Tree,
   options: NxMavenAppGeneratorSchema,
 ) {
-  const normalizedOptions = normalizeOptions(plugin, tree, options);
+  const normalizedOptions = normalizeOptions(tree, options);
 
   addMissedProperties(tree, {
     framework: options.framework,
@@ -420,7 +409,7 @@ async function applicationGenerator(
     sourceRoot: `./${normalizedOptions.projectRoot}/src`,
     targets: {
       build: {
-        executor: `${plugin}:run-task`,
+        executor: '@jnxplus/nx-maven:run-task',
         outputs: ['{projectRoot}/target'],
         options: {
           task: 'compile -DskipTests=true',
@@ -428,14 +417,14 @@ async function applicationGenerator(
       },
       'build-image': {},
       serve: {
-        executor: `${plugin}:run-task`,
+        executor: '@jnxplus/nx-maven:run-task',
         options: {
           task: 'exec:java',
         },
         dependsOn: ['build'],
       },
       test: {
-        executor: `${plugin}:run-task`,
+        executor: '@jnxplus/nx-maven:run-task',
         options: {
           task: 'test',
         },
@@ -455,7 +444,7 @@ async function applicationGenerator(
     };
 
     targets['build-image'] = {
-      executor: `${plugin}:run-task`,
+      executor: '@jnxplus/nx-maven:run-task',
       options: {
         task: 'spring-boot:build-image',
       },
@@ -471,7 +460,7 @@ async function applicationGenerator(
 
   if (options.framework === 'quarkus') {
     targets['build-image'] = {
-      executor: `${plugin}:quarkus-build-image`,
+      executor: '@jnxplus/nx-maven:quarkus-build-image',
     };
 
     targets['serve'].options = {
@@ -482,7 +471,7 @@ async function applicationGenerator(
     targets['serve'].dependsOn = ['^build'];
 
     targets['integration-test'] = {
-      executor: `${plugin}:run-task`,
+      executor: '@jnxplus/nx-maven:run-task',
       options: {
         task: 'integration-test',
       },
@@ -491,7 +480,7 @@ async function applicationGenerator(
 
   if (options.framework === 'micronaut') {
     targets['build-image'] = {
-      executor: `${plugin}:run-task`,
+      executor: '@jnxplus/nx-maven:run-task',
       options: {
         task: 'package -Dpackaging=docker',
       },
@@ -513,7 +502,7 @@ async function applicationGenerator(
     projectConfiguration,
   );
 
-  addFiles(d, plugin, tree, normalizedOptions);
+  addFiles(tree, normalizedOptions);
   addProjectToAggregator(tree, {
     projectRoot: normalizedOptions.projectRoot,
     aggregatorProject: normalizedOptions.aggregatorProject,
