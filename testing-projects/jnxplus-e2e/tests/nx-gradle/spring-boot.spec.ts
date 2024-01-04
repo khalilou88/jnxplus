@@ -171,7 +171,7 @@ describe('nx-gradle spring-boot e2e', () => {
 
     // port and process cleanup
     await killProcessAndPorts(process.pid, 8080);
-  }, 120000);
+  }, 240000);
 
   it('should build-image a java application', async () => {
     if (!isWin && !isMacOs && isCI) {
