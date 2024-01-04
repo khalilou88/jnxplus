@@ -1,19 +1,23 @@
 import {
   MavenPluginType,
-  micronautVersion,
-  normalizeName,
-  quarkusVersion,
-  springBootVersion,
-  micronautCoreVersion,
-  micronautSerializationVersion,
-  micronautTestResourcesVersion,
-  micronautMavenPluginVersion,
+  generateParsedTags,
+  generateProjectDirectory,
+  generateProjectName,
+  generateProjectRoot,
+  generateSimpleProjectName,
   mavenCompilerPluginVersion,
   mavenEnforcerPluginVersion,
-  mavenResourcesPluginVersion,
-  mavenWarPluginVersion,
-  mavenSurefirePluginVersion,
   mavenFailsafePluginVersion,
+  mavenResourcesPluginVersion,
+  mavenSurefirePluginVersion,
+  mavenWarPluginVersion,
+  micronautCoreVersion,
+  micronautMavenPluginVersion,
+  micronautSerializationVersion,
+  micronautTestResourcesVersion,
+  micronautVersion,
+  quarkusVersion,
+  springBootVersion,
 } from '@jnxplus/common';
 import { readXmlTree } from '@jnxplus/xml';
 import {
@@ -28,12 +32,13 @@ import {
 } from '@nx/devkit';
 import * as path from 'path';
 import {
+  addMissedProperties,
+  addProjectToAggregator,
   getArtifactId,
   getGroupId,
   getMavenRootDirectory,
   getVersion,
 } from '../../utils';
-import { addMissedProperties, addProjectToAggregator } from '../../utils';
 import { NxMavenParentProjectGeneratorSchema } from './schema';
 
 export default async function (
@@ -73,30 +78,25 @@ function normalizeOptions(
   tree: Tree,
   options: NxMavenParentProjectGeneratorSchema,
 ): NormalizedSchema {
-  const simpleProjectName = names(normalizeName(options.name)).fileName;
+  const simpleProjectName = generateSimpleProjectName({
+    name: options.name,
+  });
 
-  let projectName: string;
-  if (options.simpleName) {
-    projectName = simpleProjectName;
-  } else {
-    projectName = options.directory
-      ? `${normalizeName(
-          names(options.directory).fileName,
-        )}-${simpleProjectName}`
-      : simpleProjectName;
-  }
+  const projectName = generateProjectName(simpleProjectName, {
+    name: options.name,
+    simpleName: options.simpleName,
+    directory: options.directory,
+  });
 
-  const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${simpleProjectName}`
-    : simpleProjectName;
+  const projectDirectory = generateProjectDirectory(simpleProjectName, {
+    directory: options.directory,
+  });
 
   const mavenRootDirectory = getMavenRootDirectory();
 
-  const projectRoot = joinPathFragments(mavenRootDirectory, projectDirectory);
+  const projectRoot = generateProjectRoot(mavenRootDirectory, projectDirectory);
 
-  const parsedTags = options.tags
-    ? options.tags.split(',').map((s) => s.trim())
-    : [];
+  const parsedTags = generateParsedTags({ tags: options.tags });
 
   let parentProjectRoot = mavenRootDirectory;
   if (options.parentProject) {

@@ -1,4 +1,15 @@
-import { DSLType, GradlePluginType, normalizeName } from '@jnxplus/common';
+import {
+  DSLType,
+  GradlePluginType,
+  generatePackageDirectory,
+  generatePackageName,
+  generateParsedProjects,
+  generateParsedTags,
+  generateProjectDirectory,
+  generateProjectName,
+  generateProjectRoot,
+  generateSimpleProjectName,
+} from '@jnxplus/common';
 import {
   ProjectConfiguration,
   Tree,
@@ -42,51 +53,37 @@ function normalizeOptions(
   tree: Tree,
   options: NxGradleLibGeneratorSchema,
 ): NormalizedSchema {
-  const simpleProjectName = names(normalizeName(options.name)).fileName;
+  const simpleProjectName = generateSimpleProjectName({
+    name: options.name,
+  });
 
-  let projectName: string;
-  if (options.simpleName) {
-    projectName = simpleProjectName;
-  } else {
-    projectName = options.directory
-      ? `${normalizeName(
-          names(options.directory).fileName,
-        )}-${simpleProjectName}`
-      : simpleProjectName;
-  }
+  const projectName = generateProjectName(simpleProjectName, {
+    name: options.name,
+    simpleName: options.simpleName,
+    directory: options.directory,
+  });
 
-  const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${simpleProjectName}`
-    : simpleProjectName;
+  const projectDirectory = generateProjectDirectory(simpleProjectName, {
+    directory: options.directory,
+  });
 
   const gradleRootDirectory = getGradleRootDirectory();
-  const projectRoot = joinPathFragments(gradleRootDirectory, projectDirectory);
+  const projectRoot = generateProjectRoot(
+    gradleRootDirectory,
+    projectDirectory,
+  );
 
-  const parsedTags = options.tags
-    ? options.tags.split(',').map((s) => s.trim())
-    : [];
+  const parsedTags = generateParsedTags({ tags: options.tags });
 
-  let packageName: string;
-  if (options.simplePackageName) {
-    packageName = `${options.groupId}.${names(
-      simpleProjectName,
-    ).className.toLocaleLowerCase()}`.replace(new RegExp(/-/, 'g'), '');
-  } else {
-    packageName = `${options.groupId}.${
-      options.directory
-        ? `${names(options.directory).fileName.replace(
-            new RegExp(/\//, 'g'),
-            '.',
-          )}.${names(simpleProjectName).className.toLocaleLowerCase()}`
-        : names(simpleProjectName).className.toLocaleLowerCase()
-    }`.replace(new RegExp(/-/, 'g'), '');
-  }
+  const packageName = generatePackageName(simpleProjectName, {
+    simplePackageName: options.simplePackageName,
+    groupId: options.groupId,
+    directory: options.directory,
+  });
 
-  const packageDirectory = packageName.replace(new RegExp(/\./, 'g'), '/');
+  const packageDirectory = generatePackageDirectory(packageName);
 
-  const parsedProjects = options.projects
-    ? options.projects.split(',').map((s) => s.trim())
-    : [];
+  const parsedProjects = generateParsedProjects({ projects: options.projects });
 
   const dsl = getDsl(tree, gradleRootDirectory);
   const kotlinExtension = dsl === 'kotlin' ? '.kts' : '';
@@ -106,12 +103,7 @@ function normalizeOptions(
   };
 }
 
-function addFiles(
-  d: string,
-  plugin: GradlePluginType,
-  tree: Tree,
-  options: NormalizedSchema,
-) {
+function addFiles(d: string, tree: Tree, options: NormalizedSchema) {
   if (options.framework === 'spring-boot') {
     addBootFiles(d, tree, options);
   }
@@ -345,7 +337,7 @@ async function libraryGenerator(
     normalizedOptions.projectName,
     projectConfiguration,
   );
-  addFiles(d, plugin, tree, normalizedOptions);
+  addFiles(d, tree, normalizedOptions);
   addProjectToGradleSetting(tree, normalizedOptions);
   addLibraryToProjects(tree, normalizedOptions);
   await formatFiles(tree);
