@@ -11,7 +11,6 @@ import {
   quarkusVersion,
   springBootVersion,
 } from '@jnxplus/common';
-import { readXmlTree } from '@jnxplus/xml';
 import {
   ProjectConfiguration,
   Tree,
@@ -21,17 +20,14 @@ import {
   joinPathFragments,
   names,
   offsetFromRoot,
-  readProjectConfiguration,
 } from '@nx/devkit';
 import * as path from 'path';
 import {
   addLibraryToProjects,
   addMissedProperties,
   addProjectToAggregator,
-  getArtifactId,
-  getGroupId,
   getMavenRootDirectory,
-  getVersion,
+  getParentProjectValues,
 } from '../../utils';
 import { NxMavenLibGeneratorSchema } from './schema';
 
@@ -51,7 +47,6 @@ interface NormalizedSchema extends NxMavenLibGeneratorSchema {
   parentProjectName: string;
   parentProjectVersion: string;
   relativePath: string;
-  parentProjectRoot: string;
   springBootVersion: string;
   quarkusVersion: string;
   micronautVersion: string;
@@ -91,30 +86,13 @@ function normalizeOptions(
 
   const parsedProjects = generateParsedProjects({ projects: options.projects });
 
-  const rootPomXmlContent = readXmlTree(
-    tree,
-    path.join(mavenRootDirectory, 'pom.xml'),
-  );
-  const rootParentProjectName = getArtifactId(rootPomXmlContent);
-
-  const parentProjectRoot =
-    options.parentProject && options.parentProject !== rootParentProjectName
-      ? readProjectConfiguration(tree, options.parentProject).root
-      : mavenRootDirectory
-        ? mavenRootDirectory
-        : '';
-
-  const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
-
-  const pomXmlContent = readXmlTree(tree, parentProjectPomPath);
-  const relativePath = joinPathFragments(
-    path.relative(projectRoot, parentProjectRoot),
-    'pom.xml',
-  );
-
-  const parentProjectName = getArtifactId(pomXmlContent);
-  const parentGroupId = getGroupId(parentProjectName, pomXmlContent);
-  const parentProjectVersion = getVersion(parentProjectName, pomXmlContent);
+  const [relativePath, parentProjectName, parentGroupId, parentProjectVersion] =
+    getParentProjectValues(
+      tree,
+      mavenRootDirectory,
+      projectRoot,
+      options.parentProject,
+    );
 
   return {
     ...options,
@@ -129,7 +107,6 @@ function normalizeOptions(
     parentProjectName,
     parentProjectVersion,
     relativePath,
-    parentProjectRoot,
     springBootVersion,
     quarkusVersion,
     micronautVersion,
