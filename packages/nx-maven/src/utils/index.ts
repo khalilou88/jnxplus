@@ -262,7 +262,7 @@ function isParentPomExits(
   return parentPom === artifactIdXml?.val;
 }
 
-export function getDependencyManagement(
+function getDependencyManagement(
   xmldoc: XmlDocument,
 ): 'bom' | 'spring-boot-parent-pom' | 'micronaut-parent-pom' {
   if (isParentPomExits(xmldoc, 'spring-boot-starter-parent')) {
