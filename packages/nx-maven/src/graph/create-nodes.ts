@@ -53,7 +53,6 @@ export const createNodes: CreateNodes = [
             artifactId,
             pomXmlContent,
             mavenRootDirAbsolutePath,
-            projectAbsolutePath,
           );
           const localRepositoryPath = getLocalRepositoryPath(
             mavenRootDirAbsolutePath,
@@ -78,7 +77,6 @@ export const createNodes: CreateNodes = [
         artifactId,
         pomXmlContent,
         mavenRootDirAbsolutePath,
-        projectAbsolutePath,
       );
       const localRepositoryPath = getLocalRepositoryPath(
         mavenRootDirAbsolutePath,
