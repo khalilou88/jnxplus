@@ -13,7 +13,6 @@ import {
   quarkusVersion,
   springBootVersion,
 } from '@jnxplus/common';
-import { readXmlTree } from '@jnxplus/xml';
 import {
   ProjectConfiguration,
   Tree,
@@ -23,17 +22,14 @@ import {
   joinPathFragments,
   names,
   offsetFromRoot,
-  readProjectConfiguration,
 } from '@nx/devkit';
 import * as path from 'path';
 import {
   addMissedProperties,
   addProjectToAggregator,
-  getArtifactId,
-  getDependencyManagement,
-  getGroupId,
+  extractRootPomValues,
   getMavenRootDirectory,
-  getVersion,
+  getParentProjectValues,
 } from '../../utils';
 import { NxMavenAppGeneratorSchema } from './schema';
 
@@ -53,7 +49,6 @@ interface NormalizedSchema extends NxMavenAppGeneratorSchema {
   parentProjectName: string;
   parentProjectVersion: string;
   relativePath: string;
-  parentProjectRoot: string;
   isCustomPort: boolean;
   springBootVersion: string;
   quarkusVersion: string;
@@ -100,42 +95,21 @@ function normalizeOptions(
 
   const packageDirectory = generatePackageDirectory(packageName);
 
-  const rootPomXmlContent = readXmlTree(
-    tree,
-    path.join(mavenRootDirectory, 'pom.xml'),
-  );
-
-  const rootParentProjectName = getArtifactId(rootPomXmlContent);
-
-  const parentProjectRoot =
-    options.parentProject && options.parentProject !== rootParentProjectName
-      ? readProjectConfiguration(tree, options.parentProject).root
-      : mavenRootDirectory
-        ? mavenRootDirectory
-        : '';
-
-  const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
-
-  const pomXmlContent = readXmlTree(tree, parentProjectPomPath);
-  const relativePath = joinPathFragments(
-    path.relative(projectRoot, parentProjectRoot),
-    'pom.xml',
-  );
-
-  const parentProjectName = getArtifactId(pomXmlContent);
-  const parentGroupId = getGroupId(parentProjectName, pomXmlContent);
-  const parentProjectVersion = getVersion(parentProjectName, pomXmlContent);
+  const [relativePath, parentProjectName, parentGroupId, parentProjectVersion] =
+    getParentProjectValues(
+      tree,
+      mavenRootDirectory,
+      projectRoot,
+      options.parentProject,
+    );
 
   const isCustomPort = isCustomPortFunction({ port: options.port });
 
-  let quarkusVersion = '';
-  if (options.framework === 'quarkus') {
-    quarkusVersion =
-      rootPomXmlContent?.childNamed('properties')?.childNamed('quarkus.version')
-        ?.val || 'quarkusVersion';
-  }
-
-  const dependencyManagement = getDependencyManagement(rootPomXmlContent);
+  const [quarkusVersion, dependencyManagement] = extractRootPomValues(
+    tree,
+    mavenRootDirectory,
+    options.framework,
+  );
 
   return {
     ...options,
@@ -150,7 +124,6 @@ function normalizeOptions(
     parentProjectName,
     parentProjectVersion,
     relativePath,
-    parentProjectRoot,
     isCustomPort,
     springBootVersion,
     quarkusVersion,

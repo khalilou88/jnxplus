@@ -262,7 +262,7 @@ function isParentPomExits(
   return parentPom === artifactIdXml?.val;
 }
 
-export function getDependencyManagement(
+function getDependencyManagement(
   xmldoc: XmlDocument,
 ): 'bom' | 'spring-boot-parent-pom' | 'micronaut-parent-pom' {
   if (isParentPomExits(xmldoc, 'spring-boot-starter-parent')) {
@@ -430,4 +430,68 @@ export function getEffectiveVersion(
   }
 
   return version;
+}
+
+export function getParentProjectValues(
+  tree: Tree,
+  mavenRootDirectory: string,
+  projectRoot: string,
+  parentProject: string | undefined,
+) {
+  let parentProjectRoot = mavenRootDirectory;
+  if (parentProject) {
+    try {
+      parentProjectRoot = readProjectConfiguration(tree, parentProject).root;
+    } catch (err) {
+      const mavenRootDirAbsolutePath = path.join(
+        workspaceRoot,
+        mavenRootDirectory,
+      );
+
+      const projectBasedir = execSync(
+        `${getExecutable()} help:evaluate -Dexpression=project.basedir -q -DforceStdout -pl :${parentProject}`,
+        {
+          cwd: mavenRootDirAbsolutePath,
+          windowsHide: true,
+        },
+      )
+        .toString()
+        .trim();
+      parentProjectRoot = path.relative(workspaceRoot, projectBasedir);
+    }
+  }
+
+  const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
+
+  const relativePath = joinPathFragments(
+    path.relative(projectRoot, parentProjectRoot),
+    'pom.xml',
+  );
+
+  const pomXmlContent = readXmlTree(tree, parentProjectPomPath);
+  const parentProjectName = getArtifactId(pomXmlContent);
+  const parentGroupId = getGroupId(parentProjectName, pomXmlContent);
+  const parentProjectVersion = getVersion(parentProjectName, pomXmlContent);
+
+  return [relativePath, parentProjectName, parentGroupId, parentProjectVersion];
+}
+
+export function extractRootPomValues(
+  tree: Tree,
+  mavenRootDirectory: string,
+  framework: string | undefined,
+): [string, 'bom' | 'spring-boot-parent-pom' | 'micronaut-parent-pom'] {
+  const rootPomXmlContent = readXmlTree(
+    tree,
+    path.join(mavenRootDirectory, 'pom.xml'),
+  );
+
+  let quarkusVersion = '';
+  if (framework === 'quarkus') {
+    quarkusVersion =
+      rootPomXmlContent?.childNamed('properties')?.childNamed('quarkus.version')
+        ?.val || 'quarkusVersion';
+  }
+
+  return [quarkusVersion, getDependencyManagement(rootPomXmlContent)];
 }

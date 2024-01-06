@@ -18,25 +18,20 @@ import {
   quarkusVersion,
   springBootVersion,
 } from '@jnxplus/common';
-import { readXmlTree } from '@jnxplus/xml';
 import {
   Tree,
   addProjectConfiguration,
   formatFiles,
   generateFiles,
-  joinPathFragments,
   names,
   offsetFromRoot,
-  readProjectConfiguration,
 } from '@nx/devkit';
 import * as path from 'path';
 import {
   addMissedProperties,
   addProjectToAggregator,
-  getArtifactId,
-  getGroupId,
   getMavenRootDirectory,
-  getVersion,
+  getParentProjectValues,
 } from '../../utils';
 import { NxMavenParentProjectGeneratorSchema } from './schema';
 
@@ -56,7 +51,6 @@ interface NormalizedSchema extends NxMavenParentProjectGeneratorSchema {
   parentProjectName: string;
   parentProjectVersion: string;
   relativePath: string;
-  parentProjectRoot: string;
   springBootVersion: string;
   quarkusVersion: string;
   micronautVersion: string;
@@ -97,25 +91,13 @@ function normalizeOptions(
 
   const parsedTags = generateParsedTags({ tags: options.tags });
 
-  let parentProjectRoot = mavenRootDirectory;
-  if (options.parentProject) {
-    parentProjectRoot = readProjectConfiguration(
+  const [relativePath, parentProjectName, parentGroupId, parentProjectVersion] =
+    getParentProjectValues(
       tree,
+      mavenRootDirectory,
+      projectRoot,
       options.parentProject,
-    ).root;
-  }
-
-  const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
-
-  const pomXmlContent = readXmlTree(tree, parentProjectPomPath);
-  const relativePath = joinPathFragments(
-    path.relative(projectRoot, parentProjectRoot),
-    'pom.xml',
-  );
-
-  const parentProjectName = getArtifactId(pomXmlContent);
-  const parentGroupId = getGroupId(parentProjectName, pomXmlContent);
-  const parentProjectVersion = getVersion(parentProjectName, pomXmlContent);
+    );
 
   return {
     ...options,
@@ -127,7 +109,6 @@ function normalizeOptions(
     parentProjectName,
     parentProjectVersion,
     relativePath,
-    parentProjectRoot,
     springBootVersion,
     quarkusVersion,
     micronautVersion,
