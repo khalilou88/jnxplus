@@ -1,5 +1,4 @@
 import {
-  kotlinVersion,
   micronautVersion,
   prettierPluginJavaVersion,
   prettierPluginXmlVersion,
@@ -24,7 +23,6 @@ import { NxMavenInitGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxMavenInitGeneratorSchema {
   dot: string;
-  kotlinVersion: string;
   springBootVersion: string;
   quarkusVersion: string;
   micronautVersion: string;
@@ -39,7 +37,6 @@ function normalizeOptions(
   return {
     ...options,
     dot,
-    kotlinVersion,
     springBootVersion,
     quarkusVersion,
     micronautVersion,

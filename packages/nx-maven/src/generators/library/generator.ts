@@ -7,6 +7,7 @@ import {
   generateProjectName,
   generateProjectRoot,
   generateSimpleProjectName,
+  kotlinVersion,
   micronautVersion,
   quarkusVersion,
   springBootVersion,
@@ -311,7 +312,9 @@ async function libraryGenerator(
   const normalizedOptions = normalizeOptions(tree, options);
 
   addMissedProperties(tree, {
+    language: options.language,
     framework: options.framework,
+    kotlinVersion: kotlinVersion,
     springBootVersion: springBootVersion,
     quarkusVersion: quarkusVersion,
     micronautVersion: micronautVersion,

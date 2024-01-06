@@ -4,6 +4,7 @@ import {
   generateProjectName,
   generateProjectRoot,
   generateSimpleProjectName,
+  kotlinVersion,
   mavenCompilerPluginVersion,
   mavenEnforcerPluginVersion,
   mavenFailsafePluginVersion,
@@ -147,8 +148,15 @@ async function parentProjectGenerator(
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
 
+  const language =
+    options.language === 'kotlin' || options.language === 'java-kotlin'
+      ? 'kotlin'
+      : 'java';
+
   addMissedProperties(tree, {
+    language: language,
     framework: options.framework,
+    kotlinVersion: kotlinVersion,
     springBootVersion: springBootVersion,
     quarkusVersion: quarkusVersion,
     micronautVersion: micronautVersion,

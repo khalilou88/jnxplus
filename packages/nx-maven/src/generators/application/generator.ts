@@ -9,6 +9,7 @@ import {
   generateProjectRoot,
   generateSimpleProjectName,
   isCustomPortFunction,
+  kotlinVersion,
   micronautVersion,
   quarkusVersion,
   springBootVersion,
@@ -369,7 +370,9 @@ async function applicationGenerator(
   const normalizedOptions = normalizeOptions(tree, options);
 
   addMissedProperties(tree, {
+    language: options.language,
     framework: options.framework,
+    kotlinVersion: kotlinVersion,
     springBootVersion: springBootVersion,
     quarkusVersion: quarkusVersion,
     micronautVersion: micronautVersion,
