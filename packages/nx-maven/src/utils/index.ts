@@ -1,3 +1,4 @@
+import { LanguageType } from '@jnxplus/common';
 import { readXmlTree, xmlToString } from '@jnxplus/xml';
 import {
   NxJsonConfiguration,
@@ -173,13 +174,17 @@ export function addLibraryToProjects(
 export function addMissedProperties(
   tree: Tree,
   options: {
+    language: LanguageType;
     framework: 'spring-boot' | 'quarkus' | 'micronaut' | 'none' | undefined;
+    kotlinVersion: string;
     springBootVersion: string;
     quarkusVersion: string;
     micronautVersion: string;
     mavenRootDirectory: string;
   },
 ) {
+  let fileChanged = false;
+
   const pomPath = path.join(options.mavenRootDirectory, 'pom.xml');
   const xmldoc = readXmlTree(tree, pomPath);
 
@@ -200,6 +205,19 @@ export function addMissedProperties(
     throw new Error('Properties tag undefined');
   }
 
+  if (options.language === 'kotlin') {
+    const kotlinVersionXml = properties.childNamed('kotlin.version');
+
+    if (kotlinVersionXml === undefined) {
+      properties.children.push(
+        new XmlDocument(`
+        <kotlin.version>${options.kotlinVersion}</kotlin.version>
+`),
+      );
+      fileChanged = true;
+    }
+  }
+
   if (options.framework === 'spring-boot') {
     const b = isParentPomExits(xmldoc, 'spring-boot-starter-parent');
     if (!b) {
@@ -210,9 +228,7 @@ export function addMissedProperties(
     <spring.boot.version>${options.springBootVersion}</spring.boot.version>
   `),
         );
-
-        tree.write(pomPath, xmlToString(xmldoc));
-        return;
+        fileChanged = true;
       }
     }
   }
@@ -225,8 +241,7 @@ export function addMissedProperties(
       <quarkus.version>${options.quarkusVersion}</quarkus.version>
     `),
       );
-      tree.write(pomPath, xmlToString(xmldoc));
-      return;
+      fileChanged = true;
     }
   }
 
@@ -240,10 +255,13 @@ export function addMissedProperties(
     <micronaut.version>${options.micronautVersion}</micronaut.version>
   `),
         );
-        tree.write(pomPath, xmlToString(xmldoc));
-        return;
+        fileChanged = true;
       }
     }
+  }
+
+  if (fileChanged) {
+    tree.write(pomPath, xmlToString(xmldoc));
   }
 }
 
