@@ -426,18 +426,12 @@ export function getEffectiveVersion(
   artifactId: string,
   pomXmlContent: XmlDocument,
   mavenRootDirAbsolutePath: string,
-  projectAbsolutePath: string,
 ) {
   let version = getVersion(artifactId, pomXmlContent);
 
   if (version.indexOf('${') >= 0) {
-    const relativePath = path.relative(
-      mavenRootDirAbsolutePath,
-      projectAbsolutePath,
-    );
-    const pomXmlRelativePath = joinPathFragments(relativePath, 'pom.xml');
     version = execSync(
-      `${getExecutable()} -f ${pomXmlRelativePath} help:evaluate -Dexpression=project.version -q -DforceStdout`,
+      `${getExecutable()} help:evaluate -Dexpression=project.version -q -DforceStdout -pl :${artifactId}`,
       {
         cwd: mavenRootDirAbsolutePath,
         windowsHide: true,
