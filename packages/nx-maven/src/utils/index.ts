@@ -440,7 +440,25 @@ export function getParentProjectValues(
 ) {
   let parentProjectRoot = mavenRootDirectory;
   if (parentProject) {
-    parentProjectRoot = readProjectConfiguration(tree, parentProject).root;
+    try {
+      parentProjectRoot = readProjectConfiguration(tree, parentProject).root;
+    } catch (err) {
+      const mavenRootDirAbsolutePath = path.join(
+        workspaceRoot,
+        mavenRootDirectory,
+      );
+
+      const projectBasedir = execSync(
+        `${getExecutable()} help:evaluate -Dexpression=project.basedir -q -DforceStdout -pl :${parentProject}`,
+        {
+          cwd: mavenRootDirAbsolutePath,
+          windowsHide: true,
+        },
+      )
+        .toString()
+        .trim();
+      parentProjectRoot = path.relative(workspaceRoot, projectBasedir);
+    }
   }
 
   const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
