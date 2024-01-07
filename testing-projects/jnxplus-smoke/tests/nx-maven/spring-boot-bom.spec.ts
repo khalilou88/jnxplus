@@ -36,6 +36,8 @@ const testLib5 = uniq('test-lib5-');
 const testApp6 = uniq('test-app6-');
 
 describe('nx-maven spring-boot bom smoke', () => {
+  const parallel = process.platform === 'win32' ? '--parallel=1' : '--parallel';
+
   beforeEach(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
       unsafeCleanup: true,
@@ -119,7 +121,7 @@ describe('nx-maven spring-boot bom smoke', () => {
 
     execSync(`npx nx test ${testLib}`, execSyncOptions());
 
-    execSync(`npx nx run-many --target=build --parallel`, execSyncOptions());
+    execSync(`npx nx run-many --target=build ${parallel}`, execSyncOptions());
 
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
 
