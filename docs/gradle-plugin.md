@@ -55,4 +55,4 @@ plugins {
 
 ## License
 
-MIT © 2023 Khalil LAGRIDA
+MIT © 2023-2024 Khalil LAGRIDA

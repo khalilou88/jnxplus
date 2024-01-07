@@ -49,4 +49,4 @@ Generate a parent project to add Spring Boot, Quarkus, or Micronaut frameworks.
 
 ## License
 
-MIT © 2021-2023 Khalil LAGRIDA
+MIT © 2021-2024 Khalil LAGRIDA
