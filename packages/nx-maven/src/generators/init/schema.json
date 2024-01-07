@@ -20,12 +20,12 @@
         "type": "list",
         "items": [
           {
-            "value": "21",
-            "label": "21"
-          },
-          {
             "value": "17",
             "label": "17"
+          },
+          {
+            "value": "21",
+            "label": "21"
           }
         ]
       }
