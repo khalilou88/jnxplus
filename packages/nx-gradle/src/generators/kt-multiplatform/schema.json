@@ -36,7 +36,7 @@
       "alias": "v"
     },
     "simpleName": {
-      "description": "Don't include the directory in the app name",
+      "description": "Don't include the directory in the project name",
       "type": "boolean",
       "default": true
     },

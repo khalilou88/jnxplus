@@ -27,12 +27,12 @@
     "simpleName": {
       "description": "Don't include the directory in the lib name",
       "type": "boolean",
-      "default": false
+      "default": true
     },
     "simplePackageName": {
       "description": "Don't include the directory in the package name",
       "type": "boolean",
-      "default": false
+      "default": true
     },
     "language": {
       "description": "Language of the project",

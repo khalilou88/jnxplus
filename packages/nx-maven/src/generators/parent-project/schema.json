@@ -27,7 +27,7 @@
     "simpleName": {
       "description": "Don't include the directory in the project name",
       "type": "boolean",
-      "default": false
+      "default": true
     },
     "projectType": {
       "description": "Type of the parent project",
