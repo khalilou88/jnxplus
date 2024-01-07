@@ -34,7 +34,7 @@
       "type": "string",
       "default": "library",
       "x-prompt": {
-        "message": "Which projectType would you like for the parent project?",
+        "message": "Which projectType would you like to use for the parent project?",
         "type": "list",
         "items": [
           {
