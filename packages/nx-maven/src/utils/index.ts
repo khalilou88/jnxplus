@@ -507,3 +507,32 @@ export function extractRootPomValues(
 
   return [quarkusVersion, getDependencyManagement(rootPomXmlContent)];
 }
+
+export function getTargetDefaults() {
+  const key = 'targetDefaults';
+  const cachedTargetDefaults = cache.get(key);
+  if (cachedTargetDefaults) {
+    return cachedTargetDefaults;
+  }
+
+  const targetDefaults = [];
+  const nxJsonPath = path.join(workspaceRoot, 'nx.json');
+
+  const nxJson = readJsonFile<NxJsonConfiguration>(nxJsonPath);
+  if (nxJson.targetDefaults) {
+    for (const [targetName, target] of Object.entries(nxJson.targetDefaults)) {
+      if (
+        (target.outputs ?? []).some(
+          (element: string) => element === '{options.outputDirLocalRepo}',
+        )
+      ) {
+        targetDefaults.push(targetName);
+      }
+    }
+  }
+
+  // Store targetDefaults in cache for future use
+  cache.put(key, targetDefaults, 60000); // Cache for 60 seconds
+
+  return targetDefaults;
+}
