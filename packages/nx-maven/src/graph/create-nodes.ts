@@ -10,6 +10,7 @@ import {
   getGroupId,
   getLocalRepositoryPath,
   getMavenRootDirectory,
+  getTargetDefaults,
 } from '../utils';
 
 export const createNodes: CreateNodes = [
@@ -42,8 +43,10 @@ export const createNodes: CreateNodes = [
       }
 
       targets = projectJson.targets;
+      const targetDefaults = getTargetDefaults();
       for (const [targetName] of Object.entries(targets ?? {})) {
         if (
+          targetDefaults.includes(targetName) ||
           (targets[targetName].outputs ?? []).some(
             (element: string) => element === '{options.outputDirLocalRepo}',
           )
