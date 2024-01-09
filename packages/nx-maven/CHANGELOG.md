@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.22.10](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.22.9...nx-maven-0.22.10) (2024-01-09)
+
+
+### Bug Fixes
+
+* update target config from nx.json ([#749](https://github.com/khalilou88/jnxplus/issues/749)) ([a28e60f](https://github.com/khalilou88/jnxplus/commit/a28e60f1785a2d694f0683c5a74f80a622ff6ab0))
+
+
+
 ## [0.22.9](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.22.8...nx-maven-0.22.9) (2024-01-07)
 
 ### Dependency Updates
