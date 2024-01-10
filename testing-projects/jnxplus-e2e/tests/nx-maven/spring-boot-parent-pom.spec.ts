@@ -199,7 +199,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const port = 8181;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework spring-boot --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port} --simplePackageName false`,
+      `generate @jnxplus/nx-maven:application ${randomName} --framework spring-boot --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port} --simplePackageName false --simpleName false`,
     );
 
     expect(() =>
@@ -374,7 +374,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const port = 8383;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-maven:app ${randomName} --framework spring-boot --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml --port ${port} --simplePackageName false`,
+      `g @jnxplus/nx-maven:app ${randomName} --framework spring-boot --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml --port ${port} --simplePackageName false --simpleName false`,
     );
 
     expect(() =>
@@ -457,7 +457,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const port = 8484;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-maven:app ${randomName} --framework spring-boot --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --simplePackageName --v 1.2.3 --packaging war --configFormat .yml --port ${port}`,
+      `g @jnxplus/nx-maven:app ${randomName} --framework spring-boot --t e2etag,e2ePackage --dir ${appDir} --simpleName false --groupId com.jnxplus --simplePackageName --v 1.2.3 --packaging war --configFormat .yml --port ${port}`,
     );
 
     expect(() =>
@@ -539,7 +539,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const port = 8585;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework spring-boot --directory deep/sub-dir --port ${port} --simplePackageName false`,
+      `generate @jnxplus/nx-maven:application ${randomName} --framework spring-boot --directory deep/sub-dir --port ${port} --simplePackageName false --simpleName false`,
     );
 
     //graph
@@ -716,7 +716,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${randomName} --framework spring-boot --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3 --simplePackageName false`,
+      `generate @jnxplus/nx-maven:library ${randomName} --framework spring-boot --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3 --simplePackageName false --simpleName false`,
     );
 
     expect(() =>
@@ -778,7 +778,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${randomName} --framework spring-boot --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --projectVersion 1.2.3`,
+      `generate @jnxplus/nx-maven:library ${randomName} --framework spring-boot --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --simpleName false --projectVersion 1.2.3`,
     );
 
     expect(() =>
@@ -840,7 +840,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const libName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-maven:lib ${randomName} --framework spring-boot --dir ${libDir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3 --simplePackageName false`,
+      `g @jnxplus/nx-maven:lib ${randomName} --framework spring-boot --dir ${libDir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3 --simplePackageName false --simpleName false`,
     );
 
     expect(() =>
@@ -1151,7 +1151,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const appDir = 'dir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework spring-boot --parent-project ${appsParentProject} --directory ${appDir} --simplePackageName false`,
+      `generate @jnxplus/nx-maven:application ${randomName} --framework spring-boot --parent-project ${appsParentProject} --directory ${appDir} --simplePackageName false --simpleName false`,
     );
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
@@ -1241,7 +1241,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const appDir = 'dir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework spring-boot --parent-project ${appsParentProject} --directory ${appDir} --language kotlin --simplePackageName false`,
+      `generate @jnxplus/nx-maven:application ${randomName} --framework spring-boot --parent-project ${appsParentProject} --directory ${appDir} --language kotlin --simplePackageName false --simpleName false`,
     );
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
@@ -1340,7 +1340,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const secondParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library --parent-project ${libsParentProject} --framework none`,
     );
 
     const randomName = uniq('boot-maven-lib-');
@@ -1348,7 +1348,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const secondLibName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${randomName} --framework spring-boot --parent-project ${secondParentProject} --dir ${libDir} --simplePackageName false`,
+      `generate @jnxplus/nx-maven:library ${randomName} --framework spring-boot --parent-project ${secondParentProject} --dir ${libDir} --simplePackageName false --simpleName false`,
     );
 
     const secondBuildResult = await runNxCommandAsync(`build ${secondLibName}`);
@@ -1360,7 +1360,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
       parentProjectDir,
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject} --directory ${parentProjectDir} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject} --directory ${parentProjectDir} --framework none --simpleName false`,
     );
 
     const thirdLibName = uniq('boot-maven-lib-');
@@ -1436,7 +1436,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const secondParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library  --parent-project ${libsParentProject} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library --parent-project ${libsParentProject} --framework none`,
     );
 
     const randomName = uniq('boot-maven-lib-');
@@ -1444,7 +1444,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const secondLibName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${randomName} --framework spring-boot --parent-project ${secondParentProject} --dir ${libDir} --language kotlin --simplePackageName false`,
+      `generate @jnxplus/nx-maven:library ${randomName} --framework spring-boot --parent-project ${secondParentProject} --dir ${libDir} --language kotlin --simplePackageName false --simpleName false`,
     );
 
     const secondBuildResult = await runNxCommandAsync(`build ${secondLibName}`);
@@ -1456,7 +1456,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
       parentProjectDir,
     )}-${randomParentproject}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject}  --directory ${parentProjectDir} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${randomParentproject} --projectType library --parent-project ${secondParentProject} --directory ${parentProjectDir} --framework none --simpleName false`,
     );
 
     const thirdLibName = uniq('boot-maven-lib-');
@@ -1807,7 +1807,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const appName = `${parentProject}-${randomName}`;
     const port = 8989;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework spring-boot --parent-project ${parentProject} --directory ${parentProject} --port ${port} --simplePackageName false`,
+      `generate @jnxplus/nx-maven:application ${randomName} --framework spring-boot --parent-project ${parentProject} --directory ${parentProject} --port ${port} --simplePackageName false --simpleName false`,
     );
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
@@ -1846,19 +1846,19 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     const appName = uniq('boot-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework spring-boot --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject} --simplePackageName false`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework spring-boot --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject} --simplePackageName false --simpleName false`,
     );
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject} --framework none --simpleName false`,
     );
 
     const secondAppName = uniq('boot-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${secondAppName} --framework spring-boot --simpleName --parent-project ${secondParentProject} --directory ${appsParentProject}/${secondParentProject} --simplePackageName false`,
+      `generate @jnxplus/nx-maven:application ${secondAppName} --framework spring-boot --simpleName --parent-project ${secondParentProject} --directory ${appsParentProject}/${secondParentProject} --simplePackageName false --simpleName false`,
     );
     const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
     expect(secondBuildResult.stdout).toContain('Executor ran for Build');
@@ -1866,7 +1866,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const thirdParentProject = uniq('apps-parent-project-');
     const parentProjectDir = `${appsParentProject}/${secondParentProject}/deep/subdir`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${thirdParentProject} --simpleName --parent-project ${secondParentProject}  --directory ${parentProjectDir} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${thirdParentProject} --simpleName --parent-project ${secondParentProject}  --directory ${parentProjectDir} --framework none --simpleName false`,
     );
 
     const thirdAppName = uniq('boot-maven-app-');
