@@ -1,19 +1,17 @@
+import { readXml } from '@jnxplus/xml';
 import {
   CreateDependencies,
   CreateDependenciesContext,
   DependencyType,
   RawProjectGraphDependency,
+  joinPathFragments,
   validateDependency,
+  workspaceRoot,
 } from '@nx/devkit';
-
-import { readXml } from '@jnxplus/xml';
-import { joinPathFragments, workspaceRoot } from '@nx/devkit';
-import * as fs from 'fs';
-import { fileExists } from 'nx/src/utils/fileutils';
 import * as path from 'path';
 import { join } from 'path';
 import { XmlDocument } from 'xmldoc';
-import { getMavenRootDirectory } from '../utils';
+import { getArtifactId, getMavenRootDirectory } from '../utils';
 
 export const createDependencies: CreateDependencies = (
   _,
@@ -37,8 +35,8 @@ export const createDependencies: CreateDependencies = (
       );
 
       const newDependency = {
-        source: project.name ?? project.artifactId,
-        target: parentProject.name ?? parentProject.artifactId,
+        source: project.artifactId,
+        target: parentProject.artifactId,
         sourceFile: projectSourceFile,
         type: DependencyType.static,
       };
@@ -57,8 +55,8 @@ export const createDependencies: CreateDependencies = (
       );
 
       const newDependency = {
-        source: project.name ?? project.artifactId,
-        target: aggregatorProject.name ?? aggregatorProject.artifactId,
+        source: project.artifactId,
+        target: aggregatorProject.artifactId,
         sourceFile: projectSourceFile,
         type: DependencyType.static,
       };
@@ -70,8 +68,8 @@ export const createDependencies: CreateDependencies = (
     const dependencies = getDependencyProjects(project, projects);
     for (const dependency of dependencies) {
       const newDependency = {
-        source: project.name ?? project.artifactId,
-        target: dependency.name ?? dependency.artifactId,
+        source: project.artifactId,
+        target: dependency.artifactId,
         sourceFile: projectSourceFile,
         type: DependencyType.static,
       };
@@ -85,7 +83,6 @@ export const createDependencies: CreateDependencies = (
 };
 
 type MavenProjectType = {
-  name?: string;
   artifactId: string;
   projectDirPath: string;
   dependencies: (string | undefined)[];
@@ -96,36 +93,26 @@ type MavenProjectType = {
 function addProjects(
   mavenRootDirectory: string,
   projects: MavenProjectType[],
-  projectRoot: string,
+  projectRelativePath: string,
   aggregatorProjectArtifactId?: string,
 ) {
-  //projectDirPath
-  const projectDirPath = join(workspaceRoot, mavenRootDirectory, projectRoot);
-  const projectJsonPath = join(projectDirPath, 'project.json');
-  const pomXmlPath = join(projectDirPath, 'pom.xml');
+  //projectAbsolutePath
+  const projectAbsolutePath = join(
+    workspaceRoot,
+    mavenRootDirectory,
+    projectRelativePath,
+  );
+  const pomXmlPath = join(projectAbsolutePath, 'pom.xml');
   const pomXmlContent = readXml(pomXmlPath);
 
   //artifactId
-  const artifactIdXml = pomXmlContent.childNamed('artifactId');
-  if (artifactIdXml === undefined) {
-    throw new Error(`artifactId not found in pom.xml ${pomXmlPath}`);
-  }
-  const artifactId = artifactIdXml.val;
-
-  //projectName
-  let projectName;
-  const isProjectJsonExists = fileExists(projectJsonPath);
-  if (isProjectJsonExists) {
-    const projectJson = JSON.parse(fs.readFileSync(projectJsonPath, 'utf8'));
-    projectName = projectJson.name;
-  }
+  const artifactId = getArtifactId(pomXmlContent);
 
   const parentProjectArtifactId = getParentProjectName(pomXmlContent);
   const dependencies = getDependencyArtifactIds(pomXmlContent);
   projects.push({
-    name: projectName,
     artifactId: artifactId,
-    projectDirPath: projectDirPath,
+    projectDirPath: projectAbsolutePath,
     dependencies: dependencies,
     parentProjectArtifactId: parentProjectArtifactId,
     aggregatorProjectArtifactId: aggregatorProjectArtifactId,
@@ -142,11 +129,11 @@ function addProjects(
   }
 
   for (const moduleXmlElement of moduleXmlElementArray) {
-    const moduleRoot = joinPathFragments(
-      projectRoot,
+    const moduleRelativePath = joinPathFragments(
+      projectRelativePath,
       moduleXmlElement.val.trim(),
     );
-    addProjects(mavenRootDirectory, projects, moduleRoot, artifactId);
+    addProjects(mavenRootDirectory, projects, moduleRelativePath, artifactId);
   }
 }
 
