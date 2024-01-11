@@ -83,6 +83,38 @@ export function getMavenRootDirectory(): string {
   return '';
 }
 
+export function getProjectRootFromTree(
+  tree: Tree,
+  mavenRootDirectory: string,
+  projectName: string | undefined,
+) {
+  let projectRoot = mavenRootDirectory;
+
+  if (projectName) {
+    try {
+      projectRoot = readProjectConfiguration(tree, projectName).root;
+    } catch (err) {
+      const mavenRootDirAbsolutePath = path.join(
+        workspaceRoot,
+        mavenRootDirectory,
+      );
+
+      const projectBasedir = execSync(
+        `${getExecutable()} help:evaluate -Dexpression=project.basedir -q -DforceStdout -pl :${projectName}`,
+        {
+          cwd: mavenRootDirAbsolutePath,
+          windowsHide: true,
+        },
+      )
+        .toString()
+        .trim();
+      projectRoot = path.relative(workspaceRoot, projectBasedir);
+    }
+  }
+
+  return projectRoot;
+}
+
 export function addProjectToAggregator(
   tree: Tree,
   options: {
@@ -91,12 +123,11 @@ export function addProjectToAggregator(
     mavenRootDirectory: string;
   },
 ) {
-  const aggregatorProjectRoot = options.aggregatorProject
-    ? readProjectConfiguration(tree, options.aggregatorProject).root
-    : options.mavenRootDirectory
-      ? options.mavenRootDirectory
-      : '';
-
+  const aggregatorProjectRoot = getProjectRootFromTree(
+    tree,
+    options.mavenRootDirectory,
+    options.aggregatorProject,
+  );
   const parentProjectPomPath = path.join(aggregatorProjectRoot, 'pom.xml');
   const xmldoc = readXmlTree(tree, parentProjectPomPath);
 
@@ -134,10 +165,15 @@ export function addLibraryToProjects(
     groupId: string;
     projectName: string;
     projectVersion: string;
+    mavenRootDirectory: string;
   },
 ) {
   for (const projectName of options.parsedProjects) {
-    const projectRoot = readProjectConfiguration(tree, projectName).root;
+    const projectRoot = getProjectRootFromTree(
+      tree,
+      options.mavenRootDirectory,
+      projectName,
+    );
     const filePath = path.join(projectRoot, `pom.xml`);
     const xmldoc = readXmlTree(tree, filePath);
 
@@ -450,28 +486,11 @@ export function getParentProjectValues(
   projectRoot: string,
   parentProject: string | undefined,
 ) {
-  let parentProjectRoot = mavenRootDirectory;
-  if (parentProject) {
-    try {
-      parentProjectRoot = readProjectConfiguration(tree, parentProject).root;
-    } catch (err) {
-      const mavenRootDirAbsolutePath = path.join(
-        workspaceRoot,
-        mavenRootDirectory,
-      );
-
-      const projectBasedir = execSync(
-        `${getExecutable()} help:evaluate -Dexpression=project.basedir -q -DforceStdout -pl :${parentProject}`,
-        {
-          cwd: mavenRootDirAbsolutePath,
-          windowsHide: true,
-        },
-      )
-        .toString()
-        .trim();
-      parentProjectRoot = path.relative(workspaceRoot, projectBasedir);
-    }
-  }
+  const parentProjectRoot = getProjectRootFromTree(
+    tree,
+    mavenRootDirectory,
+    parentProject,
+  );
 
   const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
 
