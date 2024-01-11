@@ -38,12 +38,12 @@ export function getExecutable() {
 
   const localRepoRelativePath = getLocalRepoRelativePath();
   if (localRepoRelativePath) {
-    const mavenRepoLocal = `-Dmaven.repo.local=${path.join(
+    const mavenRepoLocal = path.join(
       workspaceRoot,
       mavenRootDirectory,
       localRepoRelativePath,
-    )}`;
-    executable += ` ${mavenRepoLocal}`;
+    );
+    executable += ` -Dmaven.repo.local=${mavenRepoLocal}`;
   }
 
   return executable;
