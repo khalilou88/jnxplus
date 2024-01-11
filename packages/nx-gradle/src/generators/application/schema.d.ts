@@ -1,4 +1,4 @@
-import { LanguageType, PackagingType } from '@jnxplus/common';
+import { FrameworkType, LanguageType, PackagingType } from '@jnxplus/common';
 
 export interface NxGradleAppGeneratorSchema {
   name: string;
@@ -13,5 +13,5 @@ export interface NxGradleAppGeneratorSchema {
   configFormat: '.properties' | '.yml';
   minimal?: boolean;
   port?: string | number;
-  framework?: 'spring-boot' | 'quarkus' | 'micronaut' | 'none';
+  framework?: FrameworkType;
 }

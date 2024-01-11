@@ -1,4 +1,4 @@
-import { LanguageType } from '@jnxplus/common';
+import { FrameworkType, LanguageType } from '@jnxplus/common';
 
 export interface NxMavenLibGeneratorSchema {
   name: string;
@@ -13,5 +13,5 @@ export interface NxMavenLibGeneratorSchema {
   aggregatorProject?: string;
   projects?: string;
   skipStarterCode?: boolean;
-  framework?: 'spring-boot' | 'quarkus' | 'micronaut' | 'none';
+  framework?: FrameworkType;
 }

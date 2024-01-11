@@ -1,4 +1,4 @@
-import { LanguageType, PackagingType } from '@jnxplus/common';
+import { FrameworkType, LanguageType, PackagingType } from '@jnxplus/common';
 
 export interface NxMavenAppGeneratorSchema {
   name: string;
@@ -15,5 +15,5 @@ export interface NxMavenAppGeneratorSchema {
   aggregatorProject?: string;
   minimal?: boolean;
   port?: string | number;
-  framework?: 'spring-boot' | 'quarkus' | 'micronaut' | 'none';
+  framework?: FrameworkType;
 }

@@ -1,4 +1,4 @@
-import { LanguageType } from '@jnxplus/common';
+import { FrameworkType, LanguageType } from '@jnxplus/common';
 import { readXmlTree, xmlToString } from '@jnxplus/xml';
 import {
   NxJsonConfiguration,
@@ -211,7 +211,7 @@ export function addMissedProperties(
   tree: Tree,
   options: {
     language: LanguageType;
-    framework: 'spring-boot' | 'quarkus' | 'micronaut' | 'none' | undefined;
+    framework: FrameworkType | undefined;
     kotlinVersion: string;
     springBootVersion: string;
     quarkusVersion: string;
