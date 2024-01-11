@@ -1,4 +1,4 @@
-import { LanguageType } from '@jnxplus/common';
+import { FrameworkType, LanguageType } from '@jnxplus/common';
 
 export interface NxGradleLibGeneratorSchema {
   name: string;
@@ -11,5 +11,5 @@ export interface NxGradleLibGeneratorSchema {
   projectVersion: string;
   projects?: string;
   skipStarterCode?: boolean;
-  framework?: 'spring-boot' | 'quarkus' | 'micronaut' | 'none';
+  framework?: FrameworkType;
 }

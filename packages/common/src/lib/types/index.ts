@@ -11,3 +11,4 @@ export type CustomCli =
 export type TargetsType = {
   [targetName: string]: TargetConfiguration;
 };
+export type FrameworkType = 'spring-boot' | 'quarkus' | 'micronaut' | 'none';

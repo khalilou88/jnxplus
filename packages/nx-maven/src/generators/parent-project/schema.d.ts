@@ -1,4 +1,4 @@
-import { ProjectType } from '@jnxplus/common';
+import { FrameworkType, ProjectType } from '@jnxplus/common';
 
 export interface NxMavenParentProjectGeneratorSchema {
   name: string;
@@ -10,6 +10,6 @@ export interface NxMavenParentProjectGeneratorSchema {
   projectVersion?: string;
   parentProject?: string;
   aggregatorProject?: string;
-  framework?: 'spring-boot' | 'quarkus' | 'micronaut' | 'none';
+  framework?: FrameworkType;
   language: 'java' | 'kotlin' | 'java-kotlin';
 }
