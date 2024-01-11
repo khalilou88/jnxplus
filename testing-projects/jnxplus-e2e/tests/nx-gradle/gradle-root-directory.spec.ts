@@ -296,7 +296,7 @@ describe('nx-gradle gradle-root-directory e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName}  --language kotlin --projects ${appName}`,
+      `generate @jnxplus/nx-gradle:library ${libName} --language kotlin --projects ${appName}`,
     );
 
     expect(() =>

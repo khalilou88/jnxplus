@@ -1735,7 +1735,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const thirdParentProject = uniq('apps-parent-project-');
     const parentProjectDir = `${appsParentProject}/${secondParentProject}/deep/subdir`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${thirdParentProject} --simpleName --parent-project ${secondParentProject}  --directory ${parentProjectDir}`,
+      `generate @jnxplus/nx-maven:parent-project ${thirdParentProject} --simpleName --parent-project ${secondParentProject} --directory ${parentProjectDir}`,
     );
 
     const thirdAppName = uniq('micronaut-maven-app-');

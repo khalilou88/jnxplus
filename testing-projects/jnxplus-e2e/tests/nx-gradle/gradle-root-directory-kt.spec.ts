@@ -28,7 +28,7 @@ describe('nx-gradle gradle-root-directory kotlin dsl e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName}  --gradleRootDirectory deep/subdir`,
+      `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --gradleRootDirectory deep/subdir`,
     );
   }, 120000);
 
@@ -296,7 +296,7 @@ describe('nx-gradle gradle-root-directory kotlin dsl e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:library ${libName}  --language kotlin --projects ${appName}`,
+      `generate @jnxplus/nx-gradle:library ${libName} --language kotlin --projects ${appName}`,
     );
 
     expect(() =>
