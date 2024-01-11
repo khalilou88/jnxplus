@@ -19,6 +19,12 @@ import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
 
 export function getExecutable() {
+  const key = 'mvnExecutable';
+  const cachedExecutable = cache.get(key);
+  if (cachedExecutable) {
+    return cachedExecutable;
+  }
+
   let executable = '';
 
   const mavenRootDirectory = getMavenRootDirectory();
@@ -49,6 +55,9 @@ export function getExecutable() {
     );
     executable += ` -Dmaven.repo.local=${mavenRepoLocal}`;
   }
+
+  // Store executable in cache for future use
+  cache.put(key, executable, 60000); // Cache for 60 seconds
 
   return executable;
 }
