@@ -32,18 +32,18 @@
     "projectType": {
       "description": "Type of the parent project",
       "type": "string",
-      "default": "application",
+      "default": "library",
       "x-prompt": {
-        "message": "Which projectType would you like to generate?",
+        "message": "Which projectType would you like to use for the parent project?",
         "type": "list",
         "items": [
           {
-            "value": "application",
-            "label": "Application"
-          },
-          {
             "value": "library",
             "label": "Library"
+          },
+          {
+            "value": "application",
+            "label": "Application"
           }
         ]
       }
