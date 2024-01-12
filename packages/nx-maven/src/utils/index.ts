@@ -131,8 +131,19 @@ export function addProjectToAggregator(
   const parentProjectPomPath = path.join(aggregatorProjectRoot, 'pom.xml');
   const xmldoc = readXmlTree(tree, parentProjectPomPath);
 
+  const aggregatorProjectAbsolutPath = path.join(
+    workspaceRoot,
+    options.mavenRootDirectory,
+    aggregatorProjectRoot,
+  );
+  const projectAbsolutePath = path.join(
+    workspaceRoot,
+    options.mavenRootDirectory,
+    options.projectRoot,
+  );
+
   const moduleRelativePath = path
-    .relative(aggregatorProjectRoot, options.projectRoot)
+    .relative(aggregatorProjectAbsolutPath, projectAbsolutePath)
     .replace(new RegExp(/\\/, 'g'), '/');
 
   const fragment = new XmlDocument(`<module>${moduleRelativePath}</module>`);
