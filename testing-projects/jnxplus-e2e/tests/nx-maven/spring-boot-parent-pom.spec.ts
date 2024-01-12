@@ -1141,7 +1141,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     });
   }, 240000);
 
-  it('should generate java apps that use a parent project', async () => {
+  it('aggregatorProject - should generate java apps that use a parent project and aggregatorProject', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework none`,
@@ -1179,7 +1179,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     const thirdAppName = uniq('boot-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${thirdAppName} --framework spring-boot --parent-project ${thirdParentProject}`,
+      `generate @jnxplus/nx-maven:application ${thirdAppName} --framework spring-boot --parent-project ${thirdParentProject} --aggregatorProject ${thirdParentProject}`,
     );
     const thirdBuildResult = await runNxCommandAsync(`build ${thirdAppName}`);
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');

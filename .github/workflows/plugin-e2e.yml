@@ -28,7 +28,7 @@ on:
           - nx-maven quarkus bom e2e
           - nx-maven spring-boot bom e2e
           - nx-maven spring-boot-parent-pom e2e
-          - should create a kotlin library outputDirLocalRepo
+          - aggregatorProject - should generate java apps that use a parent project and aggregatorProject
       os:
         type: choice
         description: Os
