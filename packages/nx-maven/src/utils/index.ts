@@ -83,7 +83,7 @@ export function getMavenRootDirectory(): string {
   return '';
 }
 
-export function getProjectRootFromTree(
+function getProjectRootFromTree(
   tree: Tree,
   mavenRootDirectory: string,
   projectName: string | undefined,
