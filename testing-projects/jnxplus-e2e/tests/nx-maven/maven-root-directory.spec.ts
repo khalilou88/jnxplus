@@ -868,7 +868,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: parentProjectName,
+      target: libsParentProject,
     });
   }, 240000);
 
@@ -928,6 +928,12 @@ describe('nx-maven maven-root-directory e2e', () => {
       type: 'static',
       source: appName,
       target: parentProjectName,
+    });
+
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: appsParentProject,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
