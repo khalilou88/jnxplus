@@ -2,6 +2,19 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.23.0](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.22.10...nx-maven-0.23.0) (2024-01-12)
+
+### Dependency Updates
+
+* `common` updated to version `0.18.5`
+
+### Features
+
+* change default of projectType to library ([#741](https://github.com/khalilou88/jnxplus/issues/741)) ([c457016](https://github.com/khalilou88/jnxplus/commit/c45701683d636e4784ff89852786ab6a199c3407))
+* **generators:** change default values of simpleName and simplePackageName  ([#740](https://github.com/khalilou88/jnxplus/issues/740)) ([ffa3db3](https://github.com/khalilou88/jnxplus/commit/ffa3db38fcbca6ab147d9e6280cb9d36555fdd56))
+
+
+
 ## [0.22.10](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.22.9...nx-maven-0.22.10) (2024-01-09)
 
 
