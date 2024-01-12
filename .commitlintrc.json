@@ -12,11 +12,8 @@
         "common",
         "gradle",
         "maven",
-        "nx-boot-gradle",
-        "nx-boot-maven",
-        "nx-maven",
-        "nx-quarkus-gradle",
-        "nx-quarkus-maven"
+        "nx-gradle",
+        "nx-maven"
       ]
     ],
     "type-enum": [
