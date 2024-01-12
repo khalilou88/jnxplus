@@ -865,13 +865,11 @@ describe('nx-maven maven-root-directory e2e', () => {
       'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
-    expect(depGraphJson.graph.dependencies[libName]).toContainEqual([
-      {
-        type: 'static',
-        source: libName,
-        target: libsParentProject,
-      },
-    ]);
+    expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
+      type: 'static',
+      source: libName,
+      target: libsParentProject,
+    });
   }, 240000);
 
   it('should create a micronaut kotlin application', async () => {
