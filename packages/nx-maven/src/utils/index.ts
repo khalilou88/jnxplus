@@ -133,14 +133,9 @@ export function addProjectToAggregator(
 
   const aggregatorProjectAbsolutPath = path.join(
     workspaceRoot,
-    options.mavenRootDirectory,
     aggregatorProjectRoot,
   );
-  const projectAbsolutePath = path.join(
-    workspaceRoot,
-    options.mavenRootDirectory,
-    options.projectRoot,
-  );
+  const projectAbsolutePath = path.join(workspaceRoot, options.projectRoot);
 
   const moduleRelativePath = path
     .relative(aggregatorProjectAbsolutPath, projectAbsolutePath)
