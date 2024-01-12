@@ -809,7 +809,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --parentProject ${libsParentProject}`,
+      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --parentProject ${libsParentProject} --aggregatorProject ${libsParentProject}`,
     );
 
     expect(() =>
