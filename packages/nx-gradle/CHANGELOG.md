@@ -2,6 +2,18 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.18.0](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.17.19...nx-gradle-0.18.0) (2024-01-12)
+
+### Dependency Updates
+
+* `common` updated to version `0.18.5`
+
+### Features
+
+* **generators:** change default values of simpleName and simplePackageName  ([#740](https://github.com/khalilou88/jnxplus/issues/740)) ([ffa3db3](https://github.com/khalilou88/jnxplus/commit/ffa3db38fcbca6ab147d9e6280cb9d36555fdd56))
+
+
+
 ## [0.17.19](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.17.18...nx-gradle-0.17.19) (2024-01-09)
 
 ### Dependency Updates
