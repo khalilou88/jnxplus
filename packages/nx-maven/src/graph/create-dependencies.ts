@@ -24,7 +24,10 @@ export const createDependencies: CreateDependencies = (
   addProjects(mavenRootDirectory, projects, '');
 
   for (const project of projects) {
-    const projectRoot = path.relative(workspaceRoot, project.projectDirPath);
+    const projectRoot = path.relative(
+      workspaceRoot,
+      project.projectAbsolutePath,
+    );
 
     const projectSourceFile = joinPathFragments(projectRoot, 'pom.xml');
 
@@ -84,7 +87,7 @@ export const createDependencies: CreateDependencies = (
 
 type MavenProjectType = {
   artifactId: string;
-  projectDirPath: string;
+  projectAbsolutePath: string;
   dependencies: (string | undefined)[];
   parentProjectArtifactId?: string;
   aggregatorProjectArtifactId?: string;
@@ -112,7 +115,7 @@ function addProjects(
   const dependencies = getDependencyArtifactIds(pomXmlContent);
   projects.push({
     artifactId: artifactId,
-    projectDirPath: projectAbsolutePath,
+    projectAbsolutePath: projectAbsolutePath,
     dependencies: dependencies,
     parentProjectArtifactId: parentProjectArtifactId,
     aggregatorProjectArtifactId: aggregatorProjectArtifactId,
