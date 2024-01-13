@@ -92,11 +92,11 @@ async function main() {
         initial: 'spring-boot' as any,
         type: 'autocomplete',
         choices: [
-          { name: 'spring-boot', message: 'spring-boot' },
-          { name: 'quarkus', message: 'quarkus' },
-          { name: 'micronaut', message: 'micronaut' },
-          { name: 'kmp', message: 'kotlin multiplatform' },
-          { name: 'none', message: 'none' },
+          { name: 'spring-boot', message: 'Spring Boot' },
+          { name: 'quarkus', message: 'Quarkus' },
+          { name: 'micronaut', message: 'Micronaut' },
+          { name: 'kmp', message: 'Kotlin Multiplatform' },
+          { name: 'none', message: 'None' },
         ],
       })
     ).preset;
