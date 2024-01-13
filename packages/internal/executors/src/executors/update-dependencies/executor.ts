@@ -19,9 +19,12 @@ export default async function runExecutor(
   updateFile(options.version, 'packages/nx-gradle');
   updateFile(options.version, 'packages/nx-maven');
 
+  updateFile(options.version, 'packages/create-nx-gradle-workspace');
+  updateFile(options.version, 'packages/create-nx-maven-workspace');
+
   const commitMessage = `release: write @jnxplus/common version ${options.version} in dependencies section`;
 
-  const commit = `git commit --no-verify -m "${commitMessage}" packages/nx-gradle/package.json packages/nx-maven/package.json`;
+  const commit = `git commit --no-verify -m "${commitMessage}" packages/nx-gradle/package.json packages/nx-maven/package.json packages/create-nx-gradle-workspace/package.json packages/create-nx-maven-workspace/package.json`;
   execSync(commit, {
     cwd: workspaceRoot,
     stdio: 'inherit',
