@@ -27,9 +27,9 @@
       "x-type": "library",
       "description": "library generator"
     },
-    "kotlin-multiplatform": {
-      "factory": "./src/generators/kt-multiplatform/generator",
-      "schema": "./src/generators/kt-multiplatform/schema.json",
+    "kmp": {
+      "factory": "./src/generators/kmp/generator",
+      "schema": "./src/generators/kmp/schema.json",
       "description": "kotlin-multiplatform generator"
     },
     "preset": {

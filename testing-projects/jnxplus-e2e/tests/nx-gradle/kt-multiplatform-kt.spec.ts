@@ -8,7 +8,7 @@ import {
 import { execSync } from 'child_process';
 import { rmSync } from 'fs';
 
-describe('nx-gradle kt-multiplatform kotlin dsl e2e', () => {
+describe('nx-gradle kmp kotlin dsl e2e', () => {
   let workspaceDirectory: string;
 
   const rootProjectName = uniq('root-project-');

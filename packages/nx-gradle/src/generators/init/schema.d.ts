@@ -5,11 +5,6 @@ export interface NxGradleInitGeneratorSchema {
   dsl: DSLType;
   rootProjectName: string;
   gradleRootDirectory: string;
-  preset:
-    | 'spring-boot'
-    | 'quarkus'
-    | 'micronaut'
-    | 'kotlin-multiplatform'
-    | 'none';
+  preset: 'spring-boot' | 'quarkus' | 'micronaut' | 'kmp' | 'none';
   skipWrapper?: boolean;
 }

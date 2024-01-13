@@ -34,16 +34,16 @@ nx generate @jnxplus/nx-maven:init
 
 ### 3. Usage
 
-| Action                               | Command                                                               |
-| ------------------------------------ | --------------------------------------------------------------------- |
-| Generate a parent project            | `nx generate @jnxplus/nx-maven:parent-project my-parent-project-name` |
-| Generate an application              | `nx generate @jnxplus/nx-maven:application my-app-name`               |
-| Generate a library                   | `nx generate @jnxplus/nx-maven:library my-lib-name`                   |
-| Build a project                      | `nx build my-project-name`                                            |
-| Serve an application                 | `nx serve my-app-name`                                                |
-| Test a project                       | `nx test my-project-name`                                             |
-| Format a java project                | `nx format --projects my-project-name`                                |
-| Visualize project's dependency graph | `nx graph`                                                            |
+| Action                               | Command                                                          |
+| ------------------------------------ | ---------------------------------------------------------------- |
+| Generate a parent project            | `nx generate @jnxplus/nx-maven:parent-project my-parent-project` |
+| Generate an application              | `nx generate @jnxplus/nx-maven:application my-app`               |
+| Generate a library                   | `nx generate @jnxplus/nx-maven:library my-lib`                   |
+| Build a project                      | `nx build my-project`                                            |
+| Serve an application                 | `nx serve my-app`                                                |
+| Test a project                       | `nx test my-project`                                             |
+| Format a java project                | `nx format --projects my-project`                                |
+| Visualize project's dependency graph | `nx graph`                                                       |
 
 ## License
 

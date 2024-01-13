@@ -43,9 +43,7 @@ function normalizeOptions(
   options: NxGradleInitGeneratorSchema,
 ): NormalizedSchema {
   const kotlinExtension =
-    options.dsl === 'kotlin' || options.preset === 'kotlin-multiplatform'
-      ? '.kts'
-      : '';
+    options.dsl === 'kotlin' || options.preset === 'kmp' ? '.kts' : '';
 
   const generateRepositories = process.env['NODE_ENV'] === 'test';
 
