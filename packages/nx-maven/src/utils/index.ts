@@ -1,4 +1,8 @@
-import { FrameworkType, LanguageType } from '@jnxplus/common';
+import {
+  DependencyManagementType,
+  FrameworkType,
+  LanguageType,
+} from '@jnxplus/common';
 import { readXmlTree, xmlToString } from '@jnxplus/xml';
 import {
   NxJsonConfiguration,
@@ -324,7 +328,7 @@ function isParentPomExits(
 
 function getDependencyManagement(
   xmldoc: XmlDocument,
-): 'bom' | 'spring-boot-parent-pom' | 'micronaut-parent-pom' {
+): DependencyManagementType {
   if (isParentPomExits(xmldoc, 'spring-boot-starter-parent')) {
     return 'spring-boot-parent-pom';
   }
@@ -517,7 +521,7 @@ export function extractRootPomValues(
   tree: Tree,
   mavenRootDirectory: string,
   framework: string | undefined,
-): [string, 'bom' | 'spring-boot-parent-pom' | 'micronaut-parent-pom'] {
+): [string, DependencyManagementType] {
   const rootPomXmlContent = readXmlTree(
     tree,
     path.join(mavenRootDirectory, 'pom.xml'),

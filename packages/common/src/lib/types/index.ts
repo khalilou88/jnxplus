@@ -18,3 +18,7 @@ export type PresetType =
   | 'micronaut'
   | 'kmp'
   | 'none';
+export type DependencyManagementType =
+  | 'bom'
+  | 'spring-boot-parent-pom'
+  | 'micronaut-parent-pom';

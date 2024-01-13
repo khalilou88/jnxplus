@@ -1,13 +1,12 @@
+import { DependencyManagementType } from '@jnxplus/common';
+
 export interface NxMavenInitGeneratorSchema {
   javaVersion: string | number;
   groupId: string;
   parentProjectName: string;
   parentProjectVersion: string;
   mavenRootDirectory: string;
-  dependencyManagement:
-    | 'bom'
-    | 'spring-boot-parent-pom'
-    | 'micronaut-parent-pom';
+  dependencyManagement: DependencyManagementType;
   skipWrapper?: boolean;
   localRepoRelativePath: string;
 }

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { DependencyManagementType } from '@jnxplus/common';
 import { createWorkspace } from 'create-nx-workspace';
 import { prompt } from 'enquirer';
 import * as yargs from 'yargs';
@@ -92,10 +93,7 @@ async function main() {
   if (!dependencyManagement) {
     dependencyManagement = (
       await prompt<{
-        dependencyManagement:
-          | 'bom'
-          | 'spring-boot-parent-pom'
-          | 'micronaut-parent-pom';
+        dependencyManagement: DependencyManagementType;
       }>({
         name: 'dependencyManagement',
         message: 'How to manage dependencies?',

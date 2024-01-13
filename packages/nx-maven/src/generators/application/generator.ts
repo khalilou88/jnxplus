@@ -1,4 +1,5 @@
 import {
+  DependencyManagementType,
   clearEmpties,
   generateAppClassName,
   generatePackageDirectory,
@@ -54,10 +55,7 @@ interface NormalizedSchema extends NxMavenAppGeneratorSchema {
   springBootVersion: string;
   quarkusVersion: string;
   micronautVersion: string;
-  dependencyManagement:
-    | 'bom'
-    | 'spring-boot-parent-pom'
-    | 'micronaut-parent-pom';
+  dependencyManagement: DependencyManagementType;
   mavenRootDirectory: string;
 }
 
