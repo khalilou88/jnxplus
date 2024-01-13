@@ -12,3 +12,9 @@ export type TargetsType = {
   [targetName: string]: TargetConfiguration;
 };
 export type FrameworkType = 'spring-boot' | 'quarkus' | 'micronaut' | 'none';
+export type PresetType =
+  | 'spring-boot'
+  | 'quarkus'
+  | 'micronaut'
+  | 'kmp'
+  | 'none';

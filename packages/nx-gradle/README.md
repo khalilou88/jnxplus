@@ -36,16 +36,16 @@ Use preset option to choose between Spring Boot, Quarkus, Micronaut, and Kotlin 
 
 ### 3. Usage
 
-| Action                                 | Command                                                                         |
-| -------------------------------------- | ------------------------------------------------------------------------------- |
-| Generate an application                | `nx generate @jnxplus/nx-gradle:application my-app-name`                        |
-| Generate a library                     | `nx generate @jnxplus/nx-gradle:library my-lib-name`                            |
-| Scaffold kotlin multiplatform projects | `nx generate @jnxplus/nx-gradle:kotlin-multiplatform my-multiplatform-projects` |
-| Build a project                        | `nx build my-project-name`                                                      |
-| Serve an application                   | `nx serve my-app-name`                                                          |
-| Test a project                         | `nx test my-project-name`                                                       |
-| Format a java project                  | `nx format --projects my-project-name`                                          |
-| Visualize project's dependency graph   | `nx graph`                                                                      |
+| Action                                  | Command                                             |
+| --------------------------------------- | --------------------------------------------------- |
+| Generate an application                 | `nx generate @jnxplus/nx-gradle:application my-app` |
+| Generate a library                      | `nx generate @jnxplus/nx-gradle:library my-lib`     |
+| Scaffold a kotlin multiplatform project | `nx generate @jnxplus/nx-gradle:kmp my-kmp-project` |
+| Build a project                         | `nx build my-project`                               |
+| Serve an application                    | `nx serve my-app`                                   |
+| Test a project                          | `nx test my-project`                                |
+| Format a java project                   | `nx format --projects my-project`                   |
+| Visualize project's dependency graph    | `nx graph`                                          |
 
 ## License
 

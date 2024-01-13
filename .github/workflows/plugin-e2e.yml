@@ -10,7 +10,7 @@ on:
           - nx-gradle create-nx-gradle-workspace
           - nx-gradle gradle-root-directory e2e
           - nx-gradle gradle-root-directory kotlin dsl e2e
-          - nx-gradle kt-multiplatform kotlin dsl e2e
+          - nx-gradle kmp kotlin dsl e2e
           - nx-gradle micronaut e2e
           - nx-gradle micronaut kotlin dsl e2e
           - nx-gradle all e2e

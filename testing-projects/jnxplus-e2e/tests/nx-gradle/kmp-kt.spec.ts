@@ -8,7 +8,7 @@ import {
 import { execSync } from 'child_process';
 import { rmSync } from 'fs';
 
-describe('nx-gradle kt-multiplatform kotlin dsl e2e', () => {
+describe('nx-gradle kmp kotlin dsl e2e', () => {
   let workspaceDirectory: string;
 
   const rootProjectName = uniq('root-project-');
@@ -25,7 +25,7 @@ describe('nx-gradle kt-multiplatform kotlin dsl e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset kotlin-multiplatform`,
+      `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset kmp`,
     );
   }, 120000);
 
@@ -63,10 +63,8 @@ describe('nx-gradle kt-multiplatform kotlin dsl e2e', () => {
   }, 120000);
 
   it('shoud works', async () => {
-    const name = uniq('kotlin-multiplatform-');
+    const name = uniq('kmp-');
 
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:kotlin-multiplatform ${name}`,
-    );
+    await runNxCommandAsync(`generate @jnxplus/nx-gradle:kmp ${name}`);
   }, 240000);
 });

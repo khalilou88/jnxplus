@@ -1,15 +1,10 @@
-import { DSLType } from '@jnxplus/common';
+import { DSLType, PresetType } from '@jnxplus/common';
 
 export interface NxGradleInitGeneratorSchema {
   javaVersion: string | number;
   dsl: DSLType;
   rootProjectName: string;
   gradleRootDirectory: string;
-  preset:
-    | 'spring-boot'
-    | 'quarkus'
-    | 'micronaut'
-    | 'kotlin-multiplatform'
-    | 'none';
+  preset: PresetType;
   skipWrapper?: boolean;
 }
