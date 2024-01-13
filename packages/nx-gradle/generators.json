@@ -30,7 +30,7 @@
     "kmp": {
       "factory": "./src/generators/kmp/generator",
       "schema": "./src/generators/kmp/schema.json",
-      "description": "kotlin-multiplatform generator"
+      "description": "kotlin multiplatform generator"
     },
     "preset": {
       "factory": "./src/generators/preset/generator",

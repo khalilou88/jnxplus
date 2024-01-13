@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { PresetType } from '@jnxplus/common';
 import { createWorkspace } from 'create-nx-workspace';
 import { prompt } from 'enquirer';
 import * as yargs from 'yargs';
@@ -83,12 +84,7 @@ async function main() {
   if (!preset) {
     preset = (
       await prompt<{
-        preset:
-          | 'spring-boot'
-          | 'quarkus'
-          | 'micronaut'
-          | 'kotlin-multiplatform'
-          | 'none';
+        preset: PresetType;
       }>({
         name: 'preset',
         message: "Which preset to use? or 'none' to skip.",
@@ -99,7 +95,7 @@ async function main() {
           { name: 'spring-boot', message: 'spring-boot' },
           { name: 'quarkus', message: 'quarkus' },
           { name: 'micronaut', message: 'micronaut' },
-          { name: 'kotlin-multiplatform', message: 'kotlin-multiplatform' },
+          { name: 'kmp', message: 'kotlin multiplatform' },
           { name: 'none', message: 'none' },
         ],
       })
