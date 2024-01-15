@@ -32,21 +32,7 @@
     "projectType": {
       "description": "Type of the parent project",
       "type": "string",
-      "default": "library",
-      "x-prompt": {
-        "message": "Which projectType would you like to use for the parent project?",
-        "type": "list",
-        "items": [
-          {
-            "value": "library",
-            "label": "Library"
-          },
-          {
-            "value": "application",
-            "label": "Application"
-          }
-        ]
-      }
+      "default": "library"
     },
     "groupId": {
       "type": "string",
@@ -71,19 +57,19 @@
         "items": [
           {
             "value": "spring-boot",
-            "label": "spring-boot"
+            "label": "Spring Boot"
           },
           {
             "value": "quarkus",
-            "label": "quarkus"
+            "label": "Quarkus"
           },
           {
             "value": "micronaut",
-            "label": "micronaut"
+            "label": "Micronaut"
           },
           {
             "value": "none",
-            "label": "none"
+            "label": "None"
           }
         ]
       }
