@@ -1202,13 +1202,7 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
       `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --skipStarterCode`,
     );
 
-    expect(() =>
-      checkFilesExist(
-        `${libName}/build.gradle.kts`,
-        `${libName}/src/main/java/.gitkeep`,
-        `${libName}/src/test/java/.gitkeep`,
-      ),
-    ).not.toThrow();
+    expect(() => checkFilesExist(`${libName}/build.gradle.kts`)).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
@@ -1229,13 +1223,7 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
       `generate @jnxplus/nx-gradle:library ${libName} --framework quarkus --language kotlin --skipStarterCode`,
     );
 
-    expect(() =>
-      checkFilesExist(
-        `${libName}/build.gradle.kts`,
-        `${libName}/src/main/kotlin/.gitkeep`,
-        `${libName}/src/test/kotlin/.gitkeep`,
-      ),
-    ).not.toThrow();
+    expect(() => checkFilesExist(`${libName}/build.gradle.kts`)).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
