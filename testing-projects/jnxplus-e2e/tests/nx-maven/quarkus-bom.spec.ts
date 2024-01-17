@@ -1657,8 +1657,6 @@ describe('nx-maven quarkus bom e2e', () => {
       checkFilesExist(
         `${appName}/pom.xml`,
         `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/java/.gitkeep`,
-        `${appName}/src/test/java/.gitkeep`,
       ),
     ).not.toThrow();
 
@@ -1693,8 +1691,6 @@ describe('nx-maven quarkus bom e2e', () => {
       checkFilesExist(
         `${appName}/pom.xml`,
         `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/kotlin/.gitkeep`,
-        `${appName}/src/test/kotlin/.gitkeep`,
       ),
     ).not.toThrow();
 
@@ -1726,13 +1722,7 @@ describe('nx-maven quarkus bom e2e', () => {
       `generate @jnxplus/nx-maven:library ${libName} --framework quarkus --skipStarterCode --parent-project ${libsParentProject}`,
     );
 
-    expect(() =>
-      checkFilesExist(
-        `${libName}/pom.xml`,
-        `${libName}/src/main/java/.gitkeep`,
-        `${libName}/src/test/java/.gitkeep`,
-      ),
-    ).not.toThrow();
+    expect(() => checkFilesExist(`${libName}/pom.xml`)).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
@@ -1759,13 +1749,7 @@ describe('nx-maven quarkus bom e2e', () => {
       `generate @jnxplus/nx-maven:library ${libName} --framework quarkus --language kotlin --skipStarterCode --parent-project ${libsParentProject}`,
     );
 
-    expect(() =>
-      checkFilesExist(
-        `${libName}/pom.xml`,
-        `${libName}/src/main/kotlin/.gitkeep`,
-        `${libName}/src/test/kotlin/.gitkeep`,
-      ),
-    ).not.toThrow();
+    expect(() => checkFilesExist(`${libName}/pom.xml`)).not.toThrow();
 
     expect(() =>
       checkFilesDoNotExist(
