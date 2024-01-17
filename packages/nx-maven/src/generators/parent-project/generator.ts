@@ -1,5 +1,5 @@
 import {
-  generateParsedTags,
+  parseTags,
   generateProjectDirectory,
   generateProjectName,
   generateProjectRoot,
@@ -90,7 +90,7 @@ function normalizeOptions(
 
   const projectRoot = generateProjectRoot(mavenRootDirectory, projectDirectory);
 
-  const parsedTags = generateParsedTags({ tags: options.tags });
+  const parsedTags = parseTags(options.tags);
 
   const [relativePath, parentProjectName, parentGroupId, parentProjectVersion] =
     getParentProjectValues(

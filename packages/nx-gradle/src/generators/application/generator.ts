@@ -4,7 +4,7 @@ import {
   generateAppClassName,
   generatePackageDirectory,
   generatePackageName,
-  generateParsedTags,
+  parseTags,
   generateProjectDirectory,
   generateProjectName,
   generateProjectRoot,
@@ -79,7 +79,7 @@ function normalizeOptions(
     projectDirectory,
   );
 
-  const parsedTags = generateParsedTags({ tags: options.tags });
+  const parsedTags = parseTags(options.tags);
 
   const appClassName = generateAppClassName(projectName, {
     framework: options.framework,

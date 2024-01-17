@@ -45,8 +45,8 @@ export function generateProjectRoot(
   return joinPathFragments(rootDirectory, projectDirectory);
 }
 
-export function generateParsedTags(options: { tags: string | undefined }) {
-  return options.tags ? options.tags.split(',').map((s) => s.trim()) : [];
+export function parseTags(tags: string | undefined) {
+  return tags ? tags.split(',').map((s) => s.trim()) : [];
 }
 
 export function generateAppClassName(

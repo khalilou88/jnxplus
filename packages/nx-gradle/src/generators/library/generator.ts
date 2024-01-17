@@ -3,7 +3,7 @@ import {
   generatePackageDirectory,
   generatePackageName,
   generateParsedProjects,
-  generateParsedTags,
+  parseTags,
   generateProjectDirectory,
   generateProjectName,
   generateProjectRoot,
@@ -72,7 +72,7 @@ function normalizeOptions(
     projectDirectory,
   );
 
-  const parsedTags = generateParsedTags({ tags: options.tags });
+  const parsedTags = parseTags(options.tags);
 
   const packageName = generatePackageName(simpleProjectName, {
     simplePackageName: options.simplePackageName,
