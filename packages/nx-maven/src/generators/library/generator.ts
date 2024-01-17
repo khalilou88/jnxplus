@@ -192,20 +192,6 @@ function addQuarkusFiles(tree: Tree, options: NormalizedSchema) {
         `/src/test/${options.language}/${options.packageDirectory}/GreetingServiceTest.${fileExtension}`,
       ),
     );
-  } else {
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/main/${options.language}/.gitkeep`,
-      ),
-    );
-
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/test/${options.language}/.gitkeep`,
-      ),
-    );
   }
 }
 
@@ -236,20 +222,6 @@ function addMicronautFiles(tree: Tree, options: NormalizedSchema) {
       joinPathFragments(
         options.projectRoot,
         `/src/test/${options.language}/${options.packageDirectory}/HelloServiceTest.${fileExtension}`,
-      ),
-    );
-  } else {
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/main/${options.language}/.gitkeep`,
-      ),
-    );
-
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/test/${options.language}/.gitkeep`,
       ),
     );
   }

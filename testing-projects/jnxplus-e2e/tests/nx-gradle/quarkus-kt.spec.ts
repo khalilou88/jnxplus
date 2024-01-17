@@ -1148,9 +1148,6 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
       checkFilesExist(
         `${appName}/build.gradle.kts`,
         `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/java/.gitkeep`,
-        `${appName}/src/test/java/.gitkeep`,
-        `${appName}/src/native-test/java/.gitkeep`,
       ),
     ).not.toThrow();
 
@@ -1180,9 +1177,6 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
       checkFilesExist(
         `${appName}/build.gradle.kts`,
         `${appName}/src/main/resources/application.properties`,
-        `${appName}/src/main/kotlin/.gitkeep`,
-        `${appName}/src/test/kotlin/.gitkeep`,
-        `${appName}/src/native-test/kotlin/.gitkeep`,
       ),
     ).not.toThrow();
 

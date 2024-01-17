@@ -291,27 +291,6 @@ function addQuarkusFiles(tree: Tree, options: NormalizedSchema) {
         `/src/main/resources/META-INF/resources/index.html`,
       ),
     );
-  } else {
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/main/${options.language}/.gitkeep`,
-      ),
-    );
-
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/test/${options.language}/.gitkeep`,
-      ),
-    );
-
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/native-test/${options.language}/.gitkeep`,
-      ),
-    );
   }
 }
 
@@ -342,20 +321,6 @@ function addMicronautFiles(tree: Tree, options: NormalizedSchema) {
       joinPathFragments(
         options.projectRoot,
         `/src/test/${options.language}/${options.packageDirectory}/HelloControllerTest.${fileExtension}`,
-      ),
-    );
-  } else {
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/main/${options.language}/.gitkeep`,
-      ),
-    );
-
-    tree.delete(
-      joinPathFragments(
-        options.projectRoot,
-        `/src/test/${options.language}/.gitkeep`,
       ),
     );
   }
