@@ -100,10 +100,6 @@ export function isCustomPortFunction(options: {
   return !!options.port && +options.port !== 8080;
 }
 
-export function generateParsedProjects(options: {
-  projects: string | undefined;
-}) {
-  return options.projects
-    ? options.projects.split(',').map((s) => s.trim())
-    : [];
+export function parseProjects(projects: string | undefined) {
+  return projects ? projects.split(',').map((s) => s.trim()) : [];
 }

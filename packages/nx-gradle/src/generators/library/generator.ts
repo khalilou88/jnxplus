@@ -2,7 +2,7 @@ import {
   DSLType,
   generatePackageDirectory,
   generatePackageName,
-  generateParsedProjects,
+  parseProjects,
   parseTags,
   generateProjectDirectory,
   generateProjectName,
@@ -82,7 +82,7 @@ function normalizeOptions(
 
   const packageDirectory = generatePackageDirectory(packageName);
 
-  const parsedProjects = generateParsedProjects({ projects: options.projects });
+  const parsedProjects = parseProjects(options.projects);
 
   const dsl = getDsl(tree, gradleRootDirectory);
   const kotlinExtension = dsl === 'kotlin' ? '.kts' : '';
