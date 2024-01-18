@@ -29,7 +29,7 @@ on:
           - nx-maven spring-boot bom e2e
           - nx-maven spring-boot-parent-pom e2e
           - should create a micronaut java application
-          - NX_VERBOSE_LOGGING_NX_VERBOSE_LOGGING
+          - @jnxplus/nx-gradle_@jnxplus/nx-gradle capabilities
       os:
         type: choice
         description: Os
