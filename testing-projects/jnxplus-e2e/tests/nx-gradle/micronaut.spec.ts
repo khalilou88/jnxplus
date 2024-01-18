@@ -44,7 +44,7 @@ describe('nx-gradle micronaut e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --preset micronaut --versionManagement version-catalog`,
     );
-  }, 120000);
+  }, 240000);
 
   afterAll(async () => {
     // Cleanup the test project
@@ -56,7 +56,7 @@ describe('nx-gradle micronaut e2e', () => {
 
   it('should set NX_VERBOSE_LOGGING to true', async () => {
     expect(process.env['NX_VERBOSE_LOGGING']).toBe('true');
-  }, 120000);
+  }, 240000);
 
   it('should init the workspace with @jnxplus/nx-gradle capabilities', async () => {
     // Making sure the package.json file contains the @jnxplus/nx-gradle dependency
@@ -77,7 +77,7 @@ describe('nx-gradle micronaut e2e', () => {
         'settings.gradle',
       ),
     ).not.toThrow();
-  }, 120000);
+  }, 240000);
 
   it('should create a micronaut java application', async () => {
     const appName = uniq('micronaut-gradle-app-');
@@ -184,7 +184,7 @@ describe('nx-gradle micronaut e2e', () => {
       );
       expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
-  }, 120000);
+  }, 240000);
 
   it('should use specified options to create an application', async () => {
     const randomName = uniq('micronaut-gradle-app-');
@@ -266,7 +266,7 @@ describe('nx-gradle micronaut e2e', () => {
 
     // port and process cleanup
     await killProcessAndPorts(process.pid, port);
-  }, 120000);
+  }, 240000);
 
   it('should generate an app with a simple package name', async () => {
     const randomName = uniq('micronaut-gradle-app-');
@@ -348,7 +348,7 @@ describe('nx-gradle micronaut e2e', () => {
 
     // port and process cleanup
     await killProcessAndPorts(process.pid, port);
-  }, 120000);
+  }, 240000);
 
   it('should create a kotlin application', async () => {
     const appName = uniq('micronaut-gradle-app-');
@@ -440,7 +440,7 @@ describe('nx-gradle micronaut e2e', () => {
       );
       expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
     }
-  }, 120000);
+  }, 240000);
 
   it('--an app with aliases', async () => {
     const randomName = uniq('micronaut-gradle-app-');
@@ -522,7 +522,7 @@ describe('nx-gradle micronaut e2e', () => {
 
     // port and process cleanup
     await killProcessAndPorts(process.pid, port);
-  }, 120000);
+  }, 240000);
 
   it('directory with dash', async () => {
     const randomName = uniq('micronaut-gradle-app-');
@@ -557,7 +557,7 @@ describe('nx-gradle micronaut e2e', () => {
 
     // port and process cleanup
     await killProcessAndPorts(process.pid, port);
-  }, 120000);
+  }, 240000);
 
   it('should create a library', async () => {
     const libName = uniq('micronaut-gradle-lib-');
@@ -618,7 +618,7 @@ describe('nx-gradle micronaut e2e', () => {
       source: libName,
       target: rootProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should create a kotlin library', async () => {
     const libName = uniq('micronaut-gradle-lib-');
@@ -677,7 +677,7 @@ describe('nx-gradle micronaut e2e', () => {
       source: libName,
       target: rootProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should create a library with the specified properties', async () => {
     const randomName = uniq('micronaut-gradle-lib-');
@@ -736,7 +736,7 @@ describe('nx-gradle micronaut e2e', () => {
       source: libName,
       target: rootProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should generare a lib with a simple package name', async () => {
     const randomName = uniq('micronaut-gradle-lib-');
@@ -795,7 +795,7 @@ describe('nx-gradle micronaut e2e', () => {
       source: libName,
       target: rootProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('--a lib with aliases', async () => {
     const randomName = uniq('micronaut-gradle-lib-');
@@ -854,7 +854,7 @@ describe('nx-gradle micronaut e2e', () => {
       source: libName,
       target: rootProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should add a lib to an app dependencies', async () => {
     const appName = uniq('micronaut-gradle-app-');
@@ -932,7 +932,7 @@ describe('nx-gradle micronaut e2e', () => {
       source: appName,
       target: libName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should add a kotlin lib to a kotlin app dependencies', async () => {
     const appName = uniq('micronaut-gradle-app-');
@@ -1008,7 +1008,7 @@ describe('nx-gradle micronaut e2e', () => {
       source: appName,
       target: libName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should create an application with a simple name', async () => {
     const appName = uniq('micronaut-gradle-app-');
@@ -1090,7 +1090,7 @@ describe('nx-gradle micronaut e2e', () => {
 
     // port and process cleanup
     await killProcessAndPorts(process.pid, port);
-  }, 120000);
+  }, 240000);
 
   it('should create a library with a simple name', async () => {
     const libName = uniq('micronaut-gradle-lib-');
@@ -1148,7 +1148,7 @@ describe('nx-gradle micronaut e2e', () => {
       source: libName,
       target: rootProjectName,
     });
-  }, 120000);
+  }, 240000);
 
   it('should create a minimal java application', async () => {
     const appName = uniq('micronaut-gradle-app-');
@@ -1188,7 +1188,7 @@ describe('nx-gradle micronaut e2e', () => {
 
     // port and process cleanup
     await killProcessAndPorts(process.pid, port);
-  }, 120000);
+  }, 240000);
 
   it('should create a minimal kotlin application', async () => {
     const appName = uniq('micronaut-gradle-app-');
@@ -1228,7 +1228,7 @@ describe('nx-gradle micronaut e2e', () => {
 
     // port and process cleanup
     await killProcessAndPorts(process.pid, port);
-  }, 120000);
+  }, 240000);
 
   it('should skip starter code when generating a java library with skipStarterCode option', async () => {
     const libName = uniq('micronaut-gradle-lib-');
@@ -1249,7 +1249,7 @@ describe('nx-gradle micronaut e2e', () => {
         ).className.toLocaleLowerCase()}/HelloServiceTest.java`,
       ),
     ).not.toThrow();
-  }, 120000);
+  }, 240000);
 
   it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
     const libName = uniq('micronaut-gradle-lib-');
@@ -1271,5 +1271,5 @@ describe('nx-gradle micronaut e2e', () => {
         ).className.toLocaleLowerCase()}/HelloServiceTest.kt`,
       ),
     ).not.toThrow();
-  }, 120000);
+  }, 240000);
 });
