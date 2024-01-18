@@ -68,3 +68,72 @@ tasks.withType<Test> {
 }
 <% } -%>
 <% } -%>
+<% if(versionManagement === 'version-catalog') { -%>
+<% if(dsl === 'groovy') { -%>
+plugins {
+	id 'java'
+<% if(packaging === 'war') { -%>
+	id 'war'
+<% } -%>
+	alias libs.plugins.springframework.boot
+	alias libs.plugins.spring.dependency.management
+}
+
+group = '<%= groupId %>'
+version = '<%= projectVersion %>'
+
+java {
+  sourceCompatibility = libs.versions.java.get()
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+<% if(packaging === 'war') { -%>
+  providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+<% } -%>
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+  useJUnitPlatform()
+}
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+plugins {
+	java
+<% if(packaging === 'war') { -%>
+	war
+<% } -%>
+	alias(libs.plugins.springframework.boot)
+	alias(libs.plugins.spring.dependency.management)
+}
+
+group = "<%= groupId %>"
+version = "<%= projectVersion %>"
+
+java {
+  sourceCompatibility = JavaVersion.toVersion(libs.versions.java.get())
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+  	implementation("org.springframework.boot:spring-boot-starter-web")
+<% if(packaging === 'war') { -%>
+ 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+<% } -%>
+  	testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+tasks.withType<Test> {
+  useJUnitPlatform()
+}
+<% } -%>
+<% } -%>
+
