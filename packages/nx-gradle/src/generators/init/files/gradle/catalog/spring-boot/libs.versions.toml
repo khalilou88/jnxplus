@@ -1,12 +1,12 @@
 [versions]
 java = "<%= javaVersion %>"
 kotlin = "<%= kotlinVersion %>"
-boot = "<%= springBootVersion %>"
+spring-boot = "<%= springBootVersion %>"
 
 [libraries]
 
 [plugins]
-springframework-boot = { id = "org.springframework.boot", version.ref = "boot" }
+springframework-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependency-management = { id = "io.spring.dependency-management", version = "<%= springDependencyManagementVersion %>" }
 github-khalilou88-jnxplus = { id = "io.github.khalilou88.jnxplus", version = "<%= jnxplusGradlePluginVersion %>" }
 jetbrains-kotlin-plugin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }

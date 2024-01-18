@@ -115,7 +115,7 @@ function normalizeOptions(
   };
 }
 
-function addBootFiles(tree: Tree, options: NormalizedSchema) {
+function addSpringBootFiles(tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -124,7 +124,7 @@ function addBootFiles(tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(__dirname, 'files', 'boot', options.language),
+    path.join(__dirname, 'files', 'spring-boot', options.language),
     options.projectRoot,
     templateOptions,
   );
@@ -261,7 +261,7 @@ function addNoneFiles(tree: Tree, options: NormalizedSchema) {
 
 function addFiles(tree: Tree, options: NormalizedSchema) {
   if (options.framework === 'spring-boot') {
-    addBootFiles(tree, options);
+    addSpringBootFiles(tree, options);
   }
 
   if (options.framework === 'quarkus') {

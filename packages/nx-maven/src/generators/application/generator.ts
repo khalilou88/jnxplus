@@ -172,7 +172,7 @@ function addNoneFiles(d: string, tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
+function addSpringBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
   const templateOptions = {
     ...options,
     ...names(options.name),
@@ -181,7 +181,7 @@ function addBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
   };
   generateFiles(
     tree,
-    path.join(d, 'files', 'boot', options.language),
+    path.join(d, 'files', 'spring-boot', options.language),
     options.projectRoot,
     templateOptions,
   );
@@ -317,7 +317,7 @@ function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
 
 function addFiles(tree: Tree, options: NormalizedSchema) {
   if (options.framework === 'spring-boot') {
-    addBootFiles(__dirname, tree, options);
+    addSpringBootFiles(__dirname, tree, options);
   }
 
   if (options.framework === 'quarkus') {
