@@ -7,7 +7,7 @@ kspVersion=<%= kspVersion %>
 shadowVersion=<%= shadowVersion %>
 jnxplusGradlePluginVersion=<%= jnxplusGradlePluginVersion %>
 <% } -%>
-
+org.gradle.jvmargs=-Xmx4096M
 
 
 

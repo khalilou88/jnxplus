@@ -1,5 +1,5 @@
 //Kotlin
-export const kotlinVersion = '1.9.20';
+export const kotlinVersion = '1.9.21';
 
 //Spring boot
 export const springBootVersion = '3.2.0';
@@ -14,7 +14,7 @@ export const micronautCoreVersion = '4.2.0';
 export const micronautSerializationVersion = '2.4.0';
 export const micronautMavenPluginVersion = '4.0.7';
 export const micronautTestResourcesVersion = '2.2.0';
-export const kspVersion = '1.9.20-1.0.14';
+export const kspVersion = '1.9.21-1.0.16';
 export const shadowVersion = '8.1.1';
 
 //Jnxplus gradle plugin
