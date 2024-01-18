@@ -22,3 +22,4 @@ export type DependencyManagementType =
   | 'bom'
   | 'spring-boot-parent-pom'
   | 'micronaut-parent-pom';
+export type VersionManagementType = 'properties' | 'version-catalog';
