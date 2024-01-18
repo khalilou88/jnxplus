@@ -39,3 +39,12 @@ pluginManagement {
 rootProject.name = "<%= rootProjectName %>"
 <% } -%>
 <% } -%>
+<% if(versionManagement === 'version-catalog') { -%>
+<% if(dsl === 'groovy') { -%>
+rootProject.name = '<%= rootProjectName %>'
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+rootProject.name = "<%= rootProjectName %>"
+<% } -%>
+<% } -%>
+
