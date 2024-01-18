@@ -3,9 +3,9 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id "org.jetbrains.kotlin.jvm"
-    id "com.google.devtools.ksp"
-    id "io.micronaut.library"
+    id 'org.jetbrains.kotlin.jvm'
+    id 'com.google.devtools.ksp'
+    id 'io.micronaut.library'
 }
 
 version = "<%= projectVersion %>"
@@ -24,7 +24,7 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.toVersion("${javaVersion}")
+    sourceCompatibility = "${javaVersion}"
 }
 <% } -%>
 <% if(dsl === 'kotlin') { -%>
@@ -60,3 +60,63 @@ java {
 }
 <% } -%>
 <% } -%>
+<% if(versionManagement === 'version-catalog') { -%>
+<% if(dsl === 'groovy') { -%>
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+plugins {
+  alias libs.plugins.jetbrains.kotlin.jvm
+  alias libs.plugins.google.devtools.ksp
+  alias libs.plugins.micronaut.library
+}
+
+version = "<%= projectVersion %>"
+group = "<%= groupId %>"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation mn.micronaut.kotlin.runtime
+    implementation mn.kotlin.reflect
+    implementation mn.kotlin.stdlib.jdk8
+    testImplementation mn.micronaut.test.junit5
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+}
+
+java {
+    sourceCompatibility = libs.versions.java.get()
+}
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+plugins {
+  alias(libs.plugins.jetbrains.kotlin.jvm)
+  alias(libs.plugins.google.devtools.ksp)
+  alias(libs.plugins.micronaut.library)
+}
+
+version = "<%= projectVersion %>"
+group = "<%= groupId %>"
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+  implementation(mn.micronaut.kotlin.runtime)
+  implementation(mn.kotlin.reflect)
+  implementation(mn.kotlin.stdlib.jdk8)
+  testImplementation(mn.micronaut.test.junit5)
+  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion(libs.versions.java.get())
+}
+<% } -%>
+<% } -%>
+

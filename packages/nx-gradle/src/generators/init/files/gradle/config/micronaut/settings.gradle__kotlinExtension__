@@ -49,3 +49,17 @@ pluginManagement {
 rootProject.name = "<%= rootProjectName %>"
 <% } -%>
 <% } -%>
+<% if(versionManagement === 'version-catalog') { -%>
+<% if(dsl === 'groovy') { -%>
+plugins {
+  id 'io.micronaut.platform.catalog' version "4.2.1"
+}
+rootProject.name = '<%= rootProjectName %>'
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+plugins {
+  id("io.micronaut.platform.catalog") version "4.2.1"
+}
+rootProject.name = "<%= rootProjectName %>"
+<% } -%>
+<% } -%>

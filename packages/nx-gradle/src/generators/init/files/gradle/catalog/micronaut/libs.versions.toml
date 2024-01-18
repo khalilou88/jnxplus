@@ -1,5 +1,14 @@
 [versions]
+java = "<%= javaVersion %>"
+kotlin = "<%= kotlinVersion %>"
+micronaut = "<%= micronautVersion %>"
 
 [libraries]
 
 [plugins]
+micronaut-application = { id = "io.micronaut.application", version.ref = "micronaut" }
+micronaut-aot = { id = "io.micronaut.aot", version.ref = "micronaut" }
+micronaut-library = { id = "io.micronaut.library", version.ref = "micronaut" }
+google-devtools-ksp = { id = "com.google.devtools.ksp", version = "<%= kspVersion %>" }
+github-johnrengelman-shadow = { id = "com.github.johnrengelman.shadow", version = "<%= shadowVersion %>" }
+github-khalilou88-jnxplus = { id = "io.github.khalilou88.jnxplus", version = "<%= jnxplusGradlePluginVersion %>" }

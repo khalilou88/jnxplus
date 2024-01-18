@@ -1,7 +1,7 @@
 <% if(versionManagement === 'properties') { -%>
 <% if(dsl === 'groovy') { -%>
 plugins {
-    id "io.micronaut.library"
+    id 'io.micronaut.library'
 }
 
 version = "<%= projectVersion %>"
@@ -17,8 +17,8 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.toVersion("${javaVersion}")
-    targetCompatibility = JavaVersion.toVersion("${javaVersion}")
+    sourceCompatibility = "${javaVersion}"
+    targetCompatibility = "${javaVersion}"
 }
 <% } -%>
 <% if(dsl === 'kotlin') { -%>
@@ -43,6 +43,52 @@ dependencies {
 java {
     sourceCompatibility = JavaVersion.toVersion(javaVersion)
     targetCompatibility = JavaVersion.toVersion(javaVersion)
+}
+<% } -%>
+<% } -%>
+<% if(versionManagement === 'version-catalog') { -%>
+<% if(dsl === 'groovy') { -%>
+plugins {
+    alias libs.plugins.micronaut.library'
+}
+
+version = "<%= projectVersion %>"
+group = "<%= groupId %>"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation mn.micronaut.test.junit5
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+}
+
+java {
+    sourceCompatibility = libs.versions.java.get()
+    targetCompatibility = libs.versions.java.get()
+}
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+plugins {
+    alias(libs.plugins.micronaut.library)
+}
+
+version = "<%= projectVersion %>"
+group = "<%= groupId %>"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation(mn.micronaut.test.junit5)
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion(libs.versions.java.get())
+    targetCompatibility = JavaVersion.toVersion(libs.versions.java.get())
 }
 <% } -%>
 <% } -%>
