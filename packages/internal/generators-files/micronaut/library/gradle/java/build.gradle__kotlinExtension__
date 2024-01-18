@@ -49,7 +49,7 @@ java {
 <% if(versionManagement === 'version-catalog') { -%>
 <% if(dsl === 'groovy') { -%>
 plugins {
-    alias libs.plugins.micronaut.library'
+    alias libs.plugins.micronaut.library
 }
 
 version = "<%= projectVersion %>"

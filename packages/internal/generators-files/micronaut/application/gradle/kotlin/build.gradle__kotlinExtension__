@@ -137,7 +137,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias libs.plugins.jetbrains.kotlin.jvm
     alias libs.plugins.jetbrains.kotlin.plugin.allopen
-    alias libs.plugins.google.devtools.ksp)
+    alias libs.plugins.google.devtools.ksp
     alias libs.plugins.github.johnrengelman.shadow
     alias libs.plugins.micronaut.application
     alias libs.plugins.micronaut.aot
