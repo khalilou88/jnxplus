@@ -16,6 +16,7 @@ plugins {
   // in each subproject's classloader
   alias libs.plugins.quarkus apply false
   alias libs.plugins.jetbrains.kotlin.jvm apply false
+  alias libs.plugins.jetbrains.kotlin.plugin.allopen apply false
 <% } -%>
 <% if(dsl === 'kotlin') { -%>
   alias(libs.plugins.github.khalilou88.jnxplus)
@@ -23,6 +24,7 @@ plugins {
   // in each subproject's classloader
   alias(libs.plugins.quarkus) apply false
   alias(libs.plugins.jetbrains.kotlin.jvm) apply false
+  alias(libs.plugins.jetbrains.kotlin.plugin.allopen) apply false
 <% } -%>
 }
 <% } -%>
