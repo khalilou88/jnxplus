@@ -14,12 +14,12 @@ repositories {
 }
 
 dependencies {
-    annotationProcessor "io.micronaut.serde:micronaut-serde-processor"
-    implementation "io.micronaut.serde:micronaut-serde-jackson"
-    runtimeOnly "ch.qos.logback:logback-classic"
-    testImplementation "io.micronaut:micronaut-http-client"
+    annotationProcessor 'io.micronaut.serde:micronaut-serde-processor'
+    implementation 'io.micronaut.serde:micronaut-serde-jackson'
+    runtimeOnly 'ch.qos.logback:logback-classic'
+    testImplementation 'io.micronaut:micronaut-http-client'
 <% if(configFormat === '.yml') { -%>
-    runtimeOnly "org.yaml:snakeyaml"
+    runtimeOnly 'org.yaml:snakeyaml'
 <% } -%>
 }
 
