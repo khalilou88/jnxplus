@@ -28,7 +28,7 @@ describe('nx-gradle all e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName}`,
+      `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --versionManagement version-catalog`,
     );
   }, 120000);
 

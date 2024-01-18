@@ -28,7 +28,7 @@ describe('nx-gradle gradle-root-directory e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --gradleRootDirectory nx-gradle`,
+      `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --gradleRootDirectory nx-gradle --versionManagement version-catalog`,
     );
   }, 120000);
 
