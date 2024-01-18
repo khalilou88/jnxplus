@@ -93,6 +93,9 @@ describe('nx-gradle micronaut e2e', () => {
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut`,
     );
+
+    const buildResult = await runNxCommandAsync(`build ${appName}`);
+    expect(buildResult.stdout).toContain('Executor ran for Build');
   }, 120000);
 
   it('should build-image of a java application', async () => {
