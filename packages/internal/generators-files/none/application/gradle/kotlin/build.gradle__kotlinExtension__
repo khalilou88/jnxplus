@@ -56,3 +56,59 @@ tasks.named<Test>("test") {
 }
 <% } -%>
 <% } -%>
+<% if(versionManagement === 'version-catalog') { -%>
+<% if(dsl === 'groovy') { -%>
+plugins {
+  id 'application'
+  alias libs.plugins.jetbrains.kotlin.jvm
+}
+
+group = '<%= groupId %>'
+version = '<%= projectVersion %>'
+sourceCompatibility = libs.versions.java.get()
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  testImplementation 'org.jetbrains.kotlin:kotlin-test-junit5'
+  testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.9.1'
+}
+
+application {
+    mainClass = '<%= packageName %>.AppKt'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+plugins {
+  application
+  alias(libs.plugins.jetbrains.kotlin.jvm)
+}
+
+group = "<%= groupId %>"
+version = "<%= projectVersion %>"
+java.sourceCompatibility = JavaVersion.toVersion(libs.versions.java.get())
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+  testImplementation("org.junit.jupiter:junit-jupiter-engine:5.9.1")
+}
+
+application {
+    mainClass.set("<%= packageName %>.AppKt")
+}
+
+tasks.named<Test>("test") {
+    useJUnitPlatform()
+}
+<% } -%>
+<% } -%>

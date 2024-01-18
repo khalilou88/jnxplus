@@ -52,3 +52,56 @@ tasks.named<Test>("test") {
 }
 <% } -%>
 <% } -%>
+<% if(versionManagement === 'version-catalog') { -%>
+<% if(dsl === 'groovy') { -%>
+plugins {
+	id 'application'
+}
+
+group = '<%= groupId %>'
+version = '<%= projectVersion %>'
+sourceCompatibility = libs.versions.java.get()
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+  testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
+}
+
+application {
+    mainClass = '<%= packageName %>.App'
+}
+
+tasks.named('test') {
+  useJUnitPlatform()
+}
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+plugins {
+	application
+}
+
+group = "<%= groupId %>"
+version = "<%= projectVersion %>"
+java.sourceCompatibility = JavaVersion.toVersion(libs.versions.java.get())
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+  	testImplementation("org.junit.jupiter:junit-jupiter:5.9.1")
+}
+
+application {
+    mainClass.set("<%= packageName %>.App")
+}
+
+tasks.named<Test>("test") {
+    useJUnitPlatform()
+}
+<% } -%>
+<% } -%>
+
