@@ -8,6 +8,7 @@ import {
   generateProjectName,
   generateProjectRoot,
   generateSimpleProjectName,
+  VersionManagementType,
 } from '@jnxplus/common';
 import {
   ProjectConfiguration,
@@ -25,6 +26,7 @@ import {
   addProjectToGradleSetting,
   getDsl,
   getGradleRootDirectory,
+  getVersionManagement,
 } from '../../utils';
 import { NxGradleLibGeneratorSchema } from './schema';
 
@@ -46,6 +48,7 @@ interface NormalizedSchema extends NxGradleLibGeneratorSchema {
   dsl: DSLType;
   kotlinExtension: string;
   gradleRootDirectory: string;
+  versionManagement: VersionManagementType;
 }
 
 function normalizeOptions(
@@ -87,6 +90,8 @@ function normalizeOptions(
   const dsl = getDsl(tree, gradleRootDirectory);
   const kotlinExtension = dsl === 'kotlin' ? '.kts' : '';
 
+  const versionManagement = getVersionManagement(tree, gradleRootDirectory);
+
   return {
     ...options,
     projectName,
@@ -99,6 +104,7 @@ function normalizeOptions(
     dsl,
     kotlinExtension,
     gradleRootDirectory,
+    versionManagement,
   };
 }
 

@@ -11,6 +11,7 @@ import {
   generateSimpleProjectName,
   isCustomPortFunction,
   quarkusVersion,
+  VersionManagementType,
 } from '@jnxplus/common';
 import {
   addProjectConfiguration,
@@ -30,6 +31,7 @@ import {
   getDsl,
   getGradleRootDirectory,
   getQuarkusVersion,
+  getVersionManagement,
 } from '../../utils';
 import { NxGradleAppGeneratorSchema } from './schema';
 
@@ -53,6 +55,7 @@ interface NormalizedSchema extends NxGradleAppGeneratorSchema {
   kotlinExtension: string;
   quarkusVersion: string;
   gradleRootDirectory: string;
+  versionManagement: VersionManagementType;
 }
 
 function normalizeOptions(
@@ -115,6 +118,8 @@ function normalizeOptions(
     }
   }
 
+  const versionManagement = getVersionManagement(tree, gradleRootDirectory);
+
   return {
     ...options,
     projectName,
@@ -129,6 +134,7 @@ function normalizeOptions(
     kotlinExtension,
     quarkusVersion: qVersion,
     gradleRootDirectory,
+    versionManagement,
   };
 }
 

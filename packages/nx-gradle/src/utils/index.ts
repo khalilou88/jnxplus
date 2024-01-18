@@ -1,4 +1,8 @@
-import { DSLType, getProjectRoot } from '@jnxplus/common';
+import {
+  DSLType,
+  VersionManagementType,
+  getProjectRoot,
+} from '@jnxplus/common';
 import {
   ExecutorContext,
   NxJsonConfiguration,
@@ -128,6 +132,23 @@ export function getDsl(tree: Tree, gradleRootDirectory: string): DSLType {
   }
 
   return 'kotlin';
+}
+
+export function getVersionManagement(
+  tree: Tree,
+  gradleRootDirectory: string,
+): VersionManagementType {
+  const filePath = joinPathFragments(
+    gradleRootDirectory,
+    'gradle',
+    'libs.versions.toml',
+  );
+
+  if (tree.exists(filePath)) {
+    return 'version-catalog';
+  }
+
+  return 'properties';
 }
 
 export function addProjectToGradleSetting(
