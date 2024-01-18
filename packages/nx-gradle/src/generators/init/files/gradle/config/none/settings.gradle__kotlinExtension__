@@ -1,3 +1,4 @@
+<% if(versionManagement === 'properties') { -%>
 <% if(dsl === 'groovy') { -%>
 pluginManagement {
   plugins {
@@ -33,5 +34,6 @@ pluginManagement {
 <% } -%>
 }
 rootProject.name = "<%= rootProjectName %>"
+<% } -%>
 <% } -%>
 

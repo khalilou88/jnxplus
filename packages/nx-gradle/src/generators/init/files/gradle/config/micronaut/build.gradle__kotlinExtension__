@@ -1,3 +1,4 @@
+<% if(versionManagement === 'properties') { -%>
 plugins {
 <% if(dsl === 'groovy') { -%>
   id 'io.github.khalilou88.jnxplus'
@@ -6,3 +7,4 @@ plugins {
   id("io.github.khalilou88.jnxplus")
 <% } -%>
 }
+<% } -%>

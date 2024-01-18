@@ -72,23 +72,23 @@
         "items": [
           {
             "value": "spring-boot",
-            "label": "spring-boot"
+            "label": "Spring Boot"
           },
           {
             "value": "quarkus",
-            "label": "quarkus"
+            "label": "Quarkus"
           },
           {
             "value": "micronaut",
-            "label": "micronaut"
+            "label": "Micronaut"
           },
           {
             "value": "kmp",
-            "label": "kotlin multiplatform"
+            "label": "Kotlin Multiplatform"
           },
           {
             "value": "none",
-            "label": "none"
+            "label": "None"
           }
         ]
       }
@@ -97,6 +97,11 @@
       "description": "Don't generate Gradle Wrapper",
       "type": "boolean",
       "default": false
+    },
+    "versionManagement": {
+      "description": "Version management",
+      "type": "string",
+      "default": "properties"
     }
   },
   "required": [
