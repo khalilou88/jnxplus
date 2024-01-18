@@ -121,7 +121,7 @@ async function main() {
       gradleRootDirectory,
       preset,
       skipWrapper: false,
-      versionManagement: 'version-catalog',
+      versionManagement: 'properties',
     },
   );
 
