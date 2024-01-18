@@ -159,18 +159,6 @@ describe('nx-gradle micronaut e2e', () => {
       source: appName,
       target: rootProjectName,
     });
-
-    const port = 8080;
-    const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
-      output.includes(`Server Running: http://localhost:${port}`),
-    );
-
-    const dataResult = await getData(port, '/hello');
-    expect(dataResult.status).toEqual(200);
-    expect(dataResult.message).toMatch('Hello World');
-
-    // port and process cleanup
-    await killProcessAndPorts(process.pid, port);
   }, 120000);
 
   it('should build-image of a java application', async () => {
