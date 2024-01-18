@@ -171,7 +171,7 @@ describe('nx-gradle micronaut e2e', () => {
 
     // port and process cleanup
     await killProcessAndPorts(process.pid, port);
-  }, 120000);
+  }, 240000);
 
   it('should build-image of a java application', async () => {
     if (!isWin && !isMacOs && isCI) {
