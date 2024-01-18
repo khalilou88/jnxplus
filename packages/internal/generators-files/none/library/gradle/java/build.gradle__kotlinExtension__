@@ -1,3 +1,4 @@
+<% if(versionManagement === 'properties') { -%>
 <% if(dsl === 'groovy') { -%>
 plugins {
   id 'java-library'
@@ -42,4 +43,5 @@ dependencies {
 tasks.named<Test>("test") {
     useJUnitPlatform()
 }
+<% } -%>
 <% } -%>

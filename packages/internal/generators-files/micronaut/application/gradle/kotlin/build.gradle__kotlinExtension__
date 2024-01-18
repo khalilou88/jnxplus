@@ -1,3 +1,4 @@
+<% if(versionManagement === 'properties') { -%>
 <% if(dsl === 'groovy') { -%>
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -127,4 +128,5 @@ micronaut {
         optimizeNetty.set(true)
     }
 }
+<% } -%>
 <% } -%>
