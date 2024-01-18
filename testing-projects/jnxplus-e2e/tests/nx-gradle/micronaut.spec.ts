@@ -42,7 +42,7 @@ describe('nx-gradle micronaut e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --preset micronaut --versionManagement version-catalog`,
+      `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --preset micronaut --versionManagement properties`,
     );
   }, 120000);
 

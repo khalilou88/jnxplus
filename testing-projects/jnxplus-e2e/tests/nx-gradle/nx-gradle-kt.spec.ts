@@ -28,7 +28,7 @@ describe('nx-gradle all kotlin dsl e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --versionManagement version-catalog`,
+      `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --versionManagement properties`,
     );
   }, 120000);
 

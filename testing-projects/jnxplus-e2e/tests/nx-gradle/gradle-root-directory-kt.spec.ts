@@ -28,7 +28,7 @@ describe('nx-gradle gradle-root-directory kotlin dsl e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --gradleRootDirectory deep/subdir --versionManagement version-catalog`,
+      `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --gradleRootDirectory deep/subdir --versionManagement properties`,
     );
   }, 120000);
 
