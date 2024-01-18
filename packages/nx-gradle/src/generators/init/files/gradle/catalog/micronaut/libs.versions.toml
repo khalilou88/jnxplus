@@ -6,9 +6,9 @@ micronaut = "<%= micronautVersion %>"
 [libraries]
 
 [plugins]
-micronaut-application = { id = "io.micronaut.application", version.ref = "micronaut" }
-micronaut-aot = { id = "io.micronaut.aot", version.ref = "micronaut" }
-micronaut-library = { id = "io.micronaut.library", version.ref = "micronaut" }
+micronaut-aot = { id = "io.micronaut.aot", version = "4.2.1" }
+micronaut-application = { id = "io.micronaut.application", version = "4.2.1" }
+micronaut-library = { id = "io.micronaut.library", version = "4.2.1" }
 google-devtools-ksp = { id = "com.google.devtools.ksp", version = "<%= kspVersion %>" }
 github-johnrengelman-shadow = { id = "com.github.johnrengelman.shadow", version = "<%= shadowVersion %>" }
 github-khalilou88-jnxplus = { id = "io.github.khalilou88.jnxplus", version = "<%= jnxplusGradlePluginVersion %>" }

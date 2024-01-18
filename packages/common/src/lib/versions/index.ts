@@ -9,7 +9,7 @@ export const springDependencyManagementVersion = '1.1.4';
 export const quarkusVersion = '3.5.3';
 
 //Micronaut
-export const micronautVersion = '4.2.0';
+export const micronautVersion = '4.2.3';
 export const micronautCoreVersion = '4.2.0';
 export const micronautSerializationVersion = '2.4.0';
 export const micronautMavenPluginVersion = '4.0.7';
