@@ -77,6 +77,14 @@ describe('nx-gradle micronaut e2e', () => {
         'settings.gradle',
       ),
     ).not.toThrow();
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`,
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph',
+    );
   }, 120000);
 
   it('should create a micronaut java application', async () => {
