@@ -54,11 +54,11 @@ describe('nx-gradle micronaut e2e', () => {
     });
   });
 
-  it('NX_VERBOSE_LOGGING_NX_VERBOSE_LOGGING', async () => {
+  it('should set NX_VERBOSE_LOGGING to true', async () => {
     expect(process.env['NX_VERBOSE_LOGGING']).toBe('true');
   }, 120000);
 
-  it('jnxplusnx-gradle_@jnxplusnx-gradle capabilities', async () => {
+  it('should init the workspace with @jnxplus/nx-gradle capabilities', async () => {
     // Making sure the package.json file contains the @jnxplus/nx-gradle dependency
     const packageJson = readJson('package.json');
     expect(packageJson.devDependencies['@jnxplus/nx-gradle']).toBeTruthy();
@@ -77,14 +77,6 @@ describe('nx-gradle micronaut e2e', () => {
         'settings.gradle',
       ),
     ).not.toThrow();
-
-    //graph
-    const depGraphResult = await runNxCommandAsync(
-      `dep-graph --file=dep-graph.json`,
-    );
-    expect(depGraphResult.stderr).not.toContain(
-      'Failed to process the project graph',
-    );
   }, 120000);
 
   it('should create a micronaut java application', async () => {
@@ -94,8 +86,79 @@ describe('nx-gradle micronaut e2e', () => {
       `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut`,
     );
 
+    expect(() =>
+      checkFilesExist(
+        `${appName}/build.gradle`,
+        `${appName}/src/main/resources/application.properties`,
+        `${appName}/src/main/java/com/example/${names(
+          appName,
+        ).className.toLocaleLowerCase()}/Application.java`,
+        `${appName}/src/main/java/com/example/${names(
+          appName,
+        ).className.toLocaleLowerCase()}/HelloController.java`,
+
+        `${appName}/src/test/resources/application.properties`,
+        `${appName}/src/test/java/com/example/${names(
+          appName,
+        ).className.toLocaleLowerCase()}/HelloControllerTest.java`,
+      ),
+    ).not.toThrow();
+
+    // Making sure the build.gradle file contains the good information
+    const buildGradle = readFile(`${appName}/build.gradle`);
+    expect(buildGradle.includes('com.example')).toBeTruthy();
+    expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
+
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
+
+    const testResult = await runNxCommandAsync(`test ${appName}`);
+    expect(testResult.stdout).toContain('Executor ran for Test');
+
+    //should recreate build folder
+    const localTmpDir = path.dirname(tmpProjPath());
+    const targetDir = path.join(localTmpDir, 'proj', appName, 'build');
+    fse.removeSync(targetDir);
+    expect(() => checkFilesExist(`${appName}/build`)).toThrow();
+    await runNxCommandAsync(`build ${appName}`);
+    expect(() => checkFilesExist(`${appName}/build`)).not.toThrow();
+
+    const formatResult = await runNxCommandAsync(
+      `format:write --projects ${appName}`,
+    );
+    expect(formatResult.stdout).toContain('');
+
+    // const lintResult = await runNxCommandAsync(`lint ${appName}`);
+    // expect(lintResult.stdout).toContain('Executor ran for Lint');
+
+    //test run-task
+    const projectJson = readJson(`${appName}/project.json`);
+    projectJson.targets = {
+      ...projectJson.targets,
+      'run-task': {
+        executor: '@jnxplus/nx-gradle:run-task',
+      },
+    };
+    updateFile(`${appName}/project.json`, JSON.stringify(projectJson));
+    const runTaskResult = await runNxCommandAsync(
+      `run-task ${appName} --task="test"`,
+    );
+    expect(runTaskResult.stdout).toContain('Executor ran for Run Task');
+    //end test run-task
+
+    //graph
+    const depGraphResult = await runNxCommandAsync(
+      `dep-graph --file=dep-graph.json`,
+    );
+    expect(depGraphResult.stderr).not.toContain(
+      'Failed to process the project graph',
+    );
+    const depGraphJson = readJson('dep-graph.json');
+    expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
+      type: 'static',
+      source: appName,
+      target: rootProjectName,
+    });
   }, 120000);
 
   it('should build-image of a java application', async () => {
