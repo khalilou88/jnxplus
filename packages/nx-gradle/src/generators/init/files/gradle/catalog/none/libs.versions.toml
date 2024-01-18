@@ -7,4 +7,3 @@ kotlin = "<%= kotlinVersion %>"
 [plugins]
 github-khalilou88-jnxplus = { id = "io.github.khalilou88.jnxplus", version = "<%= jnxplusGradlePluginVersion %>" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-jetbrains-kotlin-plugin-allopen = { id = "org.jetbrains.kotlin.plugin.allopen", version.ref = "kotlin" }
