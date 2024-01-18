@@ -1,4 +1,9 @@
-import { DSLType, getProjectRoot } from '@jnxplus/common';
+import {
+  DSLType,
+  VersionManagementType,
+  getProjectRoot,
+  quarkusVersion,
+} from '@jnxplus/common';
 import {
   ExecutorContext,
   NxJsonConfiguration,
@@ -255,4 +260,49 @@ function generateName(projectRoot: string) {
   return projectRoot
     .replace(new RegExp('^\\.', 'g'), '')
     .replace(new RegExp('/', 'g'), '-');
+}
+
+export function getVersionManagement(
+  tree: Tree,
+  gradleRootDirectory: string,
+): VersionManagementType {
+  const filePath = joinPathFragments(
+    gradleRootDirectory,
+    'gradle',
+    'libs.versions.toml',
+  );
+
+  if (tree.exists(filePath)) {
+    return 'version-catalog';
+  }
+
+  return 'properties';
+}
+
+export function findQuarkusVersion(
+  framework: string | undefined,
+  gradleRootDirectory: string,
+  versionManagement: VersionManagementType,
+) {
+  let qVersion = '';
+  if (framework === 'quarkus') {
+    if (versionManagement === 'properties') {
+      const gradlePropertiesPath = path.join(
+        workspaceRoot,
+        gradleRootDirectory,
+        'gradle.properties',
+      );
+      const gradlePropertiesContent = fs.readFileSync(
+        gradlePropertiesPath,
+        'utf-8',
+      );
+      qVersion = getQuarkusVersion(gradlePropertiesContent);
+    }
+
+    if (qVersion === undefined) {
+      qVersion = quarkusVersion;
+    }
+  }
+
+  return qVersion;
 }
