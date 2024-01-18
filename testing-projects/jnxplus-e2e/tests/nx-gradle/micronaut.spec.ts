@@ -79,7 +79,7 @@ describe('nx-gradle micronaut e2e', () => {
     ).not.toThrow();
   }, 120000);
 
-  it('should create a java application', async () => {
+  it('should create a micronaut java application', async () => {
     const appName = uniq('micronaut-gradle-app-');
 
     await runNxCommandAsync(
