@@ -1,36 +1,33 @@
 import {
-  clearEmpties,
   DSLType,
+  VersionManagementType,
+  clearEmpties,
   generateAppClassName,
   generatePackageDirectory,
   generatePackageName,
-  parseTags,
   generateProjectDirectory,
   generateProjectName,
   generateProjectRoot,
   generateSimpleProjectName,
   isCustomPortFunction,
-  quarkusVersion,
-  VersionManagementType,
+  parseTags,
 } from '@jnxplus/common';
 import {
+  ProjectConfiguration,
+  Tree,
   addProjectConfiguration,
   formatFiles,
   generateFiles,
   joinPathFragments,
   names,
   offsetFromRoot,
-  ProjectConfiguration,
-  Tree,
-  workspaceRoot,
 } from '@nx/devkit';
-import * as fs from 'fs';
 import * as path from 'path';
 import {
   addProjectToGradleSetting,
+  findQuarkusVersion,
   getDsl,
   getGradleRootDirectory,
-  getQuarkusVersion,
   getVersionManagement,
 } from '../../utils';
 import { NxGradleAppGeneratorSchema } from './schema';
@@ -101,24 +98,13 @@ function normalizeOptions(
   const dsl = getDsl(tree, gradleRootDirectory);
   const kotlinExtension = dsl === 'kotlin' ? '.kts' : '';
 
-  let qVersion = '';
-  if (options.framework === 'quarkus') {
-    const gradlePropertiesPath = path.join(
-      workspaceRoot,
-      gradleRootDirectory,
-      'gradle.properties',
-    );
-    const gradlePropertiesContent = fs.readFileSync(
-      gradlePropertiesPath,
-      'utf-8',
-    );
-    qVersion = getQuarkusVersion(gradlePropertiesContent);
-    if (quarkusVersion === undefined) {
-      qVersion = quarkusVersion;
-    }
-  }
-
   const versionManagement = getVersionManagement(tree, gradleRootDirectory);
+
+  const qVersion = findQuarkusVersion(
+    options.framework,
+    gradleRootDirectory,
+    versionManagement,
+  );
 
   return {
     ...options,
