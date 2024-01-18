@@ -54,7 +54,7 @@ describe('nx-gradle micronaut e2e', () => {
     });
   });
 
-  it('should set NX_VERBOSE_LOGGING to true', async () => {
+  it('NX_VERBOSE_LOGGING_NX_VERBOSE_LOGGING', async () => {
     expect(process.env['NX_VERBOSE_LOGGING']).toBe('true');
   }, 120000);
 
