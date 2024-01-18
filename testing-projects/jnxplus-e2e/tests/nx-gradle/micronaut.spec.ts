@@ -58,7 +58,7 @@ describe('nx-gradle micronaut e2e', () => {
     expect(process.env['NX_VERBOSE_LOGGING']).toBe('true');
   }, 120000);
 
-  it('jnxplus/nx-gradle_@jnxplus/nx-gradle capabilities', async () => {
+  it('jnxplusnx-gradle_@jnxplusnx-gradle capabilities', async () => {
     // Making sure the package.json file contains the @jnxplus/nx-gradle dependency
     const packageJson = readJson('package.json');
     expect(packageJson.devDependencies['@jnxplus/nx-gradle']).toBeTruthy();
