@@ -711,7 +711,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     });
   }, 240000);
 
-  it('should create a micronaut java application', async () => {
+  it('should create a java application', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework micronaut`,
