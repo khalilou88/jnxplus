@@ -29,6 +29,7 @@ on:
           - nx-maven spring-boot bom e2e
           - nx-maven spring-boot-parent-pom e2e
           - should generate a micronaut app with a simple package name
+          - should add a micronaut kotlin lib to a micronaut kotlin app dependencies
       os:
         type: choice
         description: Os

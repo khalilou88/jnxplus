@@ -934,7 +934,7 @@ describe('nx-gradle micronaut e2e', () => {
     });
   }, 240000);
 
-  it('should add a kotlin lib to a kotlin app dependencies', async () => {
+  it('should add a micronaut kotlin lib to a micronaut kotlin app dependencies', async () => {
     const appName = uniq('g-m-app-');
     const libName = uniq('g-m-lib-');
 
