@@ -62,6 +62,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
+          cache: 'gradle'
 
       - name: Install dependencies
         run: npm i
