@@ -1,0 +1,9 @@
+[versions]
+java = "<%= javaVersion %>"
+kotlin = "<%= kotlinVersion %>"
+
+[libraries]
+
+[plugins]
+github-khalilou88-jnxplus = { id = "io.github.khalilou88.jnxplus", version = "<%= jnxplusGradlePluginVersion %>" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

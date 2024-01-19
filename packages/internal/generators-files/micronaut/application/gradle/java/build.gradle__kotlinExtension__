@@ -1,9 +1,9 @@
 <% if(versionManagement === 'properties') { -%>
 <% if(dsl === 'groovy') { -%>
 plugins {
-    id "com.github.johnrengelman.shadow"
-    id "io.micronaut.application"
-    id "io.micronaut.aot"
+    id 'com.github.johnrengelman.shadow'
+    id 'io.micronaut.application'
+    id 'io.micronaut.aot'
 }
 
 version = "<%= projectVersion %>"
@@ -14,12 +14,12 @@ repositories {
 }
 
 dependencies {
-    annotationProcessor "io.micronaut.serde:micronaut-serde-processor"
-    implementation "io.micronaut.serde:micronaut-serde-jackson"
-    runtimeOnly "ch.qos.logback:logback-classic"
-    testImplementation "io.micronaut:micronaut-http-client"
+    annotationProcessor 'io.micronaut.serde:micronaut-serde-processor'
+    implementation 'io.micronaut.serde:micronaut-serde-jackson'
+    runtimeOnly 'ch.qos.logback:logback-classic'
+    testImplementation 'io.micronaut:micronaut-http-client'
 <% if(configFormat === '.yml') { -%>
-    runtimeOnly "org.yaml:snakeyaml"
+    runtimeOnly 'org.yaml:snakeyaml'
 <% } -%>
 }
 
@@ -28,8 +28,8 @@ application {
 }
 
 java {
-    sourceCompatibility = JavaVersion.toVersion("${javaVersion}")
-    targetCompatibility = JavaVersion.toVersion("${javaVersion}")
+    sourceCompatibility = "${javaVersion}"
+    targetCompatibility = "${javaVersion}"
 }
 
 graalvmNative.toolchainDetection = false
@@ -113,3 +113,117 @@ micronaut {
 }
 <% } -%>
 <% } -%>
+<% if(versionManagement === 'version-catalog') { -%>
+<% if(dsl === 'groovy') { -%>
+plugins {
+    alias libs.plugins.github.johnrengelman.shadow
+    alias libs.plugins.micronaut.application
+    alias libs.plugins.micronaut.aot
+}
+
+version = "<%= projectVersion %>"
+group = "<%= groupId %>"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor mn.micronaut.serde.processor
+    implementation mn.micronaut.serde.jackson
+    runtimeOnly mn.logback.classic
+    testImplementation mn.micronaut.http.client
+<% if(configFormat === '.yml') { -%>
+    runtimeOnly mn.snakeyaml
+<% } -%>
+}
+
+application {
+    mainClass.set("<%= packageName %>.Application")
+}
+
+java {
+    sourceCompatibility = libs.versions.java.get()
+    targetCompatibility = libs.versions.java.get()
+}
+
+graalvmNative.toolchainDetection = false
+
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("<%= packageName %>.*")
+    }
+    aot {
+    // Please review carefully the optimizations enabled below
+    // Check https://micronaut-projects.github.io/micronaut-aot/latest/guide/ for more details
+        optimizeServiceLoading = false
+        convertYamlToJava = false
+        precomputeOperations = true
+        cacheEnvironment = true
+        optimizeClassLoading = true
+        deduceEnvironment = true
+        optimizeNetty = true
+    }
+}
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+plugins {
+    alias(libs.plugins.github.johnrengelman.shadow)
+    alias(libs.plugins.micronaut.application)
+    alias(libs.plugins.micronaut.aot)
+}
+
+version = "<%= projectVersion %>"
+group = "<%= groupId %>"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor(mn.micronaut.serde.processor)
+    implementation(mn.micronaut.serde.jackson)
+    runtimeOnly(mn.logback.classic)
+    testImplementation(mn.micronaut.http.client)
+<% if(configFormat === '.yml') { -%>
+    runtimeOnly(mn.snakeyaml)
+<% } -%>
+}
+
+
+application {
+    mainClass.set("<%= packageName %>.Application")
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion(libs.versions.java.get())
+    targetCompatibility = JavaVersion.toVersion(libs.versions.java.get())
+}
+
+graalvmNative.toolchainDetection.set(false)
+
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("<%= packageName %>.*")
+    }
+    aot {
+    // Please review carefully the optimizations enabled below
+    // Check https://micronaut-projects.github.io/micronaut-aot/latest/guide/ for more details
+        optimizeServiceLoading.set(false)
+        convertYamlToJava.set(false)
+        precomputeOperations.set(true)
+        cacheEnvironment.set(true)
+        optimizeClassLoading.set(true)
+        deduceEnvironment.set(true)
+        optimizeNetty.set(true)
+    }
+}
+<% } -%>
+<% } -%>
+

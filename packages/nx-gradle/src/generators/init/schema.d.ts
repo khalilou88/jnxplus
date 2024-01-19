@@ -1,4 +1,4 @@
-import { DSLType, PresetType } from '@jnxplus/common';
+import { DSLType, PresetType, VersionManagementType } from '@jnxplus/common';
 
 export interface NxGradleInitGeneratorSchema {
   javaVersion: string | number;
@@ -7,4 +7,5 @@ export interface NxGradleInitGeneratorSchema {
   gradleRootDirectory: string;
   preset: PresetType;
   skipWrapper?: boolean;
+  versionManagement: VersionManagementType;
 }

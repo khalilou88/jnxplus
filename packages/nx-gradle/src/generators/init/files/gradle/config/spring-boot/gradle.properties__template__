@@ -1,0 +1,12 @@
+<% if(versionManagement === 'properties') { -%>
+#Gradle properties
+javaVersion=<%= javaVersion %>
+kotlinVersion=<%= kotlinVersion %>
+springBootVersion=<%= springBootVersion %>
+springDependencyManagementVersion=<%= springDependencyManagementVersion %>
+jnxplusGradlePluginVersion=<%= jnxplusGradlePluginVersion %>
+<% } -%>
+
+
+
+

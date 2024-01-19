@@ -1,8 +1,8 @@
+<% if(versionManagement === 'properties') { -%>
 <% if(dsl === 'groovy') { -%>
 pluginManagement {
   plugins {
     id 'org.jetbrains.kotlin.jvm' version "${kotlinVersion}"
-    id 'org.jetbrains.kotlin.plugin.allopen' version "${kotlinVersion}"
     id 'io.github.khalilou88.jnxplus' version "${jnxplusGradlePluginVersion}"
   }
 <% if(generateRepositories) { -%>
@@ -21,7 +21,6 @@ pluginManagement {
   val jnxplusGradlePluginVersion: String by settings
   plugins {
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
-    id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
     id("io.github.khalilou88.jnxplus") version jnxplusGradlePluginVersion
   }
 <% if(generateRepositories) { -%>
@@ -34,4 +33,12 @@ pluginManagement {
 }
 rootProject.name = "<%= rootProjectName %>"
 <% } -%>
-
+<% } -%>
+<% if(versionManagement === 'version-catalog') { -%>
+<% if(dsl === 'groovy') { -%>
+rootProject.name = '<%= rootProjectName %>'
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+rootProject.name = "<%= rootProjectName %>"
+<% } -%>
+<% } -%>

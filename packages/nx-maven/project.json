@@ -50,24 +50,24 @@
             "output": "./src/generators/init/files/maven/wrapper"
           },
           {
-            "input": "./packages/internal/generators-files/boot/application/shared",
+            "input": "./packages/internal/generators-files/spring-boot/application/shared",
             "glob": "**",
-            "output": "./src/generators/application/files/boot"
+            "output": "./src/generators/application/files/spring-boot"
           },
           {
-            "input": "./packages/internal/generators-files/boot/application/maven",
+            "input": "./packages/internal/generators-files/spring-boot/application/maven",
             "glob": "**",
-            "output": "./src/generators/application/files/boot"
+            "output": "./src/generators/application/files/spring-boot"
           },
           {
-            "input": "./packages/internal/generators-files/boot/library/shared",
+            "input": "./packages/internal/generators-files/spring-boot/library/shared",
             "glob": "**",
-            "output": "./src/generators/library/files/boot"
+            "output": "./src/generators/library/files/spring-boot"
           },
           {
-            "input": "./packages/internal/generators-files/boot/library/maven",
+            "input": "./packages/internal/generators-files/spring-boot/library/maven",
             "glob": "**",
-            "output": "./src/generators/library/files/boot"
+            "output": "./src/generators/library/files/spring-boot"
           },
           {
             "input": "./packages/internal/generators-files/quarkus/application/shared",
@@ -191,7 +191,7 @@
       }
     }
   },
-  "tags": ["maven", "boot", "quarkus", "micronaut"],
+  "tags": ["maven", "spring-boot", "quarkus", "micronaut"],
   "implicitDependencies": [
     "internal-generators-files",
     "internal-maven-wrapper"

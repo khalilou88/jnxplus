@@ -101,3 +101,103 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 <% } -%>
 <% } -%>
+<% if(versionManagement === 'version-catalog') { -%>
+<% if(dsl === 'groovy') { -%>
+plugins {
+    alias libs.plugins.jetbrains.kotlin.jvm
+    alias libs.plugins.jetbrains.kotlin.plugin.allopen
+    alias libs.plugins.quarkus
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation enforcedPlatform(libs.quarkus.platform.quarkus.bom)
+    implementation 'io.quarkus:quarkus-kotlin'
+    implementation 'io.quarkus:quarkus-arc'
+    implementation 'io.quarkus:quarkus-resteasy-reactive'
+<% if(configFormat === '.yml') { -%>
+    implementation 'io.quarkus:quarkus-config-yaml'
+<% } -%>
+    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'io.rest-assured:rest-assured'
+}
+
+group '<%= groupId %>'
+version '<%= projectVersion %>'
+
+java {
+    sourceCompatibility = libs.versions.java.get()
+    targetCompatibility = libs.versions.java.get()
+}
+
+test {
+    systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+}
+
+allOpen {
+    annotation("jakarta.ws.rs.Path")
+    annotation("jakarta.enterprise.context.ApplicationScoped")
+    annotation("io.quarkus.test.junit.QuarkusTest")
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = libs.versions.java.get()
+    kotlinOptions.javaParameters = true
+}
+
+compileTestKotlin {
+    kotlinOptions.jvmTarget = libs.versions.java.get()
+}
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+plugins {
+    alias(libs.plugins.jetbrains.kotlin.jvm)
+    alias(libs.plugins.jetbrains.kotlin.plugin.allopen)
+    alias(libs.plugins.quarkus)
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation(enforcedPlatform(libs.quarkus.platform.quarkus.bom))
+    implementation("io.quarkus:quarkus-kotlin")
+    implementation("io.quarkus:quarkus-arc")
+    implementation("io.quarkus:quarkus-resteasy-reactive")
+<% if(configFormat === '.yml') { -%>
+    implementation("io.quarkus:quarkus-config-yaml")
+<% } -%>
+    testImplementation("io.quarkus:quarkus-junit5")
+    testImplementation("io.rest-assured:rest-assured")
+}
+
+group = "<%= groupId %>"
+version = "<%= projectVersion %>"
+
+java {
+    sourceCompatibility = JavaVersion.toVersion(libs.versions.java.get())
+    targetCompatibility = JavaVersion.toVersion(libs.versions.java.get())
+}
+
+tasks.withType<Test> {
+    systemProperty("java.util.logging.manager", "org.jboss.logmanager.LogManager")
+}
+
+allOpen {
+    annotation("jakarta.ws.rs.Path")
+    annotation("jakarta.enterprise.context.ApplicationScoped")
+    annotation("io.quarkus.test.junit.QuarkusTest")
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions.jvmTarget = libs.versions.java.get()
+    kotlinOptions.javaParameters = true
+}
+<% } -%>
+<% } -%>

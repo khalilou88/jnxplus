@@ -1,3 +1,4 @@
+<% if(versionManagement === 'properties') { -%>
 #Gradle
 org.gradle.jvmargs=-Xmx2048M -Dkotlin.daemon.jvm.options\="-Xmx2048M"
 
@@ -25,7 +26,7 @@ kotlin.version=1.8.20
 agp.version=7.4.2
 compose.version=1.4.1
 jnxplusGradlePluginVersion=<%= jnxplusGradlePluginVersion %>
-
+<% } -%>
 
 
 

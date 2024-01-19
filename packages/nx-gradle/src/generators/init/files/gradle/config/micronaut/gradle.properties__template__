@@ -1,3 +1,4 @@
+<% if(versionManagement === 'properties') { -%>
 #Gradle properties
 javaVersion=<%= javaVersion %>
 kotlinVersion=<%= kotlinVersion %>
@@ -5,8 +6,7 @@ micronautVersion=<%= micronautVersion %>
 kspVersion=<%= kspVersion %>
 shadowVersion=<%= shadowVersion %>
 jnxplusGradlePluginVersion=<%= jnxplusGradlePluginVersion %>
-
-
+<% } -%>
 
 
 

@@ -1,3 +1,4 @@
+<% if(versionManagement === 'properties') { -%>
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -33,3 +34,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "<%= rootProjectName %>"
+<% } -%>

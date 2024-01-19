@@ -3,12 +3,12 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id "org.jetbrains.kotlin.jvm"
-    id "org.jetbrains.kotlin.plugin.allopen"
-    id "com.google.devtools.ksp"
-    id "com.github.johnrengelman.shadow"
-    id "io.micronaut.application"
-    id "io.micronaut.aot"
+    id 'org.jetbrains.kotlin.jvm'
+    id 'org.jetbrains.kotlin.plugin.allopen'
+    id 'com.google.devtools.ksp'
+    id 'com.github.johnrengelman.shadow'
+    id 'io.micronaut.application'
+    id 'io.micronaut.aot'
 }
 
 version = "<%= projectVersion %>"
@@ -19,16 +19,16 @@ repositories {
 }
 
 dependencies {
-    ksp "io.micronaut.serde:micronaut-serde-processor"
-    implementation "io.micronaut.kotlin:micronaut-kotlin-runtime"
-    implementation "io.micronaut.serde:micronaut-serde-jackson"
+    ksp 'io.micronaut.serde:micronaut-serde-processor'
+    implementation 'io.micronaut.kotlin:micronaut-kotlin-runtime'
+    implementation 'io.micronaut.serde:micronaut-serde-jackson'
     implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
-    runtimeOnly "ch.qos.logback:logback-classic"
-    runtimeOnly "com.fasterxml.jackson.module:jackson-module-kotlin"
-    testImplementation "io.micronaut:micronaut-http-client"
+    runtimeOnly 'ch.qos.logback:logback-classic'
+    runtimeOnly 'com.fasterxml.jackson.module:jackson-module-kotlin'
+    testImplementation 'io.micronaut:micronaut-http-client'
 <% if(configFormat === '.yml') { -%>
-    runtimeOnly "org.yaml:snakeyaml"
+    runtimeOnly 'org.yaml:snakeyaml'
 <% } -%>
 }
 
@@ -37,7 +37,7 @@ application {
 }
 
 java {
-    sourceCompatibility = JavaVersion.toVersion("${javaVersion}")
+    sourceCompatibility = "${javaVersion}"
 }
 
 graalvmNative.toolchainDetection = false
@@ -105,6 +105,134 @@ application {
 
 java {
     sourceCompatibility = JavaVersion.toVersion(javaVersion)
+}
+
+graalvmNative.toolchainDetection.set(false)
+
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("<%= packageName %>.*")
+    }
+    aot {
+    // Please review carefully the optimizations enabled below
+    // Check https://micronaut-projects.github.io/micronaut-aot/latest/guide/ for more details
+        optimizeServiceLoading.set(false)
+        convertYamlToJava.set(false)
+        precomputeOperations.set(true)
+        cacheEnvironment.set(true)
+        optimizeClassLoading.set(true)
+        deduceEnvironment.set(true)
+        optimizeNetty.set(true)
+    }
+}
+<% } -%>
+<% } -%>
+<% if(versionManagement === 'version-catalog') { -%>
+<% if(dsl === 'groovy') { -%>
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+plugins {
+    alias libs.plugins.jetbrains.kotlin.jvm
+    alias libs.plugins.jetbrains.kotlin.plugin.allopen
+    alias libs.plugins.google.devtools.ksp
+    alias libs.plugins.github.johnrengelman.shadow
+    alias libs.plugins.micronaut.application
+    alias libs.plugins.micronaut.aot
+}
+
+version = "<%= projectVersion %>"
+group = "<%= groupId %>"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    ksp mn.micronaut.serde.processor
+    implementation mn.micronaut.kotlin.runtime
+    implementation mn.micronaut.serde.jackson
+    implementation mn.kotlin.reflect
+    implementation mn.kotlin.stdlib.jdk8
+    runtimeOnly mn.logback.classic
+    runtimeOnly mn.jackson.module.kotlin
+    testImplementation mn.micronaut.http.client
+<% if(configFormat === '.yml') { -%>
+    runtimeOnly "org.yaml:snakeyaml"
+<% } -%>
+}
+
+application {
+    mainClass.set("<%= packageName %>.ApplicationKt")
+}
+
+java {
+    sourceCompatibility = libs.versions.java.get()
+}
+
+graalvmNative.toolchainDetection = false
+
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("<%= packageName %>.*")
+    }
+    aot {
+    // Please review carefully the optimizations enabled below
+    // Check https://micronaut-projects.github.io/micronaut-aot/latest/guide/ for more details
+        optimizeServiceLoading = false
+        convertYamlToJava = false
+        precomputeOperations = true
+        cacheEnvironment = true
+        optimizeClassLoading = true
+        deduceEnvironment = true
+        optimizeNetty = true
+    }
+}
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+plugins {
+    alias(libs.plugins.jetbrains.kotlin.jvm)
+    alias(libs.plugins.jetbrains.kotlin.plugin.allopen)
+    alias(libs.plugins.google.devtools.ksp)
+    alias(libs.plugins.github.johnrengelman.shadow)
+    alias(libs.plugins.micronaut.application)
+    alias(libs.plugins.micronaut.aot)
+}
+
+version = "<%= projectVersion %>"
+group = "<%= groupId %>"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    ksp(mn.micronaut.serde.processor)
+    implementation(mn.micronaut.kotlin.runtime)
+    implementation(mn.micronaut.serde.jackson)
+    implementation(mn.kotlin.reflect)
+    implementation(mn.kotlin.stdlib.jdk8)
+    runtimeOnly(mn.logback.classic)
+    runtimeOnly(mn.jackson.module.kotlin)
+    testImplementation(mn.micronaut.http.client)
+<% if(configFormat === '.yml') { -%>
+        runtimeOnly(mn.snakeyaml)
+<% } -%>
+}
+
+application {
+    mainClass.set("<%= packageName %>.ApplicationKt")
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion(libs.versions.java.get())
 }
 
 graalvmNative.toolchainDetection.set(false)

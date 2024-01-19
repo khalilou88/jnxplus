@@ -25,7 +25,7 @@ describe('nx-gradle kmp kotlin dsl e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset kmp`,
+      `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset kmp --versionManagement properties`,
     );
   }, 120000);
 

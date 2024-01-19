@@ -87,3 +87,90 @@ tasks.withType<JavaCompile> {
 }
 <% } -%>
 <% } -%>
+<% if(versionManagement === 'version-catalog') { -%>
+<% if(dsl === 'groovy') { -%>
+plugins {
+    id 'java'
+    alias libs.plugins.quarkus
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation enforcedPlatform(libs.quarkus.platform.quarkus.bom)
+    implementation 'io.quarkus:quarkus-resteasy-reactive'
+    implementation 'io.quarkus:quarkus-resteasy-reactive-jackson'
+    implementation 'io.quarkus:quarkus-arc'
+<% if(configFormat === '.yml') { -%>
+    implementation 'io.quarkus:quarkus-config-yaml'
+<% } -%>
+    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'io.rest-assured:rest-assured'
+}
+
+group '<%= groupId %>'
+version '<%= projectVersion %>'
+
+java {
+    sourceCompatibility = libs.versions.java.get()
+    targetCompatibility = libs.versions.java.get()
+}
+
+test {
+    systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+}
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+plugins {
+    java
+    alias(libs.plugins.quarkus)
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation(enforcedPlatform(libs.quarkus.platform.quarkus.bom))
+    implementation("io.quarkus:quarkus-resteasy-reactive")
+    implementation("io.quarkus:quarkus-resteasy-reactive-jackson")
+    implementation("io.quarkus:quarkus-arc")
+<% if(configFormat === '.yml') { -%>
+    implementation("io.quarkus:quarkus-config-yaml")
+<% } -%>
+    testImplementation("io.quarkus:quarkus-junit5")
+    testImplementation("io.rest-assured:rest-assured")
+}
+
+group "<%= groupId %>"
+version "<%= projectVersion %>"
+
+java {
+    sourceCompatibility = JavaVersion.toVersion(libs.versions.java.get())
+    targetCompatibility = JavaVersion.toVersion(libs.versions.java.get())
+}
+
+tasks.withType<Test> {
+    systemProperty("java.util.logging.manager", "org.jboss.logmanager.LogManager")
+}
+
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+    options.compilerArgs.add("-parameters")
+}
+<% } -%>
+<% } -%>
+

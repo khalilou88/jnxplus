@@ -1,9 +1,10 @@
+<% if(versionManagement === 'properties') { -%>
 <% if(dsl === 'groovy') { -%>
 pluginManagement {
   plugins {
-    id 'io.micronaut.application' version "${micronautVersion}"
-    id 'io.micronaut.library' version "${micronautVersion}"
-    id 'io.micronaut.aot' version "${micronautVersion}"
+    id 'io.micronaut.application' version "4.2.1"
+    id 'io.micronaut.library' version "4.2.1"
+    id 'io.micronaut.aot' version "4.2.1"
     id 'com.google.devtools.ksp' version "${kspVersion}"
     id 'com.github.johnrengelman.shadow' version "${shadowVersion}"
     id 'org.jetbrains.kotlin.jvm' version "${kotlinVersion}"
@@ -22,15 +23,14 @@ rootProject.name = '<%= rootProjectName %>'
 <% } -%>
 <% if(dsl === 'kotlin') { -%>
 pluginManagement {
-  val micronautVersion: String by settings
   val kspVersion: String by settings
   val shadowVersion: String by settings
   val kotlinVersion: String by settings
   val jnxplusGradlePluginVersion: String by settings
   plugins {
-    id("io.micronaut.application") version micronautVersion
-    id("io.micronaut.library") version micronautVersion
-    id("io.micronaut.aot") version micronautVersion
+    id("io.micronaut.application") version "4.2.1"
+    id("io.micronaut.library") version "4.2.1"
+    id("io.micronaut.aot") version "4.2.1"
     id("com.google.devtools.ksp") version kspVersion
     id("com.github.johnrengelman.shadow") version shadowVersion
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
@@ -46,4 +46,31 @@ pluginManagement {
 <% } -%>
 }
 rootProject.name = "<%= rootProjectName %>"
+<% } -%>
+<% } -%>
+<% if(versionManagement === 'version-catalog') { -%>
+<% if(dsl === 'groovy') { -%>
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+plugins {
+  id 'io.micronaut.platform.catalog' version "4.2.1"
+}
+rootProject.name = '<%= rootProjectName %>'
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+plugins {
+  id("io.micronaut.platform.catalog") version "4.2.1"
+}
+rootProject.name = "<%= rootProjectName %>"
+<% } -%>
 <% } -%>

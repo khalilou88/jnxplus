@@ -299,7 +299,7 @@ export function findQuarkusVersion(
       qVersion = getQuarkusVersion(gradlePropertiesContent);
     }
 
-    if (qVersion === undefined) {
+    if (!qVersion) {
       qVersion = quarkusVersion;
     }
   }

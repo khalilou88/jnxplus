@@ -1,0 +1,190 @@
+<% if(versionManagement === 'properties') { -%>
+<% if(dsl === 'groovy') { -%>
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+<% if(packaging === 'war') { -%>
+  id 'war'
+<% } -%>
+  id 'org.springframework.boot'
+  id 'io.spring.dependency-management'
+  id 'org.jetbrains.kotlin.jvm'
+  id 'org.jetbrains.kotlin.plugin.spring'
+}
+
+group = '<%= groupId %>'
+version = '<%= projectVersion %>'
+
+java {
+  sourceCompatibility = "${javaVersion}"
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+  implementation 'org.jetbrains.kotlin:kotlin-reflect'
+  implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+<% if(packaging === 'war') { -%>
+  providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+<% } -%>
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.withType(KotlinCompile) {
+  kotlinOptions {
+    freeCompilerArgs += '-Xjsr305=strict'
+    jvmTarget = "${javaVersion}"
+  }
+}
+
+tasks.named('test') {
+  useJUnitPlatform()
+}
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+val javaVersion: String by project
+
+plugins {
+<% if(packaging === 'war') { -%>
+  war
+<% } -%>
+  id("org.springframework.boot")
+  id("io.spring.dependency-management")
+  kotlin("jvm")
+  kotlin("plugin.spring")
+}
+
+group = "<%= groupId %>"
+version = "<%= projectVersion %>"
+
+java {
+  sourceCompatibility = JavaVersion.toVersion(javaVersion)
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation("org.springframework.boot:spring-boot-starter-web")
+  implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+  implementation("org.jetbrains.kotlin:kotlin-reflect")
+  implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+<% if(packaging === 'war') { -%>
+  providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+<% } -%>
+  testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+tasks.withType<KotlinCompile> {
+  kotlinOptions {
+    freeCompilerArgs += "-Xjsr305=strict"
+    jvmTarget = javaVersion
+  }
+}
+
+tasks.withType<Test> {
+  useJUnitPlatform()
+}
+<% } -%>
+<% } -%>
+<% if(versionManagement === 'version-catalog') { -%>
+<% if(dsl === 'groovy') { -%>
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+<% if(packaging === 'war') { -%>
+  id 'war'
+<% } -%>
+  alias libs.plugins.springframework.boot
+  alias libs.plugins.spring.dependency.management
+  alias libs.plugins.jetbrains.kotlin.jvm
+  alias libs.plugins.jetbrains.kotlin.plugin.spring
+}
+
+group = '<%= groupId %>'
+version = '<%= projectVersion %>'
+
+java {
+  sourceCompatibility = libs.versions.java.get()
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+  implementation 'org.jetbrains.kotlin:kotlin-reflect'
+  implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+<% if(packaging === 'war') { -%>
+  providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+<% } -%>
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.withType(KotlinCompile) {
+  kotlinOptions {
+    freeCompilerArgs += '-Xjsr305=strict'
+    jvmTarget = libs.versions.java.get()
+  }
+}
+
+tasks.named('test') {
+  useJUnitPlatform()
+}
+<% } -%>
+<% if(dsl === 'kotlin') { -%>
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+<% if(packaging === 'war') { -%>
+  war
+<% } -%>
+  alias(libs.plugins.springframework.boot)
+  alias(libs.plugins.spring.dependency.management)
+  alias(libs.plugins.jetbrains.kotlin.jvm)
+  alias(libs.plugins.jetbrains.kotlin.plugin.spring)
+}
+
+group = "<%= groupId %>"
+version = "<%= projectVersion %>"
+
+java {
+  sourceCompatibility = JavaVersion.toVersion(libs.versions.java.get())
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation("org.springframework.boot:spring-boot-starter-web")
+  implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+  implementation("org.jetbrains.kotlin:kotlin-reflect")
+  implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+<% if(packaging === 'war') { -%>
+  providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+<% } -%>
+  testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+tasks.withType<KotlinCompile> {
+  kotlinOptions {
+    freeCompilerArgs += "-Xjsr305=strict"
+    jvmTarget = libs.versions.java.get()
+  }
+}
+
+tasks.withType<Test> {
+  useJUnitPlatform()
+}
+<% } -%>
+<% } -%>
