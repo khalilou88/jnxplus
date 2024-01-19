@@ -2,7 +2,7 @@ import { VersionManagementType } from '@jnxplus/common';
 import { workspaceRoot } from '@nx/devkit';
 import * as fs from 'fs';
 import { join } from 'path';
-import { parse, stringify } from 'smol-toml';
+import * as TOML from 'smol-toml';
 
 export function addMissingCode(
   versionManagement: VersionManagementType,
@@ -21,13 +21,13 @@ export function addMissingCode(
     'libs.versions.toml',
   );
 
-  const catalog = parse(fs.readFileSync(libsVersionsTomlPath, 'utf-8'));
+  const catalog = TOML.parse(fs.readFileSync(libsVersionsTomlPath, 'utf-8'));
 
   console.log(catalog);
   console.log(framework);
   console.log(language);
 
-  const str = stringify(catalog);
+  const str = TOML.stringify(catalog);
   const libsVersionsTomlPath2 = join(
     workspaceRoot,
     gradleRootDirectory,
