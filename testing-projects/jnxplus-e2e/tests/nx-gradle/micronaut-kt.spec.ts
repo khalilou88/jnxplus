@@ -80,7 +80,7 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
   }, 240000);
 
   it('should create a java application', async () => {
-    const appName = uniq('micronaut-gradle-app-');
+    const appName = uniq('g-m-app-');
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut`,
@@ -175,7 +175,7 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
 
   it('should build-image of a java application', async () => {
     if (!isWin && !isMacOs && isCI) {
-      const appName = uniq('micronaut-gradle-app-');
+      const appName = uniq('g-m-app-');
       await runNxCommandAsync(
         `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut`,
       );
@@ -187,7 +187,7 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
   }, 240000);
 
   it('should use specified options to create an application', async () => {
-    const randomName = uniq('micronaut-gradle-app-');
+    const randomName = uniq('g-m-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
     const port = 8181;
@@ -269,7 +269,7 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
   }, 240000);
 
   it('should generate an app with a simple package name', async () => {
-    const randomName = uniq('micronaut-gradle-app-');
+    const randomName = uniq('g-m-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
     const port = 8282;
@@ -351,7 +351,7 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
   }, 240000);
 
   it('should create a kotlin application', async () => {
-    const appName = uniq('micronaut-gradle-app-');
+    const appName = uniq('g-m-app-');
     const port = 8383;
 
     await runNxCommandAsync(
@@ -431,7 +431,7 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
 
   xit('should build-image of a kotlin application', async () => {
     if (!isWin && !isMacOs && isCI) {
-      const appName = uniq('micronaut-gradle-app-');
+      const appName = uniq('g-m-app-');
       await runNxCommandAsync(
         `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut --language kotlin`,
       );
@@ -443,7 +443,7 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
   }, 240000);
 
   it('--an app with aliases', async () => {
-    const randomName = uniq('micronaut-gradle-app-');
+    const randomName = uniq('g-m-app-');
     const appDir = 'subdir';
     const appName = `${appDir}-${randomName}`;
     const port = 8484;
@@ -525,7 +525,7 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
   }, 240000);
 
   it('directory with dash', async () => {
-    const randomName = uniq('micronaut-gradle-app-');
+    const randomName = uniq('g-m-app-');
     const appName = `deep-sub-dir-${randomName}`;
     const port = 8585;
 
@@ -560,7 +560,7 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
   }, 240000);
 
   it('should create a library', async () => {
-    const libName = uniq('micronaut-gradle-lib-');
+    const libName = uniq('g-m-lib-');
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut`,
@@ -621,7 +621,7 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
   }, 240000);
 
   it('should create a kotlin library', async () => {
-    const libName = uniq('micronaut-gradle-lib-');
+    const libName = uniq('g-m-lib-');
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --language kotlin`,
@@ -680,7 +680,7 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
   }, 240000);
 
   it('should create a library with the specified properties', async () => {
-    const randomName = uniq('micronaut-gradle-lib-');
+    const randomName = uniq('g-m-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
@@ -739,7 +739,7 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
   }, 240000);
 
   it('should generare a lib with a simple package name', async () => {
-    const randomName = uniq('micronaut-gradle-lib-');
+    const randomName = uniq('g-m-lib-');
     const libDir = 'deep/subdir';
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
@@ -798,7 +798,7 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
   }, 240000);
 
   it('--a lib with aliases', async () => {
-    const randomName = uniq('micronaut-gradle-lib-');
+    const randomName = uniq('g-m-lib-');
     const libDir = 'subdir';
     const libName = `${libDir}-${randomName}`;
 
@@ -857,8 +857,8 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
   }, 240000);
 
   it('should add a lib to an app dependencies', async () => {
-    const appName = uniq('micronaut-gradle-app-');
-    const libName = uniq('micronaut-gradle-lib-');
+    const appName = uniq('g-m-app-');
+    const libName = uniq('g-m-lib-');
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut`,
@@ -935,8 +935,8 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
   }, 240000);
 
   it('should add a kotlin lib to a kotlin app dependencies', async () => {
-    const appName = uniq('micronaut-gradle-app-');
-    const libName = uniq('micronaut-gradle-lib-');
+    const appName = uniq('g-m-app-');
+    const libName = uniq('g-m-lib-');
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:application ${appName} --framework micronaut --language kotlin --packaging war`,
@@ -1011,7 +1011,7 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
   }, 240000);
 
   it('should create an application with a simple name', async () => {
-    const appName = uniq('micronaut-gradle-app-');
+    const appName = uniq('g-m-app-');
     const appDir = 'deep/subdir';
     const port = 8686;
 
@@ -1093,7 +1093,7 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
   }, 240000);
 
   it('should create a library with a simple name', async () => {
-    const libName = uniq('micronaut-gradle-lib-');
+    const libName = uniq('g-m-lib-');
     const libDir = 'deep/subdir';
 
     await runNxCommandAsync(
@@ -1151,7 +1151,7 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
   }, 240000);
 
   it('should create a minimal java application', async () => {
-    const appName = uniq('micronaut-gradle-app-');
+    const appName = uniq('g-m-app-');
     const port = 8787;
 
     await runNxCommandAsync(
@@ -1191,7 +1191,7 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
   }, 240000);
 
   it('should create a minimal kotlin application', async () => {
-    const appName = uniq('micronaut-gradle-app-');
+    const appName = uniq('g-m-app-');
     const port = 8888;
 
     await runNxCommandAsync(
@@ -1231,7 +1231,7 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
   }, 240000);
 
   it('should skip starter code when generating a java library with skipStarterCode option', async () => {
-    const libName = uniq('micronaut-gradle-lib-');
+    const libName = uniq('g-m-lib-');
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --skipStarterCode`,
@@ -1252,7 +1252,7 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
   }, 240000);
 
   it('should skip starter code when generating a kotlin library with skipStarterCode option', async () => {
-    const libName = uniq('micronaut-gradle-lib-');
+    const libName = uniq('g-m-lib-');
 
     await runNxCommandAsync(
       `generate @jnxplus/nx-gradle:library ${libName} --framework micronaut --language kotlin --skipStarterCode`,
