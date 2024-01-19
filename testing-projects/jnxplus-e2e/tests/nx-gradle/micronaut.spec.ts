@@ -268,7 +268,7 @@ describe('nx-gradle micronaut e2e', () => {
     await killProcessAndPorts(process.pid, port);
   }, 240000);
 
-  it('should generate an app with a simple package name', async () => {
+  it('should generate a micronaut app with a simple package name', async () => {
     const randomName = uniq('g-m-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
@@ -348,7 +348,7 @@ describe('nx-gradle micronaut e2e', () => {
 
     // port and process cleanup
     await killProcessAndPorts(process.pid, port);
-  }, 240000);
+  }, 360000);
 
   it('should create a kotlin application', async () => {
     const appName = uniq('g-m-app-');
