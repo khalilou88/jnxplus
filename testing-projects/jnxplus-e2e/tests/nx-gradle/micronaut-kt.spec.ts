@@ -42,7 +42,7 @@ describe('nx-gradle micronaut kotlin dsl e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset micronaut`,
+      `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset micronaut --versionManagement version-catalog`,
     );
   }, 240000);
 
