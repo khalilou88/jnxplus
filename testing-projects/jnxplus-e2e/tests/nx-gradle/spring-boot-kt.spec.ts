@@ -79,7 +79,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     ).not.toThrow();
   }, 120000);
 
-  it('should create a java application', async () => {
+  it('should create a sb java application', async () => {
     const appName = uniq('g-sb-app-');
 
     await runNxCommandAsync(
