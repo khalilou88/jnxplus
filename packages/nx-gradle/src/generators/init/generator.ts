@@ -23,6 +23,7 @@ import {
   writeJson,
 } from '@nx/devkit';
 import * as path from 'path';
+import { addLibsVersionsToml } from '../../utils/libs-versions-toml';
 import { NxGradleInitGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxGradleInitGeneratorSchema {
@@ -86,12 +87,11 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   );
 
   if (options.versionManagement === 'version-catalog') {
-    generateFiles(
-      tree,
-      path.join(__dirname, 'files', 'gradle', 'catalog', options.preset),
-      joinPathFragments(options.gradleRootDirectory, 'gradle'),
-      templateOptions,
-    );
+    addLibsVersionsToml(tree, {
+      gradleRootDirectory: options.gradleRootDirectory,
+      javaVersion: options.javaVersion,
+      preset: options.preset,
+    });
   }
 }
 
