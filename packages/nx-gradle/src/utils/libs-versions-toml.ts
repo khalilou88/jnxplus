@@ -13,7 +13,9 @@ export async function addMissingCode(
     return;
   }
 
-  const { parse, stringify } = await import('smol-toml');
+  const { parse, stringify } = await (Function(
+    'return import("smol-toml")',
+  )() as Promise<typeof import('smol-toml')>);
 
   const libsVersionsTomlPath = join(
     workspaceRoot,
