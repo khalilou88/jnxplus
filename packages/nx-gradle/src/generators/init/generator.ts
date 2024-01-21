@@ -91,6 +91,7 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
       gradleRootDirectory: options.gradleRootDirectory,
       javaVersion: options.javaVersion,
       preset: options.preset,
+      language: 'java',
     });
   }
 }

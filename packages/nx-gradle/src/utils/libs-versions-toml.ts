@@ -1,4 +1,5 @@
 import {
+  PresetType,
   VersionManagementType,
   jnxplusGradlePluginVersion,
   kotlinVersion,
@@ -16,7 +17,7 @@ import { join } from 'path';
 export async function addMissingCode(
   versionManagement: VersionManagementType,
   gradleRootDirectory: string,
-  framework: string | undefined,
+  framework: PresetType | undefined,
   language: string,
 ) {
   if (versionManagement !== 'version-catalog') {
@@ -36,9 +37,17 @@ export async function addMissingCode(
 
   const catalog = parse(fs.readFileSync(libsVersionsTomlPath, 'utf-8'));
 
-  console.log(catalog);
-  console.log(framework);
-  console.log(language);
+  const elements: ElementsType = getElements(
+    {
+      gradleRootDirectory: gradleRootDirectory,
+      javaVersion: '17',
+      preset: framework,
+      language: language,
+    },
+    catalog,
+  );
+
+  console.log(elements);
 
   // const str = stringify(catalog);
   // const libsVersionsTomlPath2 = join(
@@ -55,7 +64,8 @@ export function addLibsVersionsToml(
   options: {
     gradleRootDirectory: string;
     javaVersion: string | number;
-    preset: string;
+    preset: PresetType;
+    language: string;
   },
 ) {
   const libsVersionsTomlPath = joinPathFragments(
@@ -78,9 +88,30 @@ type ElementsType = {
 };
 
 function getLibsVersionsTomlContent(options: {
+  gradleRootDirectory: string;
   javaVersion: string | number;
-  preset: string;
+  preset: PresetType | undefined;
+  language: string;
 }) {
+  const elements: ElementsType = getElements(options);
+
+  return `[versions]\n${elements.versions.join(
+    '\n',
+  )}\n\n[libraries]\n${elements.libraries.join(
+    '\n',
+  )}\n\n[plugins]\n${elements.plugins.join('\n')}`;
+}
+
+function getElements(
+  options: {
+    gradleRootDirectory: string;
+    javaVersion: string | number;
+    preset: PresetType | undefined;
+    language: string;
+  },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+  catalog?: any,
+) {
   const elements: ElementsType = { versions: [], libraries: [], plugins: [] };
 
   elements.versions.push(`java = "${options.javaVersion}"`);
@@ -141,9 +172,5 @@ function getLibsVersionsTomlContent(options: {
     );
   }
 
-  return `[versions]\n${elements.versions.join(
-    '\n',
-  )}\n\n[libraries]\n${elements.libraries.join(
-    '\n',
-  )}\n\n[plugins]\n${elements.plugins.join('\n')}`;
+  return elements;
 }
