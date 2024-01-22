@@ -10,15 +10,14 @@ import {
   springBootVersion,
   springDependencyManagementVersion,
 } from '@jnxplus/common';
-import { Tree, joinPathFragments, workspaceRoot } from '@nx/devkit';
-import * as fs from 'fs';
-import { join } from 'path';
+import { Tree, joinPathFragments } from '@nx/devkit';
 
 const regex1 = /\[versions]/;
 const regex2 = /\[libraries]/;
 const regex3 = /\[plugins]/;
 
 export async function addMissingCode(
+  tree: Tree,
   versionManagement: VersionManagementType,
   gradleRootDirectory: string,
   framework: PresetType | undefined,
@@ -32,17 +31,14 @@ export async function addMissingCode(
     typeof import('smol-toml')
   >);
 
-  const libsVersionsTomlPath = join(
-    workspaceRoot,
+  const libsVersionsTomlPath = joinPathFragments(
     gradleRootDirectory,
     'gradle',
     'libs.versions.toml',
   );
 
-  const libsVersionsTomlContent = fs.readFileSync(
-    libsVersionsTomlPath,
-    'utf-8',
-  );
+  const libsVersionsTomlContent =
+    tree.read(libsVersionsTomlPath, 'utf-8') || '';
   const catalog = parse(libsVersionsTomlContent);
 
   const elements: ElementsType = getElements(
@@ -60,20 +56,16 @@ export async function addMissingCode(
     .replace(regex2, `[libraries]\n${elements.libraries.join('\n')}`)
     .replace(regex3, `[plugins]\n${elements.plugins.join('\n')}`);
 
-  fs.writeFileSync(libsVersionsTomlPath, newLibsVersionsTomlContent);
+  tree.write(libsVersionsTomlPath, newLibsVersionsTomlContent);
 
-  if (elements.plugins) {
-    const filePath = join(workspaceRoot, gradleRootDirectory, `build.gradle`);
-    const ktsPath = join(
-      workspaceRoot,
-      gradleRootDirectory,
-      `build.gradle.kts`,
-    );
+  if (elements.plugins.length > 0) {
+    const filePath = joinPathFragments(gradleRootDirectory, `build.gradle`);
+    const ktsPath = joinPathFragments(gradleRootDirectory, `build.gradle.kts`);
 
     const a = elements.plugins.map((p) => p.split('=')[0].trim());
 
-    if (fs.existsSync(filePath)) {
-      const buildGradleContent = fs.readFileSync(filePath, 'utf-8') || '';
+    if (tree.exists(filePath)) {
+      const buildGradleContent = tree.read(filePath, 'utf-8') || '';
 
       const regex = '/plugins {/';
 
@@ -83,21 +75,21 @@ export async function addMissingCode(
         regex,
         `plugins {\n${b.join('\n')}`,
       );
-      fs.writeFileSync(filePath, newBuildGradleContent);
+      tree.write(filePath, newBuildGradleContent);
     }
 
-    if (fs.existsSync(ktsPath)) {
-      const buildGradleContent = fs.readFileSync(ktsPath, 'utf-8') || '';
+    if (tree.exists(ktsPath)) {
+      const buildGradleKtsContent = tree.read(ktsPath, 'utf-8') || '';
 
       const regex = '/plugins {/';
 
       const bb = a.map((aa) => `alias(${aa}) apply false`);
 
-      const newBuildGradleContent = buildGradleContent.replace(
+      const newBuildGradleKtsContent = buildGradleKtsContent.replace(
         regex,
         `plugins {\n${bb.join('\n')}`,
       );
-      fs.writeFileSync(ktsPath, newBuildGradleContent);
+      tree.write(ktsPath, newBuildGradleKtsContent);
     }
   }
 }
@@ -194,7 +186,7 @@ function getElements(
   }
 
   if (options.preset === 'micronaut') {
-    elements.versions.push(`micronaut = "${micronautVersion} "`);
+    elements.versions.push(`micronaut = "${micronautVersion}"`);
     elements.plugins.push(
       'jetbrains-kotlin-plugin-allopen = { id = "org.jetbrains.kotlin.plugin.allopen", version.ref = "kotlin" }',
     );

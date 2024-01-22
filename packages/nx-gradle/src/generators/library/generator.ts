@@ -278,6 +278,7 @@ async function libraryGenerator(
   const normalizedOptions = normalizeOptions(tree, options);
 
   await addMissingCode(
+    tree,
     normalizedOptions.versionManagement,
     normalizedOptions.gradleRootDirectory,
     options.framework,

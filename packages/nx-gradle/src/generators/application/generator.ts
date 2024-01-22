@@ -326,6 +326,7 @@ async function applicationGenerator(
   const normalizedOptions = normalizeOptions(tree, options);
 
   await addMissingCode(
+    tree,
     normalizedOptions.versionManagement,
     normalizedOptions.gradleRootDirectory,
     options.framework,
