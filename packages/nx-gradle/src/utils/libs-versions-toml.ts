@@ -149,7 +149,7 @@ function getElements(
     preset: PresetType | undefined;
     language: string;
   },
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   catalog?: any,
 ) {
   const elements: ElementsType = { versions: [], libraries: [], plugins: [] };
