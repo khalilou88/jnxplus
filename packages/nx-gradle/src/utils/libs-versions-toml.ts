@@ -61,13 +61,19 @@ export async function addMissingCode(
   tree.write(libsVersionsTomlPath, newLibsVersionsTomlContent);
 
   if (elements.plugins.length > 0) {
-    const filePath = joinPathFragments(gradleRootDirectory, `build.gradle`);
-    const ktsPath = joinPathFragments(gradleRootDirectory, `build.gradle.kts`);
+    const buildGradlePath = joinPathFragments(
+      gradleRootDirectory,
+      'build.gradle',
+    );
+    const buildGradleKtsPath = joinPathFragments(
+      gradleRootDirectory,
+      'build.gradle.kts',
+    );
 
     const a = elements.plugins.map((p) => p.split('=')[0].trim());
 
-    if (tree.exists(filePath)) {
-      const buildGradleContent = tree.read(filePath, 'utf-8') || '';
+    if (tree.exists(buildGradlePath)) {
+      const buildGradleContent = tree.read(buildGradlePath, 'utf-8') || '';
 
       const b = a.map((aa) => `alias ${aa} apply false`);
 
@@ -75,11 +81,12 @@ export async function addMissingCode(
         regex,
         `plugins {\n${b.join('\n')}`,
       );
-      tree.write(filePath, newBuildGradleContent);
+      tree.write(buildGradlePath, newBuildGradleContent);
     }
 
-    if (tree.exists(ktsPath)) {
-      const buildGradleKtsContent = tree.read(ktsPath, 'utf-8') || '';
+    if (tree.exists(buildGradleKtsPath)) {
+      const buildGradleKtsContent =
+        tree.read(buildGradleKtsPath, 'utf-8') || '';
 
       const bb = a.map((aa) => `alias(${aa}) apply false`);
 
@@ -87,7 +94,7 @@ export async function addMissingCode(
         regex,
         `plugins {\n${bb.join('\n')}`,
       );
-      tree.write(ktsPath, newBuildGradleKtsContent);
+      tree.write(buildGradleKtsPath, newBuildGradleKtsContent);
     }
   }
 }
@@ -147,62 +154,125 @@ function getElements(
 ) {
   const elements: ElementsType = { versions: [], libraries: [], plugins: [] };
 
-  elements.versions.push(`java = "${options.javaVersion}"`);
-  elements.versions.push(`kotlin = "${kotlinVersion}"`);
+  if (!catalog.versions.java) {
+    elements.versions.push(`java = "${options.javaVersion}"`);
+  }
 
-  elements.plugins.push(
-    `github-khalilou88-jnxplus = { id = "io.github.khalilou88.jnxplus", version = "${jnxplusGradlePluginVersion}" }`,
-  );
-  elements.plugins.push(
-    'jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }',
-  );
+  if (!catalog.plugins['github-khalilou88-jnxplus']) {
+    elements.plugins.push(
+      `github-khalilou88-jnxplus = { id = "io.github.khalilou88.jnxplus", version = "${jnxplusGradlePluginVersion}" }`,
+    );
+  }
+
+  if (options.language === 'kotlin') {
+    if (!catalog.versions.kotlin) {
+      elements.versions.push(`kotlin = "${kotlinVersion}"`);
+    }
+
+    if (!catalog.plugins['jetbrains-kotlin-jvm']) {
+      elements.plugins.push(
+        'jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }',
+      );
+    }
+  }
 
   if (options.preset === 'spring-boot') {
-    elements.versions.push(`spring-boot = "${springBootVersion}"`);
-    elements.plugins.push(
-      'springframework-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }',
-    );
-    elements.plugins.push(
-      `spring-dependency-management = { id = "io.spring.dependency-management", version = "${springDependencyManagementVersion}" }`,
-    );
-    elements.plugins.push(
-      'jetbrains-kotlin-plugin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }',
-    );
+    if (!catalog.versions['spring-boot']) {
+      elements.versions.push(`spring-boot = "${springBootVersion}"`);
+    }
+
+    if (!catalog.plugins['springframework-boot']) {
+      elements.plugins.push(
+        'springframework-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }',
+      );
+    }
+
+    if (!catalog.plugins['spring-dependency-management']) {
+      elements.plugins.push(
+        `spring-dependency-management = { id = "io.spring.dependency-management", version = "${springDependencyManagementVersion}" }`,
+      );
+    }
+
+    if (
+      options.language === 'kotlin' &&
+      !catalog.plugins['jetbrains-kotlin-plugin-spring']
+    ) {
+      elements.plugins.push(
+        'jetbrains-kotlin-plugin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }',
+      );
+    }
   }
 
   if (options.preset === 'quarkus') {
-    elements.versions.push(`quarkus = "${quarkusVersion}"`);
-    elements.libraries.push(
-      'quarkus-platform-quarkus-bom = { module = "io.quarkus.platform:quarkus-bom", version.ref = "quarkus" }',
-    );
-    elements.plugins.push(
-      'quarkus = { id = "io.quarkus", version.ref = "quarkus" }',
-    );
-    elements.plugins.push(
-      'jetbrains-kotlin-plugin-allopen = { id = "org.jetbrains.kotlin.plugin.allopen", version.ref = "kotlin" }',
-    );
+    if (!catalog.versions.quarkus) {
+      elements.versions.push(`quarkus = "${quarkusVersion}"`);
+    }
+
+    if (!catalog.libraries['quarkus-platform-quarkus-bom']) {
+      elements.libraries.push(
+        'quarkus-platform-quarkus-bom = { module = "io.quarkus.platform:quarkus-bom", version.ref = "quarkus" }',
+      );
+    }
+
+    if (
+      options.language === 'kotlin' &&
+      !catalog.plugins['jetbrains-kotlin-plugin-allopen']
+    ) {
+      elements.plugins.push(
+        'jetbrains-kotlin-plugin-allopen = { id = "org.jetbrains.kotlin.plugin.allopen", version.ref = "kotlin" }',
+      );
+    }
+
+    if (!catalog.plugins['quarkus']) {
+      elements.plugins.push(
+        'quarkus = { id = "io.quarkus", version.ref = "quarkus" }',
+      );
+    }
   }
 
   if (options.preset === 'micronaut') {
-    elements.versions.push(`micronaut = "${micronautVersion}"`);
-    elements.plugins.push(
-      'jetbrains-kotlin-plugin-allopen = { id = "org.jetbrains.kotlin.plugin.allopen", version.ref = "kotlin" }',
-    );
-    elements.plugins.push(
-      'micronaut-aot = { id = "io.micronaut.aot", version = "4.2.1" }',
-    );
-    elements.plugins.push(
-      'micronaut-application = { id = "io.micronaut.application", version = "4.2.1" }',
-    );
-    elements.plugins.push(
-      'micronaut-library = { id = "io.micronaut.library", version = "4.2.1" }',
-    );
-    elements.plugins.push(
-      `google-devtools-ksp = { id = "com.google.devtools.ksp", version = "${kspVersion}" }`,
-    );
-    elements.plugins.push(
-      `github-johnrengelman-shadow = { id = "com.github.johnrengelman.shadow", version = "${shadowVersion}" }`,
-    );
+    if (!catalog.versions.micronaut) {
+      elements.versions.push(`micronaut = "${micronautVersion}"`);
+    }
+
+    if (
+      options.language === 'kotlin' &&
+      !catalog.plugins['jetbrains-kotlin-plugin-allopen']
+    ) {
+      elements.plugins.push(
+        'jetbrains-kotlin-plugin-allopen = { id = "org.jetbrains.kotlin.plugin.allopen", version.ref = "kotlin" }',
+      );
+    }
+
+    if (!catalog.plugins['micronaut-aot']) {
+      elements.plugins.push(
+        'micronaut-aot = { id = "io.micronaut.aot", version = "4.2.1" }',
+      );
+    }
+
+    if (!catalog.plugins['micronaut-application']) {
+      elements.plugins.push(
+        'micronaut-application = { id = "io.micronaut.application", version = "4.2.1" }',
+      );
+    }
+
+    if (!catalog.plugins['micronaut-library']) {
+      elements.plugins.push(
+        'micronaut-library = { id = "io.micronaut.library", version = "4.2.1" }',
+      );
+    }
+
+    if (!catalog.plugins['google-devtools-ksp']) {
+      elements.plugins.push(
+        `google-devtools-ksp = { id = "com.google.devtools.ksp", version = "${kspVersion}" }`,
+      );
+    }
+
+    if (!catalog.plugins['github-johnrengelman-shadow']) {
+      elements.plugins.push(
+        `github-johnrengelman-shadow = { id = "com.github.johnrengelman.shadow", version = "${shadowVersion}" }`,
+      );
+    }
   }
 
   return elements;
