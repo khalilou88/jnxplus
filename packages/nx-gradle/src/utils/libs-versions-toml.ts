@@ -14,6 +14,10 @@ import { Tree, joinPathFragments, workspaceRoot } from '@nx/devkit';
 import * as fs from 'fs';
 import { join } from 'path';
 
+const regex1 = /\[versions]/;
+const regex2 = /\[libraries]/;
+const regex3 = /\[plugins]/;
+
 export async function addMissingCode(
   versionManagement: VersionManagementType,
   gradleRootDirectory: string,
@@ -50,10 +54,6 @@ export async function addMissingCode(
     },
     catalog,
   );
-
-  const regex1 = /[versions]/;
-  const regex2 = /[libraries]/;
-  const regex3 = /[plugins]/;
 
   const newLibsVersionsTomlContent = libsVersionsTomlContent
     .replace(regex1, `[versions]\n${elements.versions.join('\n')}`)
