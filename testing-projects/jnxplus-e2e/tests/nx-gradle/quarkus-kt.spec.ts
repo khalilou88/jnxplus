@@ -43,7 +43,7 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset quarkus --versionManagement version-catalog`,
+      `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset none --versionManagement version-catalog`,
     );
 
     addJVMMemory();

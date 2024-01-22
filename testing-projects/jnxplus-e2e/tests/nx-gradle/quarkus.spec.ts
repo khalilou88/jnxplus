@@ -43,7 +43,7 @@ describe('nx-gradle quarkus e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --preset quarkus --versionManagement version-catalog`,
+      `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --preset none --versionManagement version-catalog`,
     );
 
     addJVMMemory();

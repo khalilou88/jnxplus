@@ -29,6 +29,7 @@ import {
   getVersionManagement,
 } from '../../utils';
 import { NxGradleLibGeneratorSchema } from './schema';
+import { addMissingCode } from '../../utils/libs-versions-toml';
 
 export default async function (
   tree: Tree,
@@ -275,6 +276,14 @@ async function libraryGenerator(
   options: NxGradleLibGeneratorSchema,
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
+
+  await addMissingCode(
+    tree,
+    normalizedOptions.versionManagement,
+    normalizedOptions.gradleRootDirectory,
+    options.framework,
+    options.language,
+  );
 
   const projectConfiguration: ProjectConfiguration = {
     root: normalizedOptions.projectRoot,

@@ -42,7 +42,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset spring-boot --versionManagement version-catalog`,
+      `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset none --versionManagement version-catalog`,
     );
   }, 120000);
 
@@ -79,7 +79,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     ).not.toThrow();
   }, 120000);
 
-  it('should create a java application', async () => {
+  it('should create a sb java application', async () => {
     const appName = uniq('g-sb-app-');
 
     await runNxCommandAsync(
