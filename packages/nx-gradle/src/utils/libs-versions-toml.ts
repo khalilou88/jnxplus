@@ -35,7 +35,11 @@ export async function addMissingCode(
     'libs.versions.toml',
   );
 
-  const catalog = parse(fs.readFileSync(libsVersionsTomlPath, 'utf-8'));
+  const libsVersionsTomlContent = fs.readFileSync(
+    libsVersionsTomlPath,
+    'utf-8',
+  );
+  const catalog = parse(libsVersionsTomlContent);
 
   const elements: ElementsType = getElements(
     {
@@ -47,16 +51,16 @@ export async function addMissingCode(
     catalog,
   );
 
-  console.log(elements);
+  const regex1 = /[versions]/;
+  const regex2 = /[libraries]/;
+  const regex3 = /[plugins]/;
 
-  // const str = stringify(catalog);
-  // const libsVersionsTomlPath2 = join(
-  //   workspaceRoot,
-  //   gradleRootDirectory,
-  //   'gradle',
-  //   'libs.versions2.toml',
-  // );
-  // fs.writeFileSync(libsVersionsTomlPath2, str);
+  const newLibsVersionsTomlContent = libsVersionsTomlContent
+    .replace(regex1, `[versions]\n${elements.versions.join('\n')}`)
+    .replace(regex2, `[libraries]\n${elements.libraries.join('\n')}`)
+    .replace(regex3, `[plugins]\n${elements.plugins.join('\n')}`);
+
+  fs.writeFileSync(libsVersionsTomlPath, newLibsVersionsTomlContent);
 }
 
 export function addLibsVersionsToml(
