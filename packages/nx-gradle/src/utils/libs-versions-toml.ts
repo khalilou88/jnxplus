@@ -16,6 +16,8 @@ const regex1 = /\[versions]/;
 const regex2 = /\[libraries]/;
 const regex3 = /\[plugins]/;
 
+const regex = '/plugins\\s*{/';
+
 export async function addMissingCode(
   tree: Tree,
   versionManagement: VersionManagementType,
@@ -67,8 +69,6 @@ export async function addMissingCode(
     if (tree.exists(filePath)) {
       const buildGradleContent = tree.read(filePath, 'utf-8') || '';
 
-      const regex = '/plugins {/';
-
       const b = a.map((aa) => `alias ${aa} apply false`);
 
       const newBuildGradleContent = buildGradleContent.replace(
@@ -80,8 +80,6 @@ export async function addMissingCode(
 
     if (tree.exists(ktsPath)) {
       const buildGradleKtsContent = tree.read(ktsPath, 'utf-8') || '';
-
-      const regex = '/plugins {/';
 
       const bb = a.map((aa) => `alias(${aa}) apply false`);
 
