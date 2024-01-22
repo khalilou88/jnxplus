@@ -61,6 +61,45 @@ export async function addMissingCode(
     .replace(regex3, `[plugins]\n${elements.plugins.join('\n')}`);
 
   fs.writeFileSync(libsVersionsTomlPath, newLibsVersionsTomlContent);
+
+  if (elements.plugins) {
+    const filePath = join(workspaceRoot, gradleRootDirectory, `build.gradle`);
+    const ktsPath = join(
+      workspaceRoot,
+      gradleRootDirectory,
+      `build.gradle.kts`,
+    );
+
+    const a = elements.plugins.map((p) => p.split('=')[0].trim());
+
+    if (fs.existsSync(filePath)) {
+      const buildGradleContent = fs.readFileSync(filePath, 'utf-8') || '';
+
+      const regex = '/plugins {/';
+
+      const b = a.map((aa) => `alias ${aa} apply false`);
+
+      const newBuildGradleContent = buildGradleContent.replace(
+        regex,
+        `plugins {\n${b.join('\n')}`,
+      );
+      fs.writeFileSync(filePath, newBuildGradleContent);
+    }
+
+    if (fs.existsSync(ktsPath)) {
+      const buildGradleContent = fs.readFileSync(ktsPath, 'utf-8') || '';
+
+      const regex = '/plugins {/';
+
+      const bb = a.map((aa) => `alias(${aa}) apply false`);
+
+      const newBuildGradleContent = buildGradleContent.replace(
+        regex,
+        `plugins {\n${bb.join('\n')}`,
+      );
+      fs.writeFileSync(ktsPath, newBuildGradleContent);
+    }
+  }
 }
 
 export function addLibsVersionsToml(
