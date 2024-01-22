@@ -44,12 +44,9 @@ export async function addMissingCode(
   const catalog = parse(libsVersionsTomlContent);
 
   const elements: ElementsType = getElements(
-    {
-      gradleRootDirectory: gradleRootDirectory,
-      javaVersion: '17',
-      preset: framework,
-      language: language,
-    },
+    '17',
+    framework,
+    language,
     catalog,
   );
 
@@ -101,20 +98,22 @@ export async function addMissingCode(
 
 export function addLibsVersionsToml(
   tree: Tree,
-  options: {
-    gradleRootDirectory: string;
-    javaVersion: string | number;
-    preset: PresetType;
-    language: string;
-  },
+  gradleRootDirectory: string,
+  javaVersion: string | number,
+  preset: PresetType,
+  language: string,
 ) {
   const libsVersionsTomlPath = joinPathFragments(
-    options.gradleRootDirectory,
+    gradleRootDirectory,
     'gradle',
     'libs.versions.toml',
   );
 
-  const libsVersionsTomlContent = getLibsVersionsTomlContent(options);
+  const libsVersionsTomlContent = getLibsVersionsTomlContent(
+    javaVersion,
+    preset,
+    language,
+  );
 
   if (!tree.exists(libsVersionsTomlPath)) {
     tree.write(libsVersionsTomlPath, libsVersionsTomlContent);
@@ -127,13 +126,12 @@ type ElementsType = {
   plugins: string[];
 };
 
-function getLibsVersionsTomlContent(options: {
-  gradleRootDirectory: string;
-  javaVersion: string | number;
-  preset: PresetType | undefined;
-  language: string;
-}) {
-  const elements: ElementsType = getElements(options);
+function getLibsVersionsTomlContent(
+  javaVersion: string | number,
+  preset: PresetType | undefined,
+  language: string,
+) {
+  const elements: ElementsType = getElements(javaVersion, preset, language);
 
   return `[versions]\n${elements.versions.join(
     '\n',
@@ -143,19 +141,16 @@ function getLibsVersionsTomlContent(options: {
 }
 
 function getElements(
-  options: {
-    gradleRootDirectory: string;
-    javaVersion: string | number;
-    preset: PresetType | undefined;
-    language: string;
-  },
+  javaVersion: string | number,
+  preset: PresetType | undefined,
+  language: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   catalog?: any,
 ) {
   const elements: ElementsType = { versions: [], libraries: [], plugins: [] };
 
   if (!catalog?.versions['java']) {
-    elements.versions.push(`java = "${options.javaVersion}"`);
+    elements.versions.push(`java = "${javaVersion}"`);
   }
 
   if (!catalog?.plugins['github-khalilou88-jnxplus']) {
@@ -164,7 +159,7 @@ function getElements(
     );
   }
 
-  if (options.language === 'kotlin') {
+  if (language === 'kotlin') {
     if (!catalog?.versions['kotlin']) {
       elements.versions.push(`kotlin = "${kotlinVersion}"`);
     }
@@ -176,7 +171,7 @@ function getElements(
     }
   }
 
-  if (options.preset === 'spring-boot') {
+  if (preset === 'spring-boot') {
     if (!catalog?.versions['spring-boot']) {
       elements.versions.push(`spring-boot = "${springBootVersion}"`);
     }
@@ -194,7 +189,7 @@ function getElements(
     }
 
     if (
-      options.language === 'kotlin' &&
+      language === 'kotlin' &&
       !catalog?.plugins['jetbrains-kotlin-plugin-spring']
     ) {
       elements.plugins.push(
@@ -203,7 +198,7 @@ function getElements(
     }
   }
 
-  if (options.preset === 'quarkus') {
+  if (preset === 'quarkus') {
     if (!catalog?.versions['quarkus']) {
       elements.versions.push(`quarkus = "${quarkusVersion}"`);
     }
@@ -215,7 +210,7 @@ function getElements(
     }
 
     if (
-      options.language === 'kotlin' &&
+      language === 'kotlin' &&
       !catalog?.plugins['jetbrains-kotlin-plugin-allopen']
     ) {
       elements.plugins.push(
@@ -230,13 +225,13 @@ function getElements(
     }
   }
 
-  if (options.preset === 'micronaut') {
+  if (preset === 'micronaut') {
     if (!catalog?.versions['micronaut']) {
       elements.versions.push(`micronaut = "${micronautVersion}"`);
     }
 
     if (
-      options.language === 'kotlin' &&
+      language === 'kotlin' &&
       !catalog?.plugins['jetbrains-kotlin-plugin-allopen']
     ) {
       elements.plugins.push(

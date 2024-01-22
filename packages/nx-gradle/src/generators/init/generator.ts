@@ -87,12 +87,13 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
   );
 
   if (options.versionManagement === 'version-catalog') {
-    addLibsVersionsToml(tree, {
-      gradleRootDirectory: options.gradleRootDirectory,
-      javaVersion: options.javaVersion,
-      preset: options.preset,
-      language: 'java',
-    });
+    addLibsVersionsToml(
+      tree,
+      options.gradleRootDirectory,
+      options.javaVersion,
+      options.preset,
+      'java',
+    );
   }
 }
 
