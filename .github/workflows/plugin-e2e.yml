@@ -19,6 +19,7 @@ on:
           - nx-gradle quarkus kotlin dsl e2e
           - nx-gradle spring-boot e2e
           - nx-gradle spring-boot kotlin dsl e2e
+          - should create a sb java application
           - nx-maven
           - nx-maven all bom e2e
           - nx-maven create-nx-maven-workspace
@@ -28,7 +29,7 @@ on:
           - nx-maven quarkus bom e2e
           - nx-maven spring-boot bom e2e
           - nx-maven spring-boot-parent-pom e2e
-          - should create a sb java application
+          - should use specified options and hyphen in groupId to create an application
       os:
         type: choice
         description: Os
