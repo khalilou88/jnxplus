@@ -56,10 +56,21 @@ interface NormalizedSchema extends NxGradleAppGeneratorSchema {
   versionManagement: VersionManagementType;
 }
 
+function removeHyphenFromGroupId(
+  options: NxGradleAppGeneratorSchema,
+): NxGradleAppGeneratorSchema {
+  return {
+    ...options,
+    groupId: options.groupId.replace(new RegExp(/-/, 'g'), ''),
+  };
+}
+
 function normalizeOptions(
   tree: Tree,
   options: NxGradleAppGeneratorSchema,
 ): NormalizedSchema {
+  options = removeHyphenFromGroupId(options);
+
   const simpleProjectName = generateSimpleProjectName({
     name: options.name,
   });
