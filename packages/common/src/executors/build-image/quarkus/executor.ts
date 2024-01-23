@@ -15,11 +15,11 @@ export default async function runExecutor(
     imageNameSuffix = `-${options.imageNameSuffix}`;
   } else {
     if (options.imageType === 'jvm') {
-      imageNameSuffix = `-jvm`;
+      imageNameSuffix = '-jvm';
     }
 
     if (options.imageType === 'legacy-jar') {
-      imageNameSuffix = `-legacy-jar`;
+      imageNameSuffix = '-legacy-jar';
     }
   }
 
