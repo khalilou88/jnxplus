@@ -221,7 +221,7 @@ describe('nx-gradle spring-boot e2e', () => {
 
     // Making sure the build.gradle file contains the good information
     const buildGradle = readFile(`${appDir}/${randomName}/build.gradle`);
-    expect(buildGradle.includes('com.jnxplus')).toBeTruthy();
+    expect(buildGradle.includes('com.j-nx-plus')).toBeTruthy();
     expect(buildGradle.includes('1.2.3')).toBeTruthy();
     expect(buildGradle.includes('war')).toBeTruthy();
     expect(

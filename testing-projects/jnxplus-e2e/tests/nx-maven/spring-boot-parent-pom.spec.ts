@@ -226,7 +226,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
 
     // Making sure the pom.xml file contains the correct information
     const pomXml = readFile(`${appDir}/${randomName}/pom.xml`);
-    expect(pomXml.includes('com.jnxplus')).toBeTruthy();
+    expect(pomXml.includes('com.j-nx-plus')).toBeTruthy();
     expect(pomXml.includes('1.2.3')).toBeTruthy();
     expect(pomXml.includes('war')).toBeTruthy();
     expect(pomXml.includes('spring-boot-starter-tomcat')).toBeTruthy();
