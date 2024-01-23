@@ -64,7 +64,7 @@ export default async function (
 }
 
 function updateGitIgnore(tree: Tree) {
-  const filePath = `.gitignore`;
+  const filePath = '.gitignore';
   const contents = tree.read(filePath, 'utf-8') || '';
 
   let mavenIgnore = '';

@@ -15,9 +15,9 @@ export function readXml(filePath: string): XmlDocument {
   return new XmlDocument(fileText);
 }
 
-export function xmlToString(xmldoc: XmlDocument) {
+export function xmlToString(xmlDoc: XmlDocument) {
   return (
-    `<?xml version="1.0" encoding="UTF-8"?>` +
-    xmldoc.toString({ compressed: true, preserveWhitespace: true })
+    '<?xml version="1.0" encoding="UTF-8"?>' +
+    xmlDoc.toString({ compressed: true, preserveWhitespace: true })
   );
 }
