@@ -7,7 +7,9 @@ export default async function runExecutor(
   options: QuarkusBuildImageExecutorSchema,
   context: ExecutorContext,
 ) {
-  logger.info(`Executor ran for Build Image: ${JSON.stringify(options)}`);
+  logger.info(
+    `Executor ran for Quarkus Build Image: ${JSON.stringify(options)}`,
+  );
 
   let imageNameSuffix = '';
 
