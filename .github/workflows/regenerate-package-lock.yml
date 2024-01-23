@@ -1,4 +1,4 @@
-name: Regenerate package-lock.json
+name: Regenerate package-lock.json 2
 
 on:
   workflow_dispatch:
@@ -24,7 +24,7 @@ jobs:
       - name: Remove package-lock.json
         run: |
           rm -f package-lock.json
-          
+
       - name: Install dependencies
         run: npm i
 
