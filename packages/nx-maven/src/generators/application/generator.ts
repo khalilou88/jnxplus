@@ -59,10 +59,21 @@ interface NormalizedSchema extends NxMavenAppGeneratorSchema {
   mavenRootDirectory: string;
 }
 
+function removeHyphenFromGroupId(
+  options: NxMavenAppGeneratorSchema,
+): NxMavenAppGeneratorSchema {
+  return {
+    ...options,
+    groupId: options.groupId.replace(new RegExp(/-/, 'g'), ''),
+  };
+}
+
 function normalizeOptions(
   tree: Tree,
   options: NxMavenAppGeneratorSchema,
 ): NormalizedSchema {
+  options = removeHyphenFromGroupId(options);
+
   const simpleProjectName = generateSimpleProjectName({
     name: options.name,
   });
