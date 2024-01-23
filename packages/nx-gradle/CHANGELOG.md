@@ -2,6 +2,13 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.19.2](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.19.1...nx-gradle-0.19.2) (2024-01-23)
+
+### Dependency Updates
+
+* `common` updated to version `0.19.2`
+
+
 ## [0.19.1](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.19.0...nx-gradle-0.19.1) (2024-01-23)
 
 ### Dependency Updates
