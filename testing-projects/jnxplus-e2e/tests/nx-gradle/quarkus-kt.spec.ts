@@ -194,7 +194,9 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`,
       );
-      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
+      expect(buildImageResult.stdout).toContain(
+        'Executor ran for Quarkus Build Image',
+      );
     }
   }, 120000);
 
@@ -432,7 +434,9 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`,
       );
-      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
+      expect(buildImageResult.stdout).toContain(
+        'Executor ran for Quarkus Build Image',
+      );
     }
   }, 120000);
 

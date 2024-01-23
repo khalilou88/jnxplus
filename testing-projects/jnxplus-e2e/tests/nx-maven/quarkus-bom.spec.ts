@@ -208,7 +208,9 @@ describe('nx-maven quarkus bom e2e', () => {
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`,
       );
-      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
+      expect(buildImageResult.stdout).toContain(
+        'Executor ran for Quarkus Build Image',
+      );
     }
   }, 240000);
 
@@ -396,7 +398,9 @@ describe('nx-maven quarkus bom e2e', () => {
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`,
       );
-      expect(buildImageResult.stdout).toContain('Executor ran for Build Image');
+      expect(buildImageResult.stdout).toContain(
+        'Executor ran for Quarkus Build Image',
+      );
     }
   }, 240000);
 
