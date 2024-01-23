@@ -3,6 +3,7 @@ import {
   VersionManagementType,
   clearEmpties,
   generateAppClassName,
+  generateBasePackage,
   generatePackageDirectory,
   generatePackageName,
   generateProjectDirectory,
@@ -54,23 +55,13 @@ interface NormalizedSchema extends NxGradleAppGeneratorSchema {
   quarkusVersion: string;
   gradleRootDirectory: string;
   versionManagement: VersionManagementType;
-}
-
-function removeHyphenFromGroupId(
-  options: NxGradleAppGeneratorSchema,
-): NxGradleAppGeneratorSchema {
-  return {
-    ...options,
-    groupId: options.groupId.replace(new RegExp(/-/, 'g'), ''),
-  };
+  basePackage: string;
 }
 
 function normalizeOptions(
   tree: Tree,
   options: NxGradleAppGeneratorSchema,
 ): NormalizedSchema {
-  options = removeHyphenFromGroupId(options);
-
   const simpleProjectName = generateSimpleProjectName({
     name: options.name,
   });
@@ -118,6 +109,8 @@ function normalizeOptions(
     versionManagement,
   );
 
+  const basePackage = generateBasePackage(options.groupId);
+
   return {
     ...options,
     projectName,
@@ -133,6 +126,7 @@ function normalizeOptions(
     quarkusVersion: qVersion,
     gradleRootDirectory,
     versionManagement,
+    basePackage,
   };
 }
 

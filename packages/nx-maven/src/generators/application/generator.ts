@@ -14,6 +14,7 @@ import {
   micronautVersion,
   quarkusVersion,
   springBootVersion,
+  generateBasePackage,
 } from '@jnxplus/common';
 import {
   ProjectConfiguration,
@@ -57,23 +58,13 @@ interface NormalizedSchema extends NxMavenAppGeneratorSchema {
   micronautVersion: string;
   dependencyManagement: DependencyManagementType;
   mavenRootDirectory: string;
-}
-
-function removeHyphenFromGroupId(
-  options: NxMavenAppGeneratorSchema,
-): NxMavenAppGeneratorSchema {
-  return {
-    ...options,
-    groupId: options.groupId.replace(new RegExp(/-/, 'g'), ''),
-  };
+  basePackage: string;
 }
 
 function normalizeOptions(
   tree: Tree,
   options: NxMavenAppGeneratorSchema,
 ): NormalizedSchema {
-  options = removeHyphenFromGroupId(options);
-
   const simpleProjectName = generateSimpleProjectName({
     name: options.name,
   });
@@ -121,6 +112,8 @@ function normalizeOptions(
     options.framework,
   );
 
+  const basePackage = generateBasePackage(options.groupId);
+
   return {
     ...options,
     projectName,
@@ -140,6 +133,7 @@ function normalizeOptions(
     micronautVersion,
     dependencyManagement,
     mavenRootDirectory,
+    basePackage,
   };
 }
 

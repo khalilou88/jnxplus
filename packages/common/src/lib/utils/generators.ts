@@ -103,3 +103,7 @@ export function isCustomPortFunction(options: {
 export function parseProjects(projects: string | undefined) {
   return projects ? projects.split(',').map((s) => s.trim()) : [];
 }
+
+export function generateBasePackage(groupId: string) {
+  return groupId.replace(new RegExp(/-/, 'g'), '');
+}
