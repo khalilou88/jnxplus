@@ -1,0 +1,47 @@
+name: Regenerate package-lock.json
+
+on:
+  workflow_dispatch:
+
+jobs:
+  nx-migrate:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node_version: ['20']
+        java: ['17']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Set up node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node_version }}
+          cache: 'npm'
+
+      - name: Remove package-lock.json
+        run: |
+          rm -f package-lock.json
+          
+      - name: Install dependencies
+        run: npm i
+
+      - name: Setup Git
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: Commit changes
+        run: |
+          git add .
+          [[ $(git status --porcelain) ]] && git commit -m "build: regenerate package-lock.json" || echo "nothing to commit"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+
+
