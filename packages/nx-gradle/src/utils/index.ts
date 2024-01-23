@@ -191,8 +191,8 @@ export function addLibraryToProjects(
 
   for (const projectName of options.parsedProjects) {
     const projectRoot = readProjectConfiguration(tree, projectName).root;
-    const filePath = join(projectRoot, `build.gradle`);
-    const ktsPath = join(projectRoot, `build.gradle.kts`);
+    const filePath = join(projectRoot, 'build.gradle');
+    const ktsPath = join(projectRoot, 'build.gradle.kts');
 
     if (tree.exists(filePath)) {
       const buildGradleContent = tree.read(filePath, 'utf-8') || '';

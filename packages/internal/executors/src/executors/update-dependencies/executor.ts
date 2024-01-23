@@ -32,7 +32,7 @@ export default async function runExecutor(
     encoding: 'utf-8',
   });
 
-  const push = `git push`;
+  const push = 'git push';
   execSync(push, {
     cwd: workspaceRoot,
     stdio: 'inherit',

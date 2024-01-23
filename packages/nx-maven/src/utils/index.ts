@@ -133,7 +133,7 @@ export function addProjectToAggregator(
     options.aggregatorProject,
   );
   const parentProjectPomPath = path.join(aggregatorProjectRoot, 'pom.xml');
-  const xmldoc = readXmlTree(tree, parentProjectPomPath);
+  const xmlDoc = readXmlTree(tree, parentProjectPomPath);
 
   const aggregatorProjectAbsolutPath = path.join(
     workspaceRoot,
@@ -147,16 +147,16 @@ export function addProjectToAggregator(
 
   const fragment = new XmlDocument(`<module>${moduleRelativePath}</module>`);
 
-  let modules = xmldoc.childNamed('modules');
+  let modules = xmlDoc.childNamed('modules');
 
   if (modules === undefined) {
-    xmldoc.children.push(
+    xmlDoc.children.push(
       new XmlDocument(`
     <modules>
     </modules>
   `),
     );
-    modules = xmldoc.childNamed('modules');
+    modules = xmlDoc.childNamed('modules');
   }
 
   if (modules === undefined) {
@@ -165,7 +165,7 @@ export function addProjectToAggregator(
 
   modules.children.push(fragment);
 
-  tree.write(parentProjectPomPath, xmlToString(xmldoc));
+  tree.write(parentProjectPomPath, xmlToString(xmlDoc));
 }
 
 export function addLibraryToProjects(
@@ -184,8 +184,8 @@ export function addLibraryToProjects(
       options.mavenRootDirectory,
       projectName,
     );
-    const filePath = path.join(projectRoot, `pom.xml`);
-    const xmldoc = readXmlTree(tree, filePath);
+    const filePath = path.join(projectRoot, 'pom.xml');
+    const xmlDoc = readXmlTree(tree, filePath);
 
     const dependency = new XmlDocument(`
 		<dependency>
@@ -195,16 +195,16 @@ export function addLibraryToProjects(
 		</dependency>
   `);
 
-    let dependencies = xmldoc.childNamed('dependencies');
+    let dependencies = xmlDoc.childNamed('dependencies');
 
     if (dependencies === undefined) {
-      xmldoc.children.push(
+      xmlDoc.children.push(
         new XmlDocument(`
       <dependencies>
       </dependencies>
     `),
       );
-      dependencies = xmldoc.childNamed('dependencies');
+      dependencies = xmlDoc.childNamed('dependencies');
     }
 
     if (dependencies === undefined) {
@@ -213,7 +213,7 @@ export function addLibraryToProjects(
 
     dependencies.children.push(dependency);
 
-    tree.write(filePath, xmlToString(xmldoc));
+    tree.write(filePath, xmlToString(xmlDoc));
   }
 }
 
@@ -232,19 +232,19 @@ export function addMissedProperties(
   let fileChanged = false;
 
   const pomPath = path.join(options.mavenRootDirectory, 'pom.xml');
-  const xmldoc = readXmlTree(tree, pomPath);
+  const xmlDoc = readXmlTree(tree, pomPath);
 
   //properties
-  let properties = xmldoc.childNamed('properties');
+  let properties = xmlDoc.childNamed('properties');
 
   if (properties === undefined) {
-    xmldoc.children.push(
+    xmlDoc.children.push(
       new XmlDocument(`
     <properties>
     </properties>
   `),
     );
-    properties = xmldoc.childNamed('properties');
+    properties = xmlDoc.childNamed('properties');
   }
 
   if (properties === undefined) {
@@ -265,7 +265,7 @@ export function addMissedProperties(
   }
 
   if (options.framework === 'spring-boot') {
-    const b = isParentPomExits(xmldoc, 'spring-boot-starter-parent');
+    const b = isParentPomExits(xmlDoc, 'spring-boot-starter-parent');
     if (!b) {
       const springBootVersion = properties.childNamed('spring.boot.version');
       if (springBootVersion === undefined) {
@@ -292,7 +292,7 @@ export function addMissedProperties(
   }
 
   if (options.framework === 'micronaut') {
-    const b = isParentPomExits(xmldoc, 'micronaut-parent');
+    const b = isParentPomExits(xmlDoc, 'micronaut-parent');
     if (!b) {
       const micronautVersion = properties.childNamed('micronaut.version');
       if (micronautVersion === undefined) {
@@ -307,15 +307,15 @@ export function addMissedProperties(
   }
 
   if (fileChanged) {
-    tree.write(pomPath, xmlToString(xmldoc));
+    tree.write(pomPath, xmlToString(xmlDoc));
   }
 }
 
 function isParentPomExits(
-  xmldoc: XmlDocument,
+  xmlDoc: XmlDocument,
   parentPom: 'spring-boot-starter-parent' | 'micronaut-parent',
 ) {
-  const parentXml = xmldoc.childNamed('parent');
+  const parentXml = xmlDoc.childNamed('parent');
 
   if (parentXml === undefined) {
     return false;
@@ -327,13 +327,13 @@ function isParentPomExits(
 }
 
 function getDependencyManagement(
-  xmldoc: XmlDocument,
+  xmlDoc: XmlDocument,
 ): DependencyManagementType {
-  if (isParentPomExits(xmldoc, 'spring-boot-starter-parent')) {
+  if (isParentPomExits(xmlDoc, 'spring-boot-starter-parent')) {
     return 'spring-boot-parent-pom';
   }
 
-  if (isParentPomExits(xmldoc, 'micronaut-parent')) {
+  if (isParentPomExits(xmlDoc, 'micronaut-parent')) {
     return 'micronaut-parent-pom';
   }
 
