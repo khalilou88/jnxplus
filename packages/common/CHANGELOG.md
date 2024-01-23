@@ -2,6 +2,21 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.19.0](https://github.com/khalilou88/jnxplus/compare/common-0.18.5...common-0.19.0) (2024-01-23)
+
+
+### Bug Fixes
+
+* add basePackage option ([#795](https://github.com/khalilou88/jnxplus/issues/795)) ([9800581](https://github.com/khalilou88/jnxplus/commit/9800581e0ca3c50ebd563223f4e0dafa53d78f25))
+
+
+### Features
+
+* change name generator to kmp ([#760](https://github.com/khalilou88/jnxplus/issues/760)) ([df45848](https://github.com/khalilou88/jnxplus/commit/df4584872c28e58a041b88c44c5d8e7810b5dd80))
+* **generators:** add version catalog support ([#776](https://github.com/khalilou88/jnxplus/issues/776)) ([438d5c0](https://github.com/khalilou88/jnxplus/commit/438d5c0dc8cab532c0ec23e81ff07dc89a2d2074))
+
+
+
 ## [0.18.5](https://github.com/khalilou88/jnxplus/compare/common-0.18.4...common-0.18.5) (2024-01-12)
 
 
