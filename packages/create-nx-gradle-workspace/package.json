@@ -6,7 +6,7 @@
     "enquirer": "^2.3.6",
     "tslib": "^2.6.2",
     "yargs": "^17.7.2",
-    "@jnxplus/common": "0.19.3-next.1"
+    "@jnxplus/common": "0.19.3"
   },
   "type": "commonjs",
   "main": "./src/index.js",
