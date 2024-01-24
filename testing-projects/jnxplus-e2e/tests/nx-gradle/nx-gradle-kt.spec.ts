@@ -87,7 +87,8 @@ describe('nx-gradle all kotlin dsl e2e', () => {
     ).not.toThrow();
 
     const settingsGradle = readFile('settings.gradle.kts');
-    expect(settingsGradle.includes('::')).toBeFalsy();
+    expect(settingsGradle.includes(`:${appName}`)).toBeTruthy();
+    expect(settingsGradle.includes(`::${appName}`)).toBeFalsy();
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');

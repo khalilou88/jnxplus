@@ -87,7 +87,8 @@ describe('nx-gradle gradle-root-directory e2e', () => {
     ).not.toThrow();
 
     const settingsGradle = readFile('nx-gradle/settings.gradle');
-    expect(settingsGradle.includes('::')).toBeFalsy();
+    expect(settingsGradle.includes(`:${appName}`)).toBeTruthy();
+    expect(settingsGradle.includes(`::${appName}`)).toBeFalsy();
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
