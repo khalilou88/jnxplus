@@ -97,7 +97,9 @@ export async function addMissingCode(
     if (tree.exists(buildGradlePath)) {
       const buildGradleContent = tree.read(buildGradlePath, 'utf-8') || '';
 
-      const plugins = pluginAlias.map((alias) => `alias ${alias} apply false`);
+      const plugins = pluginAlias.map(
+        (alias) => `alias ${f(alias)} apply false`,
+      );
 
       const newBuildGradleContent = buildGradleContent.replace(
         regex,
@@ -110,7 +112,9 @@ export async function addMissingCode(
       const buildGradleKtsContent =
         tree.read(buildGradleKtsPath, 'utf-8') || '';
 
-      const plugins = pluginAlias.map((alias) => `alias(${alias}) apply false`);
+      const plugins = pluginAlias.map(
+        (alias) => `alias(${f(alias)}) apply false`,
+      );
 
       const newBuildGradleKtsContent = buildGradleKtsContent.replace(
         regex,
@@ -119,6 +123,10 @@ export async function addMissingCode(
       tree.write(buildGradleKtsPath, newBuildGradleKtsContent);
     }
   }
+}
+
+function f(alias: string) {
+  return `\tlibs.plugins.${alias.replace(new RegExp(/\./, 'g'), '-')}`;
 }
 
 export function addLibsVersionsToml(
