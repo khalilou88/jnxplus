@@ -106,7 +106,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
       ),
     ).not.toThrow();
 
-    const settingsGradle = readFile('nx-gradle/settings.gradle.kts');
+    const settingsGradle = readFile('settings.gradle.kts');
     expect(settingsGradle.includes('::')).toBeFalsy();
 
     // Making sure the build.gradle.kts file contains the good information
