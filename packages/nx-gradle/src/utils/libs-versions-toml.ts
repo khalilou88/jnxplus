@@ -16,7 +16,7 @@ const regex1 = /\[versions]/;
 const regex2 = /\[libraries]/;
 const regex3 = /\[plugins]/;
 
-const regex = '/plugins\\s*{/';
+const regex = /plugins\s*{/;
 
 export async function addMissingCode(
   tree: Tree,
