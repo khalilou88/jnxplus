@@ -126,7 +126,7 @@ export async function addMissingCode(
 }
 
 function f(alias: string) {
-  return `\tlibs.plugins.${alias.replace(new RegExp(/\./, 'g'), '-')}`;
+  return `\tlibs.plugins.${alias.replace(new RegExp(/-/, 'g'), '.')}`;
 }
 
 export function addLibsVersionsToml(
