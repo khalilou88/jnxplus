@@ -16,7 +16,7 @@ const regex1 = /\[versions]/;
 const regex2 = /\[libraries]/;
 const regex3 = /\[plugins]/;
 
-const regex = '/plugins\\s*{/';
+const regex = /plugins\s*{/;
 
 export async function addMissingCode(
   tree: Tree,
@@ -50,10 +50,35 @@ export async function addMissingCode(
     catalog,
   );
 
-  const newLibsVersionsTomlContent = libsVersionsTomlContent
-    .replace(regex1, `[versions]\n${elements.versions.join('\n')}`)
-    .replace(regex2, `[libraries]\n${elements.libraries.join('\n')}`)
-    .replace(regex3, `[plugins]\n${elements.plugins.join('\n')}`);
+  let newLibsVersionsTomlContent1;
+  if (elements.versions.length > 0) {
+    newLibsVersionsTomlContent1 = libsVersionsTomlContent.replace(
+      regex1,
+      `[versions]\n${elements.versions.join('\n')}`,
+    );
+  } else {
+    newLibsVersionsTomlContent1 = libsVersionsTomlContent;
+  }
+
+  let newLibsVersionsTomlContent2;
+  if (elements.libraries.length > 0) {
+    newLibsVersionsTomlContent2 = newLibsVersionsTomlContent1.replace(
+      regex2,
+      `[libraries]\n${elements.libraries.join('\n')}`,
+    );
+  } else {
+    newLibsVersionsTomlContent2 = newLibsVersionsTomlContent1;
+  }
+
+  let newLibsVersionsTomlContent;
+  if (elements.plugins.length > 0) {
+    newLibsVersionsTomlContent = newLibsVersionsTomlContent2.replace(
+      regex3,
+      `[plugins]\n${elements.plugins.join('\n')}`,
+    );
+  } else {
+    newLibsVersionsTomlContent = newLibsVersionsTomlContent2;
+  }
 
   tree.write(libsVersionsTomlPath, newLibsVersionsTomlContent);
 
@@ -67,16 +92,18 @@ export async function addMissingCode(
       'build.gradle.kts',
     );
 
-    const a = elements.plugins.map((p) => p.split('=')[0].trim());
+    const pluginAlias = elements.plugins.map((p) => p.split('=')[0].trim());
 
     if (tree.exists(buildGradlePath)) {
       const buildGradleContent = tree.read(buildGradlePath, 'utf-8') || '';
 
-      const b = a.map((aa) => `alias ${aa} apply false`);
+      const plugins = pluginAlias.map(
+        (alias) => `alias ${f(alias)} apply false`,
+      );
 
       const newBuildGradleContent = buildGradleContent.replace(
         regex,
-        `plugins {\n${b.join('\n')}`,
+        `plugins {\n${plugins.join('\n')}`,
       );
       tree.write(buildGradlePath, newBuildGradleContent);
     }
@@ -85,15 +112,21 @@ export async function addMissingCode(
       const buildGradleKtsContent =
         tree.read(buildGradleKtsPath, 'utf-8') || '';
 
-      const bb = a.map((aa) => `alias(${aa}) apply false`);
+      const plugins = pluginAlias.map(
+        (alias) => `alias(${f(alias)}) apply false`,
+      );
 
       const newBuildGradleKtsContent = buildGradleKtsContent.replace(
         regex,
-        `plugins {\n${bb.join('\n')}`,
+        `plugins {\n${plugins.join('\n')}`,
       );
       tree.write(buildGradleKtsPath, newBuildGradleKtsContent);
     }
   }
+}
+
+function f(alias: string) {
+  return `\tlibs.plugins.${alias.replace(new RegExp(/-/, 'g'), '.')}`;
 }
 
 export function addLibsVersionsToml(

@@ -12,21 +12,9 @@ plugins {
 plugins {
 <% if(dsl === 'groovy') { -%>
   alias libs.plugins.github.khalilou88.jnxplus
-  // this is necessary to avoid the plugins to be loaded multiple times
-  // in each subproject's classloader
-  alias libs.plugins.springframework.boot apply false
-  alias libs.plugins.spring.dependency.management apply false
-  alias libs.plugins.jetbrains.kotlin.jvm apply false
-  alias libs.plugins.jetbrains.kotlin.plugin.spring apply false
 <% } -%>
 <% if(dsl === 'kotlin') { -%>
   alias(libs.plugins.github.khalilou88.jnxplus)
-  // this is necessary to avoid the plugins to be loaded multiple times
-  // in each subproject's classloader
-  alias(libs.plugins.springframework.boot) apply false
-  alias(libs.plugins.spring.dependency.management) apply false
-  alias(libs.plugins.jetbrains.kotlin.jvm) apply false
-  alias(libs.plugins.jetbrains.kotlin.plugin.spring) apply false
 <% } -%>
 }
 <% } -%>

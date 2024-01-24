@@ -110,6 +110,11 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     expect(settingsGradle.includes(`:${appName}`)).toBeTruthy();
     expect(settingsGradle.includes(`::${appName}`)).toBeFalsy();
 
+    const rootBuildGradle = readFile(`build.gradle.kts`);
+    expect(
+      rootBuildGradle.includes('libs.plugins.springframework.boot'),
+    ).toBeTruthy();
+
     // Making sure the build.gradle.kts file contains the good information
     const buildGradle = readFile(`${appName}/build.gradle.kts`);
     expect(buildGradle.includes('com.example')).toBeTruthy();
