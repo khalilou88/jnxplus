@@ -92,16 +92,16 @@ export async function addMissingCode(
       'build.gradle.kts',
     );
 
-    const a = elements.plugins.map((p) => p.split('=')[0].trim());
+    const pluginAlias = elements.plugins.map((p) => p.split('=')[0].trim());
 
     if (tree.exists(buildGradlePath)) {
       const buildGradleContent = tree.read(buildGradlePath, 'utf-8') || '';
 
-      const b = a.map((aa) => `alias ${aa} apply false`);
+      const plugins = pluginAlias.map((alias) => `alias ${alias} apply false`);
 
       const newBuildGradleContent = buildGradleContent.replace(
         regex,
-        `plugins {\n${b.join('\n')}`,
+        `plugins {\n${plugins.join('\n')}`,
       );
       tree.write(buildGradlePath, newBuildGradleContent);
     }
@@ -110,11 +110,11 @@ export async function addMissingCode(
       const buildGradleKtsContent =
         tree.read(buildGradleKtsPath, 'utf-8') || '';
 
-      const bb = a.map((aa) => `alias(${aa}) apply false`);
+      const plugins = pluginAlias.map((alias) => `alias(${alias}) apply false`);
 
       const newBuildGradleKtsContent = buildGradleKtsContent.replace(
         regex,
-        `plugins {\n${bb.join('\n')}`,
+        `plugins {\n${plugins.join('\n')}`,
       );
       tree.write(buildGradleKtsPath, newBuildGradleKtsContent);
     }
