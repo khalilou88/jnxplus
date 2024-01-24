@@ -72,7 +72,7 @@ export async function addMissingCode(
 
   let newLibsVersionsTomlContent;
   if (elements.plugins.length > 0) {
-    newLibsVersionsTomlContent = libsVersionsTomlContent.replace(
+    newLibsVersionsTomlContent = newLibsVersionsTomlContent2.replace(
       regex3,
       `[plugins]\n${elements.plugins.join('\n')}`,
     );
