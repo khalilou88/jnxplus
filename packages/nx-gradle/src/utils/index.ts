@@ -40,7 +40,13 @@ export function getProjectPathFromProjectRoot(
     );
   }
 
-  return replacedString.replace(new RegExp('/', 'g'), ':');
+  replacedString = replacedString.replace(new RegExp('/', 'g'), ':');
+
+  if (!replacedString.startsWith(':')) {
+    replacedString = `:${replacedString}`;
+  }
+
+  return replacedString;
 }
 
 export function getProjectRootFromProjectPath(projectPath: string) {
