@@ -50,10 +50,35 @@ export async function addMissingCode(
     catalog,
   );
 
-  const newLibsVersionsTomlContent = libsVersionsTomlContent
-    .replace(regex1, `[versions]\n${elements.versions.join('\n')}`)
-    .replace(regex2, `[libraries]\n${elements.libraries.join('\n')}`)
-    .replace(regex3, `[plugins]\n${elements.plugins.join('\n')}`);
+  let newLibsVersionsTomlContent1;
+  if (elements.versions.length > 0) {
+    newLibsVersionsTomlContent1 = libsVersionsTomlContent.replace(
+      regex1,
+      `[versions]\n${elements.versions.join('\n')}`,
+    );
+  } else {
+    newLibsVersionsTomlContent1 = libsVersionsTomlContent;
+  }
+
+  let newLibsVersionsTomlContent2;
+  if (elements.libraries.length > 0) {
+    newLibsVersionsTomlContent2 = newLibsVersionsTomlContent1.replace(
+      regex2,
+      `[libraries]\n${elements.libraries.join('\n')}`,
+    );
+  } else {
+    newLibsVersionsTomlContent2 = newLibsVersionsTomlContent1;
+  }
+
+  let newLibsVersionsTomlContent;
+  if (elements.plugins.length > 0) {
+    newLibsVersionsTomlContent = libsVersionsTomlContent.replace(
+      regex3,
+      `[plugins]\n${elements.plugins.join('\n')}`,
+    );
+  } else {
+    newLibsVersionsTomlContent = newLibsVersionsTomlContent2;
+  }
 
   tree.write(libsVersionsTomlPath, newLibsVersionsTomlContent);
 
