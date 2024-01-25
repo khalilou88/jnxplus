@@ -3,7 +3,7 @@ import {
   FrameworkType,
   LanguageType,
 } from '@jnxplus/common';
-import { readXmlTree, xmlToString } from '@jnxplus/xml';
+import { readXml, readXmlTree, xmlToString } from '@jnxplus/xml';
 import {
   NxJsonConfiguration,
   Tree,
@@ -468,12 +468,48 @@ function getParentVersion(
   return versionXml?.val;
 }
 
+function getRevision(mavenRootDirAbsolutePath: string) {
+  const key = 'revision';
+  const cachedRevision = cache.get(key);
+  if (cachedRevision) {
+    return cachedRevision;
+  }
+
+  const rootPomXmlPath = path.join(mavenRootDirAbsolutePath, 'pom.xml');
+  const rootPomXmlContent = readXml(rootPomXmlPath);
+
+  //properties
+  const propertiesXml = rootPomXmlContent.childNamed('properties');
+
+  const err = 'Revision property must be defined in root POM';
+  if (propertiesXml === undefined) {
+    throw new Error(err);
+  }
+
+  const revisionXml = propertiesXml.childNamed('revision');
+
+  if (revisionXml === undefined) {
+    throw new Error(err);
+  }
+
+  const revision = revisionXml.val;
+
+  // Store revision in cache for future use
+  cache.put(key, revision, 60000); // Cache for 60 seconds
+
+  return revision;
+}
+
 export function getEffectiveVersion(
   artifactId: string,
   pomXmlContent: XmlDocument,
   mavenRootDirAbsolutePath: string,
 ) {
   let version = getVersion(artifactId, pomXmlContent);
+
+  if (version === '${revision}') {
+    return getRevision(mavenRootDirAbsolutePath);
+  }
 
   if (version.indexOf('${') >= 0) {
     version = execSync(
