@@ -302,7 +302,7 @@ function updateBuildGradle(
 
     const pluginAlias = plugins.map(
       (p) =>
-        `alias libs.plugins.${p.split('=')[0].trim().replace(new RegExp(/-/, 'g'), '.')}`,
+        `libs.plugins.${p.split('=')[0].trim().replace(new RegExp(/-/, 'g'), '.')}`,
     );
 
     if (tree.exists(buildGradlePath)) {
