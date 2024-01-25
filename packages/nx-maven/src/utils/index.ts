@@ -468,12 +468,39 @@ function getParentVersion(
   return versionXml?.val;
 }
 
+function getRevision(mavenRootDirAbsolutePath: string) {
+  const key = 'revision';
+  const cachedRevision = cache.get(key);
+  if (cachedRevision) {
+    return cachedRevision;
+  }
+
+  const revision = execSync(
+    `${getExecutable()} help:evaluate -Dexpression=project.version -q -DforceStdout`,
+    {
+      cwd: mavenRootDirAbsolutePath,
+      windowsHide: true,
+    },
+  )
+    .toString()
+    .trim();
+
+  // Store executable in cache for future use
+  cache.put(key, revision, 60000); // Cache for 60 seconds
+
+  return revision;
+}
+
 export function getEffectiveVersion(
   artifactId: string,
   pomXmlContent: XmlDocument,
   mavenRootDirAbsolutePath: string,
 ) {
   let version = getVersion(artifactId, pomXmlContent);
+
+  if (version === '${revision}') {
+    return getRevision(mavenRootDirAbsolutePath);
+  }
 
   if (version.indexOf('${') >= 0) {
     version = execSync(
