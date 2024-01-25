@@ -3,7 +3,7 @@ import {
   FrameworkType,
   LanguageType,
 } from '@jnxplus/common';
-import { readXmlTree, xmlToString } from '@jnxplus/xml';
+import { readXml, readXmlTree, xmlToString } from '@jnxplus/xml';
 import {
   NxJsonConfiguration,
   Tree,
@@ -475,15 +475,24 @@ function getRevision(mavenRootDirAbsolutePath: string) {
     return cachedRevision;
   }
 
-  const revision = execSync(
-    `${getExecutable()} help:evaluate -Dexpression=project.version -q -DforceStdout`,
-    {
-      cwd: mavenRootDirAbsolutePath,
-      windowsHide: true,
-    },
-  )
-    .toString()
-    .trim();
+  const rootPomXmlPath = path.join(mavenRootDirAbsolutePath, 'pom.xml');
+  const rootPomXmlContent = readXml(rootPomXmlPath);
+
+  //properties
+  const propertiesXml = rootPomXmlContent.childNamed('properties');
+
+  const err = 'Revision property must be defined in root POM';
+  if (propertiesXml === undefined) {
+    throw new Error(err);
+  }
+
+  const revisionXml = propertiesXml.childNamed('revision');
+
+  if (revisionXml === undefined) {
+    throw new Error(err);
+  }
+
+  const revision = revisionXml.val;
 
   // Store revision in cache for future use
   cache.put(key, revision, 60000); // Cache for 60 seconds
