@@ -4,6 +4,7 @@ import {
   jnxplusGradlePluginVersion,
   kotlinVersion,
   kspVersion,
+  micronautPlatformCatalog,
   micronautVersion,
   quarkusVersion,
   shadowVersion,
@@ -18,116 +19,11 @@ const regex3 = /\[plugins]/;
 
 const regex = /plugins\s*{/;
 
-export async function addMissingCode(
-  tree: Tree,
-  versionManagement: VersionManagementType,
-  gradleRootDirectory: string,
-  framework: PresetType | undefined,
-  language: string,
-) {
-  if (versionManagement !== 'version-catalog') {
-    return;
-  }
-
-  const { parse } = await (Function("return import('smol-toml')")() as Promise<
-    typeof import('smol-toml')
-  >);
-
-  const libsVersionsTomlPath = joinPathFragments(
-    gradleRootDirectory,
-    'gradle',
-    'libs.versions.toml',
-  );
-
-  const libsVersionsTomlContent =
-    tree.read(libsVersionsTomlPath, 'utf-8') || '';
-  const catalog = parse(libsVersionsTomlContent);
-
-  const elements: ElementsType = getElements(
-    '17',
-    framework,
-    language,
-    catalog,
-  );
-
-  let newLibsVersionsTomlContent1;
-  if (elements.versions.length > 0) {
-    newLibsVersionsTomlContent1 = libsVersionsTomlContent.replace(
-      regex1,
-      `[versions]\n${elements.versions.join('\n')}`,
-    );
-  } else {
-    newLibsVersionsTomlContent1 = libsVersionsTomlContent;
-  }
-
-  let newLibsVersionsTomlContent2;
-  if (elements.libraries.length > 0) {
-    newLibsVersionsTomlContent2 = newLibsVersionsTomlContent1.replace(
-      regex2,
-      `[libraries]\n${elements.libraries.join('\n')}`,
-    );
-  } else {
-    newLibsVersionsTomlContent2 = newLibsVersionsTomlContent1;
-  }
-
-  let newLibsVersionsTomlContent;
-  if (elements.plugins.length > 0) {
-    newLibsVersionsTomlContent = newLibsVersionsTomlContent2.replace(
-      regex3,
-      `[plugins]\n${elements.plugins.join('\n')}`,
-    );
-  } else {
-    newLibsVersionsTomlContent = newLibsVersionsTomlContent2;
-  }
-
-  tree.write(libsVersionsTomlPath, newLibsVersionsTomlContent);
-
-  if (elements.plugins.length > 0) {
-    const buildGradlePath = joinPathFragments(
-      gradleRootDirectory,
-      'build.gradle',
-    );
-    const buildGradleKtsPath = joinPathFragments(
-      gradleRootDirectory,
-      'build.gradle.kts',
-    );
-
-    const pluginAlias = elements.plugins.map((p) => p.split('=')[0].trim());
-
-    if (tree.exists(buildGradlePath)) {
-      const buildGradleContent = tree.read(buildGradlePath, 'utf-8') || '';
-
-      const plugins = pluginAlias.map(
-        (alias) => `alias ${f(alias)} apply false`,
-      );
-
-      const newBuildGradleContent = buildGradleContent.replace(
-        regex,
-        `plugins {\n${plugins.join('\n')}`,
-      );
-      tree.write(buildGradlePath, newBuildGradleContent);
-    }
-
-    if (tree.exists(buildGradleKtsPath)) {
-      const buildGradleKtsContent =
-        tree.read(buildGradleKtsPath, 'utf-8') || '';
-
-      const plugins = pluginAlias.map(
-        (alias) => `alias(${f(alias)}) apply false`,
-      );
-
-      const newBuildGradleKtsContent = buildGradleKtsContent.replace(
-        regex,
-        `plugins {\n${plugins.join('\n')}`,
-      );
-      tree.write(buildGradleKtsPath, newBuildGradleKtsContent);
-    }
-  }
-}
-
-function f(alias: string) {
-  return `\tlibs.plugins.${alias.replace(new RegExp(/-/, 'g'), '.')}`;
-}
+type ElementsType = {
+  versions: string[];
+  libraries: string[];
+  plugins: string[];
+};
 
 export function addLibsVersionsToml(
   tree: Tree,
@@ -152,12 +48,6 @@ export function addLibsVersionsToml(
     tree.write(libsVersionsTomlPath, libsVersionsTomlContent);
   }
 }
-
-type ElementsType = {
-  versions: string[];
-  libraries: string[];
-  plugins: string[];
-};
 
 function getLibsVersionsTomlContent(
   javaVersion: string | number,
@@ -304,4 +194,221 @@ function getElements(
   }
 
   return elements;
+}
+
+export async function addMissingCode(
+  tree: Tree,
+  versionManagement: VersionManagementType,
+  gradleRootDirectory: string,
+  framework: PresetType | undefined,
+  language: string,
+) {
+  if (versionManagement !== 'version-catalog') {
+    return;
+  }
+
+  const { parse } = await (Function("return import('smol-toml')")() as Promise<
+    typeof import('smol-toml')
+  >);
+
+  const libsVersionsTomlPath = joinPathFragments(
+    gradleRootDirectory,
+    'gradle',
+    'libs.versions.toml',
+  );
+
+  const libsVersionsTomlContent =
+    tree.read(libsVersionsTomlPath, 'utf-8') || '';
+  const catalog = parse(libsVersionsTomlContent);
+
+  const elements: ElementsType = getElements(
+    '17',
+    framework,
+    language,
+    catalog,
+  );
+
+  updateLibsVersionsToml(
+    tree,
+    libsVersionsTomlPath,
+    libsVersionsTomlContent,
+    elements,
+  );
+
+  updateBuildGradle(tree, gradleRootDirectory, elements.plugins);
+
+  updateSettingsGradle(tree, gradleRootDirectory, framework);
+}
+
+function updateLibsVersionsToml(
+  tree: Tree,
+  libsVersionsTomlPath: string,
+  libsVersionsTomlContent: string,
+  elements: ElementsType,
+) {
+  let fileChanged = false;
+  let newLibsVersionsTomlContent1;
+  if (elements.versions.length > 0) {
+    newLibsVersionsTomlContent1 = libsVersionsTomlContent.replace(
+      regex1,
+      `[versions]\n${elements.versions.join('\n')}`,
+    );
+    fileChanged = true;
+  } else {
+    newLibsVersionsTomlContent1 = libsVersionsTomlContent;
+  }
+
+  let newLibsVersionsTomlContent2;
+  if (elements.libraries.length > 0) {
+    newLibsVersionsTomlContent2 = newLibsVersionsTomlContent1.replace(
+      regex2,
+      `[libraries]\n${elements.libraries.join('\n')}`,
+    );
+    fileChanged = true;
+  } else {
+    newLibsVersionsTomlContent2 = newLibsVersionsTomlContent1;
+  }
+
+  let newLibsVersionsTomlContent;
+  if (elements.plugins.length > 0) {
+    newLibsVersionsTomlContent = newLibsVersionsTomlContent2.replace(
+      regex3,
+      `[plugins]\n${elements.plugins.join('\n')}`,
+    );
+    fileChanged = true;
+  } else {
+    newLibsVersionsTomlContent = newLibsVersionsTomlContent2;
+  }
+
+  if (fileChanged) {
+    tree.write(libsVersionsTomlPath, newLibsVersionsTomlContent);
+  }
+}
+
+function updateBuildGradle(
+  tree: Tree,
+  gradleRootDirectory: string,
+  plugins: string[],
+) {
+  if (plugins.length > 0) {
+    const buildGradlePath = joinPathFragments(
+      gradleRootDirectory,
+      'build.gradle',
+    );
+    const buildGradleKtsPath = joinPathFragments(
+      gradleRootDirectory,
+      'build.gradle.kts',
+    );
+
+    const pluginAlias = plugins.map(
+      (p) =>
+        `alias libs.plugins.${p.split('=')[0].trim().replace(new RegExp(/-/, 'g'), '.')}`,
+    );
+
+    if (tree.exists(buildGradlePath)) {
+      const buildGradleContent = tree.read(buildGradlePath, 'utf-8') || '';
+
+      const plugins = pluginAlias.map((alias) => `alias ${alias} apply false`);
+
+      const newBuildGradleContent = buildGradleContent.replace(
+        regex,
+        `plugins {\n${plugins.join('\n')}`,
+      );
+      tree.write(buildGradlePath, newBuildGradleContent);
+    }
+
+    if (tree.exists(buildGradleKtsPath)) {
+      const buildGradleKtsContent =
+        tree.read(buildGradleKtsPath, 'utf-8') || '';
+
+      const plugins = pluginAlias.map((alias) => `alias(${alias}) apply false`);
+
+      const newBuildGradleKtsContent = buildGradleKtsContent.replace(
+        regex,
+        `plugins {\n${plugins.join('\n')}`,
+      );
+      tree.write(buildGradleKtsPath, newBuildGradleKtsContent);
+    }
+  }
+}
+
+function updateSettingsGradle(
+  tree: Tree,
+  gradleRootDirectory: string,
+  framework: PresetType | undefined,
+) {
+  if (framework === 'micronaut') {
+    const settingsGradlePath = joinPathFragments(
+      gradleRootDirectory,
+      'settings.gradle',
+    );
+    const settingsGradleKtsPath = joinPathFragments(
+      gradleRootDirectory,
+      'settings.gradle.kts',
+    );
+
+    if (tree.exists(settingsGradlePath)) {
+      const settingsGradleContent =
+        tree.read(settingsGradlePath, 'utf-8') || '';
+
+      const plugins = parsePluginIds(settingsGradleContent);
+
+      if (plugins.includes('io.micronaut.platform.catalog')) {
+        return;
+      }
+
+      let newSettingsGradleContent;
+      if (plugins.length === 0) {
+        newSettingsGradleContent = settingsGradleContent.replace(
+          regex,
+          `plugins {\n\tid 'io.micronaut.platform.catalog' version '${micronautPlatformCatalog}'\n}`,
+        );
+      } else {
+        newSettingsGradleContent = settingsGradleContent.replace(
+          regex,
+          `plugins {\n\tid 'io.micronaut.platform.catalog' version '${micronautPlatformCatalog}'\n`,
+        );
+      }
+
+      tree.write(settingsGradlePath, newSettingsGradleContent);
+    }
+
+    if (tree.exists(settingsGradleKtsPath)) {
+      const settingsGradleKtsContent =
+        tree.read(settingsGradleKtsPath, 'utf-8') || '';
+
+      const plugins = parsePluginIds(settingsGradleKtsContent);
+
+      if (plugins.includes('io.micronaut.platform.catalog')) {
+        return;
+      }
+
+      let newSettingsGradleKtsContent;
+      if (plugins.length === 0) {
+        newSettingsGradleKtsContent = settingsGradleKtsContent.replace(
+          regex,
+          `plugins {\n\tid("io.micronaut.platform.catalog") version "${micronautPlatformCatalog}"\n}`,
+        );
+      } else {
+        newSettingsGradleKtsContent = settingsGradleKtsContent.replace(
+          regex,
+          `plugins {\n\tid("io.micronaut.platform.catalog") version "${micronautPlatformCatalog}"\n`,
+        );
+      }
+
+      tree.write(settingsGradleKtsPath, newSettingsGradleKtsContent);
+    }
+  }
+}
+
+function parsePluginIds(newSettingsGradle: string): string[] {
+  const pluginIdsRegex = /id\s*\(*['"]([^'"]+)['"]/g;
+  const pluginIds = [];
+  let match;
+
+  while ((match = pluginIdsRegex.exec(newSettingsGradle)) !== null) {
+    pluginIds.push(match[1]);
+  }
+
+  return pluginIds;
 }
