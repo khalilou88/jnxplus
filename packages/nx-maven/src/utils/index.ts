@@ -485,7 +485,7 @@ function getRevision(mavenRootDirAbsolutePath: string) {
     .toString()
     .trim();
 
-  // Store executable in cache for future use
+  // Store revision in cache for future use
   cache.put(key, revision, 60000); // Cache for 60 seconds
 
   return revision;
