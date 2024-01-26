@@ -481,7 +481,7 @@ function getRevision(mavenRootDirAbsolutePath: string) {
   //properties
   const propertiesXml = rootPomXmlContent.childNamed('properties');
 
-  const err = 'Revision property must be defined in root POM';
+  const err = 'Revision property must be set in root POM';
   if (propertiesXml === undefined) {
     throw new Error(err);
   }
