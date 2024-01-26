@@ -213,13 +213,13 @@ function getParentProjectVersion(
     return '${}';
   }
 
-  const p = getProject(projects, parentProjectArtifactId);
+  const project = getProject(projects, parentProjectArtifactId);
 
-  if (p.version.indexOf('${') === -1) {
-    return p.version;
+  if (project.version.indexOf('${') === -1) {
+    return project.version;
   }
 
-  return getParentProjectVersion(parentProjectArtifactId, projects);
+  return getParentProjectVersion(project.parentProjectArtifactId, projects);
 }
 
 function getTargetDefaults() {
