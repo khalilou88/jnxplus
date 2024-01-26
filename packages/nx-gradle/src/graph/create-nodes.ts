@@ -4,8 +4,8 @@ import { getProjectName } from '../utils';
 
 export const createNodes: CreateNodes = [
   '{**/build.gradle,**/build.gradle.kts}',
-  (buildGradleFilePath: string) => {
-    const projectRoot = dirname(buildGradleFilePath);
+  (buildFilePath: string) => {
+    const projectRoot = dirname(buildFilePath);
 
     const projectName = getProjectName(projectRoot);
 
