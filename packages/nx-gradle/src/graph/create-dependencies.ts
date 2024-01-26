@@ -26,8 +26,7 @@ export const createDependencies: CreateDependencies = (
   const isVerbose = process.env['NX_VERBOSE_LOGGING'] === 'true';
   const outputFile = path.join(
     projectGraphCacheDirectory,
-    'nx-gradle',
-    'nx-gradle-deps.json',
+    `nx-gradle-deps.json`,
   );
 
   let command = `${getExecutable()} :projectDependencyTask --outputFile=${outputFile}`;
