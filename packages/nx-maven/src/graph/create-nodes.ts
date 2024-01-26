@@ -1,126 +1,114 @@
 import { TargetsType } from '@jnxplus/common';
-import { readXml } from '@jnxplus/xml';
-import { CreateNodes, readJsonFile, workspaceRoot } from '@nx/devkit';
+import { CreateNodes, ProjectConfiguration, readJsonFile } from '@nx/devkit';
 import { existsSync } from 'fs';
 import * as path from 'path';
-import { XmlDocument } from 'xmldoc';
 import {
-  getArtifactId,
+  MavenMonorepo,
+  MavenProjectType,
   getEffectiveVersion,
-  getGroupId,
-  getLocalRepositoryPath,
-  getMavenRootDirectory,
-  getTargetDefaults,
-} from '../utils';
+  getMavenMonorepo,
+} from './graph-context';
 
 export const createNodes: CreateNodes = [
-  '**/pom.xml',
-  (pomXmlFilePath: string) => {
-    let projectName;
-    const projectRoot = path.dirname(pomXmlFilePath);
-    let targets: TargetsType = {};
+  'nx.json',
+  (nxJsonFilePath: string) => {
+    console.log(nxJsonFilePath);
 
-    const projectAbsolutePath = path.join(workspaceRoot, projectRoot);
-    const projectJsonPath = path.join(projectAbsolutePath, 'project.json');
+    const mavenMonorepo: MavenMonorepo = getMavenMonorepo();
+    const mavenProjects: MavenProjectType[] = mavenMonorepo.projects;
 
-    const mavenRootDirectory = getMavenRootDirectory();
-    const mavenRootDirAbsolutePath = path.join(
-      workspaceRoot,
-      mavenRootDirectory,
-    );
+    const projects: Record<string, ProjectConfiguration> = {};
 
-    const pomXmlContent = readXml(pomXmlFilePath);
-    const artifactId = getArtifactId(pomXmlContent);
+    for (const project of mavenProjects) {
+      let projectName;
+      let targets: TargetsType = {};
 
-    if (existsSync(projectJsonPath)) {
-      const projectJson = readJsonFile(projectJsonPath);
-      projectName = projectJson.name;
+      const projectJsonPath = path.join(
+        project.projectAbsolutePath,
+        'project.json',
+      );
 
-      if (projectName !== artifactId) {
-        throw new Error(
-          `ProjectName ${projectName} and artifactId ${artifactId} should be the same`,
-        );
-      }
+      if (existsSync(projectJsonPath)) {
+        const projectJson = readJsonFile(projectJsonPath);
+        projectName = projectJson.name;
 
-      targets = projectJson.targets;
-      const targetDefaults = getTargetDefaults();
-      for (const [targetName] of Object.entries(targets ?? {})) {
-        if (
-          targetDefaults.includes(targetName) ||
-          (targets[targetName].outputs ?? []).some(
-            (element: string) => element === '{options.outputDirLocalRepo}',
-          )
-        ) {
-          const groupId = getGroupId(artifactId, pomXmlContent);
-          const projectVersion = getEffectiveVersion(
-            artifactId,
-            pomXmlContent,
-            mavenRootDirAbsolutePath,
+        if (projectName !== project.artifactId) {
+          throw new Error(
+            `ProjectName ${projectName} and artifactId ${project.artifactId} should be the same`,
           );
-          const localRepositoryPath = getLocalRepositoryPath(
-            mavenRootDirAbsolutePath,
-          );
-
-          const outputDirLocalRepo = getOutputDirLocalRepo(
-            localRepositoryPath,
-            groupId,
-            artifactId,
-            projectVersion,
-          );
-
-          targets[targetName].options = {
-            ...targets[targetName].options,
-            outputDirLocalRepo: outputDirLocalRepo,
-          };
         }
-      }
-    } else {
-      const groupId = getGroupId(artifactId, pomXmlContent);
-      const projectVersion = getEffectiveVersion(
-        artifactId,
-        pomXmlContent,
-        mavenRootDirAbsolutePath,
-      );
-      const localRepositoryPath = getLocalRepositoryPath(
-        mavenRootDirAbsolutePath,
-      );
 
-      const outputDirLocalRepo = getOutputDirLocalRepo(
-        localRepositoryPath,
-        groupId,
-        artifactId,
-        projectVersion,
-      );
+        targets = projectJson.targets;
+        for (const [targetName] of Object.entries(targets ?? {})) {
+          if (
+            mavenMonorepo.targetDefaults.includes(targetName) ||
+            (targets[targetName].outputs ?? []).some(
+              (element: string) => element === '{options.outputDirLocalRepo}',
+            )
+          ) {
+            const effectiveVersion = getEffectiveVersion(
+              project.artifactId,
+              project.version,
+              project.parentProjectArtifactId,
+              mavenMonorepo,
+            );
 
-      projectName = artifactId;
-      let outputs;
-      if (isPomPackaging(pomXmlContent)) {
-        outputs = ['{options.outputDirLocalRepo}'];
+            const outputDirLocalRepo = getOutputDirLocalRepo(
+              mavenMonorepo.localRepo,
+              project.groupId,
+              project.artifactId,
+              effectiveVersion,
+            );
+
+            targets[targetName].options = {
+              ...targets[targetName].options,
+              outputDirLocalRepo: outputDirLocalRepo,
+            };
+          }
+        }
       } else {
-        outputs = ['{projectRoot}/target', '{options.outputDirLocalRepo}'];
-      }
-      targets = {
-        build: {
-          executor: '@jnxplus/nx-maven:run-task',
-          outputs: outputs,
-          options: {
-            task: getTask(projectRoot),
-            outputDirLocalRepo: outputDirLocalRepo,
+        const effectiveVersion = getEffectiveVersion(
+          project.artifactId,
+          project.version,
+          project.parentProjectArtifactId,
+          mavenMonorepo,
+        );
+
+        const outputDirLocalRepo = getOutputDirLocalRepo(
+          mavenMonorepo.localRepo,
+          project.groupId,
+          project.artifactId,
+          effectiveVersion,
+        );
+
+        projectName = project.artifactId;
+        let outputs;
+        if (project.isPomPackaging) {
+          outputs = ['{options.outputDirLocalRepo}'];
+        } else {
+          outputs = ['{projectRoot}/target', '{options.outputDirLocalRepo}'];
+        }
+        targets = {
+          build: {
+            executor: '@jnxplus/nx-maven:run-task',
+            outputs: outputs,
+            options: {
+              task: getTask(project.projectRoot),
+              outputDirLocalRepo: outputDirLocalRepo,
+            },
           },
-        },
+        };
+      }
+
+      projects[project.projectRoot] = {
+        name: projectName,
+        root: project.projectRoot,
+        targets: targets,
+        tags: ['nx-maven'],
       };
     }
 
-    return {
-      projects: {
-        [projectRoot]: {
-          name: projectName,
-          root: projectRoot,
-          targets: targets,
-          tags: ['nx-maven'],
-        },
-      },
-    };
+    return { projects: projects };
   },
 ];
 
@@ -145,14 +133,4 @@ function getTask(projectRoot: string) {
   }
 
   return 'install';
-}
-
-function isPomPackaging(pomXmlContent: XmlDocument): boolean {
-  const packagingXml = pomXmlContent.childNamed('packaging');
-
-  if (packagingXml === undefined) {
-    return false;
-  }
-
-  return packagingXml.val === 'pom';
 }

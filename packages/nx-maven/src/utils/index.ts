@@ -3,7 +3,7 @@ import {
   FrameworkType,
   LanguageType,
 } from '@jnxplus/common';
-import { readXml, readXmlTree, xmlToString } from '@jnxplus/xml';
+import { readXmlTree, xmlToString } from '@jnxplus/xml';
 import {
   NxJsonConfiguration,
   Tree,
@@ -14,7 +14,6 @@ import {
 } from '@nx/devkit';
 import { execSync } from 'child_process';
 import * as fs from 'fs';
-import * as cache from 'memory-cache';
 import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
 
@@ -370,12 +369,6 @@ function getLocalRepoRelativePath(): string {
 }
 
 export function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
-  const key = 'localRepositoryPath';
-  const cachedLocalRepository = cache.get(key);
-  if (cachedLocalRepository) {
-    return cachedLocalRepository;
-  }
-
   let localRepositoryPath;
   const localRepoRelativePath = getLocalRepoRelativePath();
   if (localRepoRelativePath) {
@@ -395,9 +388,6 @@ export function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
       .toString()
       .trim();
   }
-
-  // Store localRepositoryPath in cache for future use
-  cache.put(key, localRepositoryPath, 60000); // Cache for 60 seconds
 
   return localRepositoryPath;
 }
@@ -444,9 +434,32 @@ export function getVersion(artifactId: string, pomXmlContent: XmlDocument) {
     version = getParentVersion(artifactId, pomXmlContent);
   } else {
     version = versionXml.val;
+
+    if (version === '${revision}') {
+      version = getRevision(pomXmlContent);
+    }
   }
 
   return version;
+}
+
+function getRevision(pomXmlContent: XmlDocument) {
+  //properties
+  const propertiesXml = pomXmlContent.childNamed('properties');
+
+  if (propertiesXml === undefined) {
+    return '${revision}';
+  }
+
+  const revisionXml = propertiesXml.childNamed('revision');
+
+  if (revisionXml === undefined) {
+    return '${revision}';
+  }
+
+  const revision = revisionXml.val;
+
+  return revision;
 }
 
 function getParentVersion(
@@ -466,64 +479,6 @@ function getParentVersion(
   }
 
   return versionXml?.val;
-}
-
-function getRevision(mavenRootDirAbsolutePath: string) {
-  const key = 'revision';
-  const cachedRevision = cache.get(key);
-  if (cachedRevision) {
-    return cachedRevision;
-  }
-
-  const rootPomXmlPath = path.join(mavenRootDirAbsolutePath, 'pom.xml');
-  const rootPomXmlContent = readXml(rootPomXmlPath);
-
-  //properties
-  const propertiesXml = rootPomXmlContent.childNamed('properties');
-
-  const err = 'Revision property must be set in root POM';
-  if (propertiesXml === undefined) {
-    throw new Error(err);
-  }
-
-  const revisionXml = propertiesXml.childNamed('revision');
-
-  if (revisionXml === undefined) {
-    throw new Error(err);
-  }
-
-  const revision = revisionXml.val;
-
-  // Store revision in cache for future use
-  cache.put(key, revision, 60000); // Cache for 60 seconds
-
-  return revision;
-}
-
-export function getEffectiveVersion(
-  artifactId: string,
-  pomXmlContent: XmlDocument,
-  mavenRootDirAbsolutePath: string,
-) {
-  let version = getVersion(artifactId, pomXmlContent);
-
-  if (version === '${revision}') {
-    version = getRevision(mavenRootDirAbsolutePath);
-  }
-
-  if (version.indexOf('${') >= 0) {
-    version = execSync(
-      `${getExecutable()} help:evaluate -Dexpression=project.version -q -DforceStdout -pl :${artifactId}`,
-      {
-        cwd: mavenRootDirAbsolutePath,
-        windowsHide: true,
-      },
-    )
-      .toString()
-      .trim();
-  }
-
-  return version;
 }
 
 export function getParentProjectValues(
@@ -571,33 +526,4 @@ export function extractRootPomValues(
   }
 
   return [quarkusVersion, getDependencyManagement(rootPomXmlContent)];
-}
-
-export function getTargetDefaults() {
-  const key = 'targetDefaults';
-  const cachedTargetDefaults = cache.get(key);
-  if (cachedTargetDefaults) {
-    return cachedTargetDefaults;
-  }
-
-  const targetDefaults = [];
-  const nxJsonPath = path.join(workspaceRoot, 'nx.json');
-
-  const nxJson = readJsonFile<NxJsonConfiguration>(nxJsonPath);
-  if (nxJson.targetDefaults) {
-    for (const [targetName, target] of Object.entries(nxJson.targetDefaults)) {
-      if (
-        (target.outputs ?? []).some(
-          (element: string) => element === '{options.outputDirLocalRepo}',
-        )
-      ) {
-        targetDefaults.push(targetName);
-      }
-    }
-  }
-
-  // Store targetDefaults in cache for future use
-  cache.put(key, targetDefaults, 60000); // Cache for 60 seconds
-
-  return targetDefaults;
 }
