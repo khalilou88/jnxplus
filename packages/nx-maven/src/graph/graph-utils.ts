@@ -6,14 +6,12 @@ import {
   readJsonFile,
   workspaceRoot,
 } from '@nx/devkit';
-import { execSync } from 'child_process';
 import * as flatCache from 'flat-cache';
 import * as path from 'path';
 import { join } from 'path';
 import { XmlDocument } from 'xmldoc';
 import {
   getArtifactId,
-  getExecutable,
   getGroupId,
   getLocalRepositoryPath,
   getMavenRootDirectory,
@@ -192,18 +190,6 @@ export function getEffectiveVersion(
       parentProjectArtifactId,
       mavenMonorepo.projects,
     );
-
-    if (version.indexOf('${') >= 0) {
-      version = execSync(
-        `${getExecutable()} help:evaluate -Dexpression=project.version -q -DforceStdout -pl :${artifactId}`,
-        {
-          cwd: mavenMonorepo.mavenRootDirAbsolutePath,
-          windowsHide: true,
-        },
-      )
-        .toString()
-        .trim();
-    }
   }
 
   return version;
