@@ -41,12 +41,7 @@ export type MavenMonorepo = {
 const cache = flatCache.load('nx-maven-cache', path.resolve('./nx/nx-maven'));
 const key = 'nx-maven-monorepo';
 
-export function getMavenMonorepo() {
-  const cachedData: MavenMonorepo = cache.getKey(key);
-  if (cachedData) {
-    return cachedData;
-  }
-
+export function createMavenMonorepo() {
   const mavenRootDirectory = getMavenRootDirectory();
   const mavenRootDirAbsolutePath = path.join(workspaceRoot, mavenRootDirectory);
 
@@ -69,7 +64,11 @@ export function getMavenMonorepo() {
   return data;
 }
 
-export function removeCache() {
+export function getMavenMonorepo() {
+  return cache.getKey(key);
+}
+
+export function removeMavenMonorepo() {
   cache.removeKey(key);
 }
 

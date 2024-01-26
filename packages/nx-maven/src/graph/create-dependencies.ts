@@ -13,7 +13,7 @@ import {
   MavenProjectType,
   getMavenMonorepo,
   getProject,
-  removeCache,
+  removeMavenMonorepo,
 } from './graph-context';
 
 export const createDependencies: CreateDependencies = (
@@ -85,7 +85,7 @@ export const createDependencies: CreateDependencies = (
   }
 
   // Remove cached data
-  removeCache();
+  removeMavenMonorepo();
 
   return results;
 };

@@ -5,14 +5,14 @@ import * as path from 'path';
 import {
   MavenMonorepo,
   MavenProjectType,
+  createMavenMonorepo,
   getEffectiveVersion,
-  getMavenMonorepo,
 } from './graph-context';
 
 export const createNodes: CreateNodes = [
   'nx.json',
   () => {
-    const mavenMonorepo: MavenMonorepo = getMavenMonorepo();
+    const mavenMonorepo: MavenMonorepo = createMavenMonorepo();
     const mavenProjects: MavenProjectType[] = mavenMonorepo.projects;
 
     const projects: Record<string, ProjectConfiguration> = {};
