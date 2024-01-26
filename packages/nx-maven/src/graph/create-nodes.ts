@@ -99,8 +99,8 @@ export const createNodes: CreateNodes = [
       }
 
       projects[project.projectRoot] = {
-        name: projectName,
         root: project.projectRoot,
+        name: projectName,
         targets: targets,
         tags: ['nx-maven'],
       };
