@@ -2,9 +2,11 @@ import { readXml } from '@jnxplus/xml';
 import {
   NxJsonConfiguration,
   joinPathFragments,
+  normalizePath,
   readJsonFile,
   workspaceRoot,
 } from '@nx/devkit';
+import { execSync } from 'child_process';
 import * as flatCache from 'flat-cache';
 import * as path from 'path';
 import { join } from 'path';
@@ -17,7 +19,6 @@ import {
   getMavenRootDirectory,
   getVersion,
 } from '../utils';
-import { execSync } from 'child_process';
 
 export type MavenProjectType = {
   artifactId: string;
@@ -40,7 +41,7 @@ export type MavenMonorepo = {
 
 const cache = flatCache.load(
   'nx-maven-cache',
-  path.join(workspaceRoot, './nx', 'nx-maven'),
+  path.join(workspaceRoot, '.nx', 'nx-maven'),
 );
 const key = 'nx-maven-monorepo';
 
@@ -98,7 +99,9 @@ export function addProjects(
 
   const isPomPackaging = isPomPackagingFunction(pomXmlContent);
 
-  const projectRoot = path.relative(workspaceRoot, projectAbsolutePath);
+  const projectRoot = normalizePath(
+    path.relative(workspaceRoot, projectAbsolutePath),
+  );
 
   const parentProjectArtifactId = getParentProjectName(pomXmlContent);
 
