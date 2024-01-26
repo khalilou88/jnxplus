@@ -9,8 +9,8 @@ import {
 } from '@nx/devkit';
 import * as path from 'path';
 import {
-  WorkspaceDataType,
   MavenProjectType,
+  WorkspaceDataType,
   getCachedWorkspaceData,
   getProject,
   removeWorkspaceDataCache,
