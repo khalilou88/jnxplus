@@ -2,6 +2,10 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.19.5-next.3](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.19.5-next.2...nx-gradle-0.19.5-next.3) (2024-01-26)
+
+
+
 ## [0.19.5-next.2](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.19.5-next.1...nx-gradle-0.19.5-next.2) (2024-01-26)
 
 
