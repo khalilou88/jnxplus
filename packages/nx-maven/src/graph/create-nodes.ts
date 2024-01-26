@@ -3,17 +3,17 @@ import { CreateNodes, ProjectConfiguration, readJsonFile } from '@nx/devkit';
 import { existsSync } from 'fs';
 import * as path from 'path';
 import {
-  MavenMonorepo,
+  WorkspaceDataType,
   MavenProjectType,
-  createMavenMonorepo,
+  getWorkspaceData,
   getEffectiveVersion,
-} from './graph-context';
+} from './graph-utils';
 
 export const createNodes: CreateNodes = [
   'nx.json',
   () => {
-    const mavenMonorepo: MavenMonorepo = createMavenMonorepo();
-    const mavenProjects: MavenProjectType[] = mavenMonorepo.projects;
+    const workspaceData: WorkspaceDataType = getWorkspaceData();
+    const mavenProjects: MavenProjectType[] = workspaceData.projects;
 
     const projects: Record<string, ProjectConfiguration> = {};
 
@@ -39,7 +39,7 @@ export const createNodes: CreateNodes = [
         targets = projectJson.targets;
         for (const [targetName] of Object.entries(targets ?? {})) {
           if (
-            mavenMonorepo.targetDefaults.includes(targetName) ||
+            workspaceData.targetDefaults.includes(targetName) ||
             (targets[targetName].outputs ?? []).some(
               (element: string) => element === '{options.outputDirLocalRepo}',
             )
@@ -48,11 +48,11 @@ export const createNodes: CreateNodes = [
               project.artifactId,
               project.version,
               project.parentProjectArtifactId,
-              mavenMonorepo,
+              workspaceData,
             );
 
             const outputDirLocalRepo = getOutputDirLocalRepo(
-              mavenMonorepo.localRepo,
+              workspaceData.localRepo,
               project.groupId,
               project.artifactId,
               effectiveVersion,
@@ -69,11 +69,11 @@ export const createNodes: CreateNodes = [
           project.artifactId,
           project.version,
           project.parentProjectArtifactId,
-          mavenMonorepo,
+          workspaceData,
         );
 
         const outputDirLocalRepo = getOutputDirLocalRepo(
-          mavenMonorepo.localRepo,
+          workspaceData.localRepo,
           project.groupId,
           project.artifactId,
           effectiveVersion,

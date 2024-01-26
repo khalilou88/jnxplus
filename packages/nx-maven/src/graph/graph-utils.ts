@@ -32,21 +32,21 @@ export type MavenProjectType = {
   aggregatorProjectArtifactId?: string;
 };
 
-export type MavenMonorepo = {
+export type WorkspaceDataType = {
   mavenRootDirAbsolutePath: string;
   targetDefaults: string[];
   localRepo: string;
   projects: MavenProjectType[];
 };
 
-const cacheId = 'nx-maven-cache';
+const cacheId = 'workspace-data.json';
 const cache = flatCache.load(
   cacheId,
   path.join(workspaceRoot, '.nx', 'cache', 'nx-maven'),
 );
-const key = 'nx-maven-monorepo';
+const key = 'workspace-data';
 
-export function createMavenMonorepo() {
+export function getWorkspaceData() {
   const mavenRootDirectory = getMavenRootDirectory();
   const mavenRootDirAbsolutePath = path.join(workspaceRoot, mavenRootDirectory);
 
@@ -55,7 +55,7 @@ export function createMavenMonorepo() {
 
   const localRepositoryPath = getLocalRepositoryPath(mavenRootDirAbsolutePath);
 
-  const data: MavenMonorepo = {
+  const data: WorkspaceDataType = {
     mavenRootDirAbsolutePath: mavenRootDirAbsolutePath,
     targetDefaults: getTargetDefaults(),
     localRepo: localRepositoryPath,
@@ -69,11 +69,11 @@ export function createMavenMonorepo() {
   return data;
 }
 
-export function getMavenMonorepo() {
+export function getCachedWorkspaceData() {
   return cache.getKey(key);
 }
 
-export function removeMavenMonorepo() {
+export function removeWorkspaceDataCache() {
   flatCache.clearCacheById(cacheId);
 }
 
@@ -185,7 +185,7 @@ export function getEffectiveVersion(
   artifactId: string,
   version: string,
   parentProjectArtifactId: string | undefined,
-  mavenMonorepo: MavenMonorepo,
+  mavenMonorepo: WorkspaceDataType,
 ) {
   if (version.indexOf('${') >= 0) {
     version = getParentProjectVersion(

@@ -9,12 +9,12 @@ import {
 } from '@nx/devkit';
 import * as path from 'path';
 import {
-  MavenMonorepo,
+  WorkspaceDataType,
   MavenProjectType,
-  getMavenMonorepo,
+  getCachedWorkspaceData,
   getProject,
-  removeMavenMonorepo,
-} from './graph-context';
+  removeWorkspaceDataCache,
+} from './graph-utils';
 
 export const createDependencies: CreateDependencies = (
   _,
@@ -22,8 +22,8 @@ export const createDependencies: CreateDependencies = (
 ) => {
   const results: RawProjectGraphDependency[] = [];
 
-  const mavenMonorepo: MavenMonorepo = getMavenMonorepo();
-  const projects: MavenProjectType[] = mavenMonorepo.projects;
+  const cachedWorkspaceData: WorkspaceDataType = getCachedWorkspaceData();
+  const projects: MavenProjectType[] = cachedWorkspaceData.projects;
 
   for (const project of projects) {
     const projectRoot = path.relative(
@@ -85,7 +85,7 @@ export const createDependencies: CreateDependencies = (
   }
 
   // Remove cached data
-  removeMavenMonorepo();
+  removeWorkspaceDataCache();
 
   return results;
 };
