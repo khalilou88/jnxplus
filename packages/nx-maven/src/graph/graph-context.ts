@@ -41,7 +41,7 @@ export type MavenMonorepo = {
 
 const cache = flatCache.load(
   'nx-maven-cache',
-  path.join(workspaceRoot, '.nx', 'nx-maven'),
+  path.join(workspaceRoot, '.nx', 'cache', 'nx-maven'),
 );
 const key = 'nx-maven-monorepo';
 
