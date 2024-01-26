@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.24.5-next.0](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.24.4...nx-maven-0.24.5-next.0) (2024-01-26)
+
+
+### Features
+
+* refactor maven graph calculation ([#817](https://github.com/khalilou88/jnxplus/issues/817)) ([d2f03ba](https://github.com/khalilou88/jnxplus/commit/d2f03ba6d198dd9020f99f845d651f3be26d29e9))
+
+
+
 ## [0.24.4](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.24.3...nx-maven-0.24.4) (2024-01-25)
 
 ### Dependency Updates
