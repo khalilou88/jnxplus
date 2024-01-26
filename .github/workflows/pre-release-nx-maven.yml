@@ -26,6 +26,9 @@ jobs:
 
       - run: npm i
 
+      - name: Build
+        run: npm run nx run-many -- --target=build
+
       - name: Deploy
         shell: bash
         run: npx nx run-many --target=deploy --projects=nx-maven
