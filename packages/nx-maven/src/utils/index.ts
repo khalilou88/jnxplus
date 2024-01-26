@@ -435,31 +435,49 @@ export function getVersion(artifactId: string, pomXmlContent: XmlDocument) {
   } else {
     version = versionXml.val;
 
-    if (version === '${revision}') {
-      version = getRevision(pomXmlContent);
+    if (version.indexOf('${') >= 0) {
+      version = getVersionFromProperties(version, pomXmlContent);
     }
   }
 
   return version;
 }
 
-function getRevision(pomXmlContent: XmlDocument) {
+function getVersionFromProperties(v: string, pomXmlContent: XmlDocument) {
   //properties
   const propertiesXml = pomXmlContent.childNamed('properties');
 
   if (propertiesXml === undefined) {
-    return '${revision}';
+    return v;
   }
 
-  const revisionXml = propertiesXml.childNamed('revision');
+  const vv = parseVersion(v);
 
-  if (revisionXml === undefined) {
-    return '${revision}';
+  if (vv.length > 1) {
+    return v;
   }
 
-  const revision = revisionXml.val;
+  const propertyXml = propertiesXml.childNamed(vv[0]);
+
+  if (propertyXml === undefined) {
+    return v;
+  }
+
+  const revision = propertyXml.val;
 
   return revision;
+}
+
+function parseVersion(version: string): string[] {
+  const versionRegex = /\${(.+)}/g;
+  const properties = [];
+  let match;
+
+  while ((match = versionRegex.exec(version)) !== null) {
+    properties.push(match[1]);
+  }
+
+  return properties;
 }
 
 function getParentVersion(

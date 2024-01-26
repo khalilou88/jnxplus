@@ -183,23 +183,23 @@ export function getEffectiveVersion(
   parentProjectArtifactId: string | undefined,
   mavenMonorepo: MavenMonorepo,
 ) {
-  if (version === '${revision}') {
+  if (version.indexOf('${') >= 0) {
     version = getParentProjectVersion(
       parentProjectArtifactId,
       mavenMonorepo.projects,
     );
-  }
 
-  if (version.indexOf('${') >= 0) {
-    version = execSync(
-      `${getExecutable()} help:evaluate -Dexpression=project.version -q -DforceStdout -pl :${artifactId}`,
-      {
-        cwd: mavenMonorepo.mavenRootDirAbsolutePath,
-        windowsHide: true,
-      },
-    )
-      .toString()
-      .trim();
+    if (version.indexOf('${') >= 0) {
+      version = execSync(
+        `${getExecutable()} help:evaluate -Dexpression=project.version -q -DforceStdout -pl :${artifactId}`,
+        {
+          cwd: mavenMonorepo.mavenRootDirAbsolutePath,
+          windowsHide: true,
+        },
+      )
+        .toString()
+        .trim();
+    }
   }
 
   return version;
@@ -215,7 +215,7 @@ function getParentProjectVersion(
 
   const p = getProject(projects, parentProjectArtifactId);
 
-  if (p.version !== '${revision}') {
+  if (p.version.indexOf('${') === -1) {
     return p.version;
   }
 
