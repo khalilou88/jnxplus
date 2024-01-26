@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.19.5-next.2](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.19.5-next.1...nx-gradle-0.19.5-next.2) (2024-01-26)
+
+
+### Reverts
+
+* Revert "build: put cache inside nx-gradle folder" ([e5a3d36](https://github.com/khalilou88/jnxplus/commit/e5a3d366296b7c7a881b90390826f0b95d3cdb6e))
+
+
+
 ## [0.19.5-next.1](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.19.5-next.0...nx-gradle-0.19.5-next.1) (2024-01-26)
 
 
