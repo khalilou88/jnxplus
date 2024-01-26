@@ -1,4 +1,3 @@
-import { readXml } from '@jnxplus/xml';
 import {
   CreateDependencies,
   CreateDependenciesContext,
@@ -9,9 +8,13 @@ import {
   workspaceRoot,
 } from '@nx/devkit';
 import * as path from 'path';
-import { join } from 'path';
-import { XmlDocument } from 'xmldoc';
-import { getArtifactId, getMavenRootDirectory } from '../utils';
+import {
+  MavenMonorepo,
+  MavenProjectType,
+  getMavenMonorepo,
+  getProject,
+  removeMavenMonorepo,
+} from './graph-context';
 
 export const createDependencies: CreateDependencies = (
   _,
@@ -19,9 +22,8 @@ export const createDependencies: CreateDependencies = (
 ) => {
   const results: RawProjectGraphDependency[] = [];
 
-  const mavenRootDirectory = getMavenRootDirectory();
-  const projects: MavenProjectType[] = [];
-  addProjects(mavenRootDirectory, projects, '');
+  const mavenMonorepo: MavenMonorepo = getMavenMonorepo();
+  const projects: MavenProjectType[] = mavenMonorepo.projects;
 
   for (const project of projects) {
     const projectRoot = path.relative(
@@ -82,101 +84,11 @@ export const createDependencies: CreateDependencies = (
     }
   }
 
+  // Remove cached data
+  removeMavenMonorepo();
+
   return results;
 };
-
-type MavenProjectType = {
-  artifactId: string;
-  projectAbsolutePath: string;
-  dependencies: (string | undefined)[];
-  parentProjectArtifactId?: string;
-  aggregatorProjectArtifactId?: string;
-};
-
-function addProjects(
-  mavenRootDirectory: string,
-  projects: MavenProjectType[],
-  projectRelativePath: string,
-  aggregatorProjectArtifactId?: string,
-) {
-  //projectAbsolutePath
-  const projectAbsolutePath = join(
-    workspaceRoot,
-    mavenRootDirectory,
-    projectRelativePath,
-  );
-  const pomXmlPath = join(projectAbsolutePath, 'pom.xml');
-  const pomXmlContent = readXml(pomXmlPath);
-
-  //artifactId
-  const artifactId = getArtifactId(pomXmlContent);
-
-  const parentProjectArtifactId = getParentProjectName(pomXmlContent);
-  const dependencies = getDependencyArtifactIds(pomXmlContent);
-  projects.push({
-    artifactId: artifactId,
-    projectAbsolutePath: projectAbsolutePath,
-    dependencies: dependencies,
-    parentProjectArtifactId: parentProjectArtifactId,
-    aggregatorProjectArtifactId: aggregatorProjectArtifactId,
-  });
-
-  const modulesXmlElement = pomXmlContent.childNamed('modules');
-  if (modulesXmlElement === undefined) {
-    return;
-  }
-
-  const moduleXmlElementArray = modulesXmlElement.childrenNamed('module');
-  if (moduleXmlElementArray.length === 0) {
-    return;
-  }
-
-  for (const moduleXmlElement of moduleXmlElementArray) {
-    const moduleRelativePath = joinPathFragments(
-      projectRelativePath,
-      moduleXmlElement.val.trim(),
-    );
-    addProjects(mavenRootDirectory, projects, moduleRelativePath, artifactId);
-  }
-}
-
-function getParentProjectName(pomXmlContent: XmlDocument): string | undefined {
-  const parentXmlElement = pomXmlContent.childNamed('parent');
-  if (parentXmlElement === undefined) {
-    return undefined;
-  }
-
-  const relativePath = parentXmlElement.childNamed('relativePath')?.val;
-
-  if (!relativePath) {
-    return undefined;
-  }
-
-  return parentXmlElement.childNamed('artifactId')?.val;
-}
-
-function getProject(projects: MavenProjectType[], artifactId: string) {
-  const project = projects.find((project) => project.artifactId === artifactId);
-
-  if (!project) {
-    throw new Error(`Project ${artifactId} not found`);
-  }
-
-  return project;
-}
-
-function getDependencyArtifactIds(pomXml: XmlDocument) {
-  const dependenciesXml = pomXml.childNamed('dependencies');
-  if (dependenciesXml === undefined) {
-    return [];
-  }
-
-  return dependenciesXml
-    .childrenNamed('dependency')
-    .map((dependencyXmlElement) => {
-      return dependencyXmlElement.childNamed('artifactId')?.val;
-    });
-}
 
 function getDependencyProjects(
   project: MavenProjectType,
