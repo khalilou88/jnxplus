@@ -3,10 +3,10 @@ import { CreateNodes, ProjectConfiguration, readJsonFile } from '@nx/devkit';
 import { existsSync } from 'fs';
 import * as path from 'path';
 import {
-  WorkspaceDataType,
   MavenProjectType,
-  getWorkspaceData,
+  WorkspaceDataType,
   getEffectiveVersion,
+  getWorkspaceData,
 } from './graph-utils';
 
 export const createNodes: CreateNodes = [
