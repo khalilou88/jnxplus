@@ -508,7 +508,7 @@ export function getEffectiveVersion(
   let version = getVersion(artifactId, pomXmlContent);
 
   if (version === '${revision}') {
-    return getRevision(mavenRootDirAbsolutePath);
+    version = getRevision(mavenRootDirAbsolutePath);
   }
 
   if (version.indexOf('${') >= 0) {
