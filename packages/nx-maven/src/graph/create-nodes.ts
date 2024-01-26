@@ -11,9 +11,7 @@ import {
 
 export const createNodes: CreateNodes = [
   'nx.json',
-  (nxJsonFilePath: string) => {
-    console.log(nxJsonFilePath);
-
+  () => {
     const mavenMonorepo: MavenMonorepo = getMavenMonorepo();
     const mavenProjects: MavenProjectType[] = mavenMonorepo.projects;
 
