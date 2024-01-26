@@ -1,0 +1,33 @@
+name: Pre releases nx-maven
+
+on:
+  - workflow_dispatch
+
+jobs:
+  release:
+    name: Cut cli releases
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+
+      - name: Setup Git
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - run: npm i
+
+      - name: Deploy
+        shell: bash
+        run: npx nx run-many --target=deploy --projects=nx-maven
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
