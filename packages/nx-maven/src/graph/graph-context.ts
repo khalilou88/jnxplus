@@ -39,8 +39,9 @@ export type MavenMonorepo = {
   projects: MavenProjectType[];
 };
 
+const cacheId = 'nx-maven-cache';
 const cache = flatCache.load(
-  'nx-maven-cache',
+  cacheId,
   path.join(workspaceRoot, '.nx', 'cache', 'nx-maven'),
 );
 const key = 'nx-maven-monorepo';
@@ -73,7 +74,7 @@ export function getMavenMonorepo() {
 }
 
 export function removeMavenMonorepo() {
-  cache.removeKey(key);
+  flatCache.clearCacheById(cacheId);
 }
 
 export function addProjects(
