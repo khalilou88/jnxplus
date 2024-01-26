@@ -98,7 +98,7 @@ export function addProjects(
 
   const isPomPackaging = isPomPackagingFunction(pomXmlContent);
 
-  const projectRoot = path.dirname(pomXmlPath);
+  const projectRoot = path.relative(workspaceRoot, projectAbsolutePath);
 
   const parentProjectArtifactId = getParentProjectName(pomXmlContent);
 
