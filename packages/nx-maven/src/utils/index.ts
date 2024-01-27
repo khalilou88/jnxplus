@@ -443,29 +443,32 @@ export function getVersion(artifactId: string, pomXmlContent: XmlDocument) {
   return version;
 }
 
-function getVersionFromProperties(v: string, pomXmlContent: XmlDocument) {
+function getVersionFromProperties(
+  dollarVersion: string,
+  pomXmlContent: XmlDocument,
+) {
   //properties
   const propertiesXml = pomXmlContent.childNamed('properties');
 
   if (propertiesXml === undefined) {
-    return v;
+    return dollarVersion;
   }
 
-  const vv = parseVersion(v);
+  const dollarValues = parseVersion(dollarVersion);
 
-  if (vv.length > 1) {
-    return v;
+  if (dollarValues.length > 1) {
+    return dollarVersion;
   }
 
-  const propertyXml = propertiesXml.childNamed(vv[0]);
+  const propertyXml = propertiesXml.childNamed(dollarValues[0]);
 
   if (propertyXml === undefined) {
-    return v;
+    return dollarVersion;
   }
 
-  const revision = propertyXml.val;
+  const propertyValue = propertyXml.val;
 
-  return revision;
+  return propertyValue;
 }
 
 function parseVersion(version: string): string[] {
