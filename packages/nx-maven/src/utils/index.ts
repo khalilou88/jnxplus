@@ -427,6 +427,16 @@ function getParentGroupId(
   return groupIdXml?.val;
 }
 
+export function ifContainsDollarSign(version: string): boolean {
+  const index = version.indexOf('${');
+
+  if (index >= 0) {
+    return true;
+  }
+
+  return false;
+}
+
 export function getVersion(artifactId: string, pomXmlContent: XmlDocument) {
   let version;
   const versionXml = pomXmlContent.childNamed('version');
@@ -435,7 +445,7 @@ export function getVersion(artifactId: string, pomXmlContent: XmlDocument) {
   } else {
     version = versionXml.val;
 
-    if (version.indexOf('${') >= 0) {
+    if (ifContainsDollarSign(version)) {
       version = getVersionFromProperties(version, pomXmlContent);
     }
   }

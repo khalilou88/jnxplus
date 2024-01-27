@@ -18,6 +18,7 @@ import {
   getLocalRepositoryPath,
   getMavenRootDirectory,
   getVersion,
+  ifContainsDollarSign,
 } from '../utils';
 
 export type MavenProjectType = {
@@ -187,13 +188,13 @@ export function getEffectiveVersion(
   parentProjectArtifactId: string | undefined,
   mavenMonorepo: WorkspaceDataType,
 ) {
-  if (version.indexOf('${') >= 0) {
+  if (ifContainsDollarSign(version)) {
     version = getParentProjectVersion(
       parentProjectArtifactId,
       mavenMonorepo.projects,
     );
 
-    if (version.indexOf('${') >= 0) {
+    if (ifContainsDollarSign(version)) {
       version = execSync(
         `${getExecutable()} help:evaluate -Dexpression=project.version -q -DforceStdout -pl :${artifactId}`,
         {
@@ -219,7 +220,7 @@ function getParentProjectVersion(
 
   const project = getProject(projects, parentProjectArtifactId);
 
-  if (project.version.indexOf('${') === -1) {
+  if (!ifContainsDollarSign(project.version)) {
     return project.version;
   }
 
