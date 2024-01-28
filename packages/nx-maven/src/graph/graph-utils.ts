@@ -6,20 +6,19 @@ import {
   readJsonFile,
   workspaceRoot,
 } from '@nx/devkit';
-import { execSync } from 'child_process';
 import * as flatCache from 'flat-cache';
 import * as path from 'path';
 import { join } from 'path';
 import { XmlDocument } from 'xmldoc';
 import {
   getArtifactId,
-  getExecutable,
   getGroupId,
   getLocalRepositoryPath,
   getMavenRootDirectory,
   getVersion,
-  ifContainsDollarSign,
 } from '../utils';
+
+type PropertyType = { key: string; value: string };
 
 export type MavenProjectType = {
   artifactId: string;
@@ -31,6 +30,7 @@ export type MavenProjectType = {
   dependencies: (string | undefined)[];
   parentProjectArtifactId?: string;
   aggregatorProjectArtifactId?: string;
+  properties: PropertyType[];
 };
 
 export type WorkspaceDataType = {
@@ -53,6 +53,8 @@ export function getWorkspaceData() {
 
   const projects: MavenProjectType[] = [];
   addProjects(mavenRootDirAbsolutePath, projects, '');
+
+  //TODO calculate versions here
 
   const localRepositoryPath = getLocalRepositoryPath(mavenRootDirAbsolutePath);
 
@@ -108,6 +110,9 @@ export function addProjects(
   const parentProjectArtifactId = getParentProjectName(pomXmlContent);
 
   const dependencies = getDependencyArtifactIds(pomXmlContent);
+
+  const properties = getProperties(pomXmlContent);
+
   projects.push({
     artifactId: artifactId,
     groupId: groupId,
@@ -118,6 +123,7 @@ export function addProjects(
     dependencies: dependencies,
     parentProjectArtifactId: parentProjectArtifactId,
     aggregatorProjectArtifactId: aggregatorProjectArtifactId,
+    properties: properties,
   });
 
   const modulesXmlElement = pomXmlContent.childNamed('modules');
@@ -183,48 +189,62 @@ function isPomPackagingFunction(pomXmlContent: XmlDocument): boolean {
 }
 
 export function getEffectiveVersion(
-  artifactId: string,
-  version: string,
-  parentProjectArtifactId: string | undefined,
-  mavenMonorepo: WorkspaceDataType,
+  project: MavenProjectType,
+  workspaceData: WorkspaceDataType,
 ) {
-  if (ifContainsDollarSign(version)) {
-    version = getParentProjectVersion(
-      parentProjectArtifactId,
-      mavenMonorepo.projects,
-    );
+  let newVersion = project.version;
 
-    if (ifContainsDollarSign(version)) {
-      version = execSync(
-        `${getExecutable()} help:evaluate -Dexpression=project.version -q -DforceStdout -pl :${artifactId}`,
-        {
-          cwd: mavenMonorepo.mavenRootDirAbsolutePath,
-          windowsHide: true,
-        },
-      )
-        .toString()
-        .trim();
-    }
+  //1
+  if (!ifContainsDollarSign(newVersion)) {
+    return newVersion;
   }
 
-  return version;
+  //2 from project properties
+  newVersion = getVersionFromProperties(newVersion, project.properties);
+  if (!ifContainsDollarSign(newVersion)) {
+    return newVersion;
+  }
+
+  //3 calculate version from parent
+  newVersion = getVersionFromParentProject(
+    newVersion,
+    project.parentProjectArtifactId,
+    workspaceData.projects,
+  );
+  if (!ifContainsDollarSign(newVersion)) {
+    return newVersion;
+  }
+
+  //4 call help:evaluate to get version
+  //TODO change code after tests
+  throw new Error(
+    `Can't calculate version ${newVersion} of project ${project.artifactId}`,
+  );
+
+  return newVersion;
 }
 
-function getParentProjectVersion(
+function getVersionFromParentProject(
+  newVersion: string,
   parentProjectArtifactId: string | undefined,
   projects: MavenProjectType[],
 ) {
   if (!parentProjectArtifactId) {
-    return '${}';
+    return newVersion;
   }
 
-  const project = getProject(projects, parentProjectArtifactId);
+  const parentProject = getProject(projects, parentProjectArtifactId);
+  newVersion = getVersionFromProperties(newVersion, parentProject.properties);
 
-  if (!ifContainsDollarSign(project.version)) {
-    return project.version;
+  if (!ifContainsDollarSign(newVersion)) {
+    return newVersion;
   }
 
-  return getParentProjectVersion(project.parentProjectArtifactId, projects);
+  return getVersionFromParentProject(
+    newVersion,
+    parentProject.parentProjectArtifactId,
+    projects,
+  );
 }
 
 function getTargetDefaults() {
@@ -255,4 +275,86 @@ export function getProject(projects: MavenProjectType[], artifactId: string) {
   }
 
   return project;
+}
+
+function ifContainsDollarSign(version: string): boolean {
+  const index = version.indexOf('${');
+
+  if (index >= 0) {
+    return true;
+  }
+
+  return false;
+}
+
+function getProperties(pomXmlContent: XmlDocument) {
+  //properties
+  const propertiesXml = pomXmlContent.childNamed('properties');
+
+  const properties: PropertyType[] = [];
+
+  if (propertiesXml === undefined) {
+    return properties;
+  }
+
+  propertiesXml.eachChild((propertyXml) => {
+    properties.push({ key: propertyXml.name, value: propertyXml.val });
+  });
+
+  return properties;
+}
+
+function getVersionFromProperties(version: string, properties: PropertyType[]) {
+  if (properties.length === 0) {
+    return version;
+  }
+
+  const dollarValues = extractProperties(version);
+
+  if (dollarValues.length === 0) {
+    throw new Error(`Version ${version} don't contains dollar sign`);
+  }
+
+  const commonProperties = properties.filter((p) =>
+    dollarValues.includes(p.key),
+  );
+
+  if (commonProperties.length === 0) {
+    return version;
+  }
+
+  let parsedVersion = version;
+  for (const property of commonProperties) {
+    parsedVersion = parsedVersion.replace(
+      '${' + property.key + '}',
+      property.value,
+    );
+  }
+
+  if (version === parsedVersion) {
+    throw new Error(
+      `Code not working properly: version ${version} and parsedVersion ${parsedVersion} should not be the same`,
+    );
+  }
+
+  return parsedVersion;
+}
+
+function extractProperties(version: string): string[] {
+  const versionRegex = /\${([^${}]*)}/g;
+  const properties = [];
+  let match;
+
+  while ((match = versionRegex.exec(version)) !== null) {
+    properties.push(match[1]);
+  }
+
+  const b = properties.some((p) => ifContainsDollarSign(p));
+  if (b) {
+    throw new Error(
+      `Version ${version} not correctly parsed with regex ${versionRegex}`,
+    );
+  }
+
+  return properties;
 }

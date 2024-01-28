@@ -427,16 +427,6 @@ function getParentGroupId(
   return groupIdXml?.val;
 }
 
-export function ifContainsDollarSign(version: string): boolean {
-  const index = version.indexOf('${');
-
-  if (index >= 0) {
-    return true;
-  }
-
-  return false;
-}
-
 export function getVersion(artifactId: string, pomXmlContent: XmlDocument) {
   let version;
   const versionXml = pomXmlContent.childNamed('version');
@@ -444,53 +434,9 @@ export function getVersion(artifactId: string, pomXmlContent: XmlDocument) {
     version = getParentVersion(artifactId, pomXmlContent);
   } else {
     version = versionXml.val;
-
-    if (ifContainsDollarSign(version)) {
-      version = getVersionFromProperties(version, pomXmlContent);
-    }
   }
 
   return version;
-}
-
-function getVersionFromProperties(
-  dollarVersion: string,
-  pomXmlContent: XmlDocument,
-) {
-  //properties
-  const propertiesXml = pomXmlContent.childNamed('properties');
-
-  if (propertiesXml === undefined) {
-    return dollarVersion;
-  }
-
-  const dollarValues = parseVersion(dollarVersion);
-
-  if (dollarValues.length > 1) {
-    return dollarVersion;
-  }
-
-  const propertyXml = propertiesXml.childNamed(dollarValues[0]);
-
-  if (propertyXml === undefined) {
-    return dollarVersion;
-  }
-
-  const propertyValue = propertyXml.val;
-
-  return propertyValue;
-}
-
-function parseVersion(version: string): string[] {
-  const versionRegex = /\${(.+)}/g;
-  const properties = [];
-  let match;
-
-  while ((match = versionRegex.exec(version)) !== null) {
-    properties.push(match[1]);
-  }
-
-  return properties;
 }
 
 function getParentVersion(
