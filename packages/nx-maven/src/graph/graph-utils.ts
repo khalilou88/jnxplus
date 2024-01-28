@@ -341,7 +341,7 @@ function getVersionFromProperties(version: string, properties: PropertyType[]) {
 }
 
 function extractProperties(version: string): string[] {
-  const versionRegex = /\${(.+)}/g;
+  const versionRegex = /\${([^${}]*)}/g;
   const properties = [];
   let match;
 
