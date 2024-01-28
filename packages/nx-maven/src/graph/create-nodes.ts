@@ -45,9 +45,7 @@ export const createNodes: CreateNodes = [
             )
           ) {
             const effectiveVersion = getEffectiveVersion(
-              project.artifactId,
-              project.version,
-              project.parentProjectArtifactId,
+              project,
               workspaceData,
             );
 
@@ -65,12 +63,7 @@ export const createNodes: CreateNodes = [
           }
         }
       } else {
-        const effectiveVersion = getEffectiveVersion(
-          project.artifactId,
-          project.version,
-          project.parentProjectArtifactId,
-          workspaceData,
-        );
+        const effectiveVersion = getEffectiveVersion(project, workspaceData);
 
         const outputDirLocalRepo = getOutputDirLocalRepo(
           workspaceData.localRepo,
