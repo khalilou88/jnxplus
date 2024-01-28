@@ -217,7 +217,9 @@ export function getEffectiveVersion(
 
   //4 call help:evaluate to get version
   //TODO change code after tests
-  throw new Error(`Can't get version of project ${project.artifactId}`);
+  throw new Error(
+    `Can't calculate version ${newVersion} of project ${project.artifactId}`,
+  );
 
   return newVersion;
 }
