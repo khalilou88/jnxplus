@@ -401,27 +401,32 @@ export function getArtifactId(pomXmlContent: XmlDocument) {
 }
 
 export function getGroupId(artifactId: string, pomXmlContent: XmlDocument) {
+  let groupId;
   const groupIdXml = pomXmlContent.childNamed('groupId');
   if (groupIdXml === undefined) {
-    return getParentGroupId(artifactId, pomXmlContent);
+    groupId = getParentGroupId(pomXmlContent);
+  } else {
+    groupId = groupIdXml.val;
   }
-  return groupIdXml.val;
+
+  if (!groupId) {
+    throw new Error(`GroupId is not set for project ${artifactId}`);
+  }
+
+  return groupId;
 }
 
-function getParentGroupId(
-  artifactId: string,
-  pomXmlContent: XmlDocument,
-): string {
+function getParentGroupId(pomXmlContent: XmlDocument): string | undefined {
   const parentXml = pomXmlContent.childNamed('parent');
 
   if (parentXml === undefined) {
-    throw new Error(`Parent tag not found for project ${artifactId}`);
+    return undefined;
   }
 
   const groupIdXml = parentXml.childNamed('groupId');
 
   if (groupIdXml === undefined) {
-    throw new Error(`ParentGroupId not found for project ${artifactId}`);
+    return undefined;
   }
 
   return groupIdXml?.val;
@@ -431,28 +436,29 @@ export function getVersion(artifactId: string, pomXmlContent: XmlDocument) {
   let version;
   const versionXml = pomXmlContent.childNamed('version');
   if (versionXml === undefined) {
-    version = getParentVersion(artifactId, pomXmlContent);
+    version = getParentVersion(pomXmlContent);
   } else {
     version = versionXml.val;
+  }
+
+  if (!version) {
+    throw new Error(`Version is not set for project ${artifactId}`);
   }
 
   return version;
 }
 
-function getParentVersion(
-  artifactId: string,
-  pomXmlContent: XmlDocument,
-): string {
+function getParentVersion(pomXmlContent: XmlDocument): string | undefined {
   const parentXml = pomXmlContent.childNamed('parent');
 
   if (parentXml === undefined) {
-    throw new Error(`Parent tag not found for project ${artifactId}`);
+    return undefined;
   }
 
   const versionXml = parentXml.childNamed('version');
 
   if (versionXml === undefined) {
-    throw new Error(`ParentVersion not found for project ${artifactId}`);
+    return undefined;
   }
 
   return versionXml?.val;
