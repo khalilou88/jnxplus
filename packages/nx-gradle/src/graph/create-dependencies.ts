@@ -23,23 +23,18 @@ export const createDependencies: CreateDependencies = (
 ) => {
   const results: RawProjectGraphDependency[] = [];
 
-  const isVerbose = process.env['NX_VERBOSE_LOGGING'] === 'true';
   const outputFile = path.join(
     projectGraphCacheDirectory,
-    `nx-gradle-deps.json`,
+    'nx-gradle-deps.json',
   );
 
-  let command = `${getExecutable()} :projectDependencyTask --outputFile=${outputFile}`;
-
-  if (isVerbose) {
-    command += ' --stacktrace';
-  }
+  const command = `${getExecutable()} :projectDependencyTask --outputFile=${outputFile}`;
 
   const gradleRootDirectory = getGradleRootDirectory();
   execSync(command, {
     cwd: path.join(workspaceRoot, gradleRootDirectory),
-    stdio: isVerbose ? 'inherit' : 'pipe',
     env: process.env,
+    stdio: 'pipe',
     encoding: 'utf-8',
     windowsHide: true,
   });
