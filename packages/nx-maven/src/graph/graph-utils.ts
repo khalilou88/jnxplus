@@ -349,5 +349,12 @@ function extractProperties(version: string): string[] {
     properties.push(match[1]);
   }
 
+  const b = properties.some((p) => ifContainsDollarSign(p));
+  if (b) {
+    throw new Error(
+      `Version ${version} not correctly parsed with regex ${versionRegex}`,
+    );
+  }
+
   return properties;
 }
