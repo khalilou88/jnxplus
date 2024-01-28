@@ -2,6 +2,10 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.5](https://github.com/khalilou88/jnxplus/compare/xml-0.1.5-next.0...xml-0.1.5) (2024-01-28)
+
+
+
 ## [0.1.5-next.0](https://github.com/khalilou88/jnxplus/compare/xml-0.1.4...xml-0.1.5-next.0) (2024-01-26)
 
 
