@@ -102,20 +102,38 @@ function getProjectRootFromTree(
         mavenRootDirectory,
       );
 
-      const projectBasedir = execSync(
-        `${getExecutable()} help:evaluate -Dexpression=project.basedir -q -DforceStdout -pl :${projectName}`,
-        {
-          cwd: mavenRootDirAbsolutePath,
-          windowsHide: true,
-        },
-      )
-        .toString()
-        .trim();
+      const projectBasedir = getExpressionValue(
+        'project.basedir',
+        mavenRootDirAbsolutePath,
+        projectName,
+      );
       projectRoot = path.relative(workspaceRoot, projectBasedir);
     }
   }
 
   return projectRoot;
+}
+
+function getExpressionValue(
+  expression: string,
+  mavenRootDirAbsolutePath: string,
+  projectName?: string,
+) {
+  let command = `${getExecutable()} help:evaluate -Dexpression=${expression} -q -DforceStdout`;
+
+  if (projectName) {
+    command += ` -pl :${projectName}`;
+  }
+
+  return execSync(command, {
+    cwd: mavenRootDirAbsolutePath,
+    env: process.env,
+    encoding: 'utf8',
+    stdio: 'pipe',
+    windowsHide: true,
+  })
+    .toString()
+    .trim();
 }
 
 export function addProjectToAggregator(
@@ -378,15 +396,10 @@ export function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
       localRepoRelativePath,
     );
   } else {
-    localRepositoryPath = execSync(
-      `${getExecutable()} help:evaluate -Dexpression=settings.localRepository -q -DforceStdout`,
-      {
-        cwd: mavenRootDirAbsolutePath,
-        windowsHide: true,
-      },
-    )
-      .toString()
-      .trim();
+    localRepositoryPath = getExpressionValue(
+      'settings.localRepository',
+      mavenRootDirAbsolutePath,
+    );
   }
 
   return localRepositoryPath;
