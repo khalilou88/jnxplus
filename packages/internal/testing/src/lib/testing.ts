@@ -34,7 +34,7 @@ export function createTestWorkspace() {
   });
 
   execSync(
-    `npx --yes create-nx-workspace@latest ${workspaceName} --preset apps --no-nxCloud --no-interactive`,
+    `npx --yes create-nx-workspace@latest ${workspaceName} --preset apps --nxCloud skip --interactive false`,
     {
       cwd: path.dirname(workspaceDirectory),
       stdio: 'inherit',
