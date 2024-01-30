@@ -32,6 +32,12 @@ export function getProjectPathFromProjectRoot(
   //Remove first dot
   let replacedString = projectRoot.replace(new RegExp('^\\.', 'g'), '');
 
+  //Remove first dot
+  gradleRootDirectory = gradleRootDirectory.replace(
+    new RegExp('^\\.', 'g'),
+    '',
+  );
+
   //Remove /gradleRootDirectory if exists
   if (gradleRootDirectory) {
     replacedString = replacedString.replace(
