@@ -103,21 +103,21 @@ export const createDependencies: CreateDependencies = (
   return results;
 };
 
-type GradleProject1Type = {
+interface GradleProject1Type {
   name: string;
   relativePath: string;
   isProjectJsonExists: boolean;
   isBuildGradleExists: boolean;
-};
+}
 
-type GradleProject2Type = {
+interface GradleProject2Type {
   isBuildGradleKtsExists: boolean;
   isSettingsGradleExists: boolean;
   isSettingsGradleKtsExists: boolean;
   isGradlePropertiesExists: boolean;
   parentProjectName: string;
   dependencies: GradleProject1Type[];
-};
+}
 
 type GradleProjectType = GradleProject1Type & GradleProject2Type;
 

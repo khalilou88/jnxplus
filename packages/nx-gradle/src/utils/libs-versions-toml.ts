@@ -19,11 +19,11 @@ const regex3 = /\[plugins]/;
 
 const regex = /plugins\s*{/;
 
-type ElementsType = {
+interface ElementsType {
   versions: string[];
   libraries: string[];
   plugins: string[];
-};
+}
 
 export function addLibsVersionsToml(
   tree: Tree,
