@@ -365,8 +365,8 @@ function extractProperties(version: string): string[] {
     properties.push(match[1]);
   }
 
-  const b = properties.some((p) => p.indexOf('$') >= 0);
-  if (b) {
+  const containsAnExpression = properties.some((p) => p.indexOf('$') >= 0);
+  if (containsAnExpression) {
     throw new Error(
       `Version ${version} not correctly parsed with regex ${versionRegex}`,
     );
