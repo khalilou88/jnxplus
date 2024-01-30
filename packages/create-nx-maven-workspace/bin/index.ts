@@ -129,7 +129,7 @@ async function main() {
     `@jnxplus/nx-maven@${presetVersion}`,
     {
       name,
-      nxCloud: false,
+      nxCloud: 'skip',
       packageManager: 'npm',
       //init generator
       javaVersion,

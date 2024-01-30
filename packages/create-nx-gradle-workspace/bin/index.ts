@@ -112,7 +112,7 @@ async function main() {
     `@jnxplus/nx-gradle@${presetVersion}`,
     {
       name,
-      nxCloud: false,
+      nxCloud: 'skip',
       packageManager: 'npm',
       //init generator
       javaVersion,
