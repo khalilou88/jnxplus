@@ -9,6 +9,7 @@ import {
   NxJsonConfiguration,
   Tree,
   joinPathFragments,
+  normalizePath,
   readJsonFile,
   readProjectConfiguration,
   workspaceRoot,
@@ -29,30 +30,14 @@ export function getProjectPathFromProjectRoot(
   projectRoot: string,
   gradleRootDirectory: string,
 ) {
-  //Remove first dot
-  let replacedString = projectRoot.replace(new RegExp('^\\.', 'g'), '');
-
-  //Remove first dot
-  gradleRootDirectory = gradleRootDirectory.replace(
-    new RegExp('^\\.', 'g'),
-    '',
+  const projectPathSlash = normalizePath(
+    path.relative(
+      path.join(workspaceRoot, gradleRootDirectory),
+      path.join(workspaceRoot, projectRoot),
+    ),
   );
 
-  //Remove /gradleRootDirectory if exists
-  if (gradleRootDirectory) {
-    replacedString = replacedString.replace(
-      new RegExp(`^\\/?${gradleRootDirectory}`, 'g'),
-      '',
-    );
-  }
-
-  replacedString = replacedString.replace(new RegExp('/', 'g'), ':');
-
-  if (!replacedString.startsWith(':')) {
-    replacedString = `:${replacedString}`;
-  }
-
-  return replacedString;
+  return projectPathSlash.replace(new RegExp('/', 'g'), ':');
 }
 
 export function getProjectRootFromProjectPath(projectPath: string) {
