@@ -208,28 +208,30 @@ export function getEffectiveVersion(
 ) {
   let newVersion = project.version;
 
-  //1
-  if (!ifContainsDollarSign(newVersion)) {
+  //1 if version is constant return it
+  if (isConstantVersion(newVersion)) {
     return newVersion;
   }
 
-  //2 from project properties
+  //2 try to calculate version from project properties
   newVersion = getVersionFromProperties(newVersion, project.properties);
-  if (!ifContainsDollarSign(newVersion)) {
+  if (isConstantVersion(newVersion)) {
     return newVersion;
   }
 
-  //3 calculate version from parent
+  //3 try to calculate version from parent project
+  // we just calculate the part we didn't calculate in step 2
   newVersion = getVersionFromParentProject(
     newVersion,
     project.parentProjectArtifactId,
     workspaceData.projects,
   );
-  if (!ifContainsDollarSign(newVersion)) {
+  if (isConstantVersion(newVersion)) {
     return newVersion;
   }
 
-  //4 call help:evaluate to get version
+  //4 Can't calculate version, maybe contains something like ${project.parent.version}
+  // call help:evaluate to get version and add warning because help:evaluate took a lot of time
   //TODO change code after tests
   throw new Error(
     `Can't calculate version ${newVersion} of project ${project.artifactId}`,
@@ -250,7 +252,7 @@ function getVersionFromParentProject(
   const parentProject = getProject(projects, parentProjectArtifactId);
   newVersion = getVersionFromProperties(newVersion, parentProject.properties);
 
-  if (!ifContainsDollarSign(newVersion)) {
+  if (isConstantVersion(newVersion)) {
     return newVersion;
   }
 
@@ -291,14 +293,14 @@ export function getProject(projects: MavenProjectType[], artifactId: string) {
   return project;
 }
 
-function ifContainsDollarSign(version: string): boolean {
+function isConstantVersion(version: string): boolean {
   const index = version.indexOf('${');
 
   if (index >= 0) {
-    return true;
+    return false;
   }
 
-  return false;
+  return true;
 }
 
 function getProperties(pomXmlContent: XmlDocument) {
@@ -363,7 +365,7 @@ function extractProperties(version: string): string[] {
     properties.push(match[1]);
   }
 
-  const b = properties.some((p) => ifContainsDollarSign(p));
+  const b = properties.some((p) => p.indexOf('$') >= 0);
   if (b) {
     throw new Error(
       `Version ${version} not correctly parsed with regex ${versionRegex}`,
