@@ -20,32 +20,29 @@ import { join } from 'path';
 
 export function getProjectPath(
   context: ExecutorContext,
-  gradleRootDirectory: string,
+  gradleRootDirectoryAbsolutePath: string,
 ) {
   const projectRoot = getProjectRoot(context);
-  return getProjectPathFromProjectRoot(projectRoot, gradleRootDirectory);
+  return getProjectPathFromProjectRoot(
+    projectRoot,
+    gradleRootDirectoryAbsolutePath,
+  );
 }
 
 export function getProjectPathFromProjectRoot(
   projectRoot: string,
-  gradleRootDirectory: string,
+  gradleRootDirectoryAbsolutePath: string,
 ) {
   const projectPathSlash = normalizePath(
     path.relative(
-      path.join(workspaceRoot, gradleRootDirectory),
+      gradleRootDirectoryAbsolutePath,
       path.join(workspaceRoot, projectRoot),
     ),
   );
 
-  return projectPathSlash.replace(new RegExp('/', 'g'), ':');
-}
+  const projectPath = projectPathSlash.replace(new RegExp('/', 'g'), ':');
 
-export function getProjectRootFromProjectPath(projectPath: string) {
-  if (projectPath.startsWith(':')) {
-    throw new Error(`Path ${projectPath} should not starts with two dots (:)`);
-  }
-
-  return projectPath.replace(/:/g, '/');
+  return `:${projectPath}`;
 }
 
 export function getQuarkusVersion(gradlePropertiesContent: string) {
