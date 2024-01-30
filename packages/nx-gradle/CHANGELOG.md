@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.19.6-next.1](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.19.6-next.0...nx-gradle-0.19.6-next.1) (2024-01-30)
+
+
+### Bug Fixes
+
+* better projectPath calculation ([#833](https://github.com/khalilou88/jnxplus/issues/833)) ([86ccd15](https://github.com/khalilou88/jnxplus/commit/86ccd153201e1f9b8e1183923e2cdc73ff387487))
+
+
+
 ## [0.19.6-next.0](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.19.5...nx-gradle-0.19.6-next.0) (2024-01-28)
 
 
