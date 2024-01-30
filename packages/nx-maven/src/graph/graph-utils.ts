@@ -106,9 +106,7 @@ export function addProjects(
 
   const isPomPackaging = isPomPackagingFunction(pomXmlContent);
 
-  const projectRoot = normalizePath(
-    path.relative(workspaceRoot, projectAbsolutePath),
-  );
+  const projectRoot = getProjectRoot(projectAbsolutePath);
 
   const parentProjectArtifactId = getParentProjectName(pomXmlContent);
 
@@ -151,6 +149,19 @@ export function addProjects(
       artifactId,
     );
   }
+}
+
+function getProjectRoot(projectAbsolutePath: string) {
+  let projectRoot = normalizePath(
+    path.relative(workspaceRoot, projectAbsolutePath),
+  );
+
+  // projectRoot should not be an empty string
+  if (!projectRoot) {
+    projectRoot = '.';
+  }
+
+  return projectRoot;
 }
 
 function getParentProjectName(pomXmlContent: XmlDocument): string | undefined {
