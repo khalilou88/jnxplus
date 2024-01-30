@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.24.6-next.1](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.24.6-next.0...nx-maven-0.24.6-next.1) (2024-01-30)
+
+
+### Bug Fixes
+
+* projectRoot should not be an empty string ([#832](https://github.com/khalilou88/jnxplus/issues/832)) ([b157f10](https://github.com/khalilou88/jnxplus/commit/b157f105b23ad9b889a3771e4cc6da54ff2931c9))
+
+
+
 ## [0.24.6-next.0](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.24.5...nx-maven-0.24.6-next.0) (2024-01-28)
 
 
