@@ -9,6 +9,7 @@ import {
   NxJsonConfiguration,
   Tree,
   joinPathFragments,
+  normalizePath,
   readJsonFile,
   readProjectConfiguration,
   workspaceRoot,
@@ -19,42 +20,29 @@ import { join } from 'path';
 
 export function getProjectPath(
   context: ExecutorContext,
-  gradleRootDirectory: string,
+  gradleRootDirectoryAbsolutePath: string,
 ) {
   const projectRoot = getProjectRoot(context);
-  return getProjectPathFromProjectRoot(projectRoot, gradleRootDirectory);
+  return getProjectPathFromProjectRoot(
+    projectRoot,
+    gradleRootDirectoryAbsolutePath,
+  );
 }
 
 export function getProjectPathFromProjectRoot(
   projectRoot: string,
-  gradleRootDirectory: string,
+  gradleRootDirectoryAbsolutePath: string,
 ) {
-  //Remove first dot
-  let replacedString = projectRoot.replace(new RegExp('^\\.', 'g'), '');
+  const projectPathSlash = normalizePath(
+    path.relative(
+      gradleRootDirectoryAbsolutePath,
+      path.join(workspaceRoot, projectRoot),
+    ),
+  );
 
-  //Remove /gradleRootDirectory if exists
-  if (gradleRootDirectory) {
-    replacedString = replacedString.replace(
-      new RegExp(`^\\/?${gradleRootDirectory}`, 'g'),
-      '',
-    );
-  }
+  const projectPath = projectPathSlash.replace(new RegExp('/', 'g'), ':');
 
-  replacedString = replacedString.replace(new RegExp('/', 'g'), ':');
-
-  if (!replacedString.startsWith(':')) {
-    replacedString = `:${replacedString}`;
-  }
-
-  return replacedString;
-}
-
-export function getProjectRootFromProjectPath(projectPath: string) {
-  if (projectPath.startsWith(':')) {
-    throw new Error(`Path ${projectPath} should not starts with two dots (:)`);
-  }
-
-  return projectPath.replace(/:/g, '/');
+  return `:${projectPath}`;
 }
 
 export function getQuarkusVersion(gradlePropertiesContent: string) {

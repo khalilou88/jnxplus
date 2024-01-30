@@ -42,7 +42,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:init --dsl kotlin --rootProjectName ${rootProjectName} --preset none --versionManagement version-catalog`,
+      `generate @jnxplus/nx-gradle:init --gradleRootDirectory . --dsl kotlin --rootProjectName ${rootProjectName} --preset none --versionManagement version-catalog`,
     );
   }, 120000);
 
