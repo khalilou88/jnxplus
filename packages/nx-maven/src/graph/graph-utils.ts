@@ -18,9 +18,12 @@ import {
   getVersion,
 } from '../utils';
 
-type PropertyType = { key: string; value: string };
+interface PropertyType {
+  key: string;
+  value: string;
+}
 
-export type MavenProjectType = {
+export interface MavenProjectType {
   artifactId: string;
   groupId: string;
   version: string;
@@ -31,14 +34,14 @@ export type MavenProjectType = {
   parentProjectArtifactId?: string;
   aggregatorProjectArtifactId?: string;
   properties: PropertyType[];
-};
+}
 
-export type WorkspaceDataType = {
+export interface WorkspaceDataType {
   mavenRootDirAbsolutePath: string;
   targetDefaults: string[];
   localRepo: string;
   projects: MavenProjectType[];
-};
+}
 
 const cacheId = 'workspace-data.json';
 const cache = flatCache.load(
