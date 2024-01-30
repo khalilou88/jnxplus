@@ -325,14 +325,14 @@ function getVersionFromProperties(version: string, properties: PropertyType[]) {
     return version;
   }
 
-  const dollarValues = extractProperties(version);
+  const versionProperties = extractProperties(version);
 
-  if (dollarValues.length === 0) {
-    throw new Error(`Version ${version} don't contains dollar sign`);
+  if (versionProperties.length === 0) {
+    throw new Error(`Version ${version} is a constant`);
   }
 
   const commonProperties = properties.filter((p) =>
-    dollarValues.includes(p.key),
+    versionProperties.includes(p.key),
   );
 
   if (commonProperties.length === 0) {
