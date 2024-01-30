@@ -152,12 +152,13 @@ export function addProjects(
 }
 
 function getProjectRoot(projectAbsolutePath: string) {
-  const projectRoot = normalizePath(
+  let projectRoot = normalizePath(
     path.relative(workspaceRoot, projectAbsolutePath),
   );
 
+  // projectRoot should not be an empty string
   if (!projectRoot) {
-    throw new Error('ProjectRoot should not be an empty string');
+    projectRoot = '.';
   }
 
   return projectRoot;

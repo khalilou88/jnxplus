@@ -119,7 +119,7 @@ function getOutputDirLocalRepo(
 }
 
 function getTask(projectRoot: string) {
-  if (!projectRoot || projectRoot === '.') {
+  if (projectRoot === '.') {
     return 'install -N';
   }
 
