@@ -42,73 +42,73 @@ describe('nx-gradle spring-boot smoke-next', () => {
   });
 
   it('should work', async () => {
-    execSync(
-      'npx create-nx-workspace@latest test --preset empty --nxCloud skip',
-      {
-        cwd: smokeDirectory,
-        env: process.env,
-        stdio: 'inherit',
-      },
-    );
-
-    execSync('git init', execSyncOptions());
-
-    execSync('npm i --save-dev @jnxplus/nx-gradle', execSyncOptions());
-
-    execSync(
-      'npx nx generate @jnxplus/nx-gradle:init --preset spring-boot',
-      execSyncOptions(),
-    );
-
-    execSync(
-      `npx nx g @jnxplus/nx-gradle:application ${testApp} --framework spring-boot`,
-      execSyncOptions(),
-    );
-
-    execSync(
-      `npx nx g @jnxplus/nx-gradle:lib ${testLib} --framework spring-boot --projects ${testApp}`,
-      execSyncOptions(),
-    );
-
-    execSync(
-      `npx nx g @jnxplus/nx-gradle:application ${testApp2} --framework spring-boot`,
-      execSyncOptions(),
-    );
-
-    execSync(
-      `npx nx g @jnxplus/nx-gradle:application ${testApp3} --framework spring-boot`,
-      execSyncOptions(),
-    );
-
-    execSync(
-      `npx nx g @jnxplus/nx-gradle:application ${testApp4} --framework spring-boot`,
-      execSyncOptions(),
-    );
-
-    execSync(
-      `npx nx g @jnxplus/nx-gradle:lib ${testLib2} --framework spring-boot --projects ${testApp2},${testApp3},${testApp4}`,
-      execSyncOptions(),
-    );
-
-    execSync(`npx nx run-many --target=build --parallel`, execSyncOptions());
-
-    execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
-
-    const depGraphJson = await readJson(
-      join(smokeDirectory, 'test', 'dep-graph.json'),
-    );
-    expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
-    expect(depGraphJson.graph.nodes[testLib]).toBeDefined();
-
-    expect(depGraphJson.graph.dependencies[testApp]).toContainEqual({
-      type: 'static',
-      source: testApp,
-      target: testLib,
-    });
-
-    execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
-
     if (ifNextVersionExists()) {
+      execSync(
+        'npx create-nx-workspace@latest test --preset empty --nxCloud skip',
+        {
+          cwd: smokeDirectory,
+          env: process.env,
+          stdio: 'inherit',
+        },
+      );
+
+      execSync('git init', execSyncOptions());
+
+      execSync('npm i --save-dev @jnxplus/nx-gradle', execSyncOptions());
+
+      execSync(
+        'npx nx generate @jnxplus/nx-gradle:init --preset spring-boot',
+        execSyncOptions(),
+      );
+
+      execSync(
+        `npx nx g @jnxplus/nx-gradle:application ${testApp} --framework spring-boot`,
+        execSyncOptions(),
+      );
+
+      execSync(
+        `npx nx g @jnxplus/nx-gradle:lib ${testLib} --framework spring-boot --projects ${testApp}`,
+        execSyncOptions(),
+      );
+
+      execSync(
+        `npx nx g @jnxplus/nx-gradle:application ${testApp2} --framework spring-boot`,
+        execSyncOptions(),
+      );
+
+      execSync(
+        `npx nx g @jnxplus/nx-gradle:application ${testApp3} --framework spring-boot`,
+        execSyncOptions(),
+      );
+
+      execSync(
+        `npx nx g @jnxplus/nx-gradle:application ${testApp4} --framework spring-boot`,
+        execSyncOptions(),
+      );
+
+      execSync(
+        `npx nx g @jnxplus/nx-gradle:lib ${testLib2} --framework spring-boot --projects ${testApp2},${testApp3},${testApp4}`,
+        execSyncOptions(),
+      );
+
+      execSync(`npx nx run-many --target=build --parallel`, execSyncOptions());
+
+      execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
+
+      const depGraphJson = await readJson(
+        join(smokeDirectory, 'test', 'dep-graph.json'),
+      );
+      expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
+      expect(depGraphJson.graph.nodes[testLib]).toBeDefined();
+
+      expect(depGraphJson.graph.dependencies[testApp]).toContainEqual({
+        type: 'static',
+        source: testApp,
+        target: testLib,
+      });
+
+      execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
+
       execSync('npx nx@next migrate next', execSyncOptions());
 
       execSync('npm i --legacy-peer-deps', execSyncOptions());
