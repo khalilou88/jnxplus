@@ -1,6 +1,6 @@
 import { getTargetName, runCommand, waitForever } from '@jnxplus/common';
 import { ExecutorContext, logger, workspaceRoot } from '@nx/devkit';
-import { join } from 'path';
+import * as path from 'path';
 import { getExecutable, getMavenRootDirectory } from '../../utils';
 import { RunTaskExecutorSchema } from './schema';
 
@@ -24,8 +24,19 @@ export default async function runExecutor(
     command += ` -pl :${context.projectName}`;
   }
 
-  const mavenRootDirectory = getMavenRootDirectory();
-  const result = runCommand(command, join(workspaceRoot, mavenRootDirectory));
+  let cwd;
+  if (options.cwd && path.isAbsolute(options.cwd)) {
+    cwd = options.cwd;
+  } else {
+    const mavenRootDirectory = getMavenRootDirectory();
+    if (options.cwd) {
+      cwd = path.join(workspaceRoot, mavenRootDirectory, options.cwd);
+    } else {
+      cwd = path.join(workspaceRoot, mavenRootDirectory);
+    }
+  }
+
+  const result = runCommand(command, cwd);
 
   if (!result.success) {
     return { success: false };
