@@ -122,13 +122,13 @@ describe('nx-gradle spring-boot smoke-next', () => {
 
       execSync(`nx graph --file=dep-graph.json`, execSyncOptions());
 
-      const depGraphJson = await readJson(
+      const depGraphJson2 = await readJson(
         join(smokeDirectory, 'test', 'dep-graph.json'),
       );
-      expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
-      expect(depGraphJson.graph.nodes[testLib]).toBeDefined();
+      expect(depGraphJson2.graph.nodes[testApp]).toBeDefined();
+      expect(depGraphJson2.graph.nodes[testLib]).toBeDefined();
 
-      expect(depGraphJson.graph.dependencies[testApp]).toContainEqual({
+      expect(depGraphJson2.graph.dependencies[testApp]).toContainEqual({
         type: 'static',
         source: testApp,
         target: testLib,
