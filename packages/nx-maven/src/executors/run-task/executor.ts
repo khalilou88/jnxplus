@@ -18,7 +18,11 @@ export default async function runExecutor(
     task = options.task;
   }
 
-  const command = `${getExecutable()} ${task} -pl :${context.projectName}`;
+  let command = `${getExecutable()} ${task}`;
+
+  if (!options.skipProject) {
+    command += ` -pl :${context.projectName}`;
+  }
 
   const mavenRootDirectory = getMavenRootDirectory();
   const result = runCommand(command, join(workspaceRoot, mavenRootDirectory));
