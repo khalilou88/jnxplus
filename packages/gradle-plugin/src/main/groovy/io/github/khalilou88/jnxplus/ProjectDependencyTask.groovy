@@ -1,6 +1,7 @@
 package io.github.khalilou88.jnxplus
 
 import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
 import org.gradle.api.DefaultTask
 import org.gradle.api.artifacts.ProjectDependency
 import org.gradle.api.provider.Property
@@ -36,22 +37,26 @@ abstract class ProjectDependencyTask extends DefaultTask {
 
     if (isBuildGradleExists == true || isBuildGradleKtsExists == true) {
 
+
+      def projectName = currentProject.name
+      def isProjectJsonExists = currentProject.file('project.json').exists()
+      if (isProjectJsonExists == true) {
+        def projectJson = new JsonSlurper().parseFile(currentProject.file('project.json'))
+        projectName = projectJson.name
+      }
+
+
       def dependencies = currentProject.configurations
         .findAll { it.allDependencies }
         .collectMany { it.dependencies }
         .findAll { it instanceof ProjectDependency }
-        .collect { element ->
-          return [relativePath       : rootProject.relativePath(element.dependencyProject.projectDir),
-                  name               : element.name,
-                  nxProjectName      : '',
-                  isProjectJsonExists: element.dependencyProject.file('project.json').exists(),
-                  isBuildGradleExists: element.dependencyProject.file('build.gradle').exists()]
+        .collect { element -> return createDep(rootProject, element)
         }
+
 
       projects.add([relativePath             : rootProject.relativePath(currentProject.projectDir),
                     name                     : currentProject.name,
-                    nxProjectName            : '',
-                    isProjectJsonExists      : currentProject.file('project.json').exists(),
+                    isProjectJsonExists      : isProjectJsonExists,
                     isBuildGradleExists      : isBuildGradleExists,
                     isBuildGradleKtsExists   : isBuildGradleKtsExists,
                     isSettingsGradleExists   : currentProject.file('settings.gradle').exists(),
@@ -64,8 +69,25 @@ abstract class ProjectDependencyTask extends DefaultTask {
 
     currentProject.childProjects.each { name, childProject ->
       {
-        addProjects(rootProject, projects, currentProject.name, childProject)
+        addProjects(rootProject, projects, projectName, childProject)
       }
     }
+  }
+
+  private LinkedHashMap<String, String> createDep(rootProject, element) {
+    def projectName = element.name
+    def isProjectJsonExists = element.dependencyProject.file('project.json').exists()
+
+
+    if (isProjectJsonExists == true) {
+      def projectJson = new JsonSlurper().parseFile(element.dependencyProject.file('project.json'))
+      projectName = projectJson.name
+    }
+
+
+    [relativePath       : rootProject.relativePath(element.dependencyProject.projectDir),
+     name               : projectName,
+     isProjectJsonExists: isProjectJsonExists,
+     isBuildGradleExists: element.dependencyProject.file('build.gradle').exists()]
   }
 }

@@ -3,12 +3,7 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 import { getExecutable, getGradleRootDirectory } from '../utils';
-import {
-  GradleProjectType,
-  getProjectName,
-  getProjectRoot,
-  outputFile,
-} from './graph-utils';
+import { GradleProjectType, getProjectRoot, outputFile } from './graph-utils';
 
 export const createNodes: CreateNodes = [
   'nx.json',
@@ -32,11 +27,10 @@ export const createNodes: CreateNodes = [
 
     for (const project of gradleProjects) {
       const projectRoot = getProjectRoot(gradleRootDirectory, project);
-      const projectName = getProjectName(project);
 
       projects[projectRoot] = {
         root: projectRoot,
-        name: projectName,
+        name: project.name,
         tags: ['nx-gradle'],
       };
     }

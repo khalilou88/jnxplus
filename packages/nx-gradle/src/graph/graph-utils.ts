@@ -2,23 +2,19 @@ import { normalizePath, workspaceRoot } from '@nx/devkit';
 import { projectGraphCacheDirectory } from 'nx/src/utils/cache-directory';
 import * as path from 'path';
 
-interface ProjectNamesType {
+interface GradleProject1Type {
   name: string;
-  nxProjectName?: string;
-}
-
-export type GradleProject1Type = ProjectNamesType & {
   relativePath: string;
   isProjectJsonExists: boolean;
   isBuildGradleExists: boolean;
-};
+}
 
 interface GradleProject2Type {
   isBuildGradleKtsExists: boolean;
   isSettingsGradleExists: boolean;
   isSettingsGradleKtsExists: boolean;
   isGradlePropertiesExists: boolean;
-  parentProjectNames: ProjectNamesType;
+  parentProjectName: string;
   dependencies: GradleProject1Type[];
 }
 
@@ -46,12 +42,4 @@ export function getProjectRoot(
   }
 
   return projectRoot;
-}
-
-export function getProjectName(project: ProjectNamesType) {
-  if (project.nxProjectName) {
-    return project.nxProjectName;
-  }
-
-  return project.name;
 }
