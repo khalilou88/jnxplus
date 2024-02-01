@@ -43,12 +43,14 @@ abstract class ProjectDependencyTask extends DefaultTask {
         .collect { element ->
           return [relativePath       : rootProject.relativePath(element.dependencyProject.projectDir),
                   name               : element.name,
+                  nxProjectName      : '',
                   isProjectJsonExists: element.dependencyProject.file('project.json').exists(),
                   isBuildGradleExists: element.dependencyProject.file('build.gradle').exists()]
         }
 
       projects.add([relativePath             : rootProject.relativePath(currentProject.projectDir),
                     name                     : currentProject.name,
+                    nxProjectName            : '',
                     isProjectJsonExists      : currentProject.file('project.json').exists(),
                     isBuildGradleExists      : isBuildGradleExists,
                     isBuildGradleKtsExists   : isBuildGradleKtsExists,

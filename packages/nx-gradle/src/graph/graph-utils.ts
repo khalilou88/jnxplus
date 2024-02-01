@@ -1,20 +1,24 @@
-import { normalizePath, readJsonFile, workspaceRoot } from '@nx/devkit';
+import { normalizePath, workspaceRoot } from '@nx/devkit';
 import { projectGraphCacheDirectory } from 'nx/src/utils/cache-directory';
 import * as path from 'path';
 
-interface GradleProject1Type {
+interface ProjectNamesType {
   name: string;
+  nxProjectName?: string;
+}
+
+export type GradleProject1Type = ProjectNamesType & {
   relativePath: string;
   isProjectJsonExists: boolean;
   isBuildGradleExists: boolean;
-}
+};
 
 interface GradleProject2Type {
   isBuildGradleKtsExists: boolean;
   isSettingsGradleExists: boolean;
   isSettingsGradleKtsExists: boolean;
   isGradlePropertiesExists: boolean;
-  parentProjectName: string;
+  parentProjectNames: ProjectNamesType;
   dependencies: GradleProject1Type[];
 }
 
@@ -44,26 +48,9 @@ export function getProjectRoot(
   return projectRoot;
 }
 
-export function getProjectName(
-  gradleRootDirectory: string,
-  project: GradleProjectType,
-) {
-  if (project.isProjectJsonExists) {
-    const projectJsonPath = path.join(
-      workspaceRoot,
-      gradleRootDirectory,
-      project.relativePath,
-      'project.json',
-    );
-
-    const projectJson = readJsonFile(projectJsonPath);
-    const nxProjectName = projectJson.name;
-
-    if (nxProjectName !== project.name) {
-      throw new Error(
-        `Nx projectName ${nxProjectName} and Gradle projectName ${project.name} should be the same`,
-      );
-    }
+export function getProjectName(project: ProjectNamesType) {
+  if (project.nxProjectName) {
+    return project.nxProjectName;
   }
 
   return project.name;

@@ -32,7 +32,7 @@ export const createNodes: CreateNodes = [
 
     for (const project of gradleProjects) {
       const projectRoot = getProjectRoot(gradleRootDirectory, project);
-      const projectName = getProjectName(gradleRootDirectory, project);
+      const projectName = getProjectName(project);
 
       projects[projectRoot] = {
         root: projectRoot,

@@ -118,15 +118,6 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     template: '',
   };
 
-  if (!options.simpleName) {
-    generateFiles(
-      tree,
-      path.join(__dirname, 'files', 'settings'),
-      options.projectRoot,
-      templateOptions,
-    );
-  }
-
   if (options.framework === 'spring-boot') {
     addSpringBootFiles(tree, options, templateOptions);
   }

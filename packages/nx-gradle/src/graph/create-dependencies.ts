@@ -8,7 +8,7 @@ import {
 } from '@nx/devkit';
 import * as fs from 'fs';
 import { getGradleRootDirectory } from '../utils';
-import { GradleProjectType, outputFile } from './graph-utils';
+import { GradleProjectType, getProjectName, outputFile } from './graph-utils';
 
 export const createDependencies: CreateDependencies = (
   _,
@@ -33,10 +33,10 @@ export const createDependencies: CreateDependencies = (
       buildFile,
     );
 
-    if (project.parentProjectName) {
+    if (project.parentProjectNames?.name) {
       const newDependency = {
-        source: project.name,
-        target: project.parentProjectName,
+        source: getProjectName(project),
+        target: getProjectName(project.parentProjectNames),
         sourceFile: projectSourceFile,
         type: DependencyType.static,
       };
@@ -47,8 +47,8 @@ export const createDependencies: CreateDependencies = (
 
     for (const dependency of project.dependencies) {
       const newDependency = {
-        source: project.name,
-        target: dependency.name,
+        source: getProjectName(project),
+        target: getProjectName(dependency),
         sourceFile: projectSourceFile,
         type: DependencyType.static,
       };

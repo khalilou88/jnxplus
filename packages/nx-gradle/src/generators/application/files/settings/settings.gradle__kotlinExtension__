@@ -1,6 +1,0 @@
-<% if(dsl === 'groovy') { -%>
-rootProject.name = '<%= projectName %>'
-<% } -%>
-<% if(dsl === 'kotlin') { -%>
-rootProject.name = "<%= projectName %>"
-<% } -%>
