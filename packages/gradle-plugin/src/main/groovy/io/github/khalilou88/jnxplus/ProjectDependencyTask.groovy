@@ -82,7 +82,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
     }
   }
 
-  private LinkedHashMap<String, String> createDep(rootProject, element) {
+  private static LinkedHashMap<String, String> createDep(rootProject, element) {
     def projectName = element.name
     def isProjectJsonExists = element.dependencyProject.file('project.json').exists()
 
@@ -93,9 +93,9 @@ abstract class ProjectDependencyTask extends DefaultTask {
     }
 
 
-    [relativePath       : rootProject.relativePath(element.dependencyProject.projectDir),
-     name               : projectName,
-     isProjectJsonExists: isProjectJsonExists,
-     isBuildGradleExists: element.dependencyProject.file('build.gradle').exists()]
+    return [relativePath       : rootProject.relativePath(element.dependencyProject.projectDir),
+            name               : projectName,
+            isProjectJsonExists: isProjectJsonExists,
+            isBuildGradleExists: element.dependencyProject.file('build.gradle').exists()] as LinkedHashMap<String, String>
   }
 }
