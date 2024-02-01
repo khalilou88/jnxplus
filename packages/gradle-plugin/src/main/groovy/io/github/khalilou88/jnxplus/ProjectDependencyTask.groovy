@@ -36,16 +36,10 @@ abstract class ProjectDependencyTask extends DefaultTask {
 
     def isBuildGradleExists = currentProject.file('build.gradle').exists()
     def isBuildGradleKtsExists = currentProject.file('build.gradle.kts').exists()
+    def isSettingsGradleExists = currentProject.file('settings.gradle').exists()
+    def isSettingsGradleKtsExists = currentProject.file('settings.gradle.kts').exists()
 
     if (isBuildGradleExists == true || isBuildGradleKtsExists == true) {
-
-
-      def isSettingsGradleExists = currentProject.file('settings.gradle').exists()
-      def isSettingsGradleKtsExists = currentProject.file('settings.gradle.kts').exists()
-
-      if (isSettingsGradleExists == true || isSettingsGradleKtsExists == true) {
-        parentProjectName = currentProject.name
-      }
 
       def isProjectJsonExists = currentProject.file('project.json').exists()
       if (isProjectJsonExists == true) {
@@ -74,6 +68,12 @@ abstract class ProjectDependencyTask extends DefaultTask {
                     dependencies             : dependencies]);
 
     }
+
+
+    if (isSettingsGradleExists == true || isSettingsGradleKtsExists == true) {
+      parentProjectName = projectName
+    }
+
 
     currentProject.childProjects.each { name, childProject ->
       {
