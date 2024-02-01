@@ -49,25 +49,22 @@ rootProject.name = "<%= rootProjectName %>"
 <% } -%>
 <% } -%>
 <% if(versionManagement === 'version-catalog') { -%>
-<% if(dsl === 'groovy') { -%>
 pluginManagement {
-    repositories {
-        mavenCentral()
-        gradlePluginPortal()
-    }
+  repositories {
+    mavenCentral()
+    gradlePluginPortal()
+<% if(generateRepositories) { -%>
+    mavenLocal()
+<% } -%>
+  }
 }
+<% if(dsl === 'groovy') { -%>
 plugins {
   id 'io.micronaut.platform.catalog' version "4.2.1"
 }
 rootProject.name = '<%= rootProjectName %>'
 <% } -%>
 <% if(dsl === 'kotlin') { -%>
-pluginManagement {
-    repositories {
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
 plugins {
   id("io.micronaut.platform.catalog") version "4.2.1"
 }

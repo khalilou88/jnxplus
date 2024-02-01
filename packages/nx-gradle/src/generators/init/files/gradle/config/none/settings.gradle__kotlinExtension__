@@ -35,6 +35,15 @@ rootProject.name = "<%= rootProjectName %>"
 <% } -%>
 <% } -%>
 <% if(versionManagement === 'version-catalog') { -%>
+<% if(generateRepositories) { -%>
+pluginManagement {
+  repositories {
+    mavenCentral()
+    gradlePluginPortal()
+    mavenLocal()
+  }
+}
+<% } -%>
 <% if(dsl === 'groovy') { -%>
 rootProject.name = '<%= rootProjectName %>'
 <% } -%>
