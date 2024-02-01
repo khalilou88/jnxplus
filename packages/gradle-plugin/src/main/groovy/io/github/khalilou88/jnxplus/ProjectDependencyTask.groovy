@@ -102,8 +102,8 @@ abstract class ProjectDependencyTask extends DefaultTask {
             boolean isDepProjectJsonExists = depProjectJsonFile.exists()
 
             if (isDepProjectJsonExists) {
-              def projectJson = new JsonSlurper().parse(depProjectJsonFile)
-              depProjectName = projectJson.name
+              def depProjectJson = new JsonSlurper().parse(depProjectJsonFile)
+              depProjectName = depProjectJson.name
             }
 
             return new GradleProject1Type(
