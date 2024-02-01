@@ -208,53 +208,6 @@ export function addLibraryToProjects(
   }
 }
 
-export function getProjectName(
-  projectRoot: string,
-  isProjectJsonExists?: boolean,
-) {
-  const gradleRootDirectory = getGradleRootDirectory();
-  const projectJsonPath = path.join(
-    workspaceRoot,
-    gradleRootDirectory,
-    projectRoot,
-    'project.json',
-  );
-  const settingsGradlePath = path.join(
-    workspaceRoot,
-    gradleRootDirectory,
-    projectRoot,
-    'settings.gradle',
-  );
-  const settingsGradleKtsPath = path.join(
-    workspaceRoot,
-    gradleRootDirectory,
-    projectRoot,
-    'settings.gradle.kts',
-  );
-
-  if (isProjectJsonExists || fs.existsSync(projectJsonPath)) {
-    const projectJson = readJsonFile(projectJsonPath);
-    return projectJson.name;
-  } else if (fs.existsSync(settingsGradlePath)) {
-    const settingsGradleContent = fs.readFileSync(settingsGradlePath, 'utf-8');
-    return getRootProjectName(settingsGradleContent);
-  } else if (fs.existsSync(settingsGradleKtsPath)) {
-    const settingsGradleKtsContent = fs.readFileSync(
-      settingsGradleKtsPath,
-      'utf-8',
-    );
-    return getRootProjectName(settingsGradleKtsContent);
-  }
-
-  return generateName(projectRoot);
-}
-
-function generateName(projectRoot: string) {
-  return projectRoot
-    .replace(new RegExp('^\\.', 'g'), '')
-    .replace(new RegExp('/', 'g'), '-');
-}
-
 export function getVersionManagement(
   tree: Tree,
   gradleRootDirectory: string,
