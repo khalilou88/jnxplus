@@ -8,7 +8,6 @@ import {
 } from '@nx/devkit';
 import * as flatCache from 'flat-cache';
 import * as path from 'path';
-import { join } from 'path';
 import { XmlDocument } from 'xmldoc';
 import {
   getArtifactId,
@@ -90,11 +89,11 @@ export function addProjects(
   aggregatorProjectArtifactId?: string,
 ) {
   //projectAbsolutePath
-  const projectAbsolutePath = join(
+  const projectAbsolutePath = path.join(
     mavenRootDirAbsolutePath,
     projectRelativePath,
   );
-  const pomXmlPath = join(projectAbsolutePath, 'pom.xml');
+  const pomXmlPath = path.join(projectAbsolutePath, 'pom.xml');
   const pomXmlContent = readXml(pomXmlPath);
 
   //artifactId

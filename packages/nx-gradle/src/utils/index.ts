@@ -16,7 +16,6 @@ import {
 } from '@nx/devkit';
 import * as fs from 'fs';
 import * as path from 'path';
-import { join } from 'path';
 
 export function getProjectPath(
   context: ExecutorContext,
@@ -185,8 +184,8 @@ export function addLibraryToProjects(
 
   for (const projectName of options.parsedProjects) {
     const projectRoot = readProjectConfiguration(tree, projectName).root;
-    const filePath = join(projectRoot, 'build.gradle');
-    const ktsPath = join(projectRoot, 'build.gradle.kts');
+    const filePath = path.join(projectRoot, 'build.gradle');
+    const ktsPath = path.join(projectRoot, 'build.gradle.kts');
 
     if (tree.exists(filePath)) {
       const buildGradleContent = tree.read(filePath, 'utf-8') || '';
@@ -214,19 +213,19 @@ export function getProjectName(
   isProjectJsonExists?: boolean,
 ) {
   const gradleRootDirectory = getGradleRootDirectory();
-  const projectJsonPath = join(
+  const projectJsonPath = path.join(
     workspaceRoot,
     gradleRootDirectory,
     projectRoot,
     'project.json',
   );
-  const settingsGradlePath = join(
+  const settingsGradlePath = path.join(
     workspaceRoot,
     gradleRootDirectory,
     projectRoot,
     'settings.gradle',
   );
-  const settingsGradleKtsPath = join(
+  const settingsGradleKtsPath = path.join(
     workspaceRoot,
     gradleRootDirectory,
     projectRoot,
