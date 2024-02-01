@@ -33,8 +33,11 @@ export const createDependencies: CreateDependencies = (
       buildFile,
     );
 
-    const parentProject = getParentProject(projects, project.parentProjectName);
-    if (parentProject) {
+    if (project.parentProjectName) {
+      const parentProject = getParentProject(
+        projects,
+        project.parentProjectName,
+      );
       const newDependency = {
         source: project.name,
         target: parentProject.name,
