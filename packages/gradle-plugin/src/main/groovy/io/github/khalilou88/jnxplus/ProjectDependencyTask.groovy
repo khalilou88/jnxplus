@@ -70,15 +70,16 @@ abstract class ProjectDependencyTask extends DefaultTask {
 
   def addProjects(Project rootProject, List<GradleProjectType> projects, String parentProjectName, Project currentProject) {
 
-    String projectName = currentProject.name
 
     boolean isBuildGradleExists = currentProject.file('build.gradle').exists()
     boolean isBuildGradleKtsExists = currentProject.file('build.gradle.kts').exists()
-    boolean isSettingsGradleExists = currentProject.file('settings.gradle').exists()
-    boolean isSettingsGradleKtsExists = currentProject.file('settings.gradle.kts').exists()
+
 
     if (isBuildGradleExists || isBuildGradleKtsExists) {
+      String projectName = currentProject.name
 
+      boolean isSettingsGradleExists = currentProject.file('settings.gradle').exists()
+      boolean isSettingsGradleKtsExists = currentProject.file('settings.gradle.kts').exists()
       File projectJsonFile = currentProject.file('project.json')
 
       boolean isProjectJsonExists = projectJsonFile.exists()
@@ -95,10 +96,20 @@ abstract class ProjectDependencyTask extends DefaultTask {
         .collect { Dependency element ->
           {
             element = (ProjectDependency) element
+
+            String depProjectName = element.name
+            File depProjectJsonFile = element.dependencyProject.file('project.json')
+            boolean isDepProjectJsonExists = depProjectJsonFile.exists()
+
+            if (isDepProjectJsonExists) {
+              def projectJson = new JsonSlurper().parse(depProjectJsonFile)
+              depProjectName = projectJson.name
+            }
+
             return new GradleProject1Type(
               rootProject.relativePath(element.dependencyProject.projectDir),
-              getProjectName(element),
-              element.dependencyProject.file('project.json').exists(),
+              depProjectName,
+              isDepProjectJsonExists,
               element.dependencyProject.file('build.gradle').exists()
             )
           }
@@ -125,7 +136,6 @@ abstract class ProjectDependencyTask extends DefaultTask {
 
     }
 
-
     currentProject.childProjects.each { name, childProject ->
       {
         addProjects(rootProject, projects, parentProjectName, childProject)
@@ -133,16 +143,5 @@ abstract class ProjectDependencyTask extends DefaultTask {
     }
   }
 
-  private static String getProjectName(ProjectDependency element) {
 
-    File projectJsonFile = element.dependencyProject.file('project.json')
-    boolean isProjectJsonExists = projectJsonFile.exists()
-
-    if (isProjectJsonExists) {
-      def projectJson = new JsonSlurper().parse(projectJsonFile)
-      return projectJson.name
-    }
-
-    return element.name
-  }
 }
