@@ -49,7 +49,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
 
       def isProjectJsonExists = currentProject.file('project.json').exists()
       if (isProjectJsonExists == true) {
-        def projectJson = new JsonSlurper().parseText(currentProject.file('project.json').readTex())
+        def projectJson = new JsonSlurper().parse(new File(currentProject.file('project.json').getAbsolutePath()))
         projectName = projectJson.name
       }
 
@@ -88,7 +88,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
 
 
     if (isProjectJsonExists == true) {
-      def projectJson = new JsonSlurper().parseText(element.dependencyProject.file('project.json').readTex())
+      def projectJson = new JsonSlurper().parse(new File(element.dependencyProject.file('project.json').getAbsolutePath()))
       projectName = projectJson.name
     }
 
