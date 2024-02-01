@@ -267,6 +267,10 @@ describe('nx-gradle spring-boot e2e', () => {
       'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
+
+    console.log('depGraphJson');
+    console.log(depGraphJson);
+
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
