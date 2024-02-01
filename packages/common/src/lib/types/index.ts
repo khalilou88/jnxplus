@@ -21,3 +21,7 @@ export type DependencyManagementType =
   | 'spring-boot-parent-pom'
   | 'micronaut-parent-pom';
 export type VersionManagementType = 'properties' | 'version-catalog';
+export interface TemplateOptionsType {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [k: string]: any;
+}
