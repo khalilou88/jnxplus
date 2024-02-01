@@ -79,9 +79,11 @@ abstract class ProjectDependencyTask extends DefaultTask {
 
     if (isBuildGradleExists || isBuildGradleKtsExists) {
 
-      boolean isProjectJsonExists = currentProject.file('project.json').exists()
+      File projectJsonFile = currentProject.file('project.json')
+
+      boolean isProjectJsonExists = projectJsonFile.exists()
       if (isProjectJsonExists) {
-        def projectJson = new JsonSlurper().parse(new File(currentProject.file('project.json').getAbsolutePath()))
+        def projectJson = new JsonSlurper().parse(projectJsonFile)
         projectName = projectJson.name
       }
 
@@ -132,10 +134,12 @@ abstract class ProjectDependencyTask extends DefaultTask {
   }
 
   private static String getProjectName(ProjectDependency element) {
-    boolean isProjectJsonExists = element.dependencyProject.file('project.json').exists()
+
+    File projectJsonFile = element.dependencyProject.file('project.json')
+    boolean isProjectJsonExists = projectJsonFile.exists()
 
     if (isProjectJsonExists) {
-      def projectJson = new JsonSlurper().parse(new File(element.dependencyProject.file('project.json').getAbsolutePath()))
+      def projectJson = new JsonSlurper().parse(new File(projectJsonFile.getAbsolutePath()))
       return projectJson.name
     }
 
