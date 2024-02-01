@@ -68,7 +68,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
     file.write(json_pretty)
   }
 
-  def addProjects(Project rootProject, projects, String parentProjectName, Project currentProject) {
+  def addProjects(Project rootProject, List<GradleProjectType> projects, String parentProjectName, Project currentProject) {
 
     String projectName = currentProject.name
 
@@ -91,14 +91,17 @@ abstract class ProjectDependencyTask extends DefaultTask {
         .collectMany { it.dependencies }
         .findAll { it instanceof ProjectDependency }
         .collect { element ->
-          return new GradleProject1Type(rootProject.relativePath(element.dependencyProject.projectDir),
+          return new GradleProject1Type(
+            rootProject.relativePath(element.dependencyProject.projectDir),
             getProjectName(element),
             element.dependencyProject.file('project.json').exists(),
-            element.dependencyProject.file('build.gradle').exists())
+            element.dependencyProject.file('build.gradle').exists()
+          )
         }
 
 
-      projects.add(new GradleProjectType(rootProject.relativePath(currentProject.projectDir),
+      projects.add(new GradleProjectType(
+        rootProject.relativePath(currentProject.projectDir),
         projectName,
         isProjectJsonExists,
         isBuildGradleExists,
@@ -107,14 +110,14 @@ abstract class ProjectDependencyTask extends DefaultTask {
         isSettingsGradleKtsExists,
         currentProject.file('gradle.properties').exists(),
         parentProjectName,
-        dependencies))
+        dependencies)
+      )
 
 
-    }
+      if (isSettingsGradleExists || isSettingsGradleKtsExists) {
+        parentProjectName = projectName
+      }
 
-
-    if (isSettingsGradleExists || isSettingsGradleKtsExists) {
-      parentProjectName = projectName
     }
 
 
@@ -129,7 +132,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
     boolean isProjectJsonExists = element.dependencyProject.file('project.json').exists()
 
     if (isProjectJsonExists) {
-      String projectJson = new JsonSlurper().parse(new File(element.dependencyProject.file('project.json').getAbsolutePath()))
+      def projectJson = new JsonSlurper().parse(new File(element.dependencyProject.file('project.json').getAbsolutePath()))
       return projectJson.name
     }
 
