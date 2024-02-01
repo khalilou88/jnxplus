@@ -139,7 +139,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
     boolean isProjectJsonExists = projectJsonFile.exists()
 
     if (isProjectJsonExists) {
-      def projectJson = new JsonSlurper().parse(new File(projectJsonFile.getAbsolutePath()))
+      def projectJson = new JsonSlurper().parse(projectJsonFile)
       return projectJson.name
     }
 
