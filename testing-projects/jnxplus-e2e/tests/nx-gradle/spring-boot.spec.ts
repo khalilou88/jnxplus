@@ -200,6 +200,7 @@ describe('nx-gradle spring-boot e2e', () => {
     expect(() =>
       checkFilesExist(
         `${appDir}/${randomName}/build.gradle`,
+        `${appDir}/${randomName}/settings.gradle`,
         `${appDir}/${randomName}/src/main/resources/application.yml`,
         `${appDir}/${randomName}/src/main/java/com/jnxplus/deep/subdir/${names(
           randomName,
@@ -229,6 +230,9 @@ describe('nx-gradle spring-boot e2e', () => {
         'org.springframework.boot:spring-boot-starter-tomcat',
       ),
     ).toBeTruthy();
+
+    const settingsGradle = readFile(`${appDir}/${randomName}/settings.gradle`);
+    expect(settingsGradle.includes(`${appName}`)).toBeTruthy();
 
     //should add tags to project.json
     const projectJson = readJson(`${appDir}/${randomName}/project.json`);
