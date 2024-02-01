@@ -3,11 +3,49 @@ package io.github.khalilou88.jnxplus
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import org.gradle.api.DefaultTask
+import org.gradle.api.Project
+import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.ProjectDependency
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
+
+class GradleProject1Type {
+
+  GradleProject1Type(String relativePath, String name, boolean isProjectJsonExists, boolean isBuildGradleExists) {
+    this.relativePath = relativePath
+    this.name = name
+    this.isProjectJsonExists = isProjectJsonExists
+    this.isBuildGradleExists = isBuildGradleExists
+  }
+
+  String relativePath
+  String name
+  boolean isProjectJsonExists
+  boolean isBuildGradleExists
+}
+
+
+class GradleProjectType extends GradleProject1Type {
+
+  GradleProjectType(String relativePath, String name, boolean isProjectJsonExists, boolean isBuildGradleExists, boolean isBuildGradleKtsExists, boolean isSettingsGradleExists, boolean isSettingsGradleKtsExists, boolean isGradlePropertiesExists, String parentProjectName, List<GradleProject1Type> dependencies) {
+    super(relativePath, name, isProjectJsonExists, isBuildGradleExists)
+    this.isBuildGradleKtsExists = isBuildGradleKtsExists
+    this.isSettingsGradleExists = isSettingsGradleExists
+    this.isSettingsGradleKtsExists = isSettingsGradleKtsExists
+    this.isGradlePropertiesExists = isGradlePropertiesExists
+    this.parentProjectName = parentProjectName
+    this.dependencies = dependencies
+  }
+
+  boolean isBuildGradleKtsExists
+  boolean isSettingsGradleExists
+  boolean isSettingsGradleKtsExists
+  boolean isGradlePropertiesExists
+  String parentProjectName
+  List<GradleProject1Type> dependencies
+}
 
 abstract class ProjectDependencyTask extends DefaultTask {
 
@@ -18,7 +56,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
   @TaskAction
   void runTask() {
     println("Task ran for projectDependencyTask")
-    def projects = []
+    List<GradleProjectType> projects = []
 
     addProjects(project, projects, '', project)
 
@@ -30,51 +68,55 @@ abstract class ProjectDependencyTask extends DefaultTask {
     file.write(json_pretty)
   }
 
-  def addProjects(rootProject, projects, parentProjectName, currentProject) {
+  def addProjects(Project rootProject, projects, String parentProjectName, Project currentProject) {
 
-    def projectName = currentProject.name
+    String projectName = currentProject.name
 
-    def isBuildGradleExists = currentProject.file('build.gradle').exists()
-    def isBuildGradleKtsExists = currentProject.file('build.gradle.kts').exists()
-    def isSettingsGradleExists = currentProject.file('settings.gradle').exists()
-    def isSettingsGradleKtsExists = currentProject.file('settings.gradle.kts').exists()
+    boolean isBuildGradleExists = currentProject.file('build.gradle').exists()
+    boolean isBuildGradleKtsExists = currentProject.file('build.gradle.kts').exists()
+    boolean isSettingsGradleExists = currentProject.file('settings.gradle').exists()
+    boolean isSettingsGradleKtsExists = currentProject.file('settings.gradle.kts').exists()
 
-    if (isBuildGradleExists == true || isBuildGradleKtsExists == true) {
+    if (isBuildGradleExists || isBuildGradleKtsExists) {
 
       def isProjectJsonExists = currentProject.file('project.json').exists()
-      if (isProjectJsonExists == true) {
+      if (isProjectJsonExists) {
         def projectJson = new JsonSlurper().parse(new File(currentProject.file('project.json').getAbsolutePath()))
         projectName = projectJson.name
       }
 
 
-      def dependencies = currentProject.configurations
+      List<GradleProject1Type> dependencies = currentProject.configurations
         .findAll { it.allDependencies }
         .collectMany { it.dependencies }
         .findAll { it instanceof ProjectDependency }
         .collect { element ->
-          return [relativePath       : rootProject.relativePath(element.dependencyProject.projectDir),
-                  name               : getProjectName(element),
-                  isProjectJsonExists: element.dependencyProject.file('project.json').exists(),
-                  isBuildGradleExists: element.dependencyProject.file('build.gradle').exists()]
+          return new GradleProject1Type(rootProject.relativePath(element.dependencyProject.projectDir),
+            getProjectName(element),
+            element.dependencyProject.file('project.json').exists(),
+            element.dependencyProject.file('build.gradle').exists())
         }
 
 
-      projects.add([relativePath             : rootProject.relativePath(currentProject.projectDir),
-                    name                     : projectName,
-                    isProjectJsonExists      : isProjectJsonExists,
-                    isBuildGradleExists      : isBuildGradleExists,
-                    isBuildGradleKtsExists   : isBuildGradleKtsExists,
-                    isSettingsGradleExists   : isSettingsGradleExists,
-                    isSettingsGradleKtsExists: isSettingsGradleKtsExists,
-                    isGradlePropertiesExists : currentProject.file('gradle.properties').exists(),
-                    parentProjectName        : parentProjectName,
-                    dependencies             : dependencies]);
+      projects.add(
+
+
+        new GradleProjectType(rootProject.relativePath(currentProject.projectDir),
+          projectName,
+          isProjectJsonExists,
+          isBuildGradleExists,
+          isBuildGradleKtsExists,
+          isSettingsGradleExists,
+          isSettingsGradleKtsExists,
+          currentProject.file('gradle.properties').exists(),
+          parentProjectName,
+          dependencies))
+
 
     }
 
 
-    if (isSettingsGradleExists == true || isSettingsGradleKtsExists == true) {
+    if (isSettingsGradleExists || isSettingsGradleKtsExists) {
       parentProjectName = projectName
     }
 
@@ -86,11 +128,11 @@ abstract class ProjectDependencyTask extends DefaultTask {
     }
   }
 
-  private String getProjectName(element) {
-    def isProjectJsonExists = element.dependencyProject.file('project.json').exists()
+  private static String getProjectName(Dependency element) {
+    boolean isProjectJsonExists = element.dependencyProject.file('project.json').exists()
 
-    if (isProjectJsonExists == true) {
-      def projectJson = new JsonSlurper().parse(new File(element.dependencyProject.file('project.json').getAbsolutePath()))
+    if (isProjectJsonExists) {
+      String projectJson = new JsonSlurper().parse(new File(element.dependencyProject.file('project.json').getAbsolutePath()))
       return projectJson.name
     }
 
