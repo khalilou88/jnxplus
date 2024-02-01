@@ -32,7 +32,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
 
   def addProjects(rootProject, projects, parentProjectName, currentProject) {
 
-    def projectName = parentProjectName
+    def projectName = currentProject.name
 
     def isBuildGradleExists = currentProject.file('build.gradle').exists()
     def isBuildGradleKtsExists = currentProject.file('build.gradle.kts').exists()
@@ -44,7 +44,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
       def isSettingsGradleKtsExists = currentProject.file('settings.gradle.kts').exists()
 
       if (isSettingsGradleExists == true || isSettingsGradleKtsExists == true) {
-        projectName = currentProject.name
+        parentProjectName = currentProject.name
       }
 
       def isProjectJsonExists = currentProject.file('project.json').exists()
@@ -63,7 +63,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
 
 
       projects.add([relativePath             : rootProject.relativePath(currentProject.projectDir),
-                    name                     : currentProject.name,
+                    name                     : projectName,
                     isProjectJsonExists      : isProjectJsonExists,
                     isBuildGradleExists      : isBuildGradleExists,
                     isBuildGradleKtsExists   : isBuildGradleKtsExists,
@@ -77,7 +77,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
 
     currentProject.childProjects.each { name, childProject ->
       {
-        addProjects(rootProject, projects, projectName, childProject)
+        addProjects(rootProject, projects, parentProjectName, childProject)
       }
     }
   }
