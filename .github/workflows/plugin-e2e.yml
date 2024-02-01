@@ -19,6 +19,7 @@ on:
           - nx-gradle quarkus kotlin dsl e2e
           - nx-gradle spring-boot e2e
           - nx-gradle spring-boot kotlin dsl e2e
+          - graph should works with optional project.json
           - should use specified options to create an sb application
           - should create a sb java application
           - nx-maven

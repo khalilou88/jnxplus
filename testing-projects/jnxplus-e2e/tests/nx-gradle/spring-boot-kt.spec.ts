@@ -1353,7 +1353,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     ).not.toThrow();
   }, 120000);
 
-  it('optional project.json', async () => {
+  it('graph should works with optional project.json', async () => {
     const libName = uniq('g-sb-lib-');
 
     await runNxCommandAsync(
