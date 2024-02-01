@@ -19,7 +19,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
     println("Task ran for projectDependencyTask")
     def projects = []
 
-    addProjects(project, projects, '', project)
+    addProjects(projects, project, '', project)
 
     def json_str = JsonOutput.toJson(projects)
     def json_pretty = JsonOutput.prettyPrint(json_str)
@@ -29,33 +29,42 @@ abstract class ProjectDependencyTask extends DefaultTask {
     file.write(json_pretty)
   }
 
-  def addProjects(rootProject, projects, parentProjectName, project) {
+  def addProjects(projects, rootProject, parentProjectName, currentProject) {
 
-    def dependencies = project.configurations
+    def isBuildGradleExists      = currentProject.file('build.gradle').exists()
+    def isBuildGradleKtsExists   = currentProject.file('build.gradle.kts').exists()
+
+    if(isBuildGradleExists || isBuildGradleKtsExists) {
+
+    def dependencies = currentProject.configurations
       .findAll { it.allDependencies }
       .collectMany { it.dependencies }
       .findAll { it instanceof ProjectDependency }
       .collect { element ->
-        return [name               : element.name,
-                relativePath       : rootProject.relativePath(element.dependencyProject.projectDir),
-                isProjectJsonExists: element.dependencyProject.file('project.json').exists(),
-                isBuildGradleExists: element.dependencyProject.file('build.gradle').exists()]
+        return [
+          relativePath       : rootProject.relativePath(element.dependencyProject.projectDir),
+          name               : element.name,
+          isProjectJsonExists: element.dependencyProject.file('project.json').exists(),
+          isBuildGradleExists: element.dependencyProject.file('build.gradle').exists()]
       }
 
-    projects.add([name                     : project.name,
-                  isProjectJsonExists      : project.file('project.json').exists(),
-                  isBuildGradleExists      : project.file('build.gradle').exists(),
-                  isBuildGradleKtsExists   : project.file('build.gradle.kts').exists(),
-                  isSettingsGradleExists   : project.file('settings.gradle').exists(),
-                  isSettingsGradleKtsExists: project.file('settings.gradle.kts').exists(),
-                  isGradlePropertiesExists : project.file('gradle.properties').exists(),
-                  relativePath             : rootProject.relativePath(project.projectDir),
-                  parentProjectName        : parentProjectName,
-                  dependencies             : dependencies]);
+    projects.add([
+      relativePath             : rootProject.relativePath(currentProject.projectDir),
+      name                     : currentProject.name,
+      isProjectJsonExists      : currentProject.file('project.json').exists(),
+      isBuildGradleExists      : isBuildGradleExists,
+      isBuildGradleKtsExists   : isBuildGradleKtsExists,
+      isSettingsGradleExists   : currentProject.file('settings.gradle').exists(),
+      isSettingsGradleKtsExists: currentProject.file('settings.gradle.kts').exists(),
+      isGradlePropertiesExists : currentProject.file('gradle.properties').exists(),
+      parentProjectName        : parentProjectName,
+      dependencies             : dependencies]);
 
-    project.childProjects.each { name, childProject ->
+    }
+
+    currentProject.childProjects.each { name, childProject ->
       {
-        addProjects(rootProject, projects, project.name, childProject)
+        addProjects(projects, rootProject, currentProject.name, childProject)
       }
     }
   }
