@@ -79,7 +79,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
 
     if (isBuildGradleExists || isBuildGradleKtsExists) {
 
-      def isProjectJsonExists = currentProject.file('project.json').exists()
+      boolean isProjectJsonExists = currentProject.file('project.json').exists()
       if (isProjectJsonExists) {
         def projectJson = new JsonSlurper().parse(new File(currentProject.file('project.json').getAbsolutePath()))
         projectName = projectJson.name
@@ -98,19 +98,16 @@ abstract class ProjectDependencyTask extends DefaultTask {
         }
 
 
-      projects.add(
-
-
-        new GradleProjectType(rootProject.relativePath(currentProject.projectDir),
-          projectName,
-          isProjectJsonExists,
-          isBuildGradleExists,
-          isBuildGradleKtsExists,
-          isSettingsGradleExists,
-          isSettingsGradleKtsExists,
-          currentProject.file('gradle.properties').exists(),
-          parentProjectName,
-          dependencies))
+      projects.add(new GradleProjectType(rootProject.relativePath(currentProject.projectDir),
+        projectName,
+        isProjectJsonExists,
+        isBuildGradleExists,
+        isBuildGradleKtsExists,
+        isSettingsGradleExists,
+        isSettingsGradleKtsExists,
+        currentProject.file('gradle.properties').exists(),
+        parentProjectName,
+        dependencies))
 
 
     }
