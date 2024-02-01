@@ -52,7 +52,11 @@ abstract class ProjectDependencyTask extends DefaultTask {
         .findAll { it.allDependencies }
         .collectMany { it.dependencies }
         .findAll { it instanceof ProjectDependency }
-        .collect { element -> return createDep(rootProject, element)
+        .collect { element ->
+          return [relativePath       : rootProject.relativePath(element.dependencyProject.projectDir),
+                  name               : getProjectName(element),
+                  isProjectJsonExists: element.dependencyProject.file('project.json').exists(),
+                  isBuildGradleExists: element.dependencyProject.file('build.gradle').exists()]
         }
 
 
@@ -82,20 +86,14 @@ abstract class ProjectDependencyTask extends DefaultTask {
     }
   }
 
-  private static LinkedHashMap<String, String> createDep(rootProject, element) {
-    def projectName = element.name
+  private String getProjectName(element) {
     def isProjectJsonExists = element.dependencyProject.file('project.json').exists()
-
 
     if (isProjectJsonExists == true) {
       def projectJson = new JsonSlurper().parse(new File(element.dependencyProject.file('project.json').getAbsolutePath()))
-      projectName = projectJson.name
+      return projectJson.name
     }
 
-
-    return [relativePath       : rootProject.relativePath(element.dependencyProject.projectDir),
-            name               : projectName,
-            isProjectJsonExists: isProjectJsonExists,
-            isBuildGradleExists: element.dependencyProject.file('build.gradle').exists()] as LinkedHashMap<String, String>
+    return element.name
   }
 }
