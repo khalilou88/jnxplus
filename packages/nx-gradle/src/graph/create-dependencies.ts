@@ -34,13 +34,9 @@ export const createDependencies: CreateDependencies = (
     );
 
     if (project.parentProjectName) {
-      const parentProject = getParentProject(
-        projects,
-        project.parentProjectName,
-      );
       const newDependency = {
         source: project.name,
-        target: parentProject.name,
+        target: project.parentProjectName,
         sourceFile: projectSourceFile,
         type: DependencyType.static,
       };
@@ -64,18 +60,3 @@ export const createDependencies: CreateDependencies = (
 
   return results;
 };
-
-function getParentProject(
-  projects: GradleProjectType[],
-  parentProjectName: string,
-): GradleProjectType {
-  const project = projects.find(
-    (element) => element.name === parentProjectName,
-  );
-
-  if (!project) {
-    throw new Error(`ParentProject ${parentProjectName} not found`);
-  }
-
-  return project;
-}
