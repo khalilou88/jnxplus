@@ -90,13 +90,16 @@ abstract class ProjectDependencyTask extends DefaultTask {
         .findAll { it.allDependencies }
         .collectMany { it.dependencies }
         .findAll { it instanceof ProjectDependency }
-        .collect { element ->
-          return new GradleProject1Type(
-            rootProject.relativePath(element.dependencyProject.projectDir),
-            getProjectName(element),
-            element.dependencyProject.file('project.json').exists(),
-            element.dependencyProject.file('build.gradle').exists()
-          )
+        .collect { Dependency element ->
+          {
+            element = (ProjectDependency) element
+            return new GradleProject1Type(
+              rootProject.relativePath(element.dependencyProject.projectDir),
+              getProjectName(element),
+              element.dependencyProject.file('project.json').exists(),
+              element.dependencyProject.file('build.gradle').exists()
+            )
+          }
         }
 
 
@@ -128,7 +131,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
     }
   }
 
-  private static String getProjectName(Dependency element) {
+  private static String getProjectName(ProjectDependency element) {
     boolean isProjectJsonExists = element.dependencyProject.file('project.json').exists()
 
     if (isProjectJsonExists) {
