@@ -23,7 +23,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
     println("Task ran for projectDependencyTask")
     def projects = []
 
-    addProjects(project, projects, '', project)
+    addProjects(projects, '', project)
 
     def json_str = JsonOutput.toJson(projects)
     def json_pretty = JsonOutput.prettyPrint(json_str)
@@ -33,7 +33,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
     file.write(json_pretty)
   }
 
-  def addProjects(Project rootProject, projects, String parentProjectName, Project currentProject) {
+  def addProjects(projects, String parentProjectName, Project currentProject) {
 
 
     boolean isBuildGradleExists = currentProject.file('build.gradle').exists()
@@ -72,7 +72,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
             }
 
             return [
-              relativePath       : rootProject.relativePath(element.dependencyProject.projectDir),
+              relativePath       : currentProject.rootProject.relativePath(element.dependencyProject.projectDir),
               name               : projectDependencyName,
               isProjectJsonExists: isProjectDependencyJsonExists,
               isBuildGradleExists: element.dependencyProject.file('build.gradle').exists()
@@ -82,7 +82,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
 
 
       projects.add([
-        relativePath             : rootProject.relativePath(currentProject.projectDir),
+        relativePath             : currentProject.rootProject.relativePath(currentProject.projectDir),
         name                     : projectName,
         isProjectJsonExists      : isProjectJsonExists,
         isBuildGradleExists      : isBuildGradleExists,
@@ -103,7 +103,7 @@ abstract class ProjectDependencyTask extends DefaultTask {
 
     currentProject.childProjects.each { name, childProject ->
       {
-        addProjects(rootProject, projects, parentProjectName, childProject)
+        addProjects(projects, parentProjectName, childProject)
       }
     }
   }
