@@ -46,72 +46,28 @@ export function getProjectRoot(
   return projectRoot;
 }
 
-export function isGradlePluginOutdated(gradleRootDirectory: string) {
-  //1 get version from libs.versions.toml
+type ResultType = {
+  pluginVersion: string;
+  projects: GradleProjectType[];
+};
 
-  //2 get version from gradle.properties
-  const gradlePropertiesPath = path.join(
-    workspaceRoot,
-    gradleRootDirectory,
-    'gradle.properties',
-  );
-  const gradlePropertiesContent = fs.readFileSync(
-    gradlePropertiesPath,
-    'utf-8',
-  );
-  const version2 = getJnxplusGradlePluginVersionFromGradleProperties(
-    gradlePropertiesContent,
-  );
+export function getGradleProjects() {
+  let gradleProjects: GradleProjectType[] = [];
 
-  if (version2) {
-    return version2 === jnxplusGradlePluginVersion;
+  try {
+    const result: ResultType = JSON.parse(fs.readFileSync(outputFile, 'utf8'));
+
+    if (result.pluginVersion !== jnxplusGradlePluginVersion) {
+      throw new Error(
+        `You are not using the supported version of io.github.khalilou88.jnxplus plugin. Please use version ${jnxplusGradlePluginVersion}`,
+      );
+    }
+    gradleProjects = result.projects;
+  } catch (err) {
+    throw new Error(
+      `You are not using the supported version of io.github.khalilou88.jnxplus plugin. Please use version ${jnxplusGradlePluginVersion}`,
+    );
   }
 
-  //3 get version from build.gradle(.kts)
-  let buildGradle = '';
-  const buildGradlePath = path.join(
-    workspaceRoot,
-    gradleRootDirectory,
-    'build.gradle',
-  );
-  const buildGradleKtsPath = path.join(
-    workspaceRoot,
-    gradleRootDirectory,
-    'build.gradle.kts',
-  );
-
-  if (fs.existsSync(buildGradlePath)) {
-    buildGradle = fs.readFileSync(buildGradlePath, 'utf-8');
-  }
-
-  if (fs.existsSync(buildGradleKtsPath)) {
-    buildGradle = fs.readFileSync(buildGradleKtsPath, 'utf-8');
-  }
-
-  const version3 = getJnxplusGradlePluginVersionFromBuildGradle(buildGradle);
-
-  if (version3) {
-    return version3 === jnxplusGradlePluginVersion;
-  }
-
-  return false;
-}
-
-function getJnxplusGradlePluginVersionFromGradleProperties(
-  gradlePropertiesContent: string,
-) {
-  const regexp = /jnxplusGradlePluginVersion=(.*)/g;
-  const matches = (gradlePropertiesContent.match(regexp) || []).map((e) =>
-    e.replace(regexp, '$1'),
-  );
-  return matches[0];
-}
-
-function getJnxplusGradlePluginVersionFromBuildGradle(buildGradle: string) {
-  const regexp =
-    /id\s*\(*["']io.github.khalilou88.jnxplus["']\)*\s*version\s*["']([^"']+)["']/g;
-  const matches = (buildGradle.match(regexp) || []).map((e) =>
-    e.replace(regexp, '$1'),
-  );
-  return matches[0];
+  return gradleProjects;
 }

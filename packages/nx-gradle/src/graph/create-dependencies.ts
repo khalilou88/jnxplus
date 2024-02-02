@@ -6,9 +6,8 @@ import {
   joinPathFragments,
   validateDependency,
 } from '@nx/devkit';
-import * as fs from 'fs';
 import { getGradleRootDirectory } from '../utils';
-import { GradleProjectType, outputFile } from './graph-utils';
+import { getGradleProjects } from './graph-utils';
 
 export const createDependencies: CreateDependencies = (
   _,
@@ -18,9 +17,7 @@ export const createDependencies: CreateDependencies = (
 
   const gradleRootDirectory = getGradleRootDirectory();
 
-  const projects: GradleProjectType[] = JSON.parse(
-    fs.readFileSync(outputFile, 'utf8'),
-  );
+  const projects = getGradleProjects();
 
   for (const project of projects) {
     const buildFile = project.isBuildGradleExists
