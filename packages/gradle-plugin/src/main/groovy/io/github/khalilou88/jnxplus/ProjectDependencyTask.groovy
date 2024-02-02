@@ -25,7 +25,15 @@ abstract class ProjectDependencyTask extends DefaultTask {
 
     addProjects(projects, '', project)
 
-    def json_str = JsonOutput.toJson(projects)
+
+    def result = [
+      pluginVersion:
+        project.properties["version"],
+      projects     :
+        projects
+    ]
+
+    def json_str = JsonOutput.toJson(result)
     def json_pretty = JsonOutput.prettyPrint(json_str)
 
     //write file
@@ -71,28 +79,24 @@ abstract class ProjectDependencyTask extends DefaultTask {
               projectDependencyName = projectDependencyJson.name
             }
 
-            return [
-              relativePath       : currentProject.rootProject.relativePath(element.dependencyProject.projectDir),
-              name               : projectDependencyName,
-              isProjectJsonExists: isProjectDependencyJsonExists,
-              isBuildGradleExists: element.dependencyProject.file('build.gradle').exists()
-            ]
+            return [relativePath       : currentProject.rootProject.relativePath(element.dependencyProject.projectDir),
+                    name               : projectDependencyName,
+                    isProjectJsonExists: isProjectDependencyJsonExists,
+                    isBuildGradleExists: element.dependencyProject.file('build.gradle').exists()]
           }
         }
 
 
-      projects.add([
-        relativePath             : currentProject.rootProject.relativePath(currentProject.projectDir),
-        name                     : projectName,
-        isProjectJsonExists      : isProjectJsonExists,
-        isBuildGradleExists      : isBuildGradleExists,
-        isBuildGradleKtsExists   : isBuildGradleKtsExists,
-        isSettingsGradleExists   : isSettingsGradleExists,
-        isSettingsGradleKtsExists: isSettingsGradleKtsExists,
-        isGradlePropertiesExists : currentProject.file('gradle.properties').exists(),
-        parentProjectName        : parentProjectName,
-        dependencies             : dependencies]
-      )
+      projects.add([relativePath             : currentProject.rootProject.relativePath(currentProject.projectDir),
+                    name                     : projectName,
+                    isProjectJsonExists      : isProjectJsonExists,
+                    isBuildGradleExists      : isBuildGradleExists,
+                    isBuildGradleKtsExists   : isBuildGradleKtsExists,
+                    isSettingsGradleExists   : isSettingsGradleExists,
+                    isSettingsGradleKtsExists: isSettingsGradleKtsExists,
+                    isGradlePropertiesExists : currentProject.file('gradle.properties').exists(),
+                    parentProjectName        : parentProjectName,
+                    dependencies             : dependencies])
 
 
       if (isSettingsGradleExists || isSettingsGradleKtsExists) {
