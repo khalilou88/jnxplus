@@ -27,10 +27,8 @@ abstract class ProjectDependencyTask extends DefaultTask {
 
 
     def result = [
-      pluginVersion:
-        project.properties["version"],
-      projects     :
-        projects
+      pluginVersion: project.properties["version"],
+      projects     : projects
     ]
 
     def json_str = JsonOutput.toJson(result)

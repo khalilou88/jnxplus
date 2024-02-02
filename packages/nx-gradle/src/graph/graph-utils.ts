@@ -46,28 +46,14 @@ export function getProjectRoot(
   return projectRoot;
 }
 
-type ResultType = {
-  pluginVersion: string;
-  projects: GradleProjectType[];
-};
-
 export function getGradleProjects() {
-  let gradleProjects: GradleProjectType[] = [];
+  const result = JSON.parse(fs.readFileSync(outputFile, 'utf8'));
 
-  try {
-    const result: ResultType = JSON.parse(fs.readFileSync(outputFile, 'utf8'));
-
-    if (result.pluginVersion !== jnxplusGradlePluginVersion) {
-      throw new Error(
-        ` version ${result.pluginVersion} of io.github.khalilou88.jnxplus plugin. Please use version ${jnxplusGradlePluginVersion}`,
-      );
-    }
-    gradleProjects = result.projects;
-  } catch (err) {
+  if (result.pluginVersion !== jnxplusGradlePluginVersion) {
     throw new Error(
       `You are not using the supported version of io.github.khalilou88.jnxplus plugin. Please use version ${jnxplusGradlePluginVersion}`,
     );
   }
 
-  return gradleProjects;
+  return result.projects;
 }
