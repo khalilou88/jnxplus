@@ -1,6 +1,6 @@
 {
   "name": "@jnxplus/common",
-  "version": "0.19.6",
+  "version": "0.19.7-next.0",
   "type": "commonjs",
   "main": "src/index.js",
   "private": false,
