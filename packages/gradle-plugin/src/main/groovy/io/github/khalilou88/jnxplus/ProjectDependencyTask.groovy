@@ -64,6 +64,8 @@ abstract class ProjectDependencyTask extends DefaultTask {
         .findAll { it.allDependencies }
         .collectMany { it.dependencies }
         .findAll { it instanceof ProjectDependency }
+        .unique { a, b -> a.name <=> b.name }
+        .findAll{it.name <=> currentProject.name}
         .collect { Dependency element ->
           {
             element = (ProjectDependency) element
