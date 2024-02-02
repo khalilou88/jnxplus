@@ -2,6 +2,16 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.24.7-next.0](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.24.6...nx-maven-0.24.7-next.0) (2024-02-02)
+
+
+### Features
+
+* **executors:** add cwd option ([17b3084](https://github.com/khalilou88/jnxplus/commit/17b3084ac35887c536e52e082bc2832803e773af))
+* **executors:** add skipProject option ([#718](https://github.com/khalilou88/jnxplus/issues/718)) ([f180a85](https://github.com/khalilou88/jnxplus/commit/f180a852fe24c6b54f9c0848a247972c49b7bb64))
+
+
+
 ## [0.24.6](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.24.6-next.1...nx-maven-0.24.6) (2024-01-30)
 
 ### Dependency Updates
