@@ -44,5 +44,7 @@ Thumbs.db
 /packages/gradle-plugin/.idea/
 /packages/gradle-plugin/bin/
 /packages/gradle-plugin/build/
+/packages/gradle-plugin/lib/
+/packages/gradle-plugin/dist/
 
 .nx/cache

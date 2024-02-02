@@ -1,22 +1,38 @@
-import { CreateNodes } from '@nx/devkit';
-import { dirname } from 'path';
-import { getProjectName } from '../utils';
+import { CreateNodes, ProjectConfiguration, workspaceRoot } from '@nx/devkit';
+import { execSync } from 'child_process';
+import * as path from 'path';
+import { getExecutable, getGradleRootDirectory } from '../utils';
+import { getGradleProjects, getProjectRoot, outputFile } from './graph-utils';
 
 export const createNodes: CreateNodes = [
-  '{**/build.gradle,**/build.gradle.kts}',
-  (buildFilePath: string) => {
-    const projectRoot = dirname(buildFilePath);
+  'nx.json',
+  () => {
+    const command = `${getExecutable()} :projectDependencyTask --outputFile=${outputFile}`;
 
-    const projectName = getProjectName(projectRoot);
+    const gradleRootDirectory = getGradleRootDirectory();
 
-    return {
-      projects: {
-        [projectRoot]: {
-          name: projectName,
-          root: projectRoot,
-          tags: ['nx-gradle'],
-        },
-      },
-    };
+    execSync(command, {
+      cwd: path.join(workspaceRoot, gradleRootDirectory),
+      env: process.env,
+      stdio: 'pipe',
+      encoding: 'utf-8',
+      windowsHide: true,
+    });
+
+    const gradleProjects = getGradleProjects();
+
+    const projects: Record<string, ProjectConfiguration> = {};
+
+    for (const project of gradleProjects) {
+      const projectRoot = getProjectRoot(gradleRootDirectory, project);
+
+      projects[projectRoot] = {
+        root: projectRoot,
+        name: project.name,
+        tags: ['nx-gradle'],
+      };
+    }
+
+    return { projects: projects };
   },
 ];

@@ -187,7 +187,7 @@ describe('nx-gradle spring-boot e2e', () => {
     }
   }, 120000);
 
-  it('should use specified options to create an application', async () => {
+  it('should use specified options to create an sb application', async () => {
     const randomName = uniq('g-sb-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
@@ -267,6 +267,7 @@ describe('nx-gradle spring-boot e2e', () => {
       'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
+
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
