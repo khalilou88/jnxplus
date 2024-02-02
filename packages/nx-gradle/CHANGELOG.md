@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.19.7-next.0](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.19.6...nx-gradle-0.19.7-next.0) (2024-02-02)
+
+
+### Features
+
+* refactor gradle graph calculation ([#839](https://github.com/khalilou88/jnxplus/issues/839)) ([a008faf](https://github.com/khalilou88/jnxplus/commit/a008faf327dc95b6eb8c1549fc8c3901ffb6675e))
+
+
+
 ## [0.19.6](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.19.6-next.1...nx-gradle-0.19.6) (2024-01-30)
 
 ### Dependency Updates
