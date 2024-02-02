@@ -268,9 +268,6 @@ describe('nx-gradle spring-boot e2e', () => {
     );
     const depGraphJson = readJson('dep-graph.json');
 
-    console.log('depGraphJson');
-    console.log(depGraphJson);
-
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
