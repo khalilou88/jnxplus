@@ -59,7 +59,7 @@ export function getGradleProjects() {
 
     if (result.pluginVersion !== jnxplusGradlePluginVersion) {
       throw new Error(
-        `You are not using the supported version of io.github.khalilou88.jnxplus plugin. Please use version ${jnxplusGradlePluginVersion}`,
+        `You are not using the supported version ${result.pluginVersion} of io.github.khalilou88.jnxplus plugin. Please use version ${jnxplusGradlePluginVersion}`,
       );
     }
     gradleProjects = result.projects;
