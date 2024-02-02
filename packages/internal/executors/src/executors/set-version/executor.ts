@@ -1,10 +1,9 @@
 import { getProjectRoot } from '@jnxplus/common';
 import { ExecutorContext, workspaceRoot } from '@nx/devkit';
 import { execSync } from 'child_process';
-import { SetVersionExecutorSchema } from './schema';
-
 import * as fs from 'fs';
 import * as path from 'path';
+import { SetVersionExecutorSchema } from './schema';
 
 export default async function runExecutor(
   options: SetVersionExecutorSchema,
