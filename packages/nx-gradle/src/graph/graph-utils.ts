@@ -1,8 +1,8 @@
 import { jnxplusGradlePluginVersion } from '@jnxplus/common';
-import { normalizePath, workspaceRoot } from '@nx/devkit';
+import { joinPathFragments } from '@nx/devkit';
+import * as fs from 'fs';
 import { projectGraphCacheDirectory } from 'nx/src/utils/cache-directory';
 import * as path from 'path';
-import * as fs from 'fs';
 
 interface GradleProject1Type {
   name: string;
@@ -31,11 +31,9 @@ export function getProjectRoot(
   gradleRootDirectory: string,
   project: GradleProjectType,
 ) {
-  let projectRoot = normalizePath(
-    path.relative(
-      workspaceRoot,
-      path.join(workspaceRoot, gradleRootDirectory, project.relativePath),
-    ),
+  let projectRoot = joinPathFragments(
+    gradleRootDirectory,
+    project.relativePath,
   );
 
   // projectRoot should not be an empty string
