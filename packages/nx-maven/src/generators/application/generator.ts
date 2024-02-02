@@ -1,10 +1,11 @@
 import {
   DependencyManagementType,
+  TemplateOptionsType,
   clearEmpties,
   generateAppClassName,
+  generateBasePackage,
   generatePackageDirectory,
   generatePackageName,
-  parseTags,
   generateProjectDirectory,
   generateProjectName,
   generateProjectRoot,
@@ -12,9 +13,9 @@ import {
   isCustomPortFunction,
   kotlinVersion,
   micronautVersion,
+  parseTags,
   quarkusVersion,
   springBootVersion,
-  generateBasePackage,
 } from '@jnxplus/common';
 import {
   ProjectConfiguration,
@@ -137,13 +138,12 @@ function normalizeOptions(
   };
 }
 
-function addNoneFiles(d: string, tree: Tree, options: NormalizedSchema) {
-  const templateOptions = {
-    ...options,
-    ...names(options.name),
-    offsetFromRoot: offsetFromRoot(options.projectRoot),
-    template: '',
-  };
+function addNoneFiles(
+  d: string,
+  tree: Tree,
+  options: NormalizedSchema,
+  templateOptions: TemplateOptionsType,
+) {
   generateFiles(
     tree,
     path.join(d, 'files', 'none', options.language),
@@ -177,13 +177,12 @@ function addNoneFiles(d: string, tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addSpringBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
-  const templateOptions = {
-    ...options,
-    ...names(options.name),
-    offsetFromRoot: offsetFromRoot(options.projectRoot),
-    template: '',
-  };
+function addSpringBootFiles(
+  d: string,
+  tree: Tree,
+  options: NormalizedSchema,
+  templateOptions: TemplateOptionsType,
+) {
   generateFiles(
     tree,
     path.join(d, 'files', 'spring-boot', options.language),
@@ -235,13 +234,12 @@ function addSpringBootFiles(d: string, tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addQuarkusFiles(d: string, tree: Tree, options: NormalizedSchema) {
-  const templateOptions = {
-    ...options,
-    ...names(options.name),
-    offsetFromRoot: offsetFromRoot(options.projectRoot),
-    template: '',
-  };
+function addQuarkusFiles(
+  d: string,
+  tree: Tree,
+  options: NormalizedSchema,
+  templateOptions: TemplateOptionsType,
+) {
   generateFiles(
     tree,
     path.join(d, 'files', 'quarkus', options.language),
@@ -281,13 +279,12 @@ function addQuarkusFiles(d: string, tree: Tree, options: NormalizedSchema) {
   }
 }
 
-function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
-  const templateOptions = {
-    ...options,
-    ...names(options.name),
-    offsetFromRoot: offsetFromRoot(options.projectRoot),
-    template: '',
-  };
+function addMicronautFiles(
+  d: string,
+  tree: Tree,
+  options: NormalizedSchema,
+  templateOptions: TemplateOptionsType,
+) {
   generateFiles(
     tree,
     path.join(d, 'files', 'micronaut', options.language),
@@ -321,20 +318,27 @@ function addMicronautFiles(d: string, tree: Tree, options: NormalizedSchema) {
 }
 
 function addFiles(tree: Tree, options: NormalizedSchema) {
+  const templateOptions = {
+    ...options,
+    ...names(options.name),
+    offsetFromRoot: offsetFromRoot(options.projectRoot),
+    template: '',
+  };
+
   if (options.framework === 'spring-boot') {
-    addSpringBootFiles(__dirname, tree, options);
+    addSpringBootFiles(__dirname, tree, options, templateOptions);
   }
 
   if (options.framework === 'quarkus') {
-    addQuarkusFiles(__dirname, tree, options);
+    addQuarkusFiles(__dirname, tree, options, templateOptions);
   }
 
   if (options.framework === 'micronaut') {
-    addMicronautFiles(__dirname, tree, options);
+    addMicronautFiles(__dirname, tree, options, templateOptions);
   }
 
   if (options.framework === 'none') {
-    addNoneFiles(__dirname, tree, options);
+    addNoneFiles(__dirname, tree, options, templateOptions);
   }
 }
 
