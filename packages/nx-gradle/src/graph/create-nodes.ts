@@ -35,6 +35,6 @@ export const createNodes: CreateNodes = [
       };
     }
 
-    return projects;
+    return { projects: projects };
   },
 ];
