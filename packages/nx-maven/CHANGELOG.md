@@ -2,6 +2,10 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.24.7-next.1](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.24.7-next.0...nx-maven-0.24.7-next.1) (2024-02-05)
+
+
+
 ## [0.24.7-next.0](https://github.com/khalilou88/jnxplus/compare/nx-maven-0.24.6...nx-maven-0.24.7-next.0) (2024-02-02)
 
 
