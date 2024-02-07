@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.19.7-next.2](https://github.com/khalilou88/jnxplus/compare/common-0.19.7-next.1...common-0.19.7-next.2) (2024-02-07)
+
+
+### Features
+
+* remove kmp generator ([#858](https://github.com/khalilou88/jnxplus/issues/858)) ([dd84c44](https://github.com/khalilou88/jnxplus/commit/dd84c44a66e01ed6d865a685689fa0e699622e0f))
+
+
+
 ## [0.19.7-next.1](https://github.com/khalilou88/jnxplus/compare/common-0.19.7-next.0...common-0.19.7-next.1) (2024-02-05)
 
 
