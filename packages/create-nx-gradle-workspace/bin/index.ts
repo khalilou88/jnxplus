@@ -95,7 +95,6 @@ async function main() {
           { name: 'spring-boot', message: 'Spring Boot' },
           { name: 'quarkus', message: 'Quarkus' },
           { name: 'micronaut', message: 'Micronaut' },
-          { name: 'kmp', message: 'Kotlin Multiplatform' },
           { name: 'none', message: 'None' },
         ],
       })

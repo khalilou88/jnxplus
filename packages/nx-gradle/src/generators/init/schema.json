@@ -65,7 +65,7 @@
       "description": "preset",
       "type": "string",
       "default": "spring-boot",
-      "enum": ["spring-boot", "quarkus", "micronaut", "kmp", "none"],
+      "enum": ["spring-boot", "quarkus", "micronaut", "none"],
       "x-prompt": {
         "message": "Which preset to use? or 'none' to skip.",
         "type": "list",
@@ -81,10 +81,6 @@
           {
             "value": "micronaut",
             "label": "Micronaut"
-          },
-          {
-            "value": "kmp",
-            "label": "Kotlin Multiplatform"
           },
           {
             "value": "none",
