@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.19.7-next.3](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.19.7-next.2...nx-gradle-0.19.7-next.3) (2024-02-08)
+
+
+### Features
+
+* make version catalog default ([#860](https://github.com/khalilou88/jnxplus/issues/860)) ([59909a2](https://github.com/khalilou88/jnxplus/commit/59909a238ce98dc9536c8109f06b0c726e46b518))
+
+
+
 ## [0.19.7-next.2](https://github.com/khalilou88/jnxplus/compare/nx-gradle-0.19.7-next.1...nx-gradle-0.19.7-next.2) (2024-02-07)
 
 
