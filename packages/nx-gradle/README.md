@@ -32,20 +32,19 @@ The following command adds Gradle support (Gradle wrapper and config files) to t
 nx generate @jnxplus/nx-gradle:init
 ```
 
-Use preset option to choose between Spring Boot, Quarkus, Micronaut, and Kotlin Multiplatform.
+Use preset option to choose between Spring Boot, Quarkus, and Micronaut.
 
 ### 3. Usage
 
-| Action                                  | Command                                             |
-| --------------------------------------- | --------------------------------------------------- |
-| Generate an application                 | `nx generate @jnxplus/nx-gradle:application my-app` |
-| Generate a library                      | `nx generate @jnxplus/nx-gradle:library my-lib`     |
-| Scaffold a kotlin multiplatform project | `nx generate @jnxplus/nx-gradle:kmp my-kmp-project` |
-| Build a project                         | `nx build my-project`                               |
-| Serve an application                    | `nx serve my-app`                                   |
-| Test a project                          | `nx test my-project`                                |
-| Format a java project                   | `nx format --projects my-project`                   |
-| Visualize project's dependency graph    | `nx graph`                                          |
+| Action                               | Command                                             |
+| ------------------------------------ | --------------------------------------------------- |
+| Generate an application              | `nx generate @jnxplus/nx-gradle:application my-app` |
+| Generate a library                   | `nx generate @jnxplus/nx-gradle:library my-lib`     |
+| Build a project                      | `nx build my-project`                               |
+| Serve an application                 | `nx serve my-app`                                   |
+| Test a project                       | `nx test my-project`                                |
+| Format a java project                | `nx format --projects my-project`                   |
+| Visualize project's dependency graph | `nx graph`                                          |
 
 ## License
 
