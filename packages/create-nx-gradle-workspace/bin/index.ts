@@ -120,7 +120,7 @@ async function main() {
       gradleRootDirectory,
       preset,
       skipWrapper: false,
-      versionManagement: 'properties',
+      versionManagement: 'version-catalog',
     },
   );
 
