@@ -324,14 +324,14 @@ function getVersionFromProperties(version: string, properties: PropertyType[]) {
     return version;
   }
 
-  const versionProperties = extractProperties(version);
+  const versionExpressions = extractExpressions(version);
 
-  if (versionProperties.length === 0) {
+  if (versionExpressions.length === 0) {
     throw new Error(`Version ${version} is a constant`);
   }
 
   const commonProperties = properties.filter((p) =>
-    versionProperties.includes(p.key),
+    versionExpressions.includes(p.key),
   );
 
   if (commonProperties.length === 0) {
@@ -355,21 +355,21 @@ function getVersionFromProperties(version: string, properties: PropertyType[]) {
   return parsedVersion;
 }
 
-function extractProperties(version: string): string[] {
-  const versionRegex = /\${([^${}]*)}/g;
-  const properties = [];
+function extractExpressions(version: string): string[] {
+  const expressionRegex = /\${([^${}]*)}/g;
+  const expressions = [];
   let match;
 
-  while ((match = versionRegex.exec(version)) !== null) {
-    properties.push(match[1]);
+  while ((match = expressionRegex.exec(version)) !== null) {
+    expressions.push(match[1]);
   }
 
-  const containsAnExpression = properties.some((p) => p.indexOf('$') >= 0);
+  const containsAnExpression = expressions.some((p) => p.indexOf('$') >= 0);
   if (containsAnExpression) {
     throw new Error(
-      `Version ${version} not correctly parsed with regex ${versionRegex}`,
+      `Version ${version} not correctly parsed with regex ${expressionRegex}`,
     );
   }
 
-  return properties;
+  return expressions;
 }
