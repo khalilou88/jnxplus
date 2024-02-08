@@ -42,7 +42,7 @@ describe('nx-gradle spring-boot e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --preset none --versionManagement version-catalog`,
+      `generate @jnxplus/nx-gradle:init --rootProjectName ${rootProjectName} --preset none`,
     );
   }, 120000);
 
