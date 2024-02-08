@@ -97,7 +97,21 @@
     "versionManagement": {
       "description": "Version management",
       "type": "string",
-      "default": "properties"
+      "default": "version-catalog",
+      "x-prompt": {
+        "message": "How do you want to share dependency versions between projects?",
+        "type": "list",
+        "items": [
+          {
+            "value": "version-catalog",
+            "label": "Version catalog"
+          },
+          {
+            "value": "properties",
+            "label": "Properties file"
+          }
+        ]
+      }
     }
   },
   "required": [
@@ -105,6 +119,7 @@
     "dsl",
     "rootProjectName",
     "gradleRootDirectory",
-    "preset"
+    "preset",
+    "versionManagement"
   ]
 }
