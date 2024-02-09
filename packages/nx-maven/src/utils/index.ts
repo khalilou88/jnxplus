@@ -396,7 +396,9 @@ export function getLocalRepositoryPath(
     ? opts.localRepoRelativePath
     : '';
   if (localRepoRelativePath) {
-    const mavenRootDirectory = getMavenRootDirectory();
+    const mavenRootDirectory = opts?.mavenRootDirectory
+      ? opts.mavenRootDirectory
+      : '';
     localRepositoryPath = joinPathFragments(
       mavenRootDirectory,
       localRepoRelativePath,
