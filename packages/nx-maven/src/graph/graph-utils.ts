@@ -1,3 +1,4 @@
+import { NxMavenPluginOptions } from '@jnxplus/common';
 import { readXml } from '@jnxplus/xml';
 import {
   NxJsonConfiguration,
@@ -13,7 +14,6 @@ import {
   getArtifactId,
   getGroupId,
   getLocalRepositoryPath,
-  getMavenRootDirectory,
   getVersion,
 } from '../utils';
 
@@ -49,8 +49,10 @@ const cache = flatCache.load(
 );
 const key = 'workspace-data';
 
-export function getWorkspaceData() {
-  const mavenRootDirectory = getMavenRootDirectory();
+export function getWorkspaceData(opts: NxMavenPluginOptions | undefined) {
+  const mavenRootDirectory = opts?.mavenRootDirectory
+    ? opts.mavenRootDirectory
+    : '';
   const mavenRootDirAbsolutePath = path.join(workspaceRoot, mavenRootDirectory);
 
   const projects: MavenProjectType[] = [];
@@ -58,7 +60,10 @@ export function getWorkspaceData() {
 
   //TODO calculate versions here
 
-  const localRepositoryPath = getLocalRepositoryPath(mavenRootDirAbsolutePath);
+  const localRepositoryPath = getLocalRepositoryPath(
+    opts,
+    mavenRootDirAbsolutePath,
+  );
 
   const data: WorkspaceDataType = {
     mavenRootDirAbsolutePath: mavenRootDirAbsolutePath,

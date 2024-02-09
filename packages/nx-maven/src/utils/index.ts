@@ -2,6 +2,7 @@ import {
   DependencyManagementType,
   FrameworkType,
   LanguageType,
+  NxMavenPluginOptions,
 } from '@jnxplus/common';
 import { readXmlTree, xmlToString } from '@jnxplus/xml';
 import {
@@ -386,11 +387,18 @@ function getLocalRepoRelativePath(): string {
   return '';
 }
 
-export function getLocalRepositoryPath(mavenRootDirAbsolutePath: string) {
+export function getLocalRepositoryPath(
+  opts: NxMavenPluginOptions | undefined,
+  mavenRootDirAbsolutePath: string,
+) {
   let localRepositoryPath;
-  const localRepoRelativePath = getLocalRepoRelativePath();
+  const localRepoRelativePath = opts?.localRepoRelativePath
+    ? opts.localRepoRelativePath
+    : '';
   if (localRepoRelativePath) {
-    const mavenRootDirectory = getMavenRootDirectory();
+    const mavenRootDirectory = opts?.mavenRootDirectory
+      ? opts.mavenRootDirectory
+      : '';
     localRepositoryPath = joinPathFragments(
       mavenRootDirectory,
       localRepoRelativePath,

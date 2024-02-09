@@ -1,4 +1,4 @@
-import { TargetsType } from '@jnxplus/common';
+import { NxMavenPluginOptions, TargetsType } from '@jnxplus/common';
 import { CreateNodes, ProjectConfiguration, readJsonFile } from '@nx/devkit';
 import { existsSync } from 'fs';
 import * as path from 'path';
@@ -9,10 +9,10 @@ import {
   getWorkspaceData,
 } from './graph-utils';
 
-export const createNodes: CreateNodes = [
+export const createNodes: CreateNodes<NxMavenPluginOptions> = [
   'nx.json',
-  () => {
-    const workspaceData: WorkspaceDataType = getWorkspaceData();
+  (_, opts) => {
+    const workspaceData: WorkspaceDataType = getWorkspaceData(opts);
     const mavenProjects: MavenProjectType[] = workspaceData.projects;
 
     const projects: Record<string, ProjectConfiguration> = {};

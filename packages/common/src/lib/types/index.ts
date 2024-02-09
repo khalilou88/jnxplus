@@ -20,3 +20,8 @@ export interface TemplateOptionsType {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [k: string]: any;
 }
+export type NxMavenPluginOptions = {
+  mavenRootDirectory: string;
+  localRepoRelativePath: string;
+};
+export type NxGradlePluginOptions = { gradleRootDirectory: string };
