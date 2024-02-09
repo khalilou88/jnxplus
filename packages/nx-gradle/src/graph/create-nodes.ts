@@ -1,15 +1,18 @@
+import { NxGradlePluginOptions } from '@jnxplus/common';
 import { CreateNodes, ProjectConfiguration, workspaceRoot } from '@nx/devkit';
 import { execSync } from 'child_process';
 import * as path from 'path';
-import { getExecutable, getGradleRootDirectory } from '../utils';
+import { getExecutable } from '../utils';
 import { getGradleProjects, getProjectRoot, outputFile } from './graph-utils';
 
-export const createNodes: CreateNodes = [
+export const createNodes: CreateNodes<NxGradlePluginOptions> = [
   'nx.json',
-  () => {
+  (_, opts) => {
     const command = `${getExecutable()} :projectDependencyTask --outputFile=${outputFile}`;
 
-    const gradleRootDirectory = getGradleRootDirectory();
+    const gradleRootDirectory = opts?.gradleRootDirectory
+      ? opts.gradleRootDirectory
+      : '';
 
     execSync(command, {
       cwd: path.join(workspaceRoot, gradleRootDirectory),
