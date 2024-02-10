@@ -37,11 +37,17 @@ jobs:
         # run: npm ci
         run: npm i
 
-      - name: Apply updated version to packages and publish
+      - name: Apply updated version to packages
         run: |
           # Use the version from the workflow input if it's set, otherwise
           VERSION=${{ github.event.inputs.version || github.ref_name }}
           npx nx release version --specifier $VERSION
+
+      - name: Build projects
+        run: npm run nx run-many -- --target=build --projects=common,xml,nx-gradle,create-nx-gradle-workspace,nx-maven,create-nx-maven-workspace
+
+      - name: Publish
+        run: |
           npx nx release publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
