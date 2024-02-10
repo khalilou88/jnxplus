@@ -1,3 +1,14 @@
+## 0.40.0-4 (2024-02-10)
+
+### 🚀 Features
+
+- use nx release ([02262ec4](https://github.com/khalilou88/jnxplus/commit/02262ec4))
+- use nx release ([#864](https://github.com/khalilou88/jnxplus/pull/864))
+
+### ❤️ Thank You
+
+- khalilou88 @khalilou88
+
 ## 0.40.0-1 (2024-02-10)
 
 This was a version bump only, there were no code changes.
