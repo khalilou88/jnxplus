@@ -28,19 +28,6 @@
       "options": {
         "jestConfig": "packages/create-nx-maven-workspace/jest.config.ts"
       }
-    },
-    "update-package-json": {
-      "executor": "@jnxplus/internal-executors:update-package-json",
-      "options": {
-        "version": "${version}"
-      }
-    },
-    "deploy": {
-      "executor": "ngx-deploy-npm:deploy",
-      "options": {
-        "access": "public"
-      },
-      "dependsOn": ["build"]
     }
   },
   "tags": [],
