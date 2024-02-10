@@ -1,0 +1,47 @@
+name: Publish
+
+on:
+  # Run manually using the GitHub UI
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish'
+        required: false
+        default: ''
+
+  # ...or whenever a GitHub release gets created
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # needed for provenance data generation
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ftech-depth: 0 # need to fetch all the tags
+
+      - name: Use Node.js v20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Apply updated version to packages and publish
+        run: |
+          # Use the version from the workflow input if it's set, otherwise
+          VERSION=${{ github.event.inputs.version || github.ref_name }}
+          npx nx release version --specifier $VERSION
+          npx nx release publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true

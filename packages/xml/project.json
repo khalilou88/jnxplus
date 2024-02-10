@@ -41,36 +41,6 @@
       "options": {
         "jestConfig": "packages/xml/jest.config.ts"
       }
-    },
-    "version": {
-      "executor": "@jscutlery/semver:version",
-      "options": {
-        "preset": "angular",
-        "trackDeps": true,
-        "push": true,
-        "noVerify": true,
-        "postTargets": ["xml:update-xml-deps", "xml:github", "xml:deploy"],
-        "commitMessageFormat": "release: cut release ${version} of {projectName}"
-      }
-    },
-    "update-xml-deps": {
-      "executor": "@jnxplus/internal-executors:update-xml-deps",
-      "options": {
-        "version": "${version}"
-      }
-    },
-    "github": {
-      "executor": "@jscutlery/semver:github",
-      "options": {
-        "tag": "${tag}",
-        "notes": "${notes}"
-      }
-    },
-    "deploy": {
-      "executor": "ngx-deploy-npm:deploy",
-      "options": {
-        "access": "public"
-      }
     }
   },
   "tags": []

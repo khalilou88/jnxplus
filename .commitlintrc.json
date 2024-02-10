@@ -5,21 +5,20 @@
       2,
       "always",
       [
-        "plugins",
-        "generators",
-        "executors",
-        "graph",
+        "release",
         "common",
-        "gradle",
-        "maven",
         "nx-gradle",
-        "nx-maven"
+        "create-nx-gradle-workspace",
+        "xml",
+        "nx-maven",
+        "create-nx-maven-workspace"
       ]
     ],
     "type-enum": [
       2,
       "always",
       [
+        "chore",
         "build",
         "ci",
         "docs",
@@ -29,8 +28,7 @@
         "refactor",
         "revert",
         "style",
-        "test",
-        "release"
+        "test"
       ]
     ]
   }

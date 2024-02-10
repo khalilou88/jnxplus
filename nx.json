@@ -13,9 +13,6 @@
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
     },
-    "version": {
-      "dependsOn": ["build"]
-    },
     "@nx/jest:jest": {
       "cache": true,
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
@@ -39,14 +36,6 @@
       ]
     }
   },
-  "targetDependencies": {
-    "version": [
-      {
-        "target": "version",
-        "projects": "dependencies"
-      }
-    ]
-  },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
@@ -60,6 +49,11 @@
       "!{projectRoot}/test-setup.[jt]s"
     ],
     "sharedGlobals": []
+  },
+  "release": {
+    "projects": ["packages/*", "!internal-generators-files", "!gradle-plugin"],
+    "projectsRelationship": "fixed",
+    "changelog": { "workspaceChangelog": { "createRelease": "github" } }
   },
   "parallel": 1
 }
