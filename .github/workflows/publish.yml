@@ -34,7 +34,8 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        # run: npm ci
+        run: npm i
 
       - name: Apply updated version to packages and publish
         run: |
