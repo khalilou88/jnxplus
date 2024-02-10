@@ -52,7 +52,8 @@
   },
   "release": {
     "projects": ["packages/*", "!internal-generators-files", "!gradle-plugin"],
-    "projectsRelationship": "fixed"
+    "projectsRelationship": "fixed",
+    "changelog": { "workspaceChangelog": { "createRelease": "github" } }
   },
   "parallel": 1
 }

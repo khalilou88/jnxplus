@@ -8,4 +8,4 @@ npm config set registry https://registry.npmjs.org/
 
 ## nx release
 
-nx release --first-release --specifier preminor --dry-run
+nx release --first-release --specifier preminor --skip-publish --dry-run
