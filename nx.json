@@ -50,5 +50,8 @@
     ],
     "sharedGlobals": []
   },
+  "release": {
+    "projects": ["packages/*", "!internal-generators-files", "!gradle-plugin"]
+  },
   "parallel": 1
 }
