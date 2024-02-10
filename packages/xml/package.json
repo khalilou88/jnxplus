@@ -1,6 +1,6 @@
 {
   "name": "@jnxplus/xml",
-  "version": "0.40.0-7",
+  "version": "0.40.0-8",
   "type": "commonjs",
   "main": "src/index.js",
   "private": false,
