@@ -60,6 +60,11 @@
       "create-nx-maven-workspace"
     ],
     "projectsRelationship": "fixed",
+    "version": {
+      "generatorOptions": {
+        "packageRoot": "dist/packages/{projectName}"
+      }
+    },
     "changelog": { "workspaceChangelog": { "createRelease": "github" } }
   },
   "parallel": 1
