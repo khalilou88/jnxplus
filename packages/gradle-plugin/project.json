@@ -11,21 +11,6 @@
         "cwd": "packages/gradle-plugin"
       }
     },
-    "release-plugin": {
-      "executor": "@jscutlery/semver:version",
-      "options": {
-        "preset": "angular",
-        "push": true,
-        "noVerify": true,
-        "postTargets": ["gradle-plugin:set-version", "gradle-plugin:deploy"],
-        "commitMessageFormat": "release: cut release ${version} for {projectName}"
-      },
-      "dependsOn": [
-        {
-          "target": "build"
-        }
-      ]
-    },
     "set-version": {
       "executor": "@jnxplus/internal-executors:set-version",
       "options": {

@@ -13,9 +13,6 @@
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
     },
-    "version": {
-      "dependsOn": ["build"]
-    },
     "@nx/jest:jest": {
       "cache": true,
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
@@ -38,14 +35,6 @@
         "{workspaceRoot}/eslint.config.js"
       ]
     }
-  },
-  "targetDependencies": {
-    "version": [
-      {
-        "target": "version",
-        "projects": "dependencies"
-      }
-    ]
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
