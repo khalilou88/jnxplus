@@ -24,7 +24,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ftech-depth: 0 # need to fetch all the tags
+          fetch-depth: 0 # need to fetch all the tags
 
       - name: Use Node.js v20
         uses: actions/setup-node@v4
