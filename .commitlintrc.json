@@ -5,6 +5,7 @@
       2,
       "always",
       [
+        "chore",
         "plugins",
         "generators",
         "executors",
@@ -20,6 +21,7 @@
       2,
       "always",
       [
+        "release",
         "build",
         "ci",
         "docs",
@@ -29,8 +31,7 @@
         "refactor",
         "revert",
         "style",
-        "test",
-        "release"
+        "test"
       ]
     ]
   }
