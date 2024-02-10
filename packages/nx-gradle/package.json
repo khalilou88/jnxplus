@@ -1,6 +1,6 @@
 {
   "name": "@jnxplus/nx-gradle",
-  "version": "0.19.7",
+  "version": "0.39.0",
   "type": "commonjs",
   "main": "src/index.js",
   "generators": "./generators.json",
@@ -31,7 +31,7 @@
     "directory": "packages/nx-gradle"
   },
   "dependencies": {
-    "@jnxplus/common": "0.19.7",
+    "@jnxplus/common": "0.39.0",
     "nx": ">=17.0.0",
     "tslib": "^2.6.2",
     "@nx/devkit": ">=17.0.0",
