@@ -12,4 +12,3 @@ updates:
       - dependency-name: 'nx'
       # For chalk, ignore all updates
       - dependency-name: 'chalk'
-      - dependency-name: 'ngx-deploy-npm'

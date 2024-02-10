@@ -21,5 +21,10 @@
   "dependencies": {
     "@nx/devkit": ">=17.0.0",
     "tslib": "^2.6.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khalilou88/jnxplus.git",
+    "directory": "packages/create-nx-gradle-workspace"
   }
 }

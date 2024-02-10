@@ -51,7 +51,14 @@
     "sharedGlobals": []
   },
   "release": {
-    "projects": ["packages/*", "!internal-generators-files", "!gradle-plugin"],
+    "projects": [
+      "common",
+      "xml",
+      "nx-gradle",
+      "create-nx-gradle-workspace",
+      "nx-maven",
+      "create-nx-maven-workspace"
+    ],
     "projectsRelationship": "fixed",
     "changelog": { "workspaceChangelog": { "createRelease": "github" } }
   },
