@@ -8,6 +8,11 @@
     "appsDir": "testing-projects"
   },
   "targetDefaults": {
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/packages/{projectName}"
+      }
+    },
     "build": {
       "cache": true,
       "dependsOn": ["^build"],
