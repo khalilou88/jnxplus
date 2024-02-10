@@ -52,10 +52,12 @@
   },
   "release": {
     "projects": [
-      "packages/*",
-      "!internal-generators-files",
-      "!internal-executors",
-      "!gradle-plugin"
+      "common",
+      "xml",
+      "nx-gradle",
+      "create-nx-gradle-workspace",
+      "nx-maven",
+      "create-nx-maven-workspace"
     ],
     "projectsRelationship": "fixed",
     "changelog": { "workspaceChangelog": { "createRelease": "github" } }
