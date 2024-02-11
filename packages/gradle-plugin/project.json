@@ -24,7 +24,7 @@
         "version": "${version}"
       }
     },
-    "deploy": {
+    "publish-plugin": {
       "executor": "@jnxplus/internal-executors:run-commands",
       "options": {
         "command": "clean build publishPlugins",
