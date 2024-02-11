@@ -1,4 +1,4 @@
-name: E2e Tests
+name: E2e tests
 
 on:
   # Trigger manually or on schedule
@@ -8,7 +8,7 @@ on:
 
 jobs:
   e2e:
-    name: E2e Tests
+    name: E2e tests
     strategy:
       matrix:
         os: [ubuntu-latest, macOS-latest, windows-latest]
