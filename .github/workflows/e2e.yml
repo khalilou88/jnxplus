@@ -7,7 +7,7 @@ on:
     - cron: '0 2 * * *'
 
 jobs:
-  Run_checks:
+  e2e:
     name: E2e Tests
     strategy:
       matrix:

@@ -1,4 +1,4 @@
-name: Run plugin smoke tests
+name: Smoke-plugin tests
 on:
   workflow_dispatch:
     inputs:
@@ -26,7 +26,7 @@ on:
           - windows-latest
 
 jobs:
-  run_plugin_smoke_tests:
+  smoke-plugin:
     name: Running ${{ github.event.inputs.t_option }} smoke tests from ${{ github.head_ref || github.ref_name }} branch
     strategy:
       matrix:
