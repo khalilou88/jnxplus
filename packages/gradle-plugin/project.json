@@ -27,7 +27,7 @@
     "deploy": {
       "executor": "@jnxplus/internal-executors:run-commands",
       "options": {
-        "command": "publishPlugins",
+        "command": "clean build publishPlugins",
         "cwd": "packages/gradle-plugin"
       }
     }
