@@ -1,4 +1,4 @@
-name: Smoke-plugin tests
+name: Smoke plugin tests
 on:
   workflow_dispatch:
     inputs:

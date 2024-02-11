@@ -1,4 +1,4 @@
-name: Smoke-next tests
+name: Smoke next tests
 
 on:
   # Trigger manually or on schedule
@@ -8,7 +8,7 @@ on:
 
 jobs:
   smoke-next:
-    name: Smoke-next tests
+    name: Smoke next tests
     strategy:
       fail-fast: false
       matrix:
