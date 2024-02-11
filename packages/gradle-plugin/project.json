@@ -11,7 +11,7 @@
         "cwd": "packages/gradle-plugin"
       }
     },
-    "lint": {
+    "spotless-format": {
       "executor": "@jnxplus/internal-executors:run-commands",
       "options": {
         "command": "spotlessApply",

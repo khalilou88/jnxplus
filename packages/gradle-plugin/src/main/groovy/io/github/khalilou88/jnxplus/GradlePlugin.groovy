@@ -9,9 +9,8 @@ import org.gradle.api.Project
  * */
 class GradlePlugin implements Plugin<Project> {
 
-  void apply(Project project) {
-    // Register a task
-    project.tasks.register("projectDependencyTask", ProjectDependencyTask)
-  }
-
+	void apply(Project project) {
+		// Register a task
+		project.tasks.register("projectDependencyTask", ProjectDependencyTask)
+	}
 }
