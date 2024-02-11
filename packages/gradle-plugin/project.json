@@ -11,6 +11,13 @@
         "cwd": "packages/gradle-plugin"
       }
     },
+    "lint": {
+      "executor": "@jnxplus/internal-executors:run-commands",
+      "options": {
+        "command": "spotlessApply",
+        "cwd": "packages/gradle-plugin"
+      }
+    },
     "set-version": {
       "executor": "@jnxplus/internal-executors:set-version",
       "options": {
