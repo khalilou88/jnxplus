@@ -11,16 +11,23 @@
         "cwd": "packages/gradle-plugin"
       }
     },
+    "spotless-format": {
+      "executor": "@jnxplus/internal-executors:run-commands",
+      "options": {
+        "command": "spotlessApply",
+        "cwd": "packages/gradle-plugin"
+      }
+    },
     "set-version": {
       "executor": "@jnxplus/internal-executors:set-version",
       "options": {
         "version": "${version}"
       }
     },
-    "deploy": {
+    "publish-plugin": {
       "executor": "@jnxplus/internal-executors:run-commands",
       "options": {
-        "command": "publishPlugins",
+        "command": "clean build publishPlugins",
         "cwd": "packages/gradle-plugin"
       }
     }
