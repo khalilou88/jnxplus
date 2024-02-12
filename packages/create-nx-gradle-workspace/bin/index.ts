@@ -107,6 +107,8 @@ async function main() {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const presetVersion = require('../package.json').version;
 
+  console.log(`Using version v${presetVersion} of nx-gradle`);
+
   const { directory } = await createWorkspace(
     `@jnxplus/nx-gradle@${presetVersion}`,
     {

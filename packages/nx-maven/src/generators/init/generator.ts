@@ -1,4 +1,5 @@
 import {
+  getPluginVersion,
   micronautVersion,
   prettierPluginJavaVersion,
   prettierPluginXmlVersion,
@@ -14,6 +15,7 @@ import {
   generateFiles,
   installPackagesTask,
   joinPathFragments,
+  logger,
   offsetFromRoot,
   updateJson,
   writeJson,
@@ -71,6 +73,9 @@ export async function initGenerator(
   tree: Tree,
   options: NxMavenInitGeneratorSchema,
 ) {
+  const nxMavenVersion = getPluginVersion(__dirname);
+  logger.info(`Using version v${nxMavenVersion} of nx-maven`);
+
   const normalizedOptions = normalizeOptions(tree, options);
 
   if (options.mavenRootDirectory) {
