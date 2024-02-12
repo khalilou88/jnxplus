@@ -1,4 +1,6 @@
 import { ExecutorContext } from '@nx/devkit';
+import { readFileSync } from 'fs';
+import * as path from 'path';
 import { TargetsType } from '../types';
 
 export function getProject(context: ExecutorContext) {
@@ -65,4 +67,11 @@ export function clearEmpties(o: TargetsType) {
   }
 
   return o;
+}
+
+export function getPluginVersion(d: string) {
+  const packageJson = JSON.parse(
+    readFileSync(path.join(d, '..', '..', '..', 'package.json')).toString(),
+  );
+  return packageJson.version;
 }

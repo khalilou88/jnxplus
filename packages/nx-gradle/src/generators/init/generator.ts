@@ -1,4 +1,5 @@
 import {
+  getPluginVersion,
   jnxplusGradlePluginVersion,
   kotlinVersion,
   kspVersion,
@@ -18,6 +19,7 @@ import {
   generateFiles,
   installPackagesTask,
   joinPathFragments,
+  logger,
   offsetFromRoot,
   updateJson,
   writeJson,
@@ -102,6 +104,9 @@ export async function initGenerator(
   tree: Tree,
   options: NxGradleInitGeneratorSchema,
 ) {
+  const nxGradleVersion = getPluginVersion(__dirname);
+  logger.info(`Using version v${nxGradleVersion} of nx-gradle`);
+
   const normalizedOptions = normalizeOptions(tree, options);
 
   if (options.gradleRootDirectory) {
