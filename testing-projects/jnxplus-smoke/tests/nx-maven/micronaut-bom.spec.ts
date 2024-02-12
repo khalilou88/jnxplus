@@ -48,7 +48,7 @@ describe('nx-maven micronaut bom smoke', () => {
 
   it('should work', async () => {
     execSync(
-      'npx create-nx-workspace@latest test --preset empty --nxCloud skip',
+      'npx create-nx-workspace@latest test --preset apps --nxCloud skip',
       {
         cwd: smokeDirectory,
         env: process.env,
