@@ -1,12 +1,12 @@
 {
   "name": "create-nx-gradle-workspace",
-  "version": "0.40.0-9",
+  "version": "0.40.0",
   "dependencies": {
     "create-nx-workspace": ">=17.0.0",
     "enquirer": "^2.3.6",
     "tslib": "^2.6.2",
     "yargs": "^17.7.2",
-    "@jnxplus/common": "0.40.0-9"
+    "@jnxplus/common": "0.40.0"
   },
   "type": "commonjs",
   "main": "./src/index.js",
