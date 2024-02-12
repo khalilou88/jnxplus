@@ -44,7 +44,7 @@ describe('nx-gradle spring-boot smoke-next', () => {
   it('should work', async () => {
     if (ifNextVersionExists()) {
       execSync(
-        'npx create-nx-workspace@latest test --preset empty --nxCloud skip',
+        'npx create-nx-workspace@latest test --preset apps --nxCloud skip',
         {
           cwd: smokeDirectory,
           env: process.env,
