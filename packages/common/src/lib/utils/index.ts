@@ -71,9 +71,7 @@ export function clearEmpties(o: TargetsType) {
 
 export function getPluginVersion(d: string) {
   const packageJson = JSON.parse(
-    readFileSync(
-      path.join(d, '..', '..', '..', '..', '..', 'package.json'),
-    ).toString(),
+    readFileSync(path.join(d, '..', '..', '..', 'package.json')).toString(),
   );
   return packageJson.version;
 }
