@@ -1,5 +1,5 @@
 import { jnxplusGradlePluginVersion } from '@jnxplus/common';
-import { joinPathFragments } from '@nx/devkit';
+import { joinPathFragments, logger } from '@nx/devkit';
 import * as fs from 'fs';
 import { projectGraphCacheDirectory } from 'nx/src/utils/cache-directory';
 import * as path from 'path';
@@ -48,7 +48,7 @@ export function getGradleProjects() {
   const result = JSON.parse(fs.readFileSync(outputFile, 'utf8'));
 
   if (result.pluginVersion !== jnxplusGradlePluginVersion) {
-    throw new Error(
+    logger.warn(
       `You are not using the supported version of io.github.khalilou88.jnxplus plugin. Please use version ${jnxplusGradlePluginVersion}`,
     );
   }
