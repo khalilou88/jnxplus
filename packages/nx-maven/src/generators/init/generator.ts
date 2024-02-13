@@ -4,6 +4,7 @@ import {
   prettierPluginJavaVersion,
   prettierPluginXmlVersion,
   prettierVersion,
+  prettierrcNameOptions,
   quarkusVersion,
   springBootVersion,
 } from '@jnxplus/common';
@@ -227,10 +228,16 @@ function addOrUpdatePrettierRc(tree: Tree) {
       return prettierRcJson;
     });
   } else {
-    writeJson(tree, prettierRcPath, {
-      xmlWhitespaceSensitivity: 'ignore',
-      plugins: ['@prettier/plugin-xml', 'prettier-plugin-java'],
-    });
+    if (prettierrcNameOptions.every((name) => !tree.exists(name))) {
+      writeJson(tree, prettierRcPath, {
+        xmlWhitespaceSensitivity: 'ignore',
+        plugins: ['@prettier/plugin-xml', 'prettier-plugin-java'],
+      });
+    } else {
+      logger.warn(
+        'Please add xmlWhitespaceSensitivity with ignore value, @prettier/plugin-xml and prettier-plugin-java plugins to your prettier config file',
+      );
+    }
   }
 }
 

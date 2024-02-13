@@ -6,6 +6,7 @@ import {
   micronautVersion,
   prettierPluginJavaVersion,
   prettierVersion,
+  prettierrcNameOptions,
   quarkusVersion,
   shadowVersion,
   springBootVersion,
@@ -214,9 +215,15 @@ function addOrUpdatePrettierRc(tree: Tree) {
       return prettierRcJson;
     });
   } else {
-    writeJson(tree, prettierRcPath, {
-      plugins: ['prettier-plugin-java'],
-    });
+    if (prettierrcNameOptions.every((name) => !tree.exists(name))) {
+      writeJson(tree, prettierRcPath, {
+        plugins: ['prettier-plugin-java'],
+      });
+    } else {
+      logger.warn(
+        'Please add prettier-plugin-java plugin to your prettier config file',
+      );
+    }
   }
 }
 

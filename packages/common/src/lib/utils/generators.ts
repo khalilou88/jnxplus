@@ -107,3 +107,19 @@ export function parseProjects(projects: string | undefined) {
 export function generateBasePackage(groupId: string) {
   return groupId.replace(new RegExp(/-/, 'g'), '');
 }
+
+// https://prettier.io/docs/en/configuration.html
+export const prettierrcNameOptions = [
+  '.prettierrc',
+  '.prettierrc.json',
+  '.prettierrc.yml',
+  '.prettierrc.yaml',
+  '.prettierrc.json5',
+  '.prettierrc.js',
+  '.prettierrc.cjs',
+  '.prettierrc.mjs',
+  'prettier.config.js',
+  'prettier.config.cjs',
+  'prettier.config.mjs',
+  '.prettierrc.toml',
+];
