@@ -2,24 +2,20 @@
 
 ## Introduction to @jnxplus/nx-gradle
 
-`@jnxplus/nx-gradle` help you architect, test, and build java/kotlin projects inside a Nx workspace using Gradle multi-project builds.
+`@jnxplus/nx-gradle` help you architect and build java/kotlin projects inside a Nx workspace using Gradle multi-project builds.
 
 ### Philosophy
 
-Like Nx, `@jnxplus/nx-gradle` works especially for monorepo.
+`@jnxplus/nx-gradle` works especially for monorepo.
 
 `@jnxplus/nx-gradle` uses Gradle multi-project builds to maintains modular units of code.
 
 ### Features
 
-- Task executors like Smart rebuilds of affected projects
+- Task executors
 - Code generators
 - Code sharing
 - Workspace visualizations
-
-### Learn @jnxplus/nx-gradle Fundamentals
-
-- [Post Walkthrough on dev.to](https://dev.to/gridou/how-to-add-spring-boot-and-gradle-multi-project-builds-capabilities-to-your-nx-workspace-53cd)
 
 ## Setup @jnxplus/nx-gradle
 
@@ -37,7 +33,7 @@ This is an example with npm:
 npm install --save-dev @jnxplus/nx-gradle
 ```
 
-#### 2. Init workspace with Gradle and your framework support
+#### 2. Init workspace with Gradle support
 
 The following command adds Gradle support (Gradle wrapper and config files) to the workspace. This only needs to be performed once per workspace.
 
@@ -70,7 +66,7 @@ As you see, the command added the following files :
 - Gradle wrapper and Gradle executables for windows and Linux :
   Using Gradle Wrapper we can distribute/share a project to everybody to use the same version and Gradle's functionality(compile, build, install...) even if it has not been installed
 - `gradle.properties` :
-  This file contain Java, Spring Boot and dependency management versions that we will use for all apps and libs inside Nx workspace.
+  This file contain Java, and dependency management versions that we will use for all apps and libs inside Nx workspace.
 - `settings.gradle` or `settings.gradle.kts` depending on the DSL option :
   Here we will add our apps and libs later so Gradle will be able to perform its tasks.
 - `build.gradle` or `build.gradle.kts` depending on the DSL option :
