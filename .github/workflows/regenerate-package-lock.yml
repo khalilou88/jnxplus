@@ -13,10 +13,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node_version }}
           cache: 'npm'
@@ -24,7 +24,7 @@ jobs:
       - name: Remove package-lock.json
         run: |
           rm -f package-lock.json
-          
+
       - name: Install dependencies
         run: npm i
 
@@ -43,5 +43,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
-
-
