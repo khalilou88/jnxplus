@@ -84,7 +84,7 @@ export const createNodes: CreateNodes<NxMavenPluginOptions> = [
             executor: '@jnxplus/nx-maven:run-task',
             outputs: outputs,
             options: {
-              task: getTask(project.isAggregatorProject),
+              task: getTask(project.projectRoot),
               outputDirLocalRepo: outputDirLocalRepo,
             },
           },
@@ -118,8 +118,8 @@ function getOutputDirLocalRepo(
   );
 }
 
-function getTask(isAggregatorProject: boolean) {
-  if (isAggregatorProject) {
+function getTask(projectRoot: string) {
+  if (projectRoot === '.') {
     return 'install -N';
   }
 

@@ -27,7 +27,6 @@ export interface MavenProjectType {
   groupId: string;
   version: string;
   isPomPackaging: boolean;
-  isAggregatorProject: boolean;
   projectRoot: string;
   projectAbsolutePath: string;
   dependencies: (string | undefined)[];
@@ -102,6 +101,7 @@ export function addProjects(
   const pomXmlPath = path.join(projectAbsolutePath, 'pom.xml');
   const pomXmlContent = readXml(pomXmlPath);
 
+  //artifactId
   const artifactId = getArtifactId(pomXmlContent);
 
   const groupId = getGroupId(artifactId, pomXmlContent);
@@ -109,11 +109,6 @@ export function addProjects(
   const version = getVersion(artifactId, pomXmlContent);
 
   const isPomPackaging = isPomPackagingFunction(pomXmlContent);
-
-  const isAggregatorProject = isAggregatorProjectFunction(
-    isPomPackaging,
-    pomXmlContent,
-  );
 
   const projectRoot = getProjectRoot(projectAbsolutePath);
 
@@ -128,7 +123,6 @@ export function addProjects(
     groupId: groupId,
     version: version,
     isPomPackaging: isPomPackaging,
-    isAggregatorProject: isAggregatorProject,
     projectRoot: projectRoot,
     projectAbsolutePath: projectAbsolutePath,
     dependencies: dependencies,
@@ -210,22 +204,6 @@ function isPomPackagingFunction(pomXmlContent: XmlDocument): boolean {
   }
 
   return packagingXml.val === 'pom';
-}
-
-function isAggregatorProjectFunction(
-  isPomPackaging: boolean,
-  pomXmlContent: XmlDocument,
-): boolean {
-  if (!isPomPackaging) {
-    return false;
-  }
-
-  const modulesXmlElement = pomXmlContent.childNamed('modules');
-  if (modulesXmlElement === undefined) {
-    return false;
-  }
-
-  return true;
 }
 
 export function getEffectiveVersion(
