@@ -26,6 +26,7 @@ export interface MavenProjectType {
   artifactId: string;
   groupId: string;
   version: string;
+  isRootProject: boolean;
   isPomPackaging: boolean;
   projectRoot: string;
   projectAbsolutePath: string;
@@ -101,12 +102,13 @@ export function addProjects(
   const pomXmlPath = path.join(projectAbsolutePath, 'pom.xml');
   const pomXmlContent = readXml(pomXmlPath);
 
-  //artifactId
   const artifactId = getArtifactId(pomXmlContent);
 
   const groupId = getGroupId(artifactId, pomXmlContent);
 
   const version = getVersion(artifactId, pomXmlContent);
+
+  const isRootProject = !aggregatorProjectArtifactId;
 
   const isPomPackaging = isPomPackagingFunction(pomXmlContent);
 
@@ -122,6 +124,7 @@ export function addProjects(
     artifactId: artifactId,
     groupId: groupId,
     version: version,
+    isRootProject: isRootProject,
     isPomPackaging: isPomPackaging,
     projectRoot: projectRoot,
     projectAbsolutePath: projectAbsolutePath,
