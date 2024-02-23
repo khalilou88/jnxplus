@@ -231,7 +231,7 @@ function addOrUpdatePrettierRc(tree: Tree) {
     if (prettierrcNameOptions.every((name) => !tree.exists(name))) {
       writeJson(tree, prettierRcPath, {
         xmlWhitespaceSensitivity: 'ignore',
-        plugins: ['@prettier/plugin-xml', 'prettier-plugin-java'],
+        plugins: ['@prettier/plugin-xml'],
       });
     } else {
       logger.warn(
