@@ -292,10 +292,10 @@ async function libraryGenerator(
     targets: {
       build: {
         executor: '@jnxplus/nx-gradle:run-task',
+        outputs: [`{projectRoot}/build`],
         options: {
           task: 'build',
         },
-        outputs: [`{projectRoot}/build`],
       },
       test: {
         executor: '@jnxplus/nx-gradle:run-task',
