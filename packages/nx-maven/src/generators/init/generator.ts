@@ -163,7 +163,7 @@ function updateNxJson(tree: Tree, options: NormalizedSchema) {
 
 function updateGitIgnore(tree: Tree, options: NormalizedSchema) {
   const filePath = '.gitignore';
-  const contents = tree.read(filePath, 'utf-8') || '';
+  const contents = tree.read(filePath, 'utf-8') ?? '';
 
   const mavenIgnores = [
     '\n',
@@ -227,17 +227,15 @@ function addOrUpdatePrettierRc(tree: Tree) {
       // return modified JSON object
       return prettierRcJson;
     });
+  } else if (prettierrcNameOptions.every((name) => !tree.exists(name))) {
+    writeJson(tree, prettierRcPath, {
+      xmlWhitespaceSensitivity: 'ignore',
+      plugins: ['@prettier/plugin-xml', 'prettier-plugin-java'],
+    });
   } else {
-    if (prettierrcNameOptions.every((name) => !tree.exists(name))) {
-      writeJson(tree, prettierRcPath, {
-        xmlWhitespaceSensitivity: 'ignore',
-        plugins: ['@prettier/plugin-xml', 'prettier-plugin-java'],
-      });
-    } else {
-      logger.warn(
-        'Please add xmlWhitespaceSensitivity with ignore value, @prettier/plugin-xml and prettier-plugin-java plugins to your prettier config file',
-      );
-    }
+    logger.warn(
+      'Please add xmlWhitespaceSensitivity with ignore value, @prettier/plugin-xml and prettier-plugin-java plugins to your prettier config file',
+    );
   }
 }
 
@@ -257,7 +255,7 @@ function addOrUpdatePrettierIgnore(tree: Tree, options: NormalizedSchema) {
 
   if (tree.exists(prettierIgnorePath)) {
     const prettierIgnoreOldContent =
-      tree.read(prettierIgnorePath, 'utf-8') || '';
+      tree.read(prettierIgnorePath, 'utf-8') ?? '';
     mavenPrettierIgnores.unshift('\n\n');
 
     const prettierIgnoreContent = prettierIgnoreOldContent.concat(
@@ -282,7 +280,7 @@ function addOrUpdateGitattributes(tree: Tree) {
   ];
 
   if (tree.exists(gitattributesPath)) {
-    const gitattributesOldContent = tree.read(gitattributesPath, 'utf-8') || '';
+    const gitattributesOldContent = tree.read(gitattributesPath, 'utf-8') ?? '';
     attributes.unshift('\n\n');
 
     const gitattributesContent = gitattributesOldContent.concat(
