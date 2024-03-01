@@ -79,8 +79,16 @@ export const createNodes: CreateNodes<NxMavenPluginOptions> = [
         } else {
           outputs = ['{projectRoot}/target', '{options.outputDirLocalRepo}'];
         }
+
+        const buildTarget = (opts?.targets ?? []).find(
+          (element) => element.defaultName == 'build',
+        );
+        const buildTargetName = buildTarget?.customName
+          ? buildTarget?.customName
+          : 'build';
+
         targets = {
-          build: {
+          [buildTargetName]: {
             executor: '@jnxplus/nx-maven:run-task',
             outputs: outputs,
             options: {

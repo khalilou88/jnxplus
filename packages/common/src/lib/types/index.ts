@@ -20,7 +20,12 @@ export interface TemplateOptionsType {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [k: string]: any;
 }
+type NxMavenTarget = {
+  defaultName: string;
+  customName: string;
+};
 export type NxMavenPluginOptions = {
+  targets?: NxMavenTarget[];
   mavenRootDirectory: string;
   localRepoRelativePath: string;
 };
