@@ -379,7 +379,6 @@ async function applicationGenerator(
     targets['serve'].options = {
       ...targets['serve'].options,
       task: 'bootRun',
-      keepItRunning: true,
     };
 
     targets['build-image'] = {
@@ -399,7 +398,6 @@ async function applicationGenerator(
     targets['serve'].options = {
       ...targets['serve'].options,
       task: 'quarkusDev',
-      keepItRunning: true,
     };
 
     targets['build-image'] = {
@@ -424,7 +422,6 @@ async function applicationGenerator(
 
     targets['serve'].options = {
       ...targets['serve'].options,
-      keepItRunning: true,
     };
   }
 

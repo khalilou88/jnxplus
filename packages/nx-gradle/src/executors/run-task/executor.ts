@@ -1,4 +1,4 @@
-import { getTargetName, runCommand, waitForever } from '@jnxplus/common';
+import { getTargetName, runCommand } from '@jnxplus/common';
 import { ExecutorContext, logger, workspaceRoot } from '@nx/devkit';
 import { join } from 'path';
 import {
@@ -41,10 +41,6 @@ export default async function runExecutor(
 
   if (!result.success) {
     return { success: false };
-  }
-
-  if (options.keepItRunning) {
-    await waitForever();
   }
 
   return { success: true };

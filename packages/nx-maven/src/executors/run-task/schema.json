@@ -18,11 +18,6 @@
       ],
       "description": "Task to be executed"
     },
-    "keepItRunning": {
-      "type": "boolean",
-      "description": "Keep the task running, you can use this option for serve target for example.",
-      "default": false
-    },
     "outputDirLocalRepo": {
       "type": "string",
       "description": "The artifacts created during the `install phase` will be placed in this sub-directory of the Maven local repository (dynamically calculated)"

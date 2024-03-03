@@ -408,7 +408,6 @@ async function applicationGenerator(
     targets['serve'].options = {
       ...targets['serve'].options,
       task: 'spring-boot:run',
-      keepItRunning: true,
     };
     targets['serve'].dependsOn = ['^build'];
   }
@@ -421,7 +420,6 @@ async function applicationGenerator(
     targets['serve'].options = {
       ...targets['serve'].options,
       task: 'quarkus:dev',
-      keepItRunning: true,
     };
     targets['serve'].dependsOn = ['^build'];
 
@@ -444,7 +442,6 @@ async function applicationGenerator(
     targets['serve'].options = {
       ...targets['serve'].options,
       task: 'mn:run',
-      keepItRunning: true,
     };
     targets['serve'].dependsOn = ['^build'];
   }

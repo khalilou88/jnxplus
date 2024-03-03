@@ -20,11 +20,6 @@
     },
     "projectPath": {
       "type": "string"
-    },
-    "keepItRunning": {
-      "type": "boolean",
-      "description": "Keep the task running, you can use this option for serve target for example.",
-      "default": false
     }
   },
   "required": ["task"]
