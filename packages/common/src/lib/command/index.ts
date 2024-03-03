@@ -1,12 +1,6 @@
 import { logger } from '@nx/devkit';
 import { execSync } from 'child_process';
 
-export async function waitForever() {
-  return new Promise(() => {
-    // wait forever
-  });
-}
-
 export function runCommand(
   command: string,
   workDir: string,
