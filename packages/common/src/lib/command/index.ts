@@ -1,5 +1,5 @@
 import { logger } from '@nx/devkit';
-import { execSync } from 'child_process';
+import { spawnSync } from 'child_process';
 
 export function runCommand(
   command: string,
@@ -11,11 +11,12 @@ export function runCommand(
     if (isVerbose) {
       logger.debug(`Running command: ${command} from: ${workDir}`);
     }
-    execSync(command, {
+    spawnSync(command, {
       cwd: workDir,
       stdio: 'inherit',
       env: process.env,
       encoding: 'utf-8',
+      shell: true,
     });
     return { success: true };
   } catch (e) {
