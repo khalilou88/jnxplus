@@ -24,8 +24,7 @@
     },
     "skipProject": {
       "type": "boolean",
-      "description": "Skip specifying a project by generating `-pl :project` part",
-      "default": false
+      "description": "Skip specifying a project by generating `-pl :project` part"
     },
     "cwd": {
       "type": "string",
