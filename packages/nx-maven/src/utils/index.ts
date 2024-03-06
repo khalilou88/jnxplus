@@ -29,8 +29,7 @@ export function getExecutable() {
     const isWrapperExists = isWrapperExistsFunction(mavenRootDirectory);
 
     if (isWrapperExists) {
-      const isWin = process.platform === 'win32';
-      executable = isWin ? 'mvnw.cmd' : './mvnw';
+      executable = process.platform.startsWith('win') ? 'mvnw.cmd' : './mvnw';
     } else {
       executable = 'mvn';
     }

@@ -98,8 +98,9 @@ export function getExecutable() {
     const isWrapperExists = isWrapperExistsFunction();
 
     if (isWrapperExists) {
-      const isWin = process.platform === 'win32';
-      executable = isWin ? 'gradlew.bat' : './gradlew';
+      executable = process.platform.startsWith('win')
+        ? 'gradlew.bat'
+        : './gradlew';
     } else {
       executable = 'gradle';
     }
