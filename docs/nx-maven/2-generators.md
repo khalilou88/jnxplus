@@ -2,7 +2,7 @@
 
 ## @jnxplus/nx-maven:init
 
-Add Spring Boot and Maven support. This only needs to be performed once per workspace.
+Add Maven support. This only needs to be performed once per workspace.
 
 ### Usage
 
