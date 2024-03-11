@@ -36,11 +36,5 @@ export default async function runExecutor(
     }
   }
 
-  const result = runCommand(command, cwd);
-
-  if (!result.success) {
-    return { success: false };
-  }
-
-  return { success: true };
+  return runCommand(command, cwd);
 }

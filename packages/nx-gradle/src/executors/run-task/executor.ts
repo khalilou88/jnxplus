@@ -37,11 +37,5 @@ export default async function runExecutor(
 
   const command = `${getExecutable()} ${projectPath}:${task}`;
 
-  const result = runCommand(command, gradleRootDirectoryAbsolutePath);
-
-  if (!result.success) {
-    return { success: false };
-  }
-
-  return { success: true };
+  return runCommand(command, gradleRootDirectoryAbsolutePath);
 }

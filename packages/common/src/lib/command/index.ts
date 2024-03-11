@@ -17,7 +17,6 @@ export function runCommand(
       env: process.env,
       encoding: 'utf-8',
     });
-    return { success: true };
   } catch (e) {
     if (isVerbose) {
       logger.error(`Failed to execute command: ${command}`);
@@ -25,4 +24,5 @@ export function runCommand(
     }
     return { success: false };
   }
+  return { success: true };
 }
