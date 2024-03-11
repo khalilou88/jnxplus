@@ -62,7 +62,7 @@ export function getMavenRootDirectory(): string {
 
   const nxJson = readJsonFile<NxJsonConfiguration>(nxJsonPath);
 
-  const plugin = (nxJson?.plugins || []).find((p) =>
+  const plugin = (nxJson?.plugins ?? []).find((p) =>
     typeof p === 'string'
       ? p === '@jnxplus/nx-maven'
       : p.plugin === '@jnxplus/nx-maven',
@@ -362,7 +362,7 @@ function getLocalRepoRelativePath(): string {
 
   const nxJson = readJsonFile<NxJsonConfiguration>(nxJsonPath);
 
-  const plugin = (nxJson?.plugins || []).find((p) =>
+  const plugin = (nxJson?.plugins ?? []).find((p) =>
     typeof p === 'string'
       ? p === '@jnxplus/nx-maven'
       : p.plugin === '@jnxplus/nx-maven',
@@ -525,7 +525,7 @@ export function extractRootPomValues(
   if (framework === 'quarkus') {
     quarkusVersion =
       rootPomXmlContent?.childNamed('properties')?.childNamed('quarkus.version')
-        ?.val || 'quarkusVersion';
+        ?.val ?? 'quarkusVersion';
   }
 
   return [quarkusVersion, getDependencyManagement(rootPomXmlContent)];
