@@ -39,14 +39,14 @@ export function getProjectPathFromProjectRoot(
     ),
   );
 
-  const projectPath = projectPathSlash.replace(new RegExp('/', 'g'), ':');
+  const projectPath = projectPathSlash.replace(/\//g, ':');
 
   return `:${projectPath}`;
 }
 
 export function getQuarkusVersion(gradlePropertiesContent: string) {
   const regexp = /quarkusVersion=(.*)/g;
-  const matches = (gradlePropertiesContent.match(regexp) || []).map((e) =>
+  const matches = (gradlePropertiesContent.match(regexp) ?? []).map((e) =>
     e.replace(regexp, '$1'),
   );
   return matches[0];
@@ -54,7 +54,7 @@ export function getQuarkusVersion(gradlePropertiesContent: string) {
 
 export function getRootProjectName(settingsGradleContent: string) {
   const regexp = /rootProject.name\s*=\s*['"](.*)['"]/g;
-  const matches = (settingsGradleContent.match(regexp) || []).map((e) =>
+  const matches = (settingsGradleContent.match(regexp) ?? []).map((e) =>
     e.replace(regexp, '$1'),
   );
   return matches[0];
@@ -65,7 +65,7 @@ export function getGradleRootDirectory(): string {
 
   const nxJson = readJsonFile<NxJsonConfiguration>(nxJsonPath);
 
-  const plugin = (nxJson?.plugins || []).find((p) =>
+  const plugin = (nxJson?.plugins ?? []).find((p) =>
     typeof p === 'string'
       ? p === '@jnxplus/nx-gradle'
       : p.plugin === '@jnxplus/nx-gradle',
@@ -149,7 +149,7 @@ export function addProjectToGradleSetting(
   );
 
   if (tree.exists(filePath)) {
-    const settingsContent = tree.read(filePath, 'utf-8') || '';
+    const settingsContent = tree.read(filePath, 'utf-8') ?? '';
 
     const newSettingsContent = settingsContent.replace(
       regex,
@@ -159,7 +159,7 @@ export function addProjectToGradleSetting(
   }
 
   if (tree.exists(ktsFilePath)) {
-    const settingsContent = tree.read(ktsFilePath, 'utf-8') || '';
+    const settingsContent = tree.read(ktsFilePath, 'utf-8') ?? '';
 
     const newSettingsContent = settingsContent.replace(
       regex,
@@ -189,7 +189,7 @@ export function addLibraryToProjects(
     const ktsPath = path.join(projectRoot, 'build.gradle.kts');
 
     if (tree.exists(filePath)) {
-      const buildGradleContent = tree.read(filePath, 'utf-8') || '';
+      const buildGradleContent = tree.read(filePath, 'utf-8') ?? '';
       const newBuildGradleContent = buildGradleContent.replace(
         regex,
         `$&\n\timplementation project(':${projectPath}')`,
@@ -198,7 +198,7 @@ export function addLibraryToProjects(
     }
 
     if (tree.exists(ktsPath)) {
-      const buildGradleContent = tree.read(ktsPath, 'utf-8') || '';
+      const buildGradleContent = tree.read(ktsPath, 'utf-8') ?? '';
 
       const newBuildGradleContent = buildGradleContent.replace(
         regex,
