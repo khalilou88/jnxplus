@@ -1,3 +1,7 @@
+## 0.40.1-1 (2024-03-12)
+
+This was a version bump only, there were no code changes.
+
 ## 0.40.1-0 (2024-03-10)
 
 ### 🚀 Features
