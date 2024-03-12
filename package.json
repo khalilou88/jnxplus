@@ -24,7 +24,7 @@
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.0.3",
+    "@commitlint/cli": "^19.1.0",
     "@commitlint/config-angular": "^19.1.0",
     "@nx/eslint": "18.0.8",
     "@nx/eslint-plugin": "18.0.8",
