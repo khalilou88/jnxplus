@@ -1,3 +1,13 @@
+## 0.40.1-2 (2024-03-13)
+
+### 🚀 Features
+
+- use mvn help:evaluate to calculate complex versions ([#934](https://github.com/khalilou88/jnxplus/pull/934))
+
+### ❤️ Thank You
+
+- khalilou88 @khalilou88
+
 ## 0.40.1-1 (2024-03-12)
 
 This was a version bump only, there were no code changes.
