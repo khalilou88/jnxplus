@@ -114,7 +114,7 @@ function getProjectRootFromTree(
   return projectRoot;
 }
 
-function getExpressionValue(
+export function getExpressionValue(
   expression: string,
   mavenRootDirAbsolutePath: string,
   projectName?: string,

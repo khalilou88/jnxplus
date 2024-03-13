@@ -3,6 +3,7 @@ import { readXml } from '@jnxplus/xml';
 import {
   NxJsonConfiguration,
   joinPathFragments,
+  logger,
   normalizePath,
   readJsonFile,
   workspaceRoot,
@@ -12,6 +13,7 @@ import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
 import {
   getArtifactId,
+  getExpressionValue,
   getGroupId,
   getLocalRepositoryPath,
   getVersion,
@@ -239,12 +241,15 @@ export function getEffectiveVersion(
 
   //4 Can't calculate version, maybe contains something like ${project.parent.version}
   // call help:evaluate to get version and add warning because help:evaluate took a lot of time
-  //TODO change code after tests
-  throw new Error(
-    `Can't calculate version ${newVersion} of project ${project.artifactId}`,
+  logger.warn(
+    `Can't calculate version ${newVersion} of project ${project.artifactId} without using mvn help:evaluate that take a lot of time. Please Open an issue to address this case.`,
   );
 
-  return newVersion;
+  return getExpressionValue(
+    'project.version',
+    workspaceData.mavenRootDirAbsolutePath,
+    project.artifactId,
+  );
 }
 
 function getVersionFromParentProject(
