@@ -1,8 +1,5 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "affected": {
-    "defaultBase": "main"
-  },
   "workspaceLayout": {
     "libsDir": "packages",
     "appsDir": "testing-projects"
@@ -65,7 +62,12 @@
       "create-nx-maven-workspace"
     ],
     "projectsRelationship": "fixed",
-    "changelog": { "workspaceChangelog": { "createRelease": "github" } }
+    "changelog": {
+      "workspaceChangelog": {
+        "createRelease": "github"
+      }
+    }
   },
-  "parallel": 1
+  "parallel": 1,
+  "defaultBase": "main"
 }
