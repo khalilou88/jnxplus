@@ -5,6 +5,12 @@
   "main": "src/index.js",
   "generators": "./generators.json",
   "executors": "./executors.json",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json",
+    "./generators.json": "./generators.json",
+    "./executors.json": "./executors.json"
+  },
   "private": false,
   "publishConfig": {
     "access": "public"
