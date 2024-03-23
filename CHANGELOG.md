@@ -1,3 +1,13 @@
+## 0.41.1-0 (2024-03-23)
+
+### 🚀 Features
+
+- add exports to package.json ([#950](https://github.com/khalilou88/jnxplus/pull/950))
+
+### ❤️ Thank You
+
+- khalilou88 @khalilou88
+
 ## 0.41.0 (2024-03-15)
 
 This was a version bump only, there were no code changes.
