@@ -1,3 +1,7 @@
+## 0.42.1 (2024-03-26)
+
+This was a version bump only, there were no code changes.
+
 ## 0.42.1-0 (2024-03-26)
 
 ### 🩹 Fixes
