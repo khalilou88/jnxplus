@@ -1,3 +1,13 @@
+## 0.42.1-0 (2024-03-26)
+
+### 🩹 Fixes
+
+- create projectDependencyTask outputDirectory if it doesn't exist ([#956](https://github.com/khalilou88/jnxplus/pull/956))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+
 ## 0.42.0 (2024-03-24)
 
 This was a version bump only, there were no code changes.
