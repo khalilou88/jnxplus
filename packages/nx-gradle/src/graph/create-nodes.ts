@@ -15,7 +15,7 @@ export const createNodes: CreateNodes<NxGradlePluginOptions> = [
   'nx.json',
   (_, opts) => {
     if (!fs.existsSync(outputDirectory)) {
-      fs.mkdirSync(outputDirectory);
+      fs.mkdirSync(outputDirectory, { recursive: true });
     }
 
     const command = `${getExecutable()} :projectDependencyTask --outputFile=${outputFile}`;
