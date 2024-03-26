@@ -82,6 +82,9 @@ describe('nx-gradle spring-boot smoke', () => {
       execSyncOptions(),
     );
 
+    //This also removes the .nx/cache folder
+    execSync(`npx nx reset`, execSyncOptions());
+
     execSync(`npx nx run-many --target=build --parallel`, execSyncOptions());
 
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
