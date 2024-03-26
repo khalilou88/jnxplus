@@ -22,10 +22,12 @@ interface GradleProject2Type {
 
 export type GradleProjectType = GradleProject1Type & GradleProject2Type;
 
-export const outputFile = path.join(
+export const outputDirectory = path.join(
   projectGraphCacheDirectory,
-  'nx-gradle-deps.json',
+  'nx-gradle',
 );
+
+export const outputFile = path.join(outputDirectory, 'nx-gradle-deps.json');
 
 export function getProjectRoot(
   gradleRootDirectory: string,
