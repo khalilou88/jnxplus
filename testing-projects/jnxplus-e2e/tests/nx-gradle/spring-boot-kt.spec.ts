@@ -120,6 +120,9 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     expect(buildGradle.includes('com.example')).toBeTruthy();
     expect(buildGradle.includes('0.0.1-SNAPSHOT')).toBeTruthy();
 
+    //This also removes the .nx/cache folder
+    await runNxCommandAsync(`reset`);
+
     const testResult = await runNxCommandAsync(`test ${appName}`);
     expect(testResult.stdout).toContain('Executor ran for Test');
 
