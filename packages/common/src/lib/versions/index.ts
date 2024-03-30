@@ -23,7 +23,7 @@ export const jnxplusGradlePluginVersion = '0.4.0';
 
 //Prettier
 export const prettierVersion = '^3.2.4';
-export const prettierPluginXmlVersion = '^3.4.0';
+export const prettierPluginXmlVersion = '^3.4.1';
 export const prettierPluginJavaVersion = '2.5.0';
 
 //Maven plugins
