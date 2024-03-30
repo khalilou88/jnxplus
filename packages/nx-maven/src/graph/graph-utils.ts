@@ -215,6 +215,11 @@ export function getEffectiveVersion(
   project: MavenProjectType,
   workspaceData: WorkspaceDataType,
 ) {
+  const cIFriendlyVersion = process.env['NX_MAVEN_CI_FRIENDLY_VERSION'];
+  if (cIFriendlyVersion) {
+    return cIFriendlyVersion;
+  }
+
   let newVersion = project.version;
 
   //1 if version is constant return it
