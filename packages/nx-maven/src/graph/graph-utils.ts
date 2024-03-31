@@ -211,12 +211,20 @@ function isPomPackagingFunction(pomXmlContent: XmlDocument): boolean {
   return packagingXml.val === 'pom';
 }
 
+function isCIFriendlyVersion(version: string): boolean {
+  return (
+    version.includes('${revision}') ||
+    version.includes('${sha1}') ||
+    version.includes('${changelist}')
+  );
+}
+
 export function getEffectiveVersion(
   project: MavenProjectType,
   workspaceData: WorkspaceDataType,
 ) {
   const cIFriendlyVersion = process.env['NX_MAVEN_CI_FRIENDLY_VERSION'];
-  if (cIFriendlyVersion) {
+  if (isCIFriendlyVersion(project.version) && cIFriendlyVersion) {
     return cIFriendlyVersion;
   }
 
