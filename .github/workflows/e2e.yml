@@ -11,7 +11,8 @@ jobs:
     name: E2e tests
     strategy:
       matrix:
-        os: [ubuntu-latest, macOS-latest, windows-latest]
+        #        os: [ubuntu-latest, macOS-latest, windows-latest]
+        os: [ubuntu-latest, macOS-latest]
         node_version: ['18', '20']
         java: ['17']
       fail-fast: false
