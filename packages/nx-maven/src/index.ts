@@ -6,9 +6,12 @@ import parentProjectGenerator from './generators/parent-project/generator';
 import libraryGenerator from './generators/library/generator';
 import applicationGenerator from './generators/application/generator';
 
+import runTaskExecutor from './executors/run-task/executor';
+
 export {
   initGenerator,
   parentProjectGenerator,
   libraryGenerator,
   applicationGenerator,
+  runTaskExecutor,
 };
