@@ -1,3 +1,15 @@
+## 0.43.0 (2024-04-09)
+
+### 🚀 Features
+
+- update prettier versions ([#963](https://github.com/khalilou88/jnxplus/pull/963))
+- export nx-maven run-task executor ([12c5c7f4](https://github.com/khalilou88/jnxplus/commit/12c5c7f4))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+- khalilou88 @khalilou88
+
 ## 0.42.1 (2024-03-26)
 
 This was a version bump only, there were no code changes.
