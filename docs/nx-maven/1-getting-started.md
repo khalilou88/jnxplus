@@ -2,24 +2,20 @@
 
 ## Introduction to @jnxplus/nx-maven
 
-`@jnxplus/nx-maven` help you architect, test, and build Spring boot projects inside a Nx workspace using Maven multi-module architecture.
+`@jnxplus/nx-maven` help you architect and build java/kotlin projects inside a Nx workspace using Maven multi-module architecture.
 
 ### Philosophy
 
-Like Nx, `@jnxplus/nx-maven` works especially for monorepos.
+`@jnxplus/nx-maven` works especially for monorepo.
 
 `@jnxplus/nx-maven` uses Maven multi-module architecture to maintains modular units of code.
 
 ### Features
 
-- Task executors like Smart rebuilds of affected projects
+- Task executors
 - Code generators
 - Code sharing
 - Workspace visualizations
-
-### Learn @jnxplus/nx-maven Fundamentals
-
-- [Post Walkthrough on dev.to](https://dev.to/gridou/announcing-jnxplus-nx-maven-4g28)
 
 ## Setup @jnxplus/nx-maven
 
@@ -37,7 +33,7 @@ This is an example with npm:
 npm install --save-dev @jnxplus/nx-maven
 ```
 
-#### 2. Init workspace with Spring boot and Maven support
+#### 2. Init workspace with Maven support
 
 The following command adds Spring boot and Maven support (Maven wrapper and config files) to the workspace. This only needs to be performed once per workspace.
 
