@@ -18,7 +18,7 @@
   "private": false,
   "dependencies": {
     "@nx/devkit": "18.2.4",
-    "@swc/helpers": "0.5.9",
+    "@swc/helpers": "0.5.10",
     "create-nx-workspace": "18.2.4",
     "flat-cache": "^4.0.1",
     "tslib": "^2.6.2"
