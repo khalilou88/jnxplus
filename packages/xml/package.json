@@ -29,6 +29,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/khalilou88/jnxplus.git",
-    "directory": "packages/create-nx-gradle-workspace"
+    "directory": "packages/xml"
   }
 }
