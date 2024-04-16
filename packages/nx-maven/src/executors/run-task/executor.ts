@@ -8,6 +8,11 @@ export default async function runExecutor(
   options: RunTaskExecutorSchema,
   context: ExecutorContext,
 ) {
+  if (options.skipExecutor) {
+    logger.warn('Skipping executor @jnxplus/nx-maven:run-task');
+    return { success: true };
+  }
+
   const targetName = getTargetName(context);
   logger.info(`Executor ran for ${targetName}: ${JSON.stringify(options)}`);
 

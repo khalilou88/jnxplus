@@ -3,4 +3,5 @@ export interface RunTaskExecutorSchema {
   outputDirLocalRepo?: string;
   skipProject?: boolean;
   cwd?: string;
+  skipExecutor?: boolean;
 }

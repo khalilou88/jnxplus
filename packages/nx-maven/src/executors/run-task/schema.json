@@ -29,6 +29,10 @@
     "cwd": {
       "type": "string",
       "description": "Current working directory of the command. If it's not specified the command will run in the maven working directory, if a relative path is specified the command will run in that path relative to the maven working directory and if it's an absolute path the command will run in that path."
+    },
+    "skipExecutor": {
+      "type": "boolean",
+      "description": "Skip executor run"
     }
   },
   "required": ["task"]
