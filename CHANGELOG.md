@@ -1,3 +1,15 @@
+## 0.44.0 (2024-04-16)
+
+### 🚀 Features
+
+- export nx-gradle run-task executor ([b71c8947](https://github.com/khalilou88/jnxplus/commit/b71c8947))
+- add skipExecutor option ([#996](https://github.com/khalilou88/jnxplus/pull/996))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+- khalilou88 @khalilou88
+
 ## 0.43.0 (2024-04-09)
 
 ### 🚀 Features
