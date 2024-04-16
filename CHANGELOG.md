@@ -1,3 +1,13 @@
+## 0.45.0 (2024-04-16)
+
+### 🚀 Features
+
+- update log message ([d4fe3b26](https://github.com/khalilou88/jnxplus/commit/d4fe3b26))
+
+### ❤️ Thank You
+
+- khalilou88 @khalilou88
+
 ## 0.44.0 (2024-04-16)
 
 ### 🚀 Features
