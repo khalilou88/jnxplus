@@ -23,5 +23,6 @@ export interface TemplateOptionsType {
 export type NxMavenPluginOptions = {
   mavenRootDirectory: string;
   localRepoRelativePath: string;
+  buildTargetName: string;
 };
 export type NxGradlePluginOptions = { gradleRootDirectory: string };
