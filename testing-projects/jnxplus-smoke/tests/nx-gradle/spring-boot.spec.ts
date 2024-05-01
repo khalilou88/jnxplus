@@ -83,7 +83,8 @@ describe('nx-gradle spring-boot smoke', () => {
     );
 
     //This also removes the .nx/cache folder
-    execSync(`npx nx reset`, execSyncOptions());
+    // TODO: not working on windows
+    // execSync(`npx nx reset`, execSyncOptions());
 
     execSync(`npx nx run-many --target=build --parallel`, execSyncOptions());
 
