@@ -37,7 +37,7 @@
     "@swc-node/register": "1.9.1",
     "@swc/cli": "0.3.12",
     "@swc/core": "1.5.3",
-    "@swc/wasm": "~1.5.4",
+    "@swc/wasm": "~1.5.5",
     "@types/flat-cache": "^2.0.2",
     "@types/fs-extra": "^11.0.4",
     "@types/jest": "^29.5.12",
