@@ -1,3 +1,19 @@
+## 0.45.1-0 (2024-05-16)
+
+### 🚀 Features
+
+- possibility to override build target name ([#1013](https://github.com/khalilou88/jnxplus/pull/1013))
+
+### 🩹 Fixes
+
+- fix package repository info ([250956d8](https://github.com/khalilou88/jnxplus/commit/250956d8))
+- fix package homepage for xml lib ([ce38fd35](https://github.com/khalilou88/jnxplus/commit/ce38fd35))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+- khalilou88 @khalilou88
+
 ## 0.45.0 (2024-04-16)
 
 ### 🚀 Features
