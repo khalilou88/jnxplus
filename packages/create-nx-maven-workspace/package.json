@@ -1,12 +1,12 @@
 {
   "name": "create-nx-maven-workspace",
-  "version": "0.45.1-0",
+  "version": "1.0.0",
   "dependencies": {
     "create-nx-workspace": ">=17.0.0",
     "enquirer": "^2.3.6",
     "tslib": "^2.6.2",
     "yargs": "^17.7.2",
-    "@jnxplus/common": "0.45.1-0"
+    "@jnxplus/common": "1.0.0"
   },
   "type": "commonjs",
   "main": "./src/index.js",
