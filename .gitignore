@@ -48,3 +48,5 @@ Thumbs.db
 /packages/gradle-plugin/dist/
 
 .nx/cache
+
+.env
