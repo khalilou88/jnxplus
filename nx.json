@@ -70,5 +70,6 @@
     }
   },
   "parallel": 1,
-  "defaultBase": "main"
+  "defaultBase": "main",
+  "useInferencePlugins": false
 }
