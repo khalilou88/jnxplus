@@ -28,6 +28,7 @@ import {
   addLibraryToProjects,
   addMissedProperties,
   addProjectToAggregator,
+  getBuildTargetName,
   getMavenRootDirectory,
   getParentProjectValues,
 } from '../../utils';
@@ -53,6 +54,7 @@ interface NormalizedSchema extends NxMavenLibGeneratorSchema {
   quarkusVersion: string;
   micronautVersion: string;
   mavenRootDirectory: string;
+  buildTargetName: string;
 }
 
 function normalizeOptions(
@@ -96,6 +98,8 @@ function normalizeOptions(
       options.parentProject,
     );
 
+  const buildTargetName = getBuildTargetName();
+
   return {
     ...options,
     projectName,
@@ -113,6 +117,7 @@ function normalizeOptions(
     quarkusVersion,
     micronautVersion,
     mavenRootDirectory,
+    buildTargetName,
   };
 }
 
@@ -298,7 +303,7 @@ async function libraryGenerator(
     projectType: 'library',
     sourceRoot: `./${normalizedOptions.projectRoot}/src`,
     targets: {
-      build: {
+      [normalizedOptions.buildTargetName]: {
         executor: '@jnxplus/nx-maven:run-task',
         outputs: ['{projectRoot}/target', '{options.outputDirLocalRepo}'],
         options: {
@@ -310,7 +315,7 @@ async function libraryGenerator(
         options: {
           task: 'test',
         },
-        dependsOn: ['build'],
+        dependsOn: [normalizedOptions.buildTargetName],
       },
     },
     tags: normalizedOptions.parsedTags,

@@ -32,6 +32,7 @@ import {
   addMissedProperties,
   addProjectToAggregator,
   extractRootPomValues,
+  getBuildTargetName,
   getMavenRootDirectory,
   getParentProjectValues,
 } from '../../utils';
@@ -60,6 +61,7 @@ interface NormalizedSchema extends NxMavenAppGeneratorSchema {
   dependencyManagement: DependencyManagementType;
   mavenRootDirectory: string;
   basePackage: string;
+  buildTargetName: string;
 }
 
 function normalizeOptions(
@@ -115,6 +117,8 @@ function normalizeOptions(
 
   const basePackage = generateBasePackage(options.groupId);
 
+  const buildTargetName = getBuildTargetName();
+
   return {
     ...options,
     projectName,
@@ -135,6 +139,7 @@ function normalizeOptions(
     dependencyManagement,
     mavenRootDirectory,
     basePackage,
+    buildTargetName,
   };
 }
 
@@ -363,7 +368,7 @@ async function applicationGenerator(
     projectType: 'application',
     sourceRoot: `./${normalizedOptions.projectRoot}/src`,
     targets: {
-      build: {
+      [normalizedOptions.buildTargetName]: {
         executor: '@jnxplus/nx-maven:run-task',
         outputs: ['{projectRoot}/target'],
         options: {
@@ -376,14 +381,14 @@ async function applicationGenerator(
         options: {
           task: 'exec:java',
         },
-        dependsOn: ['build'],
+        dependsOn: [normalizedOptions.buildTargetName],
       },
       test: {
         executor: '@jnxplus/nx-maven:run-task',
         options: {
           task: 'test',
         },
-        dependsOn: ['^build'],
+        dependsOn: [`^${normalizedOptions.buildTargetName}`],
       },
       'integration-test': {},
     },
@@ -393,8 +398,8 @@ async function applicationGenerator(
   const targets = projectConfiguration.targets ?? {};
 
   if (options.framework === 'spring-boot') {
-    targets['build'].options = {
-      ...targets['build'].options,
+    targets[normalizedOptions.buildTargetName].options = {
+      ...targets[normalizedOptions.buildTargetName].options,
       task: 'package spring-boot:repackage -DskipTests=true',
     };
 
@@ -409,7 +414,7 @@ async function applicationGenerator(
       ...targets['serve'].options,
       task: 'spring-boot:run',
     };
-    targets['serve'].dependsOn = ['^build'];
+    targets['serve'].dependsOn = [`^${normalizedOptions.buildTargetName}`];
   }
 
   if (options.framework === 'quarkus') {
@@ -421,7 +426,7 @@ async function applicationGenerator(
       ...targets['serve'].options,
       task: 'quarkus:dev',
     };
-    targets['serve'].dependsOn = ['^build'];
+    targets['serve'].dependsOn = [`^${normalizedOptions.buildTargetName}`];
 
     targets['integration-test'] = {
       executor: '@jnxplus/nx-maven:run-task',
@@ -443,7 +448,7 @@ async function applicationGenerator(
       ...targets['serve'].options,
       task: 'mn:run',
     };
-    targets['serve'].dependsOn = ['^build'];
+    targets['serve'].dependsOn = [`^${normalizedOptions.buildTargetName}`];
   }
 
   clearEmpties(targets);

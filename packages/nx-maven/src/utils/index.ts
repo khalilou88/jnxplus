@@ -86,6 +86,35 @@ export function getMavenRootDirectory(): string {
   return '';
 }
 
+export function getBuildTargetName(): string {
+  const nxJsonPath = path.join(workspaceRoot, 'nx.json');
+
+  const nxJson = readJsonFile<NxJsonConfiguration>(nxJsonPath);
+
+  const plugin = (nxJson?.plugins ?? []).find((p) =>
+    typeof p === 'string'
+      ? p === '@jnxplus/nx-maven'
+      : p.plugin === '@jnxplus/nx-maven',
+  );
+
+  if (typeof plugin === 'string') {
+    return 'build';
+  }
+
+  const options = plugin?.options;
+
+  if (
+    typeof options === 'object' &&
+    options &&
+    'buildTargetName' in options &&
+    typeof options.buildTargetName === 'string'
+  ) {
+    return options.buildTargetName;
+  }
+
+  return 'build';
+}
+
 function getProjectRootFromTree(
   tree: Tree,
   mavenRootDirectory: string,
