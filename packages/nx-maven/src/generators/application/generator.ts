@@ -381,7 +381,7 @@ async function applicationGenerator(
         options: {
           task: 'exec:java',
         },
-        dependsOn: [normalizedOptions.buildTargetName],
+        dependsOn: [`${normalizedOptions.buildTargetName}`],
       },
       test: {
         executor: '@jnxplus/nx-maven:run-task',
