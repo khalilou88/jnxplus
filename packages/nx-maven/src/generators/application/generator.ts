@@ -398,8 +398,8 @@ async function applicationGenerator(
   const targets = projectConfiguration.targets ?? {};
 
   if (options.framework === 'spring-boot') {
-    targets[normalizedOptions.buildTargetName].options = {
-      ...targets[normalizedOptions.buildTargetName].options,
+    targets[`${normalizedOptions.buildTargetName}`].options = {
+      ...targets[`${normalizedOptions.buildTargetName}`].options,
       task: 'package spring-boot:repackage -DskipTests=true',
     };
 
