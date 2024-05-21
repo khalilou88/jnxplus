@@ -8,7 +8,7 @@
     "build": "nx build",
     "test": "nx test",
     "e2e": "nx e2e",
-    "prepare": "husky install",
+    "prepare": "husky",
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
