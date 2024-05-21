@@ -7,6 +7,7 @@ import {
 import { readXmlTree, xmlToString } from '@jnxplus/xml';
 import {
   NxJsonConfiguration,
+  PluginConfiguration,
   Tree,
   joinPathFragments,
   readJsonFile,
@@ -86,7 +87,7 @@ export function getMavenRootDirectory(): string {
   return '';
 }
 
-export function getBuildTargetName(): string {
+export function getPlugin(): PluginConfiguration | undefined {
   const nxJsonPath = path.join(workspaceRoot, 'nx.json');
 
   const nxJson = readJsonFile<NxJsonConfiguration>(nxJsonPath);
@@ -97,6 +98,12 @@ export function getBuildTargetName(): string {
       : p.plugin === '@jnxplus/nx-maven',
   );
 
+  return plugin;
+}
+
+export function getBuildTargetName(
+  plugin: PluginConfiguration | undefined,
+): string {
   if (typeof plugin === 'string') {
     return 'build';
   }

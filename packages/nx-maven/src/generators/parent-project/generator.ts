@@ -34,6 +34,7 @@ import {
   getBuildTargetName,
   getMavenRootDirectory,
   getParentProjectValues,
+  getPlugin,
 } from '../../utils';
 import { NxMavenParentProjectGeneratorSchema } from './schema';
 
@@ -102,7 +103,8 @@ function normalizeOptions(
       options.parentProject,
     );
 
-  const buildTargetName = getBuildTargetName();
+  const plugin = getPlugin();
+  const buildTargetName = getBuildTargetName(plugin);
 
   return {
     ...options,
