@@ -59,15 +59,7 @@ function isWrapperExistsFunction(mavenRootDirectory: string) {
 }
 
 export function getMavenRootDirectory(): string {
-  const nxJsonPath = path.join(workspaceRoot, 'nx.json');
-
-  const nxJson = readJsonFile<NxJsonConfiguration>(nxJsonPath);
-
-  const plugin = (nxJson?.plugins ?? []).find((p) =>
-    typeof p === 'string'
-      ? p === '@jnxplus/nx-maven'
-      : p.plugin === '@jnxplus/nx-maven',
-  );
+  const plugin = getPlugin();
 
   if (typeof plugin === 'string') {
     return '';
@@ -394,15 +386,7 @@ function getDependencyManagement(
 }
 
 function getLocalRepoRelativePath(): string {
-  const nxJsonPath = path.join(workspaceRoot, 'nx.json');
-
-  const nxJson = readJsonFile<NxJsonConfiguration>(nxJsonPath);
-
-  const plugin = (nxJson?.plugins ?? []).find((p) =>
-    typeof p === 'string'
-      ? p === '@jnxplus/nx-maven'
-      : p.plugin === '@jnxplus/nx-maven',
-  );
+  const plugin = getPlugin();
 
   if (typeof plugin === 'string') {
     return '';
