@@ -70,6 +70,5 @@
     }
   },
   "parallel": 1,
-  "defaultBase": "main",
-  "useInferencePlugins": false
+  "defaultBase": "main"
 }
