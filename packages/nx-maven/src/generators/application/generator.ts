@@ -32,10 +32,14 @@ import {
   addMissedProperties,
   addProjectToAggregator,
   extractRootPomValues,
+  getBuildImageTargetName,
   getBuildTargetName,
+  getIntegrationTestTargetName,
   getMavenRootDirectory,
   getParentProjectValues,
   getPlugin,
+  getServeTargetName,
+  getTestTargetName,
 } from '../../utils';
 import { NxMavenAppGeneratorSchema } from './schema';
 
@@ -63,6 +67,10 @@ interface NormalizedSchema extends NxMavenAppGeneratorSchema {
   mavenRootDirectory: string;
   basePackage: string;
   buildTargetName: string;
+  buildImageTargetName: string;
+  serveTargetName: string;
+  testTargetName: string;
+  integrationTestTargetName: string;
 }
 
 function normalizeOptions(
@@ -121,6 +129,11 @@ function normalizeOptions(
   const plugin = getPlugin();
   const buildTargetName = getBuildTargetName(plugin);
 
+  const buildImageTargetName = getBuildImageTargetName(plugin);
+  const serveTargetName = getServeTargetName(plugin);
+  const testTargetName = getTestTargetName(plugin);
+  const integrationTestTargetName = getIntegrationTestTargetName(plugin);
+
   return {
     ...options,
     projectName,
@@ -142,6 +155,10 @@ function normalizeOptions(
     mavenRootDirectory,
     basePackage,
     buildTargetName,
+    buildImageTargetName,
+    serveTargetName,
+    testTargetName,
+    integrationTestTargetName,
   };
 }
 
@@ -377,22 +394,22 @@ async function applicationGenerator(
           task: 'compile -DskipTests=true',
         },
       },
-      'build-image': {},
-      serve: {
+      [normalizedOptions.buildImageTargetName]: {},
+      [normalizedOptions.serveTargetName]: {
         executor: '@jnxplus/nx-maven:run-task',
         options: {
           task: 'exec:java',
         },
         dependsOn: [`${normalizedOptions.buildTargetName}`],
       },
-      test: {
+      [normalizedOptions.testTargetName]: {
         executor: '@jnxplus/nx-maven:run-task',
         options: {
           task: 'test',
         },
         dependsOn: [`^${normalizedOptions.buildTargetName}`],
       },
-      'integration-test': {},
+      [normalizedOptions.integrationTestTargetName]: {},
     },
     tags: normalizedOptions.parsedTags,
   };
@@ -405,32 +422,36 @@ async function applicationGenerator(
       task: 'package spring-boot:repackage -DskipTests=true',
     };
 
-    targets['build-image'] = {
+    targets[`${normalizedOptions.buildImageTargetName}`] = {
       executor: '@jnxplus/nx-maven:run-task',
       options: {
         task: 'spring-boot:build-image',
       },
     };
 
-    targets['serve'].options = {
-      ...targets['serve'].options,
+    targets[`${normalizedOptions.serveTargetName}`].options = {
+      ...targets[`${normalizedOptions.serveTargetName}`].options,
       task: 'spring-boot:run',
     };
-    targets['serve'].dependsOn = [`^${normalizedOptions.buildTargetName}`];
+    targets[`${normalizedOptions.serveTargetName}`].dependsOn = [
+      `^${normalizedOptions.buildTargetName}`,
+    ];
   }
 
   if (options.framework === 'quarkus') {
-    targets['build-image'] = {
+    targets[`${normalizedOptions.buildImageTargetName}`] = {
       executor: '@jnxplus/nx-maven:quarkus-build-image',
     };
 
-    targets['serve'].options = {
-      ...targets['serve'].options,
+    targets[`${normalizedOptions.serveTargetName}`].options = {
+      ...targets[`${normalizedOptions.serveTargetName}`].options,
       task: 'quarkus:dev',
     };
-    targets['serve'].dependsOn = [`^${normalizedOptions.buildTargetName}`];
+    targets[`${normalizedOptions.serveTargetName}`].dependsOn = [
+      `^${normalizedOptions.buildTargetName}`,
+    ];
 
-    targets['integration-test'] = {
+    targets[`${normalizedOptions.integrationTestTargetName}`] = {
       executor: '@jnxplus/nx-maven:run-task',
       options: {
         task: 'integration-test',
@@ -439,18 +460,20 @@ async function applicationGenerator(
   }
 
   if (options.framework === 'micronaut') {
-    targets['build-image'] = {
+    targets[`${normalizedOptions.buildImageTargetName}`] = {
       executor: '@jnxplus/nx-maven:run-task',
       options: {
         task: 'package -Dpackaging=docker',
       },
     };
 
-    targets['serve'].options = {
-      ...targets['serve'].options,
+    targets[`${normalizedOptions.serveTargetName}`].options = {
+      ...targets[`${normalizedOptions.serveTargetName}`].options,
       task: 'mn:run',
     };
-    targets['serve'].dependsOn = [`^${normalizedOptions.buildTargetName}`];
+    targets[`${normalizedOptions.serveTargetName}`].dependsOn = [
+      `^${normalizedOptions.buildTargetName}`,
+    ];
   }
 
   clearEmpties(targets);

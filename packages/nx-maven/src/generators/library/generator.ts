@@ -32,6 +32,7 @@ import {
   getMavenRootDirectory,
   getParentProjectValues,
   getPlugin,
+  getTestTargetName,
 } from '../../utils';
 import { NxMavenLibGeneratorSchema } from './schema';
 
@@ -56,6 +57,7 @@ interface NormalizedSchema extends NxMavenLibGeneratorSchema {
   micronautVersion: string;
   mavenRootDirectory: string;
   buildTargetName: string;
+  testTargetName: string;
 }
 
 function normalizeOptions(
@@ -101,6 +103,7 @@ function normalizeOptions(
 
   const plugin = getPlugin();
   const buildTargetName = getBuildTargetName(plugin);
+  const testTargetName = getTestTargetName(plugin);
 
   return {
     ...options,
@@ -120,6 +123,7 @@ function normalizeOptions(
     micronautVersion,
     mavenRootDirectory,
     buildTargetName,
+    testTargetName,
   };
 }
 
@@ -312,7 +316,7 @@ async function libraryGenerator(
           task: 'install -DskipTests=true',
         },
       },
-      test: {
+      [normalizedOptions.testTargetName]: {
         executor: '@jnxplus/nx-maven:run-task',
         options: {
           task: 'test',
