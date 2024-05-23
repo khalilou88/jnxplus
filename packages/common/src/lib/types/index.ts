@@ -24,5 +24,9 @@ export type NxMavenPluginOptions = {
   mavenRootDirectory: string;
   localRepoRelativePath: string;
   buildTargetName: string;
+  buildImageTargetName: string;
+  serveTargetName: string;
+  testTargetName: string;
+  integrationTestTargetName: string;
 };
 export type NxGradlePluginOptions = { gradleRootDirectory: string };

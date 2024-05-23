@@ -31,8 +31,10 @@ import * as path from 'path';
 import {
   addMissedProperties,
   addProjectToAggregator,
+  getBuildTargetName,
   getMavenRootDirectory,
   getParentProjectValues,
+  getPlugin,
 } from '../../utils';
 import { NxMavenParentProjectGeneratorSchema } from './schema';
 
@@ -66,6 +68,7 @@ interface NormalizedSchema extends NxMavenParentProjectGeneratorSchema {
   mavenWarPluginVersion: string;
   mavenSurefirePluginVersion: string;
   mavenFailsafePluginVersion: string;
+  buildTargetName: string;
 }
 
 function normalizeOptions(
@@ -100,6 +103,9 @@ function normalizeOptions(
       options.parentProject,
     );
 
+  const plugin = getPlugin();
+  const buildTargetName = getBuildTargetName(plugin);
+
   return {
     ...options,
     projectName,
@@ -124,6 +130,7 @@ function normalizeOptions(
     mavenWarPluginVersion,
     mavenSurefirePluginVersion,
     mavenFailsafePluginVersion,
+    buildTargetName,
   };
 }
 
@@ -167,7 +174,7 @@ async function parentProjectGenerator(
     root: normalizedOptions.projectRoot,
     projectType: normalizedOptions.projectType,
     targets: {
-      build: {
+      [normalizedOptions.buildTargetName]: {
         executor: '@jnxplus/nx-maven:run-task',
         outputs: ['{options.outputDirLocalRepo}'],
         options: {

@@ -28,8 +28,11 @@ import {
   addLibraryToProjects,
   addMissedProperties,
   addProjectToAggregator,
+  getBuildTargetName,
   getMavenRootDirectory,
   getParentProjectValues,
+  getPlugin,
+  getTestTargetName,
 } from '../../utils';
 import { NxMavenLibGeneratorSchema } from './schema';
 
@@ -53,6 +56,8 @@ interface NormalizedSchema extends NxMavenLibGeneratorSchema {
   quarkusVersion: string;
   micronautVersion: string;
   mavenRootDirectory: string;
+  buildTargetName: string;
+  testTargetName: string;
 }
 
 function normalizeOptions(
@@ -96,6 +101,10 @@ function normalizeOptions(
       options.parentProject,
     );
 
+  const plugin = getPlugin();
+  const buildTargetName = getBuildTargetName(plugin);
+  const testTargetName = getTestTargetName(plugin);
+
   return {
     ...options,
     projectName,
@@ -113,6 +122,8 @@ function normalizeOptions(
     quarkusVersion,
     micronautVersion,
     mavenRootDirectory,
+    buildTargetName,
+    testTargetName,
   };
 }
 
@@ -298,19 +309,19 @@ async function libraryGenerator(
     projectType: 'library',
     sourceRoot: `./${normalizedOptions.projectRoot}/src`,
     targets: {
-      build: {
+      [normalizedOptions.buildTargetName]: {
         executor: '@jnxplus/nx-maven:run-task',
         outputs: ['{projectRoot}/target', '{options.outputDirLocalRepo}'],
         options: {
           task: 'install -DskipTests=true',
         },
       },
-      test: {
+      [normalizedOptions.testTargetName]: {
         executor: '@jnxplus/nx-maven:run-task',
         options: {
           task: 'test',
         },
-        dependsOn: ['build'],
+        dependsOn: [`${normalizedOptions.buildTargetName}`],
       },
     },
     tags: normalizedOptions.parsedTags,
