@@ -288,3 +288,9 @@ export function addJVMMemory() {
   );
   fs.writeFileSync(gradlePropertiesPath, updatedFileContent);
 }
+
+export function getParallel() {
+  const parallel = process.platform === 'win32' ? '--parallel=1' : '--parallel';
+
+  return parallel;
+}

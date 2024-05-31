@@ -5,6 +5,7 @@ import { execSync, ExecSyncOptions } from 'child_process';
 import { join } from 'path';
 
 import { dirSync } from 'tmp';
+import { getParallel } from '@jnxplus/internal/testing';
 
 let smokeDirectory: string;
 let cleanup: () => void;
@@ -36,7 +37,7 @@ const testLib5 = uniq('test-lib5-');
 const testApp6 = uniq('test-app6-');
 
 describe('nx-maven spring-boot bom smoke', () => {
-  const parallel = process.platform === 'win32' ? '--parallel=1' : '--parallel';
+  const parallel = getParallel();
 
   beforeEach(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
