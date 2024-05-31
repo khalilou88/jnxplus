@@ -1,3 +1,15 @@
+## 1.0.1-0 (2024-05-31)
+
+### 🚀 Features
+
+- possibility to rename target names ([#1056](https://github.com/khalilou88/jnxplus/pull/1056))
+- update flat-cache version to v5 ([c42272a0](https://github.com/khalilou88/jnxplus/commit/c42272a0))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+- khalilou88 @khalilou88
+
 # 1.0.0 (2024-05-16)
 
 This was a version bump only, there were no code changes.
