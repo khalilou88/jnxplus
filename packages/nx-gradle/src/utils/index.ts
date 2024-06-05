@@ -7,6 +7,7 @@ import {
 import {
   ExecutorContext,
   NxJsonConfiguration,
+  PluginConfiguration,
   Tree,
   joinPathFragments,
   normalizePath,
@@ -60,7 +61,7 @@ export function getRootProjectName(settingsGradleContent: string) {
   return matches[0];
 }
 
-export function getGradleRootDirectory(): string {
+export function getPlugin(): PluginConfiguration | undefined {
   const nxJsonPath = path.join(workspaceRoot, 'nx.json');
 
   const nxJson = readJsonFile<NxJsonConfiguration>(nxJsonPath);
@@ -70,6 +71,12 @@ export function getGradleRootDirectory(): string {
       ? p === '@jnxplus/nx-gradle'
       : p.plugin === '@jnxplus/nx-gradle',
   );
+
+  return plugin;
+}
+
+export function getGradleRootDirectory(): string {
+  const plugin = getPlugin();
 
   if (typeof plugin === 'string') {
     return '';

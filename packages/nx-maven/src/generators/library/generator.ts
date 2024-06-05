@@ -6,6 +6,8 @@ import {
   generateProjectName,
   generateProjectRoot,
   generateSimpleProjectName,
+  getBuildTargetName,
+  getTestTargetName,
   kotlinVersion,
   micronautVersion,
   parseProjects,
@@ -28,11 +30,9 @@ import {
   addLibraryToProjects,
   addMissedProperties,
   addProjectToAggregator,
-  getBuildTargetName,
   getMavenRootDirectory,
   getParentProjectValues,
   getPlugin,
-  getTestTargetName,
 } from '../../utils';
 import { NxMavenLibGeneratorSchema } from './schema';
 

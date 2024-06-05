@@ -8,6 +8,8 @@ import {
   generateProjectName,
   generateProjectRoot,
   generateSimpleProjectName,
+  getBuildTargetName,
+  getTestTargetName,
   parseProjects,
   parseTags,
 } from '@jnxplus/common';
@@ -27,6 +29,7 @@ import {
   addProjectToGradleSetting,
   getDsl,
   getGradleRootDirectory,
+  getPlugin,
   getVersionManagement,
 } from '../../utils';
 import { addMissingCode } from '../../utils/libs-versions-toml';
@@ -51,6 +54,8 @@ interface NormalizedSchema extends NxGradleLibGeneratorSchema {
   kotlinExtension: string;
   gradleRootDirectory: string;
   versionManagement: VersionManagementType;
+  buildTargetName: string;
+  testTargetName: string;
 }
 
 function normalizeOptions(
@@ -94,6 +99,10 @@ function normalizeOptions(
 
   const versionManagement = getVersionManagement(tree, gradleRootDirectory);
 
+  const plugin = getPlugin();
+  const buildTargetName = getBuildTargetName(plugin);
+  const testTargetName = getTestTargetName(plugin);
+
   return {
     ...options,
     projectName,
@@ -107,6 +116,8 @@ function normalizeOptions(
     kotlinExtension,
     gradleRootDirectory,
     versionManagement,
+    buildTargetName,
+    testTargetName,
   };
 }
 
@@ -290,14 +301,14 @@ async function libraryGenerator(
     projectType: 'library',
     sourceRoot: `./${normalizedOptions.projectRoot}/src`,
     targets: {
-      build: {
+      [normalizedOptions.buildTargetName]: {
         executor: '@jnxplus/nx-gradle:run-task',
         outputs: [`{projectRoot}/build`],
         options: {
           task: 'build',
         },
       },
-      test: {
+      [normalizedOptions.testTargetName]: {
         executor: '@jnxplus/nx-gradle:run-task',
         options: {
           task: 'test',
