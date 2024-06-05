@@ -8,6 +8,8 @@ import {
   generateProjectName,
   generateProjectRoot,
   generateSimpleProjectName,
+  getBuildTargetName,
+  getTestTargetName,
   parseProjects,
   parseTags,
 } from '@jnxplus/common';
@@ -25,11 +27,9 @@ import * as path from 'path';
 import {
   addLibraryToProjects,
   addProjectToGradleSetting,
-  getBuildTargetName,
   getDsl,
   getGradleRootDirectory,
   getPlugin,
-  getTestTargetName,
   getVersionManagement,
 } from '../../utils';
 import { addMissingCode } from '../../utils/libs-versions-toml';

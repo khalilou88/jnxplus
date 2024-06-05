@@ -1,4 +1,4 @@
-import { joinPathFragments, names } from '@nx/devkit';
+import { PluginConfiguration, joinPathFragments, names } from '@nx/devkit';
 import { normalizeName } from '.';
 
 export function generateSimpleProjectName(options: { name: string }) {
@@ -123,3 +123,108 @@ export const prettierrcNameOptions = [
   'prettier.config.mjs',
   '.prettierrc.toml',
 ];
+
+export function getBuildTargetName(
+  plugin: PluginConfiguration | undefined,
+): string {
+  if (typeof plugin === 'string') {
+    return 'build';
+  }
+
+  const options = plugin?.options;
+
+  if (
+    typeof options === 'object' &&
+    options &&
+    'buildTargetName' in options &&
+    typeof options.buildTargetName === 'string'
+  ) {
+    return options.buildTargetName;
+  }
+
+  return 'build';
+}
+
+export function getBuildImageTargetName(
+  plugin: PluginConfiguration | undefined,
+): string {
+  if (typeof plugin === 'string') {
+    return 'build-image';
+  }
+
+  const options = plugin?.options;
+
+  if (
+    typeof options === 'object' &&
+    options &&
+    'buildImageTargetName' in options &&
+    typeof options.buildImageTargetName === 'string'
+  ) {
+    return options.buildImageTargetName;
+  }
+
+  return 'build-image';
+}
+
+export function getServeTargetName(
+  plugin: PluginConfiguration | undefined,
+): string {
+  if (typeof plugin === 'string') {
+    return 'serve';
+  }
+
+  const options = plugin?.options;
+
+  if (
+    typeof options === 'object' &&
+    options &&
+    'serveTargetName' in options &&
+    typeof options.serveTargetName === 'string'
+  ) {
+    return options.serveTargetName;
+  }
+
+  return 'serve';
+}
+
+export function getTestTargetName(
+  plugin: PluginConfiguration | undefined,
+): string {
+  if (typeof plugin === 'string') {
+    return 'test';
+  }
+
+  const options = plugin?.options;
+
+  if (
+    typeof options === 'object' &&
+    options &&
+    'testTargetName' in options &&
+    typeof options.testTargetName === 'string'
+  ) {
+    return options.testTargetName;
+  }
+
+  return 'test';
+}
+
+export function getIntegrationTestTargetName(
+  plugin: PluginConfiguration | undefined,
+): string {
+  if (typeof plugin === 'string') {
+    return 'integration-test';
+  }
+
+  const options = plugin?.options;
+
+  if (
+    typeof options === 'object' &&
+    options &&
+    'integrationTestTargetName' in options &&
+    typeof options.integrationTestTargetName === 'string'
+  ) {
+    return options.integrationTestTargetName;
+  }
+
+  return 'integration-test';
+}

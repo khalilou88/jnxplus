@@ -18,6 +18,7 @@ import {
   micronautVersion,
   quarkusVersion,
   springBootVersion,
+  getBuildTargetName,
 } from '@jnxplus/common';
 import {
   Tree,
@@ -31,7 +32,6 @@ import * as path from 'path';
 import {
   addMissedProperties,
   addProjectToAggregator,
-  getBuildTargetName,
   getMavenRootDirectory,
   getParentProjectValues,
   getPlugin,

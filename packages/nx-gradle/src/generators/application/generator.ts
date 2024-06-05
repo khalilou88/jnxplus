@@ -11,6 +11,11 @@ import {
   generateProjectName,
   generateProjectRoot,
   generateSimpleProjectName,
+  getBuildImageTargetName,
+  getBuildTargetName,
+  getIntegrationTestTargetName,
+  getServeTargetName,
+  getTestTargetName,
   isCustomPortFunction,
   parseTags,
 } from '@jnxplus/common';
@@ -28,18 +33,13 @@ import * as path from 'path';
 import {
   addProjectToGradleSetting,
   findQuarkusVersion,
-  getBuildImageTargetName,
-  getBuildTargetName,
   getDsl,
   getGradleRootDirectory,
-  getIntegrationTestTargetName,
   getPlugin,
-  getServeTargetName,
-  getTestTargetName,
   getVersionManagement,
 } from '../../utils';
-import { NxGradleAppGeneratorSchema } from './schema';
 import { addMissingCode } from '../../utils/libs-versions-toml';
+import { NxGradleAppGeneratorSchema } from './schema';
 
 export default async function (
   tree: Tree,

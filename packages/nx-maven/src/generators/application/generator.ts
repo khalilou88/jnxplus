@@ -10,6 +10,11 @@ import {
   generateProjectName,
   generateProjectRoot,
   generateSimpleProjectName,
+  getBuildImageTargetName,
+  getBuildTargetName,
+  getIntegrationTestTargetName,
+  getServeTargetName,
+  getTestTargetName,
   isCustomPortFunction,
   kotlinVersion,
   micronautVersion,
@@ -32,14 +37,9 @@ import {
   addMissedProperties,
   addProjectToAggregator,
   extractRootPomValues,
-  getBuildImageTargetName,
-  getBuildTargetName,
-  getIntegrationTestTargetName,
   getMavenRootDirectory,
   getParentProjectValues,
   getPlugin,
-  getServeTargetName,
-  getTestTargetName,
 } from '../../utils';
 import { NxMavenAppGeneratorSchema } from './schema';
 
