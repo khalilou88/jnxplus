@@ -29,4 +29,11 @@ export type NxMavenPluginOptions = {
   testTargetName: string;
   integrationTestTargetName: string;
 };
-export type NxGradlePluginOptions = { gradleRootDirectory: string };
+export type NxGradlePluginOptions = {
+  gradleRootDirectory: string;
+  buildTargetName: string;
+  buildImageTargetName: string;
+  serveTargetName: string;
+  testTargetName: string;
+  integrationTestTargetName: string;
+};

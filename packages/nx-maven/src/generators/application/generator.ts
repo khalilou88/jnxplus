@@ -128,7 +128,6 @@ function normalizeOptions(
 
   const plugin = getPlugin();
   const buildTargetName = getBuildTargetName(plugin);
-
   const buildImageTargetName = getBuildImageTargetName(plugin);
   const serveTargetName = getServeTargetName(plugin);
   const testTargetName = getTestTargetName(plugin);

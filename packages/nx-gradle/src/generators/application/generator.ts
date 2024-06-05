@@ -28,8 +28,14 @@ import * as path from 'path';
 import {
   addProjectToGradleSetting,
   findQuarkusVersion,
+  getBuildImageTargetName,
+  getBuildTargetName,
   getDsl,
   getGradleRootDirectory,
+  getIntegrationTestTargetName,
+  getPlugin,
+  getServeTargetName,
+  getTestTargetName,
   getVersionManagement,
 } from '../../utils';
 import { NxGradleAppGeneratorSchema } from './schema';
@@ -57,6 +63,11 @@ interface NormalizedSchema extends NxGradleAppGeneratorSchema {
   gradleRootDirectory: string;
   versionManagement: VersionManagementType;
   basePackage: string;
+  buildTargetName: string;
+  buildImageTargetName: string;
+  serveTargetName: string;
+  testTargetName: string;
+  integrationTestTargetName: string;
 }
 
 function normalizeOptions(
@@ -112,6 +123,13 @@ function normalizeOptions(
 
   const basePackage = generateBasePackage(options.groupId);
 
+  const plugin = getPlugin();
+  const buildTargetName = getBuildTargetName(plugin);
+  const buildImageTargetName = getBuildImageTargetName(plugin);
+  const serveTargetName = getServeTargetName(plugin);
+  const testTargetName = getTestTargetName(plugin);
+  const integrationTestTargetName = getIntegrationTestTargetName(plugin);
+
   return {
     ...options,
     projectName,
@@ -128,6 +146,11 @@ function normalizeOptions(
     gradleRootDirectory,
     versionManagement,
     basePackage,
+    buildTargetName,
+    buildImageTargetName,
+    serveTargetName,
+    testTargetName,
+    integrationTestTargetName,
   };
 }
 
@@ -343,27 +366,27 @@ async function applicationGenerator(
     projectType: 'application',
     sourceRoot: `./${normalizedOptions.projectRoot}/src`,
     targets: {
-      build: {
+      [normalizedOptions.buildTargetName]: {
         executor: '@jnxplus/nx-gradle:run-task',
         outputs: [`{projectRoot}/build`],
         options: {
           task: 'build',
         },
       },
-      'build-image': {},
-      serve: {
+      [normalizedOptions.buildImageTargetName]: {},
+      [normalizedOptions.serveTargetName]: {
         executor: '@jnxplus/nx-gradle:run-task',
         options: {
           task: 'run',
         },
       },
-      test: {
+      [normalizedOptions.testTargetName]: {
         executor: '@jnxplus/nx-gradle:run-task',
         options: {
           task: 'test',
         },
       },
-      'integration-test': {},
+      [normalizedOptions.integrationTestTargetName]: {},
     },
     tags: normalizedOptions.parsedTags,
   };
@@ -371,17 +394,17 @@ async function applicationGenerator(
   const targets = projectConfiguration.targets ?? {};
 
   if (options.framework === 'spring-boot') {
-    targets['build'].options = {
-      ...targets['build'].options,
+    targets[`${normalizedOptions.buildTargetName}`].options = {
+      ...targets[`${normalizedOptions.buildTargetName}`].options,
       task: normalizedOptions.packaging === 'war' ? 'bootWar' : 'bootJar',
     };
 
-    targets['serve'].options = {
-      ...targets['serve'].options,
+    targets[`${normalizedOptions.serveTargetName}`].options = {
+      ...targets[`${normalizedOptions.serveTargetName}`].options,
       task: 'bootRun',
     };
 
-    targets['build-image'] = {
+    targets[`${normalizedOptions.buildImageTargetName}`] = {
       executor: '@jnxplus/nx-gradle:run-task',
       options: {
         task: 'bootBuildImage',
@@ -390,21 +413,21 @@ async function applicationGenerator(
   }
 
   if (options.framework === 'quarkus') {
-    targets['build'].options = {
-      ...targets['build'].options,
+    targets[`${normalizedOptions.buildTargetName}`].options = {
+      ...targets[`${normalizedOptions.buildTargetName}`].options,
       task: 'quarkusBuild',
     };
 
-    targets['serve'].options = {
-      ...targets['serve'].options,
+    targets[`${normalizedOptions.serveTargetName}`].options = {
+      ...targets[`${normalizedOptions.serveTargetName}`].options,
       task: 'quarkusDev',
     };
 
-    targets['build-image'] = {
+    targets[`${normalizedOptions.buildImageTargetName}`] = {
       executor: '@jnxplus/nx-gradle:quarkus-build-image',
     };
 
-    targets['integration-test'] = {
+    targets[`${normalizedOptions.integrationTestTargetName}`] = {
       executor: '@jnxplus/nx-gradle:run-task',
       options: {
         task: 'quarkusIntTest',
@@ -413,15 +436,11 @@ async function applicationGenerator(
   }
 
   if (options.framework === 'micronaut') {
-    targets['build-image'] = {
+    targets[`${normalizedOptions.buildImageTargetName}`] = {
       executor: '@jnxplus/nx-gradle:run-task',
       options: {
         task: 'dockerBuild',
       },
-    };
-
-    targets['serve'].options = {
-      ...targets['serve'].options,
     };
   }
 
