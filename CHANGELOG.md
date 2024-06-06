@@ -1,3 +1,13 @@
+## 1.2.1 (2024-06-06)
+
+### 🩹 Fixes
+
+- use cache folder instead of workspace-data for nx-gradle ([734eda24](https://github.com/khalilou88/jnxplus/commit/734eda24))
+
+### ❤️ Thank You
+
+- khalilou88 @khalilou88
+
 ## 1.2.0 (2024-06-06)
 
 ### 🚀 Features
