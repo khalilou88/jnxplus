@@ -48,7 +48,7 @@ export interface WorkspaceDataType {
 const cacheId = 'workspace-data.json';
 const cache = flatCache.load(
   cacheId,
-  path.join(workspaceRoot, '.nx', 'cache', 'nx-maven'),
+  path.join(workspaceRoot, '.nx', 'workspace-data', 'nx-maven'),
 );
 const key = 'workspace-data';
 
