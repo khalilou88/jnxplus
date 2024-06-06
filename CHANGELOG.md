@@ -1,3 +1,14 @@
+## 1.2.0 (2024-06-06)
+
+### 🚀 Features
+
+- possibility to override nx-gradle target names ([#1084](https://github.com/khalilou88/jnxplus/pull/1084))
+- move graph files to .nx/workspace-data directory ([#1090](https://github.com/khalilou88/jnxplus/pull/1090))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+
 ## 1.1.0 (2024-06-02)
 
 This was a version bump only, there were no code changes.
