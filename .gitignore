@@ -48,3 +48,4 @@ Thumbs.db
 /packages/gradle-plugin/dist/
 
 .nx/cache
+.nx/workspace-data
