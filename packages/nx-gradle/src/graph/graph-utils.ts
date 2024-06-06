@@ -21,7 +21,8 @@ interface GradleProject2Type {
 
 export type GradleProjectType = GradleProject1Type & GradleProject2Type;
 
-export const outputDirectory = path.join('.nx', 'workspace-data', 'nx-gradle');
+//TODO workspace-data didn't work
+export const outputDirectory = path.join('.nx', 'cache', 'nx-gradle');
 
 export const outputFile = path.join(outputDirectory, 'nx-gradle-deps.json');
 
