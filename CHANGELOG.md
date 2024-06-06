@@ -1,3 +1,13 @@
+## 1.2.2 (2024-06-06)
+
+### 🩹 Fixes
+
+- use absolute path ([3809fe6e](https://github.com/khalilou88/jnxplus/commit/3809fe6e))
+
+### ❤️ Thank You
+
+- khalilou88 @khalilou88
+
 ## 1.2.1 (2024-06-06)
 
 ### 🩹 Fixes
