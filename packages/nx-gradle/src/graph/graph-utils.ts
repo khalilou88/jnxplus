@@ -1,5 +1,5 @@
 import { jnxplusGradlePluginVersion } from '@jnxplus/common';
-import { joinPathFragments, logger } from '@nx/devkit';
+import { joinPathFragments, logger, workspaceRoot } from '@nx/devkit';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -21,8 +21,12 @@ interface GradleProject2Type {
 
 export type GradleProjectType = GradleProject1Type & GradleProject2Type;
 
-//TODO workspace-data didn't work
-export const outputDirectory = path.join('.nx', 'cache', 'nx-gradle');
+export const outputDirectory = path.join(
+  workspaceRoot,
+  '.nx',
+  'workspace-data',
+  'nx-gradle',
+);
 
 export const outputFile = path.join(outputDirectory, 'nx-gradle-deps.json');
 
