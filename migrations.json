@@ -1,0 +1,12 @@
+{
+  "migrations": [
+    {
+      "cli": "nx",
+      "version": "19.2.2-beta.0",
+      "description": "Updates the nx wrapper.",
+      "implementation": "./src/migrations/update-17-3-0/update-nxw",
+      "package": "nx",
+      "name": "19-2-2-update-nx-wrapper"
+    }
+  ]
+}
