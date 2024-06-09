@@ -1,3 +1,13 @@
+## 1.3.0 (2024-06-09)
+
+### 🚀 Features
+
+- use workspaceDataDirectory ([#1093](https://github.com/khalilou88/jnxplus/pull/1093))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+
 ## 1.2.2 (2024-06-06)
 
 ### 🩹 Fixes
