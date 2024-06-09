@@ -9,6 +9,7 @@ import {
   workspaceRoot,
 } from '@nx/devkit';
 import * as flatCache from 'flat-cache';
+import { workspaceDataDirectory } from 'nx/src/utils/cache-directory';
 import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
 import {
@@ -48,7 +49,7 @@ export interface WorkspaceDataType {
 const cacheId = 'workspace-data.json';
 const cache = flatCache.load(
   cacheId,
-  path.join(workspaceRoot, '.nx', 'workspace-data', 'nx-maven'),
+  path.join(workspaceDataDirectory, 'nx-maven'),
 );
 const key = 'workspace-data';
 
