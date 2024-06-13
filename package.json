@@ -60,7 +60,7 @@
     "jest-environment-node": "^29.7.0",
     "jsonc-eslint-parser": "^2.4.0",
     "kill-port": "^2.0.1",
-    "lint-staged": "^15.2.6",
+    "lint-staged": "^15.2.7",
     "nx": "19.2.3",
     "prettier": "^3.2.4",
     "prettier-plugin-java": "2.5.0",
