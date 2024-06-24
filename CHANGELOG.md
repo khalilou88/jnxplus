@@ -1,3 +1,13 @@
+## 1.4.0 (2024-06-24)
+
+### 🚀 Features
+
+- add NX_MAVEN_CLI env variable ([#1127](https://github.com/khalilou88/jnxplus/pull/1127))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+
 ## 1.3.0 (2024-06-09)
 
 ### 🚀 Features
