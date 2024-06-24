@@ -24,7 +24,16 @@ export function getExecutable() {
 
   const mavenRootDirectory = getMavenRootDirectory();
 
-  if (process.env['NX_SKIP_MAVEN_WRAPPER'] === 'true') {
+  const mavenCli = process.env['NX_MAVEN_CLI'];
+  if (mavenCli) {
+    if (mavenCli !== 'mvn' && mavenCli !== 'mvnd') {
+      throw new Error(
+        `Wrong value for NX_MAVEN_CLI. Please choose between mvn and mvnd.`,
+      );
+    }
+    executable = mavenCli;
+  } else if (process.env['NX_SKIP_MAVEN_WRAPPER'] === 'true') {
+    //TODO NX_SKIP_MAVEN_WRAPPER is deprecated, please use NX_MAVEN_CLI instead
     executable = 'mvn';
   } else {
     const isWrapperExists = isWrapperExistsFunction(mavenRootDirectory);
