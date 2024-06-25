@@ -1,6 +1,8 @@
 # Environment Variables
 
-## NX_SKIP_MAVEN_WRAPPER
+## NX_MAVEN_CLI
+
+Accept two value mvn and mvnd.
 
 ## NX_MAVEN_CLI_OPTS
 
