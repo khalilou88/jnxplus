@@ -1,3 +1,13 @@
+## 1.5.0 (2024-06-26)
+
+### 🚀 Features
+
+- add deprecation warning for NX_SKIP_MAVEN_WRAPPER ([e29c00ab](https://github.com/khalilou88/jnxplus/commit/e29c00ab))
+
+### ❤️ Thank You
+
+- khalilou88 @khalilou88
+
 ## 1.4.0 (2024-06-24)
 
 ### 🚀 Features
