@@ -64,7 +64,7 @@
     "nx": "19.3.1",
     "prettier": "^3.2.4",
     "prettier-plugin-java": "2.5.0",
-    "smol-toml": "^1.2.1",
+    "smol-toml": "^1.2.2",
     "tcp-port-used": "^1.0.2",
     "tmp": "^0.2.3",
     "tree-kill": "1.2.2",
