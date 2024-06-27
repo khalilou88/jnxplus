@@ -107,11 +107,6 @@ describe('nx-gradle spring-boot smoke-affected', () => {
 
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
 
-    execSync(
-      `npx nx graph --affected --file=dep-graph-affected.json`,
-      execSyncOptions(),
-    );
-
     const result = execSync(
       `npx nx show projects --affected --json`,
       execSyncOptions(),
