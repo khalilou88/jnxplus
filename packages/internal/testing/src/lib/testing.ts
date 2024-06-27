@@ -295,16 +295,3 @@ export function getParallel() {
 
   return parallel;
 }
-
-export function showAffectedProjectsJson(execSyncOptions: ExecSyncOptions) {
-  const result = execSync(
-    `npx nx show projects --affected --json`,
-    execSyncOptions,
-  )
-    .toString()
-    .trim();
-
-  console.log(result);
-
-  return JSON.parse(result);
-}

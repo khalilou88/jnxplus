@@ -5,7 +5,6 @@ import { execSync, ExecSyncOptions } from 'child_process';
 import { join } from 'path';
 
 import { dirSync } from 'tmp';
-import { showAffectedProjectsJson } from '@jnxplus/internal/testing';
 
 let smokeDirectory: string;
 let cleanup: () => void;
@@ -110,7 +109,14 @@ describe('nx-maven spring-boot smoke-affected', () => {
 
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
 
-    const affectedProjects = showAffectedProjectsJson(execSyncOptions());
+    const result = execSync(
+      `npx nx show projects --affected --json`,
+      execSyncOptions(),
+    )
+      .toString()
+      .trim();
+
+    const affectedProjects = JSON.parse(result);
 
     expect(affectedProjects[testApp]).toBeUndefined();
     expect(affectedProjects[testApp2]).toBeUndefined();
