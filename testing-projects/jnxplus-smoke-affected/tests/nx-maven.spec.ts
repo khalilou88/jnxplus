@@ -5,6 +5,7 @@ import { execSync, ExecSyncOptions } from 'child_process';
 import { join } from 'path';
 
 import { dirSync } from 'tmp';
+import { showAffectedProjectsJson } from '@jnxplus/internal/testing';
 
 let smokeDirectory: string;
 let cleanup: () => void;
@@ -109,20 +110,13 @@ describe('nx-maven spring-boot smoke-affected', () => {
 
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
 
-    execSync(
-      `npx nx graph --affected --file=dep-graph-affected.json`,
-      execSyncOptions(),
-    );
+    const affectedProjects = showAffectedProjectsJson(execSyncOptions());
 
-    //TODO affectedProjects was removed
-    // const depGraphAffectedJson = await readJson(
-    //   join(smokeDirectory, 'test', 'dep-graph-affected.json'),
-    // );
-    // expect(depGraphAffectedJson.affectedProjects[testApp]).toBeUndefined();
-    // expect(depGraphAffectedJson.affectedProjects[testApp2]).toBeUndefined();
-    // expect(depGraphAffectedJson.affectedProjects[testApp3]).toBeUndefined();
-    // expect(depGraphAffectedJson.affectedProjects[testApp4]).toBeUndefined();
-    // expect(depGraphAffectedJson.affectedProjects[testLib]).toBeUndefined();
-    // expect(depGraphAffectedJson.affectedProjects[testLib2]).toBeUndefined();
+    expect(affectedProjects[testApp]).toBeUndefined();
+    expect(affectedProjects[testApp2]).toBeUndefined();
+    expect(affectedProjects[testApp3]).toBeUndefined();
+    expect(affectedProjects[testApp4]).toBeUndefined();
+    expect(affectedProjects[testLib]).toBeUndefined();
+    expect(affectedProjects[testLib2]).toBeUndefined();
   }, 1500000);
 });

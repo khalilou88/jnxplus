@@ -3,7 +3,7 @@ import { getPackageManagerCommand } from '@nx/devkit';
 import { exists, tmpProjPath } from '@nx/plugin/testing';
 import axios from 'axios';
 import * as chalk from 'chalk';
-import { ChildProcess, exec, execSync } from 'child_process';
+import { ChildProcess, ExecSyncOptions, exec, execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 import { check as portCheck } from 'tcp-port-used';
@@ -293,4 +293,15 @@ export function getParallel() {
   const parallel = process.platform === 'win32' ? '--parallel=1' : '--parallel';
 
   return parallel;
+}
+
+export function showAffectedProjectsJson(execSyncOptions: ExecSyncOptions) {
+  const result = execSync(
+    `npx nx show projects --affected --json`,
+    execSyncOptions,
+  )
+    .toString()
+    .trim();
+
+  return JSON.parse(result);
 }
