@@ -109,10 +109,13 @@ describe('nx-maven spring-boot smoke-affected', () => {
 
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
 
-    const result = execSync(
-      `npx nx show projects --affected --json`,
-      execSyncOptions(),
-    )
+    const result = execSync(`npx nx show projects --affected --json`, {
+      cwd: join(smokeDirectory, 'test'),
+      env: process.env,
+      encoding: 'utf8',
+      stdio: 'pipe',
+      windowsHide: true,
+    })
       .toString()
       .trim();
 
