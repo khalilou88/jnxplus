@@ -303,5 +303,7 @@ export function showAffectedProjectsJson(execSyncOptions: ExecSyncOptions) {
     .toString()
     .trim();
 
+  console.log(result);
+
   return JSON.parse(result);
 }
