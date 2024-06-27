@@ -234,7 +234,8 @@ export function semver(s: string): {
 }
 
 export function ifNextVersionExists() {
-  const objStr = execSync('npm view nx dist-tags').toString().trim();
+  const t = execSync('npm view nx dist-tags');
+  const objStr = t !== null ? t.toString().trim() : '0.0.0';
 
   const jsonStr = objStr
     .replace(/'/g, '"')
