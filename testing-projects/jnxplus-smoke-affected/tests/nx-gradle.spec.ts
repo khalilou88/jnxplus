@@ -112,15 +112,20 @@ describe('nx-gradle spring-boot smoke-affected', () => {
       execSyncOptions(),
     );
 
-    //TODO affectedProjects was removed
-    // const depGraphAffectedJson = await readJson(
-    //   join(smokeDirectory, 'test', 'dep-graph-affected.json'),
-    // );
-    // expect(depGraphAffectedJson.affectedProjects[testApp]).toBeUndefined();
-    // expect(depGraphAffectedJson.affectedProjects[testApp2]).toBeUndefined();
-    // expect(depGraphAffectedJson.affectedProjects[testApp3]).toBeUndefined();
-    // expect(depGraphAffectedJson.affectedProjects[testApp4]).toBeUndefined();
-    // expect(depGraphAffectedJson.affectedProjects[testLib]).toBeUndefined();
-    // expect(depGraphAffectedJson.affectedProjects[testLib2]).toBeUndefined();
+    const result = execSync(
+      `npx nx show projects --affected --json`,
+      execSyncOptions(),
+    )
+      .toString()
+      .trim();
+
+    const affectedProjects = JSON.parse(result);
+
+    expect(affectedProjects[testApp]).toBeUndefined();
+    expect(affectedProjects[testApp2]).toBeUndefined();
+    expect(affectedProjects[testApp3]).toBeUndefined();
+    expect(affectedProjects[testApp4]).toBeUndefined();
+    expect(affectedProjects[testLib]).toBeUndefined();
+    expect(affectedProjects[testLib2]).toBeUndefined();
   }, 1500000);
 });
