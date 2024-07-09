@@ -149,12 +149,17 @@ export async function initGenerator(
 }
 
 function updateNxJson(tree: Tree, options: NormalizedSchema) {
-  const plugin = {
-    plugin: '@jnxplus/nx-gradle',
-    options: {
-      gradleRootDirectory: options.gradleRootDirectory,
-    },
-  };
+  let plugin: string | object;
+  if (options.gradleRootDirectory) {
+    plugin = {
+      plugin: '@jnxplus/nx-gradle',
+      options: {
+        gradleRootDirectory: options.gradleRootDirectory,
+      },
+    };
+  } else {
+    plugin = '@jnxplus/nx-gradle';
+  }
 
   updateJson(tree, 'nx.json', (nxJson) => {
     // if plugins is undefined, set it to an empty array
