@@ -1,4 +1,9 @@
-import { PluginConfiguration, joinPathFragments, names } from '@nx/devkit';
+import {
+  NxJsonConfiguration,
+  PluginConfiguration,
+  joinPathFragments,
+  names,
+} from '@nx/devkit';
 import { normalizeName } from '.';
 
 export function generateSimpleProjectName(options: { name: string }) {
@@ -227,4 +232,21 @@ export function getIntegrationTestTargetName(
   }
 
   return 'integration-test';
+}
+
+export function updateNxJsonConfiguration(
+  nxJson: NxJsonConfiguration<'*' | string[]>,
+) {
+  const namedInputs = {};
+
+  const defaultFilesSet = nxJson.namedInputs['default'] ?? [];
+  namedInputs['default'] = Array.from(
+    new Set([...defaultFilesSet, '{projectRoot}/**/*']),
+  );
+  const productionFileSet = nxJson.namedInputs['production'] ?? [];
+  namedInputs['production'] = Array.from(
+    new Set([...productionFileSet, 'default', '!{projectRoot}/src/test/**/*']),
+  );
+
+  return namedInputs;
 }

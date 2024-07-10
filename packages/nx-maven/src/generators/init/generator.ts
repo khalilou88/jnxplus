@@ -7,6 +7,7 @@ import {
   prettierrcNameOptions,
   quarkusVersion,
   springBootVersion,
+  updateNxJsonConfiguration,
 } from '@jnxplus/common';
 import {
   ProjectConfiguration,
@@ -152,6 +153,7 @@ function updateNxJson(tree: Tree, options: NormalizedSchema) {
   }
 
   updateJson(tree, 'nx.json', (nxJson) => {
+    nxJson.namedInputs = updateNxJsonConfiguration(nxJson);
     // if plugins is undefined, set it to an empty array
     nxJson.plugins = nxJson.plugins ?? [];
     // add plugin
