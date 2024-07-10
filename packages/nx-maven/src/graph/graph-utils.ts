@@ -34,6 +34,7 @@ export interface MavenProjectType {
   projectRoot: string;
   projectAbsolutePath: string;
   dependencies: (string | undefined)[];
+  profileDependencies: (string | undefined)[];
   parentProjectArtifactId?: string;
   aggregatorProjectArtifactId?: string;
   properties: PropertyType[];
@@ -121,6 +122,8 @@ export function addProjects(
 
   const dependencies = getDependencyArtifactIds(pomXmlContent);
 
+  const profileDependencies = getProfileDependencyArtifactIds(pomXmlContent);
+
   const properties = getProperties(pomXmlContent);
 
   projects.push({
@@ -132,6 +135,7 @@ export function addProjects(
     projectRoot: projectRoot,
     projectAbsolutePath: projectAbsolutePath,
     dependencies: dependencies,
+    profileDependencies: profileDependencies,
     parentProjectArtifactId: parentProjectArtifactId,
     aggregatorProjectArtifactId: aggregatorProjectArtifactId,
     properties: properties,
@@ -386,4 +390,32 @@ function extractExpressions(version: string): string[] {
   }
 
   return expressions;
+}
+
+function getProfileDependencyArtifactIds(pomXml: XmlDocument) {
+  const results: (string | undefined)[] = [];
+
+  const profilesXml = pomXml.childNamed('profiles');
+  if (profilesXml === undefined) {
+    return [];
+  }
+
+  const profileXmlArray = profilesXml.childrenNamed('profile');
+
+  for (const profileXml of profileXmlArray) {
+    const dependenciesXml = profileXml.childNamed('dependencies');
+    if (dependenciesXml === undefined) {
+      continue;
+    }
+
+    const profileDependencyArtifactIds = dependenciesXml
+      .childrenNamed('dependency')
+      .map((dependencyXmlElement) => {
+        return dependencyXmlElement.childNamed('artifactId')?.val;
+      });
+
+    results.concat(profileDependencyArtifactIds);
+  }
+
+  return results;
 }

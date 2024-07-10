@@ -82,6 +82,19 @@ export const createDependencies: CreateDependencies = (
       validateDependency(newDependency, context);
       results.push(newDependency);
     }
+
+    const profileDependencies = getProfileDependencyProjects(project, projects);
+    for (const profileDependency of profileDependencies) {
+      const newDependency = {
+        source: project.artifactId,
+        target: profileDependency.artifactId,
+        sourceFile: projectSourceFile,
+        type: DependencyType.static,
+      };
+
+      validateDependency(newDependency, context);
+      results.push(newDependency);
+    }
   }
 
   // Remove cached data
@@ -95,4 +108,13 @@ function getDependencyProjects(
   projects: MavenProjectType[],
 ) {
   return projects.filter((p) => project.dependencies.includes(p.artifactId));
+}
+
+function getProfileDependencyProjects(
+  project: MavenProjectType,
+  projects: MavenProjectType[],
+) {
+  return projects.filter((p) =>
+    project.profileDependencies.includes(p.artifactId),
+  );
 }
