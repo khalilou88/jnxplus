@@ -1,3 +1,14 @@
+## 1.6.0-0 (2024-07-11)
+
+### 🚀 Features
+
+- don't add empty gradleRootDirectory to plugin options ([#1159](https://github.com/khalilou88/jnxplus/pull/1159))
+- add profile dependencies to the graph ([#1162](https://github.com/khalilou88/jnxplus/pull/1162))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+
 ## 1.5.0 (2024-06-26)
 
 ### 🚀 Features
