@@ -393,7 +393,7 @@ function extractExpressions(version: string): string[] {
 }
 
 function getProfileDependencyArtifactIds(pomXml: XmlDocument) {
-  const results: (string | undefined)[] = [];
+  let results: (string | undefined)[] = [];
 
   const profilesXml = pomXml.childNamed('profiles');
   if (profilesXml === undefined) {
@@ -414,7 +414,7 @@ function getProfileDependencyArtifactIds(pomXml: XmlDocument) {
         return dependencyXmlElement.childNamed('artifactId')?.val;
       });
 
-    results.concat(profileDependencyArtifactIds);
+    results = results.concat(profileDependencyArtifactIds);
   }
 
   return results;
