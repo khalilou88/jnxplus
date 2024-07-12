@@ -1,3 +1,13 @@
+## 1.6.0-1 (2024-07-12)
+
+### 🩹 Fixes
+
+- fix concat arrays ([12f14490](https://github.com/khalilou88/jnxplus/commit/12f14490))
+
+### ❤️ Thank You
+
+- khalilou88 @khalilou88
+
 ## 1.6.0-0 (2024-07-11)
 
 ### 🚀 Features
