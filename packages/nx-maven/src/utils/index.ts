@@ -542,3 +542,24 @@ export function extractRootPomValues(
 
   return [quarkusVersion, getDependencyManagement(rootPomXmlContent)];
 }
+
+export function getSkipAggregatorProjectGraphLinkingOption(
+  plugin: PluginConfiguration | undefined,
+): boolean {
+  if (typeof plugin === 'string') {
+    return false;
+  }
+
+  const options = plugin?.options;
+
+  if (
+    typeof options === 'object' &&
+    options &&
+    'skipAggregatorProjectGraphLinking' in options &&
+    typeof options.skipAggregatorProjectGraphLinking === 'boolean'
+  ) {
+    return options.skipAggregatorProjectGraphLinking;
+  }
+
+  return false;
+}

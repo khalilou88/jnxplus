@@ -15,6 +15,10 @@ import {
   getProject,
   removeWorkspaceDataCache,
 } from './graph-utils';
+import {
+  getPlugin,
+  getSkipAggregatorProjectGraphLinkingOption,
+} from '../utils';
 
 export const createDependencies: CreateDependencies = (
   _,
@@ -50,24 +54,27 @@ export const createDependencies: CreateDependencies = (
       results.push(newDependency);
     }
 
-    if (
-      project.aggregatorProjectArtifactId &&
-      project.aggregatorProjectArtifactId !== project.parentProjectArtifactId
-    ) {
-      const aggregatorProject = getProject(
-        projects,
-        project.aggregatorProjectArtifactId,
-      );
+    const plugin = getPlugin();
+    if (getSkipAggregatorProjectGraphLinkingOption(plugin) === false) {
+      if (
+        project.aggregatorProjectArtifactId &&
+        project.aggregatorProjectArtifactId !== project.parentProjectArtifactId
+      ) {
+        const aggregatorProject = getProject(
+          projects,
+          project.aggregatorProjectArtifactId,
+        );
 
-      const newDependency = {
-        source: project.artifactId,
-        target: aggregatorProject.artifactId,
-        sourceFile: projectSourceFile,
-        type: DependencyType.static,
-      };
+        const newDependency = {
+          source: project.artifactId,
+          target: aggregatorProject.artifactId,
+          sourceFile: projectSourceFile,
+          type: DependencyType.static,
+        };
 
-      validateDependency(newDependency, context);
-      results.push(newDependency);
+        validateDependency(newDependency, context);
+        results.push(newDependency);
+      }
     }
 
     const dependencies = getDependencyProjects(project, projects);

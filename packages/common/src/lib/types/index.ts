@@ -28,6 +28,7 @@ export type NxMavenPluginOptions = {
   serveTargetName: string;
   testTargetName: string;
   integrationTestTargetName: string;
+  skipAggregatorProjectGraphLinking: boolean;
 };
 export type NxGradlePluginOptions = {
   gradleRootDirectory: string;
