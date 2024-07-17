@@ -1,3 +1,13 @@
+## 1.7.0-0 (2024-07-17)
+
+### 🚀 Features
+
+- add getSkipAggregatorProjectGraphLinkingOption ([6b474ba6](https://github.com/khalilou88/jnxplus/commit/6b474ba6))
+
+### ❤️ Thank You
+
+- khalilou88 @khalilou88
+
 ## 1.6.0 (2024-07-12)
 
 This was a version bump only, there were no code changes.
