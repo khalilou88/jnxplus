@@ -19,7 +19,7 @@
   "dependencies": {
     "@nx/devkit": "19.5.0",
     "@swc/helpers": "0.5.12",
-    "create-nx-workspace": "19.5.0",
+    "create-nx-workspace": "19.5.1",
     "flat-cache": "^5.0.0",
     "tslib": "^2.6.3"
   },
