@@ -1,3 +1,13 @@
+## 1.7.0 (2024-07-31)
+
+### 🚀 Features
+
+- add skipProjectWithoutProjectJson and skipAggregatorProjectLinking ([#1205](https://github.com/khalilou88/jnxplus/pull/1205))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+
 ## 1.6.0 (2024-07-12)
 
 This was a version bump only, there were no code changes.
