@@ -26,6 +26,10 @@ export const createDependencies: CreateDependencies = (
   const cachedWorkspaceData: WorkspaceDataType = getCachedWorkspaceData();
   const projects: MavenProjectType[] = cachedWorkspaceData.projects;
 
+  const plugin = getPlugin();
+  const skipAggregatorProjectLinkingOption =
+    getSkipAggregatorProjectLinkingOption(plugin);
+
   for (const project of projects) {
     if (project.skipProject) {
       continue;
@@ -57,8 +61,7 @@ export const createDependencies: CreateDependencies = (
       }
     }
 
-    const plugin = getPlugin();
-    if (getSkipAggregatorProjectLinkingOption(plugin) === false) {
+    if (skipAggregatorProjectLinkingOption === false) {
       if (
         project.aggregatorProjectArtifactId &&
         project.aggregatorProjectArtifactId !== project.parentProjectArtifactId
