@@ -37,15 +37,15 @@ jobs:
         # run: npm ci
         run: npm i
 
-      ## fix to publish projects
-      - name: Build projects
-        run: npm run nx run-many -- --target=build
-
       - name: Apply updated version to packages
         run: |
           # Use the version from the workflow input if it's set, otherwise
           VERSION=${{ github.event.inputs.version || github.ref_name }}
           npx nx release version --specifier $VERSION
+
+      ## fix to publish projects
+      - name: Build projects
+        run: npm run nx run-many -- --target=build
 
       - name: Publish
         run: |
