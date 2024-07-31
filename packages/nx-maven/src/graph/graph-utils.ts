@@ -19,6 +19,7 @@ import {
   getLocalRepositoryPath,
   getVersion,
 } from '../utils';
+import { existsSync } from 'fs';
 
 interface PropertyType {
   key: string;
@@ -38,6 +39,7 @@ export interface MavenProjectType {
   parentProjectArtifactId?: string;
   aggregatorProjectArtifactId?: string;
   properties: PropertyType[];
+  skipProject: boolean;
 }
 
 export interface WorkspaceDataType {
@@ -60,8 +62,18 @@ export function getWorkspaceData(opts: NxMavenPluginOptions | undefined) {
     : '';
   const mavenRootDirAbsolutePath = path.join(workspaceRoot, mavenRootDirectory);
 
+  const skipProjectWithoutProjectJson = opts?.graphOptions
+    ?.skipProjectWithoutProjectJson
+    ? opts?.graphOptions?.skipProjectWithoutProjectJson
+    : false;
+
   const projects: MavenProjectType[] = [];
-  addProjects(mavenRootDirAbsolutePath, projects, '');
+  addProjects(
+    skipProjectWithoutProjectJson,
+    mavenRootDirAbsolutePath,
+    projects,
+    '',
+  );
 
   //TODO calculate versions here
 
@@ -93,6 +105,7 @@ export function removeWorkspaceDataCache() {
 }
 
 export function addProjects(
+  skipProjectWithoutProjectJson: boolean,
   mavenRootDirAbsolutePath: string,
   projects: MavenProjectType[],
   projectRelativePath: string,
@@ -126,6 +139,12 @@ export function addProjects(
 
   const properties = getProperties(pomXmlContent);
 
+  let skipProject = false;
+  const projectJsonPath = path.join(projectAbsolutePath, 'project.json');
+  if (skipProjectWithoutProjectJson && !existsSync(projectJsonPath)) {
+    skipProject = true;
+  }
+
   projects.push({
     artifactId: artifactId,
     groupId: groupId,
@@ -139,6 +158,7 @@ export function addProjects(
     parentProjectArtifactId: parentProjectArtifactId,
     aggregatorProjectArtifactId: aggregatorProjectArtifactId,
     properties: properties,
+    skipProject: skipProject,
   });
 
   const modulesXmlElement = pomXmlContent.childNamed('modules');
@@ -157,6 +177,7 @@ export function addProjects(
       moduleXmlElement.val.trim(),
     );
     addProjects(
+      skipProjectWithoutProjectJson,
       mavenRootDirAbsolutePath,
       projects,
       moduleRelativePath,

@@ -15,6 +15,7 @@ import {
   getProject,
   removeWorkspaceDataCache,
 } from './graph-utils';
+import { getPlugin, getSkipAggregatorProjectLinkingOption } from '../utils';
 
 export const createDependencies: CreateDependencies = (
   _,
@@ -26,6 +27,10 @@ export const createDependencies: CreateDependencies = (
   const projects: MavenProjectType[] = cachedWorkspaceData.projects;
 
   for (const project of projects) {
+    if (project.skipProject) {
+      continue;
+    }
+
     const projectRoot = path.relative(
       workspaceRoot,
       project.projectAbsolutePath,
@@ -39,61 +44,72 @@ export const createDependencies: CreateDependencies = (
         project.parentProjectArtifactId,
       );
 
-      const newDependency = {
-        source: project.artifactId,
-        target: parentProject.artifactId,
-        sourceFile: projectSourceFile,
-        type: DependencyType.static,
-      };
+      if (!parentProject.skipProject) {
+        const newDependency = {
+          source: project.artifactId,
+          target: parentProject.artifactId,
+          sourceFile: projectSourceFile,
+          type: DependencyType.static,
+        };
 
-      validateDependency(newDependency, context);
-      results.push(newDependency);
+        validateDependency(newDependency, context);
+        results.push(newDependency);
+      }
     }
 
-    if (
-      project.aggregatorProjectArtifactId &&
-      project.aggregatorProjectArtifactId !== project.parentProjectArtifactId
-    ) {
-      const aggregatorProject = getProject(
-        projects,
-        project.aggregatorProjectArtifactId,
-      );
+    const plugin = getPlugin();
+    if (getSkipAggregatorProjectLinkingOption(plugin) === false) {
+      if (
+        project.aggregatorProjectArtifactId &&
+        project.aggregatorProjectArtifactId !== project.parentProjectArtifactId
+      ) {
+        const aggregatorProject = getProject(
+          projects,
+          project.aggregatorProjectArtifactId,
+        );
 
-      const newDependency = {
-        source: project.artifactId,
-        target: aggregatorProject.artifactId,
-        sourceFile: projectSourceFile,
-        type: DependencyType.static,
-      };
+        if (!aggregatorProject.skipProject) {
+          const newDependency = {
+            source: project.artifactId,
+            target: aggregatorProject.artifactId,
+            sourceFile: projectSourceFile,
+            type: DependencyType.static,
+          };
 
-      validateDependency(newDependency, context);
-      results.push(newDependency);
+          validateDependency(newDependency, context);
+          results.push(newDependency);
+        }
+      }
     }
 
     const dependencies = getDependencyProjects(project, projects);
     for (const dependency of dependencies) {
-      const newDependency = {
-        source: project.artifactId,
-        target: dependency.artifactId,
-        sourceFile: projectSourceFile,
-        type: DependencyType.static,
-      };
+      if (!dependency.skipProject) {
+        const newDependency = {
+          source: project.artifactId,
+          target: dependency.artifactId,
+          sourceFile: projectSourceFile,
+          type: DependencyType.static,
+        };
 
-      validateDependency(newDependency, context);
-      results.push(newDependency);
+        validateDependency(newDependency, context);
+        results.push(newDependency);
+      }
     }
 
     const profileDependencies = getProfileDependencyProjects(project, projects);
     for (const profileDependency of profileDependencies) {
-      const newDependency = {
-        source: project.artifactId,
-        target: profileDependency.artifactId,
-        sourceFile: projectSourceFile,
-        type: DependencyType.static,
-      };
+      if (!profileDependency.skipProject) {
+        const newDependency = {
+          source: project.artifactId,
+          target: profileDependency.artifactId,
+          sourceFile: projectSourceFile,
+          type: DependencyType.static,
+        };
 
-      validateDependency(newDependency, context);
-      results.push(newDependency);
+        validateDependency(newDependency, context);
+        results.push(newDependency);
+      }
     }
   }
 

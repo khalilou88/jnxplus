@@ -542,3 +542,65 @@ export function extractRootPomValues(
 
   return [quarkusVersion, getDependencyManagement(rootPomXmlContent)];
 }
+
+export function getSkipProjectWithoutProjectJsonOption(
+  plugin: PluginConfiguration | undefined,
+): boolean {
+  if (typeof plugin === 'string') {
+    return false;
+  }
+
+  const options = plugin?.options;
+
+  if (
+    typeof options === 'object' &&
+    options &&
+    'graphOptions' in options &&
+    typeof options.graphOptions === 'object' &&
+    options.graphOptions
+  ) {
+    const graphOptions = options?.graphOptions;
+
+    if (
+      typeof graphOptions === 'object' &&
+      graphOptions &&
+      'skipProjectWithoutProjectJson' in graphOptions &&
+      typeof graphOptions.skipProjectWithoutProjectJson === 'boolean'
+    ) {
+      return graphOptions.skipProjectWithoutProjectJson;
+    }
+  }
+
+  return false;
+}
+
+export function getSkipAggregatorProjectLinkingOption(
+  plugin: PluginConfiguration | undefined,
+): boolean {
+  if (typeof plugin === 'string') {
+    return false;
+  }
+
+  const options = plugin?.options;
+
+  if (
+    typeof options === 'object' &&
+    options &&
+    'graphOptions' in options &&
+    typeof options.graphOptions === 'object' &&
+    options.graphOptions
+  ) {
+    const graphOptions = options?.graphOptions;
+
+    if (
+      typeof graphOptions === 'object' &&
+      graphOptions &&
+      'skipAggregatorProjectLinking' in graphOptions &&
+      typeof graphOptions.skipAggregatorProjectLinking === 'boolean'
+    ) {
+      return graphOptions.skipAggregatorProjectLinking;
+    }
+  }
+
+  return false;
+}

@@ -20,6 +20,10 @@ export interface TemplateOptionsType {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [k: string]: any;
 }
+interface GraphOptionsType {
+  skipProjectWithoutProjectJson: boolean;
+  skipAggregatorProjectLinking: boolean;
+}
 export type NxMavenPluginOptions = {
   mavenRootDirectory: string;
   localRepoRelativePath: string;
@@ -28,6 +32,7 @@ export type NxMavenPluginOptions = {
   serveTargetName: string;
   testTargetName: string;
   integrationTestTargetName: string;
+  graphOptions: GraphOptionsType;
 };
 export type NxGradlePluginOptions = {
   gradleRootDirectory: string;

@@ -18,6 +18,10 @@ export const createNodes: CreateNodes<NxMavenPluginOptions> = [
     const projects: Record<string, ProjectConfiguration> = {};
 
     for (const project of mavenProjects) {
+      if (project.skipProject) {
+        continue;
+      }
+
       let projectName;
       let targets: TargetsType = {};
 
