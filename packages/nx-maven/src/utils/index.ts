@@ -552,13 +552,7 @@ export function getSkipProjectWithoutProjectJsonOption(
 
   const options = plugin?.options;
 
-  if (
-    typeof options === 'object' &&
-    options &&
-    'graphOptions' in options &&
-    typeof options.graphOptions === 'object' &&
-    options.graphOptions
-  ) {
+  if (typeof options === 'object' && options && 'graphOptions' in options) {
     const graphOptions = options?.graphOptions;
 
     if (
@@ -583,13 +577,7 @@ export function getSkipAggregatorProjectLinkingOption(
 
   const options = plugin?.options;
 
-  if (
-    typeof options === 'object' &&
-    options &&
-    'graphOptions' in options &&
-    typeof options.graphOptions === 'object' &&
-    options.graphOptions
-  ) {
+  if (typeof options === 'object' && options && 'graphOptions' in options) {
     const graphOptions = options?.graphOptions;
 
     if (
