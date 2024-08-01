@@ -64,7 +64,7 @@ export function getWorkspaceData(opts: NxMavenPluginOptions | undefined) {
 
   const skipProjectWithoutProjectJson = opts?.graphOptions
     ?.skipProjectWithoutProjectJson
-    ? opts?.graphOptions?.skipProjectWithoutProjectJson
+    ? opts.graphOptions.skipProjectWithoutProjectJson
     : false;
 
   const projects: MavenProjectType[] = [];
