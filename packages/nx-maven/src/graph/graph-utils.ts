@@ -139,11 +139,9 @@ export function addProjects(
 
   const properties = getProperties(pomXmlContent);
 
-  let skipProject = false;
   const projectJsonPath = path.join(projectAbsolutePath, 'project.json');
-  if (skipProjectWithoutProjectJson && !existsSync(projectJsonPath)) {
-    skipProject = true;
-  }
+  const skipProject =
+    skipProjectWithoutProjectJson && !existsSync(projectJsonPath);
 
   projects.push({
     artifactId: artifactId,
