@@ -23,6 +23,7 @@ export const jnxplusGradlePluginVersion = '0.4.0';
 
 //Prettier
 export const prettierVersion = '^3.2.4';
+export const prettier2VersionRegex = /^.*2\.(0|[1-9]\d*)\.(0|[1-9]\d*).*/;
 export const prettierPluginXmlVersion = '^3.4.1';
 export const prettierPluginJavaVersion = '2.5.0';
 
