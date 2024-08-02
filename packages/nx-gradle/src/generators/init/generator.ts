@@ -200,9 +200,9 @@ function addPrettierToPackageJson(tree: Tree) {
     if (!packageJson.devDependencies['prettier']) {
       packageJson.devDependencies['prettier'] = prettierVersion;
     } else {
-      const prettierVersion = packageJson.devDependencies['prettier'];
+      const prettierV = packageJson.devDependencies['prettier'];
 
-      if (prettierVersion.match(prettier2VersionRegex)) {
+      if (prettierV.match(prettier2VersionRegex)) {
         packageJson.devDependencies['prettier'] = prettierVersion;
       }
     }
