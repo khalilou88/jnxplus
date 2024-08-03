@@ -1,6 +1,7 @@
 import {
   getPluginVersion,
   micronautVersion,
+  prettier2VersionRegex,
   prettierPluginJavaVersion,
   prettierPluginXmlVersion,
   prettierVersion,
@@ -197,6 +198,12 @@ function addPrettierToPackageJson(tree: Tree) {
 
     if (!packageJson.devDependencies['prettier']) {
       packageJson.devDependencies['prettier'] = prettierVersion;
+    } else {
+      const prettierV = packageJson.devDependencies['prettier'];
+
+      if (prettierV.match(prettier2VersionRegex)) {
+        packageJson.devDependencies['prettier'] = prettierVersion;
+      }
     }
 
     if (!packageJson.devDependencies['@prettier/plugin-xml']) {

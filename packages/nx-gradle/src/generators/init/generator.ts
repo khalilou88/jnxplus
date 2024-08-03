@@ -4,6 +4,7 @@ import {
   kotlinVersion,
   kspVersion,
   micronautVersion,
+  prettier2VersionRegex,
   prettierPluginJavaVersion,
   prettierVersion,
   prettierrcNameOptions,
@@ -198,6 +199,12 @@ function addPrettierToPackageJson(tree: Tree) {
 
     if (!packageJson.devDependencies['prettier']) {
       packageJson.devDependencies['prettier'] = prettierVersion;
+    } else {
+      const prettierV = packageJson.devDependencies['prettier'];
+
+      if (prettierV.match(prettier2VersionRegex)) {
+        packageJson.devDependencies['prettier'] = prettierVersion;
+      }
     }
 
     if (!packageJson.devDependencies['prettier-plugin-java']) {
