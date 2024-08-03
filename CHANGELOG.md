@@ -1,3 +1,13 @@
+## 1.7.4-0 (2024-08-03)
+
+### 🩹 Fixes
+
+- update prettier version to 3 with init generator ([#1216](https://github.com/khalilou88/jnxplus/pull/1216))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+
 ## 1.7.3 (2024-07-31)
 
 This was a version bump only, there were no code changes.
