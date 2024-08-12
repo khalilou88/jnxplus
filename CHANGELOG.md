@@ -1,3 +1,7 @@
+## 1.7.4 (2024-08-12)
+
+This was a version bump only, there were no code changes.
+
 ## 1.7.4-0 (2024-08-03)
 
 ### 🩹 Fixes
