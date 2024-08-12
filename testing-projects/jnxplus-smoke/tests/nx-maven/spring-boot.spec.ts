@@ -48,7 +48,7 @@ describe('nx-maven spring-boot smoke', () => {
 
   it('should work', async () => {
     execSync(
-      'npx create-nx-workspace@latest test --preset react-monorepo --nxCloud skip',
+      'npx create-nx-workspace@latest test --preset apps --nxCloud skip',
       {
         cwd: smokeDirectory,
         env: process.env,
