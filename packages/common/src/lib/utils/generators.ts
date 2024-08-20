@@ -1,4 +1,11 @@
-import { PluginConfiguration, joinPathFragments, names } from '@nx/devkit';
+import {
+  PluginConfiguration,
+  Tree,
+  joinPathFragments,
+  names,
+  readNxJson,
+  updateNxJson,
+} from '@nx/devkit';
 import { normalizeName } from '.';
 
 export function generateSimpleProjectName(options: { name: string }) {
@@ -227,4 +234,25 @@ export function getIntegrationTestTargetName(
   }
 
   return 'integration-test';
+}
+
+export function updateNxJsonConfiguration(tree: Tree) {
+  const nxJson = readNxJson(tree);
+
+  if (!nxJson) {
+    throw new Error("Can't read `nx.json` File");
+  }
+
+  if (!nxJson.namedInputs) {
+    nxJson.namedInputs = {};
+  }
+  const defaultFilesSet = nxJson.namedInputs['default'] ?? [];
+  nxJson.namedInputs['default'] = Array.from(
+    new Set([...defaultFilesSet, '{projectRoot}/**/*']),
+  );
+  const productionFileSet = nxJson.namedInputs['production'] ?? [];
+  nxJson.namedInputs['production'] = Array.from(
+    new Set([...productionFileSet, 'default', '!{projectRoot}/src/test/**/*']),
+  );
+  updateNxJson(tree, nxJson);
 }
