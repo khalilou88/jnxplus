@@ -8,6 +8,7 @@ import {
   prettierrcNameOptions,
   quarkusVersion,
   springBootVersion,
+  updateNxJsonConfiguration,
 } from '@jnxplus/common';
 import {
   ProjectConfiguration,
@@ -103,6 +104,7 @@ export async function initGenerator(
 
   addFiles(tree, normalizedOptions);
   updateNxJson(tree, normalizedOptions);
+  updateNxJsonConfiguration(tree);
   updateGitIgnore(tree, normalizedOptions);
   addPrettierToPackageJson(tree);
   addOrUpdatePrettierRc(tree);
