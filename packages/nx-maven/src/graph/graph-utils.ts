@@ -438,3 +438,26 @@ function getProfileDependencyArtifactIds(pomXml: XmlDocument) {
 
   return results;
 }
+
+export function getOutputDirLocalRepo(
+  localRepositoryPath: string,
+  groupId: string,
+  artifactId: string,
+  projectVersion: string,
+) {
+  return path.join(
+    localRepositoryPath,
+    `${groupId.replace(
+      new RegExp(/\./, 'g'),
+      '/',
+    )}/${artifactId}/${projectVersion}`,
+  );
+}
+
+export function getTask(isRootProject: boolean) {
+  if (isRootProject) {
+    return 'install -N';
+  }
+
+  return 'install';
+}
