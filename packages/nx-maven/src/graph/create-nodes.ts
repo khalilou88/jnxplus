@@ -6,6 +6,8 @@ import {
   MavenProjectType,
   WorkspaceDataType,
   getEffectiveVersion,
+  getOutputDirLocalRepo,
+  getTask,
   getWorkspaceData,
 } from './graph-utils';
 
@@ -111,26 +113,3 @@ export const createNodes: CreateNodes<NxMavenPluginOptions> = [
     return { projects: projects };
   },
 ];
-
-function getOutputDirLocalRepo(
-  localRepositoryPath: string,
-  groupId: string,
-  artifactId: string,
-  projectVersion: string,
-) {
-  return path.join(
-    localRepositoryPath,
-    `${groupId.replace(
-      new RegExp(/\./, 'g'),
-      '/',
-    )}/${artifactId}/${projectVersion}`,
-  );
-}
-
-function getTask(isRootProject: boolean) {
-  if (isRootProject) {
-    return 'install -N';
-  }
-
-  return 'install';
-}
