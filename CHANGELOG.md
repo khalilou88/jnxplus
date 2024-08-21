@@ -1,3 +1,14 @@
+## 1.8.0 (2024-08-21)
+
+### 🚀 Features
+
+- add createNodesV2 ([#1243](https://github.com/khalilou88/jnxplus/pull/1243))
+- add '!{projectRoot}/src/test/\*_/_' to namedInputs during init ([#1244](https://github.com/khalilou88/jnxplus/pull/1244))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+
 ## 1.7.4 (2024-08-12)
 
 This was a version bump only, there were no code changes.
