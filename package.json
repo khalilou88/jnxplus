@@ -21,7 +21,7 @@
     "@swc/helpers": "0.5.12",
     "create-nx-workspace": "19.6.2",
     "flat-cache": "^5.0.0",
-    "tslib": "^2.6.3"
+    "tslib": "^2.7.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.4.0",
