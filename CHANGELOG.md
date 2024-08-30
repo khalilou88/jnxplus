@@ -1,3 +1,13 @@
+## 1.9.0 (2024-08-30)
+
+### 🚀 Features
+
+- update maven wrapper to version 3.9.9 ([#1264](https://github.com/khalilou88/jnxplus/pull/1264))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+
 ## 1.8.0 (2024-08-21)
 
 ### 🚀 Features
