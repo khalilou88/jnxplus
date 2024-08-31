@@ -52,7 +52,6 @@ nx-workspace> nx generate @jnxplus/nx-maven:init
 CREATE mvnw
 CREATE mvnw.cmd
 CREATE pom.xml
-CREATE .mvn/wrapper/maven-wrapper.jar
 CREATE .mvn/wrapper/maven-wrapper.properties
 CREATE tools/linters/checkstyle.xml
 CREATE tools/linters/pmd.xml
