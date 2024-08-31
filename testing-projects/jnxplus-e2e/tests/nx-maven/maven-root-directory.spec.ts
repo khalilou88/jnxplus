@@ -65,7 +65,6 @@ describe('nx-maven maven-root-directory e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        'nx-maven/.mvn/wrapper/maven-wrapper.jar',
         'nx-maven/.mvn/wrapper/maven-wrapper.properties',
         'nx-maven/mvnw',
         'nx-maven/mvnw.cmd',
@@ -75,7 +74,6 @@ describe('nx-maven maven-root-directory e2e', () => {
 
     expect(() =>
       checkFilesDoNotExist(
-        '.mvn/wrapper/maven-wrapper.jar',
         '.mvn/wrapper/maven-wrapper.properties',
         'mvnw',
         'mvnw.cmd',

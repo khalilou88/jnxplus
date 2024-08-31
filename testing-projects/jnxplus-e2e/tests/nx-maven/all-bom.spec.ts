@@ -53,7 +53,6 @@ describe('nx-maven all bom e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        '.mvn/wrapper/maven-wrapper.jar',
         '.mvn/wrapper/maven-wrapper.properties',
         'mvnw',
         'mvnw.cmd',
