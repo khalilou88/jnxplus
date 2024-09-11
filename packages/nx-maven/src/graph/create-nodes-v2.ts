@@ -13,6 +13,7 @@ import {
   getOutputDirLocalRepo,
   getTask,
   getWorkspaceData,
+  isSnapshotVersion,
   MavenProjectType,
   WorkspaceDataType,
 } from './graph-utils';
@@ -75,6 +76,13 @@ async function createNodesInternal(
         ) {
           const effectiveVersion = getEffectiveVersion(project, workspaceData);
 
+          if (isSnapshotVersion(effectiveVersion)) {
+            targets[targetName] = {
+              ...targets[targetName],
+              inputs: [{ runtime: 'date +%s' }],
+            };
+          }
+
           const outputDirLocalRepo = getOutputDirLocalRepo(
             workspaceData.localRepo,
             project.groupId,
@@ -120,6 +128,13 @@ async function createNodesInternal(
           },
         },
       };
+
+      if (isSnapshotVersion(effectiveVersion)) {
+        targets[buildTargetName] = {
+          ...targets[buildTargetName],
+          inputs: [{ runtime: 'date +%s' }],
+        };
+      }
     }
 
     projects[project.projectRoot] = {

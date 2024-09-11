@@ -461,3 +461,13 @@ export function getTask(isRootProject: boolean) {
 
   return 'install';
 }
+
+export function isSnapshotVersion(version: string): boolean {
+  const index = version.indexOf('SNAPSHOT');
+
+  if (index >= 0) {
+    return true;
+  }
+
+  return false;
+}
