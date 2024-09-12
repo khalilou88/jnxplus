@@ -567,3 +567,18 @@ export function getSkipAggregatorProjectLinkingOption(
 
   return false;
 }
+
+export function getCacheSnapshotVersion(
+  options: NxMavenPluginOptions | undefined,
+): boolean {
+  if (
+    typeof options === 'object' &&
+    options &&
+    'cacheSnapshotVersion' in options &&
+    typeof options.cacheSnapshotVersion === 'boolean'
+  ) {
+    return options.cacheSnapshotVersion;
+  }
+
+  return false;
+}
