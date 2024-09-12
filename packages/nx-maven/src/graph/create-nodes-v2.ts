@@ -8,7 +8,7 @@ import {
 } from '@nx/devkit';
 import { existsSync } from 'fs';
 import * as path from 'path';
-import { getCacheSnapshotVersion } from '../utils';
+import { getCacheSnapshotVersionOption } from '../utils';
 import {
   getEffectiveVersion,
   getOutputDirLocalRepo,
@@ -44,7 +44,7 @@ async function createNodesInternal(
 
   const projects: Record<string, ProjectConfiguration> = {};
 
-  const cacheSnapshotVersion = getCacheSnapshotVersion(options);
+  const cacheSnapshotVersion = getCacheSnapshotVersionOption(options);
 
   for (const project of mavenProjects) {
     if (project.skipProject) {

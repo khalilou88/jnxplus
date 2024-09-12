@@ -2,7 +2,7 @@ import { NxMavenPluginOptions, TargetsType } from '@jnxplus/common';
 import { CreateNodes, ProjectConfiguration, readJsonFile } from '@nx/devkit';
 import { existsSync } from 'fs';
 import * as path from 'path';
-import { getCacheSnapshotVersion } from '../utils';
+import { getCacheSnapshotVersionOption } from '../utils';
 import {
   MavenProjectType,
   WorkspaceDataType,
@@ -21,7 +21,7 @@ export const createNodes: CreateNodes<NxMavenPluginOptions> = [
 
     const projects: Record<string, ProjectConfiguration> = {};
 
-    const cacheSnapshotVersion = getCacheSnapshotVersion(opts);
+    const cacheSnapshotVersion = getCacheSnapshotVersionOption(opts);
 
     for (const project of mavenProjects) {
       if (project.skipProject) {
