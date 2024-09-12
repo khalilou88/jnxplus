@@ -8,7 +8,7 @@ import {
 } from '@nx/devkit';
 import { existsSync } from 'fs';
 import * as path from 'path';
-import { getCacheSnapshotVersionOption } from '../utils';
+import { getSkipNxCacheSnapshotVersionOption } from '../utils';
 import {
   getEffectiveVersion,
   getOutputDirLocalRepo,
@@ -44,7 +44,8 @@ async function createNodesInternal(
 
   const projects: Record<string, ProjectConfiguration> = {};
 
-  const cacheSnapshotVersion = getCacheSnapshotVersionOption(options);
+  const skipNxCacheSnapshotVersion =
+    getSkipNxCacheSnapshotVersionOption(options);
 
   for (const project of mavenProjects) {
     if (project.skipProject) {
@@ -79,7 +80,10 @@ async function createNodesInternal(
         ) {
           const effectiveVersion = getEffectiveVersion(project, workspaceData);
 
-          if (isSnapshotVersion(effectiveVersion) && !cacheSnapshotVersion) {
+          if (
+            isSnapshotVersion(effectiveVersion) &&
+            skipNxCacheSnapshotVersion
+          ) {
             targets[targetName] = {
               ...targets[targetName],
               inputs: [{ runtime: 'date +%s' }],
@@ -132,7 +136,7 @@ async function createNodesInternal(
         },
       };
 
-      if (isSnapshotVersion(effectiveVersion) && !cacheSnapshotVersion) {
+      if (isSnapshotVersion(effectiveVersion) && skipNxCacheSnapshotVersion) {
         targets[buildTargetName] = {
           ...targets[buildTargetName],
           inputs: [{ runtime: 'date +%s' }],

@@ -33,7 +33,7 @@ export type NxMavenPluginOptions = {
   testTargetName: string;
   integrationTestTargetName: string;
   graphOptions: GraphOptionsType;
-  cacheSnapshotVersion: boolean;
+  skipNxCacheSnapshotVersion: boolean;
 };
 export type NxGradlePluginOptions = {
   gradleRootDirectory: string;

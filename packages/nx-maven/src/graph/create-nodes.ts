@@ -2,7 +2,7 @@ import { NxMavenPluginOptions, TargetsType } from '@jnxplus/common';
 import { CreateNodes, ProjectConfiguration, readJsonFile } from '@nx/devkit';
 import { existsSync } from 'fs';
 import * as path from 'path';
-import { getCacheSnapshotVersionOption } from '../utils';
+import { getSkipNxCacheSnapshotVersionOption } from '../utils';
 import {
   MavenProjectType,
   WorkspaceDataType,
@@ -21,7 +21,8 @@ export const createNodes: CreateNodes<NxMavenPluginOptions> = [
 
     const projects: Record<string, ProjectConfiguration> = {};
 
-    const cacheSnapshotVersion = getCacheSnapshotVersionOption(opts);
+    const skipNxCacheSnapshotVersion =
+      getSkipNxCacheSnapshotVersionOption(opts);
 
     for (const project of mavenProjects) {
       if (project.skipProject) {
@@ -58,7 +59,10 @@ export const createNodes: CreateNodes<NxMavenPluginOptions> = [
               project,
               workspaceData,
             );
-            if (isSnapshotVersion(effectiveVersion) && !cacheSnapshotVersion) {
+            if (
+              isSnapshotVersion(effectiveVersion) &&
+              skipNxCacheSnapshotVersion
+            ) {
               targets[targetName] = {
                 ...targets[targetName],
                 inputs: [{ runtime: 'date +%s' }],
@@ -111,7 +115,7 @@ export const createNodes: CreateNodes<NxMavenPluginOptions> = [
           },
         };
 
-        if (isSnapshotVersion(effectiveVersion) && !cacheSnapshotVersion) {
+        if (isSnapshotVersion(effectiveVersion) && skipNxCacheSnapshotVersion) {
           targets[buildTargetName] = {
             ...targets[buildTargetName],
             inputs: [{ runtime: 'date +%s' }],

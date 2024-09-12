@@ -568,16 +568,16 @@ export function getSkipAggregatorProjectLinkingOption(
   return false;
 }
 
-export function getCacheSnapshotVersionOption(
+export function getSkipNxCacheSnapshotVersionOption(
   options: NxMavenPluginOptions | undefined,
 ): boolean {
   if (
     typeof options === 'object' &&
     options &&
-    'cacheSnapshotVersion' in options &&
-    typeof options.cacheSnapshotVersion === 'boolean'
+    'skipNxCacheSnapshotVersion' in options &&
+    typeof options.skipNxCacheSnapshotVersion === 'boolean'
   ) {
-    return options.cacheSnapshotVersion;
+    return options.skipNxCacheSnapshotVersion;
   }
 
   return false;
