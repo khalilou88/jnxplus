@@ -1,4 +1,3 @@
-import { readXml } from '@jnxplus/xml';
 import {
   CreateDependencies,
   CreateDependenciesContext,
@@ -6,14 +5,9 @@ import {
   RawProjectGraphDependency,
   joinPathFragments,
   validateDependency,
-  workspaceRoot,
 } from '@nx/devkit';
 import * as path from 'path';
-import {
-  getArtifactId,
-  getPlugin,
-  getSkipAggregatorProjectLinkingOption,
-} from '../utils';
+import { getPlugin, getSkipAggregatorProjectLinkingOption } from '../utils';
 import {
   MavenProjectType,
   WorkspaceDataType,
@@ -38,25 +32,22 @@ export const createDependencies: CreateDependencies = (
   Object.keys(context.filesToProcess.projectFileMap).forEach((source) => {
     Object.values(context.filesToProcess.projectFileMap[source]).forEach(
       (fileData) => {
-        if (path.basename(fileData.file) === 'pom.xml') {
-          const pomXmlContent = readXml(fileData.file);
-          const artifactId = getArtifactId(pomXmlContent);
-
+        const filePath = fileData.file;
+        if (path.basename(filePath) === 'pom.xml') {
           const project = projects.find(
-            (element) => element.artifactId === artifactId,
+            (element) =>
+              joinPathFragments(element.projectRoot, 'pom.xml') === filePath,
           );
 
           if (!project) {
-            throw new Error(`Can't find project with artifactId ${artifactId}`);
+            throw new Error(`Can't find project for file: ${filePath}`);
           }
 
           if (!project.skipProject) {
-            const projectRoot = path.relative(
-              workspaceRoot,
-              project.projectAbsolutePath,
+            const projectSourceFile = joinPathFragments(
+              project.projectRoot,
+              'pom.xml',
             );
-
-            const projectSourceFile = joinPathFragments(projectRoot, 'pom.xml');
 
             if (project.parentProjectArtifactId) {
               const parentProject = getProject(
