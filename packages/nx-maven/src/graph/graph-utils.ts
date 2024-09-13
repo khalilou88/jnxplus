@@ -461,3 +461,15 @@ export function getTask(isRootProject: boolean) {
 
   return 'install';
 }
+
+export function hasChangedSnapshotDependency(project: MavenProjectType) {
+  const dependencies = project.dependencies; // TODO add parent dependencies
+
+  const hasChangedSnapshotDependency = false;
+  dependencies.forEach((dependency) => {
+    // if has snapshot dependency, true. This is improvement over current proposal
+    // if has CHANGED snapshot dependency, true
+  });
+
+  return hasChangedSnapshotDependency;
+}

@@ -82,6 +82,13 @@ async function createNodesInternal(
             effectiveVersion,
           );
 
+          if (hasChangedSnapshotDependency(project)) {
+            targets[targetName] = {
+              ...targets[targetName],
+              inputs: [{ runtime: 'date +%s' }],
+            };
+          }
+
           targets[targetName].options = {
             ...targets[targetName].options,
             outputDirLocalRepo: outputDirLocalRepo,
@@ -120,6 +127,13 @@ async function createNodesInternal(
           },
         },
       };
+
+      if (hasChangedSnapshotDependency(project)) {
+        targets[buildTargetName] = {
+          ...targets[buildTargetName],
+          inputs: [{ runtime: 'date +%s' }],
+        };
+      }
     }
 
     projects[project.projectRoot] = {

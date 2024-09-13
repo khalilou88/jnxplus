@@ -9,6 +9,7 @@ import {
   getOutputDirLocalRepo,
   getTask,
   getWorkspaceData,
+  hasChangedSnapshotDependency,
 } from './graph-utils';
 
 export const createNodes: CreateNodes<NxMavenPluginOptions> = [
@@ -55,6 +56,13 @@ export const createNodes: CreateNodes<NxMavenPluginOptions> = [
               workspaceData,
             );
 
+            if (hasChangedSnapshotDependency(project)) {
+              targets[targetName] = {
+                ...targets[targetName],
+                inputs: [{ runtime: 'date +%s' }],
+              };
+            }
+
             const outputDirLocalRepo = getOutputDirLocalRepo(
               workspaceData.localRepo,
               project.groupId,
@@ -100,6 +108,13 @@ export const createNodes: CreateNodes<NxMavenPluginOptions> = [
             },
           },
         };
+
+        if (hasChangedSnapshotDependency(project)) {
+          targets[buildTargetName] = {
+            ...targets[buildTargetName],
+            inputs: [{ runtime: 'date +%s' }],
+          };
+        }
       }
 
       projects[project.projectRoot] = {
