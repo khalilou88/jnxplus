@@ -46,6 +46,22 @@ nx generate @jnxplus/nx-maven:init
 | Format a java project                | `nx format --projects my-project`                                |
 | Visualize project's dependency graph | `nx graph`                                                       |
 
+### 4. Optional configuration
+
+If your project contains `SNAPSHOT` dependencies, then `nx-maven` will not handle them correctly out-of-the-box, because it will fetch target output from the NX cache in situations where this should not happen.
+To prevent these problems, please add the snippet below to the `targetDefaults` section of `nx.json`:
+
+```json
+"@jnxplus/nx-maven:run-task": {
+  "inputs": [
+    "default",
+    { "dependentTasksOutputFiles": "**/*", "transitive": true },
+    { "externalDependencies": [] }
+  ],
+  "cache": true
+}
+```
+
 ## License
 
 MIT © 2021-2024 Khalil LAGRIDA
