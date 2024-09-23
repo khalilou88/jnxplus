@@ -1,3 +1,14 @@
+## 1.10.0 (2024-09-23)
+
+### 🚀 Features
+
+- use filesToProcess to construct the graph ([#1297](https://github.com/khalilou88/jnxplus/pull/1297))
+- use filesToProcess to construct the nx-gradle graph ([#1305](https://github.com/khalilou88/jnxplus/pull/1305))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+
 ## 1.9.0 (2024-08-30)
 
 ### 🚀 Features
