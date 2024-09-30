@@ -9,6 +9,7 @@ import {
   workspaceRoot,
 } from '@nx/devkit';
 import * as flatCache from 'flat-cache';
+import { existsSync } from 'fs';
 import { workspaceDataDirectory } from 'nx/src/utils/cache-directory';
 import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
@@ -19,7 +20,6 @@ import {
   getLocalRepositoryPath,
   getVersion,
 } from '../utils';
-import { existsSync } from 'fs';
 
 interface PropertyType {
   key: string;
@@ -50,10 +50,8 @@ export interface WorkspaceDataType {
 }
 
 const cacheId = 'workspace-data.json';
-const cache = flatCache.load(
-  cacheId,
-  path.join(workspaceDataDirectory, 'nx-maven'),
-);
+const cache = new flatCache.FlatCache();
+cache.load(cacheId, path.join(workspaceDataDirectory, 'nx-maven'));
 const key = 'workspace-data';
 
 export function getWorkspaceData(opts: NxMavenPluginOptions | undefined) {
@@ -97,7 +95,7 @@ export function getWorkspaceData(opts: NxMavenPluginOptions | undefined) {
 }
 
 export function getCachedWorkspaceData() {
-  return cache.getKey(key);
+  return cache.getKey<WorkspaceDataType>(key);
 }
 
 export function removeWorkspaceDataCache() {
