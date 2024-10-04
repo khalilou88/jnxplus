@@ -20,6 +20,7 @@ import {
   getLocalRepositoryPath,
   getVersion,
 } from '../utils';
+import { InputDefinition } from 'nx/src/config/workspace-json-project-json';
 
 interface PropertyType {
   key: string;
@@ -307,6 +308,11 @@ function getTargetDefaults() {
       if (
         (target.outputs ?? []).some(
           (element: string) => element === '{options.outputDirLocalRepo}',
+        ) ||
+        (target.inputs ?? []).some(
+          (element: InputDefinition | string) =>
+            typeof element === 'string' &&
+            element === '{options.outputDirLocalRepo}',
         )
       ) {
         targetDefaults.push(targetName);

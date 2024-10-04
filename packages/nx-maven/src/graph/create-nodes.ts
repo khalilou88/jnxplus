@@ -1,6 +1,7 @@
 import { NxMavenPluginOptions, TargetsType } from '@jnxplus/common';
 import { CreateNodes, ProjectConfiguration, readJsonFile } from '@nx/devkit';
 import { existsSync } from 'fs';
+import { InputDefinition } from 'nx/src/config/workspace-json-project-json';
 import * as path from 'path';
 import {
   MavenProjectType,
@@ -48,6 +49,11 @@ export const createNodes: CreateNodes<NxMavenPluginOptions> = [
             workspaceData.targetDefaults.includes(targetName) ||
             (targets[targetName].outputs ?? []).some(
               (element: string) => element === '{options.outputDirLocalRepo}',
+            ) ||
+            (targets[targetName].inputs ?? []).some(
+              (element: InputDefinition | string) =>
+                typeof element === 'string' &&
+                element === '{options.outputDirLocalRepo}',
             )
           ) {
             const effectiveVersion = getEffectiveVersion(

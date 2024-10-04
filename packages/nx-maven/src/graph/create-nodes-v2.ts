@@ -7,6 +7,7 @@ import {
   readJsonFile,
 } from '@nx/devkit';
 import { existsSync } from 'fs';
+import { InputDefinition } from 'nx/src/config/workspace-json-project-json';
 import * as path from 'path';
 import {
   getEffectiveVersion,
@@ -71,6 +72,11 @@ async function createNodesInternal(
           workspaceData.targetDefaults.includes(targetName) ||
           (targets[targetName].outputs ?? []).some(
             (element: string) => element === '{options.outputDirLocalRepo}',
+          ) ||
+          (targets[targetName].inputs ?? []).some(
+            (element: InputDefinition | string) =>
+              typeof element === 'string' &&
+              element === '{options.outputDirLocalRepo}',
           )
         ) {
           const effectiveVersion = getEffectiveVersion(project, workspaceData);
