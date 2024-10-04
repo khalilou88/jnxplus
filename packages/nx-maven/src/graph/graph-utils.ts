@@ -311,7 +311,7 @@ export function validateTargetInputs(
     )
   ) {
     throw new Error(
-      `"{options.outputDirLocalRepo}" is not allowed in target inputs. To make it works, remove it from ${targetName} in ${file} file. If you have a valid use case, please open an issue.`,
+      `"{options.outputDirLocalRepo}" is not allowed in target inputs. To make it works, remove it from "${targetName}" target in "${file}" file. If you have a valid use case, please open an issue.`,
     );
   }
 }
