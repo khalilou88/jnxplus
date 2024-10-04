@@ -10,6 +10,7 @@ import {
 } from '@nx/devkit';
 import * as flatCache from 'flat-cache';
 import { existsSync } from 'fs';
+import { InputDefinition } from 'nx/src/config/workspace-json-project-json';
 import { workspaceDataDirectory } from 'nx/src/utils/cache-directory';
 import * as path from 'path';
 import { XmlDocument } from 'xmldoc';
@@ -297,6 +298,24 @@ function getVersionFromParentProject(
   );
 }
 
+export function validateTargetInputs(
+  targetName: string,
+  file: 'nx.json' | 'project.json',
+  inputs: (string | InputDefinition)[] | undefined,
+) {
+  if (
+    (inputs ?? []).some(
+      (element: InputDefinition | string) =>
+        typeof element === 'string' &&
+        element === '{options.outputDirLocalRepo}',
+    )
+  ) {
+    throw new Error(
+      `"{options.outputDirLocalRepo}" is not allowed in target inputs. To make it works, remove it from "${targetName}" target in "${file}" file. If you have a valid use case, please open an issue.`,
+    );
+  }
+}
+
 function getTargetDefaults() {
   const targetDefaults = [];
   const nxJsonPath = path.join(workspaceRoot, 'nx.json');
@@ -304,6 +323,8 @@ function getTargetDefaults() {
   const nxJson = readJsonFile<NxJsonConfiguration>(nxJsonPath);
   if (nxJson.targetDefaults) {
     for (const [targetName, target] of Object.entries(nxJson.targetDefaults)) {
+      validateTargetInputs(targetName, 'nx.json', target.inputs);
+
       if (
         (target.outputs ?? []).some(
           (element: string) => element === '{options.outputDirLocalRepo}',
