@@ -27,12 +27,17 @@ export function getExecutable() {
 
   const mavenCli = process.env['NX_MAVEN_CLI'];
   if (mavenCli) {
-    if (mavenCli !== 'mvn' && mavenCli !== 'mvnd') {
+    if (mavenCli !== 'mvnw' && mavenCli !== 'mvn' && mavenCli !== 'mvnd') {
       throw new Error(
-        `Wrong value for NX_MAVEN_CLI. Please choose between mvn and mvnd.`,
+        `Wrong value for NX_MAVEN_CLI. Please choose between mvnw, mvn and mvnd.`,
       );
     }
-    executable = mavenCli;
+
+    if (mavenCli === 'mvnw') {
+      executable = process.platform.startsWith('win') ? 'mvnw.cmd' : './mvnw';
+    } else {
+      executable = mavenCli;
+    }
   } else if (process.env['NX_SKIP_MAVEN_WRAPPER'] === 'true') {
     //TODO NX_SKIP_MAVEN_WRAPPER is deprecated, please use NX_MAVEN_CLI instead
     logger.warn(

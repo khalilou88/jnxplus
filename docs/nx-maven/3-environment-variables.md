@@ -2,7 +2,7 @@
 
 ## NX_MAVEN_CLI
 
-Accept two value mvn and mvnd.
+Accept values mvnw, mvn and mvnd.
 
 ## NX_MAVEN_CLI_OPTS
 
