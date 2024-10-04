@@ -14,6 +14,7 @@ import {
   getTask,
   getWorkspaceData,
   MavenProjectType,
+  validateTargetInputs,
   WorkspaceDataType,
 } from './graph-utils';
 
@@ -67,9 +68,12 @@ async function createNodesInternal(
 
       targets = projectJson.targets;
       for (const [targetName] of Object.entries(targets ?? {})) {
+        const target = targets[targetName];
+        validateTargetInputs(targetName, 'project.json', target.inputs);
+
         if (
           workspaceData.targetDefaults.includes(targetName) ||
-          (targets[targetName].outputs ?? []).some(
+          (target.outputs ?? []).some(
             (element: string) => element === '{options.outputDirLocalRepo}',
           )
         ) {
@@ -82,8 +86,8 @@ async function createNodesInternal(
             effectiveVersion,
           );
 
-          targets[targetName].options = {
-            ...targets[targetName].options,
+          target.options = {
+            ...target.options,
             outputDirLocalRepo: outputDirLocalRepo,
           };
         }
