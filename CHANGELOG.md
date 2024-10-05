@@ -1,3 +1,15 @@
+## 1.11.0 (2024-10-05)
+
+### 🚀 Features
+
+- update gradle wrapper to version 8.10.2 ([#1310](https://github.com/khalilou88/jnxplus/pull/1310))
+- add mvnw to possible values for NX_MAVEN_CLI env var ([#1320](https://github.com/khalilou88/jnxplus/pull/1320))
+- throw an error if options.outputDirLocalRepo is used in inputs ([#1322](https://github.com/khalilou88/jnxplus/pull/1322))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+
 ## 1.10.0 (2024-09-23)
 
 ### 🚀 Features
