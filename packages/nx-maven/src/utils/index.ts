@@ -38,12 +38,6 @@ export function getExecutable() {
     } else {
       executable = mavenCli;
     }
-  } else if (process.env['NX_SKIP_MAVEN_WRAPPER'] === 'true') {
-    //TODO NX_SKIP_MAVEN_WRAPPER is deprecated, please use NX_MAVEN_CLI instead
-    logger.warn(
-      'NX_SKIP_MAVEN_WRAPPER is deprecated, please use NX_MAVEN_CLI instead',
-    );
-    executable = 'mvn';
   } else {
     const isWrapperExists = isWrapperExistsFunction(mavenRootDirectory);
 
