@@ -10,7 +10,6 @@ import {
   PluginConfiguration,
   Tree,
   joinPathFragments,
-  logger,
   readJsonFile,
   readProjectConfiguration,
   workspaceRoot,
