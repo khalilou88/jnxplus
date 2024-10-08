@@ -1,3 +1,13 @@
+## 1.11.2 (2024-10-08)
+
+### 🩹 Fixes
+
+- add cacheDirectory to clearCacheById function ([247a9408](https://github.com/khalilou88/jnxplus/commit/247a9408))
+
+### ❤️ Thank You
+
+- khalilou88 @khalilou88
+
 ## 1.11.1 (2024-10-08)
 
 ### 🩹 Fixes
