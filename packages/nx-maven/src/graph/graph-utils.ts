@@ -51,9 +51,10 @@ export interface WorkspaceDataType {
 }
 
 const cacheId = 'workspace-data.json';
+const cacheDirectory = path.join(workspaceDataDirectory, 'nx-maven');
 const cache = flatCache.create({
   cacheId: cacheId,
-  cacheDir: path.join(workspaceDataDirectory, 'nx-maven'),
+  cacheDir: cacheDirectory,
   ttl: 60 * 60 * 1000,
 });
 const key = 'workspace-data';
@@ -103,7 +104,7 @@ export function getCachedWorkspaceData() {
 }
 
 export function removeWorkspaceDataCache() {
-  flatCache.clearCacheById(cacheId);
+  flatCache.clearCacheById(cacheId, cacheDirectory);
 }
 
 export function addProjects(
