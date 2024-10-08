@@ -1,3 +1,13 @@
+## 1.11.1 (2024-10-08)
+
+### 🩹 Fixes
+
+- use correct function from flat-cache library ([#1327](https://github.com/khalilou88/jnxplus/pull/1327))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+
 ## 1.11.0 (2024-10-05)
 
 ### 🚀 Features
