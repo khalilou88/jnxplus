@@ -125,9 +125,10 @@ function getProjectRootFromTree(
   try {
     projectRoot = readProjectConfiguration(tree, projectName).root;
   } catch (err) {
-    logger.warn(`Cannot read project ${projectName} configuration.`);
     logger.warn(err);
   }
+
+  logger.warn(`Here`);
 
   if (projectRoot) {
     return projectRoot;
