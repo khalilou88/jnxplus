@@ -37,7 +37,7 @@ import {
   addMissedProperties,
   addProjectToAggregator,
   extractRootPomValues,
-  getAggregatorProjectName,
+  getAggregatorProjectRoot,
   getMavenRootDirectory,
   getParentProjectValues,
   getPlugin,
@@ -72,6 +72,7 @@ interface NormalizedSchema extends NxMavenAppGeneratorSchema {
   serveTargetName: string;
   testTargetName: string;
   integrationTestTargetName: string;
+  aggregatorProjectRoot: string;
 }
 
 function normalizeOptions(
@@ -134,7 +135,7 @@ function normalizeOptions(
   const testTargetName = getTestTargetName(plugin);
   const integrationTestTargetName = getIntegrationTestTargetName(plugin);
 
-  const aggregatorProject = getAggregatorProjectName(
+  const aggregatorProjectRoot = getAggregatorProjectRoot(
     tree,
     options.aggregatorProject,
     mavenRootDirectory,
@@ -165,7 +166,7 @@ function normalizeOptions(
     serveTargetName,
     testTargetName,
     integrationTestTargetName,
-    aggregatorProject,
+    aggregatorProjectRoot,
   };
 }
 
@@ -494,7 +495,7 @@ async function applicationGenerator(
   addFiles(tree, normalizedOptions);
   addProjectToAggregator(tree, {
     projectRoot: normalizedOptions.projectRoot,
-    aggregatorProject: normalizedOptions.aggregatorProject,
+    aggregatorProjectRoot: normalizedOptions.aggregatorProjectRoot,
     mavenRootDirectory: normalizedOptions.mavenRootDirectory,
   });
   if (!options.skipFormat) {

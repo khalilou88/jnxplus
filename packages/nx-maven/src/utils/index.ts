@@ -115,44 +115,30 @@ function getProjectRootFromTree(
   tree: Tree,
   mavenRootDirectory: string,
   projectName: string,
-) {
+): string {
   let projectRoot = '';
-
-  if (!projectName) {
-    throw new Error('ProjectName cannot be empty');
-  }
 
   try {
     projectRoot = readProjectConfiguration(tree, projectName).root;
+    return projectRoot;
   } catch (err) {
     logger.warn(err);
-  }
 
-  logger.warn(`Here ${projectRoot}`);
+    const mavenRootDirAbsolutePath = path.join(
+      workspaceRoot,
+      mavenRootDirectory,
+    );
 
-  if (projectRoot) {
+    const projectBasedir = getExpressionValue(
+      'project.basedir',
+      mavenRootDirAbsolutePath,
+      projectName,
+    );
+
+    projectRoot = path.relative(workspaceRoot, projectBasedir);
+
     return projectRoot;
   }
-
-  const mavenRootDirAbsolutePath = path.join(workspaceRoot, mavenRootDirectory);
-
-  const projectBasedir = getExpressionValue(
-    'project.basedir',
-    mavenRootDirAbsolutePath,
-    projectName,
-  );
-
-  logger.warn(`Here 99 ${projectBasedir}`);
-
-  projectRoot = path.relative(workspaceRoot, projectBasedir);
-
-  logger.warn(`Here 22 ${projectRoot}`);
-
-  if (!projectRoot) {
-    throw new Error('ProjectRoot cannot be empty');
-  }
-
-  return projectRoot;
 }
 
 export function getExpressionValue(
@@ -181,21 +167,19 @@ export function addProjectToAggregator(
   tree: Tree,
   options: {
     projectRoot: string;
-    aggregatorProject: string;
+    aggregatorProjectRoot: string;
     mavenRootDirectory: string;
   },
 ) {
-  const aggregatorProjectRoot = getProjectRootFromTree(
-    tree,
-    options.mavenRootDirectory,
-    options.aggregatorProject,
+  const parentProjectPomPath = path.join(
+    options.aggregatorProjectRoot,
+    'pom.xml',
   );
-  const parentProjectPomPath = path.join(aggregatorProjectRoot, 'pom.xml');
   const xmlDoc = readXmlTree(tree, parentProjectPomPath);
 
   const aggregatorProjectAbsolutPath = path.join(
     workspaceRoot,
-    aggregatorProjectRoot,
+    options.aggregatorProjectRoot,
   );
   const projectAbsolutePath = path.join(workspaceRoot, options.projectRoot);
 
@@ -604,18 +588,14 @@ export function getSkipAggregatorProjectLinkingOption(
   return false;
 }
 
-export function getAggregatorProjectName(
+export function getAggregatorProjectRoot(
   tree: Tree,
-  aggregatorProject: string,
+  aggregatorProject: string | undefined,
   mavenRootDirectory: string,
 ) {
   if (!aggregatorProject) {
-    const xmlDoc = readXmlTree(
-      tree,
-      joinPathFragments(mavenRootDirectory, 'pom.xml'),
-    );
-
-    return getArtifactId(xmlDoc);
+    return mavenRootDirectory;
   }
-  return aggregatorProject;
+
+  return getProjectRootFromTree(tree, mavenRootDirectory, aggregatorProject);
 }

@@ -9,7 +9,7 @@ export interface NxMavenParentProjectGeneratorSchema {
   groupId: string;
   projectVersion?: string;
   parentProject: string;
-  aggregatorProject: string;
+  aggregatorProject?: string;
   framework?: FrameworkType;
   language: 'java' | 'kotlin' | 'java-kotlin';
   skipFormat?: boolean;

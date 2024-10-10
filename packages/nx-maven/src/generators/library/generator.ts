@@ -30,7 +30,7 @@ import {
   addLibraryToProjects,
   addMissedProperties,
   addProjectToAggregator,
-  getAggregatorProjectName,
+  getAggregatorProjectRoot,
   getMavenRootDirectory,
   getParentProjectValues,
   getPlugin,
@@ -59,6 +59,7 @@ interface NormalizedSchema extends NxMavenLibGeneratorSchema {
   mavenRootDirectory: string;
   buildTargetName: string;
   testTargetName: string;
+  aggregatorProjectRoot: string;
 }
 
 function normalizeOptions(
@@ -106,7 +107,7 @@ function normalizeOptions(
   const buildTargetName = getBuildTargetName(plugin);
   const testTargetName = getTestTargetName(plugin);
 
-  const aggregatorProject = getAggregatorProjectName(
+  const aggregatorProjectRoot = getAggregatorProjectRoot(
     tree,
     options.aggregatorProject,
     mavenRootDirectory,
@@ -131,7 +132,7 @@ function normalizeOptions(
     mavenRootDirectory,
     buildTargetName,
     testTargetName,
-    aggregatorProject,
+    aggregatorProjectRoot,
   };
 }
 
@@ -344,7 +345,7 @@ async function libraryGenerator(
   addFiles(tree, normalizedOptions);
   addProjectToAggregator(tree, {
     projectRoot: normalizedOptions.projectRoot,
-    aggregatorProject: normalizedOptions.aggregatorProject,
+    aggregatorProjectRoot: normalizedOptions.aggregatorProjectRoot,
     mavenRootDirectory: normalizedOptions.mavenRootDirectory,
   });
   addLibraryToProjects(tree, normalizedOptions);
