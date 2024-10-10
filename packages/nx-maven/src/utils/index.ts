@@ -114,29 +114,31 @@ export function getPlugin(): PluginConfiguration | undefined {
 function getProjectRootFromTree(
   tree: Tree,
   mavenRootDirectory: string,
-  projectName: string | undefined,
-) {
-  let projectRoot = mavenRootDirectory;
+  projectName: string,
+): string {
+  let projectRoot = '';
 
-  if (projectName) {
-    try {
-      projectRoot = readProjectConfiguration(tree, projectName).root;
-    } catch (err) {
-      const mavenRootDirAbsolutePath = path.join(
-        workspaceRoot,
-        mavenRootDirectory,
-      );
+  try {
+    projectRoot = readProjectConfiguration(tree, projectName).root;
+    return projectRoot;
+  } catch (err) {
+    logger.warn(err);
 
-      const projectBasedir = getExpressionValue(
-        'project.basedir',
-        mavenRootDirAbsolutePath,
-        projectName,
-      );
-      projectRoot = path.relative(workspaceRoot, projectBasedir);
-    }
+    const mavenRootDirAbsolutePath = path.join(
+      workspaceRoot,
+      mavenRootDirectory,
+    );
+
+    const projectBasedir = getExpressionValue(
+      'project.basedir',
+      mavenRootDirAbsolutePath,
+      projectName,
+    );
+
+    projectRoot = path.relative(workspaceRoot, projectBasedir);
+
+    return projectRoot;
   }
-
-  return projectRoot;
 }
 
 export function getExpressionValue(
@@ -165,21 +167,19 @@ export function addProjectToAggregator(
   tree: Tree,
   options: {
     projectRoot: string;
-    aggregatorProject: string | undefined;
+    aggregatorProjectRoot: string;
     mavenRootDirectory: string;
   },
 ) {
-  const aggregatorProjectRoot = getProjectRootFromTree(
-    tree,
-    options.mavenRootDirectory,
-    options.aggregatorProject,
+  const parentProjectPomPath = path.join(
+    options.aggregatorProjectRoot,
+    'pom.xml',
   );
-  const parentProjectPomPath = path.join(aggregatorProjectRoot, 'pom.xml');
   const xmlDoc = readXmlTree(tree, parentProjectPomPath);
 
   const aggregatorProjectAbsolutPath = path.join(
     workspaceRoot,
-    aggregatorProjectRoot,
+    options.aggregatorProjectRoot,
   );
   const projectAbsolutePath = path.join(workspaceRoot, options.projectRoot);
 
@@ -220,6 +220,10 @@ export function addLibraryToProjects(
     mavenRootDirectory: string;
   },
 ) {
+  logger.info(
+    `Adding lib ${options.projectName} to projects: ${JSON.stringify(options.parsedProjects)}`,
+  );
+
   for (const projectName of options.parsedProjects) {
     const projectRoot = getProjectRootFromTree(
       tree,
@@ -505,22 +509,33 @@ export function getParentProjectValues(
   tree: Tree,
   mavenRootDirectory: string,
   projectRoot: string,
-  parentProject: string | undefined,
+  parentProject: string,
 ) {
-  const parentProjectRoot = getProjectRootFromTree(
-    tree,
-    mavenRootDirectory,
-    parentProject,
-  );
+  let pomXmlContent;
+  let parentProjectRoot;
+  if (!parentProject) {
+    parentProjectRoot = mavenRootDirectory;
+    pomXmlContent = readXmlTree(
+      tree,
+      joinPathFragments(parentProjectRoot, 'pom.xml'),
+    );
+  } else {
+    parentProjectRoot = getProjectRootFromTree(
+      tree,
+      mavenRootDirectory,
+      parentProject,
+    );
 
-  const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
+    const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
+
+    pomXmlContent = readXmlTree(tree, parentProjectPomPath);
+  }
 
   const relativePath = joinPathFragments(
     path.relative(projectRoot, parentProjectRoot),
     'pom.xml',
   );
 
-  const pomXmlContent = readXmlTree(tree, parentProjectPomPath);
   const parentProjectName = getArtifactId(pomXmlContent);
   const parentGroupId = getGroupId(parentProjectName, pomXmlContent);
   const parentProjectVersion = getVersion(parentProjectName, pomXmlContent);
@@ -571,4 +586,16 @@ export function getSkipAggregatorProjectLinkingOption(
   }
 
   return false;
+}
+
+export function getAggregatorProjectRoot(
+  tree: Tree,
+  aggregatorProject: string | undefined,
+  mavenRootDirectory: string,
+) {
+  if (!aggregatorProject) {
+    return mavenRootDirectory;
+  }
+
+  return getProjectRootFromTree(tree, mavenRootDirectory, aggregatorProject);
 }

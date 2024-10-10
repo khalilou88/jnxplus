@@ -1,9 +1,9 @@
 import {
-  parseTags,
   generateProjectDirectory,
   generateProjectName,
   generateProjectRoot,
   generateSimpleProjectName,
+  getBuildTargetName,
   kotlinVersion,
   mavenCompilerPluginVersion,
   mavenEnforcerPluginVersion,
@@ -16,9 +16,9 @@ import {
   micronautSerializationVersion,
   micronautTestResourcesVersion,
   micronautVersion,
+  parseTags,
   quarkusVersion,
   springBootVersion,
-  getBuildTargetName,
 } from '@jnxplus/common';
 import {
   Tree,
@@ -32,6 +32,7 @@ import * as path from 'path';
 import {
   addMissedProperties,
   addProjectToAggregator,
+  getAggregatorProjectRoot,
   getMavenRootDirectory,
   getParentProjectValues,
   getPlugin,
@@ -69,6 +70,7 @@ interface NormalizedSchema extends NxMavenParentProjectGeneratorSchema {
   mavenSurefirePluginVersion: string;
   mavenFailsafePluginVersion: string;
   buildTargetName: string;
+  aggregatorProjectRoot: string;
 }
 
 function normalizeOptions(
@@ -106,6 +108,12 @@ function normalizeOptions(
   const plugin = getPlugin();
   const buildTargetName = getBuildTargetName(plugin);
 
+  const aggregatorProjectRoot = getAggregatorProjectRoot(
+    tree,
+    options.aggregatorProject,
+    mavenRootDirectory,
+  );
+
   return {
     ...options,
     projectName,
@@ -131,6 +139,7 @@ function normalizeOptions(
     mavenSurefirePluginVersion,
     mavenFailsafePluginVersion,
     buildTargetName,
+    aggregatorProjectRoot,
   };
 }
 
@@ -188,7 +197,7 @@ async function parentProjectGenerator(
   addFiles(tree, normalizedOptions);
   addProjectToAggregator(tree, {
     projectRoot: normalizedOptions.projectRoot,
-    aggregatorProject: normalizedOptions.aggregatorProject,
+    aggregatorProjectRoot: normalizedOptions.aggregatorProjectRoot,
     mavenRootDirectory: normalizedOptions.mavenRootDirectory,
   });
   if (!options.skipFormat) {

@@ -1837,15 +1837,23 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     await killProcessAndPorts(process.pid, port);
   }, 240000);
 
-  it('should generate java nested sub-projects', async () => {
+  it('should --aggregator-project option works and generate java nested sub-projects', async () => {
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework none`,
     );
+    const localTmpDir = path.dirname(tmpProjPath());
+    const projectJson1 = path.join(
+      localTmpDir,
+      'proj',
+      appsParentProject,
+      'project.json',
+    );
+    fse.removeSync(projectJson1);
 
     const appName = uniq('boot-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework spring-boot --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject} --simplePackageName false`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework spring-boot --simpleName --aggregator-project ${appsParentProject} --parent-project ${appsParentProject} --directory ${appsParentProject} --simplePackageName false`,
     );
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
@@ -1876,14 +1884,6 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     expect(thirdBuildResult.stdout).toContain('Executor ran for Build');
 
     //graph
-    const localTmpDir = path.dirname(tmpProjPath());
-    const projectJson1 = path.join(
-      localTmpDir,
-      'proj',
-      appsParentProject,
-      'project.json',
-    );
-    fse.removeSync(projectJson1);
     const depGraphResult = await runNxCommandAsync(
       `dep-graph --file=dep-graph.json`,
     );
