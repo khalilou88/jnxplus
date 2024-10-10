@@ -14,6 +14,7 @@ import {
   ProjectConfiguration,
   Tree,
   addProjectConfiguration,
+  ensurePackage,
   formatFiles,
   generateFiles,
   installPackagesTask,
@@ -121,6 +122,9 @@ export async function initGenerator(
     );
   }
   if (!options.skipFormat) {
+    ensurePackage('prettier', prettierVersion);
+    ensurePackage('@prettier/plugin-xml', prettierPluginXmlVersion);
+    ensurePackage('prettier-plugin-java', prettierPluginJavaVersion);
     await formatFiles(tree);
   }
 
