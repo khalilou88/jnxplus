@@ -12,4 +12,5 @@ export interface NxMavenParentProjectGeneratorSchema {
   aggregatorProject?: string;
   framework?: FrameworkType;
   language: 'java' | 'kotlin' | 'java-kotlin';
+  skipFormat?: boolean;
 }

@@ -340,5 +340,7 @@ async function libraryGenerator(
     mavenRootDirectory: normalizedOptions.mavenRootDirectory,
   });
   addLibraryToProjects(tree, normalizedOptions);
-  await formatFiles(tree);
+  if (!options.skipFormat) {
+    await formatFiles(tree);
+  }
 }

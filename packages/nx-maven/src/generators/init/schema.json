@@ -86,6 +86,11 @@
       "type": "string",
       "description": "Maven local repository relative path to {workspaceRoot}/{mavenRootDirectory}",
       "default": ".m2/repository"
+    },
+    "skipFormat": {
+      "description": "Skip formatting files.",
+      "type": "boolean",
+      "default": false
     }
   },
   "required": [

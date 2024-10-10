@@ -14,4 +14,5 @@ export interface NxMavenLibGeneratorSchema {
   projects?: string;
   skipStarterCode?: boolean;
   framework?: FrameworkType;
+  skipFormat?: boolean;
 }

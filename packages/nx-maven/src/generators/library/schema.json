@@ -111,6 +111,11 @@
       "description": "Skip starter code",
       "type": "boolean",
       "default": false
+    },
+    "skipFormat": {
+      "description": "Skip formatting files.",
+      "type": "boolean",
+      "default": false
     }
   },
   "required": ["name", "language", "groupId", "projectVersion", "parentProject"]

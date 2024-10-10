@@ -104,6 +104,11 @@
     "aggregatorProject": {
       "type": "string",
       "description": "ArtifactId of the aggregator project (that manages a group of submodules) or leave it blank for the root project"
+    },
+    "skipFormat": {
+      "description": "Skip formatting files.",
+      "type": "boolean",
+      "default": false
     }
   },
   "required": ["name", "projectType", "groupId", "projectVersion"]

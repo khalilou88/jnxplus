@@ -454,5 +454,7 @@ async function applicationGenerator(
 
   addFiles(tree, normalizedOptions);
   addProjectToGradleSetting(tree, normalizedOptions);
-  await formatFiles(tree);
+  if (!options.skipFormat) {
+    await formatFiles(tree);
+  }
 }

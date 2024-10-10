@@ -14,4 +14,5 @@ export interface NxGradleAppGeneratorSchema {
   minimal?: boolean;
   port?: string | number;
   framework?: FrameworkType;
+  skipFormat?: boolean;
 }

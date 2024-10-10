@@ -60,7 +60,9 @@ export default async function (
     joinPathFragments(normalizedOptions.mavenRootDirectory, 'mvnw.cmd'),
     '755',
   );
-  await formatFiles(tree);
+  if (!options.skipFormat) {
+    await formatFiles(tree);
+  }
 }
 
 function updateGitIgnore(tree: Tree) {

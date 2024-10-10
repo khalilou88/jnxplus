@@ -16,4 +16,5 @@ export interface NxMavenAppGeneratorSchema {
   minimal?: boolean;
   port?: string | number;
   framework?: FrameworkType;
+  skipFormat?: boolean;
 }
