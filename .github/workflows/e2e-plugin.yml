@@ -31,6 +31,7 @@ on:
           - nx-maven spring-boot bom e2e
           - nx-maven spring-boot-parent-pom e2e
           - should use specified options and hyphen in groupId to create an application
+          - should --aggregator-project option works and generate java nested sub-projects
       os:
         type: choice
         description: Os
