@@ -1,4 +1,5 @@
 import {
+  formatFilesTask,
   getPluginVersion,
   micronautVersion,
   prettier2VersionRegex,
@@ -14,7 +15,6 @@ import {
   ProjectConfiguration,
   Tree,
   addProjectConfiguration,
-  formatFiles,
   generateFiles,
   installPackagesTask,
   joinPathFragments,
@@ -121,10 +121,10 @@ export async function initGenerator(
     );
   }
 
-  return async () => {
+  return () => {
     installPackagesTask(tree);
     if (!options.skipFormat) {
-      await formatFiles(tree);
+      formatFilesTask(tree);
     }
   };
 }
