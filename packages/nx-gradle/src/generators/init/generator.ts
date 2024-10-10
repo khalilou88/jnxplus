@@ -20,6 +20,7 @@ import {
   addProjectConfiguration,
   formatFiles,
   generateFiles,
+  installPackagesTask,
   joinPathFragments,
   logger,
   offsetFromRoot,
@@ -146,6 +147,10 @@ export async function initGenerator(
   if (!options.skipFormat) {
     await formatFiles(tree);
   }
+
+  return () => {
+    installPackagesTask(tree);
+  };
 }
 
 function updateNxJson(tree: Tree, options: NormalizedSchema) {

@@ -117,6 +117,8 @@ describe('nx-maven quarkus smoke', () => {
       execSyncOptions(),
     );
 
+    execSync(`npx nx format --projects ${testLib}`, execSyncOptions());
+
     execSync(`npx nx test ${testLib}`, execSyncOptions());
 
     execSync(`npx nx run-many --target=build --parallel`, execSyncOptions());
