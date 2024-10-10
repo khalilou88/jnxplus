@@ -10,7 +10,7 @@ export interface NxMavenLibGeneratorSchema {
   groupId: string;
   projectVersion: string;
   parentProject: string;
-  aggregatorProject?: string;
+  aggregatorProject: string;
   projects?: string;
   skipStarterCode?: boolean;
   framework?: FrameworkType;

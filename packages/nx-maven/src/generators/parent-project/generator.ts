@@ -32,6 +32,7 @@ import * as path from 'path';
 import {
   addMissedProperties,
   addProjectToAggregator,
+  getAggregatorProjectName,
   getMavenRootDirectory,
   getParentProjectValues,
   getPlugin,
@@ -106,6 +107,12 @@ function normalizeOptions(
   const plugin = getPlugin();
   const buildTargetName = getBuildTargetName(plugin);
 
+  const aggregatorProject = getAggregatorProjectName(
+    tree,
+    options.aggregatorProject,
+    mavenRootDirectory,
+  );
+
   return {
     ...options,
     projectName,
@@ -131,6 +138,7 @@ function normalizeOptions(
     mavenSurefirePluginVersion,
     mavenFailsafePluginVersion,
     buildTargetName,
+    aggregatorProject,
   };
 }
 

@@ -37,6 +37,7 @@ import {
   addMissedProperties,
   addProjectToAggregator,
   extractRootPomValues,
+  getAggregatorProjectName,
   getMavenRootDirectory,
   getParentProjectValues,
   getPlugin,
@@ -133,6 +134,12 @@ function normalizeOptions(
   const testTargetName = getTestTargetName(plugin);
   const integrationTestTargetName = getIntegrationTestTargetName(plugin);
 
+  const aggregatorProject = getAggregatorProjectName(
+    tree,
+    options.aggregatorProject,
+    mavenRootDirectory,
+  );
+
   return {
     ...options,
     projectName,
@@ -158,6 +165,7 @@ function normalizeOptions(
     serveTargetName,
     testTargetName,
     integrationTestTargetName,
+    aggregatorProject,
   };
 }
 

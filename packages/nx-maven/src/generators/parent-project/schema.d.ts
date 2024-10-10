@@ -8,8 +8,8 @@ export interface NxMavenParentProjectGeneratorSchema {
   projectType: ProjectType;
   groupId: string;
   projectVersion?: string;
-  parentProject?: string;
-  aggregatorProject?: string;
+  parentProject: string;
+  aggregatorProject: string;
   framework?: FrameworkType;
   language: 'java' | 'kotlin' | 'java-kotlin';
   skipFormat?: boolean;

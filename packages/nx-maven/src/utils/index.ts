@@ -114,26 +114,34 @@ export function getPlugin(): PluginConfiguration | undefined {
 function getProjectRootFromTree(
   tree: Tree,
   mavenRootDirectory: string,
-  projectName: string | undefined,
+  projectName: string,
 ) {
-  let projectRoot = mavenRootDirectory;
+  let projectRoot = '';
 
-  if (projectName) {
-    try {
-      projectRoot = readProjectConfiguration(tree, projectName).root;
-    } catch (err) {
-      const mavenRootDirAbsolutePath = path.join(
-        workspaceRoot,
-        mavenRootDirectory,
-      );
+  if (!projectName) {
+    throw new Error('ProjectName cannot be empty');
+  }
 
-      const projectBasedir = getExpressionValue(
-        'project.basedir',
-        mavenRootDirAbsolutePath,
-        projectName,
-      );
-      projectRoot = path.relative(workspaceRoot, projectBasedir);
-    }
+  try {
+    projectRoot = readProjectConfiguration(tree, projectName).root;
+  } catch (err) {
+    logger.warn(`Cannot read project ${projectName} configuration.`);
+
+    const mavenRootDirAbsolutePath = path.join(
+      workspaceRoot,
+      mavenRootDirectory,
+    );
+
+    const projectBasedir = getExpressionValue(
+      'project.basedir',
+      mavenRootDirAbsolutePath,
+      projectName,
+    );
+    projectRoot = path.relative(workspaceRoot, projectBasedir);
+  }
+
+  if (!projectRoot) {
+    throw new Error('ProjectRoot cannot be empty');
   }
 
   return projectRoot;
@@ -165,7 +173,7 @@ export function addProjectToAggregator(
   tree: Tree,
   options: {
     projectRoot: string;
-    aggregatorProject: string | undefined;
+    aggregatorProject: string;
     mavenRootDirectory: string;
   },
 ) {
@@ -220,6 +228,10 @@ export function addLibraryToProjects(
     mavenRootDirectory: string;
   },
 ) {
+  logger.info(
+    `Adding lib ${options.projectName} to projects: ${JSON.stringify(options.parsedProjects)}`,
+  );
+
   for (const projectName of options.parsedProjects) {
     const projectRoot = getProjectRootFromTree(
       tree,
@@ -505,22 +517,33 @@ export function getParentProjectValues(
   tree: Tree,
   mavenRootDirectory: string,
   projectRoot: string,
-  parentProject: string | undefined,
+  parentProject: string,
 ) {
-  const parentProjectRoot = getProjectRootFromTree(
-    tree,
-    mavenRootDirectory,
-    parentProject,
-  );
+  let pomXmlContent;
+  let parentProjectRoot;
+  if (!parentProject) {
+    parentProjectRoot = mavenRootDirectory;
+    pomXmlContent = readXmlTree(
+      tree,
+      joinPathFragments(parentProjectRoot, 'pom.xml'),
+    );
+  } else {
+    parentProjectRoot = getProjectRootFromTree(
+      tree,
+      mavenRootDirectory,
+      parentProject,
+    );
 
-  const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
+    const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
+
+    pomXmlContent = readXmlTree(tree, parentProjectPomPath);
+  }
 
   const relativePath = joinPathFragments(
     path.relative(projectRoot, parentProjectRoot),
     'pom.xml',
   );
 
-  const pomXmlContent = readXmlTree(tree, parentProjectPomPath);
   const parentProjectName = getArtifactId(pomXmlContent);
   const parentGroupId = getGroupId(parentProjectName, pomXmlContent);
   const parentProjectVersion = getVersion(parentProjectName, pomXmlContent);
@@ -571,4 +594,20 @@ export function getSkipAggregatorProjectLinkingOption(
   }
 
   return false;
+}
+
+export function getAggregatorProjectName(
+  tree: Tree,
+  aggregatorProject: string,
+  mavenRootDirectory: string,
+) {
+  if (!aggregatorProject) {
+    const xmlDoc = readXmlTree(
+      tree,
+      joinPathFragments(mavenRootDirectory, 'pom.xml'),
+    );
+
+    return getArtifactId(xmlDoc);
+  }
+  return aggregatorProject;
 }
