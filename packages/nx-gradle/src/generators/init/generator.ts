@@ -4,7 +4,6 @@ import {
   kotlinVersion,
   kspVersion,
   micronautVersion,
-  prettier2VersionRegex,
   prettierPluginJavaVersion,
   prettierVersion,
   prettierrcNameOptions,
@@ -17,6 +16,7 @@ import {
 import {
   ProjectConfiguration,
   Tree,
+  addDependenciesToPackageJson,
   addProjectConfiguration,
   formatFiles,
   generateFiles,
@@ -198,25 +198,14 @@ function updateGitIgnore(tree: Tree, options: NormalizedSchema) {
 }
 
 function addPrettierToPackageJson(tree: Tree) {
-  updateJson(tree, 'package.json', (packageJson) => {
-    packageJson.devDependencies = packageJson.devDependencies ?? {};
-
-    if (!packageJson.devDependencies['prettier']) {
-      packageJson.devDependencies['prettier'] = prettierVersion;
-    } else {
-      const prettierV = packageJson.devDependencies['prettier'];
-
-      if (prettierV.match(prettier2VersionRegex)) {
-        packageJson.devDependencies['prettier'] = prettierVersion;
-      }
-    }
-
-    if (!packageJson.devDependencies['prettier-plugin-java']) {
-      packageJson.devDependencies['prettier-plugin-java'] =
-        prettierPluginJavaVersion;
-    }
-    return packageJson;
-  });
+  addDependenciesToPackageJson(
+    tree,
+    {},
+    {
+      prettier: prettierVersion,
+      'prettier-plugin-java': prettierPluginJavaVersion,
+    },
+  );
 }
 
 function addOrUpdatePrettierRc(tree: Tree) {
