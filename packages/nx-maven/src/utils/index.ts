@@ -126,19 +126,21 @@ function getProjectRootFromTree(
     projectRoot = readProjectConfiguration(tree, projectName).root;
   } catch (err) {
     logger.warn(`Cannot read project ${projectName} configuration.`);
-
-    const mavenRootDirAbsolutePath = path.join(
-      workspaceRoot,
-      mavenRootDirectory,
-    );
-
-    const projectBasedir = getExpressionValue(
-      'project.basedir',
-      mavenRootDirAbsolutePath,
-      projectName,
-    );
-    projectRoot = path.relative(workspaceRoot, projectBasedir);
+    logger.warn(err);
   }
+
+  if (projectRoot) {
+    return;
+  }
+
+  const mavenRootDirAbsolutePath = path.join(workspaceRoot, mavenRootDirectory);
+
+  const projectBasedir = getExpressionValue(
+    'project.basedir',
+    mavenRootDirAbsolutePath,
+    projectName,
+  );
+  projectRoot = path.relative(workspaceRoot, projectBasedir);
 
   if (!projectRoot) {
     throw new Error('ProjectRoot cannot be empty');
