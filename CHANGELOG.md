@@ -1,3 +1,15 @@
+## 1.12.0 (2024-10-10)
+
+### 🚀 Features
+
+- remove prompt for localRepoRelativePath option ([#1328](https://github.com/khalilou88/jnxplus/pull/1328))
+- add skipFormat option ([#1333](https://github.com/khalilou88/jnxplus/pull/1333))
+- install prettier and its plugins before formating files ([#1336](https://github.com/khalilou88/jnxplus/pull/1336))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+
 ## 1.11.2 (2024-10-08)
 
 ### 🩹 Fixes
