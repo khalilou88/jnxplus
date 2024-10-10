@@ -128,7 +128,7 @@ function getProjectRootFromTree(
     logger.warn(err);
   }
 
-  logger.warn(`Here`);
+  logger.warn(`Here ${projectRoot}`);
 
   if (projectRoot) {
     return projectRoot;
@@ -141,7 +141,12 @@ function getProjectRootFromTree(
     mavenRootDirAbsolutePath,
     projectName,
   );
+
+  logger.warn(`Here 99 ${projectBasedir}`);
+
   projectRoot = path.relative(workspaceRoot, projectBasedir);
+
+  logger.warn(`Here 22 ${projectRoot}`);
 
   if (!projectRoot) {
     throw new Error('ProjectRoot cannot be empty');
