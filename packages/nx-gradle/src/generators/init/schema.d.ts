@@ -8,4 +8,5 @@ export interface NxGradleInitGeneratorSchema {
   preset: PresetType;
   skipWrapper?: boolean;
   versionManagement: VersionManagementType;
+  skipFormat?: boolean;
 }

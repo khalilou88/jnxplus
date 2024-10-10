@@ -191,5 +191,7 @@ async function parentProjectGenerator(
     aggregatorProject: normalizedOptions.aggregatorProject,
     mavenRootDirectory: normalizedOptions.mavenRootDirectory,
   });
-  await formatFiles(tree);
+  if (!options.skipFormat) {
+    await formatFiles(tree);
+  }
 }

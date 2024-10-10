@@ -12,4 +12,5 @@ export interface NxGradleLibGeneratorSchema {
   projects?: string;
   skipStarterCode?: boolean;
   framework?: FrameworkType;
+  skipFormat?: boolean;
 }

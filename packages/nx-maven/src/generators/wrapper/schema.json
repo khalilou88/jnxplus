@@ -8,6 +8,11 @@
       "description": "Don't add Maven Wrapper to .gitignore",
       "type": "boolean",
       "default": false
+    },
+    "skipFormat": {
+      "description": "Skip formatting files.",
+      "type": "boolean",
+      "default": false
     }
   },
   "required": []

@@ -134,6 +134,11 @@
       ],
       "default": 8080,
       "description": "Port to start the server at. Default is 8080."
+    },
+    "skipFormat": {
+      "description": "Skip formatting files.",
+      "type": "boolean",
+      "default": false
     }
   },
   "required": ["name", "language", "groupId", "projectVersion", "configFormat"]

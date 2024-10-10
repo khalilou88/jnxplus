@@ -9,4 +9,5 @@ export interface NxMavenInitGeneratorSchema {
   dependencyManagement: DependencyManagementType;
   skipWrapper?: boolean;
   localRepoRelativePath: string;
+  skipFormat?: boolean;
 }
