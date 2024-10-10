@@ -1,3 +1,13 @@
+## 1.12.1 (2024-10-10)
+
+### 🩹 Fixes
+
+- use installPackagesTask again during init ([1c73c61a](https://github.com/khalilou88/jnxplus/commit/1c73c61a))
+
+### ❤️ Thank You
+
+- khalilou88 @khalilou88
+
 ## 1.12.0 (2024-10-10)
 
 ### 🚀 Features
