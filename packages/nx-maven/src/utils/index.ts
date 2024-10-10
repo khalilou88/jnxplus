@@ -130,7 +130,7 @@ function getProjectRootFromTree(
   }
 
   if (projectRoot) {
-    return;
+    return projectRoot;
   }
 
   const mavenRootDirAbsolutePath = path.join(workspaceRoot, mavenRootDirectory);
