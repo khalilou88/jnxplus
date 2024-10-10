@@ -120,12 +120,12 @@ export async function initGenerator(
       '755',
     );
   }
-  if (!options.skipFormat) {
-    await formatFiles(tree);
-  }
 
-  return () => {
+  return async () => {
     installPackagesTask(tree);
+    if (!options.skipFormat) {
+      await formatFiles(tree);
+    }
   };
 }
 
