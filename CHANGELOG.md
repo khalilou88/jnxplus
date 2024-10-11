@@ -1,3 +1,7 @@
+## 1.12.2 (2024-10-11)
+
+This was a version bump only, there were no code changes.
+
 ## 1.12.1 (2024-10-10)
 
 ### 🩹 Fixes
