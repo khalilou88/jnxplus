@@ -76,7 +76,7 @@ describe('nx-maven spring-boot bom smoke', () => {
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp} --parentProject ${appsParentProject}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp} --aggregatorProject ${appsParentProject} --parentProject ${appsParentProject}`,
       execSyncOptions(),
     );
 
@@ -86,17 +86,17 @@ describe('nx-maven spring-boot bom smoke', () => {
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp2} --parentProject ${appsParentProject} --packaging war`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp2} --aggregatorProject ${appsParentProject} --parentProject ${appsParentProject} --packaging war`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp3} --parentProject ${appsParentProject}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp3} --aggregatorProject ${appsParentProject} --parentProject ${appsParentProject}`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp4} --parentProject ${appsParentProject}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp4} --aggregatorProject ${appsParentProject} --parentProject ${appsParentProject}`,
       execSyncOptions(),
     );
 
@@ -106,12 +106,12 @@ describe('nx-maven spring-boot bom smoke', () => {
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp5} --parentProject ${appsParentProject} --framework spring-boot --language kotlin`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp5} --aggregatorProject ${appsParentProject} --parentProject ${appsParentProject} --framework spring-boot --language kotlin`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp6} --parentProject ${appsParentProject} --framework spring-boot --language kotlin --packaging war`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp6} --aggregatorProject ${appsParentProject} --parentProject ${appsParentProject} --framework spring-boot --language kotlin --packaging war`,
       execSyncOptions(),
     );
 
@@ -136,6 +136,18 @@ describe('nx-maven spring-boot bom smoke', () => {
       type: 'static',
       source: testApp,
       target: testLib,
+    });
+
+    expect(depGraphJson.graph.dependencies[testApp5]).toContainEqual({
+      type: 'static',
+      source: testApp5,
+      target: testLib5,
+    });
+
+    expect(depGraphJson.graph.dependencies[testApp6]).toContainEqual({
+      type: 'static',
+      source: testApp6,
+      target: testLib5,
     });
 
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
