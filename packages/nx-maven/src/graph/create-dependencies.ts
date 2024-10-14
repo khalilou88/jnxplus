@@ -125,6 +125,24 @@ export const createDependencies: CreateDependencies = (
                 results.push(newDependency);
               }
             }
+
+            const pluginDependencies = getPluginDependencyProjects(
+              project,
+              projects,
+            );
+            for (const pluginDependency of pluginDependencies) {
+              if (!pluginDependency.skipProject) {
+                const newDependency = {
+                  source: project.artifactId,
+                  target: pluginDependency.artifactId,
+                  sourceFile: projectSourceFile,
+                  type: DependencyType.static,
+                };
+
+                validateDependency(newDependency, context);
+                results.push(newDependency);
+              }
+            }
           }
         }
       },
@@ -150,5 +168,14 @@ function getProfileDependencyProjects(
 ) {
   return projects.filter((p) =>
     project.profileDependencies.includes(p.artifactId),
+  );
+}
+
+function getPluginDependencyProjects(
+  project: MavenProjectType,
+  projects: MavenProjectType[],
+) {
+  return projects.filter((p) =>
+    project.pluginDependencies.includes(p.artifactId),
   );
 }
