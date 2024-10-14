@@ -480,7 +480,7 @@ function getPluginDependencyArtifactIds(pomXml: XmlDocument) {
 
   const pluginManagementXml = buildXml.childNamed('pluginManagement');
 
-  if (pluginManagementXml == undefined) {
+  if (pluginManagementXml === undefined) {
     return results;
   }
 
