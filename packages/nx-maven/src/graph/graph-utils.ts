@@ -13,7 +13,7 @@ import { existsSync } from 'fs';
 import { InputDefinition } from 'nx/src/config/workspace-json-project-json';
 import { workspaceDataDirectory } from 'nx/src/utils/cache-directory';
 import * as path from 'path';
-import { XmlDocument } from 'xmldoc';
+import { XmlDocument, XmlElement } from 'xmldoc';
 import {
   getArtifactId,
   getExpressionValue,
@@ -474,7 +474,27 @@ function getPluginDependencyArtifactIds(pomXml: XmlDocument) {
     return [];
   }
 
-  const pluginsXml = buildXml.childNamed('plugins');
+  results = results.concat(
+    getPluginDependencyArtifactIdsFromPluginsTag(buildXml),
+  );
+
+  const pluginManagementXml = buildXml.childNamed('pluginManagement');
+
+  if (pluginManagementXml == undefined) {
+    return results;
+  }
+
+  results = results.concat(
+    getPluginDependencyArtifactIdsFromPluginsTag(pluginManagementXml),
+  );
+
+  return results;
+}
+
+function getPluginDependencyArtifactIdsFromPluginsTag(xmlElement: XmlElement) {
+  let results: (string | undefined)[] = [];
+
+  const pluginsXml = xmlElement.childNamed('plugins');
   if (pluginsXml === undefined) {
     return [];
   }
