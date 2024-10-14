@@ -10,4 +10,5 @@ export interface NxMavenInitGeneratorSchema {
   skipWrapper?: boolean;
   localRepoRelativePath: string;
   skipFormat?: boolean;
+  formatter?: 'none' | 'prettier';
 }

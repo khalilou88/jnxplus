@@ -117,6 +117,26 @@
       "description": "Skip formatting files.",
       "type": "boolean",
       "default": false
+    },
+    "formatter": {
+      "description": "The tool to use for code formatting.",
+      "type": "string",
+      "enum": ["none", "prettier"],
+      "default": "prettier",
+      "x-prompt": {
+        "message": "Would you like to use Prettier for code formatting?",
+        "type": "list",
+        "items": [
+          {
+            "value": "prettier",
+            "label": "Yes"
+          },
+          {
+            "value": "none",
+            "label": "No"
+          }
+        ]
+      }
     }
   },
   "required": [

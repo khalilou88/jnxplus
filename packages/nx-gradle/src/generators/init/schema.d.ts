@@ -9,4 +9,5 @@ export interface NxGradleInitGeneratorSchema {
   skipWrapper?: boolean;
   versionManagement: VersionManagementType;
   skipFormat?: boolean;
+  formatter?: 'none' | 'prettier';
 }
