@@ -129,9 +129,13 @@ export async function initGenerator(
   updateNxJson(tree, normalizedOptions);
   updateNxJsonConfiguration(tree);
   updateGitIgnore(tree, normalizedOptions);
-  addPrettierToPackageJson(tree);
-  addOrUpdatePrettierRc(tree);
-  addOrUpdatePrettierIgnore(tree);
+
+  if (options.formatter === 'prettier') {
+    addPrettierToPackageJson(tree);
+    addOrUpdatePrettierRc(tree);
+    addOrUpdatePrettierIgnore(tree);
+  }
+
   addOrUpdateGitattributes(tree);
 
   if (!options.skipWrapper) {
