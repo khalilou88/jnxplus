@@ -13,7 +13,7 @@ import { existsSync } from 'fs';
 import { InputDefinition } from 'nx/src/config/workspace-json-project-json';
 import { workspaceDataDirectory } from 'nx/src/utils/cache-directory';
 import * as path from 'path';
-import { XmlDocument } from 'xmldoc';
+import { XmlDocument, XmlElement } from 'xmldoc';
 import {
   getArtifactId,
   getExpressionValue,
@@ -37,6 +37,7 @@ export interface MavenProjectType {
   projectAbsolutePath: string;
   dependencies: (string | undefined)[];
   profileDependencies: (string | undefined)[];
+  pluginDependencies: (string | undefined)[];
   parentProjectArtifactId?: string;
   aggregatorProjectArtifactId?: string;
   properties: PropertyType[];
@@ -140,6 +141,8 @@ export function addProjects(
 
   const profileDependencies = getProfileDependencyArtifactIds(pomXmlContent);
 
+  const pluginDependencies = getPluginDependencyArtifactIds(pomXmlContent);
+
   const properties = getProperties(pomXmlContent);
 
   const projectJsonPath = path.join(projectAbsolutePath, 'project.json');
@@ -156,6 +159,7 @@ export function addProjects(
     projectAbsolutePath: projectAbsolutePath,
     dependencies: dependencies,
     profileDependencies: profileDependencies,
+    pluginDependencies: pluginDependencies,
     parentProjectArtifactId: parentProjectArtifactId,
     aggregatorProjectArtifactId: aggregatorProjectArtifactId,
     properties: properties,
@@ -457,6 +461,59 @@ function getProfileDependencyArtifactIds(pomXml: XmlDocument) {
       });
 
     results = results.concat(profileDependencyArtifactIds);
+  }
+
+  return results;
+}
+
+function getPluginDependencyArtifactIds(pomXml: XmlDocument) {
+  let results: (string | undefined)[] = [];
+
+  const buildXml = pomXml.childNamed('build');
+  if (buildXml === undefined) {
+    return [];
+  }
+
+  results = results.concat(
+    getPluginDependencyArtifactIdsFromPluginsTag(buildXml),
+  );
+
+  const pluginManagementXml = buildXml.childNamed('pluginManagement');
+
+  if (pluginManagementXml === undefined) {
+    return results;
+  }
+
+  results = results.concat(
+    getPluginDependencyArtifactIdsFromPluginsTag(pluginManagementXml),
+  );
+
+  return results;
+}
+
+function getPluginDependencyArtifactIdsFromPluginsTag(xmlElement: XmlElement) {
+  let results: (string | undefined)[] = [];
+
+  const pluginsXml = xmlElement.childNamed('plugins');
+  if (pluginsXml === undefined) {
+    return [];
+  }
+
+  const pluginXmlArray = pluginsXml.childrenNamed('plugin');
+
+  for (const profileXml of pluginXmlArray) {
+    const dependenciesXml = profileXml.childNamed('dependencies');
+    if (dependenciesXml === undefined) {
+      continue;
+    }
+
+    const pluginDependencyArtifactIds = dependenciesXml
+      .childrenNamed('dependency')
+      .map((dependencyXmlElement) => {
+        return dependencyXmlElement.childNamed('artifactId')?.val;
+      });
+
+    results = results.concat(pluginDependencyArtifactIds);
   }
 
   return results;
