@@ -1,5 +1,4 @@
 export { createNodes } from './graph/create-nodes';
-export { createNodesV2 } from './graph/create-nodes-v2';
 export { createDependencies } from './graph/create-dependencies';
 
 import initGenerator from './generators/init/generator';
