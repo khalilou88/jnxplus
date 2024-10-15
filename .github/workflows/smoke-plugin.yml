@@ -9,6 +9,7 @@ on:
           - latest
           - previous
           - next
+          - 0.50.0
       nx_tag_option:
         type: choice
         description: nx tag option
@@ -16,6 +17,7 @@ on:
           - latest
           - previous
           - next
+          - 18.3.5
       t_option:
         type: choice
         description: t option
