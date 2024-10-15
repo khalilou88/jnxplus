@@ -43,7 +43,7 @@ describe('nx-gradle spring-boot smoke-affected', () => {
 
   it('should work', async () => {
     execSync(
-      'npx create-nx-workspace@latest test --preset apps --nxCloud skip',
+      `npx create-nx-workspace@${process.env.NX_NPM_TAG} test --preset apps --nxCloud skip`,
       {
         cwd: smokeDirectory,
         env: process.env,
