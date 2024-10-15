@@ -42,7 +42,7 @@ describe('nx-gradle default smoke', () => {
 
   it('should work', async () => {
     execSync(
-      'npx create-nx-workspace@latest test --preset apps --nxCloud skip',
+      `npx create-nx-workspace@${process.env.NX_NPM_TAG} test --preset apps --nxCloud skip`,
       {
         cwd: smokeDirectory,
         env: process.env,
@@ -52,7 +52,10 @@ describe('nx-gradle default smoke', () => {
 
     execSync('git init', execSyncOptions());
 
-    execSync('npm i --save-dev @jnxplus/nx-gradle', execSyncOptions());
+    execSync(
+      `npm i --save-dev @jnxplus/nx-gradle@${process.env.NPM_TAG}`,
+      execSyncOptions(),
+    );
 
     execSync('npx nx generate @jnxplus/nx-gradle:init', execSyncOptions());
 

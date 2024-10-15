@@ -48,7 +48,7 @@ describe('nx-maven spring-boot smoke', () => {
 
   it('should work', async () => {
     execSync(
-      'npx create-nx-workspace@latest test --preset apps --nxCloud skip',
+      `npx create-nx-workspace@${process.env.NX_NPM_TAG} test --preset apps --nxCloud skip`,
       {
         cwd: smokeDirectory,
         env: process.env,
@@ -58,7 +58,10 @@ describe('nx-maven spring-boot smoke', () => {
 
     execSync('git init', execSyncOptions());
 
-    execSync('npm i --save-dev @jnxplus/nx-maven', execSyncOptions());
+    execSync(
+      `npm i --save-dev @jnxplus/nx-maven@${process.env.NPM_TAG}`,
+      execSyncOptions(),
+    );
 
     execSync(
       'npx nx generate @jnxplus/nx-maven:init --mavenRootDirectory . --dependencyManagement spring-boot-parent-pom',
