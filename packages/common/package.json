@@ -19,7 +19,7 @@
     "nx-plugin"
   ],
   "peerDependencies": {
-    "@nx/devkit": "^20.0.0",
+    "@nx/devkit": ">=19.0.0",
     "tslib": "^2.7.0"
   },
   "repository": {
