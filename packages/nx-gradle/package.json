@@ -42,7 +42,7 @@
     "tslib": "^2.7.0"
   },
   "peerDependencies": {
-    "@nx/devkit": ">=19.0.0",
-    "nx": ">=19.0.0"
+    "@nx/devkit": ">= 19",
+    "nx": ">= 19"
   }
 }
