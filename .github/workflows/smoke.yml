@@ -3,6 +3,14 @@ name: Smoke tests
 on:
   # Trigger manually or on schedule
   workflow_dispatch:
+    inputs:
+      tag_option:
+        type: choice
+        description: tag option
+        options:
+          - latest
+          - previous
+          - next
   schedule:
     - cron: '0 0 * * *'
 
@@ -18,6 +26,7 @@ jobs:
     runs-on: ${{matrix.os}}
     env:
       NX_RUN_GROUP: ${{ github.run_id }}-v${{matrix.java}}
+      NPM_TAG: ${{ github.event.inputs.tag_option }}
     steps:
       - uses: actions/checkout@v4
 

@@ -58,7 +58,10 @@ describe('nx-maven spring-boot smoke', () => {
 
     execSync('git init', execSyncOptions());
 
-    execSync('npm i --save-dev @jnxplus/nx-maven', execSyncOptions());
+    execSync(
+      `npm i --save-dev @jnxplus/nx-maven@${process.env.NPM_TAG}`,
+      execSyncOptions(),
+    );
 
     execSync(
       'npx nx generate @jnxplus/nx-maven:init --mavenRootDirectory . --dependencyManagement spring-boot-parent-pom',

@@ -52,7 +52,10 @@ describe('nx-gradle quarkus smoke', () => {
 
     execSync('git init', execSyncOptions());
 
-    execSync('npm i --save-dev @jnxplus/nx-gradle', execSyncOptions());
+    execSync(
+      `npm i --save-dev @jnxplus/nx-gradle@${process.env.NPM_TAG}`,
+      execSyncOptions(),
+    );
 
     execSync(
       'npx nx generate @jnxplus/nx-gradle:init --gradleRootDirectory . --preset quarkus',
