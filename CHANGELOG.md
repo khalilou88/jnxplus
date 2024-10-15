@@ -1,3 +1,13 @@
+## 1.14.0 (2024-10-15)
+
+### 🚀 Features
+
+- set nx 19 as the minimum version required ([#1348](https://github.com/khalilou88/jnxplus/pull/1348))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+
 ## 1.13.0 (2024-10-15)
 
 ### 🚀 Features
