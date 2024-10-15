@@ -97,7 +97,7 @@ export async function initGenerator(
 
     addProjectConfiguration(
       tree,
-      normalizedOptions.parentProjectName,
+      normalizedOptions.aggregatorProjectName,
       projectConfiguration,
     );
   }

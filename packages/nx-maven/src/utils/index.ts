@@ -383,7 +383,7 @@ function getDependencyManagement(
     return 'micronaut-parent-pom';
   }
 
-  return 'bom';
+  return 'none';
 }
 
 function getLocalRepoRelativePath(): string {

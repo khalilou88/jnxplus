@@ -30,23 +30,25 @@
         ]
       }
     },
-    "groupId": {
+    "aggregatorProjectGroupId": {
       "type": "string",
       "default": "com.example",
-      "x-prompt": "What groupId would you like to use?"
+      "description": "GroupId of root aggregator project",
+      "x-prompt": "What groupId would you like to use for root aggregator project?"
     },
-    "parentProjectName": {
+    "aggregatorProjectName": {
       "type": "string",
-      "default": "root-parent-project",
-      "x-prompt": "What parentProjectName would you like to use?",
+      "default": "root-aggregator-project",
+      "description": "Name of root aggregator project",
+      "x-prompt": "What name would you like to use for root aggregator project?",
       "pattern": "^[a-zA-Z].*$"
     },
-    "parentProjectVersion": {
+    "aggregatorProjectVersion": {
       "type": "string",
       "default": "0.0.1-SNAPSHOT",
-      "description": "Version of the project to generate",
+      "description": "Version of root aggregator project",
       "alias": "v",
-      "x-prompt": "What project version would you like to use?"
+      "x-prompt": "What version would you like to use for root aggregator project?"
     },
     "mavenRootDirectory": {
       "type": "string",
@@ -57,14 +59,14 @@
     "dependencyManagement": {
       "description": "Dependency Management",
       "type": "string",
-      "default": "bom",
+      "default": "none",
       "x-prompt": {
         "message": "How to manage dependencies?",
         "type": "list",
         "items": [
           {
-            "value": "bom",
-            "label": "I will generate later a parent project with Maven BOM (Spring Boot, Quarkus or Micronaut)"
+            "value": "none",
+            "label": "I will generate later a parent project and keep the root project for modules aggregation"
           },
           {
             "value": "spring-boot-parent-pom",
@@ -115,9 +117,9 @@
   },
   "required": [
     "javaVersion",
-    "groupId",
-    "parentProjectName",
-    "parentProjectVersion",
+    "aggregatorProjectGroupId",
+    "aggregatorProjectName",
+    "aggregatorProjectVersion",
     "mavenRootDirectory",
     "dependencyManagement",
     "localRepoRelativePath"

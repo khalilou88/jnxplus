@@ -12,7 +12,7 @@ export type TargetsType = Record<string, TargetConfiguration>;
 export type FrameworkType = 'spring-boot' | 'quarkus' | 'micronaut' | 'none';
 export type PresetType = 'spring-boot' | 'quarkus' | 'micronaut' | 'none';
 export type DependencyManagementType =
-  | 'bom'
+  | 'none'
   | 'spring-boot-parent-pom'
   | 'micronaut-parent-pom';
 export type VersionManagementType = 'properties' | 'version-catalog';
