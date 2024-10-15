@@ -18,9 +18,11 @@
     "nx-workspace",
     "nx-plugin"
   ],
-  "peerDependencies": {
-    "@nx/devkit": ">= 19",
+  "dependencies": {
     "tslib": "^2.7.0"
+  },
+  "peerDependencies": {
+    "@nx/devkit": ">= 19"
   },
   "repository": {
     "type": "git",
