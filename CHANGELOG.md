@@ -1,3 +1,14 @@
+## 1.13.0 (2024-10-15)
+
+### 🚀 Features
+
+- make prettier optional ([#1340](https://github.com/khalilou88/jnxplus/pull/1340))
+- add plugin dependencies to nx-maven graph ([#1343](https://github.com/khalilou88/jnxplus/pull/1343))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+
 ## 1.12.2 (2024-10-11)
 
 This was a version bump only, there were no code changes.
