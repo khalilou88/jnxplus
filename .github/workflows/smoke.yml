@@ -23,7 +23,7 @@ on:
 
 jobs:
   smoke:
-    name: Smoke tests
+    name: Smoke tests with nx ${{ github.event.inputs.nx_tag_option }} version and jnxplus ${{ github.event.inputs.tag_option }} version
     strategy:
       fail-fast: false
       matrix:

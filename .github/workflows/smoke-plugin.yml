@@ -41,7 +41,7 @@ on:
 
 jobs:
   smoke-plugin:
-    name: Running ${{ github.event.inputs.t_option }} smoke tests from ${{ github.head_ref || github.ref_name }} branch
+    name: Running ${{ github.event.inputs.t_option }} smoke tests with nx ${{ github.event.inputs.nx_tag_option }} version and jnxplus ${{ github.event.inputs.tag_option }} version from ${{ github.head_ref || github.ref_name }} branch
     strategy:
       matrix:
         node_version: ['20']
