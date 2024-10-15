@@ -36,43 +36,45 @@ async function main() {
     ).javaVersion;
   }
 
-  let groupId = args['groupId'];
-  if (!groupId) {
-    groupId = (
-      await prompt<{ groupId: string }>({
+  let aggregatorProjectGroupId = args['aggregatorProjectGroupId'];
+  if (!aggregatorProjectGroupId) {
+    aggregatorProjectGroupId = (
+      await prompt<{ aggregatorProjectGroupId: string }>({
         type: 'input',
-        name: 'groupId',
-        message: 'What groupId would you like to use?',
+        name: 'aggregatorProjectGroupId',
+        message:
+          'What groupId would you like to use for root aggregator project?',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         initial: 'com.example' as any,
       })
-    ).groupId;
+    ).aggregatorProjectGroupId;
   }
 
-  let parentProjectName = args['parentProjectName'];
-  if (!parentProjectName) {
-    parentProjectName = (
-      await prompt<{ parentProjectName: string }>({
+  let aggregatorProjectName = args['aggregatorProjectName'];
+  if (!aggregatorProjectName) {
+    aggregatorProjectName = (
+      await prompt<{ aggregatorProjectName: string }>({
         type: 'input',
-        name: 'parentProjectName',
-        message: 'What parentProjectName would you like to use?',
+        name: 'aggregatorProjectName',
+        message: 'What name would you like to use for root aggregator project?',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        initial: 'root-parent-project' as any,
+        initial: 'root-aggregator-project' as any,
       })
-    ).parentProjectName;
+    ).aggregatorProjectName;
   }
 
-  let parentProjectVersion = args['parentProjectVersion'];
-  if (!parentProjectVersion) {
-    parentProjectVersion = (
-      await prompt<{ parentProjectVersion: string }>({
+  let aggregatorProjectVersion = args['aggregatorProjectVersion'];
+  if (!aggregatorProjectVersion) {
+    aggregatorProjectVersion = (
+      await prompt<{ aggregatorProjectVersion: string }>({
         type: 'input',
-        name: 'parentProjectVersion',
-        message: 'What project version would you like to use?',
+        name: 'aggregatorProjectVersion',
+        message:
+          'What version would you like to use for root aggregator project?',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         initial: '0.0.1-SNAPSHOT' as any,
       })
-    ).parentProjectVersion;
+    ).aggregatorProjectVersion;
   }
 
   let mavenRootDirectory = args['mavenRootDirectory'];
@@ -98,13 +100,13 @@ async function main() {
         name: 'dependencyManagement',
         message: 'How to manage dependencies?',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        initial: 'bom' as any,
+        initial: 'none' as any,
         type: 'autocomplete',
         choices: [
           {
-            name: 'bom',
+            name: 'none',
             message:
-              'I will generate later a parent project with Maven BOM (Spring Boot, Quarkus or Micronaut)',
+              'I will generate later a parent project and keep the root project for modules aggregation',
           },
           {
             name: 'spring-boot-parent-pom',
@@ -135,9 +137,9 @@ async function main() {
       packageManager: 'npm',
       //init generator
       javaVersion,
-      groupId,
-      parentProjectName,
-      parentProjectVersion,
+      aggregatorProjectGroupId,
+      aggregatorProjectName,
+      aggregatorProjectVersion,
       mavenRootDirectory,
       dependencyManagement,
       skipWrapper: false,
