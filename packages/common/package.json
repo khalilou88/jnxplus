@@ -19,8 +19,8 @@
     "nx-plugin"
   ],
   "dependencies": {
-    "@nx/devkit": ">=17.0.0",
-    "tslib": "^2.6.2"
+    "@nx/devkit": "*",
+    "tslib": "^2.7.0"
   },
   "repository": {
     "type": "git",
