@@ -36,7 +36,7 @@ describe('nx-maven micronaut bom e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:init --aggregatorProjectName ${parentProjectName}`,
     );
   }, 240000);
 

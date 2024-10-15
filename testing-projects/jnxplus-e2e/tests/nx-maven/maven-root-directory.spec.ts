@@ -38,7 +38,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --mavenRootDirectory nx-maven`,
+      `generate @jnxplus/nx-maven:init --aggregatorProjectName ${parentProjectName} --mavenRootDirectory nx-maven`,
     );
   }, 240000);
 

@@ -26,7 +26,7 @@ describe('nx-maven all bom e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:init --aggregatorProjectName ${parentProjectName}`,
     );
   }, 240000);
 

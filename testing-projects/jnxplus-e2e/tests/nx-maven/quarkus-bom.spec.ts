@@ -42,7 +42,7 @@ describe('nx-maven quarkus bom e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --dependencyManagement bom`,
+      `generate @jnxplus/nx-maven:init --aggregatorProjectName ${parentProjectName} --dependencyManagement bom`,
     );
   }, 240000);
 

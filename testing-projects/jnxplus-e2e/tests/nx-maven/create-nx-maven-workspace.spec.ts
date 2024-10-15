@@ -16,7 +16,7 @@ describe('nx-maven create-nx-maven-workspace', () => {
   it('should be installed', () => {
     workspaceDirectory = createTestWorkspaceWithCustomCli(
       'create-nx-maven-workspace',
-      '--javaVersion 17 --groupId com.example --parentProjectName root-project --parentProjectVersion 0.0.0 --mavenRootDirectory nx-maven --dependencyManagement spring-boot-parent-pom',
+      '--javaVersion 17 --aggregatorProjectGroupId com.example --aggregatorProjectName root-project --aggregatorProjectVersion 0.0.0 --mavenRootDirectory nx-maven --dependencyManagement spring-boot-parent-pom',
     );
 
     // npm ls will fail if the package is not installed properly
