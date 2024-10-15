@@ -20,3 +20,4 @@ nx release version --specifier preminor --preid next --dry-run
 nx release version 1.10.0-next.1 --dry-run
 npx nx run-many -t build
 nx release publish --tag next --verbose --dry-run
+nx release publish --tag previous --verbose --dry-run
