@@ -8,12 +8,14 @@
 	<name><%= projectName %></name>
 	<description>This project was generated with nx-maven</description>
 
+<% if(parentProject) { -%>
 	<parent>
 		<groupId><%= parentGroupId %></groupId>
 		<artifactId><%= parentProjectName %></artifactId>
 		<version><%= parentProjectVersion %></version>
     <relativePath><%= relativePath %></relativePath>
 	</parent>
+<% } -%>
 
   <dependencies>
     <dependency>

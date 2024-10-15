@@ -511,25 +511,19 @@ export function getParentProjectValues(
   projectRoot: string,
   parentProject: string,
 ) {
-  let pomXmlContent;
-  let parentProjectRoot;
   if (!parentProject) {
-    parentProjectRoot = mavenRootDirectory;
-    pomXmlContent = readXmlTree(
-      tree,
-      joinPathFragments(parentProjectRoot, 'pom.xml'),
-    );
-  } else {
-    parentProjectRoot = getProjectRootFromTree(
-      tree,
-      mavenRootDirectory,
-      parentProject,
-    );
-
-    const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
-
-    pomXmlContent = readXmlTree(tree, parentProjectPomPath);
+    return ['', '', '', ''];
   }
+
+  const parentProjectRoot = getProjectRootFromTree(
+    tree,
+    mavenRootDirectory,
+    parentProject,
+  );
+
+  const parentProjectPomPath = path.join(parentProjectRoot, 'pom.xml');
+
+  const pomXmlContent = readXmlTree(tree, parentProjectPomPath);
 
   const relativePath = joinPathFragments(
     path.relative(projectRoot, parentProjectRoot),
