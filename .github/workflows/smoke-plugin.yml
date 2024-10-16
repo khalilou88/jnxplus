@@ -18,6 +18,8 @@ on:
           - previous
           - next
           - 18.3.5
+          - 17.0.6
+          - 16.10.0
       t_option:
         type: choice
         description: t option
