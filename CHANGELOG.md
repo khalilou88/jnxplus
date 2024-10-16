@@ -1,3 +1,13 @@
+## 1.14.1 (2024-10-16)
+
+### 🩹 Fixes
+
+- add dependencies section to package.json ([d450e6e3](https://github.com/khalilou88/jnxplus/commit/d450e6e3))
+
+### ❤️ Thank You
+
+- khalilou88 @khalilou88
+
 ## 1.14.0 (2024-10-15)
 
 ### 🚀 Features
