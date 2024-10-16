@@ -20,6 +20,7 @@ on:
           - previous
           - next
           - 18.3.5
+          - 17.0.6
   schedule:
     - cron: '0 0 * * *'
 
