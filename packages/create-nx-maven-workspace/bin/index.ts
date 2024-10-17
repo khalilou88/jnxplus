@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import { DependencyManagementType } from '@jnxplus/common';
 import { createWorkspace } from 'create-nx-workspace';
 import { prompt } from 'enquirer';
 import * as yargs from 'yargs';
@@ -18,23 +17,6 @@ async function main() {
   }
 
   const args = yargs.argv;
-
-  let javaVersion = args['javaVersion'];
-  if (!javaVersion) {
-    javaVersion = (
-      await prompt<{ javaVersion: '17' | '21' }>({
-        name: 'javaVersion',
-        message: 'Which version of Java would you like to use?',
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        initial: '17' as any,
-        type: 'autocomplete',
-        choices: [
-          { name: '17', message: '17' },
-          { name: '21', message: '21' },
-        ],
-      })
-    ).javaVersion;
-  }
 
   let aggregatorProjectGroupId = args['aggregatorProjectGroupId'];
   if (!aggregatorProjectGroupId) {
@@ -91,36 +73,6 @@ async function main() {
     ).mavenRootDirectory;
   }
 
-  let dependencyManagement = args['dependencyManagement'];
-  if (!dependencyManagement) {
-    dependencyManagement = (
-      await prompt<{
-        dependencyManagement: DependencyManagementType;
-      }>({
-        name: 'dependencyManagement',
-        message: 'How to manage dependencies?',
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        initial: 'none' as any,
-        type: 'autocomplete',
-        choices: [
-          {
-            name: 'none',
-            message:
-              'I will generate later a parent project and keep the root project for modules aggregation',
-          },
-          {
-            name: 'spring-boot-parent-pom',
-            message: 'I want to add Spring Boot parent POM to root POM.xml',
-          },
-          {
-            name: 'micronaut-parent-pom',
-            message: 'I want to add Micronaut parent POM to root POM.xml',
-          },
-        ],
-      })
-    ).dependencyManagement;
-  }
-
   console.log(`Creating the workspace: ${name}`);
 
   // This assumes "@jnxplus/nx-maven" and "create-nx-maven-workspace" are at the same version
@@ -136,12 +88,10 @@ async function main() {
       nxCloud: 'skip',
       packageManager: 'npm',
       //init generator
-      javaVersion,
       aggregatorProjectGroupId,
       aggregatorProjectName,
       aggregatorProjectVersion,
       mavenRootDirectory,
-      dependencyManagement,
       skipWrapper: false,
       localRepoRelativePath: '.m2/repository',
     },
