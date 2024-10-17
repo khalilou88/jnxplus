@@ -41,7 +41,6 @@ export function createTestWorkspace() {
       env: process.env,
     },
   );
-  addTargetDefaults(workspaceDirectory);
   console.log(`Created test project in "${workspaceDirectory}"`);
 
   return workspaceDirectory;
@@ -72,7 +71,6 @@ export function createTestWorkspaceWithCustomCli(
     stdio: 'inherit',
     env: process.env,
   });
-  addTargetDefaults(workspaceDirectory);
   console.log(`Created test workspace in "${workspaceDirectory}"`);
 
   return workspaceDirectory;
