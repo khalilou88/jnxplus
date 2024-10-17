@@ -156,6 +156,16 @@ function updateNxJson(tree: Tree, options: NormalizedSchema) {
     nxJson.plugins = nxJson.plugins ?? [];
     // add plugin
     nxJson.plugins.push(plugin);
+
+    nxJson.targetDefaults = {
+      ...nxJson.targetDefaults,
+      [options.buildTargetName]: {
+        cache: true,
+        dependsOn: [`^${options.buildTargetName}`],
+        inputs: ['production', '^production'],
+      },
+    };
+
     // return modified JSON object
     return nxJson;
   });

@@ -7,4 +7,5 @@ export interface NxMavenInitGeneratorSchema {
   localRepoRelativePath: string;
   skipFormat?: boolean;
   formatter?: 'none' | 'prettier';
+  buildTargetName: string;
 }

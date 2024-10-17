@@ -1,6 +1,6 @@
 import { CustomCli } from '@jnxplus/common';
 import { getPackageManagerCommand } from '@nx/devkit';
-import { exists, readJson, tmpProjPath, updateFile } from '@nx/plugin/testing';
+import { exists, tmpProjPath } from '@nx/plugin/testing';
 import axios from 'axios';
 import * as chalk from 'chalk';
 import { ChildProcess, exec, execSync } from 'child_process';
@@ -76,22 +76,6 @@ export function createTestWorkspaceWithCustomCli(
   console.log(`Created test workspace in "${workspaceDirectory}"`);
 
   return workspaceDirectory;
-}
-
-function addTargetDefaults(workspaceDirectory: string) {
-  const nxJsonAbsolutePath = path.join(workspaceDirectory, 'nx.json');
-
-  const nxJson = readJson(nxJsonAbsolutePath);
-
-  nxJson.targetDefaults = {
-    ...nxJson.targetDefaults,
-    build: {
-      cache: true,
-      dependsOn: ['^build'],
-      inputs: ['production', '^production'],
-    },
-  };
-  updateFile(nxJsonAbsolutePath, JSON.stringify(nxJson));
 }
 
 /**
