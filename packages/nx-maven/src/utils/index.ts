@@ -1,9 +1,4 @@
-import {
-  DependencyManagementType,
-  FrameworkType,
-  LanguageType,
-  NxMavenPluginOptions,
-} from '@jnxplus/common';
+import { NxMavenPluginOptions } from '@jnxplus/common';
 import { readXmlTree, xmlToString } from '@jnxplus/xml';
 import {
   NxJsonConfiguration,
@@ -263,129 +258,6 @@ export function addLibraryToProjects(
   }
 }
 
-export function addMissedProperties(
-  tree: Tree,
-  options: {
-    language: LanguageType;
-    framework: FrameworkType | undefined;
-    kotlinVersion: string;
-    springBootVersion: string;
-    quarkusVersion: string;
-    micronautVersion: string;
-    mavenRootDirectory: string;
-  },
-) {
-  let fileChanged = false;
-
-  const pomPath = path.join(options.mavenRootDirectory, 'pom.xml');
-  const xmlDoc = readXmlTree(tree, pomPath);
-
-  //properties
-  let properties = xmlDoc.childNamed('properties');
-
-  if (properties === undefined) {
-    xmlDoc.children.push(
-      new XmlDocument(`
-    <properties>
-    </properties>
-  `),
-    );
-    properties = xmlDoc.childNamed('properties');
-  }
-
-  if (properties === undefined) {
-    throw new Error('Properties tag undefined');
-  }
-
-  if (options.language === 'kotlin') {
-    const kotlinVersionXml = properties.childNamed('kotlin.version');
-
-    if (kotlinVersionXml === undefined) {
-      properties.children.push(
-        new XmlDocument(`
-        <kotlin.version>${options.kotlinVersion}</kotlin.version>
-`),
-      );
-      fileChanged = true;
-    }
-  }
-
-  if (options.framework === 'spring-boot') {
-    const b = isParentPomExits(xmlDoc, 'spring-boot-starter-parent');
-    if (!b) {
-      const springBootVersion = properties.childNamed('spring.boot.version');
-      if (springBootVersion === undefined) {
-        properties.children.push(
-          new XmlDocument(`
-    <spring.boot.version>${options.springBootVersion}</spring.boot.version>
-  `),
-        );
-        fileChanged = true;
-      }
-    }
-  }
-
-  if (options.framework === 'quarkus') {
-    const quarkusVersion = properties.childNamed('quarkus.version');
-    if (quarkusVersion === undefined) {
-      properties.children.push(
-        new XmlDocument(`
-      <quarkus.version>${options.quarkusVersion}</quarkus.version>
-    `),
-      );
-      fileChanged = true;
-    }
-  }
-
-  if (options.framework === 'micronaut') {
-    const b = isParentPomExits(xmlDoc, 'micronaut-parent');
-    if (!b) {
-      const micronautVersion = properties.childNamed('micronaut.version');
-      if (micronautVersion === undefined) {
-        properties.children.push(
-          new XmlDocument(`
-    <micronaut.version>${options.micronautVersion}</micronaut.version>
-  `),
-        );
-        fileChanged = true;
-      }
-    }
-  }
-
-  if (fileChanged) {
-    tree.write(pomPath, xmlToString(xmlDoc));
-  }
-}
-
-function isParentPomExits(
-  xmlDoc: XmlDocument,
-  parentPom: 'spring-boot-starter-parent' | 'micronaut-parent',
-) {
-  const parentXml = xmlDoc.childNamed('parent');
-
-  if (parentXml === undefined) {
-    return false;
-  }
-
-  const artifactIdXml = parentXml.childNamed('artifactId');
-
-  return parentPom === artifactIdXml?.val;
-}
-
-function getDependencyManagement(
-  xmlDoc: XmlDocument,
-): DependencyManagementType {
-  if (isParentPomExits(xmlDoc, 'spring-boot-starter-parent')) {
-    return 'spring-boot-parent-pom';
-  }
-
-  if (isParentPomExits(xmlDoc, 'micronaut-parent')) {
-    return 'micronaut-parent-pom';
-  }
-
-  return 'none';
-}
-
 function getLocalRepoRelativePath(): string {
   const plugin = getPlugin();
 
@@ -535,26 +407,6 @@ export function getParentProjectValues(
   const parentProjectVersion = getVersion(parentProjectName, pomXmlContent);
 
   return [relativePath, parentProjectName, parentGroupId, parentProjectVersion];
-}
-
-export function extractRootPomValues(
-  tree: Tree,
-  mavenRootDirectory: string,
-  framework: string | undefined,
-): [string, DependencyManagementType] {
-  const rootPomXmlContent = readXmlTree(
-    tree,
-    path.join(mavenRootDirectory, 'pom.xml'),
-  );
-
-  let quarkusVersion = '';
-  if (framework === 'quarkus') {
-    quarkusVersion =
-      rootPomXmlContent?.childNamed('properties')?.childNamed('quarkus.version')
-        ?.val ?? 'quarkusVersion';
-  }
-
-  return [quarkusVersion, getDependencyManagement(rootPomXmlContent)];
 }
 
 export function getSkipAggregatorProjectLinkingOption(

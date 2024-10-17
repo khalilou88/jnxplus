@@ -1,5 +1,4 @@
 import {
-  DependencyManagementType,
   TemplateOptionsType,
   clearEmpties,
   generateAppClassName,
@@ -16,11 +15,7 @@ import {
   getServeTargetName,
   getTestTargetName,
   isCustomPortFunction,
-  kotlinVersion,
-  micronautVersion,
   parseTags,
-  quarkusVersion,
-  springBootVersion,
 } from '@jnxplus/common';
 import {
   ProjectConfiguration,
@@ -34,9 +29,7 @@ import {
 } from '@nx/devkit';
 import * as path from 'path';
 import {
-  addMissedProperties,
   addProjectToAggregator,
-  extractRootPomValues,
   getAggregatorProjectRoot,
   getMavenRootDirectory,
   getParentProjectValues,
@@ -61,10 +54,6 @@ interface NormalizedSchema extends NxMavenAppGeneratorSchema {
   parentProjectVersion: string;
   relativePath: string;
   isCustomPort: boolean;
-  springBootVersion: string;
-  quarkusVersion: string;
-  micronautVersion: string;
-  dependencyManagement: DependencyManagementType;
   mavenRootDirectory: string;
   basePackage: string;
   buildTargetName: string;
@@ -120,12 +109,6 @@ function normalizeOptions(
 
   const isCustomPort = isCustomPortFunction({ port: options.port });
 
-  const [quarkusVersion, dependencyManagement] = extractRootPomValues(
-    tree,
-    mavenRootDirectory,
-    options.framework,
-  );
-
   const basePackage = generateBasePackage(options.groupId);
 
   const plugin = getPlugin();
@@ -155,10 +138,6 @@ function normalizeOptions(
     parentProjectVersion,
     relativePath,
     isCustomPort,
-    springBootVersion,
-    quarkusVersion,
-    micronautVersion,
-    dependencyManagement,
     mavenRootDirectory,
     basePackage,
     buildTargetName,
@@ -379,16 +358,6 @@ async function applicationGenerator(
   options: NxMavenAppGeneratorSchema,
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
-
-  addMissedProperties(tree, {
-    language: options.language,
-    framework: options.framework,
-    kotlinVersion: kotlinVersion,
-    springBootVersion: springBootVersion,
-    quarkusVersion: quarkusVersion,
-    micronautVersion: micronautVersion,
-    mavenRootDirectory: normalizedOptions.mavenRootDirectory,
-  });
 
   const projectConfiguration: ProjectConfiguration = {
     root: normalizedOptions.projectRoot,
