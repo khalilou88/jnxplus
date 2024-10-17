@@ -459,12 +459,12 @@ describe('nx-maven maven-root-directory e2e', () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject}`,
     );
 
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject}`,
     );
 
     const appName = uniq('boot-maven-app-');
@@ -548,12 +548,12 @@ describe('nx-maven maven-root-directory e2e', () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --language kotlin`,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --language kotlin`,
     );
 
     const appsParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject} --framework none`,
+      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject}`,
     );
 
     const appName = uniq('boot-maven-app-');
@@ -642,7 +642,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     const libsParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework quarkus`,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --framework quarkus`,
     );
 
     const libName = uniq('quarkus-maven-lib-');

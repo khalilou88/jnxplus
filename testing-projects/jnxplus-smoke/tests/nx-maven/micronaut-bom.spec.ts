@@ -71,7 +71,7 @@ describe('nx-maven micronaut bom smoke', () => {
     );
 
     execSync(
-      `npx nx generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject} --framework none`,
+      `npx nx generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject}`,
       execSyncOptions(),
     );
 
