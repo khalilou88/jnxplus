@@ -287,7 +287,7 @@ describe('nx-maven quarkus bom e2e', () => {
     const port = 8282;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework quarkus --groupId org.acme --language kotlin --port ${port} --parent-project ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework quarkus --groupId org.acme --language kotlin --port ${port} --parent-project ${parentProjectName}`,
     );
 
     expect(() =>
