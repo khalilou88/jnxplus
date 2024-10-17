@@ -52,7 +52,7 @@ describe('nx-maven spring-boot bom e2e', () => {
   }, 240000);
 
   afterAll(async () => {
-    if (process.env['SKIP_E2E_CLEANUP'] === 'true') {
+    if (process.env['SKIP_E2E_CLEANUP'] !== 'true') {
       // Cleanup the test project
       rmSync(workspaceDirectory, {
         recursive: true,
