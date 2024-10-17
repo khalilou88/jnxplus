@@ -23,7 +23,7 @@ import * as path from 'path';
 describe('nx-maven spring-boot bom e2e', () => {
   let workspaceDirectory: string;
 
-  const parentProjectName = uniq('parent-project-');
+  const aggregatorProjectName = uniq('aggregator-project-');
   const libsParentProject = uniq('libs-parent-project-');
   const appsParentProject = uniq('apps-parent-project-');
 
@@ -39,11 +39,11 @@ describe('nx-maven spring-boot bom e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:init --aggregatorProjectName ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:init --aggregatorProjectName ${aggregatorProjectName}`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --language kotlin`,
+      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --dependencyManagement spring-boot-bom --language kotlin`,
     );
 
     await runNxCommandAsync(
@@ -176,11 +176,11 @@ describe('nx-maven spring-boot bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: aggregatorProjectName,
     });
 
     expect(
-      depGraphJson.graph.nodes[parentProjectName].data.targets.build.options
+      depGraphJson.graph.nodes[aggregatorProjectName].data.targets.build.options
         .task,
     ).toEqual('install -N');
 
@@ -258,13 +258,13 @@ describe('nx-maven spring-boot bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: aggregatorProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: parentProjectName,
+      target: aggregatorProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -341,13 +341,13 @@ describe('nx-maven spring-boot bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: aggregatorProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: parentProjectName,
+      target: aggregatorProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -425,7 +425,7 @@ describe('nx-maven spring-boot bom e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: aggregatorProjectName,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
