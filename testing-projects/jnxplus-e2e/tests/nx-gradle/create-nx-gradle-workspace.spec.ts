@@ -6,11 +6,13 @@ describe('nx-gradle create-nx-gradle-workspace', () => {
   let workspaceDirectory: string;
 
   afterAll(() => {
-    // Cleanup the test project
-    rmSync(workspaceDirectory, {
-      recursive: true,
-      force: true,
-    });
+    if (process.env['SKIP_E2E_CLEANUP'] !== 'true') {
+      // Cleanup the test project
+      rmSync(workspaceDirectory, {
+        recursive: true,
+        force: true,
+      });
+    }
   });
 
   it('should be installed', () => {

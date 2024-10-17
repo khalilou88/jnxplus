@@ -50,11 +50,13 @@ describe('nx-gradle quarkus kotlin dsl e2e', () => {
   }, 120000);
 
   afterAll(async () => {
-    // Cleanup the test project
-    rmSync(workspaceDirectory, {
-      recursive: true,
-      force: true,
-    });
+    if (process.env['SKIP_E2E_CLEANUP'] !== 'true') {
+      // Cleanup the test project
+      rmSync(workspaceDirectory, {
+        recursive: true,
+        force: true,
+      });
+    }
   }, 120000);
 
   it('should set NX_VERBOSE_LOGGING to true', async () => {

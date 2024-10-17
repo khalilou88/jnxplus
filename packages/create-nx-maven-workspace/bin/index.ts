@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import { DependencyManagementType } from '@jnxplus/common';
 import { createWorkspace } from 'create-nx-workspace';
 import { prompt } from 'enquirer';
 import * as yargs from 'yargs';
@@ -19,60 +18,45 @@ async function main() {
 
   const args = yargs.argv;
 
-  let javaVersion = args['javaVersion'];
-  if (!javaVersion) {
-    javaVersion = (
-      await prompt<{ javaVersion: '17' | '21' }>({
-        name: 'javaVersion',
-        message: 'Which version of Java would you like to use?',
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        initial: '17' as any,
-        type: 'autocomplete',
-        choices: [
-          { name: '17', message: '17' },
-          { name: '21', message: '21' },
-        ],
-      })
-    ).javaVersion;
-  }
-
-  let groupId = args['groupId'];
-  if (!groupId) {
-    groupId = (
-      await prompt<{ groupId: string }>({
+  let aggregatorProjectGroupId = args['aggregatorProjectGroupId'];
+  if (!aggregatorProjectGroupId) {
+    aggregatorProjectGroupId = (
+      await prompt<{ aggregatorProjectGroupId: string }>({
         type: 'input',
-        name: 'groupId',
-        message: 'What groupId would you like to use?',
+        name: 'aggregatorProjectGroupId',
+        message:
+          'What groupId would you like to use for root aggregator project?',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         initial: 'com.example' as any,
       })
-    ).groupId;
+    ).aggregatorProjectGroupId;
   }
 
-  let parentProjectName = args['parentProjectName'];
-  if (!parentProjectName) {
-    parentProjectName = (
-      await prompt<{ parentProjectName: string }>({
+  let aggregatorProjectName = args['aggregatorProjectName'];
+  if (!aggregatorProjectName) {
+    aggregatorProjectName = (
+      await prompt<{ aggregatorProjectName: string }>({
         type: 'input',
-        name: 'parentProjectName',
-        message: 'What parentProjectName would you like to use?',
+        name: 'aggregatorProjectName',
+        message: 'What name would you like to use for root aggregator project?',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        initial: 'root-parent-project' as any,
+        initial: 'root-aggregator-project' as any,
       })
-    ).parentProjectName;
+    ).aggregatorProjectName;
   }
 
-  let parentProjectVersion = args['parentProjectVersion'];
-  if (!parentProjectVersion) {
-    parentProjectVersion = (
-      await prompt<{ parentProjectVersion: string }>({
+  let aggregatorProjectVersion = args['aggregatorProjectVersion'];
+  if (!aggregatorProjectVersion) {
+    aggregatorProjectVersion = (
+      await prompt<{ aggregatorProjectVersion: string }>({
         type: 'input',
-        name: 'parentProjectVersion',
-        message: 'What project version would you like to use?',
+        name: 'aggregatorProjectVersion',
+        message:
+          'What version would you like to use for root aggregator project?',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         initial: '0.0.1-SNAPSHOT' as any,
       })
-    ).parentProjectVersion;
+    ).aggregatorProjectVersion;
   }
 
   let mavenRootDirectory = args['mavenRootDirectory'];
@@ -87,36 +71,6 @@ async function main() {
         initial: '' as any,
       })
     ).mavenRootDirectory;
-  }
-
-  let dependencyManagement = args['dependencyManagement'];
-  if (!dependencyManagement) {
-    dependencyManagement = (
-      await prompt<{
-        dependencyManagement: DependencyManagementType;
-      }>({
-        name: 'dependencyManagement',
-        message: 'How to manage dependencies?',
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        initial: 'bom' as any,
-        type: 'autocomplete',
-        choices: [
-          {
-            name: 'bom',
-            message:
-              'I will generate later a parent project with Maven BOM (Spring Boot, Quarkus or Micronaut)',
-          },
-          {
-            name: 'spring-boot-parent-pom',
-            message: 'I want to add Spring Boot parent POM to root POM.xml',
-          },
-          {
-            name: 'micronaut-parent-pom',
-            message: 'I want to add Micronaut parent POM to root POM.xml',
-          },
-        ],
-      })
-    ).dependencyManagement;
   }
 
   console.log(`Creating the workspace: ${name}`);
@@ -134,12 +88,10 @@ async function main() {
       nxCloud: 'skip',
       packageManager: 'npm',
       //init generator
-      javaVersion,
-      groupId,
-      parentProjectName,
-      parentProjectVersion,
+      aggregatorProjectGroupId,
+      aggregatorProjectName,
+      aggregatorProjectVersion,
       mavenRootDirectory,
-      dependencyManagement,
       skipWrapper: false,
       localRepoRelativePath: '.m2/repository',
     },

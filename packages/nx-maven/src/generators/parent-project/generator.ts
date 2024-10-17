@@ -30,7 +30,6 @@ import {
 } from '@nx/devkit';
 import * as path from 'path';
 import {
-  addMissedProperties,
   addProjectToAggregator,
   getAggregatorProjectRoot,
   getMavenRootDirectory,
@@ -55,6 +54,7 @@ interface NormalizedSchema extends NxMavenParentProjectGeneratorSchema {
   parentProjectName: string;
   parentProjectVersion: string;
   relativePath: string;
+  kotlinVersion: string;
   springBootVersion: string;
   quarkusVersion: string;
   micronautVersion: string;
@@ -124,6 +124,7 @@ function normalizeOptions(
     parentProjectName,
     parentProjectVersion,
     relativePath,
+    kotlinVersion,
     springBootVersion,
     quarkusVersion,
     micronautVersion,
@@ -163,21 +164,6 @@ async function parentProjectGenerator(
   options: NxMavenParentProjectGeneratorSchema,
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
-
-  const language =
-    options.language === 'kotlin' || options.language === 'java-kotlin'
-      ? 'kotlin'
-      : 'java';
-
-  addMissedProperties(tree, {
-    language: language,
-    framework: options.framework,
-    kotlinVersion: kotlinVersion,
-    springBootVersion: springBootVersion,
-    quarkusVersion: quarkusVersion,
-    micronautVersion: micronautVersion,
-    mavenRootDirectory: normalizedOptions.mavenRootDirectory,
-  });
 
   addProjectConfiguration(tree, normalizedOptions.projectName, {
     root: normalizedOptions.projectRoot,

@@ -4,6 +4,32 @@
   "title": "Create a parent project",
   "type": "object",
   "properties": {
+    "javaVersion": {
+      "description": "Java version",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "default": "17",
+      "x-prompt": {
+        "message": "Which version of Java would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "17",
+            "label": "17"
+          },
+          {
+            "value": "21",
+            "label": "21"
+          }
+        ]
+      }
+    },
     "name": {
       "type": "string",
       "description": "",
@@ -46,26 +72,41 @@
       "alias": "v",
       "x-prompt": "What project version would you like to use?"
     },
-    "framework": {
-      "description": "framework",
+    "dependencyManagement": {
+      "description": "Dependency Management",
       "type": "string",
-      "default": "spring-boot",
-      "enum": ["spring-boot", "quarkus", "micronaut", "none"],
+      "default": "none",
+      "enum": [
+        "spring-boot-parent-pom",
+        "spring-boot-bom",
+        "quarkus-bom",
+        "micronaut-parent-pom",
+        "micronaut-bom",
+        "none"
+      ],
       "x-prompt": {
-        "message": "Which framework to use? or 'none' to skip.",
+        "message": "How to manage framework dependencies? or 'none' to skip.",
         "type": "list",
         "items": [
           {
-            "value": "spring-boot",
-            "label": "Spring Boot"
+            "value": "spring-boot-parent-pom",
+            "label": "Spring Boot parent POM"
           },
           {
-            "value": "quarkus",
-            "label": "Quarkus"
+            "value": "spring-boot-bom",
+            "label": "Spring Boot BOM"
           },
           {
-            "value": "micronaut",
-            "label": "Micronaut"
+            "value": "quarkus-bom",
+            "label": "Quarkus BOM"
+          },
+          {
+            "value": "micronaut-parent-pom",
+            "label": "Micronaut parent POM"
+          },
+          {
+            "value": "micronaut-bom",
+            "label": "Micronaut BOM"
           },
           {
             "value": "none",
@@ -99,7 +140,7 @@
     },
     "parentProject": {
       "type": "string",
-      "description": "ArtifactId of the parent project, or leave it blank for the root project"
+      "description": "ArtifactId of the parent project"
     },
     "aggregatorProject": {
       "type": "string",
@@ -111,5 +152,11 @@
       "default": false
     }
   },
-  "required": ["name", "projectType", "groupId", "projectVersion"]
+  "required": [
+    "javaVersion",
+    "name",
+    "projectType",
+    "groupId",
+    "projectVersion"
+  ]
 }
