@@ -1,6 +1,7 @@
 import { DependencyManagementType, ProjectType } from '@jnxplus/common';
 
 export interface NxMavenParentProjectGeneratorSchema {
+  javaVersion: string | number;
   name: string;
   tags?: string;
   directory?: string;

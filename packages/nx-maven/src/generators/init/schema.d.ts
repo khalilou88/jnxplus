@@ -1,5 +1,4 @@
 export interface NxMavenInitGeneratorSchema {
-  javaVersion: string | number;
   aggregatorProjectGroupId: string;
   aggregatorProjectName: string;
   aggregatorProjectVersion: string;

@@ -4,6 +4,32 @@
   "title": "Create a parent project",
   "type": "object",
   "properties": {
+    "javaVersion": {
+      "description": "Java version",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "default": "17",
+      "x-prompt": {
+        "message": "Which version of Java would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "17",
+            "label": "17"
+          },
+          {
+            "value": "21",
+            "label": "21"
+          }
+        ]
+      }
+    },
     "name": {
       "type": "string",
       "description": "",
@@ -126,5 +152,11 @@
       "default": false
     }
   },
-  "required": ["name", "projectType", "groupId", "projectVersion"]
+  "required": [
+    "javaVersion",
+    "name",
+    "projectType",
+    "groupId",
+    "projectVersion"
+  ]
 }

@@ -4,6 +4,7 @@ import {
   generateProjectRoot,
   generateSimpleProjectName,
   getBuildTargetName,
+  kotlinVersion,
   mavenCompilerPluginVersion,
   mavenEnforcerPluginVersion,
   mavenFailsafePluginVersion,
@@ -53,6 +54,7 @@ interface NormalizedSchema extends NxMavenParentProjectGeneratorSchema {
   parentProjectName: string;
   parentProjectVersion: string;
   relativePath: string;
+  kotlinVersion: string;
   springBootVersion: string;
   quarkusVersion: string;
   micronautVersion: string;
@@ -122,6 +124,7 @@ function normalizeOptions(
     parentProjectName,
     parentProjectVersion,
     relativePath,
+    kotlinVersion,
     springBootVersion,
     quarkusVersion,
     micronautVersion,
