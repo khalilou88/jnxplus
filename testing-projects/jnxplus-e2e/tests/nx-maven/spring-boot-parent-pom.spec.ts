@@ -87,7 +87,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const appName = uniq('boot-maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework spring-boot`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework spring-boot --parent-project ${parentProjectName}`,
     );
 
     expect(() =>
@@ -188,7 +188,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('boot-maven-app-');
       await runNxCommandAsync(
-        `generate @jnxplus/nx-maven:application ${appName} --framework spring-boot`,
+        `generate @jnxplus/nx-maven:application ${appName} --framework spring-boot --parent-project ${parentProjectName}`,
       );
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`,
@@ -379,7 +379,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const port = 8383;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-maven:app ${randomName} --framework spring-boot --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml --port ${port} --simplePackageName false --simpleName false`,
+      `g @jnxplus/nx-maven:app ${randomName} --framework spring-boot --parent-project ${parentProjectName} --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml --port ${port} --simplePackageName false --simpleName false`,
     );
 
     expect(() =>
@@ -462,7 +462,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const port = 8484;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-maven:app ${randomName} --framework spring-boot --t e2etag,e2ePackage --dir ${appDir} --simpleName false --groupId com.jnxplus --simplePackageName --v 1.2.3 --packaging war --configFormat .yml --port ${port}`,
+      `g @jnxplus/nx-maven:app ${randomName} --framework spring-boot --parent-project ${parentProjectName} --t e2etag,e2ePackage --dir ${appDir} --simpleName false --groupId com.jnxplus --simplePackageName --v 1.2.3 --packaging war --configFormat .yml --port ${port}`,
     );
 
     expect(() =>
