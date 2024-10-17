@@ -18,7 +18,42 @@
 	</parent>
 <% } -%>
 
-<% if(framework === 'spring-boot') { -%>
+
+<% if(framework === 'spring-boot-parent-pom') { -%>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version><%= springBootVersion %></version>
+        <relativePath/>
+    </parent>
+
+    <properties>
+        <java.version><%= javaVersion %></java.version>
+        <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
+            <kotlin.version><%= kotlinVersion %></kotlin.version>
+        <% } -%>
+    </properties>
+
+<% } -%>
+
+<% if(framework === 'micronaut-parent-pom') { -%>
+    <parent>
+        <groupId>io.micronaut.platform</groupId>
+        <artifactId>micronaut-parent</artifactId>
+        <version><%= micronautVersion %></version>
+    </parent>
+
+    <properties>
+        <java.version><%= javaVersion %></java.version>
+        <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
+            <kotlin.version><%= kotlinVersion %></kotlin.version>
+        <% } -%>
+        <jdk.version>${java.version}</jdk.version>
+        <release.version>${java.version}</release.version>
+    </properties>
+<% } -%>
+
+<% if(framework === 'spring-boot-bom') { -%>
   <properties>
     <resource.delimiter>@</resource.delimiter>
     <maven.compiler.release>${java.version}</maven.compiler.release>
@@ -74,7 +109,7 @@
           </configuration>
         </plugin>
 
-<% if(language === 'kotlin' || language === 'java-kotlin') { -%>
+<% if(language === 'kotlin' || language === 'java & kotlin') { -%>
         <plugin>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-maven-plugin</artifactId>
@@ -128,7 +163,7 @@
   </build>
 <% } -%>
 
-<% if(framework === 'quarkus') { -%>
+<% if(framework === 'quarkus-bom') { -%>
   <properties>
     <maven.compiler.release>${java.version}</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -171,7 +206,7 @@
   </build>
 <% } -%>
 
-<% if(framework === 'micronaut') { -%>
+<% if(framework === 'micronaut-bom') { -%>
   <properties>
       <jdk.version>${java.version}</jdk.version>
       <release.version>${java.version}</release.version>

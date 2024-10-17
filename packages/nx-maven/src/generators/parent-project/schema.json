@@ -49,23 +49,38 @@
     "framework": {
       "description": "framework",
       "type": "string",
-      "default": "spring-boot",
-      "enum": ["spring-boot", "quarkus", "micronaut", "none"],
+      "default": "none",
+      "enum": [
+        "spring-boot-parent-pom",
+        "spring-boot-bom",
+        "quarkus-bom",
+        "micronaut-parent-pom",
+        "micronaut-bom",
+        "none"
+      ],
       "x-prompt": {
         "message": "Which framework to use? or 'none' to skip.",
         "type": "list",
         "items": [
           {
-            "value": "spring-boot",
-            "label": "Spring Boot"
+            "value": "spring-boot-parent-pom",
+            "label": "Spring Boot with parent pom"
           },
           {
-            "value": "quarkus",
+            "value": "spring-boot-bom",
+            "label": "Spring Boot with bom"
+          },
+          {
+            "value": "quarkus-bom",
             "label": "Quarkus"
           },
           {
-            "value": "micronaut",
-            "label": "Micronaut"
+            "value": "micronaut-parent-pom",
+            "label": "Micronaut  with parent pom"
+          },
+          {
+            "value": "micronaut-bom",
+            "label": "Micronaut with bom"
           },
           {
             "value": "none",

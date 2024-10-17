@@ -4,7 +4,6 @@ import {
   generateProjectRoot,
   generateSimpleProjectName,
   getBuildTargetName,
-  kotlinVersion,
   mavenCompilerPluginVersion,
   mavenEnforcerPluginVersion,
   mavenFailsafePluginVersion,
@@ -30,7 +29,6 @@ import {
 } from '@nx/devkit';
 import * as path from 'path';
 import {
-  addMissedProperties,
   addProjectToAggregator,
   getAggregatorProjectRoot,
   getMavenRootDirectory,
@@ -163,21 +161,6 @@ async function parentProjectGenerator(
   options: NxMavenParentProjectGeneratorSchema,
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
-
-  const language =
-    options.language === 'kotlin' || options.language === 'java-kotlin'
-      ? 'kotlin'
-      : 'java';
-
-  addMissedProperties(tree, {
-    language: language,
-    framework: options.framework,
-    kotlinVersion: kotlinVersion,
-    springBootVersion: springBootVersion,
-    quarkusVersion: quarkusVersion,
-    micronautVersion: micronautVersion,
-    mavenRootDirectory: normalizedOptions.mavenRootDirectory,
-  });
 
   addProjectConfiguration(tree, normalizedOptions.projectName, {
     root: normalizedOptions.projectRoot,

@@ -15,6 +15,14 @@ export type DependencyManagementType =
   | 'none'
   | 'spring-boot-parent-pom'
   | 'micronaut-parent-pom';
+
+export type FrameworkType2 =
+  | 'none'
+  | 'spring-boot-parent-pom'
+  | 'spring-boot-bom'
+  | 'quarkus-bom'
+  | 'micronaut-parent-pom'
+  | 'micronaut-bom';
 export type VersionManagementType = 'properties' | 'version-catalog';
 export interface TemplateOptionsType {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
