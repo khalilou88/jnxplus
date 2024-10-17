@@ -170,7 +170,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     expect(
       depGraphJson.graph.nodes[parentProjectName].data.targets.build.options
         .task,
-    ).toEqual('install -N');
+    ).toEqual('install');
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
       output.includes(`Tomcat started on port 8080`),
