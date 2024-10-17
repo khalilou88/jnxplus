@@ -28,6 +28,8 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
 
+  const aggregatorProjectName = uniq('aggregator-project-');
+
   const parentProjectName = uniq('parent-project-');
 
   beforeAll(async () => {
@@ -42,7 +44,11 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:init --aggregatorProjectName ${parentProjectName} --dependencyManagement spring-boot-parent-pom`,
+      `generate @jnxplus/nx-maven:init --aggregatorProjectName ${aggregatorProjectName}`,
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${parentProjectName} --aggregatorProjectName ${aggregatorProjectName} --dependencyManagement spring-boot-parent-pom`,
     );
   }, 240000);
 
@@ -198,7 +204,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     const port = 8181;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework spring-boot --tags e2etag,e2ePackage --directory ${appDir} --groupId com.j-nx-plus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port} --simplePackageName false --simpleName false`,
+      `generate @jnxplus/nx-maven:application ${randomName} --framework spring-boot --parent-project ${parentProjectName} --tags e2etag,e2ePackage --directory ${appDir} --groupId com.j-nx-plus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port} --simplePackageName false --simpleName false`,
     );
 
     expect(() =>
