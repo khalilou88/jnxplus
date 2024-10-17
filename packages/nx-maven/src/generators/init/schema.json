@@ -56,29 +56,6 @@
       "description": "Where Maven Wrapper (if not skipped), config files and projects are placed",
       "x-prompt": "Where do you want Maven Wrapper (if not skipped), config files and projects to be placed?"
     },
-    "dependencyManagement": {
-      "description": "Dependency Management",
-      "type": "string",
-      "default": "none",
-      "x-prompt": {
-        "message": "How to manage dependencies?",
-        "type": "list",
-        "items": [
-          {
-            "value": "none",
-            "label": "I will generate later a parent project and keep the root project for modules aggregation"
-          },
-          {
-            "value": "spring-boot-parent-pom",
-            "label": "I want to add Spring Boot parent POM to root POM.xml"
-          },
-          {
-            "value": "micronaut-parent-pom",
-            "label": "I want to add Micronaut parent POM to root POM.xml"
-          }
-        ]
-      }
-    },
     "skipWrapper": {
       "description": "Don't generate Maven Wrapper",
       "type": "boolean",
@@ -121,7 +98,6 @@
     "aggregatorProjectName",
     "aggregatorProjectVersion",
     "mavenRootDirectory",
-    "dependencyManagement",
     "localRepoRelativePath"
   ]
 }

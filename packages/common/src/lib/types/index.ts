@@ -14,11 +14,6 @@ export type PresetType = 'spring-boot' | 'quarkus' | 'micronaut' | 'none';
 export type DependencyManagementType =
   | 'none'
   | 'spring-boot-parent-pom'
-  | 'micronaut-parent-pom';
-
-export type FrameworkType2 =
-  | 'none'
-  | 'spring-boot-parent-pom'
   | 'spring-boot-bom'
   | 'quarkus-bom'
   | 'micronaut-parent-pom'
