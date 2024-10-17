@@ -53,11 +53,13 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
   }, 240000);
 
   afterAll(async () => {
-    // Cleanup the test project
-    rmSync(workspaceDirectory, {
-      recursive: true,
-      force: true,
-    });
+    if (process.env['SKIP_E2E_CLEANUP'] === 'true') {
+      // Cleanup the test project
+      rmSync(workspaceDirectory, {
+        recursive: true,
+        force: true,
+      });
+    }
   });
 
   it('should set NX_VERBOSE_LOGGING to true', async () => {
