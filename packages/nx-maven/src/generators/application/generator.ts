@@ -16,6 +16,7 @@ import {
   getTestTargetName,
   isCustomPortFunction,
   parseTags,
+  quarkusVersion,
 } from '@jnxplus/common';
 import {
   ProjectConfiguration,
@@ -42,6 +43,7 @@ export default async function (tree: Tree, options: NxMavenAppGeneratorSchema) {
 }
 
 interface NormalizedSchema extends NxMavenAppGeneratorSchema {
+  quarkusVersion: string;
   projectName: string;
   projectRoot: string;
   projectDirectory: string;
@@ -126,6 +128,7 @@ function normalizeOptions(
 
   return {
     ...options,
+    quarkusVersion,
     projectName,
     projectRoot,
     projectDirectory,
