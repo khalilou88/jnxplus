@@ -141,6 +141,13 @@ function updateNxJson(tree: Tree, options: NormalizedSchema) {
     };
   }
 
+  if (options.buildTargetName && options.buildTargetName !== 'build') {
+    pluginOptions = {
+      ...pluginOptions,
+      buildTargetName: options.buildTargetName,
+    };
+  }
+
   let plugin: string | object;
   if (pluginOptions) {
     plugin = {
