@@ -23,6 +23,7 @@
     </parent>
 <% } -%>
 
+<% if(dependencyManagement !== 'none') { -%>
     <properties>
         <java.version><%= javaVersion %></java.version>
 <% if(dependencyManagement === 'micronaut-parent-pom') { -%>
@@ -30,6 +31,6 @@
         <release.version>${java.version}</release.version>
 <% } -%>
     </properties>
-
+<% } -%>
 
 </project>
