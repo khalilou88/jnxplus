@@ -55,6 +55,11 @@
 
 <% if(dependencyManagement === 'spring-boot-bom') { -%>
   <properties>
+    <java.version><%= javaVersion %></java.version>
+    <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
+      <kotlin.version><%= kotlinVersion %></kotlin.version>
+    <% } -%>
+    <spring.boot.version><%= springBootVersion %></spring.boot.version>
     <resource.delimiter>@</resource.delimiter>
     <maven.compiler.release>${java.version}</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
