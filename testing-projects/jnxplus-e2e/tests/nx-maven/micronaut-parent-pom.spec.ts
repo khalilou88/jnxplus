@@ -171,7 +171,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     expect(
       depGraphJson.graph.nodes[parentProjectName].data.targets.build.options
         .task,
-    ).toEqual('install -N');
+    ).toEqual('install');
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
       output.includes(`Server Running: http://localhost:8080`),
