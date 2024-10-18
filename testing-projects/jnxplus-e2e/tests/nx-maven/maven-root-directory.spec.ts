@@ -64,6 +64,10 @@ describe('nx-maven maven-root-directory e2e', () => {
   afterAll(async () => {
     if (process.env['SKIP_E2E_CLEANUP'] !== 'true') {
       // Cleanup the test project
+      rmSync(workspaceDirectory, {
+        recursive: true,
+        force: true,
+      });
     }
   });
 
