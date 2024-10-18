@@ -53,11 +53,11 @@ describe('nx-maven maven-root-directory e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${quarkusParentProjectName} --dependencyManagement quarkus-bom`,
+      `generate @jnxplus/nx-maven:parent-project ${quarkusParentProjectName} --dependencyManagement quarkus-bom --language kotlin`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${micronautParentProjectName} --dependencyManagement micronaut-bom`,
+      `generate @jnxplus/nx-maven:parent-project ${micronautParentProjectName} --dependencyManagement micronaut-bom --language kotlin`,
     );
   }, 240000);
 
