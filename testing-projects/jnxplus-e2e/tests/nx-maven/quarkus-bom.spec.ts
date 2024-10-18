@@ -88,7 +88,7 @@ describe('nx-maven quarkus bom e2e', () => {
     const appName = uniq('quarkus-maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework quarkus --groupId org.acme --parent-project ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:application ${appName} --parent-project ${parentProjectName} --framework quarkus --groupId org.acme`,
     );
 
     expect(() =>
