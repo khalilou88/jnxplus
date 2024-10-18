@@ -49,7 +49,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${springBootParentProjectName} --dependencyManagement spring-boot-bom`,
+      `generate @jnxplus/nx-maven:parent-project ${springBootParentProjectName} --dependencyManagement spring-boot-bom --language kotlin`,
     );
 
     await runNxCommandAsync(
