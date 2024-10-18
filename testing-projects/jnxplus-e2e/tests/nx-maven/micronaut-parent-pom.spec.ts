@@ -1642,7 +1642,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
   it('should generate java app inside a parent project', async () => {
     const parentProject = uniq('parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${parentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${parentProject} --parent-project ${parentProjectName}`,
     );
 
     const randomName = uniq('micronaut-maven-app-');
@@ -1681,32 +1681,27 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
   }, 240000);
 
   it('should generate java nested sub-projects', async () => {
-    const appsParentProject = uniq('apps-parent-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`,
-    );
-
     const appName = uniq('micronaut-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject} --simplePackageName false`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --simpleName --parent-project ${parentProjectName} --directory ${parentProjectName} --simplePackageName false`,
     );
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --simpleName --parent-project ${parentProjectName} --directory ${parentProjectName}`,
     );
 
     const secondAppName = uniq('micronaut-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${secondAppName} --framework micronaut --simpleName --parent-project ${secondParentProject} --directory ${appsParentProject}/${secondParentProject} --simplePackageName false`,
+      `generate @jnxplus/nx-maven:application ${secondAppName} --framework micronaut --simpleName --parent-project ${secondParentProject} --directory ${parentProjectName}/${secondParentProject} --simplePackageName false`,
     );
     const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
     expect(secondBuildResult.stdout).toContain('Executor ran for Build');
 
     const thirdParentProject = uniq('apps-parent-project-');
-    const parentProjectDir = `${appsParentProject}/${secondParentProject}/deep/subdir`;
+    const parentProjectDir = `${parentProjectName}/${secondParentProject}/deep/subdir`;
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:parent-project ${thirdParentProject} --simpleName --parent-project ${secondParentProject} --directory ${parentProjectDir}`,
     );
@@ -1723,8 +1718,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const projectJson1 = path.join(
       localTmpDir,
       'proj',
-
-      appsParentProject,
+      parentProjectName,
       'project.json',
     );
     rmSync(projectJson1);
@@ -1735,23 +1729,23 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
       'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
-    expect(depGraphJson.graph.dependencies[appsParentProject]).toContainEqual({
+    expect(depGraphJson.graph.dependencies[parentProjectName]).toContainEqual({
       type: 'static',
-      source: appsParentProject,
-      target: parentProjectName,
+      source: parentProjectName,
+      target: aggregatorProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: appsParentProject,
+      target: parentProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[secondParentProject]).toContainEqual(
       {
         type: 'static',
         source: secondParentProject,
-        target: appsParentProject,
+        target: parentProjectName,
       },
     );
 
