@@ -684,7 +684,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
       'proj',
       `.m2/repository/com/example/${libName}/0.0.1-SNAPSHOT`,
     );
-    rmSync(outputDirLocalRepo);
+    rmSync(outputDirLocalRepo, { recursive: true, force: true });
     expect(() => checkFilesExist(`${libName}/target`)).toThrow();
     expect(() =>
       checkFilesExist(`.m2/repository/com/example/${libName}/0.0.1-SNAPSHOT`),
