@@ -1,6 +1,7 @@
-import { FrameworkType, ProjectType } from '@jnxplus/common';
+import { DependencyManagementType, ProjectType } from '@jnxplus/common';
 
 export interface NxMavenParentProjectGeneratorSchema {
+  javaVersion: string | number;
   name: string;
   tags?: string;
   directory?: string;
@@ -10,7 +11,7 @@ export interface NxMavenParentProjectGeneratorSchema {
   projectVersion?: string;
   parentProject: string;
   aggregatorProject?: string;
-  framework?: FrameworkType;
-  language: 'java' | 'kotlin' | 'java-kotlin';
+  dependencyManagement?: DependencyManagementType;
+  language: 'java' | 'kotlin' | 'java & kotlin';
   skipFormat?: boolean;
 }

@@ -186,7 +186,7 @@ Default: `root project`
 
 Type: `string`
 
-ArtifactId of the parent project or leave it blank for the root project
+ArtifactId of the parent project
 
 ## @jnxplus/nx-maven:library
 
@@ -302,7 +302,7 @@ Default: `root project`
 
 Type: `string`
 
-ArtifactId of the parent project or leave it blank for the root project
+ArtifactId of the parent project
 
 ## @jnxplus/nx-maven:parent-project
 
@@ -366,7 +366,7 @@ Default: `root project`
 
 Type: `string`
 
-ArtifactId of the parent project or leave it blank for the root project
+ArtifactId of the parent project
 
 ## @jnxplus/nx-maven:wrapper
 

@@ -9,15 +9,67 @@
 	<name><%= projectName %></name>
 	<description>This project was generated with nx-maven</description>
 
+<% if(parentProjectName) { -%>
   <parent>
 		<groupId><%= parentGroupId %></groupId>
 		<artifactId><%= parentProjectName %></artifactId>
 		<version><%= parentProjectVersion %></version>
     <relativePath><%= relativePath %></relativePath>
 	</parent>
+<% } -%>
 
-<% if(framework === 'spring-boot') { -%>
+
+<% if(dependencyManagement === 'none') { -%>
+    <properties>
+        <java.version><%= javaVersion %></java.version>
+        <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
+            <kotlin.version><%= kotlinVersion %></kotlin.version>
+        <% } -%>
+    </properties>
+<% } -%>
+
+
+<% if(dependencyManagement === 'spring-boot-parent-pom') { -%>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version><%= springBootVersion %></version>
+        <relativePath/>
+    </parent>
+
+    <properties>
+        <java.version><%= javaVersion %></java.version>
+        <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
+            <kotlin.version><%= kotlinVersion %></kotlin.version>
+        <% } -%>
+    </properties>
+<% } -%>
+
+<% if(dependencyManagement === 'micronaut-parent-pom') { -%>
+    <parent>
+        <groupId>io.micronaut.platform</groupId>
+        <artifactId>micronaut-parent</artifactId>
+        <version><%= micronautVersion %></version>
+        <relativePath/>
+    </parent>
+
+    <properties>
+        <java.version><%= javaVersion %></java.version>
+        <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
+            <kotlin.version><%= kotlinVersion %></kotlin.version>
+        <% } -%>
+        <jdk.version>${java.version}</jdk.version>
+        <release.version>${java.version}</release.version>
+    </properties>
+<% } -%>
+
+<% if(dependencyManagement === 'spring-boot-bom') { -%>
   <properties>
+    <java.version><%= javaVersion %></java.version>
+    <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
+      <kotlin.version><%= kotlinVersion %></kotlin.version>
+    <% } -%>
+    <spring.boot.version><%= springBootVersion %></spring.boot.version>
     <resource.delimiter>@</resource.delimiter>
     <maven.compiler.release>${java.version}</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -72,7 +124,7 @@
           </configuration>
         </plugin>
 
-<% if(language === 'kotlin' || language === 'java-kotlin') { -%>
+<% if(language === 'kotlin' || language === 'java & kotlin') { -%>
         <plugin>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-maven-plugin</artifactId>
@@ -126,8 +178,13 @@
   </build>
 <% } -%>
 
-<% if(framework === 'quarkus') { -%>
+<% if(dependencyManagement === 'quarkus-bom') { -%>
   <properties>
+    <java.version><%= javaVersion %></java.version>
+    <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
+      <kotlin.version><%= kotlinVersion %></kotlin.version>
+    <% } -%>
+    <quarkus.version><%= quarkusVersion %></quarkus.version>
     <maven.compiler.release>${java.version}</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -169,8 +226,13 @@
   </build>
 <% } -%>
 
-<% if(framework === 'micronaut') { -%>
+<% if(dependencyManagement === 'micronaut-bom') { -%>
   <properties>
+      <java.version><%= javaVersion %></java.version>
+    <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
+      <kotlin.version><%= kotlinVersion %></kotlin.version>
+    <% } -%>
+      <micronaut.version><%= micronautVersion %></micronaut.version>
       <jdk.version>${java.version}</jdk.version>
       <release.version>${java.version}</release.version>
       <maven.compiler.source>${java.version}</maven.compiler.source>

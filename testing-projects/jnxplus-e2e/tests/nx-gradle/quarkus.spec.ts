@@ -19,9 +19,7 @@ import {
 } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
 import { rmSync } from 'fs';
-import * as fse from 'fs-extra';
 import * as path from 'path';
-
 describe('nx-gradle quarkus e2e', () => {
   let workspaceDirectory: string;
   const isCI =
@@ -125,7 +123,7 @@ describe('nx-gradle quarkus e2e', () => {
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', appName, 'build');
-    fse.removeSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/build`)).not.toThrow();
@@ -383,7 +381,7 @@ describe('nx-gradle quarkus e2e', () => {
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', appName, 'build');
-    fse.removeSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/build`)).not.toThrow();
@@ -587,7 +585,7 @@ describe('nx-gradle quarkus e2e', () => {
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', libName, 'build');
-    fse.removeSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/build`)).not.toThrow();
@@ -655,7 +653,7 @@ describe('nx-gradle quarkus e2e', () => {
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', libName, 'build');
-    fse.removeSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/build`)).not.toThrow();

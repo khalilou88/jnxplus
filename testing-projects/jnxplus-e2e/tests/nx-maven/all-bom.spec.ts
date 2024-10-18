@@ -12,6 +12,8 @@ import { rmSync } from 'fs';
 describe('nx-maven all bom e2e', () => {
   let workspaceDirectory: string;
 
+  const aggregatorProjectName = uniq('aggregator-project-');
+
   const parentProjectName = uniq('parent-project-');
 
   beforeAll(async () => {
@@ -26,16 +28,22 @@ describe('nx-maven all bom e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:init --aggregatorProjectName ${aggregatorProjectName}`,
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${parentProjectName} --aggregatorProjectName ${aggregatorProjectName} --language kotlin`,
     );
   }, 240000);
 
   afterAll(async () => {
-    // Cleanup the test project
-    rmSync(workspaceDirectory, {
-      recursive: true,
-      force: true,
-    });
+    if (process.env['SKIP_E2E_CLEANUP'] !== 'true') {
+      // Cleanup the test project
+      rmSync(workspaceDirectory, {
+        recursive: true,
+        force: true,
+      });
+    }
   });
 
   it('should set NX_VERBOSE_LOGGING to true', async () => {
@@ -65,7 +73,7 @@ describe('nx-maven all bom e2e', () => {
     const appName = uniq('maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework none --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${parentProjectName} --framework none`,
     );
 
     expect(() =>
@@ -105,7 +113,7 @@ describe('nx-maven all bom e2e', () => {
     const appName = uniq('maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework none --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${parentProjectName} --framework none`,
     );
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -116,7 +124,7 @@ describe('nx-maven all bom e2e', () => {
     const appName = uniq('maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework none --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${parentProjectName} --framework none`,
     );
     const serveResult = await runNxCommandAsync(`serve ${appName}`);
     expect(serveResult.stdout).toContain('Executor ran for Serve');
@@ -127,7 +135,7 @@ describe('nx-maven all bom e2e', () => {
     const appName = uniq('maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework none --language kotlin --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${parentProjectName} --framework none --language kotlin`,
     );
 
     expect(() =>
@@ -165,7 +173,7 @@ describe('nx-maven all bom e2e', () => {
     const libName = uniq('maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework none --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:library ${libName} --parentProject ${parentProjectName} --framework none`,
     );
 
     expect(() =>
@@ -199,7 +207,7 @@ describe('nx-maven all bom e2e', () => {
     const libName = uniq('maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework none --language kotlin --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:library ${libName} --parentProject ${parentProjectName} --framework none --language kotlin`,
     );
 
     expect(() =>

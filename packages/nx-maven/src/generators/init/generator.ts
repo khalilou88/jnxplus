@@ -1,12 +1,9 @@
 import {
   getPluginVersion,
-  micronautVersion,
   prettierPluginJavaVersion,
   prettierPluginXmlVersion,
   prettierVersion,
   prettierrcNameOptions,
-  quarkusVersion,
-  springBootVersion,
   updateNxJsonConfiguration,
 } from '@jnxplus/common';
 import {
@@ -28,9 +25,6 @@ import { NxMavenInitGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends NxMavenInitGeneratorSchema {
   dot: string;
-  springBootVersion: string;
-  quarkusVersion: string;
-  micronautVersion: string;
 }
 
 function normalizeOptions(
@@ -42,9 +36,6 @@ function normalizeOptions(
   return {
     ...options,
     dot,
-    springBootVersion,
-    quarkusVersion,
-    micronautVersion,
   };
 }
 
@@ -97,7 +88,7 @@ export async function initGenerator(
 
     addProjectConfiguration(
       tree,
-      normalizedOptions.parentProjectName,
+      normalizedOptions.aggregatorProjectName,
       projectConfiguration,
     );
   }
@@ -150,6 +141,13 @@ function updateNxJson(tree: Tree, options: NormalizedSchema) {
     };
   }
 
+  if (options.buildTargetName && options.buildTargetName !== 'build') {
+    pluginOptions = {
+      ...pluginOptions,
+      buildTargetName: options.buildTargetName,
+    };
+  }
+
   let plugin: string | object;
   if (pluginOptions) {
     plugin = {
@@ -161,10 +159,20 @@ function updateNxJson(tree: Tree, options: NormalizedSchema) {
   }
 
   updateJson(tree, 'nx.json', (nxJson) => {
+    nxJson.targetDefaults = {
+      ...nxJson.targetDefaults,
+      [options.buildTargetName]: {
+        cache: true,
+        dependsOn: [`^${options.buildTargetName}`],
+        inputs: ['production', '^production'],
+      },
+    };
+
     // if plugins is undefined, set it to an empty array
     nxJson.plugins = nxJson.plugins ?? [];
     // add plugin
     nxJson.plugins.push(plugin);
+
     // return modified JSON object
     return nxJson;
   });

@@ -8,12 +8,8 @@ import {
   generateSimpleProjectName,
   getBuildTargetName,
   getTestTargetName,
-  kotlinVersion,
-  micronautVersion,
   parseProjects,
   parseTags,
-  quarkusVersion,
-  springBootVersion,
 } from '@jnxplus/common';
 import {
   ProjectConfiguration,
@@ -28,7 +24,6 @@ import {
 import * as path from 'path';
 import {
   addLibraryToProjects,
-  addMissedProperties,
   addProjectToAggregator,
   getAggregatorProjectRoot,
   getMavenRootDirectory,
@@ -53,9 +48,6 @@ interface NormalizedSchema extends NxMavenLibGeneratorSchema {
   parentProjectName: string;
   parentProjectVersion: string;
   relativePath: string;
-  springBootVersion: string;
-  quarkusVersion: string;
-  micronautVersion: string;
   mavenRootDirectory: string;
   buildTargetName: string;
   testTargetName: string;
@@ -126,9 +118,6 @@ function normalizeOptions(
     parentProjectName,
     parentProjectVersion,
     relativePath,
-    springBootVersion,
-    quarkusVersion,
-    micronautVersion,
     mavenRootDirectory,
     buildTargetName,
     testTargetName,
@@ -302,16 +291,6 @@ async function libraryGenerator(
   options: NxMavenLibGeneratorSchema,
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
-
-  addMissedProperties(tree, {
-    language: options.language,
-    framework: options.framework,
-    kotlinVersion: kotlinVersion,
-    springBootVersion: springBootVersion,
-    quarkusVersion: quarkusVersion,
-    micronautVersion: micronautVersion,
-    mavenRootDirectory: normalizedOptions.mavenRootDirectory,
-  });
 
   const projectConfiguration: ProjectConfiguration = {
     root: normalizedOptions.projectRoot,

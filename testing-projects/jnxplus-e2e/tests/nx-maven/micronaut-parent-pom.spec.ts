@@ -18,7 +18,6 @@ import {
 } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
 import { rmSync } from 'fs';
-import * as fse from 'fs-extra';
 import * as path from 'path';
 
 describe('nx-maven micronaut-parent-pom e2e', () => {
@@ -28,6 +27,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
   const isWin = process.platform === 'win32';
   const isMacOs = process.platform === 'darwin';
 
+  const aggregatorProjectName = uniq('aggregator-project-');
   const parentProjectName = uniq('parent-project-');
 
   beforeAll(async () => {
@@ -42,16 +42,22 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     });
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:init --parentProjectName ${parentProjectName} --dependencyManagement micronaut-parent-pom`,
+      `generate @jnxplus/nx-maven:init --aggregatorProjectName ${aggregatorProjectName}`,
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${parentProjectName} --aggregatorProjectName ${aggregatorProjectName} --dependencyManagement micronaut-parent-pom --language kotlin`,
     );
   }, 240000);
 
   afterAll(async () => {
-    // Cleanup the test project
-    rmSync(workspaceDirectory, {
-      recursive: true,
-      force: true,
-    });
+    if (process.env['SKIP_E2E_CLEANUP'] !== 'true') {
+      // Cleanup the test project
+      rmSync(workspaceDirectory, {
+        recursive: true,
+        force: true,
+      });
+    }
   });
 
   it('should set NX_VERBOSE_LOGGING to true', async () => {
@@ -81,7 +87,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const appName = uniq('micronaut-maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut`,
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${parentProjectName} --framework micronaut`,
     );
 
     expect(() =>
@@ -116,7 +122,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
-    fse.removeSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
@@ -164,7 +170,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     expect(
       depGraphJson.graph.nodes[parentProjectName].data.targets.build.options
         .task,
-    ).toEqual('install -N');
+    ).toEqual('install');
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
       output.includes(`Server Running: http://localhost:8080`),
@@ -182,7 +188,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('micronaut-maven-app-');
       await runNxCommandAsync(
-        `generate @jnxplus/nx-maven:application ${appName} --framework micronaut`,
+        `generate @jnxplus/nx-maven:application ${appName} --parentProject ${parentProjectName} --framework micronaut`,
       );
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`,
@@ -198,7 +204,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const port = 8181;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework micronaut --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port} --simplePackageName false --simpleName false`,
+      `generate @jnxplus/nx-maven:application ${randomName} --parentProject ${parentProjectName} --framework micronaut --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port} --simplePackageName false --simpleName false`,
     );
 
     expect(() =>
@@ -274,7 +280,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const port = 8282;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin --port ${port}`,
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${parentProjectName} --framework micronaut --language kotlin --port ${port}`,
     );
 
     expect(() =>
@@ -305,7 +311,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
-    fse.removeSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
@@ -349,7 +355,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     if (!isWin && !isMacOs && isCI) {
       const appName = uniq('micronaut-maven-app-');
       await runNxCommandAsync(
-        `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin`,
+        `generate @jnxplus/nx-maven:application ${appName} --parentProject ${parentProjectName} --framework micronaut --language kotlin`,
       );
       const buildImageResult = await runNxCommandAsync(
         `build-image ${appName}`,
@@ -365,7 +371,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const port = 8383;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-maven:app ${randomName} --framework micronaut --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml --port ${port} --simplePackageName false --simpleName false`,
+      `g @jnxplus/nx-maven:app ${randomName} --parentProject ${parentProjectName} --framework micronaut --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --v 1.2.3 --packaging war --configFormat .yml --port ${port} --simplePackageName false --simpleName false`,
     );
 
     expect(() =>
@@ -444,7 +450,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const port = 8484;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-maven:app ${randomName} --framework micronaut --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --simplePackageName --simpleName false --v 1.2.3 --packaging war --configFormat .yml --port ${port}`,
+      `g @jnxplus/nx-maven:app ${randomName} --parentProject ${parentProjectName} --framework micronaut --t e2etag,e2ePackage --dir ${appDir} --groupId com.jnxplus --simplePackageName --simpleName false --v 1.2.3 --packaging war --configFormat .yml --port ${port}`,
     );
 
     expect(() =>
@@ -521,7 +527,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const port = 8585;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework micronaut --directory deep/sub-dir --port ${port} --simplePackageName false --simpleName false`,
+      `generate @jnxplus/nx-maven:application ${randomName} --parentProject ${parentProjectName} --framework micronaut --directory deep/sub-dir --port ${port} --simplePackageName false --simpleName false`,
     );
 
     //graph
@@ -554,7 +560,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut`,
+      `generate @jnxplus/nx-maven:library ${libName} --parentProject ${parentProjectName} --framework micronaut`,
     );
 
     expect(() =>
@@ -580,7 +586,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
-    fse.removeSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
@@ -615,7 +621,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --language kotlin`,
+      `generate @jnxplus/nx-maven:library ${libName} --parentProject ${parentProjectName} --framework micronaut --language kotlin`,
     );
 
     expect(() =>
@@ -641,7 +647,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
-    fse.removeSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
@@ -676,7 +682,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${randomName} --framework micronaut --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3 --simplePackageName false --simpleName false`,
+      `generate @jnxplus/nx-maven:library ${randomName} --parentProject ${parentProjectName} --framework micronaut --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3 --simplePackageName false --simpleName false`,
     );
 
     expect(() =>
@@ -736,7 +742,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const libName = `${normalizeName(libDir)}-${randomName}`;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${randomName} --framework micronaut --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --simpleName false --projectVersion 1.2.3`,
+      `generate @jnxplus/nx-maven:library ${randomName} --parentProject ${parentProjectName} --framework micronaut --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --simplePackageName --simpleName false --projectVersion 1.2.3`,
     );
 
     expect(() =>
@@ -796,7 +802,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const libName = `${libDir}-${randomName}`;
 
     await runNxCommandAsync(
-      `g @jnxplus/nx-maven:lib ${randomName} --framework micronaut --dir ${libDir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3 --simplePackageName false --simpleName false`,
+      `g @jnxplus/nx-maven:lib ${randomName} --parentProject ${parentProjectName} --framework micronaut --dir ${libDir} --t e2etag,e2ePackage --groupId com.jnxplus --v 1.2.3 --simplePackageName false --simpleName false`,
     );
 
     expect(() =>
@@ -855,11 +861,11 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut`,
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${parentProjectName} --framework micronaut`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --projects ${appName}`,
+      `generate @jnxplus/nx-maven:library ${libName} --parentProject ${parentProjectName} --framework micronaut --projects ${appName}`,
     );
 
     // Making sure the app pom.xml file contains the lib
@@ -932,11 +938,11 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin --packaging war`,
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${parentProjectName} --framework micronaut --language kotlin --packaging war`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --language kotlin --projects ${appName}`,
+      `generate @jnxplus/nx-maven:library ${libName} --parentProject ${parentProjectName} --framework micronaut --language kotlin --projects ${appName}`,
     );
 
     // Making sure the app pom.xml file contains the lib
@@ -1006,7 +1012,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut`,
+      `generate @jnxplus/nx-maven:library ${libName} --parentProject ${parentProjectName} --framework micronaut`,
     );
 
     const regex = /<dependencies>[\s\S]*?<\/dependencies>/;
@@ -1031,23 +1037,18 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
   }, 240000);
 
   it('should generate java apps that use a parent project', async () => {
-    const appsParentProject = uniq('apps-parent-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`,
-    );
-
     const randomName = uniq('micronaut-maven-app-');
     const appDir = 'dir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework micronaut --parent-project ${appsParentProject} --directory ${appDir} --simplePackageName false --simpleName false`,
+      `generate @jnxplus/nx-maven:application ${randomName} --framework micronaut --parent-project ${parentProjectName} --directory ${appDir} --simplePackageName false --simpleName false`,
     );
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --parent-project ${parentProjectName}`,
     );
 
     const secondAppName = uniq('micronaut-maven-app-');
@@ -1081,23 +1082,23 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
       'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
-    expect(depGraphJson.graph.dependencies[appsParentProject]).toContainEqual({
+    expect(depGraphJson.graph.dependencies[parentProjectName]).toContainEqual({
       type: 'static',
-      source: appsParentProject,
-      target: parentProjectName,
+      source: parentProjectName,
+      target: aggregatorProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: appsParentProject,
+      target: parentProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[secondParentProject]).toContainEqual(
       {
         type: 'static',
         source: secondParentProject,
-        target: appsParentProject,
+        target: parentProjectName,
       },
     );
 
@@ -1121,23 +1122,18 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
   }, 240000);
 
   it('should generate kotlin apps that use a parent project', async () => {
-    const appsParentProject = uniq('apps-parent-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`,
-    );
-
     const randomName = uniq('micronaut-maven-app-');
     const appDir = 'dir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --framework micronaut --parent-project ${appsParentProject} --directory ${appDir} --language kotlin --simplePackageName false --simpleName false`,
+      `generate @jnxplus/nx-maven:application ${randomName} --framework micronaut --parent-project ${parentProjectName} --directory ${appDir} --language kotlin --simplePackageName false --simpleName false`,
     );
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --parent-project ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --parent-project ${parentProjectName}`,
     );
 
     const secondAppName = uniq('micronaut-maven-app-');
@@ -1171,23 +1167,23 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
       'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
-    expect(depGraphJson.graph.dependencies[appsParentProject]).toContainEqual({
+    expect(depGraphJson.graph.dependencies[parentProjectName]).toContainEqual({
       type: 'static',
-      source: appsParentProject,
-      target: parentProjectName,
+      source: parentProjectName,
+      target: aggregatorProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: appsParentProject,
+      target: parentProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[secondParentProject]).toContainEqual(
       {
         type: 'static',
         source: secondParentProject,
-        target: appsParentProject,
+        target: parentProjectName,
       },
     );
 
@@ -1211,16 +1207,10 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
   }, 240000);
 
   it('should generate java libs that use a parent project', async () => {
-    const libsParentProject = uniq('libs-parent-project-');
-
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`,
-    );
-
     const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --parent-project ${libsParentProject}`,
+      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --parent-project ${parentProjectName}`,
     );
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
@@ -1229,7 +1219,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const secondParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library --parent-project ${libsParentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --parent-project ${parentProjectName}`,
     );
 
     const randomName = uniq('micronaut-maven-lib-');
@@ -1267,23 +1257,18 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
       'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
-    expect(depGraphJson.graph.dependencies[libsParentProject]).toContainEqual({
-      type: 'static',
-      source: libsParentProject,
-      target: parentProjectName,
-    });
 
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: libsParentProject,
+      target: parentProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[secondParentProject]).toContainEqual(
       {
         type: 'static',
         source: secondParentProject,
-        target: libsParentProject,
+        target: parentProjectName,
       },
     );
 
@@ -1307,16 +1292,10 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
   }, 240000);
 
   it('should generate kotlin libs that use a parent project', async () => {
-    const libsParentProject = uniq('libs-parent-project-');
-
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library`,
-    );
-
     const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --parent-project ${libsParentProject} --language kotlin`,
+      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --parent-project ${parentProjectName} --language kotlin`,
     );
 
     const buildResult = await runNxCommandAsync(`build ${libName}`);
@@ -1325,7 +1304,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const secondParentProject = uniq('libs-parent-project-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library --parent-project ${libsParentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --projectType library --parent-project ${parentProjectName}`,
     );
 
     const randomName = uniq('micronaut-maven-lib-');
@@ -1363,23 +1342,18 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
       'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
-    expect(depGraphJson.graph.dependencies[libsParentProject]).toContainEqual({
-      type: 'static',
-      source: libsParentProject,
-      target: parentProjectName,
-    });
 
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: libsParentProject,
+      target: parentProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[secondParentProject]).toContainEqual(
       {
         type: 'static',
         source: secondParentProject,
-        target: libsParentProject,
+        target: parentProjectName,
       },
     );
 
@@ -1408,7 +1382,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const port = 8686;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port} --simplePackageName false`,
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${parentProjectName} --framework micronaut --simpleName --tags e2etag,e2ePackage --directory ${appDir} --groupId com.jnxplus --projectVersion 1.2.3 --packaging war --configFormat .yml --port ${port} --simplePackageName false`,
     );
 
     expect(() =>
@@ -1484,7 +1458,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const libDir = 'deep/subdir';
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3 --simplePackageName false`,
+      `generate @jnxplus/nx-maven:library ${libName} --parentProject ${parentProjectName} --framework micronaut --simpleName --directory ${libDir} --tags e2etag,e2ePackage --groupId com.jnxplus --projectVersion 1.2.3 --simplePackageName false`,
     );
 
     expect(() =>
@@ -1543,7 +1517,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const port = 8787;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --minimal --port ${port}`,
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${parentProjectName} --framework micronaut --minimal --port ${port}`,
     );
 
     expect(() =>
@@ -1584,7 +1558,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const port = 8888;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin --minimal --port ${port}`,
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${parentProjectName} --framework micronaut --language kotlin --minimal --port ${port}`,
     );
 
     expect(() =>
@@ -1624,7 +1598,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --skipStarterCode`,
+      `generate @jnxplus/nx-maven:library ${libName} --parentProject ${parentProjectName} --framework micronaut --skipStarterCode`,
     );
 
     expect(() => checkFilesExist(`${libName}/pom.xml`)).not.toThrow();
@@ -1646,7 +1620,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --language kotlin --skipStarterCode`,
+      `generate @jnxplus/nx-maven:library ${libName} --parentProject ${parentProjectName} --framework micronaut --language kotlin --skipStarterCode`,
     );
 
     expect(() => checkFilesExist(`${libName}/pom.xml`)).not.toThrow();
@@ -1668,7 +1642,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
   it('should generate java app inside a parent project', async () => {
     const parentProject = uniq('parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${parentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${parentProject} --parent-project ${parentProjectName}`,
     );
 
     const randomName = uniq('micronaut-maven-app-');
@@ -1707,32 +1681,27 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
   }, 240000);
 
   it('should generate java nested sub-projects', async () => {
-    const appsParentProject = uniq('apps-parent-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`,
-    );
-
     const appName = uniq('micronaut-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject} --simplePackageName false`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --simpleName --parent-project ${parentProjectName} --directory ${parentProjectName} --simplePackageName false`,
     );
     const buildResult = await runNxCommandAsync(`build ${appName}`);
     expect(buildResult.stdout).toContain('Executor ran for Build');
 
     const secondParentProject = uniq('apps-parent-project-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --simpleName --parent-project ${appsParentProject} --directory ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:parent-project ${secondParentProject} --simpleName --parent-project ${parentProjectName} --directory ${parentProjectName}`,
     );
 
     const secondAppName = uniq('micronaut-maven-app-');
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${secondAppName} --framework micronaut --simpleName --parent-project ${secondParentProject} --directory ${appsParentProject}/${secondParentProject} --simplePackageName false`,
+      `generate @jnxplus/nx-maven:application ${secondAppName} --framework micronaut --simpleName --parent-project ${secondParentProject} --directory ${parentProjectName}/${secondParentProject} --simplePackageName false`,
     );
     const secondBuildResult = await runNxCommandAsync(`build ${secondAppName}`);
     expect(secondBuildResult.stdout).toContain('Executor ran for Build');
 
     const thirdParentProject = uniq('apps-parent-project-');
-    const parentProjectDir = `${appsParentProject}/${secondParentProject}/deep/subdir`;
+    const parentProjectDir = `${parentProjectName}/${secondParentProject}/deep/subdir`;
     await runNxCommandAsync(
       `generate @jnxplus/nx-maven:parent-project ${thirdParentProject} --simpleName --parent-project ${secondParentProject} --directory ${parentProjectDir}`,
     );
@@ -1749,11 +1718,10 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const projectJson1 = path.join(
       localTmpDir,
       'proj',
-
-      appsParentProject,
+      parentProjectName,
       'project.json',
     );
-    fse.removeSync(projectJson1);
+    rmSync(projectJson1);
     const depGraphResult = await runNxCommandAsync(
       `dep-graph --file=dep-graph.json`,
     );
@@ -1761,23 +1729,23 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
       'Failed to process the project graph',
     );
     const depGraphJson = readJson('dep-graph.json');
-    expect(depGraphJson.graph.dependencies[appsParentProject]).toContainEqual({
+    expect(depGraphJson.graph.dependencies[parentProjectName]).toContainEqual({
       type: 'static',
-      source: appsParentProject,
-      target: parentProjectName,
+      source: parentProjectName,
+      target: aggregatorProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: appsParentProject,
+      target: parentProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[secondParentProject]).toContainEqual(
       {
         type: 'static',
         source: secondParentProject,
-        target: appsParentProject,
+        target: parentProjectName,
       },
     );
 

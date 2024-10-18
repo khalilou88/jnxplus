@@ -12,9 +12,12 @@ export type TargetsType = Record<string, TargetConfiguration>;
 export type FrameworkType = 'spring-boot' | 'quarkus' | 'micronaut' | 'none';
 export type PresetType = 'spring-boot' | 'quarkus' | 'micronaut' | 'none';
 export type DependencyManagementType =
-  | 'bom'
+  | 'none'
   | 'spring-boot-parent-pom'
-  | 'micronaut-parent-pom';
+  | 'spring-boot-bom'
+  | 'quarkus-bom'
+  | 'micronaut-parent-pom'
+  | 'micronaut-bom';
 export type VersionManagementType = 'properties' | 'version-catalog';
 export interface TemplateOptionsType {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

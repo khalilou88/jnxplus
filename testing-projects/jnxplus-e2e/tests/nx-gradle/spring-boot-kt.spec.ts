@@ -18,7 +18,6 @@ import {
 } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
 import { rmSync } from 'fs';
-import * as fse from 'fs-extra';
 import * as path from 'path';
 
 describe('nx-gradle spring-boot kotlin dsl e2e', () => {
@@ -47,11 +46,13 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
   }, 120000);
 
   afterAll(async () => {
-    // Cleanup the test project
-    rmSync(workspaceDirectory, {
-      recursive: true,
-      force: true,
-    });
+    if (process.env['SKIP_E2E_CLEANUP'] !== 'true') {
+      // Cleanup the test project
+      rmSync(workspaceDirectory, {
+        recursive: true,
+        force: true,
+      });
+    }
   });
 
   it('should set NX_VERBOSE_LOGGING to true', async () => {
@@ -132,7 +133,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', appName, 'build');
-    fse.removeSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/build`)).not.toThrow();
@@ -419,7 +420,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', appName, 'build');
-    fse.removeSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/build`)).not.toThrow();
@@ -627,7 +628,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', libName, 'build');
-    fse.removeSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/build`)).not.toThrow();
@@ -691,7 +692,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', libName, 'build');
-    fse.removeSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/build`)).not.toThrow();
@@ -1366,7 +1367,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     //graph
     const localTmpDir = path.dirname(tmpProjPath());
     const projectJson = path.join(localTmpDir, 'proj', libName, 'project.json');
-    fse.removeSync(projectJson);
+    rmSync(projectJson);
     const depGraphResult = await runNxCommandAsync(
       `dep-graph --file=dep-graph.json`,
     );
