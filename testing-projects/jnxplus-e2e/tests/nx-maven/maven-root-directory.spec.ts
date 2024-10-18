@@ -177,7 +177,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     const appName = uniq('maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework none --language kotlin --parentProject ${noneParentProjectName}`,
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${noneParentProjectName} --framework none --language kotlin`,
     );
 
     expect(() =>
