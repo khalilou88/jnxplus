@@ -19,6 +19,16 @@
 <% } -%>
 
 
+<% if(dependencyManagement === 'none') { -%>
+    <properties>
+        <java.version><%= javaVersion %></java.version>
+        <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
+            <kotlin.version><%= kotlinVersion %></kotlin.version>
+        <% } -%>
+    </properties>
+<% } -%>
+
+
 <% if(dependencyManagement === 'spring-boot-parent-pom') { -%>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -33,7 +43,6 @@
             <kotlin.version><%= kotlinVersion %></kotlin.version>
         <% } -%>
     </properties>
-
 <% } -%>
 
 <% if(dependencyManagement === 'micronaut-parent-pom') { -%>
