@@ -18,7 +18,6 @@ import {
 } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
 import { rmSync } from 'fs';
-import * as fse from 'fs-extra';
 import * as path from 'path';
 
 describe('nx-gradle spring-boot e2e', () => {
