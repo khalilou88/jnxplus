@@ -45,7 +45,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${noneParentProjectName}`,
+      `generate @jnxplus/nx-maven:parent-project ${noneParentProjectName} --language kotlin`,
     );
 
     await runNxCommandAsync(
@@ -64,10 +64,6 @@ describe('nx-maven maven-root-directory e2e', () => {
   afterAll(async () => {
     if (process.env['SKIP_E2E_CLEANUP'] !== 'true') {
       // Cleanup the test project
-      rmSync(workspaceDirectory, {
-        recursive: true,
-        force: true,
-      });
     }
   });
 
