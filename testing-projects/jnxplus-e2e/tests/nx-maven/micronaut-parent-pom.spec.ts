@@ -1084,8 +1084,8 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     const depGraphJson = readJson('dep-graph.json');
     expect(depGraphJson.graph.dependencies[parentProjectName]).toContainEqual({
       type: 'static',
-      source: aggregatorProjectName,
-      target: parentProjectName,
+      source: parentProjectName,
+      target: aggregatorProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
