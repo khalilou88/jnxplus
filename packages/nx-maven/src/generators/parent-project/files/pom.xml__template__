@@ -33,7 +33,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>${spring.boot.version}</version>
+        <version><%= springBootVersion %></version>
         <relativePath/>
     </parent>
 
@@ -42,7 +42,6 @@
         <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
             <kotlin.version><%= kotlinVersion %></kotlin.version>
         <% } -%>
-        <spring.boot.version><%= springBootVersion %></spring.boot.version>
     </properties>
 <% } -%>
 
@@ -50,7 +49,7 @@
     <parent>
         <groupId>io.micronaut.platform</groupId>
         <artifactId>micronaut-parent</artifactId>
-        <version>${micronaut.version}</version>
+        <version><%= micronautVersion %></version>
         <relativePath/>
     </parent>
 
@@ -59,7 +58,6 @@
         <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
             <kotlin.version><%= kotlinVersion %></kotlin.version>
         <% } -%>
-        <micronaut.version><%= micronautVersion %></micronaut.version>
         <jdk.version>${java.version}</jdk.version>
         <release.version>${java.version}</release.version>
     </properties>
