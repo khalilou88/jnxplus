@@ -304,7 +304,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     const appName = uniq('boot-maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${springBootParentProjectName}`,
     );
 
     expect(() =>
@@ -372,11 +372,11 @@ describe('nx-maven maven-root-directory e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: springBootParentProjectName,
     });
 
     expect(
-      depGraphJson.graph.nodes[parentProjectName].data.targets.build.options
+      depGraphJson.graph.nodes[aggregatorProjectName].data.targets.build.options
         .task,
     ).toEqual('install -N');
 
