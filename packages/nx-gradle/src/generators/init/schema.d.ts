@@ -10,4 +10,5 @@ export interface NxGradleInitGeneratorSchema {
   versionManagement: VersionManagementType;
   skipFormat?: boolean;
   formatter?: 'none' | 'prettier';
+  buildTargetName: string;
 }

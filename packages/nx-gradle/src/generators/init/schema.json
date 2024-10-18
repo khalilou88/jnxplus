@@ -137,6 +137,11 @@
           }
         ]
       }
+    },
+    "buildTargetName": {
+      "type": "string",
+      "description": "Build target name",
+      "default": "build"
     }
   },
   "required": [

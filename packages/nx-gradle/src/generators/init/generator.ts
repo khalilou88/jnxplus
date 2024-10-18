@@ -158,19 +158,42 @@ export async function initGenerator(
 }
 
 function updateNxJson(tree: Tree, options: NormalizedSchema) {
-  let plugin: string | object;
+  let pluginOptions = {};
+
   if (options.gradleRootDirectory) {
+    pluginOptions = {
+      ...pluginOptions,
+      gradleRootDirectory: options.gradleRootDirectory,
+    };
+  }
+
+  if (options.buildTargetName && options.buildTargetName !== 'build') {
+    pluginOptions = {
+      ...pluginOptions,
+      buildTargetName: options.buildTargetName,
+    };
+  }
+
+  let plugin: string | object;
+  if (pluginOptions) {
     plugin = {
       plugin: '@jnxplus/nx-gradle',
-      options: {
-        gradleRootDirectory: options.gradleRootDirectory,
-      },
+      options: pluginOptions,
     };
   } else {
     plugin = '@jnxplus/nx-gradle';
   }
 
   updateJson(tree, 'nx.json', (nxJson) => {
+    nxJson.targetDefaults = {
+      ...nxJson.targetDefaults,
+      [options.buildTargetName]: {
+        cache: true,
+        dependsOn: [`^${options.buildTargetName}`],
+        inputs: ['production', '^production'],
+      },
+    };
+
     // if plugins is undefined, set it to an empty array
     nxJson.plugins = nxJson.plugins ?? [];
     // add plugin
