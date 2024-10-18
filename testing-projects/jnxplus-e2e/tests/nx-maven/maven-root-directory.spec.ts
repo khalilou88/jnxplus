@@ -18,7 +18,6 @@ import {
 } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
 import { rmSync } from 'fs';
-import * as fse from 'fs-extra';
 import * as path from 'path';
 
 describe('nx-maven maven-root-directory e2e', () => {
@@ -336,7 +335,7 @@ describe('nx-maven maven-root-directory e2e', () => {
       appName,
       'target',
     );
-    fse.removeSync(targetDir);
+    rmSync(targetDir);
     expect(() => checkFilesExist(`nx-maven/${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`nx-maven/${appName}/target`)).not.toThrow();
@@ -690,7 +689,7 @@ describe('nx-maven maven-root-directory e2e', () => {
       libName,
       'target',
     );
-    fse.removeSync(targetDir);
+    rmSync(targetDir);
     expect(() => checkFilesExist(`nx-maven/${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`nx-maven/${libName}/target`)).not.toThrow();
@@ -762,7 +761,7 @@ describe('nx-maven maven-root-directory e2e', () => {
       appName,
       'target',
     );
-    fse.removeSync(targetDir);
+    rmSync(targetDir);
     expect(() => checkFilesExist(`nx-maven/${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`nx-maven/${appName}/target`)).not.toThrow();
@@ -846,7 +845,7 @@ describe('nx-maven maven-root-directory e2e', () => {
       libName,
       'target',
     );
-    fse.removeSync(targetDir);
+    rmSync(targetDir);
     expect(() => checkFilesExist(`nx-maven/${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`nx-maven/${libName}/target`)).not.toThrow();
@@ -907,7 +906,7 @@ describe('nx-maven maven-root-directory e2e', () => {
       appName,
       'target',
     );
-    fse.removeSync(targetDir);
+    rmSync(targetDir);
     expect(() => checkFilesExist(`nx-maven/${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`nx-maven/${appName}/target`)).not.toThrow();

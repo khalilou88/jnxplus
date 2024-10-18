@@ -17,7 +17,6 @@ import {
 } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
 import { rmSync } from 'fs';
-import * as fse from 'fs-extra';
 import * as path from 'path';
 
 describe('nx-maven spring-boot bom e2e', () => {
@@ -136,7 +135,7 @@ describe('nx-maven spring-boot bom e2e', () => {
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
-    fse.removeSync(targetDir);
+    rmSync(targetDir);
     expect(() => checkFilesExist(`${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();

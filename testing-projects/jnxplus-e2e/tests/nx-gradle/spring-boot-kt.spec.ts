@@ -134,7 +134,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', appName, 'build');
-    fse.removeSync(targetDir);
+    rmSync(targetDir);
     expect(() => checkFilesExist(`${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/build`)).not.toThrow();
@@ -421,7 +421,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', appName, 'build');
-    fse.removeSync(targetDir);
+    rmSync(targetDir);
     expect(() => checkFilesExist(`${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/build`)).not.toThrow();
@@ -629,7 +629,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', libName, 'build');
-    fse.removeSync(targetDir);
+    rmSync(targetDir);
     expect(() => checkFilesExist(`${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/build`)).not.toThrow();
@@ -693,7 +693,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', libName, 'build');
-    fse.removeSync(targetDir);
+    rmSync(targetDir);
     expect(() => checkFilesExist(`${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/build`)).not.toThrow();
@@ -1368,7 +1368,7 @@ describe('nx-gradle spring-boot kotlin dsl e2e', () => {
     //graph
     const localTmpDir = path.dirname(tmpProjPath());
     const projectJson = path.join(localTmpDir, 'proj', libName, 'project.json');
-    fse.removeSync(projectJson);
+    rmSync(projectJson);
     const depGraphResult = await runNxCommandAsync(
       `dep-graph --file=dep-graph.json`,
     );

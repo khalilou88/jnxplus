@@ -18,7 +18,6 @@ import {
 } from '@nx/plugin/testing';
 import { execSync } from 'child_process';
 import { rmSync } from 'fs';
-import * as fse from 'fs-extra';
 import * as path from 'path';
 
 describe('nx-maven spring-boot-parent-pom e2e', () => {
@@ -127,7 +126,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
-    fse.removeSync(targetDir);
+    rmSync(targetDir);
     expect(() => checkFilesExist(`${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
@@ -335,7 +334,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
-    fse.removeSync(targetDir);
+    rmSync(targetDir);
     expect(() => checkFilesExist(`${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
@@ -611,7 +610,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
-    fse.removeSync(targetDir);
+    rmSync(targetDir);
     expect(() => checkFilesExist(`${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
@@ -679,13 +678,13 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
     //should recreate target folder and outputDirLocalRepo
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
-    fse.removeSync(targetDir);
+    rmSync(targetDir);
     const outputDirLocalRepo = path.join(
       localTmpDir,
       'proj',
       `.m2/repository/com/example/${libName}/0.0.1-SNAPSHOT`,
     );
-    fse.removeSync(outputDirLocalRepo);
+    rmSync(outputDirLocalRepo);
     expect(() => checkFilesExist(`${libName}/target`)).toThrow();
     expect(() =>
       checkFilesExist(`.m2/repository/com/example/${libName}/0.0.1-SNAPSHOT`),
@@ -1857,7 +1856,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
       appsParentProject,
       'project.json',
     );
-    fse.removeSync(projectJson1);
+    rmSync(projectJson1);
 
     const appName = uniq('boot-maven-app-');
     await runNxCommandAsync(
@@ -1952,7 +1951,7 @@ describe('nx-maven spring-boot-parent-pom e2e', () => {
       appsParentProject,
       'project.json',
     );
-    fse.removeSync(projectJson1);
+    rmSync(projectJson1);
     const depGraphResult = await runNxCommandAsync(
       `dep-graph --file=dep-graph.json`,
     );
