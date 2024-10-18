@@ -24,7 +24,10 @@ describe('nx-maven maven-root-directory e2e', () => {
   let workspaceDirectory: string;
 
   const aggregatorProjectName = uniq('aggregator-project-');
-  const parentProjectName = uniq('parent-project-');
+  const noneParentProjectName = uniq('none-parent-project-');
+  const springBootParentProjectName = uniq('spring-boot-parent-project-');
+  const quarkusParentProjectName = uniq('quarkus-parent-project-');
+  const micronautParentProjectName = uniq('micronaut-parent-project-');
 
   beforeAll(async () => {
     workspaceDirectory = createTestWorkspace();
@@ -42,7 +45,19 @@ describe('nx-maven maven-root-directory e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${parentProjectName} --aggregatorProjectName ${aggregatorProjectName}`,
+      `generate @jnxplus/nx-maven:parent-project ${noneParentProjectName}`,
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${springBootParentProjectName} --dependencyManagement spring-boot-bom`,
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${quarkusParentProjectName} --dependencyManagement quarkus-bom`,
+    );
+
+    await runNxCommandAsync(
+      `generate @jnxplus/nx-maven:parent-project ${micronautParentProjectName} --dependencyManagement micronaut-bom`,
     );
   }, 240000);
 
@@ -92,7 +107,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     const appName = uniq('maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${noneParentProjectName} --framework none`,
     );
 
     expect(() =>
@@ -140,7 +155,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     const appName = uniq('maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${noneParentProjectName} --framework none`,
     );
 
     const testResult = await runNxCommandAsync(`test ${appName}`);
@@ -151,7 +166,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     const appName = uniq('maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${noneParentProjectName} --framework none`,
     );
     const serveResult = await runNxCommandAsync(`serve ${appName}`);
     expect(serveResult.stdout).toContain('Executor ran for Serve');
@@ -162,7 +177,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     const appName = uniq('maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --language kotlin --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework none --language kotlin --parentProject ${noneParentProjectName}`,
     );
 
     expect(() =>
@@ -212,7 +227,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     const libName = uniq('maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:library ${libName} --parentProject ${noneParentProjectName} --framework none`,
     );
 
     expect(() =>
@@ -257,7 +272,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     const libName = uniq('maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --language kotlin --parentProject ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:library ${libName} --parentProject ${noneParentProjectName} --framework none --language kotlin`,
     );
 
     expect(() =>
@@ -286,15 +301,10 @@ describe('nx-maven maven-root-directory e2e', () => {
   }, 240000);
 
   it('should create a java application', async () => {
-    const appsParentProject = uniq('apps-parent-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject}`,
-    );
-
     const appName = uniq('boot-maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${parentProjectName}`,
     );
 
     expect(() =>
@@ -383,18 +393,13 @@ describe('nx-maven maven-root-directory e2e', () => {
   }, 240000);
 
   it('should use specified options to create a quarkus application', async () => {
-    const appsParentProject = uniq('apps-parent-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework quarkus`,
-    );
-
     const randomName = uniq('quarkus-maven-app-');
     const appDir = 'deep/subdir';
     const appName = `${normalizeName(appDir)}-${randomName}`;
     const port = 8181;
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${randomName} --parentProject ${appsParentProject} --tags e2etag,e2ePackage --directory ${appDir} --groupId org.jnxplus --projectVersion 1.2.3 --configFormat .yml --port ${port} --framework quarkus --simplePackageName false --simpleName false`,
+      `generate @jnxplus/nx-maven:application ${randomName} --parentProject ${quarkusParentProjectName} --tags e2etag,e2ePackage --directory ${appDir} --groupId org.jnxplus --projectVersion 1.2.3 --configFormat .yml --port ${port} --framework quarkus --simplePackageName false --simpleName false`,
     );
 
     expect(() =>
@@ -457,32 +462,21 @@ describe('nx-maven maven-root-directory e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: quarkusParentProjectName,
     });
   }, 240000);
 
   it('should add a lib to an app dependencies', async () => {
-    const libsParentProject = uniq('libs-parent-project-');
-
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject}`,
-    );
-
-    const appsParentProject = uniq('apps-parent-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject}`,
-    );
-
     const appName = uniq('boot-maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:application ${appName} --parentProject ${springBootParentProjectName}`,
     );
 
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --projects ${appName} --parentProject ${libsParentProject}`,
+      `generate @jnxplus/nx-maven:library ${libName} --projects ${appName} --parentProject ${springBootParentProjectName}`,
     );
 
     // Making sure the app pom.xml file contains the lib
@@ -534,13 +528,13 @@ describe('nx-maven maven-root-directory e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: springBootParentProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: parentProjectName,
+      target: springBootParentProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -551,26 +545,15 @@ describe('nx-maven maven-root-directory e2e', () => {
   }, 240000);
 
   it('should add a kotlin lib to a kotlin app dependencies', async () => {
-    const libsParentProject = uniq('libs-parent-project-');
-
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --language kotlin`,
-    );
-
-    const appsParentProject = uniq('apps-parent-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject}`,
-    );
-
     const appName = uniq('boot-maven-app-');
     const libName = uniq('boot-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --language kotlin --packaging war --parentProject ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:application ${appName} --language kotlin --packaging war --parentProject ${springBootParentProjectName}`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --language kotlin --projects ${appName} --parentProject ${libsParentProject}`,
+      `generate @jnxplus/nx-maven:library ${libName} --language kotlin --projects ${appName} --parentProject ${springBootParentProjectName}`,
     );
 
     expect(() =>
@@ -628,13 +611,13 @@ describe('nx-maven maven-root-directory e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: springBootParentProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: parentProjectName,
+      target: springBootParentProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
@@ -645,16 +628,10 @@ describe('nx-maven maven-root-directory e2e', () => {
   }, 240000);
 
   it('should create a quarkus kotlin library', async () => {
-    const libsParentProject = uniq('libs-parent-project-');
-
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --framework quarkus`,
-    );
-
     const libName = uniq('quarkus-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --language kotlin --groupId org.acme --framework quarkus --parentProject ${libsParentProject}`,
+      `generate @jnxplus/nx-maven:library ${libName} --language kotlin --groupId org.acme --framework quarkus --parentProject ${quarkusParentProjectName}`,
     );
 
     expect(() =>
@@ -711,20 +688,15 @@ describe('nx-maven maven-root-directory e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: parentProjectName,
+      target: quarkusParentProjectName,
     });
   }, 240000);
 
   it('should create a java application', async () => {
-    const appsParentProject = uniq('apps-parent-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework micronaut`,
-    );
-
     const appName = uniq('micronaut-maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --parentProject ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --parentProject ${micronautParentProjectName}`,
     );
 
     expect(() =>
@@ -788,7 +760,7 @@ describe('nx-maven maven-root-directory e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: micronautParentProjectName,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
@@ -804,16 +776,10 @@ describe('nx-maven maven-root-directory e2e', () => {
   }, 240000);
 
   it('should create a micronaut library', async () => {
-    const libsParentProject = uniq('libs-parent-project-');
-
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework micronaut`,
-    );
-
     const libName = uniq('micronaut-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --parentProject ${libsParentProject} --aggregatorProject ${libsParentProject}`,
+      `generate @jnxplus/nx-maven:library ${libName} --framework micronaut --parentProject ${micronautParentProjectName} --aggregatorProject ${aggregatorProjectName}`,
     );
 
     expect(() =>
@@ -872,20 +838,15 @@ describe('nx-maven maven-root-directory e2e', () => {
     expect(depGraphJson.graph.dependencies[libName]).toContainEqual({
       type: 'static',
       source: libName,
-      target: libsParentProject,
+      target: micronautParentProjectName,
     });
   }, 240000);
 
   it('should create a micronaut kotlin application', async () => {
-    const appsParentProject = uniq('apps-parent-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --framework micronaut`,
-    );
-
     const appName = uniq('micronaut-maven-app-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin --parentProject ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:application ${appName} --framework micronaut --language kotlin --parentProject ${micronautParentProjectName}`,
     );
 
     // Making sure the pom.xml file contains the correct information
@@ -931,13 +892,13 @@ describe('nx-maven maven-root-directory e2e', () => {
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: parentProjectName,
+      target: micronautParentProjectName,
     });
 
     expect(depGraphJson.graph.dependencies[appName]).toContainEqual({
       type: 'static',
       source: appName,
-      target: appsParentProject,
+      target: micronautParentProjectName,
     });
 
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
