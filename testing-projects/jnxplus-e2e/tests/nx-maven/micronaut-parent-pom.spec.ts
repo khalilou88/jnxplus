@@ -46,7 +46,7 @@ describe('nx-maven micronaut-parent-pom e2e', () => {
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${parentProjectName} --aggregatorProjectName ${aggregatorProjectName} --dependencyManagement micronaut-parent-pom`,
+      `generate @jnxplus/nx-maven:parent-project ${parentProjectName} --aggregatorProjectName ${aggregatorProjectName} --dependencyManagement micronaut-parent-pom --language kotlin`,
     );
   }, 240000);
 
