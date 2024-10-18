@@ -159,11 +159,6 @@ function updateNxJson(tree: Tree, options: NormalizedSchema) {
   }
 
   updateJson(tree, 'nx.json', (nxJson) => {
-    // if plugins is undefined, set it to an empty array
-    nxJson.plugins = nxJson.plugins ?? [];
-    // add plugin
-    nxJson.plugins.push(plugin);
-
     nxJson.targetDefaults = {
       ...nxJson.targetDefaults,
       [options.buildTargetName]: {
@@ -172,6 +167,11 @@ function updateNxJson(tree: Tree, options: NormalizedSchema) {
         inputs: ['production', '^production'],
       },
     };
+
+    // if plugins is undefined, set it to an empty array
+    nxJson.plugins = nxJson.plugins ?? [];
+    // add plugin
+    nxJson.plugins.push(plugin);
 
     // return modified JSON object
     return nxJson;
