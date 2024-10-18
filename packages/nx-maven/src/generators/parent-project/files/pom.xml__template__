@@ -170,6 +170,11 @@
 
 <% if(dependencyManagement === 'quarkus-bom') { -%>
   <properties>
+    <java.version><%= javaVersion %></java.version>
+    <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
+      <kotlin.version><%= kotlinVersion %></kotlin.version>
+    <% } -%>
+    <quarkus.version><%= quarkusVersion %></quarkus.version>
     <maven.compiler.release>${java.version}</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -213,6 +218,11 @@
 
 <% if(dependencyManagement === 'micronaut-bom') { -%>
   <properties>
+      <java.version><%= javaVersion %></java.version>
+    <% if(language === 'kotlin' || language === 'java & kotlin') { -%>
+      <kotlin.version><%= kotlinVersion %></kotlin.version>
+    <% } -%>
+      <micronaut.version><%= micronautVersion %></micronaut.version>
       <jdk.version>${java.version}</jdk.version>
       <release.version>${java.version}</release.version>
       <maven.compiler.source>${java.version}</maven.compiler.source>
