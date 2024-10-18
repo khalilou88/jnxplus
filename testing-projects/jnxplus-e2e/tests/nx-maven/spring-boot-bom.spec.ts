@@ -135,7 +135,7 @@ describe('nx-maven spring-boot bom e2e', () => {
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
-    rmSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();

@@ -345,7 +345,7 @@ describe('nx-maven maven-root-directory e2e', () => {
       appName,
       'target',
     );
-    rmSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`nx-maven/${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`nx-maven/${appName}/target`)).not.toThrow();
@@ -666,7 +666,7 @@ describe('nx-maven maven-root-directory e2e', () => {
       libName,
       'target',
     );
-    rmSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`nx-maven/${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`nx-maven/${libName}/target`)).not.toThrow();
@@ -733,7 +733,7 @@ describe('nx-maven maven-root-directory e2e', () => {
       appName,
       'target',
     );
-    rmSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`nx-maven/${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`nx-maven/${appName}/target`)).not.toThrow();
@@ -811,7 +811,7 @@ describe('nx-maven maven-root-directory e2e', () => {
       libName,
       'target',
     );
-    rmSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`nx-maven/${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`nx-maven/${libName}/target`)).not.toThrow();
@@ -867,7 +867,7 @@ describe('nx-maven maven-root-directory e2e', () => {
       appName,
       'target',
     );
-    rmSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`nx-maven/${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`nx-maven/${appName}/target`)).not.toThrow();

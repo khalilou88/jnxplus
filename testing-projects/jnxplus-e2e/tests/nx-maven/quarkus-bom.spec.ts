@@ -118,7 +118,7 @@ describe('nx-maven quarkus bom e2e', () => {
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
-    rmSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
@@ -327,7 +327,7 @@ describe('nx-maven quarkus bom e2e', () => {
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', appName, 'target');
-    rmSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`${appName}/target`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/target`)).not.toThrow();
@@ -596,7 +596,7 @@ describe('nx-maven quarkus bom e2e', () => {
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
-    rmSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();
@@ -657,7 +657,7 @@ describe('nx-maven quarkus bom e2e', () => {
     //should recreate target folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', libName, 'target');
-    rmSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`${libName}/target`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/target`)).not.toThrow();

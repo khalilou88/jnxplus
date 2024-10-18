@@ -119,7 +119,7 @@ describe('nx-gradle micronaut e2e', () => {
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', appName, 'build');
-    rmSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/build`)).not.toThrow();
@@ -393,7 +393,7 @@ describe('nx-gradle micronaut e2e', () => {
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', appName, 'build');
-    rmSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`${appName}/build`)).toThrow();
     await runNxCommandAsync(`build ${appName}`);
     expect(() => checkFilesExist(`${appName}/build`)).not.toThrow();
@@ -593,7 +593,7 @@ describe('nx-gradle micronaut e2e', () => {
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', libName, 'build');
-    rmSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/build`)).not.toThrow();
@@ -654,7 +654,7 @@ describe('nx-gradle micronaut e2e', () => {
     //should recreate build folder
     const localTmpDir = path.dirname(tmpProjPath());
     const targetDir = path.join(localTmpDir, 'proj', libName, 'build');
-    rmSync(targetDir);
+    rmSync(targetDir, { recursive: true, force: true });
     expect(() => checkFilesExist(`${libName}/build`)).toThrow();
     await runNxCommandAsync(`build ${libName}`);
     expect(() => checkFilesExist(`${libName}/build`)).not.toThrow();
