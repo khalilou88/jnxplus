@@ -862,20 +862,15 @@ describe('nx-maven quarkus bom e2e', () => {
   }, 240000);
 
   it('should add a lib to an app dependencies', async () => {
-    const appsParentProject = uniq('apps-parent-project-');
-    await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parent-project ${parentProjectName}`,
-    );
-
     const appName = uniq('quarkus-maven-app-');
     const libName = uniq('quarkus-maven-lib-');
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:application ${appName} --framework quarkus --groupId org.acme --parent-project ${appsParentProject}`,
+      `generate @jnxplus/nx-maven:application ${appName} --parent-project ${parentProjectName} --framework quarkus --groupId org.acme`,
     );
 
     await runNxCommandAsync(
-      `generate @jnxplus/nx-maven:library ${libName} --framework quarkus --groupId org.acme --projects ${appName} --parent-project ${parentProjectName}`,
+      `generate @jnxplus/nx-maven:library ${libName} --parent-project ${parentProjectName} --framework quarkus --groupId org.acme --projects ${appName}`,
     );
 
     // Making sure the app pom.xml file contains the lib
