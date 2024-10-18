@@ -164,7 +164,7 @@ describe('nx-maven quarkus bom e2e', () => {
     expect(
       depGraphJson.graph.nodes[parentProjectName].data.targets.build.options
         .task,
-    ).toEqual('install -N');
+    ).toEqual('install');
 
     const port = 8080;
     const process = await runNxCommandUntil(`serve ${appName}`, (output) =>
