@@ -13,7 +13,7 @@ export function runCommand(
     }
     execSync(command, {
       cwd: workDir,
-      stdio: 'inherit',
+      stdio: [0, 1, 2],
       env: process.env,
       encoding: 'utf-8',
     });
