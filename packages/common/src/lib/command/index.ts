@@ -20,7 +20,8 @@ export function runCommand(
   } catch (e) {
     if (isVerbose) {
       logger.error(`Failed to execute command: ${command}`);
-      logger.error(e);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      logger.error((e as any).stderr.toString());
     }
     return { success: false };
   }
