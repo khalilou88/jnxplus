@@ -38,13 +38,13 @@ const testApp6 = uniq('test-app6-');
 describe('nx-maven spring-boot bom smoke', () => {
   const parallel = getParallel();
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
       unsafeCleanup: true,
     }));
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     cleanup();
   });
 
