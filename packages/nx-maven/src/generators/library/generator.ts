@@ -309,7 +309,7 @@ async function libraryGenerator(
         options: {
           task: 'test',
         },
-        dependsOn: [`^${normalizedOptions.buildTargetName}`],
+        dependsOn: [`${normalizedOptions.buildTargetName}`],
       },
     },
     tags: normalizedOptions.parsedTags,
