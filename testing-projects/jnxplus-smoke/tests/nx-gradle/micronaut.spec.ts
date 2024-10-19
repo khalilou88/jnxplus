@@ -29,13 +29,13 @@ const testApp3 = uniq('test-app3');
 const testApp4 = uniq('test-app4');
 
 describe('nx-gradle micronaut smoke', () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
       unsafeCleanup: true,
     }));
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     cleanup();
   });
 

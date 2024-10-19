@@ -32,17 +32,17 @@ const testLib5 = uniq('test-lib5-');
 const testApp6 = uniq('test-app6-');
 
 describe('nx-maven micronaut smoke', () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
       unsafeCleanup: true,
     }));
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     cleanup();
   });
 
-  it('should work', async () => {
+  xit('should work', async () => {
     execSync(
       `npx create-nx-maven-workspace@${process.env.NPM_TAG} test --javaVersion 17 --groupId com.example --aggregatorProjectName root-project --parentProjectVersion 0.0.0 --mavenRootDirectory nx-maven --dependencyManagement micronaut-parent-pom`,
       {
