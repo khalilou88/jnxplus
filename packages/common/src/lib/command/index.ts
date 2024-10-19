@@ -20,7 +20,7 @@ export function runCommand(
   } catch (e) {
     if (isVerbose) {
       logger.error(`Failed to execute command: ${command}`);
-      logger.error(e);
+      // logger.error(e);
     }
     return { success: false };
   }
