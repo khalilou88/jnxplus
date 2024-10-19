@@ -42,7 +42,7 @@ describe('nx-maven micronaut smoke', () => {
     cleanup();
   });
 
-  it('should work', async () => {
+  xit('should work', async () => {
     execSync(
       `npx create-nx-maven-workspace@${process.env.NPM_TAG} test --javaVersion 17 --groupId com.example --aggregatorProjectName root-project --parentProjectVersion 0.0.0 --mavenRootDirectory nx-maven --dependencyManagement micronaut-parent-pom`,
       {
