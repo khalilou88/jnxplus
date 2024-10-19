@@ -1,5 +1,4 @@
-import { uniq } from '@nx/plugin/testing';
-import { readJson } from 'fs-extra';
+import { readJson, uniq } from '@nx/plugin/testing';
 
 import { execSync, ExecSyncOptions } from 'child_process';
 import { join } from 'path';
