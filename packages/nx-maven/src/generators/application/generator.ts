@@ -387,7 +387,10 @@ async function applicationGenerator(
         options: {
           task: 'test',
         },
-        dependsOn: [`${normalizedOptions.buildTargetName}`],
+        dependsOn: [
+          `^${normalizedOptions.buildTargetName}`,
+          `${normalizedOptions.buildTargetName}`,
+        ],
       },
       [normalizedOptions.integrationTestTargetName]: {},
     },
