@@ -123,6 +123,7 @@ async function main() {
       preset,
       skipWrapper: false,
       versionManagement: 'version-catalog',
+      buildTargetName: args['buildTargetName'] ?? 'build',
     },
   );
 

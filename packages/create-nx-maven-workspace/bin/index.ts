@@ -59,20 +59,6 @@ async function main() {
     ).aggregatorProjectVersion;
   }
 
-  let mavenRootDirectory = args['mavenRootDirectory'];
-  if (!mavenRootDirectory) {
-    mavenRootDirectory = (
-      await prompt<{ mavenRootDirectory: string }>({
-        type: 'input',
-        name: 'mavenRootDirectory',
-        message:
-          'Where do you want Maven Wrapper (if not skipped), config files and projects to be placed?',
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        initial: '' as any,
-      })
-    ).mavenRootDirectory;
-  }
-
   console.log(`Creating the workspace: ${name}`);
 
   // This assumes "@jnxplus/nx-maven" and "create-nx-maven-workspace" are at the same version
@@ -91,9 +77,10 @@ async function main() {
       aggregatorProjectGroupId,
       aggregatorProjectName,
       aggregatorProjectVersion,
-      mavenRootDirectory,
+      mavenRootDirectory: args['mavenRootDirectory'] ?? '',
       skipWrapper: false,
-      localRepoRelativePath: '.m2/repository',
+      localRepoRelativePath: args['localRepoRelativePath'] ?? '.m2/repository',
+      buildTargetName: args['buildTargetName'] ?? 'build',
     },
   );
 
