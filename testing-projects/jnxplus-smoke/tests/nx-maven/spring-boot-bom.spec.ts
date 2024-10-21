@@ -103,8 +103,13 @@ describe('nx-maven spring-boot bom smoke', () => {
       execSyncOptions(),
     );
 
+    // execSync(
+    //   `npx nx g @jnxplus/nx-maven:application ${testApp5} --aggregatorProject ${aggregatorProjectName} --parentProject ${parentProjectName} --framework spring-boot --language kotlin`,
+    //   execSyncOptions(),
+    // );
+
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp5} --aggregatorProject ${aggregatorProjectName} --parentProject ${parentProjectName} --framework spring-boot --language kotlin`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp5} --parentProject ${parentProjectName} --framework spring-boot --language kotlin`,
       execSyncOptions(),
     );
 
