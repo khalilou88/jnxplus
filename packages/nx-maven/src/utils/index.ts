@@ -117,7 +117,10 @@ function getProjectRootFromTree(
     projectRoot = readProjectConfiguration(tree, projectName).root;
     return projectRoot;
   } catch (err) {
-    logger.warn(err);
+    const isVerbose = process.env['NX_VERBOSE_LOGGING'] === 'true';
+    if (isVerbose) {
+      logger.warn(err);
+    }
 
     const mavenRootDirAbsolutePath = path.join(
       workspaceRoot,
