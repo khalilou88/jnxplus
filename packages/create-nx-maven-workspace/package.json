@@ -1,6 +1,6 @@
 {
   "name": "create-nx-maven-workspace",
-  "version": "1.14.1",
+  "version": "1.15.0",
   "dependencies": {
     "create-nx-workspace": "^20.0.0",
     "enquirer": "^2.4.1",

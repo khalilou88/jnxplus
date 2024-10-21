@@ -1,3 +1,16 @@
+## 1.15.0 (2024-10-21)
+
+### 🚀 Features
+
+- split root project to aggregator project and parent project ([#1357](https://github.com/khalilou88/jnxplus/pull/1357))
+- add buildTargetName option to init generator ([16949919](https://github.com/khalilou88/jnxplus/commit/16949919))
+- build the project before testing it ([#1361](https://github.com/khalilou88/jnxplus/pull/1361))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+- khalilou88 @khalilou88
+
 ## 1.14.1 (2024-10-16)
 
 ### 🩹 Fixes
