@@ -8,7 +8,7 @@ let smokeDirectory: string;
 let cleanup: () => void;
 
 const execSyncOptions: () => ExecSyncOptions = () => ({
-  cwd: join(smokeDirectory, 'test'),
+  cwd: join(smokeDirectory, workspaceName),
   env: {
     ...process.env,
     GIT_COMMITTER_NAME: 'Smoke Test CI',
