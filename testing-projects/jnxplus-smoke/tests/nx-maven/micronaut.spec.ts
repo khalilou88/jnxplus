@@ -38,8 +38,17 @@ describe('nx-maven micronaut smoke', () => {
       unsafeCleanup: true,
     }));
 
+    // execSync(
+    //   `npx create-nx-maven-workspace@${process.env.NPM_TAG} ${workspaceName} --aggregatorProjectGroupId com.example --aggregatorProjectName ${aggregatorProjectName} --aggregatorProjectVersion 0.0.0 --mavenRootDirectory nx-maven`,
+    //   {
+    //     cwd: smokeDirectory,
+    //     env: process.env,
+    //     stdio: 'inherit',
+    //   },
+    // );
+
     execSync(
-      `npx create-nx-maven-workspace@${process.env.NPM_TAG} ${workspaceName} --aggregatorProjectGroupId com.example --aggregatorProjectName ${aggregatorProjectName} --aggregatorProjectVersion 0.0.0 --mavenRootDirectory nx-maven`,
+      `npx create-nx-workspace@${process.env.NX_NPM_TAG} ${workspaceName} --preset apps --nxCloud skip`,
       {
         cwd: smokeDirectory,
         env: process.env,
@@ -49,7 +58,7 @@ describe('nx-maven micronaut smoke', () => {
 
     execSync('git init', execSyncOptions());
 
-    execSync('npm i', execSyncOptions());
+    //execSync('npm i', execSyncOptions());
 
     execSync(
       `npx nx generate @jnxplus/nx-maven:parent-project ${parentProjectName} --dependencyManagement micronaut-parent-pom --language kotlin`,
