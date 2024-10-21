@@ -105,7 +105,7 @@ describe('nx-maven spring-boot smoke-affected', () => {
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
 
     const depGraphJson = await readJson(
-      join(smokeDirectory, 'test', 'dep-graph.json'),
+      join(smokeDirectory, workspaceName, 'dep-graph.json'),
     );
     expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
     expect(depGraphJson.graph.nodes[testLib]).toBeDefined();

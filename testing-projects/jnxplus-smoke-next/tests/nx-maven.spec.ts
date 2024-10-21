@@ -106,7 +106,7 @@ describe('nx-maven spring-boot smoke-next', () => {
       execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
 
       const depGraphJson = await readJson(
-        join(smokeDirectory, 'test', 'dep-graph.json'),
+        join(smokeDirectory, workspaceName, 'dep-graph.json'),
       );
       expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
       expect(depGraphJson.graph.nodes[testLib]).toBeDefined();
@@ -133,7 +133,7 @@ describe('nx-maven spring-boot smoke-next', () => {
       execSync(`nx graph --file=dep-graph.json`, execSyncOptions());
 
       const depGraphJson2 = await readJson(
-        join(smokeDirectory, 'test', 'dep-graph.json'),
+        join(smokeDirectory, workspaceName, 'dep-graph.json'),
       );
       expect(depGraphJson2.graph.nodes[testApp]).toBeDefined();
       expect(depGraphJson2.graph.nodes[testLib]).toBeDefined();
