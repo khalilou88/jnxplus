@@ -119,7 +119,7 @@ describe('nx-maven spring-boot smoke-affected', () => {
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
 
     const affectedProjects = showAffectedProjectsJson(
-      join(smokeDirectory, 'test'),
+      join(smokeDirectory, workspaceName),
     );
 
     expect(affectedProjects[testApp]).toBeUndefined();
