@@ -1,10 +1,8 @@
+import { showAffectedProjectsJson } from '@jnxplus/internal/testing';
 import { readJson, uniq } from '@nx/plugin/testing';
-
 import { execSync, ExecSyncOptions } from 'child_process';
 import { join } from 'path';
-
 import { dirSync } from 'tmp';
-import { showAffectedProjectsJson } from '@jnxplus/internal/testing';
 
 let smokeDirectory: string;
 let cleanup: () => void;
@@ -52,7 +50,10 @@ describe('nx-gradle spring-boot smoke-affected', () => {
 
     execSync('git init', execSyncOptions());
 
-    execSync('npm i --save-dev @jnxplus/nx-gradle', execSyncOptions());
+    execSync(
+      `npm i --save-dev @jnxplus/nx-gradle@${process.env.NPM_TAG}`,
+      execSyncOptions(),
+    );
 
     execSync(
       'npx nx generate @jnxplus/nx-gradle:init --javaVersion 21 --preset spring-boot',

@@ -3,12 +3,31 @@ name: Smoke next tests
 on:
   # Trigger manually or on schedule
   workflow_dispatch:
+    inputs:
+      tag_option:
+        type: choice
+        description: tag option
+        options:
+          - latest
+          - previous
+          - next
+          - 0.50.0
+      nx_tag_option:
+        type: choice
+        description: nx tag option
+        options:
+          - latest
+          - previous
+          - next
+          - 18.3.5
+          - 17.0.6
+          - 16.10.0
   schedule:
     - cron: '0 0 * * *'
 
 jobs:
   smoke-next:
-    name: Smoke next tests
+    name: Smoke next tests with nx ${{ github.event.inputs.nx_tag_option }} version and jnxplus ${{ github.event.inputs.tag_option }} version
     strategy:
       fail-fast: false
       matrix:
@@ -19,6 +38,8 @@ jobs:
     runs-on: ${{matrix.os}}
     env:
       NX_RUN_GROUP: ${{ github.run_id }}-v${{matrix.java}}
+      NPM_TAG: ${{ github.event.inputs.tag_option }}
+      NX_NPM_TAG: ${{ github.event.inputs.nx_tag_option }}
     steps:
       - uses: actions/checkout@v4
 
