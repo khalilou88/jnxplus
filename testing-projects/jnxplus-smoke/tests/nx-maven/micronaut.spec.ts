@@ -39,7 +39,7 @@ describe('nx-maven micronaut smoke', () => {
     }));
 
     execSync(
-      `npx create-nx-maven-workspace@${process.env.NPM_TAG} ${workspaceName} --javaVersion 17 --groupId com.example --aggregatorProjectName ${aggregatorProjectName} --parentProjectVersion 0.0.0 --mavenRootDirectory nx-maven`,
+      `npx create-nx-maven-workspace@${process.env.NPM_TAG} ${workspaceName} --aggregatorProjectGroupId com.example --aggregatorProjectName ${aggregatorProjectName} --aggregatorProjectVersion 0.0.0 --mavenRootDirectory nx-maven`,
       {
         cwd: smokeDirectory,
         env: process.env,
