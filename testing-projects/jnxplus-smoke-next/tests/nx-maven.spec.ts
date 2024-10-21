@@ -1,4 +1,3 @@
-import { ifNextVersionExists } from '@jnxplus/internal/testing';
 import { readJson, uniq } from '@nx/plugin/testing';
 import { execSync, ExecSyncOptions } from 'child_process';
 import { join } from 'path';
@@ -42,109 +41,107 @@ describe('nx-maven spring-boot smoke-next', () => {
   });
 
   it('should work', async () => {
-    if (ifNextVersionExists()) {
-      execSync(
-        `npx create-nx-workspace@${process.env.NX_NPM_TAG} ${workspaceName} --preset apps --nxCloud skip`,
-        {
-          cwd: smokeDirectory,
-          env: process.env,
-          stdio: 'inherit',
-        },
-      );
+    execSync(
+      `npx create-nx-workspace@${process.env.NX_NPM_TAG} ${workspaceName} --preset apps --nxCloud skip`,
+      {
+        cwd: smokeDirectory,
+        env: process.env,
+        stdio: 'inherit',
+      },
+    );
 
-      execSync('git init', execSyncOptions());
+    execSync('git init', execSyncOptions());
 
-      execSync(
-        `npm i --save-dev @jnxplus/nx-maven@${process.env.NPM_TAG}`,
-        execSyncOptions(),
-      );
+    execSync(
+      `npm i --save-dev @jnxplus/nx-maven@${process.env.NPM_TAG}`,
+      execSyncOptions(),
+    );
 
-      execSync(
-        `npx nx generate @jnxplus/nx-maven:init --mavenRootDirectory . --aggregatorProjectName ${aggregatorProjectName}`,
-        execSyncOptions(),
-      );
+    execSync(
+      `npx nx generate @jnxplus/nx-maven:init --mavenRootDirectory . --aggregatorProjectName ${aggregatorProjectName}`,
+      execSyncOptions(),
+    );
 
-      execSync(
-        `npx nx generate @jnxplus/nx-maven:parent-project ${parentProjectName} --dependencyManagement spring-boot-parent-pom --language kotlin`,
-        execSyncOptions(),
-      );
+    execSync(
+      `npx nx generate @jnxplus/nx-maven:parent-project ${parentProjectName} --dependencyManagement spring-boot-parent-pom --language kotlin`,
+      execSyncOptions(),
+    );
 
-      execSync(
-        `npx nx g @jnxplus/nx-maven:application ${testApp} --parentProject ${parentProjectName} --framework spring-boot`,
-        execSyncOptions(),
-      );
+    execSync(
+      `npx nx g @jnxplus/nx-maven:application ${testApp} --parentProject ${parentProjectName} --framework spring-boot`,
+      execSyncOptions(),
+    );
 
-      execSync(
-        `npx nx g @jnxplus/nx-maven:lib ${testLib} --parentProject ${parentProjectName} --framework spring-boot --projects ${testApp}`,
-        execSyncOptions(),
-      );
+    execSync(
+      `npx nx g @jnxplus/nx-maven:lib ${testLib} --parentProject ${parentProjectName} --framework spring-boot --projects ${testApp}`,
+      execSyncOptions(),
+    );
 
-      execSync(
-        `npx nx g @jnxplus/nx-maven:application ${testApp2} --parentProject ${parentProjectName} --framework spring-boot`,
-        execSyncOptions(),
-      );
+    execSync(
+      `npx nx g @jnxplus/nx-maven:application ${testApp2} --parentProject ${parentProjectName} --framework spring-boot`,
+      execSyncOptions(),
+    );
 
-      execSync(
-        `npx nx g @jnxplus/nx-maven:application ${testApp3} --parentProject ${parentProjectName} --framework spring-boot`,
-        execSyncOptions(),
-      );
+    execSync(
+      `npx nx g @jnxplus/nx-maven:application ${testApp3} --parentProject ${parentProjectName} --framework spring-boot`,
+      execSyncOptions(),
+    );
 
-      execSync(
-        `npx nx g @jnxplus/nx-maven:application ${testApp4} --parentProject ${parentProjectName} --framework spring-boot`,
-        execSyncOptions(),
-      );
+    execSync(
+      `npx nx g @jnxplus/nx-maven:application ${testApp4} --parentProject ${parentProjectName} --framework spring-boot`,
+      execSyncOptions(),
+    );
 
-      execSync(
-        `npx nx g @jnxplus/nx-maven:lib ${testLib2} --parentProject ${parentProjectName} --framework spring-boot --projects ${testApp2},${testApp3},${testApp4}`,
-        execSyncOptions(),
-      );
+    execSync(
+      `npx nx g @jnxplus/nx-maven:lib ${testLib2} --parentProject ${parentProjectName} --framework spring-boot --projects ${testApp2},${testApp3},${testApp4}`,
+      execSyncOptions(),
+    );
 
-      execSync(`npx nx test ${testLib}`, execSyncOptions());
+    execSync(`npx nx test ${testLib}`, execSyncOptions());
 
-      execSync(`npx nx run-many --target=build --parallel`, execSyncOptions());
+    execSync(`npx nx run-many --target=build --parallel`, execSyncOptions());
 
-      execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
+    execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
 
-      const depGraphJson = await readJson(
-        join(smokeDirectory, workspaceName, 'dep-graph.json'),
-      );
-      expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
-      expect(depGraphJson.graph.nodes[testLib]).toBeDefined();
+    const depGraphJson = await readJson(
+      join(smokeDirectory, workspaceName, 'dep-graph.json'),
+    );
+    expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
+    expect(depGraphJson.graph.nodes[testLib]).toBeDefined();
 
-      expect(depGraphJson.graph.dependencies[testApp]).toContainEqual({
-        type: 'static',
-        source: testApp,
-        target: testLib,
-      });
+    expect(depGraphJson.graph.dependencies[testApp]).toContainEqual({
+      type: 'static',
+      source: testApp,
+      target: testLib,
+    });
 
-      execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
+    execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
 
-      execSync('npx nx@next migrate next', execSyncOptions());
+    execSync('npx nx@next migrate next', execSyncOptions());
 
-      execSync('npm i --legacy-peer-deps', execSyncOptions());
+    execSync('npm i --legacy-peer-deps', execSyncOptions());
 
-      execSync(
-        'npx nx@next migrate --run-migrations --ifExists',
-        execSyncOptions(),
-      );
+    execSync(
+      'npx nx@next migrate --run-migrations --ifExists',
+      execSyncOptions(),
+    );
 
-      execSync(`nx run-many --target=build --parallel`, execSyncOptions());
+    execSync(`nx run-many --target=build --parallel`, execSyncOptions());
 
-      execSync(`nx graph --file=dep-graph.json`, execSyncOptions());
+    execSync(`nx graph --file=dep-graph.json`, execSyncOptions());
 
-      const depGraphJson2 = await readJson(
-        join(smokeDirectory, workspaceName, 'dep-graph.json'),
-      );
-      expect(depGraphJson2.graph.nodes[testApp]).toBeDefined();
-      expect(depGraphJson2.graph.nodes[testLib]).toBeDefined();
+    const depGraphJson2 = await readJson(
+      join(smokeDirectory, workspaceName, 'dep-graph.json'),
+    );
+    expect(depGraphJson2.graph.nodes[testApp]).toBeDefined();
+    expect(depGraphJson2.graph.nodes[testLib]).toBeDefined();
 
-      expect(depGraphJson2.graph.dependencies[testApp]).toContainEqual({
-        type: 'static',
-        source: testApp,
-        target: testLib,
-      });
+    expect(depGraphJson2.graph.dependencies[testApp]).toContainEqual({
+      type: 'static',
+      source: testApp,
+      target: testLib,
+    });
 
-      execSync(`git commit -am "chore: nx migrate"`, execSyncOptions());
-    }
+    execSync(`git commit -am "chore: nx migrate"`, execSyncOptions());
   }, 1500000);
 });
