@@ -58,6 +58,11 @@ describe('nx-maven micronaut smoke', () => {
 
     execSync('git init', execSyncOptions());
 
+    execSync(
+      `npm i --save-dev @jnxplus/nx-maven@${process.env.NPM_TAG}`,
+      execSyncOptions(),
+    );
+
     //execSync('npm i', execSyncOptions());
 
     execSync(
