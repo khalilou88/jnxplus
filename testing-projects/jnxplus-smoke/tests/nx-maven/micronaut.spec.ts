@@ -47,6 +47,8 @@ describe('nx-maven micronaut smoke', () => {
     //   },
     // );
 
+    //execSync('npm i', execSyncOptions());
+
     execSync(
       `npx create-nx-workspace@${process.env.NX_NPM_TAG} ${workspaceName} --preset apps --nxCloud skip`,
       {
@@ -63,7 +65,10 @@ describe('nx-maven micronaut smoke', () => {
       execSyncOptions(),
     );
 
-    //execSync('npm i', execSyncOptions());
+    execSync(
+      `npx nx generate @jnxplus/nx-maven:init --aggregatorProjectName ${aggregatorProjectName}`,
+      execSyncOptions(),
+    );
 
     execSync(
       `npx nx generate @jnxplus/nx-maven:parent-project ${parentProjectName} --dependencyManagement micronaut-parent-pom --language kotlin`,
