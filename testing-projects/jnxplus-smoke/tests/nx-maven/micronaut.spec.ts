@@ -1,8 +1,6 @@
 import { readJson, uniq } from '@nx/plugin/testing';
-
 import { execSync, ExecSyncOptions } from 'child_process';
 import { join } from 'path';
-
 import { dirSync } from 'tmp';
 
 let smokeDirectory: string;
@@ -20,9 +18,12 @@ const execSyncOptions: () => ExecSyncOptions = () => ({
   stdio: 'inherit',
 });
 
+const workspaceName = uniq('workspace-');
+const aggregatorProjectName = uniq('aggregator-project-');
+const parentProjectName = uniq('parent-project-');
+
 const testApp = uniq('test-app-');
 const testLib = uniq('test-lib-');
-
 const testApp2 = uniq('test-app2-');
 const testLib2 = uniq('test-lib2-');
 const testApp3 = uniq('test-app3-');
@@ -36,15 +37,9 @@ describe('nx-maven micronaut smoke', () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
       unsafeCleanup: true,
     }));
-  });
 
-  afterAll(async () => {
-    cleanup();
-  });
-
-  xit('should work', async () => {
     execSync(
-      `npx create-nx-maven-workspace@${process.env.NPM_TAG} test --javaVersion 17 --groupId com.example --aggregatorProjectName root-project --parentProjectVersion 0.0.0 --mavenRootDirectory nx-maven --dependencyManagement micronaut-parent-pom`,
+      `npx create-nx-maven-workspace@${process.env.NPM_TAG} ${workspaceName} --javaVersion 17 --groupId com.example --aggregatorProjectName ${aggregatorProjectName} --parentProjectVersion 0.0.0 --mavenRootDirectory nx-maven`,
       {
         cwd: smokeDirectory,
         env: process.env,
@@ -57,47 +52,58 @@ describe('nx-maven micronaut smoke', () => {
     execSync('npm i', execSyncOptions());
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp} --framework micronaut`,
+      `npx nx generate @jnxplus/nx-maven:parent-project ${parentProjectName} --dependencyManagement micronaut-parent-pom --language kotlin`,
+      execSyncOptions(),
+    );
+  });
+
+  afterAll(async () => {
+    cleanup();
+  });
+
+  it('should work', async () => {
+    execSync(
+      `npx nx g @jnxplus/nx-maven:application ${testApp} --parentProject ${parentProjectName} --framework micronaut`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:lib ${testLib} --framework micronaut --projects ${testApp}`,
+      `npx nx g @jnxplus/nx-maven:lib ${testLib} --parentProject ${parentProjectName} --framework micronaut --projects ${testApp}`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp2} --framework micronaut`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp2} --parentProject ${parentProjectName} --framework micronaut`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp3} --framework micronaut`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp3} --parentProject ${parentProjectName} --framework micronaut`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp4} --framework micronaut`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp4} --parentProject ${parentProjectName} --framework micronaut`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:lib ${testLib2} --framework micronaut --projects ${testApp2},${testApp3},${testApp4}`,
+      `npx nx g @jnxplus/nx-maven:lib ${testLib2} --parentProject ${parentProjectName} --framework micronaut --projects ${testApp2},${testApp3},${testApp4}`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp5} --framework micronaut --language kotlin`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp5} --parentProject ${parentProjectName} --framework micronaut --language kotlin`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp6} --framework micronaut --language kotlin`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp6} --parentProject ${parentProjectName} --framework micronaut --language kotlin`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:lib ${testLib5} --framework micronaut --language kotlin --projects ${testApp5},${testApp6}`,
+      `npx nx g @jnxplus/nx-maven:lib ${testLib5} --parentProject ${parentProjectName} --framework micronaut --language kotlin --projects ${testApp5},${testApp6}`,
       execSyncOptions(),
     );
 
@@ -108,7 +114,7 @@ describe('nx-maven micronaut smoke', () => {
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
 
     const depGraphJson = await readJson(
-      join(smokeDirectory, 'test', 'dep-graph.json'),
+      join(smokeDirectory, workspaceName, 'dep-graph.json'),
     );
     expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
     expect(depGraphJson.graph.nodes[testLib]).toBeDefined();

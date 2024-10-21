@@ -1,10 +1,8 @@
+import { showAffectedProjectsJson } from '@jnxplus/internal/testing';
 import { readJson, uniq } from '@nx/plugin/testing';
-
 import { execSync, ExecSyncOptions } from 'child_process';
 import { join } from 'path';
-
 import { dirSync } from 'tmp';
-import { showAffectedProjectsJson } from '@jnxplus/internal/testing';
 
 let smokeDirectory: string;
 let cleanup: () => void;
@@ -21,9 +19,12 @@ const execSyncOptions: () => ExecSyncOptions = () => ({
   stdio: 'inherit',
 });
 
+const workspaceName = uniq('workspace-');
+const aggregatorProjectName = uniq('aggregator-project-');
+const parentProjectName = uniq('parent-project-');
+
 const testApp = uniq('test-app');
 const testLib = uniq('test-lib');
-
 const testApp2 = uniq('test-app2');
 const testLib2 = uniq('test-lib2');
 const testApp3 = uniq('test-app3');
@@ -34,15 +35,9 @@ describe('nx-maven spring-boot smoke-affected', () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
       unsafeCleanup: true,
     }));
-  });
 
-  afterAll(async () => {
-    cleanup();
-  });
-
-  it('should work', async () => {
     execSync(
-      `npx create-nx-workspace@${process.env.NX_NPM_TAG} test --preset apps --nxCloud skip`,
+      `npx create-nx-workspace@${process.env.NX_NPM_TAG} ${workspaceName} --preset apps --nxCloud skip`,
       {
         cwd: smokeDirectory,
         env: process.env,
@@ -55,37 +50,48 @@ describe('nx-maven spring-boot smoke-affected', () => {
     execSync('npm i --save-dev @jnxplus/nx-maven', execSyncOptions());
 
     execSync(
-      'npx nx generate @jnxplus/nx-maven:init --javaVersion 21 --dependencyManagement spring-boot-parent-pom',
+      `npx nx generate @jnxplus/nx-maven:init --aggregatorProjectName ${aggregatorProjectName}`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp} --framework spring-boot`,
+      `npx nx generate @jnxplus/nx-maven:parent-project ${parentProjectName} --javaVersion 21 --dependencyManagement spring-boot-parent-pom --language kotlin`,
+      execSyncOptions(),
+    );
+  });
+
+  afterAll(async () => {
+    cleanup();
+  });
+
+  it('should work', async () => {
+    execSync(
+      `npx nx g @jnxplus/nx-maven:application ${testApp} --parentProject ${parentProjectName} --framework spring-boot`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:lib ${testLib} --framework spring-boot --projects ${testApp}`,
+      `npx nx g @jnxplus/nx-maven:lib ${testLib} --parentProject ${parentProjectName} --framework spring-boot --projects ${testApp}`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp2} --framework spring-boot`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp2} --parentProject ${parentProjectName} --framework spring-boot`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp3} --framework spring-boot`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp3} --parentProject ${parentProjectName} --framework spring-boot`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp4} --framework spring-boot`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp4} --parentProject ${parentProjectName} --framework spring-boot`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:lib ${testLib2} --framework spring-boot --projects ${testApp2},${testApp3},${testApp4}`,
+      `npx nx g @jnxplus/nx-maven:lib ${testLib2} --parentProject ${parentProjectName} --framework spring-boot --projects ${testApp2},${testApp3},${testApp4}`,
       execSyncOptions(),
     );
 

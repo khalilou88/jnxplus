@@ -1,8 +1,6 @@
 import { readJson, uniq } from '@nx/plugin/testing';
-
 import { execSync, ExecSyncOptions } from 'child_process';
 import { join } from 'path';
-
 import { dirSync } from 'tmp';
 
 let smokeDirectory: string;
@@ -20,12 +18,12 @@ const execSyncOptions: () => ExecSyncOptions = () => ({
   stdio: 'inherit',
 });
 
-const libsParentProject = uniq('libs-parent-project-');
-const appsParentProject = uniq('apps-parent-project-');
+const workspaceName = uniq('workspace-');
+const aggregatorProjectName = uniq('aggregator-project-');
+const parentProjectName = uniq('parent-project-');
 
 const testApp = uniq('test-app-');
 const testLib = uniq('test-lib-');
-
 const testApp2 = uniq('test-app2-');
 const testLib2 = uniq('test-lib2-');
 const testApp3 = uniq('test-app3-');
@@ -39,15 +37,9 @@ describe('nx-maven quarkus smoke', () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
       unsafeCleanup: true,
     }));
-  });
 
-  afterAll(async () => {
-    cleanup();
-  });
-
-  it('should work', async () => {
     execSync(
-      `npx create-nx-workspace@${process.env.NX_NPM_TAG} test --preset ts --nxCloud skip`,
+      `npx create-nx-workspace@${process.env.NX_NPM_TAG} ${workspaceName} --preset ts --nxCloud skip`,
       {
         cwd: smokeDirectory,
         env: process.env,
@@ -62,60 +54,64 @@ describe('nx-maven quarkus smoke', () => {
       execSyncOptions(),
     );
 
-    execSync('npx nx generate @jnxplus/nx-maven:init', execSyncOptions());
-
     execSync(
-      `npx nx generate @jnxplus/nx-maven:parent-project ${libsParentProject} --projectType library --framework quarkus`,
+      `npx nx generate @jnxplus/nx-maven:init --aggregatorProjectName ${aggregatorProjectName}`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx generate @jnxplus/nx-maven:parent-project ${appsParentProject} --parentProject ${libsParentProject}`,
+      `npx nx generate @jnxplus/nx-maven:parent-project ${parentProjectName} --dependencyManagement quarkus-bom --language kotlin`,
+      execSyncOptions(),
+    );
+  });
+
+  afterAll(async () => {
+    cleanup();
+  });
+
+  it('should work', async () => {
+    execSync(
+      `npx nx g @jnxplus/nx-maven:application ${testApp} --framework quarkus --parentProject ${parentProjectName}`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp} --framework quarkus --parentProject ${appsParentProject}`,
+      `npx nx g @jnxplus/nx-maven:lib ${testLib} --framework quarkus --parentProject ${parentProjectName} --projects ${testApp}`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:lib ${testLib} --framework quarkus --parentProject ${libsParentProject} --projects ${testApp}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp2} --framework quarkus --parentProject ${parentProjectName}`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp2} --framework quarkus --parentProject ${appsParentProject}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp3} --framework quarkus --parentProject ${parentProjectName}`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp3} --framework quarkus --parentProject ${appsParentProject}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp4} --framework quarkus --parentProject ${parentProjectName}`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp4} --framework quarkus --parentProject ${appsParentProject}`,
+      `npx nx g @jnxplus/nx-maven:lib ${testLib2} --framework quarkus --parentProject ${parentProjectName} --projects ${testApp2},${testApp3},${testApp4}`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:lib ${testLib2} --framework quarkus --parentProject ${libsParentProject} --projects ${testApp2},${testApp3},${testApp4}`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp5} --parentProject ${parentProjectName} --framework quarkus --language kotlin`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp5} --parentProject ${appsParentProject} --framework quarkus --language kotlin`,
+      `npx nx g @jnxplus/nx-maven:application ${testApp6} --parentProject ${parentProjectName} --framework quarkus --language kotlin`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @jnxplus/nx-maven:application ${testApp6} --parentProject ${appsParentProject} --framework quarkus --language kotlin`,
-      execSyncOptions(),
-    );
-
-    execSync(
-      `npx nx g @jnxplus/nx-maven:lib ${testLib5} --parentProject ${libsParentProject} --framework quarkus --language kotlin --projects ${testApp5},${testApp6}`,
+      `npx nx g @jnxplus/nx-maven:lib ${testLib5} --parentProject ${parentProjectName} --framework quarkus --language kotlin --projects ${testApp5},${testApp6}`,
       execSyncOptions(),
     );
 
@@ -128,7 +124,7 @@ describe('nx-maven quarkus smoke', () => {
     execSync(`npx nx graph --file=dep-graph.json`, execSyncOptions());
 
     const depGraphJson = await readJson(
-      join(smokeDirectory, 'test', 'dep-graph.json'),
+      join(smokeDirectory, workspaceName, 'dep-graph.json'),
     );
     expect(depGraphJson.graph.nodes[testApp]).toBeDefined();
     expect(depGraphJson.graph.nodes[testLib]).toBeDefined();

@@ -19,6 +19,7 @@ jobs:
     runs-on: ${{matrix.os}}
     env:
       NX_RUN_GROUP: ${{ github.run_id }}-v${{matrix.java}}
+      NX_NPM_TAG: latest
     steps:
       - uses: actions/checkout@v4
 
