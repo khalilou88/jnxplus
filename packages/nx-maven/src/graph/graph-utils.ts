@@ -11,7 +11,6 @@ import {
 import * as flatCache from 'flat-cache';
 import { existsSync } from 'fs';
 import { InputDefinition } from 'nx/src/config/workspace-json-project-json';
-import { workspaceDataDirectory } from 'nx/src/utils/cache-directory';
 import * as path from 'path';
 import { XmlDocument, XmlElement } from 'xmldoc';
 import {
@@ -52,7 +51,7 @@ export interface WorkspaceDataType {
 }
 
 const cacheId = 'workspace-data.json';
-const cacheDirectory = path.join(workspaceDataDirectory, 'nx-maven');
+const cacheDirectory = path.join(workspaceRoot, '.nx', 'cache', 'nx-maven');
 const cache = flatCache.create({
   cacheId: cacheId,
   cacheDir: cacheDirectory,

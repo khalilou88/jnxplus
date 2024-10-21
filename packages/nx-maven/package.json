@@ -46,7 +46,7 @@
     "tslib": "^2.7.0"
   },
   "peerDependencies": {
-    "@nx/devkit": ">= 19",
-    "nx": ">= 19"
+    "@nx/devkit": ">= 17 <= 18",
+    "nx": ">= 17 <= 18"
   }
 }
