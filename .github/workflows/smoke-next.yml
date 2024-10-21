@@ -27,7 +27,7 @@ on:
 
 jobs:
   smoke-next:
-    name: Smoke next tests
+    name: Smoke next tests with nx ${{ github.event.inputs.nx_tag_option }} version and jnxplus ${{ github.event.inputs.tag_option }} version
     strategy:
       fail-fast: false
       matrix:

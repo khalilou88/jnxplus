@@ -27,7 +27,7 @@ on:
 
 jobs:
   smoke-affected:
-    name: Smoke affected tests
+    name: Smoke affected tests with nx ${{ github.event.inputs.nx_tag_option }} version and jnxplus ${{ github.event.inputs.tag_option }} version
     strategy:
       fail-fast: false
       matrix:
