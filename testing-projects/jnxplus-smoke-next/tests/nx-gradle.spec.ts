@@ -21,7 +21,6 @@ const execSyncOptions: () => ExecSyncOptions = () => ({
 
 const testApp = uniq('test-app');
 const testLib = uniq('test-lib');
-
 const testApp2 = uniq('test-app2');
 const testLib2 = uniq('test-lib2');
 const testApp3 = uniq('test-app3');
@@ -51,7 +50,10 @@ describe('nx-gradle spring-boot smoke-next', () => {
 
       execSync('git init', execSyncOptions());
 
-      execSync('npm i --save-dev @jnxplus/nx-gradle', execSyncOptions());
+      execSync(
+        `npm i --save-dev @jnxplus/nx-gradle@${process.env.NPM_TAG}`,
+        execSyncOptions(),
+      );
 
       execSync(
         'npx nx generate @jnxplus/nx-gradle:init --preset spring-boot',
