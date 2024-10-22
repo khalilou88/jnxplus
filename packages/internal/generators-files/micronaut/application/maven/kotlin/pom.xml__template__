@@ -5,7 +5,7 @@
   <groupId><%= groupId %></groupId>
 	<artifactId><%= projectName %></artifactId>
 	<version><%= projectVersion %></version>
-  <packaging>${packaging}</packaging>
+  <packaging>jar</packaging>
 	<name><%= projectName %></name>
 	<description>This project was generated with nx-maven</description>
 
@@ -19,7 +19,6 @@
 <% } -%>
 
  <properties>
-    <packaging>jar</packaging>
     <micronaut.runtime>netty</micronaut.runtime>
     <micronaut.aot.enabled>false</micronaut.aot.enabled>
     <micronaut.aot.packageName><%= packageName %>.aot.generated</micronaut.aot.packageName>
