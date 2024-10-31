@@ -1,8 +1,15 @@
-<% if(configFormat === '.properties' && isCustomPort) { -%>
+<% if(configFormat === '.properties') { -%>
+spring.application.name=<%= projectName %>
+<% if(isCustomPort) { -%>
 server.port=<%= port %>
 <% } -%>
-<% if(configFormat === '.yml' && isCustomPort) { -%>
+<% } -%>
+<% if(configFormat === '.yml') { -%>
+spring:
+  application:
+    name: <%= projectName %>
+<% if(isCustomPort) { -%>
 server:
   port : <%= port %>
 <% } -%>
-
+<% } -%>
