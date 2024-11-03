@@ -147,7 +147,7 @@ export function getExpressionValue(
   let command = `${getExecutable()} help:evaluate -Dexpression=${expression} -q -DforceStdout`;
 
   if (projectName) {
-    command += ` -pl :${projectName}`;
+    command += ` -pl ${projectName}`;
   }
 
   return execSync(command, {
