@@ -227,6 +227,15 @@ function getDependencyArtifactIds(pomXml: XmlDocument) {
 
   return dependenciesXml
     .childrenNamed('dependency')
+    .filter((dependencyXmlElement) => {
+      const groupId = dependencyXmlElement.childNamed('groupId')?.val;
+
+      return (
+        groupId !== 'org.springframework.boot' &&
+        groupId !== 'io.quarkus' &&
+        groupId !== 'io.micronaut'
+      );
+    })
     .map((dependencyXmlElement) => {
       return dependencyXmlElement.childNamed('artifactId')?.val;
     });
