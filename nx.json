@@ -54,14 +54,7 @@
     "sharedGlobals": []
   },
   "release": {
-    "projects": [
-      "common",
-      "xml",
-      "nx-gradle",
-      "create-nx-gradle-workspace",
-      "nx-maven",
-      "create-nx-maven-workspace"
-    ],
+    "projects": ["common", "xml", "nx-gradle", "nx-maven"],
     "projectsRelationship": "fixed",
     "changelog": {
       "workspaceChangelog": {
