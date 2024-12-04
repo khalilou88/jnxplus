@@ -13,6 +13,7 @@ import {
   getOutputDirLocalRepo,
   getTask,
   getWorkspaceData,
+  ifOutputDirLocalRepoNotPresent,
   MavenProjectType,
   validateTargetInputs,
   WorkspaceDataType,
@@ -31,7 +32,6 @@ export const createNodesV2: CreateNodesV2<NxMavenPluginOptions> = [
   },
 ];
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function createNodesInternal(
   configFilePath: string,
   options: NxMavenPluginOptions | undefined,
@@ -72,10 +72,11 @@ async function createNodesInternal(
         validateTargetInputs(targetName, 'project.json', target.inputs);
 
         if (
-          workspaceData.targetDefaults.includes(targetName) ||
-          (target.outputs ?? []).some(
-            (element: string) => element === '{options.outputDirLocalRepo}',
-          )
+          ifOutputDirLocalRepoNotPresent(target?.options) &&
+          (workspaceData.targetDefaults.includes(targetName) ||
+            (target.outputs ?? []).some(
+              (element: string) => element === '{options.outputDirLocalRepo}',
+            ))
         ) {
           const effectiveVersion = getEffectiveVersion(project, workspaceData);
 

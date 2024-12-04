@@ -550,3 +550,16 @@ export function getTask(isRootProject: boolean) {
 
   return 'install';
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function ifOutputDirLocalRepoNotPresent(options: any): boolean {
+  if (!options) {
+    return true;
+  }
+
+  if ('outputDirLocalRepo' in options) {
+    return false;
+  }
+
+  return true;
+}

@@ -9,6 +9,7 @@ import {
   getOutputDirLocalRepo,
   getTask,
   getWorkspaceData,
+  ifOutputDirLocalRepoNotPresent,
   validateTargetInputs,
 } from './graph-utils';
 
@@ -49,10 +50,11 @@ export const createNodes: CreateNodes<NxMavenPluginOptions> = [
           validateTargetInputs(targetName, 'project.json', target.inputs);
 
           if (
-            workspaceData.targetDefaults.includes(targetName) ||
-            (target.outputs ?? []).some(
-              (element: string) => element === '{options.outputDirLocalRepo}',
-            )
+            ifOutputDirLocalRepoNotPresent(target?.options) &&
+            (workspaceData.targetDefaults.includes(targetName) ||
+              (target.outputs ?? []).some(
+                (element: string) => element === '{options.outputDirLocalRepo}',
+              ))
           ) {
             const effectiveVersion = getEffectiveVersion(
               project,
