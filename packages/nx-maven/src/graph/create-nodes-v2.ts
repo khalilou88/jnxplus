@@ -31,7 +31,6 @@ export const createNodesV2: CreateNodesV2<NxMavenPluginOptions> = [
   },
 ];
 
- 
 async function createNodesInternal(
   configFilePath: string,
   options: NxMavenPluginOptions | undefined,
@@ -72,7 +71,7 @@ async function createNodesInternal(
         validateTargetInputs(targetName, 'project.json', target.inputs);
 
         if (
-          !Object.hasOwn(target.options, 'outputDirLocalRepo') &&
+          !target.options['outputDirLocalRepo'] &&
           (workspaceData.targetDefaults.includes(targetName) ||
             (target.outputs ?? []).some(
               (element: string) => element === '{options.outputDirLocalRepo}',

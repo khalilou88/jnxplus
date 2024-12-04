@@ -49,7 +49,7 @@ export const createNodes: CreateNodes<NxMavenPluginOptions> = [
           validateTargetInputs(targetName, 'project.json', target.inputs);
 
           if (
-            !Object.hasOwn(target.options, 'outputDirLocalRepo') &&
+            !target.options['outputDirLocalRepo'] &&
             (workspaceData.targetDefaults.includes(targetName) ||
               (target.outputs ?? []).some(
                 (element: string) => element === '{options.outputDirLocalRepo}',
