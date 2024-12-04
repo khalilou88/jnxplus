@@ -13,6 +13,7 @@ import {
   getOutputDirLocalRepo,
   getTask,
   getWorkspaceData,
+  ifOutputDirLocalRepoNotPresent,
   MavenProjectType,
   validateTargetInputs,
   WorkspaceDataType,
@@ -71,7 +72,7 @@ async function createNodesInternal(
         validateTargetInputs(targetName, 'project.json', target.inputs);
 
         if (
-          !target.options['outputDirLocalRepo'] &&
+          ifOutputDirLocalRepoNotPresent(target?.options) &&
           (workspaceData.targetDefaults.includes(targetName) ||
             (target.outputs ?? []).some(
               (element: string) => element === '{options.outputDirLocalRepo}',
