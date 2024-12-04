@@ -49,10 +49,11 @@ export const createNodes: CreateNodes<NxMavenPluginOptions> = [
           validateTargetInputs(targetName, 'project.json', target.inputs);
 
           if (
-            workspaceData.targetDefaults.includes(targetName) ||
-            (target.outputs ?? []).some(
-              (element: string) => element === '{options.outputDirLocalRepo}',
-            )
+            !Object.hasOwn(target.options, 'outputDirLocalRepo') &&
+            (workspaceData.targetDefaults.includes(targetName) ||
+              (target.outputs ?? []).some(
+                (element: string) => element === '{options.outputDirLocalRepo}',
+              ))
           ) {
             const effectiveVersion = getEffectiveVersion(
               project,
