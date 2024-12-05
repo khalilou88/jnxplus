@@ -1,3 +1,15 @@
+## 1.16.0 (2024-12-05)
+
+### 🚀 Features
+
+- add spring.application.name to app generator ([#1381](https://github.com/khalilou88/jnxplus/pull/1381))
+- skip spring-boot, quarkus and micronaut deps ([#1412](https://github.com/khalilou88/jnxplus/pull/1412))
+- don't set outputDirLocalRepo if present in target.options ([#1439](https://github.com/khalilou88/jnxplus/pull/1439))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+
 ## 1.15.0 (2024-10-21)
 
 ### 🚀 Features
