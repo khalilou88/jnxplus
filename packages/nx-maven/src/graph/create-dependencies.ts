@@ -4,6 +4,7 @@ import {
   DependencyType,
   RawProjectGraphDependency,
   joinPathFragments,
+  normalizePath,
   validateDependency,
 } from '@nx/devkit';
 import * as path from 'path';
@@ -36,7 +37,8 @@ export const createDependencies: CreateDependencies = (
         if (path.basename(filePath) === 'pom.xml') {
           const project = projects.find(
             (element) =>
-              joinPathFragments(element.projectRoot, 'pom.xml') === filePath,
+              joinPathFragments(element.projectRoot, 'pom.xml') ===
+              normalizePath(filePath),
           );
 
           if (!project) {
