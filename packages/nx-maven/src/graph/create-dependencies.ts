@@ -46,7 +46,7 @@ export const createDependencies: CreateDependencies = (
 
           if (!project) {
             logger.warn(`filePath: ${filePath}`);
-            logger.warn(`normalizeFilePath: ${normalizedFilePath}`);
+            logger.warn(`normalizedFilePath: ${normalizedFilePath}`);
 
             throw new Error(`Can't find project for file: ${filePath}`);
           }
