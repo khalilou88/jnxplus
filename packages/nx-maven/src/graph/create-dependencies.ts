@@ -4,6 +4,7 @@ import {
   DependencyType,
   RawProjectGraphDependency,
   joinPathFragments,
+  logger,
   normalizePath,
   validateDependency,
 } from '@nx/devkit';
@@ -35,13 +36,18 @@ export const createDependencies: CreateDependencies = (
       (fileData) => {
         const filePath = fileData.file;
         if (path.basename(filePath) === 'pom.xml') {
+          const normalizedFilePath = normalizePath(filePath);
+
           const project = projects.find(
             (element) =>
               joinPathFragments(element.projectRoot, 'pom.xml') ===
-              normalizePath(filePath),
+              normalizedFilePath,
           );
 
           if (!project) {
+            logger.warn(`filePath: ${filePath}`);
+            logger.warn(`normalizeFilePath: ${normalizedFilePath}`);
+
             throw new Error(`Can't find project for file: ${filePath}`);
           }
 
