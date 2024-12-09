@@ -72,12 +72,7 @@ export function getWorkspaceData(opts: NxMavenPluginOptions | undefined) {
     : false;
 
   const projects: MavenProjectType[] = [];
-  addProjects(
-    skipProjectWithoutProjectJson,
-    mavenRootDirAbsolutePath,
-    projects,
-    '',
-  );
+  addProjects(skipProjectWithoutProjectJson, projects, '');
 
   //TODO calculate versions here
 
@@ -110,16 +105,12 @@ export function removeWorkspaceDataCache() {
 
 export function addProjects(
   skipProjectWithoutProjectJson: boolean,
-  mavenRootDirAbsolutePath: string,
   projects: MavenProjectType[],
   projectRelativePath: string,
   aggregatorProjectArtifactId?: string,
 ) {
   //projectAbsolutePath
-  const projectAbsolutePath = path.join(
-    mavenRootDirAbsolutePath,
-    projectRelativePath,
-  );
+  const projectAbsolutePath = path.join(workspaceRoot, projectRelativePath);
   const pomXmlPath = path.join(projectAbsolutePath, 'pom.xml');
   const pomXmlContent = readXml(pomXmlPath);
 
@@ -183,7 +174,6 @@ export function addProjects(
     );
     addProjects(
       skipProjectWithoutProjectJson,
-      mavenRootDirAbsolutePath,
       projects,
       moduleRelativePath,
       artifactId,
