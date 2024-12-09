@@ -72,7 +72,7 @@ export function getWorkspaceData(opts: NxMavenPluginOptions | undefined) {
     : false;
 
   const projects: MavenProjectType[] = [];
-  addProjects(skipProjectWithoutProjectJson, projects, '');
+  addProjects(skipProjectWithoutProjectJson, projects, mavenRootDirectory);
 
   //TODO calculate versions here
 
