@@ -4,6 +4,7 @@ import {
   DependencyType,
   RawProjectGraphDependency,
   joinPathFragments,
+  logger,
   validateDependency,
 } from '@nx/devkit';
 import * as path from 'path';
@@ -40,10 +41,14 @@ export const createDependencies: CreateDependencies = (
           );
 
           if (!project) {
-            throw new Error(`Can't find project for file: ${filePath}`);
-          }
+            const isVerbose = process.env['NX_VERBOSE_LOGGING'] === 'true';
 
-          if (!project.skipProject) {
+            if (isVerbose) {
+              logger.warn(
+                `Can't find project for file: ${filePath}. Maybe this project is not referenced in any modules tag. If you think it's a mistake, please open an issue.`,
+              );
+            }
+          } else if (!project.skipProject) {
             const projectSourceFile = joinPathFragments(
               project.projectRoot,
               'pom.xml',
