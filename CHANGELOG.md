@@ -1,3 +1,13 @@
+## 1.16.1 (2024-12-10)
+
+### 🩹 Fixes
+
+- change error to warning ([#1445](https://github.com/khalilou88/jnxplus/pull/1445))
+
+### ❤️ Thank You
+
+- Khalil LAGRIDA @khalilou88
+
 ## 1.16.0 (2024-12-05)
 
 ### 🚀 Features
