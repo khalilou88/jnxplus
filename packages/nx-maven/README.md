@@ -48,4 +48,4 @@ nx generate @jnxplus/nx-maven:init
 
 ## License
 
-MIT © 2021-2024 Khalil LAGRIDA
+MIT © 2021-2025 Khalil LAGRIDA
