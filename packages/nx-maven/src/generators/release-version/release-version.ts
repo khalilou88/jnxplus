@@ -113,22 +113,19 @@ Valid values are: ${validReleaseVersionPrefixes
         );
       }
 
-      const cargoTomlPath = joinPathFragments(packageRoot, 'Cargo.toml');
-      const workspaceRelativeCargoTomlPath = relative(
-        workspaceRoot,
-        cargoTomlPath,
-      );
+      const pomXmlPath = joinPathFragments(packageRoot, 'pom.xml');
+      const workspaceRelativePomXmlPath = relative(workspaceRoot, pomXmlPath);
 
       const color = getColor(projectName);
       const log = (msg: string) => {
         console.log(color.instance.bold(projectName) + ' ' + msg);
       };
 
-      if (!tree.exists(cargoTomlPath)) {
+      if (!tree.exists(pomXmlPath)) {
         throw new Error(
-          `The project "${projectName}" does not have a Cargo.toml available at ${workspaceRelativeCargoTomlPath}.
+          `The project "${projectName}" does not have a pom.xml available at ${workspaceRelativePomXmlPath}.
 
-To fix this you will either need to add a Cargo.toml file at that location, or configure "release" within your nx.json to exclude "${projectName}" from the current release group, or amend the packageRoot configuration to point to where the Cargo.toml should be.`,
+To fix this you will either need to add a pom.xml file at that location, or configure "release" within your nx.json to exclude "${projectName}" from the current release group.`,
         );
       }
 
@@ -138,16 +135,19 @@ To fix this you will either need to add a Cargo.toml file at that location, or c
         )}`,
       );
 
-      const cargoTomlContents = tree.read(cargoTomlPath)!.toString('utf-8');
-      const data = parseCargoToml(cargoTomlContents);
-      const pkg = data.package;
+      const pomXmlContents = tree.read(pomXmlPath)!.toString('utf-8');
+      // const data = parseCargoToml(pomXmlContents);
+      // const pkg = data.package;
+
+      const pName = '';
+      const pVersion = '';
 
       log(
-        `🔍 Reading data for crate "${pkg.name}" from ${workspaceRelativeCargoTomlPath}`,
+        `🔍 Reading data for crate "${pName}" from ${workspaceRelativePomXmlPath}`,
       );
 
-      const packageName = pkg.name;
-      const currentVersionFromDisk = pkg.version;
+      const packageName = pName;
+      const currentVersionFromDisk = pVersion;
 
       switch (options.currentVersionResolver) {
         /**
@@ -157,7 +157,7 @@ To fix this you will either need to add a Cargo.toml file at that location, or c
         case 'disk':
           currentVersion = currentVersionFromDisk;
           log(
-            `📄 Resolved the current version as ${currentVersion} from ${cargoTomlPath}`,
+            `📄 Resolved the current version as ${currentVersion} from ${pomXmlPath}`,
           );
           break;
         case 'git-tag': {
@@ -374,11 +374,11 @@ To fix this you will either need to add a Cargo.toml file at that location, or c
       );
       versionData[projectName].newVersion = newVersion;
 
-      pkg.version = newVersion;
-      tree.write(cargoTomlPath, stringifyCargoToml(data));
+      //pkg.version = newVersion;
+      tree.write(pomXmlPath, stringifyCargoToml(data));
 
       log(
-        `✍️  New version ${newVersion} written to ${workspaceRelativeCargoTomlPath}`,
+        `✍️  New version ${newVersion} written to ${workspaceRelativePomXmlPath}`,
       );
 
       if (dependentProjects.length > 0) {
