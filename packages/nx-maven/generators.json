@@ -37,6 +37,11 @@
       "schema": "./src/generators/preset/schema.json",
       "description": "preset generator",
       "x-use-standalone-layout": true
+    },
+    "release-version": {
+      "factory": "./src/generators/release-version/generator",
+      "schema": "./src/generators/wrarelease-versionpper/schema.json",
+      "description": "release-version generator"
     }
   }
 }
