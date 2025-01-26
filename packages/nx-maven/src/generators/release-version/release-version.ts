@@ -139,6 +139,8 @@ To fix this you will either need to add a pom.xml file at that location, or conf
       // const data = parseCargoToml(pomXmlContents);
       // const pkg = data.package;
 
+      //TODO Get version from the graph
+
       const pName = '';
       const pVersion = '';
 
