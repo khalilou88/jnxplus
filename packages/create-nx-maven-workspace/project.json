@@ -11,7 +11,7 @@
         "outputPath": "dist/packages/create-nx-maven-workspace",
         "main": "packages/create-nx-maven-workspace/bin/index.ts",
         "tsConfig": "packages/create-nx-maven-workspace/tsconfig.lib.json",
-        "assets": ["packages/create-nx-maven-workspace/*.md"]
+        "assets": ["packages/create-nx-maven-workspace/*.md", "LICENSE"]
       }
     },
     "publish": {

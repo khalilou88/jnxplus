@@ -13,6 +13,7 @@
         "packageJson": "packages/xml/package.json",
         "tsConfig": "packages/xml/tsconfig.lib.json",
         "assets": [
+          "LICENSE",
           "packages/xml/*.md",
           {
             "input": "./packages/xml/src",

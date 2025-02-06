@@ -13,6 +13,7 @@
         "packageJson": "packages/nx-gradle/package.json",
         "tsConfig": "packages/nx-gradle/tsconfig.lib.json",
         "assets": [
+          "LICENSE",
           "packages/nx-gradle/*.md",
           {
             "input": "./packages/nx-gradle/src",

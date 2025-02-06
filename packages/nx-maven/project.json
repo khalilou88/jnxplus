@@ -13,6 +13,7 @@
         "packageJson": "packages/nx-maven/package.json",
         "tsConfig": "packages/nx-maven/tsconfig.lib.json",
         "assets": [
+          "LICENSE",
           "packages/nx-maven/*.md",
           {
             "input": "./packages/nx-maven/src",

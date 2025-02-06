@@ -11,7 +11,7 @@
         "outputPath": "dist/packages/create-nx-gradle-workspace",
         "main": "packages/create-nx-gradle-workspace/bin/index.ts",
         "tsConfig": "packages/create-nx-gradle-workspace/tsconfig.lib.json",
-        "assets": ["packages/create-nx-gradle-workspace/*.md"]
+        "assets": ["packages/create-nx-gradle-workspace/*.md", "LICENSE"]
       }
     },
     "publish": {

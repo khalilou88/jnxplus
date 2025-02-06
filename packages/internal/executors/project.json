@@ -12,6 +12,7 @@
         "main": "packages/internal/executors/src/index.ts",
         "tsConfig": "packages/internal/executors/tsconfig.lib.json",
         "assets": [
+          "LICENSE",
           "packages/internal/executors/*.md",
           {
             "input": "./packages/internal/executors/src",
