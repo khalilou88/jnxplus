@@ -32,6 +32,10 @@ jobs:
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
 
+      - name: remote
+        run: |
+          git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/khalilou88/jnxplus.git
+
       - name: nx release
         run: npx nx release --specifier minor --skip-publish
         env:
