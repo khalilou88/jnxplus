@@ -35,5 +35,4 @@ jobs:
       - name: nx release
         run: npx nx release --specifier minor --skip-publish
         env:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
