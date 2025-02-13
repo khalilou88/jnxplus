@@ -122,7 +122,11 @@ export function addProjects(
 
   const isRootProject = !aggregatorProjectArtifactId;
 
-  const isPomPackaging = isPomPackagingFunction(pomXmlContent);
+  const isPomPackaging = isPomPackagingFunction(
+    artifactId,
+    pomXmlContent,
+    mavenRootDirAbsolutePath,
+  );
 
   const projectRoot = getProjectRoot(projectAbsolutePath);
 
@@ -231,14 +235,30 @@ function getDependencyArtifactIds(pomXml: XmlDocument) {
     });
 }
 
-function isPomPackagingFunction(pomXmlContent: XmlDocument): boolean {
+function isPomPackagingFunction(
+  artifactId: string,
+  pomXmlContent: XmlDocument,
+  mavenRootDirAbsolutePath: string,
+): boolean {
   const packagingXml = pomXmlContent.childNamed('packaging');
 
   if (packagingXml === undefined) {
     return false;
   }
 
-  return packagingXml.val === 'pom';
+  let packaging = packagingXml.val;
+
+  if (packaging.indexOf('${') >= 0) {
+    logger.warn(`For better performance, packaging should be a constant`);
+
+    packaging = getExpressionValue(
+      'project.packaging',
+      mavenRootDirAbsolutePath,
+      artifactId,
+    );
+  }
+
+  return packaging === 'pom';
 }
 
 export function getEffectiveVersion(
