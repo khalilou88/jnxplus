@@ -42,7 +42,7 @@
     "@jnxplus/common": "1.16.1",
     "@jnxplus/xml": "1.16.1",
     "flat-cache": "^6.1.0",
-    "xmldoc": "^1.3.0",
+    "xmldoc": "^2.0.0",
     "tslib": "^2.7.0"
   },
   "peerDependencies": {
