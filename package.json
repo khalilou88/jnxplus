@@ -35,7 +35,7 @@
     "@nx/workspace": "20.8.0",
     "@prettier/plugin-xml": "^3.4.1",
     "@swc-node/register": "1.10.10",
-    "@swc/cli": "0.7.2",
+    "@swc/cli": "0.7.3",
     "@swc/core": "1.11.21",
     "@swc/wasm": "~1.11.21",
     "@types/flat-cache": "^2.0.2",
