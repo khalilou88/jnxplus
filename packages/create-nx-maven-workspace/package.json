@@ -2,7 +2,7 @@
   "name": "create-nx-maven-workspace",
   "version": "1.16.1",
   "dependencies": {
-    "create-nx-workspace": "^20.0.0",
+    "create-nx-workspace": ">=20.0.0",
     "enquirer": "^2.4.1",
     "yargs": "^17.7.2",
     "tslib": "^2.7.0"
