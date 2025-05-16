@@ -1,3 +1,18 @@
+## 1.17.0 (2025-05-16)
+
+### 🚀 Features
+
+- simplify addProjects function ([#1444](https://github.com/khalilou88/jnxplus/pull/1444))
+
+### 🩹 Fixes
+
+- **common:** allow multiple hyphen in target name ([#1675](https://github.com/khalilou88/jnxplus/pull/1675))
+
+### ❤️ Thank You
+
+- Jonathan Gelin @jogelin
+- Khalil LAGRIDA @khalilou88
+
 ## 1.16.1 (2024-12-10)
 
 ### 🩹 Fixes
