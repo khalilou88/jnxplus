@@ -51,7 +51,7 @@ export function getTargetName(context: ExecutorContext) {
   if (!context.targetName) {
     throw new Error('TargetName not found in context');
   }
-  return titleCase(context.targetName.replace(/-/g, ' '));
+  return titleCase(context.targetName.replace(/-+/g, ' '));
 }
 
 export function clearEmpties(o: TargetsType) {
