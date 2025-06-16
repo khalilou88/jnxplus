@@ -58,7 +58,7 @@
     "jest-environment-node": "^30.0.0",
     "jsonc-eslint-parser": "^2.4.0",
     "kill-port": "^2.0.1",
-    "lint-staged": "^16.1.0",
+    "lint-staged": "^16.1.2",
     "nx": "21.2.0",
     "prettier": "^3.2.4",
     "prettier-plugin-java": "2.5.0",
