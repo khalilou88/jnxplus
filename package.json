@@ -39,7 +39,7 @@
     "@swc/core": "1.12.1",
     "@swc/wasm": "~1.12.1",
     "@types/flat-cache": "^2.0.2",
-    "@types/jest": "29.5.14",
+    "@types/jest": "30.0.0",
     "@types/kill-port": "^2.0.3",
     "@types/node": "24.0.3",
     "@types/tcp-port-used": "^1.0.4",
