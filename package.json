@@ -53,7 +53,7 @@
     "eslint": "9.29.0",
     "eslint-config-prettier": "10.1.5",
     "husky": "^9.1.7",
-    "jest": "30.0.0",
+    "jest": "30.0.1",
     "jest-environment-jsdom": "30.0.0",
     "jest-environment-node": "^30.0.1",
     "jsonc-eslint-parser": "^2.4.0",
