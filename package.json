@@ -71,7 +71,7 @@
     "typescript": "5.8.3",
     "verdaccio": "6.1.4",
     "typescript-eslint": "^8.35.0",
-    "xmldoc": "^2.0.1",
+    "xmldoc": "^2.0.2",
     "yargs": "^18.0.0"
   },
   "nx": {
