@@ -48,7 +48,7 @@ jobs:
     name: Running ${{ github.event.inputs.t_option }} smoke tests with nx ${{ github.event.inputs.nx_tag_option }} version and jnxplus ${{ github.event.inputs.tag_option }} version from ${{ github.head_ref || github.ref_name }} branch
     strategy:
       matrix:
-        node_version: ['20']
+        node_version: ['24']
         java: ['17']
       fail-fast: true
     runs-on: ${{ github.event.inputs.os }}
