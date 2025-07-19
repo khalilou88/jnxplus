@@ -3,6 +3,8 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/create-nx-gradle-workspace/bin",
   "projectType": "library",
+  "tags": [],
+  "implicitDependencies": ["nx-gradle"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
@@ -29,7 +31,5 @@
         "jestConfig": "packages/create-nx-gradle-workspace/jest.config.ts"
       }
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["nx-gradle"]
+  }
 }

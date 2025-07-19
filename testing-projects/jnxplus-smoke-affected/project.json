@@ -3,6 +3,8 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "testing-projects/jnxplus-smoke-affected/tests",
+  "tags": [],
+  "implicitDependencies": ["nx-gradle", "nx-maven"],
   "targets": {
     "smoke-affected": {
       "executor": "@nx/jest:jest",
@@ -16,7 +18,5 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["nx-gradle", "nx-maven"]
+  }
 }

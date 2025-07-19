@@ -3,6 +3,8 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/nx-gradle/src",
   "projectType": "library",
+  "tags": [],
+  "implicitDependencies": ["internal-generators-files"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
@@ -163,7 +165,5 @@
         "jestConfig": "packages/nx-gradle/jest.config.ts"
       }
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["internal-generators-files"]
+  }
 }

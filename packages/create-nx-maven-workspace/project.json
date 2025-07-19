@@ -3,6 +3,8 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/create-nx-maven-workspace/bin",
   "projectType": "library",
+  "tags": [],
+  "implicitDependencies": ["nx-maven"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
@@ -29,7 +31,5 @@
         "jestConfig": "packages/create-nx-maven-workspace/jest.config.ts"
       }
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["nx-maven"]
+  }
 }

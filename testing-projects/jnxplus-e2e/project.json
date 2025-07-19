@@ -3,6 +3,12 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "testing-projects/jnxplus-e2e/tests",
+  "implicitDependencies": [
+    "nx-gradle",
+    "nx-maven",
+    "create-nx-gradle-workspace",
+    "create-nx-maven-workspace"
+  ],
   "targets": {
     "e2e": {
       "executor": "@nx/jest:jest",
@@ -17,11 +23,5 @@
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     }
-  },
-  "implicitDependencies": [
-    "nx-gradle",
-    "nx-maven",
-    "create-nx-gradle-workspace",
-    "create-nx-maven-workspace"
-  ]
+  }
 }
