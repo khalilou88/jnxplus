@@ -40,7 +40,7 @@
     "@swc/wasm": "~1.16.18",
     "@types/jest": "30.0.0",
     "@types/kill-port": "^2.0.3",
-    "@types/node": "26.6.4",
+    "@types/node": "26.6.5",
     "@types/tcp-port-used": "^1.0.4",
     "@types/tmp": "^0.2.6",
     "@types/xmldoc": "^2.0.0",
