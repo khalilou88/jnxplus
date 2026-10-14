@@ -37,7 +37,7 @@
     "@swc-node/register": "1.12.1",
     "@swc/cli": "0.8.1",
     "@swc/core": "1.16.18",
-    "@swc/wasm": "~1.16.13",
+    "@swc/wasm": "~1.16.18",
     "@types/jest": "30.0.0",
     "@types/kill-port": "^2.0.3",
     "@types/node": "26.6.4",
