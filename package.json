@@ -45,7 +45,7 @@
     "@types/tmp": "^0.2.6",
     "@types/xmldoc": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^8.58.0",
-    "@typescript-eslint/parser": "^8.71.1",
+    "@typescript-eslint/parser": "^8.71.2",
     "axios": "^1.20.0",
     "chalk": "4.1.0",
     "enquirer": "^2.4.1",
