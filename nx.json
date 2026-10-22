@@ -16,30 +16,40 @@
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
     },
-    "@nx/jest:jest": {
-      "cache": true,
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
-      "options": {
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
+    "test": [
+      {
+        "filter": {
+          "plugin": "@nx/jest/plugin"
+        },
+        "configurations": {
+          "ci": {
+            "ci": true,
+            "coverage": true
+          }
+        },
+        "options": {
+          "passWithNoTests": true
         }
       }
-    },
-    "@nx/eslint:lint": {
-      "cache": true,
-      "inputs": [
-        "default",
-        "^default",
-        "{workspaceRoot}/.eslintrc.json",
-        "{workspaceRoot}/.eslintignore",
-        "{workspaceRoot}/eslint.config.js",
-        "{workspaceRoot}/tools/eslint-rules/**/*"
-      ]
-    }
+    ],
+    "lint": [
+      {
+        "filter": {
+          "plugin": "@nx/eslint/plugin"
+        },
+        "inputs": [
+          "default",
+          "^default",
+          "{workspaceRoot}/.eslintrc.json",
+          "{workspaceRoot}/.eslintignore",
+          "{workspaceRoot}/eslint.config.js",
+          "{workspaceRoot}/tools/eslint-rules/**/*",
+          {
+            "externalDependencies": ["eslint"]
+          }
+        ]
+      }
+    ]
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
@@ -74,5 +84,74 @@
   "parallel": 1,
   "defaultBase": "main",
   "analytics": false,
-  "neverConnectToCloud": true
+  "neverConnectToCloud": true,
+  "affected": {
+    "legacy": true
+  },
+  "plugins": [
+    {
+      "plugin": "@nx/jest/plugin",
+      "options": {
+        "targetName": "test"
+      },
+      "include": [
+        "packages/common/**/*",
+        "packages/create-nx-gradle-workspace/**/*",
+        "packages/create-nx-maven-workspace/**/*",
+        "packages/internal/executors/**/*",
+        "packages/internal/testing/**/*",
+        "packages/nx-gradle/**/*",
+        "packages/nx-maven/**/*",
+        "packages/xml/**/*"
+      ]
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "options": {
+        "targetName": "e2e"
+      },
+      "include": ["testing-projects/jnxplus-e2e/**/*"]
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "options": {
+        "targetName": "smoke"
+      },
+      "include": ["testing-projects/jnxplus-smoke/**/*"]
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "options": {
+        "targetName": "smoke-affected"
+      },
+      "include": ["testing-projects/jnxplus-smoke-affected/**/*"]
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "options": {
+        "targetName": "smoke-next"
+      },
+      "include": ["testing-projects/jnxplus-smoke-next/**/*"]
+    },
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      },
+      "include": [
+        "packages/common/**/*",
+        "packages/create-nx-gradle-workspace/**/*",
+        "packages/create-nx-maven-workspace/**/*",
+        "packages/internal/executors/**/*",
+        "packages/internal/testing/**/*",
+        "packages/nx-gradle/**/*",
+        "packages/nx-maven/**/*",
+        "packages/xml/**/*",
+        "testing-projects/jnxplus-e2e/**/*",
+        "testing-projects/jnxplus-smoke/**/*",
+        "testing-projects/jnxplus-smoke-affected/**/*",
+        "testing-projects/jnxplus-smoke-next/**/*"
+      ]
+    }
+  ]
 }
