@@ -19,17 +19,6 @@
     "publish": {
       "command": "node tools/scripts/publish.mjs create-nx-gradle-workspace {args.ver} {args.tag}",
       "dependsOn": ["build"]
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "packages/create-nx-gradle-workspace/jest.config.ts"
-      }
     }
   }
 }
