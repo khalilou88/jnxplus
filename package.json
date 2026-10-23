@@ -69,7 +69,7 @@
     "ts-jest": "29.4.15",
     "ts-node": "10.9.2",
     "typescript": "6.0.3",
-    "typescript-eslint": "^8.71.2",
+    "typescript-eslint": "^8.72.0",
     "verdaccio": "6.10.5",
     "xmldoc": "^3.0.0",
     "yargs": "17.7.2"
