@@ -11,17 +11,21 @@
   ],
   "targets": {
     "e2e": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}",
+        "{workspaceRoot}/coverage/e2e/jnxplus-e2e"
+      ],
+      "dependsOn": ["^build"],
       "options": {
-        "jestConfig": "testing-projects/jnxplus-e2e/jest.config.ts",
+        "passWithNoTests": true,
         "runInBand": true
       },
-      "dependsOn": ["^build"]
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "coverage": true
+        }
+      }
     }
   }
 }

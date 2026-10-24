@@ -1,0 +1,55 @@
+{
+  "migrations": [
+    {
+      "version": "24.0.0-beta.0",
+      "description": "Finds local executors that declare a custom hasher, which is deprecated and will be removed in Nx 25. Rewriting a hasher as target inputs means reading what its code hashes, so the rewrite is driven by an AI prompt; the generator only reports each hasher.",
+      "implementation": "./dist/src/migrations/update-24-0-0/find-custom-hashers",
+      "prompt": "tools/ai-migrations/nx/24.0.1/move-custom-hashers-to-inputs.md",
+      "documentation": "./dist/src/migrations/update-24-0-0/find-custom-hashers.md",
+      "package": "nx",
+      "name": "24-0-0-move-custom-hashers-to-inputs"
+    },
+    {
+      "version": "24.0.0-beta.3",
+      "description": "Sets affected.legacy to true in nx.json so nx affected keeps selecting whole projects. Nx 24 selects individual affected tasks by default.",
+      "implementation": "./dist/src/migrations/update-24-0-0/enable-legacy-affected",
+      "documentation": "./dist/src/migrations/update-24-0-0/enable-legacy-affected.md",
+      "package": "nx",
+      "name": "24-0-0-enable-legacy-affected"
+    },
+    {
+      "version": "24.0.0-beta.3",
+      "description": "Renames the ultracache target options \"ignoredReads\" and \"ignoredWrites\" to \"ignoreReads\" and \"ignoreWrites\", and renames .nx/workflows/sandboxing-config.yaml to ultracache-config.yaml with its \"exclude-reads\" and \"exclude-writes\" keys renamed to \"ignore-reads\" and \"ignore-writes\".",
+      "implementation": "./dist/src/migrations/update-24-0-0/rename-ultracache-ignore-options",
+      "documentation": "./dist/src/migrations/update-24-0-0/rename-ultracache-ignore-options.md",
+      "package": "nx",
+      "name": "24-0-0-rename-ultracache-ignore-options"
+    },
+    {
+      "version": "24.0.0-beta.3",
+      "description": "Converts targets using the removed `@nx/jest` executors to inferred tasks; an AI prompt finishes the targets the converter cannot convert safely and validates the project graph.",
+      "implementation": "./dist/src/migrations/update-24-0-0/remove-deprecated-executors",
+      "prompt": "tools/ai-migrations/@nx/jest/24.0.1/finish-inferred-conversion.md",
+      "documentation": "./dist/src/migrations/update-24-0-0/remove-deprecated-executors.md",
+      "package": "@nx/jest",
+      "name": "remove-deprecated-executors"
+    },
+    {
+      "version": "24.0.0-beta.3",
+      "description": "Converts targets using the removed `@nx/eslint` executors to inferred tasks; an AI prompt finishes the targets the converter cannot convert safely and validates the project graph.",
+      "implementation": "./dist/src/migrations/update-24-0-0/remove-deprecated-executors",
+      "prompt": "tools/ai-migrations/@nx/eslint/24.0.1/finish-inferred-conversion.md",
+      "documentation": "./dist/src/migrations/update-24-0-0/remove-deprecated-executors.md",
+      "package": "@nx/eslint",
+      "name": "remove-deprecated-executors"
+    },
+    {
+      "version": "24.0.0-beta.5",
+      "description": "Replaces the removed `setParserOptionsProject` generator option with `enableTypedLinting` in the generator defaults of `nx.json` and project configuration, so generators resolve typed linting as before.",
+      "implementation": "./dist/src/migrations/update-24-0-0/replace-set-parser-options-project",
+      "documentation": "./dist/src/migrations/update-24-0-0/replace-set-parser-options-project.md",
+      "package": "@nx/eslint",
+      "name": "update-24-0-0-replace-set-parser-options-project"
+    }
+  ]
+}
