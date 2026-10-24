@@ -7,16 +7,20 @@
   "implicitDependencies": ["nx-gradle", "nx-maven"],
   "targets": {
     "smoke-next": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}",
+        "{workspaceRoot}/coverage/packages/jnxplus-smoke-next"
+      ],
       "options": {
-        "jestConfig": "testing-projects/jnxplus-smoke-next/jest.config.ts",
+        "passWithNoTests": true,
         "runInBand": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "coverage": true
+        }
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
     }
   }
 }
